@@ -2,11 +2,13 @@
 Getting Started in few 5? minutes
 =================================
 From comand line:
+brew install node
+npm install gulp
 brew install gradle
 git clone git@github.com:uk-gov-dft/la-webapp.git
 cd la-webapp
-./gradlew build
-./gradlew bootRun
+gradle build
+gradle bootRun
 
 From browser:
 http://localhost/user/showLogin
