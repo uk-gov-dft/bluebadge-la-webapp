@@ -1,6 +1,6 @@
 # DFT BLUE BADGE BETA - LA-WEBAPP
 
-## Getting Started in few 5? minutes
+## Getting Started in few minutes
 From comand line:
 ```
 brew install node
