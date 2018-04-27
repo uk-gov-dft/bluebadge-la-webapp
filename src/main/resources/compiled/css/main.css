@@ -2920,6 +2920,11 @@ input, select {
   margin-left: -15px;
   padding-left: 65px; }
 
+.dft-la-topbar {
+  color: white;
+  padding: 20px;
+  background-color: black; }
+
 body {
   background-color: black; }
 
