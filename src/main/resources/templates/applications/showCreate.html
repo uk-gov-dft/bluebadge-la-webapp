@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<form action="create.html" type="GET" th:attr="action=@{/applications/create}">
+    <fieldset>
+        Id: <input type="text" name="id" />
+        Fullname: <input type="text" name="fullname"/>
+        <input type="submit" value="Create" th:attr="value=#{buttons.create}"/>
+    </fieldset>
+</form>
+<a th:href="@{/applications/showAll}">back</a>
+</body>
+</html>

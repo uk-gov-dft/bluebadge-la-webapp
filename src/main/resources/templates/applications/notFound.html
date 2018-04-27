@@ -1,0 +1,10 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application not found</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+Application Not Found for id = <span th:text="*{{id}}"/></body>
+<a th:href="@{/applications/showAll}">back</a>
+</html>
