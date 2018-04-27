@@ -16,7 +16,7 @@ public class LocalAuthorityApplication {
   @Bean
   public MessageSource messageSource() {
     final ReloadableResourceBundleMessageSource messageSource =
-            new ReloadableResourceBundleMessageSource();
+        new ReloadableResourceBundleMessageSource();
     messageSource.setBasename("messages");
     messageSource.setFallbackToSystemLocale(false);
     messageSource.setCacheSeconds(0);
@@ -26,5 +26,4 @@ public class LocalAuthorityApplication {
   public static void main(String[] args) {
     SpringApplication.run(LocalAuthorityApplication.class, args);
   }
-
 }
