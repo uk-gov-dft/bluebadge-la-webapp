@@ -9,6 +9,7 @@ git clone git@github.com:uk-gov-dft/la-webapp.git
 cd la-webapp
 gradle build
 gradle bootRun
+It will show 80% complete but it is ready to be tested in the browser
 
 From browser:
 http://localhost/user/showLogin
@@ -32,7 +33,7 @@ org.dft.bluebadge.seed.BlueBadgeApplication
 
 RUN FROM COMMAND LINE
 From your parent project directory:
-java -jar build/libs/local-authority-front-end-0.0.1-SNAPSHOT.jar
+java -jar build/libs/la-webapp-0.0.1-SNAPSHOT.jar
 
 RUN WITH GRADLE
 ./gradlew bootRun
