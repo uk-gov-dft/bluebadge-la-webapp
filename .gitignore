@@ -25,6 +25,6 @@
 /nbdist/
 /.nb-gradle/
 
+bin
 package-lock.json
 node_modules/
-bin
