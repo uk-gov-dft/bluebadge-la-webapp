@@ -79,6 +79,10 @@ checkstyle {
     toolVersion "8.9"
 }
 
+bootRun {
+    sourceResources sourceSets.main
+}
+
 // build.dependsOn gulp_css
 
 compileJava.dependsOn 'googleJavaFormat'

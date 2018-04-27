@@ -1,7 +1,7 @@
 # DFT BLUE BADGE BETA - LA-WEBAPP
 
 ## Getting Started in few minutes
-From comand line:
+From command line:
 ```
 brew install node
 npm install gulp
@@ -28,12 +28,18 @@ From browser:
 ./gradlew build
 ```
 
+### CONTINUOUS BUILD
+Rebuilds if there is a change
+```
+./gradlew build -t
+```
+
 ## RUN
-###RUN FROM INTELLIJ
+### RUN FROM INTELLIJ
 Go to this class and run from the intellij context menu with a mouse right click:
 org.dft.bluebadge.seed.BlueBadgeApplication
 
-###RUN FROM COMMAND LINE
+### RUN FROM COMMAND LINE
 From your parent project directory:
 ```
 java -jar build/libs/la-webapp-0.0.1-SNAPSHOT.jar
@@ -45,7 +51,6 @@ java -jar build/libs/la-webapp-0.0.1-SNAPSHOT.jar
 ```
 
 ## PLAY WITH IT
-
 (http://localhost:8080/applications/1/show)
 (http://localhost:8080/applications/showAll)
 (http://localhost:8080/applications/showCreate)
@@ -60,7 +65,6 @@ You need the sonarqube server running in this place:
 (http://localhost:9000/about)
 
 ## CODE QUALITY
-
 (some of them are run as part of the build task, so no need to run them separately)
 
 ### FORMAT CODE STYLE USING GOOGLE STANDARDS
@@ -108,8 +112,25 @@ You need the sonarqube server running in this place:
 ```
 
 
-
 ## TECHNOLOGIES
+
+### ENABLE LIVE RELOAD
+It means if you change a template in your IDE, you want to see the changes in your browser.
+You just need to install an extension in your browser
+[More Info](https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-livereload)
+[Extension for chrome](https://chrome.google.com/webstore/search/livereload)
+
+### RELOAD STATIC CONTENT WHEN THERE IS A CHANGE
+(https://docs.spring.io/spring-boot/docs/current/reference/html/howto-hotswapping.html)
+
+#### In Gradle
+```$xslt
+./gradlew bootRun
+```
+It is already configured to do that. You have to reload the page in the browser.
+
+#### In Intellij
+You have to trigger a rebuild with CMD+F9 and then reload the page.
 
 ### TESTING
 Spring MVC Testing (to test the controllers):
