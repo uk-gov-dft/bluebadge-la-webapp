@@ -18,8 +18,8 @@ const DEFAULT_ENV = "development";
 const BASE_PATH = "./src/main/resources";
 const PATH = {
 	compiledAssets: {
-		css: `${BASE_PATH}/compiled/css`,
-		js: `${BASE_PATH}/compiled/js`,
+		css: `${BASE_PATH}/static/css`,
+		js: `${BASE_PATH}/static/js`,
 	},
 
 	sourceAssets: {
