@@ -79,7 +79,7 @@ checkstyle {
     toolVersion "8.9"
 }
 
-build.dependsOn gulp_css
+// build.dependsOn gulp_css
 
 compileJava.dependsOn 'googleJavaFormat'
 //verifyGoogleJavaFormat.dependsOn 'googleJavaFormat'
