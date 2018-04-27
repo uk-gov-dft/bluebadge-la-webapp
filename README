@@ -12,7 +12,7 @@ gradle bootRun
 It will show 80% complete but it is ready to be tested in the browser
 
 From browser:
-http://localhost/user/showLogin
+http://localhost:8080/user/showLogin
 
 =====
 BUILD
