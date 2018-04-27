@@ -1,16 +1,15 @@
-============
-TECHNOLOGIES
-============
+=================================
+Getting Started in few 5? minutes
+=================================
+From comand line:
+brew install gradle
+git clone git@github.com:uk-gov-dft/la-webapp.git
+cd la-webapp
+./gradlew build
+./gradlew bootRun
 
-TESTING
-Spring MVC Testing (to test the controllers):
-https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework
-
-SONARQUBE SERVER INSTALLATION AND CONFIGURATION IN LOCAL
-https://docs.sonarqube.org/display/SONAR/Get+Started+in+Two+Minutes
-
-SONARQUBE PLUGIN FOR INTELLIJ
-https://github.com/sonar-intellij-plugin/sonar-intellij-plugin
+From browser:
+http://localhost/user/showLogin
 
 =====
 BUILD
@@ -21,34 +20,6 @@ LIST OF TASKS AVAILABLE FOR THAT BUILD.GRADLE
 
 BUILD
 ./gradlew build
-
-FORMAT CODE STYLE USING GOOGLE STANDARDS
-./gradlew goJF
-
-VERIFY CODE STYLE USING GOOGLE STANDARDS
-./gradlew verGJF
-
-PMD CODE QUALITY CHECK
-./gradlew pmdMain
-./gradlew pmdTest
-
-FINDBUGS CODE QUALITY CHECK
-./gradlew findbugsMain
-./gradlew findbugsTest
-
-CHECKSTYLE CODE QUALITY CHECK
-./gradlew checkstyleMain
-./gradlew checkstyleTest
-
-CODE QUALITY CHECK (includes checkstyle, pmd, findbugs, etc)
-./gradlew check
-
-SONARQUEBE
-./gradlew sonarqube
-
-GULP
-./gradlew gulp_build
-./gradlew gulp_compile
 
 ===
 RUN
@@ -81,3 +52,52 @@ http://localhost:8080/swagger-ui.html
 SONARQUBE:
 You need the sonarqube server running in this place:
 http://localhost:9000/about
+
+============
+CODE QUALITY
+============
+(some of them are run as part of the build task, so no need to run them separately)
+
+FORMAT CODE STYLE USING GOOGLE STANDARDS
+./gradlew goJF
+
+VERIFY CODE STYLE USING GOOGLE STANDARDS
+./gradlew verGJF
+
+PMD CODE QUALITY CHECK
+./gradlew pmdMain
+./gradlew pmdTest
+
+FINDBUGS CODE QUALITY CHECK
+./gradlew findbugsMain
+./gradlew findbugsTest
+
+CHECKSTYLE CODE QUALITY CHECK
+./gradlew checkstyleMain
+./gradlew checkstyleTest
+
+CODE QUALITY CHECK (includes checkstyle, pmd, findbugs, etc)
+./gradlew check
+
+SONARQUEBE
+./gradlew sonarqube
+
+GULP
+./gradlew gulp_build
+./gradlew gulp_compile
+
+
+
+============
+TECHNOLOGIES
+============
+
+TESTING
+Spring MVC Testing (to test the controllers):
+https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework
+
+SONARQUBE SERVER INSTALLATION AND CONFIGURATION IN LOCAL
+https://docs.sonarqube.org/display/SONAR/Get+Started+in+Two+Minutes
+
+SONARQUBE PLUGIN FOR INTELLIJ
+https://github.com/sonar-intellij-plugin/sonar-intellij-plugin
