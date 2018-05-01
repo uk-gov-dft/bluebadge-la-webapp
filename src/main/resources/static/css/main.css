@@ -2920,9 +2920,14 @@ input, select {
   margin-left: -15px;
   padding-left: 65px; }
 
+.dft-o-grid__item--center {
+  float: none;
+  margin: auto; }
+
 .dft-la-topbar {
   color: white;
-  padding: 20px;
-  background-color: black; }
+  padding: 19px 15px;
+  background-color: #0b0c0c;
+  border-bottom: 10px solid #005ea5; }
 
 /*# sourceMappingURL=main.css.map */

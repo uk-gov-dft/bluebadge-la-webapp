@@ -6,49 +6,64 @@
     <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
 </head>
 <body>
-Log in
 
-<div class="container">
+    <header class="dft-la-topbar">
+        <a class="dft-la-topbar__logo" href="/">Manage Blue Badges</a>
+    </header>
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form th:action="@{/login}" method="post">
-                <fieldset>
-                    <h1>Please Sign In</h1>
+    <div class="govuk-o-width-container">
 
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username and password.
-                        </div>
-                    </div>
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">
-                            You have been logged out.
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
-                               placeholder="UserName" required="true" autofocus="true"/>
-                    </div>
-                    <div class="form-group">
-                        <input type=" ***REMOVED***
-                               placeholder="Password" required="true"/>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+        <div class="govuk-c-phase-banner">
+            <p class="govuk-c-phase-banner__content">
+                <strong class="govuk-c-tag govuk-c-phase-banner__content__tag ">beta</strong>
+                <span class="govuk-c-phase-banner__text">This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.</span>
+            </p>
         </div>
-    </div>
 
-</div>
+        <main class="govuk-o-main-wrapper">
+
+            <div class="govuk-o-grid">
+                <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
+
+                    <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+                        <h2 class="govuk-c-error-summary__title" id="error-summary-title">Message to alert the user to a problem goes here</h2>
+
+                        <div class="govuk-c-error-summary__body">
+                            <p>Optional description of the errors and how to correct them</p>
+                            <ul class="govuk-list govuk-c-error-summary__list">
+                                <li><a href="#example-error-1">Descriptive link to the question with an error</a></li>
+                                <li><a href="#example-error-1">Descriptive link to the question with an error</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h1 class="govuk-heading-l">Login</h1>
+
+                    <form action="" novalidate>
+
+                        <div class="govuk-o-form-group govuk-o-form-group--error">
+                            <label class="govuk-c-label" for="email">
+                                Email:
+                                <span class="govuk-c-label__hint">Enter your email in order to login</span>
+                            </label>
+                            <input class="govuk-c-input" id="email" name="email" type="email">
+                        </div>
+
+                        <div class="govuk-o-form-group">
+                            <label class="govuk-c-label" for="password">Password:</label>
+                            <input class="govuk-c-input" id=" ***REMOVED***>
+                        </div>
+
+                        <input value="Login" type="submit" class="govuk-c-button">
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
 
 </body>
 </html>
