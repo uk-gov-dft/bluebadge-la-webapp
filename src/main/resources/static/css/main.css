@@ -2927,7 +2927,25 @@ input, select {
 .dft-la-topbar {
   color: white;
   padding: 19px 15px;
-  background-color: #0b0c0c;
-  border-bottom: 10px solid #005ea5; }
+  background-color: #0b0c0c; }
+  .dft-la-topbar__logo {
+    color: #fff;
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "nta", Arial, sans-serif; }
+    .dft-la-topbar__logo:hover {
+      text-decoration: underline; }
+
+.dft-login-wrapper {
+  max-width: 400px;
+  margin: auto; }
+
+.dft-c-label {
+  font-size: 16px;
+  line-height: 20px; }
 
 /*# sourceMappingURL=main.css.map */

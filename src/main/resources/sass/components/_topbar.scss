@@ -2,6 +2,20 @@
    color: white;
    padding: 19px 15px;
    background-color: $govuk-black;
-   border-bottom: 10px solid $govuk-blue;
+
+   &__logo {
+        color: #fff;
+        display: block;
+        font-size: 19px;
+        font-weight: 700;
+        text-decoration: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "nta", Arial, sans-serif;
+
+        &:hover {
+            text-decoration: underline;
+        }
+   }
 
 }
