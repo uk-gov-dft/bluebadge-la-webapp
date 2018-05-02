@@ -2920,12 +2920,32 @@ input, select {
   margin-left: -15px;
   padding-left: 65px; }
 
+.dft-o-grid__item--center {
+  float: none;
+  margin: auto; }
+
 .dft-la-topbar {
   color: white;
-  padding: 20px;
-  background-color: black; }
+  padding: 19px 15px;
+  background-color: #0b0c0c; }
+  .dft-la-topbar__logo {
+    color: #fff;
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "nta", Arial, sans-serif; }
+    .dft-la-topbar__logo:hover {
+      text-decoration: underline; }
 
-body {
-  background-color: black; }
+.dft-login-wrapper {
+  max-width: 400px;
+  margin: auto; }
+
+.dft-c-label {
+  font-size: 16px;
+  line-height: 20px; }
 
 /*# sourceMappingURL=main.css.map */

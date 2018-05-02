@@ -1,7 +1,21 @@
 .dft-la-topbar{
-
    color: white;
-   padding: 20px;
-   background-color: black;
+   padding: 19px 15px;
+   background-color: $govuk-black;
+
+   &__logo {
+        color: #fff;
+        display: block;
+        font-size: 19px;
+        font-weight: 700;
+        text-decoration: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: "nta", Arial, sans-serif;
+
+        &:hover {
+            text-decoration: underline;
+        }
+   }
 
 }

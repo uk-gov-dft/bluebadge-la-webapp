@@ -1,53 +1,58 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Log in</title>
+    <title>Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
 </head>
 <body>
-Log in
 
-<div class="container">
+<header class="dft-la-topbar">
+    <a class="dft-la-topbar__logo" href="/">Manage Blue Badges</a>
+</header>
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form th:action="@{/login}" method="post">
-                <fieldset>
-                    <h1>Please Sign In</h1>
+<div class="govuk-o-width-container">
 
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username and password.
-                        </div>
-                    </div>
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">
-                            You have been logged out.
-                        </div>
-                    </div>
+    <!--<div class="govuk-c-phase-banner">
+        <p class="govuk-c-phase-banner__content">
+            <strong class="govuk-c-tag govuk-c-phase-banner__content__tag ">beta</strong>
+            <span class="govuk-c-phase-banner__text">This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.</span>
+        </p>
+    </div>-->
 
-                    <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
-                               placeholder="Username" required="true" autofocus="true" th:attr="value=#{form.placeholder.username}"//>
-                    </div>
-                    <div class="form-group">
-                        <input type=" ***REMOVED***
-                               placeholder="Password" required="true" th:attr="value=#{form.placeholder.password}"/>
-                    </div>
+    <main class="govuk-o-main-wrapper">
+        <div class="dft-login-wrapper">
 
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
+            <h1 class="govuk-heading-l">Sign in</h1>
+
+            <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+                <h2 class="govuk-c-error-summary__title" id="error-summary-title">Fix the following errors</h2>
+
+                <div class="govuk-c-error-summary__body">
+                    <ul class="govuk-list govuk-c-error-summary__list">
+                        <li><a href="#example-error-1">Enter valid email address</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <form action="" novalidate>
+
+                <div class="govuk-o-form-group govuk-o-form-group--error">
+                    <label class="govuk-c-label dft-c-label" for="email">Email address</label>
+                    <span class="govuk-c-error-message">Enter a valid email address</span>
+                    <input class="govuk-c-input" id="email" name="email" type="email">
+                </div>
+
+                <div class="govuk-o-form-group">
+                    <label class="govuk-c-label dft-c-label" for="password">Password</label>
+                    <input class="govuk-c-input" id=" ***REMOVED***>
+                </div>
+
+                <input value="Sign in" type="submit" class="govuk-c-button">
+
             </form>
         </div>
-    </div>
-
+    </main>
 </div>
 
 </body>
