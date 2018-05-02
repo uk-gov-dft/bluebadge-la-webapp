@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.component;
+package uk.gov.dft.bluebadge.webapp.la.security;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -29,10 +29,9 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 
     if (auth != null) {
       logger.info(
-          "User '"
-              + auth.getName()
-              + "' attempted to access the protected URL: "
-              + httpServletRequest.getRequestURI());
+          "User '{}' attempted to access the protected URL: {}",
+          auth.getName(),
+          httpServletRequest.getRequestURI());
     }
 
     httpServletResponse.sendRedirect(

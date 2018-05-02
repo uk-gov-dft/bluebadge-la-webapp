@@ -10,24 +10,25 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.webapp.la.converter.ApplicationConverterImpl;
-import uk.gov.dft.bluebadge.webapp.la.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.Application2ApplicationViewModelConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationCreateRequest2ApplicationConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationUpdateRequest2ApplicationConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ListConverter;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 
 public class ApplicationControllerTest {
 
   private MockMvc mockMvc;
 
-  //  @Mock private ApplicationConverters converter;
-
   @Mock private ApplicationService service;
 
-  @InjectMocks private ApplicationControllerImpl controller;
+  private ApplicationControllerImpl controller;
 
   @Before
   public void setup() {
@@ -35,8 +36,13 @@ public class ApplicationControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    // We want to test the converter too
-    controller.setConverter(new ApplicationConverterImpl());
+    controller =
+        new ApplicationControllerImpl(
+            service,
+            new ApplicationCreateRequest2ApplicationConverterImpl(),
+            new ApplicationUpdateRequest2ApplicationConverterImpl(),
+            new Application2ApplicationViewModelConverterImpl(),
+            new ListConverter<Application, ApplicationViewModel>());
 
     // Setup Spring test in standalone mode
     this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();

@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.List;
 import java.util.Optional;
-import uk.gov.dft.bluebadge.webapp.la.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 
 public interface ApplicationService {
   Optional<Application> findById(Long id);

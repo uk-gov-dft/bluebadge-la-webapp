@@ -17,49 +17,41 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-  public LoggingAspect() {}
-
-  @AfterReturning("execution(* org.dft.bluebadge..*.*(..))")
+  @AfterReturning("execution(* uk.gov.dft.bluebadge..*.*(..))")
   public void logMethodAccessAfter(JoinPoint joinPoint) {
-    logger.debug("***** Completed: " + joinPoint.getSignature().getName() + " *****");
-    // System.out.println("***** Completed: " + joinPoint.getSignature().getName() + " *****");
+    logger.debug("***** Completed: {} ***** ", joinPoint.getSignature().getName());
   }
 
-  @Before("execution(* org.dft.bluebadge..*.*(..))")
+  @Before("execution(* uk.gov.dft.bluebadge..*.*(..))")
   public void logMethodAccessBefore(JoinPoint joinPoint) {
-    if (logger.isDebugEnabled()) {
-
-      CodeSignature signature = (CodeSignature) joinPoint.getSignature();
-
-      List<String> parameterNames = Arrays.asList(signature.getParameterNames());
-      List<String> parameterValues =
-          Arrays.asList(joinPoint.getArgs())
-              .stream()
-              .map(arg -> arg.toString())
-              .collect(Collectors.toList());
-      StringBuilder paramDebugInfo = new StringBuilder();
-      Iterator<String> paramNamesIterator = parameterNames.iterator();
-      Iterator<String> paramValuesIterator = parameterValues.iterator();
-
-      while (paramNamesIterator.hasNext() && paramValuesIterator.hasNext()) {
-        String parameterName = paramNamesIterator.next();
-        String parameterValue = paramValuesIterator.next();
-        paramDebugInfo.append(parameterName + ": " + parameterValue + ", ");
-      }
-
-      logger.debug(
-          "***** Starting: "
-              + signature.getName()
-              + " with "
-              + paramDebugInfo.toString()
-              + " ***** "
-              + signature.toString());
-
-      //    Arrays.asList(joinPoint.getArgs()).forEach(arg -> logger.debug(arg.toString()));
-
-      // System.out.println("***** Starting: " + joinPoint.getSignature().getName() + " *****");
+    if (!logger.isDebugEnabled()) {
+      return;
     }
+
+    CodeSignature signature = (CodeSignature) joinPoint.getSignature();
+
+    List<String> parameterNames = Arrays.asList(signature.getParameterNames());
+    List<String> parameterValues =
+        Arrays.asList(joinPoint.getArgs())
+            .stream()
+            .map(Object::toString)
+            .collect(Collectors.toList());
+    StringBuilder paramDebugInfo = new StringBuilder();
+    Iterator<String> paramNamesIterator = parameterNames.iterator();
+    Iterator<String> paramValuesIterator = parameterValues.iterator();
+
+    while (paramNamesIterator.hasNext() && paramValuesIterator.hasNext()) {
+      String parameterName = paramNamesIterator.next();
+      String parameterValue = paramValuesIterator.next();
+      paramDebugInfo.append(parameterName).append(": ").append(parameterValue).append(", ");
+    }
+
+    logger.debug(
+        "***** Starting: {} with *****",
+        signature.getName(),
+        paramDebugInfo.toString(),
+        signature.toString());
   }
 }

@@ -8,81 +8,132 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import uk.gov.dft.bluebadge.webapp.la.converter.ApplicationConverterImpl;
-import uk.gov.dft.bluebadge.webapp.la.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.Application2ApplicationViewModelConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationCreateRequest2ApplicationConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationUpdateRequest2ApplicationConverterImpl;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ListConverter;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.ApplicationCreateRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.ApplicationUpdateRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
+import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
+import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 
 @Controller
 public class ApplicationControllerImpl implements ApplicationController {
 
-  @Autowired ApplicationService service;
+  public static final String MODEL_APPLICATION = "application";
+  public static final String MODEL_APPLICATIONS = "applications";
+  public static final String MODEL_ID = "id";
 
-  @Autowired ApplicationConverterImpl converter;
+  public static final String TEMPLATE_NOT_CREATED = "notCreated";
+  public static final String TEMPLATE_NOT_DELETED = "notDeleted";
+  public static final String TEMPLATE_NOT_FOUND = "applications/notFound";
+  public static final String TEMPLATE_NOT_UPDATED = "notUpdated";
+  public static final String TEMPLATE_SHOW = "applications/show";
+  public static final String TEMPLATE_SHOW_ALL = "applications/showAll";
+  public static final String TEMPLATE_SHOW_CREATE = "applications/showCreate";
+  public static final String TEMPLATE_SHOW_UPDATE = "applications/showUpdate";
 
-  @GetMapping("/applications/{id}/show")
-  public String show(@PathVariable("id") Long id, Model model) {
-    Optional<Application> application = service.findById((id));
-    if (application.isPresent()) {
-      model.addAttribute("application", converter.toApplicationViewModel(application.get()));
-      return "applications/show";
-    } else {
-      model.addAttribute("id", id);
-      return "applications/notFound";
+  public static final String URL_CREATE = "/applications/create";
+  public static final String URL_DELETE = "/applications/{id}/delete";
+  public static final String URL_UPDATE = "/applications/update";
+  public static final String URL_SHOW = "/applications/{id}/show";
+  public static final String URL_SHOW_ALL = "/applications/showAll";
+  public static final String URL_SHOW_CREATE = "/applications/showCreate";
+  public static final String URL_SHOW_UPDATE = "/applications/{id}/showUpdate";
+
+  public static final String PARAM_ID = "id";
+
+  ApplicationService service;
+
+  ApplicationCreateRequest2ApplicationConverterImpl createRequest2ApplicationConverter;
+
+  ApplicationUpdateRequest2ApplicationConverterImpl updateRequest2ApplicationConverter;
+
+  Application2ApplicationViewModelConverterImpl application2ViewModelConverter;
+
+  ListConverter<Application, ApplicationViewModel> applications2ApplicationViewModelConverter;
+
+  @Autowired
+  public ApplicationControllerImpl(
+      ApplicationService service,
+      ApplicationCreateRequest2ApplicationConverterImpl createRequest2ApplicationConverter,
+      ApplicationUpdateRequest2ApplicationConverterImpl updateRequest2ApplicationConverter,
+      Application2ApplicationViewModelConverterImpl application2ViewModelConverter,
+      ListConverter<Application, ApplicationViewModel> applications2ApplicationViewModelConverter) {
+    this.service = service;
+    this.createRequest2ApplicationConverter = createRequest2ApplicationConverter;
+    this.updateRequest2ApplicationConverter = updateRequest2ApplicationConverter;
+    this.application2ViewModelConverter = application2ViewModelConverter;
+    this.applications2ApplicationViewModelConverter = applications2ApplicationViewModelConverter;
+  }
+
+  @GetMapping(URL_SHOW)
+  public String show(@PathVariable(PARAM_ID) Long id, Model model) {
+    try {
+      Optional<Application> application = service.findById((id));
+      if (application.isPresent()) {
+        model.addAttribute(
+            MODEL_APPLICATION, application2ViewModelConverter.convert(application.get()));
+        return TEMPLATE_SHOW;
+      }
+      model.addAttribute(MODEL_ID, id);
+      return TEMPLATE_NOT_FOUND;
+    } catch (GeneralServiceException ex) {
+      throw new GeneralControllerException("There was a general controller exception", ex);
     }
   }
 
-  @GetMapping("/applications/showAll")
+  @GetMapping(URL_SHOW_ALL)
   public String showAll(Model model) {
     List<Application> applications = service.findAll();
-    model.addAttribute("applications", converter.toApplicationViewModel(applications));
-    return "applications/showAll";
+    model.addAttribute(
+        MODEL_APPLICATIONS,
+        applications2ApplicationViewModelConverter.convert(
+            applications, application2ViewModelConverter));
+    return TEMPLATE_SHOW_ALL;
   }
 
-  @GetMapping("/applications/showCreate")
+  @GetMapping(URL_SHOW_CREATE)
   public String showCreate(Model model) {
-    return "applications/showCreate";
+    return TEMPLATE_SHOW_CREATE;
   }
 
-  @GetMapping("/applications/create")
-  public String create(@ModelAttribute ApplicationCreateRequest application) {
-    if (service.create(converter.toApplication(application)) < 1) {
-      return "notCreated";
-    } else {
-      return "redirect:/applications/showAll";
+  @GetMapping(URL_CREATE)
+  public String create(@ModelAttribute ApplicationCreateRequest createRequest) {
+    if (service.create(createRequest2ApplicationConverter.convert(createRequest)) < 1) {
+      return TEMPLATE_NOT_CREATED;
     }
+    return "redirect:" + URL_SHOW_ALL;
   }
 
-  @GetMapping("/applications/{id}/showUpdate")
-  public String showUpdate(@PathVariable("id") Long id, Model model) {
+  @GetMapping(URL_SHOW_UPDATE)
+  public String showUpdate(@PathVariable(PARAM_ID) Long id, Model model) {
     Optional<Application> application = service.findById((id));
     if (application.isPresent()) {
-      model.addAttribute("application", converter.toApplicationViewModel(application.get()));
-      return "applications/showUpdate";
-    } else {
-      model.addAttribute("id", id);
-      return "applications/notFound";
+      model.addAttribute(
+          MODEL_APPLICATION, application2ViewModelConverter.convert(application.get()));
+      return TEMPLATE_SHOW_UPDATE;
     }
+    model.addAttribute(MODEL_ID, id);
+    return TEMPLATE_NOT_FOUND;
   }
 
-  @GetMapping("/applications/update")
-  public String update(@ModelAttribute ApplicationUpdateRequest application) {
-    if (service.update(converter.toApplication(application)) < 1) {
-      return "notUpdated";
-    } else {
-      return "redirect:/applications/showAll";
+  @GetMapping(URL_UPDATE)
+  public String update(@ModelAttribute ApplicationUpdateRequest updateRequest) {
+    if (service.update(updateRequest2ApplicationConverter.convert(updateRequest)) < 1) {
+      return TEMPLATE_NOT_UPDATED;
     }
+    return "redirect:" + URL_SHOW_ALL;
   }
 
-  @GetMapping("/applications/{id}/delete")
-  public String delete(@PathVariable("id") Long id, Model model) {
+  @GetMapping(URL_DELETE)
+  public String delete(@PathVariable(PARAM_ID) Long id, Model model) {
     if (service.delete(id) < 1) {
-      return "notDeleted";
-    } else {
-      return "redirect:/applications/showAll";
+      return TEMPLATE_NOT_DELETED;
     }
-  }
-
-  protected void setConverter(ApplicationConverterImpl converter) {
-    this.converter = converter;
+    return "redirect:" + URL_SHOW_ALL;
   }
 }

@@ -1,6 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import org.springframework.ui.Model;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.ApplicationCreateRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.ApplicationUpdateRequest;
 
 public interface ApplicationController {
 
