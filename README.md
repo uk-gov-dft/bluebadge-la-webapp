@@ -141,11 +141,13 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 ## TECHNOLOGIES
 
 ### THYMELEAF
-(https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+* [Thymeleaf official docs](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+* [Thymeleaf + Spring official docs](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
 
-### SPRING BOOT INTERNATIONALIZATION 
-(http://www.baeldung.com/spring-boot-internationalization)
+### SPRING
+* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/)
+* [Spring reference](https://docs.spring.io/spring/docs/current/spring-framework-reference/)
+* [Article about Spring Internationalization](http://www.baeldung.com/spring-boot-internationalization)
 
 ### TESTING
-Spring MVC Testing (to test the controllers):
-(https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)
+[Spring MVC Testing (to test the controllers)](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)
