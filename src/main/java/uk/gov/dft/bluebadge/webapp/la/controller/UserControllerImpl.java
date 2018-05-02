@@ -13,13 +13,13 @@ public class UserControllerImpl {
   public static final String URL_LOGIN = "/user/login";
   public static final String URL_LOGOUT = "/user/logout";
   public static final String URL_SHOW_ACCESS_DENIED = "/user/showAccessDenied";
-  public static final String URL_SHOW_EXPIREDSESSION = "/user/showExpiredsession";
+  public static final String URL_SHOW_EXPIREDSESSION = "/user/showExpiredSession";
   public static final String URL_SHOW_LOGGEDOUT = "/user/showLoggedout";
   public static final String URL_SHOW_LOGIN = "/user/showLogin";
   public static final String URL_SHOW_WELCOME = "/user/showWelcome";
 
   public static final String TEMPLATE_ACCESS_DENIED = "user/accessDenied";
-  public static final String TEMPLATE_EXPIREDSESSION = "user/expiredsession";
+  public static final String TEMPLATE_EXPIREDSESSION = "user/expiredSession";
   public static final String TEMPLATE_LOGGEDOUT = "user/loggedout";
   public static final String TEMPLATE_WELCOME = "user/welcome";
 
