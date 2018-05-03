@@ -2,16 +2,19 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.List;
 import java.util.Optional;
-import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.service.model.User;
 
-public interface ApplicationService {
-  Optional<Application> findById(Long id);
+public interface UserService {
 
-  List<Application> findAll();
+  Optional<User> findById(Long id);
 
-  int create(Application application);
+  List<User> findAll();
 
-  int update(Application application);
+  int create(User user);
+
+  int update(User user);
 
   int delete(Long id);
+
+  boolean isAuthorised(String email, String password);
 }

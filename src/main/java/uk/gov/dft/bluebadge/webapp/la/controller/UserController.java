@@ -1,20 +1,20 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 
 public interface UserController {
 
-  String showLogin(Model model);
+  String showSignIn(SignInFormRequest formRequest);
 
-  String login();
+  String signIn(SignInFormRequest formRequest, BindingResult result, Model model);
 
-  String logout();
+  String signout();
 
-  String showLoggedOut();
+  String showSignedOut();
 
-  String showExpiredSession();
+  String showExpiredSession(SignInFormRequest formRequest, Model model);
 
-  String showWelcomePage();
-
-  String showAccessDenied();
+  String showAccessDenied(SignInFormRequest formRequest, Model model);
 }
