@@ -23,7 +23,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         //        .antMatchers("**")
         //.antMatchers("/", "/home", "/about")
-        .antMatchers("/development/**", "/access-denied", "/signed-out", "/expired-session", "/sign-out", "/", "/sign-in")
+        .antMatchers(
+            "/development/**",
+            "/access-denied",
+            "/signed-out",
+            "/expired-session",
+            "/sign-out",
+            "/",
+            "/sign-in")
         .permitAll()
         // .antMatchers("/admin/**")
         // .hasAnyRole("ADMIN")
@@ -31,13 +38,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //        .hasAnyRole("USER")
         //        .anyRequest()
         //        .authenticated()
-//        .and()
-  //      .formLogin()
-    //    .loginPage("/sign-in")
-      //  .permitAll()
-     //   .and()
-      //  .logout()
-      //  .permitAll()
+        //        .and()
+        //      .formLogin()
+        //    .loginPage("/sign-in")
+        //  .permitAll()
+        //   .and()
+        //  .logout()
+        //  .permitAll()
         .and()
         .exceptionHandling()
         .accessDeniedHandler(accessDeniedHandler);

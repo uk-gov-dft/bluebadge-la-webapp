@@ -8,13 +8,14 @@ npm install gulp
 brew install gradle
 git clone git@github.com:uk-gov-dft/la-webapp.git
 cd la-webapp
+gradle wrapper
 gradle build
 gradle bootRun
 ```
 It will show 80% complete but it is ready to be tested in the browser
 
 From browser:
-(http://localhost:8080/user/showLogin)
+(http://localhost:8080/sign-in)
 
 ## BUILD
 
@@ -51,10 +52,12 @@ java -jar build/libs/la-webapp-0.0.1-SNAPSHOT.jar
 ```
 
 ## PLAY WITH IT
+(http://localhost:8080/sign-in)
 (http://localhost:8080/applications/1/show)
 (http://localhost:8080/applications/showAll)
 (http://localhost:8080/applications/showCreate)
 (http://localhost:8080/applications/1/showUpdate)
+
 
 ### SWAGGER
 (http://localhost:8080/v2/api-docs)

@@ -26,7 +26,12 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
 
-  @Autowired UserService userService;
+  private UserService userService;
+
+  @Autowired
+  public UserControllerImpl(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
