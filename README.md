@@ -112,7 +112,7 @@ You need the sonarqube server running in this place:
 ```
 
 
-## TECHNOLOGIES
+## TOOLING
 
 ### ENABLE LIVE RELOAD
 It means if you change a template in your IDE, you want to see the changes in your browser.
@@ -132,12 +132,22 @@ It is already configured to do that. You have to reload the page in the browser.
 #### In Intellij
 You have to trigger a rebuild with CMD+F9 and then reload the page.
 
-### TESTING
-Spring MVC Testing (to test the controllers):
-(https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)
-
 ### SONARQUBE SERVER INSTALLATION AND CONFIGURATION IN LOCAL
 (https://docs.sonarqube.org/display/SONAR/Get+Started+in+Two+Minutes)
 
 ### SONARQUBE PLUGIN FOR INTELLIJ
 (https://github.com/sonar-intellij-plugin/sonar-intellij-plugin)
+
+## TECHNOLOGIES
+
+### THYMELEAF
+* [Thymeleaf official docs](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+* [Thymeleaf + Spring official docs](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
+
+### SPRING
+* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/)
+* [Spring reference](https://docs.spring.io/spring/docs/current/spring-framework-reference/)
+* [Article about Spring Internationalization](http://www.baeldung.com/spring-boot-internationalization)
+
+### TESTING
+[Spring MVC Testing (to test the controllers)](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)

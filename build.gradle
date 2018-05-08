@@ -67,6 +67,10 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile('org.apache.commons:commons-lang3:3.7')
+
+
     //hot swapping, disable cache for template, enable live reload
     runtime('org.springframework.boot:spring-boot-devtools')
 

@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.model;
+package uk.gov.dft.bluebadge.webapp.la.service.model;
 
 import java.util.Objects;
 
@@ -6,18 +6,8 @@ public class Application {
   private Long id;
   private String fullname;
 
-  public Application() {
-    super();
-  }
-
   public Application(Long id, String fullname) {
-    super();
     this.id = id;
-    this.fullname = fullname;
-  }
-
-  public Application(String fullname) {
-    super();
     this.fullname = fullname;
   }
 
@@ -25,16 +15,8 @@ public class Application {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getFullname() {
     return fullname;
-  }
-
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
   }
 
   @Override
@@ -58,5 +40,30 @@ public class Application {
   public int hashCode() {
 
     return Objects.hash(id, fullname);
+  }
+
+  public static final class ApplicationBuilder {
+    private Long id;
+    private String fullname;
+
+    private ApplicationBuilder() {}
+
+    public static ApplicationBuilder anApplication() {
+      return new ApplicationBuilder();
+    }
+
+    public ApplicationBuilder withId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public ApplicationBuilder withFullname(String fullname) {
+      this.fullname = fullname;
+      return this;
+    }
+
+    public Application build() {
+      return new Application(id, fullname);
+    }
   }
 }

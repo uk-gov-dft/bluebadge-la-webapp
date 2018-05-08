@@ -4,7 +4,7 @@ import org.springframework.ui.Model;
 
 public interface UserController {
 
-  String showLogin(Long id, Model model);
+  String showLogin(Model model);
 
   String login();
 

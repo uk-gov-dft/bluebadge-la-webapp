@@ -18,8 +18,6 @@ public class TemplateEngineAndResolverConfig {
     // resource resolution infrastructure, which is highly recommended.
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(this.applicationContext);
-    templateResolver.setTemplateMode("HTML");
-    //templateResolver.setPrefix("/templates/");
     templateResolver.setPrefix("classpath:/templates/");
     templateResolver.setSuffix(".html");
     // HTML is the default value, added here for the sake of clarity.
@@ -30,7 +28,7 @@ public class TemplateEngineAndResolverConfig {
     return templateResolver;
   }
 
-  public SpringTemplateEngine templateEngine() {
+  private SpringTemplateEngine templateEngine() {
     // SpringTemplateEngine automatically applies SpringStandardDialect and
     // enables Spring's own MessageSource message resolution mechanisms.
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();

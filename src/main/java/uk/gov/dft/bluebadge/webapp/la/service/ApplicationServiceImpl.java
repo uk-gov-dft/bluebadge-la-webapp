@@ -4,16 +4,27 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.webapp.la.connector.ApplicationConnector;
-import uk.gov.dft.bluebadge.webapp.la.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.client.ApplicationConnector;
+import uk.gov.dft.bluebadge.webapp.la.exception.GeneralConnectorException;
+import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-  @Autowired ApplicationConnector connector;
+  private ApplicationConnector connector;
+
+  @Autowired
+  public ApplicationServiceImpl(ApplicationConnector connector) {
+    this.connector = connector;
+  }
 
   public Optional<Application> findById(Long id) {
-    return connector.findById(id);
+    try {
+      return connector.findById(id);
+    } catch (GeneralConnectorException ex) {
+      throw new GeneralServiceException("There was a general service exception", ex);
+    }
   }
 
   @Override

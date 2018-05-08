@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
 import java.util.Objects;
 
@@ -6,18 +6,8 @@ public class ApplicationViewModel {
   private Long id;
   private String fullname;
 
-  public ApplicationViewModel() {
-    super();
-  }
-
   public ApplicationViewModel(Long id, String fullname) {
-    super();
     this.id = id;
-    this.fullname = fullname;
-  }
-
-  public ApplicationViewModel(String fullname) {
-    super();
     this.fullname = fullname;
   }
 
@@ -25,21 +15,13 @@ public class ApplicationViewModel {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getFullname() {
     return fullname;
   }
 
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
-
   @Override
   public String toString() {
-    return String.format("Application [id=%s, fullname=%s", id, fullname);
+    return String.format("ApplicationViewModel [id=%s, fullname=%s", id, fullname);
   }
 
   @Override
@@ -58,5 +40,30 @@ public class ApplicationViewModel {
   public int hashCode() {
 
     return Objects.hash(id, fullname);
+  }
+
+  public static final class ApplicationViewModelBuilder {
+    private Long id;
+    private String fullname;
+
+    private ApplicationViewModelBuilder() {}
+
+    public static ApplicationViewModelBuilder anApplicationViewModel() {
+      return new ApplicationViewModelBuilder();
+    }
+
+    public ApplicationViewModelBuilder withId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public ApplicationViewModelBuilder withFullname(String fullname) {
+      this.fullname = fullname;
+      return this;
+    }
+
+    public ApplicationViewModel build() {
+      return new ApplicationViewModel(id, fullname);
+    }
   }
 }

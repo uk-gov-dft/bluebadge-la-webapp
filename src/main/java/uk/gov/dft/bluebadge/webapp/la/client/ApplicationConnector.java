@@ -1,8 +1,8 @@
-package uk.gov.dft.bluebadge.webapp.la.connector;
+package uk.gov.dft.bluebadge.webapp.la.client;
 
 import java.util.List;
 import java.util.Optional;
-import uk.gov.dft.bluebadge.webapp.la.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 
 public interface ApplicationConnector {
 
