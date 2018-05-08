@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-  private static Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+  private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
   @AfterReturning("execution(* uk.gov.dft.bluebadge..*.*(..))")
   public void logMethodAccessAfter(JoinPoint joinPoint) {

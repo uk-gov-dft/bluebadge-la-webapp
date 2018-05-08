@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Blue Badges</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<header class="dft-la-topbar">
+    <a class="dft-la-topbar__logo" href="/">Manage Blue Badges</a>
+</header>
+
+<div class="govuk-o-width-container">
+
+    <!--<div class="govuk-c-phase-banner">
+        <p class="govuk-c-phase-banner__content">
+            <strong class="govuk-c-tag govuk-c-phase-banner__content__tag ">beta</strong>
+            <span class="govuk-c-phase-banner__text">This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.</span>
+        </p>
+    </div>-->
+
+    <main class="govuk-o-main-wrapper">
+        <div class="dft-login-wrapper">
+
+            <h1 class="govuk-heading-l">Sign in</h1>
+
+            <div th:insert="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}"/>
+
+            <div th:insert="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}"/>
+
+            <div th:insert="~{fragments/errors :: form-field-errors(${#fields})}"/>
+
+            <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
+
+                <div th:insert="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email Address', 'email')}"/>
+                <div th:insert="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED***/>
+
+                <input value="Sign in" type="submit" class="govuk-c-button">
+
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+
