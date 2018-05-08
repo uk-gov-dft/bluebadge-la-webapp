@@ -46,15 +46,16 @@ public class ApplicationControllerImpl implements ApplicationController {
 
   public static final String PARAM_ID = "id";
 
-  ApplicationService service;
+  private ApplicationService service;
 
-  ApplicationCreateRequest2ApplicationConverterImpl createRequest2ApplicationConverter;
+  private ApplicationCreateRequest2ApplicationConverterImpl createRequest2ApplicationConverter;
 
-  ApplicationUpdateRequest2ApplicationConverterImpl updateRequest2ApplicationConverter;
+  private ApplicationUpdateRequest2ApplicationConverterImpl updateRequest2ApplicationConverter;
 
-  Application2ApplicationViewModelConverterImpl application2ViewModelConverter;
+  private Application2ApplicationViewModelConverterImpl application2ViewModelConverter;
 
-  ListConverter<Application, ApplicationViewModel> applications2ApplicationViewModelConverter;
+  private ListConverter<Application, ApplicationViewModel>
+      applications2ApplicationViewModelConverter;
 
   @Autowired
   public ApplicationControllerImpl(

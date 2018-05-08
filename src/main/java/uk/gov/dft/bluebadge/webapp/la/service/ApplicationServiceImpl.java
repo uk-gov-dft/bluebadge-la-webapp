@@ -12,7 +12,12 @@ import uk.gov.dft.bluebadge.webapp.la.service.model.Application;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-  @Autowired ApplicationConnector connector;
+  private ApplicationConnector connector;
+
+  @Autowired
+  public ApplicationServiceImpl(ApplicationConnector connector) {
+    this.connector = connector;
+  }
 
   public Optional<Application> findById(Long id) {
     try {
