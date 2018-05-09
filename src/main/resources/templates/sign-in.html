@@ -11,7 +11,7 @@
 
 <header class="dft-topbar">
     <div class="dft-topbar__wrapper">
-        <a class="dft-topbar__logo" data-uipath="topbar.logo" href="/">Manage Blue Badges</a>
+        <a class="dft-topbar__logo" data-uipath="logo" href="/">Manage Blue Badges</a>
     </div>
 </header>
 
@@ -20,7 +20,7 @@
     <main class="govuk-o-main-wrapper">
         <div class="dft-login-wrapper">
 
-            <h1 class="govuk-heading-l" data-uipath="document.title">Sign in</h1>
+            <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
             <div th:insert="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}"/>
 
