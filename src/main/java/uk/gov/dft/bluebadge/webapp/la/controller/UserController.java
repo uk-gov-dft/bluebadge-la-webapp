@@ -12,7 +12,7 @@ public interface UserController {
 
   String signout();
 
-  String showSignedOut();
+  String showSignedOut(SignInFormRequest formRequest, Model model);
 
   String showExpiredSession(SignInFormRequest formRequest, Model model);
 

@@ -60,15 +60,18 @@ public class UserControllerImpl implements UserController {
   @GetMapping(URL_SIGN_OUT)
   public String signout() {
     try {
-      return "redirect:" + URL_SIGN_OUT;
+      // Sign out
+      return "redirect:" + URL_SIGNED_OUT;
     } catch (GeneralServiceException ex) {
       throw new GeneralControllerException("There was a general controller exception", ex);
     }
   }
 
   @GetMapping(URL_SIGNED_OUT)
-  public String showSignedOut() {
-    return TEMPLATE_SIGNED_OUT;
+  public String showSignedOut(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+    model.addAttribute("signedOut", true);
+    return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_EXPIRED_SESSION)
