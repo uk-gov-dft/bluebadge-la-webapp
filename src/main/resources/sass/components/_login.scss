@@ -1,4 +1,9 @@
 .dft-login-wrapper {
     max-width: 400px;
     margin: auto;
+
+    @include mq($from: tablet) {
+        margin-top: 50px;
+    }
+
 }

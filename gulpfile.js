@@ -62,8 +62,6 @@ const isDev = getEnv() === "development";
 
 -------------------------------------------------- **/
 
-gulp.task('default', ['sass', 'js']);
-
 
 gulp.task('clean:css', () => {
 	del.sync(['./assets/dist/css/**']);
@@ -101,4 +99,10 @@ gulp.task('js', () => {
 		.pipe(rollup())
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.js))
+});
+
+
+gulp.task('default', ['sass', 'js'], () => {
+    gulp.watch(PATH.sourceAssets.sass, ['sass']);
+    gulp.watch(PATH.sourceAssets.js, ['js']);
 });

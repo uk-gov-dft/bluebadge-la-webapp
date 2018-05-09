@@ -27,21 +27,34 @@
     fields: It is the the binding result that allows access to the errors in the form. This is the BindingResult class in Spring MVC.
 -->
 <div th:fragment="form-field-errors(fields)">
-    <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+
+    <div class="govuk-c-error-summary"
+         data-uipath="errorbox"
+         aria-labelledby="error-summary-title"
+         role="alert"
+         tabindex="-1"
          th:if="${#fields.hasErrors('formRequest.*')}">
-        <h2 class="govuk-c-error-summary__title" id="error-summary-title">Fix the following errors</h2>
 
-        <div class="govuk-c-error-summary__body">
+            <h2 data-uipath="errorbox.title" class="govuk-c-error-summary__title">Fix the following errors</h2>
 
-            <ul th:if="${fields.hasErrors('formRequest.*')}">
-                <li th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${err.isGlobal()}"><span
-                        th:utext="${err.message}">Input is incorrect</span></li>
-                <li th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${!err.isGlobal()}"><a href="#"
-                                                                                                            th:href="'#' + ${err.fieldName}"><span
-                        th:text="${err.message}">Input is incorrect</span></a></li>
+            <div class="govuk-c-error-summary__body">
+
+            <ul class="govuk-list govuk-c-error-summary__list" th:if="${fields.hasErrors('formRequest.*')}">
+
+                <li data-uipath="errorbox.item" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${err.isGlobal()}">
+                    <span th:utext="${err.message}">Input is incorrect</span>
+                </li>
+
+                <li data-uipath="errorbox.item" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${!err.isGlobal()}">
+                    <a href="#" th:href="'#' + ${err.fieldName}">
+                        <span th:text="${err.message}">Input is incorrect</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
+
 </div>
 
 <!--
@@ -52,18 +65,26 @@
     label: text of the label associated to the field
     type: type of html input, i.e.: text, email, password
 -->
-<div th:fragment="form-field-input(fields, fieldId, label, type)">
-    <div class="govuk-o-form-group"
-         th:class="${#fields.hasErrors(fieldId)}? govuk-o-form-group--error : govuk-o-form-group">
-        <a name="aname" th:attr="name=${fieldId}"/>
+<div class="govuk-o-form-group"
+     th:fragment="form-field-input(fields, fieldId, label, type)"
+     th:class="${#fields.hasErrors(fieldId)}? 'govuk-o-form-group govuk-o-form-group--error' : 'govuk-o-form-group'">
 
-        <label class="govuk-c-label dft-c-label" for="field" th:attr="for=${fieldId}" th:text="${label}"></label>
+    <label class="govuk-c-label dft-c-label"
+           th:data-uipath="${fieldId} + '.label'"
+           th:attr="for=${fieldId}"
+           th:text="${label}"></label>
 
-        <p th:if="${#fields.hasErrors(fieldId)}" th:errors="*{__${fieldId}__}" class="govuk-c-error-message"></p>
+    <p class="govuk-c-error-message"
+       th:data-uipath="${fieldId} + '.error'"
+       th:if="${#fields.hasErrors(fieldId)}"
+       th:errors="*{__${fieldId}__}"></p>
 
-        <input class="govuk-c-input" id="field" name="field" type="text" th:attr="id=${fieldId},name=${fieldId},type=${fieldId}"
-               th:field="*{__${fieldId}__}">
-    </div>
+    <input class="govuk-c-input"
+           th:data-uipath="${fieldId} + '.field'"
+           th:id="${fieldId}"
+           th:name="${fieldId}"
+           th:attr="id=${fieldId}, name=${fieldId}, type=${fieldId}"
+           th:field="*{__${fieldId}__}">
 </div>
 
 </body>

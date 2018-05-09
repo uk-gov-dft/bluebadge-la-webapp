@@ -2924,25 +2924,29 @@ input, select {
   float: none;
   margin: auto; }
 
-.dft-la-topbar {
+.dft-topbar {
   color: white;
-  padding: 19px 15px;
   background-color: #0b0c0c; }
-  .dft-la-topbar__logo {
+  .dft-topbar__wrapper {
+    padding: 20px 30px; }
+  .dft-topbar__logo {
     color: #fff;
-    display: block;
     font-size: 19px;
     font-weight: 700;
+    display: inline-block;
     text-decoration: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "nta", Arial, sans-serif; }
-    .dft-la-topbar__logo:hover {
+    .dft-topbar__logo:hover {
       text-decoration: underline; }
 
 .dft-login-wrapper {
   max-width: 400px;
   margin: auto; }
+  @media (min-width: 40.0625em) {
+    .dft-login-wrapper {
+      margin-top: 50px; } }
 
 .dft-c-label {
   font-size: 16px;
