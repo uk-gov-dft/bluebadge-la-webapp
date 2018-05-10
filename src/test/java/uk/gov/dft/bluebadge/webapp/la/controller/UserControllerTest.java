@@ -1,37 +1,25 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
+import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-@ContextConfiguration
-@WebAppConfiguration
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@RunWith(MockitoJUnitRunner.class)
-@RunWith(SpringRunner.class)
-//@WebMvcTest(UserControllerImpl.class)
-public class UserControllerTest extends ControllerTest {
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-  @Autowired private WebApplicationContext ctx;
+public class UserControllerTest {
 
-  //@Autowired
+  private static final String EMAIL = "joeblogs@joe.com";
+  private static final String PASSWORD = "password";
+
   private MockMvc mockMvc;
 
   @Mock private UserService service;
@@ -46,61 +34,57 @@ public class UserControllerTest extends ControllerTest {
 
     controller = new UserControllerImpl(service);
 
-    SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-    templateResolver.setApplicationContext(this.ctx);
-    templateResolver.setPrefix("classpath:/templates/");
-    templateResolver.setSuffix(".html");
-    // HTML is the default value, added here for the sake of clarity.
-    templateResolver.setTemplateMode(TemplateMode.HTML);
-    // Template cache is true by default. Set to false if you want
-    // templates to be automatically updated when modified.
-    templateResolver.setCacheable(true);
-
-    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    templateEngine.setTemplateResolver(templateResolver);
-    // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
-    // speed up execution in most scenarios, but might be incompatible
-    // with specific cases when expressions in one template are reused
-    // across different data types, so this flag is "false" by default
-    // for safer backwards compatibility.
-    templateEngine.setEnableSpringELCompiler(true);
-
-    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-    viewResolver.setTemplateEngine(templateEngine);
-    // NOTE 'order' and 'viewNames' are optional
-    viewResolver.setOrder(1);
-    viewResolver.setCache(false);
-    viewResolver.setViewNames(new String[] {".html", ".xhtml"});
-
-    // Setup Spring test in standalone mode
-    //this.mockMvc =
-    //MockMvcBuilders.webAppContextSetup(ctx).build();
-    //this.mockMvc =
-    //  MockMvcBuilders.standaloneSetup(controller).setViewResolvers(viewResolver).build();
-    //MockMvcBuilders.standaloneSetup(controller).setViewResolvers(new ThymeleafViewResolver()).build();
-    this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    this.mockMvc =
+        MockMvcBuilders.standaloneSetup(controller)
+            .setViewResolvers(new StandaloneMvcTestViewResolver())
+            .build();
   }
 
-  @Test
-  public void myTest() throws Exception {
-    mockMvc.perform(get("/sign-in")).andExpect(status().isOk());
-    //        .andExpect(view().name("sign-in"));
-    ;
-  }
-  /*
   @Test
   public void shouldDisplaySignInPage() throws Exception {
-    ResultActions resultActions = whenIPerformAGetOnSignInEndpoint();
-    thenSignInPageIsDisplayed(resultActions);
+    mockMvc
+        .perform(get("/sign-in"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(
+            model()
+                .attribute(
+                    "formRequest",
+                    allOf(
+                        hasProperty("email", isEmptyOrNullString()),
+                        hasProperty("password", isEmptyOrNullString()))));
   }
 
-  private ResultActions whenIPerformAGetOnSignInEndpoint() throws Exception {
-    return mockMvc.perform(get("/sign-in"));
+  @Test
+  public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
+    when(service.isAuthorised(EMAIL, PASSWORD)).thenReturn(true);
+    mockMvc
+        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .andExpect(status().isFound())
+        .andExpect(view().name("redirect:/?email=" + EMAIL));
   }
 
-  private void thenSignInPageIsDisplayed(ResultActions resultActions) throws Exception {
-    resultActions.andExpect(status().isOk()).andExpect(view().name("/sign-in"));
-  }*/
+  @Test
+  public void
+      shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
+          throws Exception {
+    when(service.isAuthorised(EMAIL, PASSWORD)).thenReturn(false);
+    mockMvc
+        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(model().attribute("accessDenied", is(true)));
+  }
+
+  @Test
+  public void shouldDisplaySignInTemplateWithErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty() throws Exception {
+    mockMvc
+            .perform(post("/sign-in").param("email", "").param(" ***REMOVED***))
+            .andExpect(status().isOk())
+            .andExpect(view().name("sign-in"))
+            .andExpect(model().attributeHasErrors("email"));
+  }
+
   /*
   @Test
   public void show_ShouldAddApplicationToModelAndRenderShowApplicationView_WhenApplicationExists()
