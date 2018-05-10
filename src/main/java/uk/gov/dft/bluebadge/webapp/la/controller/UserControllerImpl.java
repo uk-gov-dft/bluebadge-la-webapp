@@ -23,8 +23,7 @@ public class UserControllerImpl implements UserController {
   public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
 
-  public static final String TEMPLATE_SIGN_IN = "sign-in";
-  public static final String TEMPLATE_SIGNED_OUT = "signed-out";
+  public static final String TEMPLATE_SIGN_IN = "user/sign-in";
 
   private UserService userService;
 
