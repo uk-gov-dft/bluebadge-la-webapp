@@ -1,10 +1,40 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome <span th:text="${email}"/></title>
+    <title>Sign in - GOV.UK Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 </head>
 <body>
-Welcome <span th:text="${email}"/>
+
+<header class="dft-topbar dft-topbar--logged-in">
+    <div class="dft-topbar__wrapper">
+
+        <a class="dft-topbar__title" data-uipath="logo" href="/?email=''">
+            <span th:data-uipath="la-name" class="dft-topbar__la-name">Manchester City Council</span> Manage Blue Badges
+        </a>
+
+        <div class="dft-topbar__menu">
+            <span th:data-uipath="username" class="dft-topbar__username">Ali Ashik</span>
+            <a th:data-uipath="signout" class="dft-topbar__signout" href="/signed-out">Sign out</a>
+        </div>
+
+    </div>
+</header>
+
+<div>
+
+    <div class="govuk-o-width-container">
+        <main class="govuk-o-main-wrapper">
+
+
+
+        </main>
+    </div>
+
+</div>
 </body>
 </html>
+

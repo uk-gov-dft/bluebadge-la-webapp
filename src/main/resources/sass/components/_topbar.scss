@@ -1,24 +1,46 @@
 .dft-topbar{
+    $this: &;
     color: white;
     background-color: $govuk-black;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: "nta", Arial, sans-serif;
 
     &__wrapper{
          padding: 20px 30px;
     }
 
-    &__logo {
+    &__title {
          color: #fff;
          font-size: 19px;
          font-weight: 700;
          display: inline-block;
          text-decoration: none;
-         -webkit-font-smoothing: antialiased;
-         -moz-osx-font-smoothing: grayscale;
-         font-family: "nta", Arial, sans-serif;
 
          &:hover {
              text-decoration: underline;
          }
     }
+
+    &--logged-in {
+        #{$this}__title {
+            font-weight: 400;
+        }
+
+        #{$this}__la-name {
+            font-weight: 700;
+        }
+    }
+
+    &__menu {
+        float: right;
+        color: #ffff;
+    }
+
+    &__signout {
+        color: #fff;
+        margin-left:5px;
+    }
+
 
  }

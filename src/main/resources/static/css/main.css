@@ -2926,20 +2926,30 @@ input, select {
 
 .dft-topbar {
   color: white;
-  background-color: #0b0c0c; }
+  background-color: #0b0c0c;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "nta", Arial, sans-serif; }
   .dft-topbar__wrapper {
     padding: 20px 30px; }
-  .dft-topbar__logo {
+  .dft-topbar__title {
     color: #fff;
     font-size: 19px;
     font-weight: 700;
     display: inline-block;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: "nta", Arial, sans-serif; }
-    .dft-topbar__logo:hover {
+    text-decoration: none; }
+    .dft-topbar__title:hover {
       text-decoration: underline; }
+  .dft-topbar--logged-in .dft-topbar__title {
+    font-weight: 400; }
+  .dft-topbar--logged-in .dft-topbar__la-name {
+    font-weight: 700; }
+  .dft-topbar__menu {
+    float: right;
+    color: #ffff; }
+  .dft-topbar__signout {
+    color: #fff;
+    margin-left: 5px; }
 
 .dft-login-wrapper {
   max-width: 400px;
