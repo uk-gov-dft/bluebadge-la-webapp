@@ -32,6 +32,8 @@
 
             <div th:insert="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}"/>
 
+            <div th:insert="~{fragments/errors :: general-form-error(${serverError}, #{error.form.global.serverError.title}, #{error.form.global.serverError.description})}"/>
+
             <div th:insert="~{fragments/errors :: form-field-errors(${#fields})}"/>
 
             <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
