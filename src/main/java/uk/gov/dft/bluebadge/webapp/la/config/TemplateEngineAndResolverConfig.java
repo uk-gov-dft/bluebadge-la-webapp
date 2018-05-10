@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +41,7 @@ public class TemplateEngineAndResolverConfig {
     // across different data types, so this flag is "false" by default
     // for safer backwards compatibility.
     templateEngine.setEnableSpringELCompiler(true);
+    templateEngine.addDialect(new LayoutDialect(new GroupingStrategy()));
     return templateEngine;
   }
 

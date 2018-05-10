@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head>
+    <title>Layout Dialect Example</title>
+</head>
+<body>
+<section layout:fragment="custom-content">
+    <p>Content overriden</p>
+</section>
+<footer>
+    <p layout:fragment="custom-footer">Footer overriden</p>
+</footer>
+</body>
+</html>

@@ -69,6 +69,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile('org.apache.commons:commons-lang3:3.7')
 
+    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
 
     //hot swapping, disable cache for template, enable live reload
     runtime('org.springframework.boot:spring-boot-devtools')

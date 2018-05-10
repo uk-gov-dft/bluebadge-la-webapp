@@ -84,4 +84,9 @@ public class UserControllerImpl implements UserController {
     model.addAttribute("accessDenied", true);
     return TEMPLATE_SIGN_IN;
   }
+
+  @GetMapping("/decorated")
+  public String decorated() {
+    return "decorated";
+  }
 }
