@@ -149,6 +149,7 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 * [Thymeleaf: Creating forms](https://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html#creating-a-form)
 * [Thymeleaf: Validation and error messages](https://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html#validation-and-error-messages)
 * [Thymeleaf: Layouts](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout)
+* [Baeldung: Thymeleaf layout dialet](http://www.baeldung.com/thymeleaf-spring-layouts)
 
 ### SPRING
 * [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/)
