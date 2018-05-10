@@ -6,16 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
-	<title>DFT - Blue Badge LA Portal</title>
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Task List</title>
 </head>
 
 <body>
 
-	<header class="dft-la-topbar">
-		GDS Logo
-	</header>
-
-	<div th:replace="fragments/header :: header"></div>
+	<div layout:fragment="content"></div>
 </body>
 
 

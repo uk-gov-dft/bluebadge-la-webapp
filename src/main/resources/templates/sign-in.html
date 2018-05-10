@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Manage Blue Badges</title>
+    <title>DFT - Manage Blue Badges Sign In</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
 
@@ -9,36 +9,41 @@
 </head>
 <body>
 
-<header class="dft-topbar">
-    <div class="dft-topbar__wrapper">
-        <a class="dft-topbar__logo" data-uipath="logo" href="/">Manage Blue Badges</a>
-    </div>
-</header>
-
-<div class="govuk-o-width-container">
-
-    <main class="govuk-o-main-wrapper">
-        <div class="dft-login-wrapper">
-
-            <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
-
-            <div th:insert="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}"/>
-
-            <div th:insert="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}"/>
-
-            <div th:insert="~{fragments/errors :: form-field-errors(${#fields})}"/>
-
-            <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
-
-                <div th:insert="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}"/>
-                <div th:insert="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED***/>
-
-                <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
-
-            </form>
+    <header class="dft-topbar">
+        <div class="dft-topbar__wrapper">
+            <a class="dft-topbar__logo" data-uipath="logo" href="/">Manage Blue Badges</a>
         </div>
-    </main>
-</div>
+    </header>
+
+
+    <!-- content layout transclusion -->
+    <div>
+
+        <div class="govuk-o-width-container">
+            <main class="govuk-o-main-wrapper">
+                <div class="dft-login-wrapper">
+
+                    <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
+
+                    <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
+
+                    <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
+
+                    <div th:replace="~{fragments/errors :: form-field-errors(${#fields})}"/>
+
+                    <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
+
+                        <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
+                        <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
+
+                        <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
+
+                    </form>
+                </div>
+            </main>
+        </div>
+
+    </div>
 </body>
 </html>
 
