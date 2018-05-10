@@ -1,49 +1,40 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
 <head>
     <title>Sign in - GOV.UK Manage Blue Badges</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
-
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 </head>
 <body>
 
-    <header class="dft-topbar">
+    <header layout:fragment="topbar" class="dft-topbar">
         <div class="dft-topbar__wrapper">
             <a class="dft-topbar__title" data-uipath="logo" href="/">Manage Blue Badges</a>
         </div>
     </header>
 
+    <div layout:fragment="content">
+        <div class="dft-login-wrapper">
 
-    <!-- content layout transclusion -->
-    <div>
+            <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-        <div class="govuk-o-width-container">
-            <main class="govuk-o-main-wrapper">
-                <div class="dft-login-wrapper">
+            <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
 
-                    <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
+            <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
 
-                    <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
+            <div th:replace="~{fragments/errors :: form-field-errors(${#fields})}"/>
 
-                    <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
+            <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-                    <div th:replace="~{fragments/errors :: form-field-errors(${#fields})}"/>
+                <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
+                <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
 
-                    <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
+                <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
 
-                        <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
-                        <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
-
-                        <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
-
-                    </form>
-                </div>
-            </main>
+            </form>
         </div>
-
     </div>
+
 </body>
 </html>
-

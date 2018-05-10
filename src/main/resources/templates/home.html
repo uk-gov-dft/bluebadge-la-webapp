@@ -1,40 +1,17 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
 <head>
-    <title>Sign in - GOV.UK Manage Blue Badges</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
-
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <title>Dashboard - GOV.UK Manage Blue Badges</title>
 </head>
 <body>
 
-<header class="dft-topbar dft-topbar--logged-in">
-    <div class="dft-topbar__wrapper">
-
-        <a class="dft-topbar__title" data-uipath="logo" href="/?email=''">
-            <span th:data-uipath="la-name" class="dft-topbar__la-name">Manchester City Council</span> Manage Blue Badges
-        </a>
-
-        <div class="dft-topbar__menu">
-            <span th:data-uipath="username" class="dft-topbar__username">Ali Ashik</span>
-            <a th:data-uipath="signout" class="dft-topbar__signout" href="/signed-out">Sign out</a>
-        </div>
-
-    </div>
-</header>
-
-<div>
-
-    <div class="govuk-o-width-container">
-        <main class="govuk-o-main-wrapper">
-
-
-
-        </main>
+    <div layout:fragment="content">
+        <h1 class="govuk-heading-l">Dashboard</h1>
     </div>
 
-</div>
 </body>
 </html>
 
