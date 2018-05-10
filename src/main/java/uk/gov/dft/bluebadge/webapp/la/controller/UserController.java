@@ -10,11 +10,13 @@ public interface UserController {
 
   String signIn(SignInFormRequest formRequest, BindingResult result, Model model);
 
-  String signout();
+  String signOut();
 
-  String showSignedOut();
+  String showSignedOut(SignInFormRequest formRequest, Model model);
 
   String showExpiredSession(SignInFormRequest formRequest, Model model);
 
   String showAccessDenied(SignInFormRequest formRequest, Model model);
+
+  String showServerError(SignInFormRequest formRequest, Model model);
 }

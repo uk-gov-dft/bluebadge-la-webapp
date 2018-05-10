@@ -8,19 +8,19 @@
      Displays an error. Used when the error is not in the form itself (neither field related or global). I.e. when you want
      to display custom errors not related to the form.
 
-     shouldShowError: Boolean to control if the error should be displayed or not
-     titleErrorMessage: The error has two parts the title and the description, this is the title
-     descriptionErrorMesssage: The error has two parts the title and the description, this is the description
+     shouldShow: Boolean to control if the error should be displayed or not
+     title: The error has two parts the title and the description, this is the title
+     description: The error has two parts the title and the description, this is the description
 -->
 <div class="govuk-c-error-summary"
      tabindex="-1"
      role="alert"
      th:aria-labelledby="error-summary-title"
-     th:if="${shouldShowError}"
-     th:fragment="general-form-error(shouldShowError, titleErrorMessage, descriptionErrorMesssage)">
-        <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${titleErrorMessage}"></h2>
+     th:if="${shouldShow}"
+     th:fragment="general-form-error(shouldShow, title, description)">
+        <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${title}"></h2>
         <div class="govuk-c-error-summary__body">
-            <p th:utext="${descriptionErrorMesssage}"></p>
+            <p th:utext="${description}"></p>
         </div>
 </div>
 
