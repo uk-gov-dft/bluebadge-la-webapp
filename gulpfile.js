@@ -63,9 +63,7 @@ const isDev = getEnv() === "development";
 -------------------------------------------------- **/
 
 
-gulp.task('clean:css', () => {
-	del.sync(['./assets/dist/css/**']);
-});
+gulp.task('clean:css', () => del.sync(['./assets/dist/css/**']));
 
 
 gulp.task('sass', ['clean:css'], () => {
@@ -73,12 +71,10 @@ gulp.task('sass', ['clean:css'], () => {
 	return gulp.src(PATH.sourceAssets.sass)
 		//.pipe(linter)
 		.pipe(sass({
-			// Added so its easier to import GDS toolkit
-			// inside sass file
 			includePaths: 'node_modules'
-		}))
+		}).on('error', sass.logError))
 		.pipe(gulpIf(isDev, sourcemaps.init()))
-		.pipe(autoprefixer()) // needs to go upto iE8 ?
+		.pipe(autoprefixer()) // needs to go down to iE8 ?
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulpIf(isProd, cssnano({
 			discardComments: {
