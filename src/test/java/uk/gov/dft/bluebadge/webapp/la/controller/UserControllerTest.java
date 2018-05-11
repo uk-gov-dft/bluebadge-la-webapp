@@ -1,5 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -10,12 +16,6 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class UserControllerTest {
 
@@ -122,43 +122,42 @@ public class UserControllerTest {
   }
 
   @Test
-    public void shouldDisplayServerError() throws Exception {
-      mockMvc
-              .perform(get("/server-error"))
-              .andExpect(status().isOk())
-              .andExpect(view().name("sign-in"))
-              .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-      .andExpect(model().attribute("serverError", true));
+  public void shouldDisplayServerError() throws Exception {
+    mockMvc
+        .perform(get("/server-error"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
+        .andExpect(model().attribute("serverError", true));
   }
 
-    @Test
-    public void shouldDisplayAccessDenied() throws Exception {
-        mockMvc
-                .perform(get("/access-denied"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("sign-in"))
-                .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-                .andExpect(model().attribute("accessDenied", true));
-    }
+  @Test
+  public void shouldDisplayAccessDenied() throws Exception {
+    mockMvc
+        .perform(get("/access-denied"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
+        .andExpect(model().attribute("accessDenied", true));
+  }
 
-    @Test
-    public void shouldDisplayExpiredSession() throws Exception {
-        mockMvc
-                .perform(get("/expired-session"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("sign-in"))
-                .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-                .andExpect(model().attribute("expiredSession", true));
-    }
+  @Test
+  public void shouldDisplayExpiredSession() throws Exception {
+    mockMvc
+        .perform(get("/expired-session"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
+        .andExpect(model().attribute("expiredSession", true));
+  }
 
-    @Test
-    public void shouldDisplaySignedOut() throws Exception {
-        mockMvc
-                .perform(get("/signed-out"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("sign-in"))
-                .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-                .andExpect(model().attribute("signedOut", true));
-    }
-
+  @Test
+  public void shouldDisplaySignedOut() throws Exception {
+    mockMvc
+        .perform(get("/signed-out"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("sign-in"))
+        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
+        .andExpect(model().attribute("signedOut", true));
+  }
 }
