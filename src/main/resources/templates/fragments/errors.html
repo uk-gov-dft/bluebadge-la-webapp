@@ -69,7 +69,7 @@
      th:fragment="form-field-input(fields, fieldId, label, type)"
      th:class="${#fields.hasErrors(fieldId)}? 'govuk-o-form-group govuk-o-form-group--error' : 'govuk-o-form-group'">
 
-    <label class="govuk-c-label dft-c-label"
+    <label class="govuk-c-label govuk-c-label--dft-la"
            th:data-uipath="${fieldId} + '.label'"
            th:attr="for=${fieldId}"
            th:text="${label}"></label>

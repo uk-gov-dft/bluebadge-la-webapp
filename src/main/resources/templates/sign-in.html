@@ -14,30 +14,28 @@
         </div>
     </header>
 
-    <div layout:fragment="content">
-        <div class="dft-login-wrapper">
+    <div layout:fragment="content" class="dft-login-wrapper">
 
-            <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
+        <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-            <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
+        <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
 
-            <div th:replace="~{fragments/errors :: general-form-error(${signedOut}, #{info.form.global.signedOut.title}, #{info.form.global.signedOut.description})}"/>
+        <div th:replace="~{fragments/errors :: general-form-error(${signedOut}, #{info.form.global.signedOut.title}, #{info.form.global.signedOut.description})}"/>
 
-            <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
+        <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
 
-            <div th:replace="~{fragments/errors :: general-form-error(${serverError}, #{error.form.global.serverError.title}, #{error.form.global.serverError.description})}"/>
+        <div th:replace="~{fragments/errors :: general-form-error(${serverError}, #{error.form.global.serverError.title}, #{error.form.global.serverError.description})}"/>
 
-            <div th:replace="~{fragments/errors :: form-field-errors(${#fields})}"/>
+        <div th:replace="~{fragments/errors :: form-field-errors(${#fields})}"/>
 
-            <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
-                <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
+            <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
+            <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
 
-                <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
+            <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
 
-            </form>
-        </div>
+        </form>
     </div>
 
 </body>

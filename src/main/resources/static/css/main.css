@@ -2951,15 +2951,17 @@ input, select {
     color: #fff;
     margin-left: 5px; }
 
-.dft-login-wrapper {
-  max-width: 400px;
-  margin: auto; }
-  @media (min-width: 40.0625em) {
-    .dft-login-wrapper {
-      margin-top: 50px; } }
+@media (min-width: 40.0625em) {
+  .dft-login-wrapper {
+    max-width: 400px;
+    margin: 50px auto 0 auto; } }
 
-.dft-c-label {
-  font-size: 16px;
-  line-height: 20px; }
+.govuk-c-label--dft-la {
+  font-size: 14px;
+  line-height: 16px; }
+  @media (min-width: 40.0625em) {
+    .govuk-c-label--dft-la {
+      font-size: 16px;
+      line-height: 20px; } }
 
 /*# sourceMappingURL=main.css.map */
