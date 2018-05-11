@@ -9,5 +9,5 @@ import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestConfigurati
  */
 @ContextConfiguration(classes = {AcceptanceTestConfiguration.class})
 public abstract class AbstractSpringSteps {
-    // no-op, this class only serves as a bridge to Spring test context configuration
+  // no-op, this class only serves as a bridge to Spring test context configuration
 }
