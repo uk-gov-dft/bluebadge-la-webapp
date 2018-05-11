@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
@@ -27,6 +28,8 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
 
   private UserService userService;
+
+  private UserManagementService userManagementService;
 
   @Autowired
   public UserControllerImpl(UserService userService) {
