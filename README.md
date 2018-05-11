@@ -172,10 +172,10 @@ mvn verify -f acceptance-tests/pom.xml -Pacceptance-test
 
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 ```
-mvn verify -f pom.xml -Pacceptance-test -Dheadless=false
+mvn verify -f acceptance-tests/pom.xml -Pacceptance-test -Dheadless=false
 ```
 
 If you need to run only speficied features, then add a tag to feature file & specify that in run command as below, execute:
 ```
-mvn verify -f pom.xml -Pacceptance-test -Dheadless=false -Dcucumber.options="--tags @News"
+mvn verify -f acceptance-tests/pom.xml -Pacceptance-test -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
