@@ -2920,6 +2920,19 @@ input, select {
   margin-left: -15px;
   padding-left: 65px; }
 
+.dft-container .dft-sidebar {
+  background-color: #eee; }
+  @media (min-width: 48.0625em) {
+    .dft-container .dft-sidebar {
+      float: left;
+      width: 300px;
+      max-width: 300px;
+      min-height: 100vh; } }
+
+@media (min-width: 48.0625em) {
+  .dft-container .dft-main-wrapper {
+    padding: 50px 60px 50px 360px; } }
+
 .dft-o-grid__item--center {
   float: none;
   margin: auto; }
