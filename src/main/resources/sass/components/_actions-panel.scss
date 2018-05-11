@@ -1,0 +1,14 @@
+.dft-actions-panel {
+    padding: 20px;
+    overflow: hidden;
+    background-color: $govuk-grey-4;
+
+    &__cta-area {
+        float: right;
+    }
+
+    .govuk-c-button {
+        margin: 0;
+
+    }
+}

@@ -1,13 +1,14 @@
 .dft-container {
+    position: relative;
 
     .dft-sidebar {
         background-color: #eee;
 
         @include mq($from: desktop){
-            float:left;
             width:300px;
+            height: 100vh;
             max-width: 300px;
-            min-height: 100vh;
+            position: absolute;
         }
     }
 
@@ -17,5 +18,6 @@
         }
 
     }
+
 
 }

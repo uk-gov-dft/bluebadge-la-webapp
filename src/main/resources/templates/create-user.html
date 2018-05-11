@@ -4,15 +4,48 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title>Dashboard - GOV.UK Manage Blue Badges</title>
+    <title>Create a new user - GOV.UK Manage Blue Badges</title>
 </head>
 <body>
 
 <div layout:fragment="content">
 
-    <aside></aside>
+    <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
 
-    <h1 class="govuk-heading-l">Create User</h1>
+    <!-- Form Errors -->
+
+    <div class="govuk-c-error-summary govuk-!-width-two-thirds" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+        <h2 class="govuk-c-error-summary__title" id="error-summary-title">Fix the following errors:</h2>
+
+        <div class="govuk-c-error-summary__body">
+            <ul class="govuk-list govuk-c-error-summary__list">
+                <li><a href="#full-name">Enter a full name</a></li>
+                <li><a href="#email">Enter an email address</a></li>
+
+                <li><a href="#email">Email address already exists</a></li>
+
+                <li><a href="#full-name">Enter a valid full name</a></li>
+                <li><a href="#email">Enter a valid email address</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Form Errors - End -->
+
+    <form action="" method="post" novalidate>
+        <div class="govuk-o-form-group govuk-o-form-group--error">
+            <label class="govuk-c-label govuk-!-width-one-half govuk-c-label--dft-la" for="full-name" data-uipath="full-name.label">Full Name</label>
+            <span class="govuk-c-error-message">Enter a full name</span>
+            <input class="govuk-c-input govuk-!-width-one-half" id="full-name" name="full-name" type="text" data-uipath="full-name.field" />
+        </div>
+
+        <div class="govuk-o-form-group">
+            <label class="govuk-c-label govuk-!-width-one-half govuk-c-label--dft-la" for="email" data-uipath="email.label">Email Address</label>
+            <input class="govuk-c-input govuk-!-width-one-half" id="email" name="email" type="email" data-uipath="email.field" />
+        </div>
+
+        <input value="Create user" type="submit" class="govuk-c-button">
+    </form>
 </div>
 
 </body>

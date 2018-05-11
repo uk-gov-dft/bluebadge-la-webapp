@@ -27,10 +27,12 @@ public class UserControllerImpl implements UserController {
   public static final String URL_SIGN_OUT = "/sign-out";
   public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
-  public static final String URL_CREATE_USER = "/create-user";
+  public static final String URL_MANAGE_USERS = "/manage-users";
+  public static final String URL_CREATE_USER = "/manage-users/create-user";
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
+  public static final String TEMPLATE_MANAGE_USERS = "manage-users";
   public static final String TEMPLATE_CREATE_USER = "create-user";
 
   private UserService userService;
@@ -112,6 +114,11 @@ public class UserControllerImpl implements UserController {
   @GetMapping("/decorated")
   public String decorated() {
     return "decorated";
+  }
+
+  @GetMapping(URL_MANAGE_USERS)
+  public String showManageUsers(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+    return TEMPLATE_MANAGE_USERS;
   }
 
   @GetMapping(URL_CREATE_USER)

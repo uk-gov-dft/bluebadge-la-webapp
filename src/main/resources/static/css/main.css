@@ -2920,18 +2920,19 @@ input, select {
   margin-left: -15px;
   padding-left: 65px; }
 
-.dft-container .dft-sidebar {
-  background-color: #eee; }
+.dft-container {
+  position: relative; }
+  .dft-container .dft-sidebar {
+    background-color: #eee; }
+    @media (min-width: 48.0625em) {
+      .dft-container .dft-sidebar {
+        width: 300px;
+        height: 100vh;
+        max-width: 300px;
+        position: absolute; } }
   @media (min-width: 48.0625em) {
-    .dft-container .dft-sidebar {
-      float: left;
-      width: 300px;
-      max-width: 300px;
-      min-height: 100vh; } }
-
-@media (min-width: 48.0625em) {
-  .dft-container .dft-main-wrapper {
-    padding: 50px 60px 50px 360px; } }
+    .dft-container .dft-main-wrapper {
+      padding: 50px 60px 50px 360px; } }
 
 .dft-o-grid__item--center {
   float: none;
@@ -2976,5 +2977,14 @@ input, select {
     .govuk-c-label--dft-la {
       font-size: 16px;
       line-height: 20px; } }
+
+.dft-actions-panel {
+  padding: 20px;
+  overflow: hidden;
+  background-color: #f8f8f8; }
+  .dft-actions-panel__cta-area {
+    float: right; }
+  .dft-actions-panel .govuk-c-button {
+    margin: 0; }
 
 /*# sourceMappingURL=main.css.map */
