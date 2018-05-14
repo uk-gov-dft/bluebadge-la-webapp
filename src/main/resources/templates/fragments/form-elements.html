@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    /* ---------------------------------------
+
+    * Input Field
+
+    -----------------------------------------*/
+
+    <div th:fragment="govuk-input(label, name, hint, errorMsg, type)"
+         th:class="${errorMsg} ? 'govuk-o-form-group govuk-o-form-group--error' : 'govuk-o-form-group'">
+
+        <label class="govuk-c-label" th:attr="for=${name}">
+
+            <span th:utext="${label}"
+                  th:data-uipath="${name} + '.label'"
+            />
+
+            <span class="govuk-c-label__hint"
+                  th:if="${hint}"
+                  th:utext="${hint}"
+                  th:data-uipath="${name} + '.label_hint'"
+            />
+        </label>
+
+        <span class="govuk-c-error-message"
+              th:if="${errorMsg}"
+              th:utext="${errorMsg}"
+              th:data-uipath="${name} + '.error'"
+              th:errors="*{name}"
+        />
+
+        <input class="govuk-c-input"
+               th:data-uipath="${name} + '.field'"
+               th:attr="id=${name}"
+               th:name="${name}"
+               th:type="type ? type : 'text'"
+               th:field="*{name}"
+        />
+
+    </div><!-- govuk-o-form-group -->
+
+</body>
+</html>
