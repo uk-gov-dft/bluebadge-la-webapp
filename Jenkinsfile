@@ -21,7 +21,10 @@ node {
         rtGradle.deployer repo:'gradle-release-local', server: server
 
     stage ('Gradle build') {
-        def buildInfo = rtGradle.run  tasks: 'build'
+          def gradleVersion = '-Pversion=' + version
+
+    def buildInfo = rtGradle.run switches: gradleVersion, tasks: 'build'
+
     }
 
     stage 'Publish build info'
