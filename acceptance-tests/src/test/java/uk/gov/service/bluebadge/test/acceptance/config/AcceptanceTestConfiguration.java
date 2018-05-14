@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import uk.gov.service.bluebadge.test.acceptance.pages.PageHelper;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.HomePage;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.NewsPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
@@ -83,11 +82,6 @@ public class AcceptanceTestConfiguration {
   @Bean
   public HomePage homePage(final WebDriverProvider webDriverProvider, final PageHelper pageHelper) {
     return new HomePage(webDriverProvider, pageHelper);
-  }
-
-  @Bean
-  public NewsPage newsPage(final WebDriverProvider webDriverProvider, PageHelper helper) {
-    return new NewsPage(webDriverProvider, helper);
   }
 
   @Bean
