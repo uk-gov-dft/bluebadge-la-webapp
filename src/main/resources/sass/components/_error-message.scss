@@ -1,12 +1,10 @@
 .govuk-c-error-message {
-    &--dft {
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
 
-        @include mq($from: tablet) {
-            font-size: 16px;
-            line-height: 20px;
-        }
+    @include mq($from: tablet) {
+        font-size: 16px;
+        line-height: 20px;
     }
 }

@@ -4,6 +4,25 @@
 
 <body>
 
+<div class="govuk-c-error-summary"
+     aria-labelledby="error-summary-title"
+     role="alert"
+     tabindex="-1"
+     th:fragment="govuk-error-summary(title)">
+
+    <h2 class="govuk-c-error-summary__title"
+        id="error-summary-title"
+        th:utext="${title}">
+        Fix the following errors:
+    </h2>
+
+    <div class="govuk-c-error-summary__body">
+        <ul class="govuk-list govuk-c-error-summary__list">
+            <li><a href="#full-name">Enter a full name</a></li>
+        </ul>
+    </div>
+</div>
+
 <!--
      Displays an error. Used when the error is not in the form itself (neither field related or global). I.e. when you want
      to display custom errors not related to the form.

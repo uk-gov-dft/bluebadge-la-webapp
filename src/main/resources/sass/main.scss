@@ -1,5 +1,9 @@
 @import "reset";
 
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
 @import "@govuk-frontend/all/all";
 
 @import "dft-layout";
