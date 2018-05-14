@@ -1,3 +1,5 @@
+def version = "${env.BUILD_NUMBER}"
+
 node {
 
     // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
