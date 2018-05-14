@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div layout:fragment="content">
+<main layout:fragment="content">
 
     <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
 
@@ -33,9 +33,9 @@
     <!-- Form Errors - End -->
 
     <form action="" method="post" novalidate>
-        <div class="govuk-o-form-group govuk-o-form-group--error">
+        <div class="govuk-o-form-group govuk-o-form-group--error govuk-o-form-group--error-dft">
             <label class="govuk-c-label govuk-!-width-one-half govuk-c-label--dft-la" for="full-name" data-uipath="full-name.label">Full Name</label>
-            <span class="govuk-c-error-message">Enter a full name</span>
+            <span class="govuk-c-error-message govuk-c-error-message--dft">Enter a full name</span>
             <input class="govuk-c-input govuk-!-width-one-half" id="full-name" name="full-name" type="text" data-uipath="full-name.field" />
         </div>
 
@@ -46,7 +46,7 @@
 
         <input value="Create user" type="submit" class="govuk-c-button">
     </form>
-</div>
+</main>
 
 </body>
 </html>
