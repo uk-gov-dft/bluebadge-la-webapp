@@ -56,8 +56,11 @@ public class UserControllerImpl implements UserController {
         }
       }
       return showAccessDenied(formRequest, model);
-    } catch (GeneralServiceException ex) {
-      logger.error("There was a general controller exception", ex);
+    } catch (GeneralServiceException gex) {
+      logger.error("There was a general controller exception", gex);
+      return showServerError(formRequest, model);
+    } catch (Exception ex) {
+      logger.error("There was an unexpected exception", ex);
       return showServerError(formRequest, model);
     }
   }
@@ -101,4 +104,4 @@ public class UserControllerImpl implements UserController {
     model.addAttribute("serverError", true);
     return TEMPLATE_SIGN_IN;
   }
-  }
+}

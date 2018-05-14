@@ -1,5 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.aspect;
 
+import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,11 +12,6 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Aspect
 @Component
@@ -34,11 +33,13 @@ public class LoggingAspect {
     CodeSignature signature = (CodeSignature) joinPoint.getSignature();
 
     List<String> parameterNames = Arrays.asList(signature.getParameterNames());
-    List<String> parameterValues =
-        Arrays.asList(joinPoint.getArgs())
-            .stream()
-            .map(Object::toString)
-            .collect(Collectors.toList());
+    List<String> parameterValues = Lists.newArrayList();
+
+    if (joinPoint.getArgs() != null) {
+      for (Object arg : joinPoint.getArgs()) {
+        parameterValues.add(arg.toString());
+      }
+    }
     StringBuilder paramDebugInfo = new StringBuilder();
     Iterator<String> paramNamesIterator = parameterNames.iterator();
     Iterator<String> paramValuesIterator = parameterValues.iterator();
@@ -49,10 +50,14 @@ public class LoggingAspect {
       paramDebugInfo.append(parameterName).append(": ").append(parameterValue).append(", ");
     }
     String declaringType = signature.getDeclaringTypeName();
+    String declaringTypeName = "";
+    if (declaringType != null) {
+      declaringTypeName = declaringType.substring(declaringType.lastIndexOf(".") + 1);
+    }
 
     logger.debug(
         "***** Starting: {}.{} with *****",
-        declaringType.substring(declaringType.lastIndexOf(".") + 1),
+        declaringTypeName,
         signature.getName(),
         paramDebugInfo.toString(),
         signature.toString());

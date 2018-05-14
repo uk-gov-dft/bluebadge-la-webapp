@@ -16,7 +16,6 @@ import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
-import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserControllerTest {
 
