@@ -37,7 +37,7 @@
      tabindex="-1"
      th:if="${#fields.hasErrors('formRequest.*')}">
 
-        <h2 data-uipath="error-title" id="error-title" class="govuk-c-error-summary__title">Fix the following errors</h2>
+        <h2 data-uipath="error-title" id="error-title" class="govuk-c-error-summary__title" th:text="#{error.form.summary.title}"></h2>
 
         <div class="govuk-c-error-summary__body">
 
