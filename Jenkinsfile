@@ -21,7 +21,7 @@ node {
         rtGradle.deployer repo:'gradle-release-local', server: server
 
     stage ('Gradle build') {
-        def buildInfo = rtGradle.run  tasks: 'clean wrapper build artifactoryPublish'
+        def buildInfo = rtGradle.run  tasks: 'build artifactoryPublish'
     }
 
     stage 'Publish build info'
