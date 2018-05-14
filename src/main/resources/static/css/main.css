@@ -2924,28 +2924,44 @@ input, select {
   float: none;
   margin: auto; }
 
-.dft-la-topbar {
+.dft-topbar {
   color: white;
-  padding: 19px 15px;
-  background-color: #0b0c0c; }
-  .dft-la-topbar__logo {
+  background-color: #0b0c0c;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "nta", Arial, sans-serif; }
+  .dft-topbar__wrapper {
+    padding: 20px 30px; }
+  .dft-topbar__title {
     color: #fff;
-    display: block;
     font-size: 19px;
     font-weight: 700;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: "nta", Arial, sans-serif; }
-    .dft-la-topbar__logo:hover {
+    display: inline-block;
+    text-decoration: none; }
+    .dft-topbar__title:hover {
       text-decoration: underline; }
+  .dft-topbar--logged-in .dft-topbar__title {
+    font-weight: 400; }
+  .dft-topbar--logged-in .dft-topbar__la-name {
+    font-weight: 700; }
+  .dft-topbar__menu {
+    float: right;
+    color: #ffff; }
+  .dft-topbar__signout {
+    color: #fff;
+    margin-left: 5px; }
 
-.dft-login-wrapper {
-  max-width: 400px;
-  margin: auto; }
+@media (min-width: 40.0625em) {
+  .dft-login-wrapper {
+    max-width: 400px;
+    margin: 50px auto 0 auto; } }
 
-.dft-c-label {
-  font-size: 16px;
-  line-height: 20px; }
+.govuk-c-label--dft-la {
+  font-size: 14px;
+  line-height: 16px; }
+  @media (min-width: 40.0625em) {
+    .govuk-c-label--dft-la {
+      font-size: 16px;
+      line-height: 20px; } }
 
 /*# sourceMappingURL=main.css.map */
