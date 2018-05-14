@@ -25,6 +25,9 @@
 
             <h1 class="govuk-heading-l">Sign in</h1>
 
+            <!-- This error should an info once we clarify the style -->
+            <div th:insert="~{fragments/errors :: general-form-error(${signedOut}, #{info.form.global.signedOut.title}, #{info.form.global.signedOut.description})}"/>
+
             <div th:insert="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}"/>
 
             <div th:insert="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}"/>
