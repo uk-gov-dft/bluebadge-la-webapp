@@ -3,10 +3,12 @@
 <head>
     <title>GOV.UK Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="main.css" th:href="@{/css/main.css}">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 </head>
 <body>
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
     <header layout:fragment="topbar" class="dft-topbar dft-topbar--logged-in">
         <div class="dft-topbar__wrapper">
@@ -29,6 +31,5 @@
         <main class="govuk-o-main-wrapper" layout:fragment="content" />
 
     </div>
-
 </body>
 </html>
