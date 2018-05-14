@@ -12,7 +12,6 @@ import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
-import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
 public class UserControllerImpl implements UserController {
@@ -27,13 +26,11 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
 
-  private UserService userService;
-
   private UserManagementService userManagementService;
 
   @Autowired
-  public UserControllerImpl(UserService userService) {
-    this.userService = userService;
+  public UserControllerImpl(UserManagementService userManagementService) {
+    this.userManagementService = userManagementService;
   }
 
   @GetMapping(URL_SIGN_IN)
@@ -50,7 +47,7 @@ public class UserControllerImpl implements UserController {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
       } else {
-        if (userService.isAuthorised(formRequest.getEmail(), formRequest.getPassword())) {
+        if (userManagementService.checkUserExistsForEmail(formRequest.getEmail())) {
           return "redirect:" + URL_HOME + "?email=" + formRequest.getEmail();
         }
       }
@@ -86,10 +83,5 @@ public class UserControllerImpl implements UserController {
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("accessDenied", true);
     return TEMPLATE_SIGN_IN;
-  }
-
-  @GetMapping("/decorated")
-  public String decorated() {
-    return "decorated";
   }
 }
