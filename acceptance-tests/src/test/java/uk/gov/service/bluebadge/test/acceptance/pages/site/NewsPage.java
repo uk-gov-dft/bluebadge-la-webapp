@@ -5,17 +5,14 @@ import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
 
 public class NewsPage extends AbstractSitePage {
 
-    private PageHelper helper;
+  private PageHelper helper;
 
+  public NewsPage(WebDriverProvider webDriverProvider, final PageHelper helper) {
+    super(webDriverProvider);
+    this.helper = helper;
+  }
 
-    public NewsPage(WebDriverProvider webDriverProvider, final PageHelper helper) {
-        super(webDriverProvider);
-        this.helper = helper;
-    }
-
-    public String getPageTitle() {
-        return getWebDriver().getTitle();
-    }
-
-
+  public String getPageTitle() {
+    return getWebDriver().getTitle();
+  }
 }
