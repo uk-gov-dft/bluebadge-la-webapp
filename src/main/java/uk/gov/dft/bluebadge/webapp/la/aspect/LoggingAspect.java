@@ -1,9 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.aspect;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +8,11 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Aspect
 @Component
@@ -47,9 +48,11 @@ public class LoggingAspect {
       String parameterValue = paramValuesIterator.next();
       paramDebugInfo.append(parameterName).append(": ").append(parameterValue).append(", ");
     }
+    String declaringType = signature.getDeclaringTypeName();
 
     logger.debug(
-        "***** Starting: {} with *****",
+        "***** Starting: {}.{} with *****",
+        declaringType.substring(declaringType.lastIndexOf(".") + 1),
         signature.getName(),
         paramDebugInfo.toString(),
         signature.toString());
