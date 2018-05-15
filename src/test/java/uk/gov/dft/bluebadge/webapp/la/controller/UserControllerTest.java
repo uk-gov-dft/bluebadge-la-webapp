@@ -150,14 +150,4 @@ public class UserControllerTest {
         .andExpect(model().attribute("formRequest", emptySignInFormRequest))
         .andExpect(model().attribute("expiredSession", true));
   }
-
-  @Test
-  public void shouldDisplaySignedOut() throws Exception {
-    mockMvc
-        .perform(get("/signed-out"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("signedOut", true));
-  }
 }

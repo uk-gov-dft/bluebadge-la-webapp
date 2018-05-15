@@ -39,7 +39,11 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_SIGN_IN)
-  public String showSignIn(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showSignIn(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
+    if (session.getAttribute("email") != null) {
+      return "redirect:" + URL_HOME;
+    }
     return TEMPLATE_SIGN_IN;
   }
 
@@ -74,18 +78,11 @@ public class UserControllerImpl implements UserController {
   public String signOut(HttpSession session) {
     try {
       session.invalidate();
-      return "redirect:" + URL_SIGNED_OUT;
+      return "redirect:" + URL_SIGN_IN;
     } catch (GeneralServiceException ex) {
       logger.error("There was a general controller exception", ex);
       throw new GeneralControllerException("There was a general controller exception", ex);
     }
-  }
-
-  @GetMapping(URL_SIGNED_OUT)
-  public String showSignedOut(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("signedOut", true);
-    return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_EXPIRED_SESSION)
