@@ -17,7 +17,7 @@
             </a>
 
             <div class="dft-topbar__menu">
-                <span th:data-uipath="username" class="dft-topbar__username">Ali Ashik</span>
+                <span th:data-uipath="username" class="dft-topbar__username" th:text="${session.email}"></span>
                 <a th:data-uipath="signout" class="dft-topbar__signout" href="/signed-out">Sign out</a>
             </div>
 
