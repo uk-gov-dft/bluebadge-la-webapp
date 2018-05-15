@@ -35,10 +35,16 @@ public class HomeControllerTest {
   }
 
   @Test
-  public void shouldDisplayHomePageAndEmail_WhenUserIsSignedIn() throws Exception {
+  public void shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn() throws Exception {
     mockMvc
         .perform(get("/").sessionAttr("email", "joeBlogs"))
         .andExpect(status().isOk())
-        .andExpect(view().name("home"));
+        .andExpect(view().name("home"))
+        .andExpect(model().attribute("email", "joeBlogs"));
+  }
+
+  @Test
+  public void shouldRedirectToSignInPage_WhenUserIsNotSignedIn() throws Exception {
+    mockMvc.perform(get("/")).andExpect(status().isFound()).andExpect(redirectedUrl("/sign-in"));
   }
 }
