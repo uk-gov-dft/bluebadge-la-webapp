@@ -37,7 +37,7 @@ public class LoggingAspect {
 
     if (joinPoint.getArgs() != null) {
       for (Object arg : joinPoint.getArgs()) {
-        parameterValues.add(arg.toString());
+        parameterValues.add(String.valueOf(arg));
       }
     }
     StringBuilder paramDebugInfo = new StringBuilder();
