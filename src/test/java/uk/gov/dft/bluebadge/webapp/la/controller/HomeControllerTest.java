@@ -38,9 +38,8 @@ public class HomeControllerTest {
   @Test
   public void shouldDisplayHomePage() throws Exception {
     mockMvc
-        .perform(get("/?email=joe@bloggs.com"))
+        .perform(get("/"))
         .andExpect(status().isOk())
-        .andExpect(view().name("home"))
-        .andExpect(model().attribute("email", is("joe@bloggs.com")));
+        .andExpect(view().name("home"));
   }
 }
