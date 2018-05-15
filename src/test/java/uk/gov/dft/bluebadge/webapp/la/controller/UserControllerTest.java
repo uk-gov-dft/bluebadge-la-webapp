@@ -66,7 +66,7 @@ public class UserControllerTest {
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
-        .andExpect(view().name("redirect:/?email=" + EMAIL));
+        .andExpect(view().name("redirect:/"));
   }
 
   @Test
