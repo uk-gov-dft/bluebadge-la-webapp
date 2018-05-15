@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,17 +52,16 @@ public class UserControllerImpl implements UserController {
   public String signIn(
       @Valid @ModelAttribute("formRequest") final SignInFormRequest formRequest,
       BindingResult bindingResult,
-      Model model) {
+      Model model,
+      HttpSession session) {
     try {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
       } else {
-        if ((formRequest.getEmail().startsWith("serverError"))) {
-          logger.error("There was a general controller exception");
-          return showServerError(formRequest, model);
-        }
-        if (userService.isAuthorised(formRequest.getEmail(), formRequest.getPassword())) {
-          return "redirect:" + URL_HOME + "?email=" + formRequest.getEmail();
+        String email = formRequest.getEmail();
+        if (userService.isAuthorised(email, formRequest.getPassword())) {
+          session.setAttribute("email", email);
+          return "redirect:" + URL_HOME;
         }
       }
       return showAccessDenied(formRequest, model);
@@ -73,9 +73,9 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @GetMapping(URL_SIGN_OUT)
-  public String signOut() {
+  public String signout(HttpSession session) {
     try {
-      // Sign out
+      session.invalidate();
       return "redirect:" + URL_SIGNED_OUT;
     } catch (GeneralServiceException ex) {
       logger.error("There was a general controller exception", ex);
