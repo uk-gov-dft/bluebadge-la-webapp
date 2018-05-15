@@ -2972,6 +2972,10 @@ input, select {
   .dft-topbar__signout {
     color: #fff;
     margin-left: 5px; }
+    .dft-topbar__signout:focus {
+      outline: 3px solid #ffbf47;
+      outline-offset: 0;
+      background-color: #ffbf47; }
 
 .dft-login-wrapper {
   max-width: 400px;
@@ -3015,13 +3019,32 @@ input, select {
   font-size: 16px;
   line-height: 20px; }
 
+.dft-badge {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "nta", Arial, sans-serif; }
+  .dft-badge--heading {
+    display: inline-block;
+    color: #6f777b; }
+  @media (min-width: 40.0625em) {
+    .dft-badge {
+      font-size: 19px;
+      line-height: 25px; } }
+
 body::before {
-  content: "mobile"; }
+  content: "DEBUGGER - MOBILE VIEW";
+  background-color: red;
+  color: white;
+  display: block;
+  font-size: 16px; }
   @media (min-width: 40.0625em) {
     body::before {
-      content: "tablet"; } }
+      content: "DEBUGGER - TABLET VIEW"; } }
   @media (min-width: 48.0625em) {
     body::before {
-      content: "desktop"; } }
+      content: "DEBUGGER - DESKTOP VIEW"; } }
 
 /*# sourceMappingURL=main.css.map */

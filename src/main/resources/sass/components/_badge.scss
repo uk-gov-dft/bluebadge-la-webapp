@@ -1,7 +1,18 @@
 .dft-badge {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: "nta", Arial, sans-serif;
 
     &--heading {
-
+        display: inline-block;
+        color: $govuk-secondary-text-colour;
     }
 
+    @include mq($from: tablet) {
+        font-size: 19px;
+        line-height: 25px;
+    }
 }

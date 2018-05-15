@@ -19,14 +19,22 @@
 @import "components/table";
 @import "components/badge";
 
-body::before {
-    content: "mobile";
+$debug: true;
 
-    @include mq(tablet) {
-        content: "tablet";
-    }
+@if($debug){
+    body::before {
+        content: "DEBUGGER - MOBILE VIEW";
+        background-color: red;
+        color: white;
+        display:block;
+        font-size: 16px;
 
-    @include mq(desktop) {
-        content: "desktop";
+        @include mq(tablet) {
+            content: "DEBUGGER - TABLET VIEW";
+        }
+
+        @include mq(desktop) {
+            content: "DEBUGGER - DESKTOP VIEW";
+        }
     }
 }
