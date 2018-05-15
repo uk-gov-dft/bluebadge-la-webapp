@@ -15,6 +15,7 @@
     <div class="govuk-o-grid">
         <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
+            <div th:replace="~{ fragments/errors :: govuk-error-summary('this is a test', 'some error message') }" />
 
             <!-- Form Errors -->
             <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">

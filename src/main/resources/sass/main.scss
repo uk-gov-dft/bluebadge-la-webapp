@@ -16,3 +16,17 @@
 @import "components/form";
 @import "components/error-message";
 @import "components/actions-panel";
+@import "components/table";
+@import "components/badge";
+
+body::before {
+    content: "mobile";
+
+    @include mq(tablet) {
+        content: "tablet";
+    }
+
+    @include mq(desktop) {
+        content: "desktop";
+    }
+}

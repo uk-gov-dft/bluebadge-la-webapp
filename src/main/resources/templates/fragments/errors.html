@@ -8,7 +8,7 @@
      aria-labelledby="error-summary-title"
      role="alert"
      tabindex="-1"
-     th:fragment="govuk-error-summary(title)">
+     th:fragment="govuk-error-summary(title, errorMsg)">
 
     <h2 class="govuk-c-error-summary__title"
         id="error-summary-title"
@@ -16,11 +16,8 @@
         Fix the following errors:
     </h2>
 
-    <div class="govuk-c-error-summary__body">
-        <ul class="govuk-list govuk-c-error-summary__list">
-            <li><a href="#full-name">Enter a full name</a></li>
-        </ul>
-    </div>
+    <div class="govuk-c-error-summary__body" th:utext="${errorMsg}" />
+
 </div>
 
 <!--

@@ -68,7 +68,7 @@ gulp.task('clean:css', () => del.sync(['./assets/dist/css/**']));
 
 gulp.task('sass', ['clean:css'], () => {
 
-	return gulp.src(PATH.sourceAssets.sass)
+	return gulp.src('./src/main/resources/sass/**/*.scss')
 		//.pipe(linter)
 		.pipe(sass({
 			includePaths: 'node_modules'
