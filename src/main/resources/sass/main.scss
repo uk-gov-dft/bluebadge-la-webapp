@@ -19,7 +19,7 @@
 @import "components/table";
 @import "components/badge";
 
-$debug: true;
+$debug: false;
 
 @if($debug){
     body::before {

@@ -15,25 +15,7 @@
     <div class="govuk-o-grid">
         <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary('this is a test', 'some error message') }" />
-
-            <!-- Form Errors -->
-            <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
-                <h2 class="govuk-c-error-summary__title" id="error-summary-title">Fix the following errors:</h2>
-
-                <div class="govuk-c-error-summary__body">
-                    <ul class="govuk-list govuk-c-error-summary__list">
-                        <li><a href="#full-name">Enter a full name</a></li>
-                        <li><a href="#email">Enter an email address</a></li>
-
-                        <li><a href="#email">Email address already exists</a></li>
-
-                        <li><a href="#full-name">Enter a valid full name</a></li>
-                        <li><a href="#email">Enter a valid email address</a></li>
-                    </ul>
-                </div>
-            </div>
-
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(true, 'Fix the following errors:', 'some error message') }" />
 
             <div class="govuk-o-grid">
                 <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">

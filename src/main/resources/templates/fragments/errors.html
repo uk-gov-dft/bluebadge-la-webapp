@@ -5,20 +5,52 @@
 <body>
 
 <div class="govuk-c-error-summary"
-     aria-labelledby="error-summary-title"
-     role="alert"
      tabindex="-1"
-     th:fragment="govuk-error-summary(title, errorMsg)">
+     role="alert"
+     th:aria-labelledby="error-summary-title"
+     th:if="${error}"
+     th:fragment="govuk-error-summary(error, fieldErrors)">
 
-    <h2 class="govuk-c-error-summary__title"
-        id="error-summary-title"
-        th:utext="${title}">
-        Fix the following errors:
-    </h2>
+    <h2 th:if="${error.title}" class="govuk-c-error-summary__title" id="error-summary-title" th:utext="${error.title}" />
 
-    <div class="govuk-c-error-summary__body" th:utext="${errorMsg}" />
+    <div th:if="error.description" class="govuk-c-error-summary__body" th:utext="${error.description}" />
+
+    <div th:if="fieldErrors" class="govuk-c-error-summary__body">
+
+        <ul class="govuk-list govuk-c-error-summary__list"
+            th:if="${fieldErrors.hasErrors('formRequest.*')}"
+        >
+
+            <li data-uipath="error"
+                th:each="err : ${fieldErrors.detailedErrors('formRequest.*')}"
+                th:if="${!err.isGlobal()}"
+            >
+
+                <a href="#"
+                   th:href="'#' + ${err.fieldName}"
+                   th:text="${err.message}"
+                />
+
+            </li>
+
+        </ul>
+
+    </div>
 
 </div>
+
+<!--<div class="govuk-c-error-summary"
+     tabindex="-1"
+     role="alert"
+     th:aria-labelledby="error-summary-title"
+     th:if="${error}"
+     th:fragment="govuk-error-summary-2(error)">
+    <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${error.title}"></h2>
+
+    <div th:if="error.length > 0"></div>
+
+    <div th:if="error" class="govuk-c-error-summary__body" th:utext="${error.description}" />
+</div>-->
 
 <!--
      Displays an error. Used when the error is not in the form itself (neither field related or global). I.e. when you want
@@ -33,11 +65,9 @@
      role="alert"
      th:aria-labelledby="error-summary-title"
      th:if="${shouldShow}"
-     th:fragment="general-form-error(shouldShow, title, description)">
+     th:fragment="govuk-error-summary(shouldShow, title, description)">
         <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${title}"></h2>
-        <div class="govuk-c-error-summary__body">
-            <p th:utext="${description}"></p>
-        </div>
+        <div class="govuk-c-error-summary__body" th:utext="${description}" />
 </div>
 
 <!--
@@ -58,10 +88,6 @@
         <div class="govuk-c-error-summary__body">
 
         <ul class="govuk-list govuk-c-error-summary__list" th:if="${fields.hasErrors('formRequest.*')}">
-
-            <li data-uipath="error" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${err.isGlobal()}">
-                <span th:utext="${err.message}">Input is incorrect</span>
-            </li>
 
             <li data-uipath="error" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${!err.isGlobal()}">
                 <a href="#" th:href="'#' + ${err.fieldName}">

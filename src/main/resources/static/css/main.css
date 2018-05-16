@@ -3034,17 +3034,4 @@ input, select {
       font-size: 19px;
       line-height: 25px; } }
 
-body::before {
-  content: "DEBUGGER - MOBILE VIEW";
-  background-color: red;
-  color: white;
-  display: block;
-  font-size: 16px; }
-  @media (min-width: 40.0625em) {
-    body::before {
-      content: "DEBUGGER - TABLET VIEW"; } }
-  @media (min-width: 48.0625em) {
-    body::before {
-      content: "DEBUGGER - DESKTOP VIEW"; } }
-
 /*# sourceMappingURL=main.css.map */
