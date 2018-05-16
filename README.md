@@ -25,8 +25,25 @@ From browser:
 ```
 
 ### BUILD
+
+#### DEPENDENCIES
+This project depends on some usermanagement-service artifacts that you have to build and install in your maven local
+repository before (Eventually this will not be needed but for the time being it works like this):
+
+```
+cd usermanagement-service
+git pull
+git checkout whateverbranch
+cd model
+gradle install
+cd ../client
+gradle install
+```
+
+
 ```
 ./gradlew build
+
 ```
 
 ### CONTINUOUS BUILD
