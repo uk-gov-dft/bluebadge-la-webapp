@@ -12,13 +12,13 @@
 
         <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-        <div th:replace="~{fragments/errors :: govuk-error-summary(${error}, ${#fields})}" />
+        <div th:replace="~{ fragments/errors :: govuk-error-summary(null, null) }" />
 
         <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-            <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, 'email', 'Email address', 'email')}" />
+            <div th:replace="~{ fragments/form-elements :: govuk-input('Email Address', 'email', null, 'email') }"/>
 
-            <div th:replace="~{fragments/errors ::  form-field-input(${#fields}, ' ***REMOVED*** />
+            <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
 
             <input data-uipath="button" value="Sign in" type="submit" class="govuk-c-button">
 

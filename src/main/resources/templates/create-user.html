@@ -15,17 +15,16 @@
     <div class="govuk-o-grid">
         <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(true, 'Fix the following errors:', 'some error message') }" />
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(null, null) }" />
 
             <div class="govuk-o-grid">
                 <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-                    <!-- Form Errors - End -->
                     <form novalidate>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'full-name', null, null, 'text') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'full-name', null, 'text') }"/>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, null, 'email') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
 
                         <input value="Create user" type="submit" class="govuk-c-button">
                     </form>

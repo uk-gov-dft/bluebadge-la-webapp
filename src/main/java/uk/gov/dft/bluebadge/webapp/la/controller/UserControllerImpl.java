@@ -55,6 +55,8 @@ public class UserControllerImpl implements UserController {
       @Valid @ModelAttribute("formRequest") final SignInFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
+      model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
+
     try {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
@@ -97,6 +99,7 @@ public class UserControllerImpl implements UserController {
   public String showExpiredSession(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("expiredSession", true);
+    model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -105,7 +108,7 @@ public class UserControllerImpl implements UserController {
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("accessDenied", true);
 
-    model.addAttribute("error", new ErrorViewModel("Access Denied", "We're having problems signing you in. Please try again, or visit our <a href=\"/contact\">service status page.</a>"));
+    model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "We're having problems signing you in. Please try again, or visit our <a href=\"/contact\">service status page.</a>"));
     return TEMPLATE_SIGN_IN;
   }
 

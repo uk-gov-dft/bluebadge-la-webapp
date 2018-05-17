@@ -5,6 +5,10 @@ public class ErrorViewModel {
     public String title;
     public String description;
 
+    public ErrorViewModel(String title) {
+        this.title = title;
+    }
+
     public ErrorViewModel(String title, String description) {
         this.title = title;
         this.description  = description;

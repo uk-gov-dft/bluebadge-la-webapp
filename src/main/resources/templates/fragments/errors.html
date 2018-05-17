@@ -4,99 +4,49 @@
 
 <body>
 
-<div class="govuk-c-error-summary"
-     tabindex="-1"
-     role="alert"
-     th:aria-labelledby="error-summary-title"
-     th:if="${error}"
-     th:fragment="govuk-error-summary(error, fieldErrors)">
+/* ------------------------------------------------------------------------------
 
-    <h2 th:if="${error.title}" class="govuk-c-error-summary__title" id="error-summary-title" th:utext="${error.title}" />
+* Error Summary
 
-    <div th:if="error.description" class="govuk-c-error-summary__body" th:utext="${error.description}" />
+@title - String: Overrides default error title
+@description - String: Adds description message to the error summary
 
-    <div th:if="fieldErrors" class="govuk-c-error-summary__body">
+Individual input field errors will be displayed automatically
+if form validation fails. These errors are included inside the fields
+variable which comes from Thymleaf / Spring integration.
 
-        <ul class="govuk-list govuk-c-error-summary__list"
-            th:if="${fieldErrors.hasErrors('formRequest.*')}"
-        >
 
-            <li data-uipath="error"
-                th:each="err : ${fieldErrors.detailedErrors('formRequest.*')}"
-                th:if="${!err.isGlobal()}"
-            >
+-------------------------------------------------------------------------------- */
 
-                <a href="#"
-                   th:href="'#' + ${err.fieldName}"
-                   th:text="${err.message}"
-                />
-
-            </li>
-
-        </ul>
-
-    </div>
-
-</div>
-
-<!--<div class="govuk-c-error-summary"
-     tabindex="-1"
-     role="alert"
-     th:aria-labelledby="error-summary-title"
-     th:if="${error}"
-     th:fragment="govuk-error-summary-2(error)">
-    <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${error.title}"></h2>
-
-    <div th:if="error.length > 0"></div>
-
-    <div th:if="error" class="govuk-c-error-summary__body" th:utext="${error.description}" />
-</div>-->
-
-<!--
-     Displays an error. Used when the error is not in the form itself (neither field related or global). I.e. when you want
-     to display custom errors not related to the form.
-
-     shouldShow: Boolean to control if the error should be displayed or not
-     title: The error has two parts the title and the description, this is the title
-     description: The error has two parts the title and the description, this is the description
--->
-<div class="govuk-c-error-summary"
-     tabindex="-1"
-     role="alert"
-     th:aria-labelledby="error-summary-title"
-     th:if="${shouldShow}"
-     th:fragment="govuk-error-summary(shouldShow, title, description)">
-        <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${title}"></h2>
-        <div class="govuk-c-error-summary__body" th:utext="${description}" />
-</div>
-
-<!--
-    Generates a div with all the errors of a form that can be retrieved via "fields" which represents BindingResult in Spring MVC.
-
-    fields: It is the the binding result that allows access to the errors in the form. This is the BindingResult class in Spring MVC.
--->
-
-<div th:fragment="form-field-errors(fields)"
+<div th:fragment="govuk-error-summary(title, description)" tabindex="-1" role="alert"
      class="govuk-c-error-summary"
-     th:aria-labelledby="error-title"
-     role="alert"
-     tabindex="-1"
-     th:if="${#fields.hasErrors('formRequest.*')}">
+     th:aria-labelledby="error-summary-title"
+     th:if="${title} OR ${description} OR ${#fields.hasErrors('formRequest.*')}">
 
-        <h2 data-uipath="error-title" id="error-title" class="govuk-c-error-summary__title">Fix the following errors</h2>
+    <h2 class="govuk-c-error-summary__title"
+        id="error-summary-title"
+        th:utext="${title} ? ${title} : 'Fix the following errors:'" />
 
-        <div class="govuk-c-error-summary__body">
+    <div th:if="${description}"
+         th:utext="${description}"
+         class="govuk-c-error-summary__body" />
 
-        <ul class="govuk-list govuk-c-error-summary__list" th:if="${fields.hasErrors('formRequest.*')}">
+    <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
 
-            <li data-uipath="error" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${!err.isGlobal()}">
-                <a href="#" th:href="'#' + ${err.fieldName}">
-                    <span th:text="${err.message}">Input is incorrect</span>
-                </a>
+        <ul class="govuk-list govuk-c-error-summary__list">
+
+            <li th:if="${!err.isGlobal()}"
+                th:each="err : ${#fields.detailedErrors('formRequest.*')}"
+                th:data-uipath="${err.fieldName} + '.summary-error'">
+
+                <a th:href="'#' + ${err.fieldName}" th:text="${err.message}"/>
+
             </li>
 
         </ul>
+
     </div>
+
 </div>
 
 <!--
