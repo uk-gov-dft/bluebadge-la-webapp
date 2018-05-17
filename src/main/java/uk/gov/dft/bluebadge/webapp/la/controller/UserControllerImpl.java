@@ -2,6 +2,8 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -52,8 +55,8 @@ public class UserControllerImpl implements UserController {
   public String signIn(
       @Valid @ModelAttribute("formRequest") final SignInFormRequest formRequest,
       BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+      Model model) {
+      model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
     try {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
@@ -94,6 +97,7 @@ public class UserControllerImpl implements UserController {
   public String showExpiredSession(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("expiredSession", true);
+    model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -101,6 +105,8 @@ public class UserControllerImpl implements UserController {
   public String showAccessDenied(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("accessDenied", true);
+
+    model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "We're having problems signing you in. Please try again, or visit our <a href=\"/contact\">service status page.</a>"));
     return TEMPLATE_SIGN_IN;
   }
 

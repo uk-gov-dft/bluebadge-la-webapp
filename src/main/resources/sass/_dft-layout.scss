@@ -19,7 +19,11 @@
             padding: 50px 60px 50px 360px;
         }
 
+        @include mq(tablet, desktop) {
+            .govuk-o-grid__item--two-thirds {
+                width: 100%;
+            }
+        }
     }
-
 
 }

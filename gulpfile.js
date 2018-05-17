@@ -68,10 +68,14 @@ gulp.task('clean:css', () => del.sync(['./assets/dist/css/**']));
 
 gulp.task('sass', ['clean:css'], () => {
 
-	return gulp.src(PATH.sourceAssets.sass)
+	return gulp.src('./src/main/resources/sass/**/*.scss')
 		//.pipe(linter)
 		.pipe(sass({
-			includePaths: 'node_modules'
+			includePaths: [
+			    /* 'govuk_modules/govuk_frontend_toolkit/stylesheets', */
+			    'node_modules/govuk_template_jinja/assets/stylesheets',
+			    'node_modules'
+			]
 		}).on('error', sass.logError))
 		.pipe(gulpIf(isDev, sourcemaps.init()))
 		.pipe(autoprefixer()) // needs to go down to iE8 ?
