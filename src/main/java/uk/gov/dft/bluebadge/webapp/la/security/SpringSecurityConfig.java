@@ -22,8 +22,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .disable()
         .authorizeRequests()
         //        .antMatchers("**")
-        //.antMatchers("/", "/home", "/about")
+        // .antMatchers("/", "/home", "/about")
         .antMatchers(
+            "*",
             "/development/**",
             "/access-denied",
             "/signed-out",

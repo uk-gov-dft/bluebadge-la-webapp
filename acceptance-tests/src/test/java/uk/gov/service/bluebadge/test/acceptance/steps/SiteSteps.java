@@ -169,14 +169,14 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I can click Sign in button$")
   public void andICanClickSignInButton() throws Throwable {
-    signInPage.findElementByXpath("/html/body/div/main/div/form/a[2]/input").click();
+    signInPage.findElementWithUiPath("button").click();
   }
 
   @Then("^I should see the validation message \"([^\"]*)\"$")
   public void thenIShouldSeeTheValidationMessage(String validation) throws Throwable {
     assertThat(
         "Validation message expected",
-        signInPage.getDocumentContent(),
+        signInPage.findElementWithUiPath("error").getText(),
         getMatcherForText(validation));
   }
 
@@ -203,5 +203,29 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I select No$")
   public void iSelectNo() throws Throwable {
     sitePage.findPageElementById("renewal-or-new-application-new").click();
+  }
+
+  @And("^I should see LA name as \"([^\"]*)\"$")
+  public void iShouldSeeLANameAs(String la) throws Throwable {
+    assertThat(
+        "LA name expected",
+        signInPage.findElementWithUiPath("la-name").getText(),
+        getMatcherForText(la));
+  }
+
+  @And("^I should see username as \"([^\"]*)\"$")
+  public void iShouldSeeUsernameAs(String username) throws Throwable {
+    assertThat(
+        "Username expected",
+        signInPage.findElementWithUiPath("username").getText(),
+        getMatcherForText(username));
+  }
+
+  @And("^I should see signout link$")
+  public void iShouldSeeSignoutLink() throws Throwable {
+    assertThat(
+        "Sign out link expected",
+        signInPage.findElementWithUiPath("signout").getText(),
+        getMatcherForText("Sign out"));
   }
 }

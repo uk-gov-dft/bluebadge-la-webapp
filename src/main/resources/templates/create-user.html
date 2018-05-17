@@ -15,14 +15,14 @@
     <div class="govuk-o-grid">
         <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(null, null) }" />
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
             <div class="govuk-o-grid">
                 <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-                    <form novalidate>
+                    <form  th:action="@{/create-user}" th:object="${formRequest}" method="post" novalidate>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'full-name', null, 'text') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'fullName', null, 'text') }"/>
 
                         <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
 

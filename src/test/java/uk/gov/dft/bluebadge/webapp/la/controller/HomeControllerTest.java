@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -36,11 +35,16 @@ public class HomeControllerTest {
   }
 
   @Test
-  public void shouldDisplayHomePage() throws Exception {
+  public void shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn() throws Exception {
     mockMvc
-        .perform(get("/?email=joe@bloggs.com"))
+        .perform(get("/").sessionAttr("email", "joeBlogs"))
         .andExpect(status().isOk())
         .andExpect(view().name("home"))
-        .andExpect(model().attribute("email", is("joe@bloggs.com")));
+        .andExpect(model().attribute("email", "joeBlogs"));
+  }
+
+  @Test
+  public void shouldRedirectToSignInPage_WhenUserIsNotSignedIn() throws Exception {
+    mockMvc.perform(get("/")).andExpect(status().isFound()).andExpect(redirectedUrl("/sign-in"));
   }
 }

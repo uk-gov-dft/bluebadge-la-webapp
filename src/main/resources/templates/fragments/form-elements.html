@@ -28,16 +28,16 @@
         </label>
 
         <span class="govuk-c-error-message"
-              th:data-uipath="${name} + '.error'" />
-              <!--th:if="${#fields.hasErrors(name)}"
-              th:errors="*{__${name}__}" />-->
+              th:data-uipath="${name} + '.error'"
+              th:if="${#fields.hasErrors(name)}"
+              th:errors="*{__${name}__}" />
 
         <input class="govuk-c-input"
                th:data-uipath="${name} + '.field'"
                th:attr="id=${name}"
                th:name="${name}"
-               th:type="type ? type : 'text'">
-               <!--th:field="*{__${name}__}" -->
+               th:type="type ? type : 'text'"
+               th:field="*{__${name}__}" />
 
     </div><!-- govuk-o-form-group -->
 

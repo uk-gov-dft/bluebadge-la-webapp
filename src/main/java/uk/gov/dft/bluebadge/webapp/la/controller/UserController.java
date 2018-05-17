@@ -7,10 +7,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 
 public interface UserController {
 
-  String showSignIn(SignInFormRequest formRequest);
+  String showSignIn(SignInFormRequest formRequest, HttpSession session);
 
-  String signIn(
-      SignInFormRequest formRequest, BindingResult result, Model model, HttpSession session);
+  String signIn(SignInFormRequest formRequest, BindingResult result, Model model, HttpSession session);
 
   String signOut(HttpSession session);
 

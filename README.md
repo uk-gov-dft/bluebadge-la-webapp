@@ -25,8 +25,25 @@ From browser:
 ```
 
 ### BUILD
+
+#### DEPENDENCIES
+This project depends on some usermanagement-service artifacts that you have to build and install in your maven local
+repository before (Eventually this will not be needed but for the time being it works like this):
+
+```
+cd usermanagement-service
+git pull
+git checkout whateverbranch
+cd model
+gradle install
+cd ../client
+gradle install
+```
+
+
 ```
 ./gradlew build
+
 ```
 
 ### CONTINUOUS BUILD
@@ -165,7 +182,7 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 In cases where you only edit code of the acceptance tests (rather than production code), usually a lot of time can
 be saved by keeping an instance of the application running in the background and execute acceptance tests repeatedly,
 without having to restart the application. To do so, make sure to have the application already started and running in a
-standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute:
+standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute (from project folder ..../la-webapp):
 ```
 mvn verify -f acceptance-tests/pom.xml -Pacceptance-test
 ```

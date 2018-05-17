@@ -18,17 +18,18 @@ variable which comes from Thymleaf / Spring integration.
 
 -------------------------------------------------------------------------------- */
 
-<div th:fragment="govuk-error-summary(title, description)" tabindex="-1" role="alert"
+<div th:fragment="govuk-error-summary(errorSummary})" tabindex="-1" role="alert"
      class="govuk-c-error-summary"
      th:aria-labelledby="error-summary-title"
-     th:if="${title} OR ${description} OR ${#fields.hasErrors('formRequest.*')}">
+     th:if="${errorSummary} OR ${#fields.hasErrors('formRequest.*')}">
 
     <h2 class="govuk-c-error-summary__title"
+        th:if="${errorSummary} AND ${errorSummary.title}"
         id="error-summary-title"
-        th:utext="${title} ? ${title} : 'Fix the following errors:'" />
+        th:utext="${errorSummary.title}" />
 
-    <div th:if="${description}"
-         th:utext="${description}"
+    <div th:if="${errorSummary} AND ${errorSummary.description}"
+         th:utext="${errorSummary.description}"
          class="govuk-c-error-summary__body" />
 
     <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">

@@ -12,10 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
-import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserControllerTest {
 
@@ -25,7 +25,7 @@ public class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private UserService service;
+  @Mock private UserManagementService service;
 
   private UserController controller;
 
@@ -61,19 +61,27 @@ public class UserControllerTest {
   }
 
   @Test
+  public void shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
+    mockMvc
+        .perform(get("/sign-in").sessionAttr("email", "joeblogs"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/"));
+  }
+
+  @Test
   public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
-    when(service.isAuthorised(EMAIL, PASSWORD)).thenReturn(true);
+    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(true);
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
-        .andExpect(view().name("redirect:/?email=" + EMAIL));
+        .andExpect(view().name("redirect:/"));
   }
 
   @Test
   public void
       shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
           throws Exception {
-    when(service.isAuthorised(EMAIL, PASSWORD)).thenReturn(false);
+    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(false);
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
@@ -109,7 +117,7 @@ public class UserControllerTest {
   @Test
   public void shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
       throws Exception {
-    when(service.isAuthorised(EMAIL, PASSWORD))
+    when(service.checkUserExistsForEmail(EMAIL))
         .thenThrow(
             new GeneralServiceException(
                 "General Service Exception", new Exception("Cause Exception")));
@@ -152,12 +160,18 @@ public class UserControllerTest {
   }
 
   @Test
-  public void shouldDisplaySignedOut() throws Exception {
+  public void shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
     mockMvc
-        .perform(get("/signed-out"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("signedOut", true));
+        .perform(get("/sign-out").sessionAttr("email", "joeblogs"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/sign-in"));
+  }
+
+  @Test
+  public void shouldDisplaySignInPage_WhenSignOutAndUserWasNotSignedIn() throws Exception {
+    mockMvc
+        .perform(get("/sign-out"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/sign-in"));
   }
 }
