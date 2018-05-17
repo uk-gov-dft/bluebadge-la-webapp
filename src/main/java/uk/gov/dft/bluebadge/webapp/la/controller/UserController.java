@@ -14,8 +14,6 @@ public interface UserController {
 
   String signOut(HttpSession session);
 
-  String showSignedOut(SignInFormRequest formRequest, Model model);
-
   String showExpiredSession(SignInFormRequest formRequest, Model model);
 
   String showAccessDenied(SignInFormRequest formRequest, Model model);
