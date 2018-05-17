@@ -1,0 +1,25 @@
+.dft-container {
+    position: relative;
+
+    .dft-sidebar {
+        background-color: #eee;
+
+        @include mq($from: desktop){
+            width:300px;
+            height: 100vh;
+            max-width: 300px;
+            position: absolute;
+        }
+    }
+
+    .dft-main-wrapper {
+        padding: 20px;
+
+        @include mq($from: desktop){
+            padding: 50px 60px 50px 360px;
+        }
+
+    }
+
+
+}

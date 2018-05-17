@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean isAuthorised(String email, String password) {
-    if (email.startsWith("mg")) {
+    if (email.startsWith("accessDenied")) {
       return false;
     }
     return true;

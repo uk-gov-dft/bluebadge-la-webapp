@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title>Create a new user - GOV.UK Manage Blue Badges</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
+
+    <div class="govuk-o-grid">
+        <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
+
+
+            <!-- Form Errors -->
+            <div class="govuk-c-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+                <h2 class="govuk-c-error-summary__title" id="error-summary-title">Fix the following errors:</h2>
+
+                <div class="govuk-c-error-summary__body">
+                    <ul class="govuk-list govuk-c-error-summary__list">
+                        <li><a href="#full-name">Enter a full name</a></li>
+                        <li><a href="#email">Enter an email address</a></li>
+
+                        <li><a href="#email">Email address already exists</a></li>
+
+                        <li><a href="#full-name">Enter a valid full name</a></li>
+                        <li><a href="#email">Enter a valid email address</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="govuk-o-grid">
+                <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
+
+                    <!-- Form Errors - End -->
+                    <form novalidate>
+
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'full-name', null, null, 'text') }"/>
+
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, null, 'email') }"/>
+
+                        <input value="Create user" type="submit" class="govuk-c-button">
+                    </form>
+                </div>
+            </div>
+
+
+        </div><!-- govuk-o-grid -->
+    </div><!-- govuk-o-grid__item -->
+</main>
+
+</body>
+</html>

@@ -2,6 +2,8 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +19,22 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Controller
 public class UserControllerImpl implements UserController {
 
+  private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+
   public static final String URL_ACCESS_DENIED = "/access-denied";
   public static final String URL_EXPIRED_SESSION = "/expired-session";
+  public static final String URL_SERVER_ERROR = "/server-error";
   public static final String URL_SIGN_IN = "/sign-in";
   public static final String URL_SIGN_OUT = "/sign-out";
   public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
+  public static final String URL_MANAGE_USERS = "/manage-users";
+  public static final String URL_CREATE_USER = "/manage-users/create-user";
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
+  public static final String TEMPLATE_MANAGE_USERS = "manage-users";
+  public static final String TEMPLATE_CREATE_USER = "create-user";
 
   private UserService userService;
 
@@ -57,16 +66,19 @@ public class UserControllerImpl implements UserController {
       }
       return showAccessDenied(formRequest, model);
     } catch (GeneralServiceException ex) {
-      throw new GeneralControllerException("There was a general controller exception", ex);
+      logger.error("There was a general controller exception", ex);
+      return showServerError(formRequest, model);
     }
   }
 
+  @Override
   @GetMapping(URL_SIGN_OUT)
   public String signout(HttpSession session) {
     try {
       session.invalidate();
       return "redirect:" + URL_SIGNED_OUT;
     } catch (GeneralServiceException ex) {
+      logger.error("There was a general controller exception", ex);
       throw new GeneralControllerException("There was a general controller exception", ex);
     }
   }
@@ -92,8 +104,25 @@ public class UserControllerImpl implements UserController {
     return TEMPLATE_SIGN_IN;
   }
 
+  @GetMapping(URL_SERVER_ERROR)
+  public String showServerError(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+    model.addAttribute("serverError", true);
+    return TEMPLATE_SIGN_IN;
+  }
+
   @GetMapping("/decorated")
   public String decorated() {
     return "decorated";
+  }
+
+  @GetMapping(URL_MANAGE_USERS)
+  public String showManageUsers(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+    return TEMPLATE_MANAGE_USERS;
+  }
+
+  @GetMapping(URL_CREATE_USER)
+  public String showCreateUser(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+    return TEMPLATE_CREATE_USER;
   }
 }

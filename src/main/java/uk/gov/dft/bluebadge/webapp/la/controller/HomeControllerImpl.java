@@ -10,7 +10,7 @@ public class HomeControllerImpl implements HomeController {
 
   public static final String URL_HOME = "/";
 
-  public static final String TEMPLATE_HOME = "/home";
+  public static final String TEMPLATE_HOME = "home";
 
   @GetMapping(URL_HOME)
   public String showHome(Model model, HttpSession session) {

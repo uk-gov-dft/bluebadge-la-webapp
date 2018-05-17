@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title>Manager Users - GOV.UK Manage Blue Badges</title>
+</head>
+<body>
+
+    <main layout:fragment="content">
+
+        <h1 class="govuk-heading-l" data-uipath="title">Manage Users</h1>
+
+        <div class="dft-actions-panel">
+            <div class="dft-actions-panel__cta-area">
+                <a href="/manage-users/create-user" class="govuk-c-button" data-uipath="actionsPanel.button">Create a new user</a>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

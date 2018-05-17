@@ -19,4 +19,6 @@ public interface UserController {
   String showExpiredSession(SignInFormRequest formRequest, Model model);
 
   String showAccessDenied(SignInFormRequest formRequest, Model model);
+
+  String showServerError(SignInFormRequest formRequest, Model model);
 }

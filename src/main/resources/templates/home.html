@@ -1,11 +1,16 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
 <head>
-    <title>Welcome <span th:text="${email}"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>GOV.UK Manage Blue Badges</title>
 </head>
 <body>
-Welcome <span th:text="${email}"/>
-<a href="signout.html" th:href="@{/sign-out}">Sign-out</a>
+
+    <div layout:fragment="content">
+    </div>
+
 </body>
 </html>
+
