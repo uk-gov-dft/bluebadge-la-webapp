@@ -61,6 +61,14 @@ public class UserControllerTest {
   }
 
   @Test
+  public void shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
+    mockMvc
+        .perform(get("/sign-in").sessionAttr("email", "joeblogs"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/"));
+  }
+
+  @Test
   public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
     when(service.checkUserExistsForEmail(EMAIL)).thenReturn(true);
     mockMvc
@@ -149,5 +157,21 @@ public class UserControllerTest {
         .andExpect(view().name("sign-in"))
         .andExpect(model().attribute("formRequest", emptySignInFormRequest))
         .andExpect(model().attribute("expiredSession", true));
+  }
+
+  @Test
+  public void shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
+    mockMvc
+        .perform(get("/sign-out").sessionAttr("email", "joeblogs"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/sign-in"));
+  }
+
+  @Test
+  public void shouldDisplaySignInPage_WhenSignOutAndUserWasNotSignedIn() throws Exception {
+    mockMvc
+        .perform(get("/sign-out"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/sign-in"));
   }
 }

@@ -26,7 +26,6 @@ public class UserControllerImpl implements UserController {
   public static final String URL_SERVER_ERROR = "/server-error";
   public static final String URL_SIGN_IN = "/sign-in";
   public static final String URL_SIGN_OUT = "/sign-out";
-  public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
