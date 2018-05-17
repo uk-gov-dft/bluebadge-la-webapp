@@ -12,7 +12,7 @@
 
         <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-        <div th:replace="~{ fragments/errors :: govuk-error-summary(null, null) }" />
+        <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
         <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 

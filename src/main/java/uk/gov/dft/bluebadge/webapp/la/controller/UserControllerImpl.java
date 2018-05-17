@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
@@ -48,6 +49,7 @@ public class UserControllerImpl implements UserController {
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
+
     if (session.getAttribute("email") != null) {
       return "redirect:" + URL_HOME;
     }
@@ -61,7 +63,7 @@ public class UserControllerImpl implements UserController {
       Model model,
       HttpSession session) {
 
-    model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
+    model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
 
     try {
       if (bindingResult.hasErrors()) {
@@ -98,24 +100,21 @@ public class UserControllerImpl implements UserController {
   @GetMapping(URL_EXPIRED_SESSION)
   public String showExpiredSession(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("expiredSession", true);
-    model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
+    model.addAttribute("errorSummary", new ErrorViewModel("You've been signed out", "You were inactive for 2 hours so we've signed you out to secure your account"));
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_ACCESS_DENIED)
   public String showAccessDenied(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("accessDenied", true);
-
-    model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "We're having problems signing you in. Please try again, or visit our <a href=\"/contact\">service status page.</a>"));
+    model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "You've entered an incorrect email address or password"));
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_SERVER_ERROR)
   public String showServerError(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("serverError", true);
+    model.addAttribute("errorSummary", new ErrorViewModel("Can't sign in", "Please try again."));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -125,7 +124,7 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_CREATE_USER)
-  public String showCreateUser(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showCreateUser(@ModelAttribute("formRequest") final CreateFormRequest formRequest) {
     return TEMPLATE_CREATE_USER;
   }
 }
