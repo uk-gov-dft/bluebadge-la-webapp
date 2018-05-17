@@ -26,7 +26,10 @@ node {
         rtGradle.resolver repo:'gradle-release', server: server
     }
 
+
+
     stage ('Gradle build') {
+
       def uploadSpec = """{
         "files": [
         {
@@ -60,7 +63,7 @@ node {
         buildInfo1.append buildInfo2
         server.publishBuildInfo buildInfo1
     }
-    
+
         stage('SonarQube analysis') {
         withSonarQubeEnv('sonarqube') {
               // requires SonarQube Scanner for Gradle 2.1+

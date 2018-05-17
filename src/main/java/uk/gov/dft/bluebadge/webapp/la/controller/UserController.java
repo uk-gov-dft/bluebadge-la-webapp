@@ -12,7 +12,7 @@ public interface UserController {
   String signIn(
       SignInFormRequest formRequest, BindingResult result, Model model, HttpSession session);
 
-  String signout(HttpSession session);
+  String signOut(HttpSession session);
 
   String showSignedOut(SignInFormRequest formRequest, Model model);
 

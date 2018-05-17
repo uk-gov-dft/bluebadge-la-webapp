@@ -53,18 +53,21 @@ public class UserControllerImpl implements UserController {
 
   @PostMapping(URL_SIGN_IN)
   public String signIn(
-      @Valid @ModelAttribute("formRequest") final SignInFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model) {
-      model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
+          @Valid @ModelAttribute("formRequest") final SignInFormRequest formRequest,
+          BindingResult bindingResult,
+          Model model, HttpSession session) {
+    model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
+
     try {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
       } else {
-        String email = formRequest.getEmail();
-        if (userService.isAuthorised(email, formRequest.getPassword())) {
-          session.setAttribute("email", email);
-          return "redirect:" + URL_HOME;
+        if ((formRequest.getEmail().startsWith("serverError"))) {
+          logger.error("There was a general controller exception");
+          return showServerError(formRequest, model);
+        }
+        if (userService.isAuthorised(formRequest.getEmail(), formRequest.getPassword())) {
+          return "redirect:" + URL_HOME + "?email=" + formRequest.getEmail();
         }
       }
       return showAccessDenied(formRequest, model);
@@ -76,9 +79,9 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @GetMapping(URL_SIGN_OUT)
-  public String signout(HttpSession session) {
+  public String signOut(HttpSession session) {
     try {
-      session.invalidate();
+      // Sign out
       return "redirect:" + URL_SIGNED_OUT;
     } catch (GeneralServiceException ex) {
       logger.error("There was a general controller exception", ex);
@@ -88,14 +91,14 @@ public class UserControllerImpl implements UserController {
 
   @GetMapping(URL_SIGNED_OUT)
   public String showSignedOut(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+          @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("signedOut", true);
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_EXPIRED_SESSION)
   public String showExpiredSession(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+          @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("expiredSession", true);
     model.addAttribute("errorSummary", new ErrorViewModel("Session Expired", "Description..."));
     return TEMPLATE_SIGN_IN;
@@ -103,7 +106,7 @@ public class UserControllerImpl implements UserController {
 
   @GetMapping(URL_ACCESS_DENIED)
   public String showAccessDenied(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+          @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("accessDenied", true);
 
     model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "We're having problems signing you in. Please try again, or visit our <a href=\"/contact\">service status page.</a>"));
@@ -112,7 +115,7 @@ public class UserControllerImpl implements UserController {
 
   @GetMapping(URL_SERVER_ERROR)
   public String showServerError(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+          @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
     model.addAttribute("serverError", true);
     return TEMPLATE_SIGN_IN;
   }
