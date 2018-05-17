@@ -20,8 +20,6 @@
 
         <div th:replace="~{fragments/errors :: general-form-error(${accessDenied}, #{error.form.global.accessDenied.title}, #{error.form.global.accessDenied.description})}" />
 
-        <div th:replace="~{fragments/errors :: general-form-error(${signedOut}, #{info.form.global.signedOut.title}, #{info.form.global.signedOut.description})}"/>
-
         <div th:replace="~{fragments/errors :: general-form-error(${expiredSession}, #{error.form.global.expiredSession.title}, #{error.form.global.expiredSession.description})}" />
 
         <div th:replace="~{fragments/errors :: general-form-error(${serverError}, #{error.form.global.serverError.title}, #{error.form.global.serverError.description})}"/>

@@ -34,7 +34,6 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
           httpServletRequest.getRequestURI());
     }
 
-    httpServletResponse.sendRedirect(
-        httpServletRequest.getContextPath() + "/user/showAccessDenied");
+    httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/access-denied");
   }
 }
