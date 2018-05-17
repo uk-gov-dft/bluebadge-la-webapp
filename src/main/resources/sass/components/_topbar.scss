@@ -8,6 +8,7 @@
 
     &__wrapper{
          padding: 20px 30px;
+
     }
 
     &__title {
@@ -16,6 +17,7 @@
          font-weight: 700;
          display: inline-block;
          text-decoration: none;
+
 
          &:hover {
              text-decoration: underline;
@@ -40,6 +42,7 @@
     &__signout {
         color: #fff;
         margin-left:5px;
+        @include govuk-focusable-fill;
     }
 
 

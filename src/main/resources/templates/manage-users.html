@@ -10,13 +10,31 @@
 
     <main layout:fragment="content">
 
-        <h1 class="govuk-heading-l" data-uipath="title">Manage Users</h1>
+        <h1 class="govuk-heading-l" data-uipath="title">Manage Users <span class="dft-badge dft-badge--heading">29</span></h1>
 
         <div class="dft-actions-panel">
             <div class="dft-actions-panel__cta-area">
                 <a href="/manage-users/create-user" class="govuk-c-button" data-uipath="actionsPanel.button">Create a new user</a>
             </div>
         </div>
+
+        <table class="govuk-c-table">
+            <thead class="govuk-c-table__head">
+                <tr class="govuk-c-table__row">
+                    <th class="govuk-c-table__header" scope="col">Name</th>
+                    <th class="govuk-c-table__header" scope="col">Email address</th>
+                    <th class="govuk-c-table__header" scope="col">Permissions</th>
+                </tr>
+            </thead>
+
+            <tbody class="govuk-c-table__body">
+                <tr class="govuk-c-table__row">
+                    <td class="govuk-c-table__cell"><a href="#">Ali Ashik</a></td>
+                    <td class="govuk-c-table__cell">ali.ashik@does.not.exist</td>
+                    <td class="govuk-c-table__cell">Standard</td>
+                </tr>
+            </tbody>
+        </table>
 
     </main>
 

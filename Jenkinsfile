@@ -25,7 +25,6 @@ node {
         rtGradle.deployer repo:'gradle-release-local', server: server
         rtGradle.resolver repo:'gradle-release', server: server
     }
-    
     stage ('Gradle build') {
         def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'build'
         server.publishBuildInfo buildInfo
@@ -63,6 +62,4 @@ node {
         }"""
         server.upload(uploadSpec)
     }
-
-
 }
