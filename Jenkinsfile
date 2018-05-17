@@ -26,11 +26,14 @@ node {
         rtGradle.resolver repo:'gradle-release', server: server
     }
     
-
-    
     stage ('Gradle build') {
-        
-      def uploadSpec = """{
+        def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'build'
+        server.publishBuildInfo buildInfo
+    }
+    
+    stage ('Artifactory Upload') {
+
+        def uploadSpec = """{
         "files": [
         {
           "pattern": "client/build/libs/*.jar",
@@ -58,18 +61,8 @@ node {
         }
         ]
         }"""
-        def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'wrapper build'
-        def buildInfo2 = server.upload(uploadSpec)
-        buildInfo1.append buildInfo2
-        server.publishBuildInfo buildInfo1
+        server.upload(uploadSpec)
     }
-    
-        stage('SonarQube analysis') {
-        withSonarQubeEnv('sonarqube') {
-              // requires SonarQube Scanner for Gradle 2.1+
-              // It's important to add --info because of SONARJNKNS-281
-              sh './gradlew --info sonarqube'
-        }
-    }
+
+
 }
-    

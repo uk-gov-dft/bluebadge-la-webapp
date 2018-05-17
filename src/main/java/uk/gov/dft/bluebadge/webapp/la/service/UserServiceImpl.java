@@ -33,12 +33,4 @@ public class UserServiceImpl implements UserService {
   public int delete(Long id) {
     return 1;
   }
-
-  @Override
-  public boolean isAuthorised(String email, String password) {
-    if (email.startsWith("mg")) {
-      return false;
-    }
-    return true;
-  }
 }

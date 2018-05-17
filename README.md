@@ -25,8 +25,25 @@ From browser:
 ```
 
 ### BUILD
+
+#### DEPENDENCIES
+This project depends on some usermanagement-service artifacts that you have to build and install in your maven local
+repository before (Eventually this will not be needed but for the time being it works like this):
+
+```
+cd usermanagement-service
+git pull
+git checkout whateverbranch
+cd model
+gradle install
+cd ../client
+gradle install
+```
+
+
 ```
 ./gradlew build
+
 ```
 
 ### CONTINUOUS BUILD
@@ -150,6 +167,7 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 * [Thymeleaf: Validation and error messages](https://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html#validation-and-error-messages)
 * [Thymeleaf: Layouts](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout)
 * [Baeldung: Thymeleaf layout dialet](http://www.baeldung.com/thymeleaf-spring-layouts)
+* [Thymeleaf layout dialect](https://ultraq.github.io/thymeleaf-layout-dialect/)
 
 ### SPRING
 * [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/)
@@ -158,3 +176,23 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 
 ### TESTING
 [Spring MVC Testing (to test the controllers)](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)
+
+### Acceptance tests
+
+In cases where you only edit code of the acceptance tests (rather than production code), usually a lot of time can
+be saved by keeping an instance of the application running in the background and execute acceptance tests repeatedly,
+without having to restart the application. To do so, make sure to have the application already started and running in a
+standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute (from project folder ..../la-webapp):
+```
+mvn verify -f acceptance-tests/pom.xml -Pacceptance-test
+```
+
+By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
+```
+mvn verify -f acceptance-tests/pom.xml -Pacceptance-test -Dheadless=false
+```
+
+If you need to run only speficied features, then add a tag to feature file & specify that in run command as below, execute:
+```
+mvn verify -f acceptance-tests/pom.xml -Pacceptance-test -Dheadless=false -Dcucumber.options="--tags @SignIn"
+```

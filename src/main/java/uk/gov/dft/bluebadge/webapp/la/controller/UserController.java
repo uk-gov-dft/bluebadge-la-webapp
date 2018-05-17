@@ -7,16 +7,16 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 
 public interface UserController {
 
-  String showSignIn(SignInFormRequest formRequest);
+  String showSignIn(SignInFormRequest formRequest, HttpSession session);
 
   String signIn(
       SignInFormRequest formRequest, BindingResult result, Model model, HttpSession session);
 
-  String signout(HttpSession session);
-
-  String showSignedOut(SignInFormRequest formRequest, Model model);
+  String signOut(HttpSession session);
 
   String showExpiredSession(SignInFormRequest formRequest, Model model);
 
   String showAccessDenied(SignInFormRequest formRequest, Model model);
+
+  String showServerError(SignInFormRequest formRequest, Model model);
 }

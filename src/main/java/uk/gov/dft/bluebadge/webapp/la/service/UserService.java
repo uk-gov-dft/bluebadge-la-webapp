@@ -15,6 +15,4 @@ public interface UserService {
   int update(User user);
 
   int delete(Long id);
-
-  boolean isAuthorised(String email, String password);
 }
