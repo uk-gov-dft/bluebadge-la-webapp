@@ -57,7 +57,7 @@ public class UserControllerImpl implements UserController {
         return TEMPLATE_SIGN_IN;
       } else {
         String email = formRequest.getEmail();
-        if (userManagementService.checkUserExistsForEmail(formRequest.getEmail())) {
+        if (userManagementService.checkUserExistsForEmail(email)) {
           session.setAttribute("email", email);
           return "redirect:" + URL_HOME;
         }
