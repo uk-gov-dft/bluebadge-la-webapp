@@ -152,28 +152,28 @@ input, select {
     clip-path: none;
     white-space: inherit; }
 
-.govuk-link, .govuk-prose-scope a {
+.govuk-link, .dft-search__clear-link, .govuk-prose-scope a {
   font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(11, 12, 12, 0.3); }
   @media print {
-    .govuk-link, .govuk-prose-scope a {
+    .govuk-link, .dft-search__clear-link, .govuk-prose-scope a {
       font-family: sans-serif; } }
-  .govuk-link:focus, .govuk-prose-scope a:focus {
+  .govuk-link:focus, .dft-search__clear-link:focus, .govuk-prose-scope a:focus {
     outline: 3px solid #ffbf47;
     outline-offset: 0;
     background-color: #ffbf47; }
-  .govuk-link:link, .govuk-prose-scope a:link {
+  .govuk-link:link, .dft-search__clear-link:link, .govuk-prose-scope a:link {
     color: #005ea5; }
-  .govuk-link:visited, .govuk-prose-scope a:visited {
+  .govuk-link:visited, .dft-search__clear-link:visited, .govuk-prose-scope a:visited {
     color: #4c2c92; }
-  .govuk-link:hover, .govuk-prose-scope a:hover {
+  .govuk-link:hover, .dft-search__clear-link:hover, .govuk-prose-scope a:hover {
     color: #2b8cc4; }
-  .govuk-link:active, .govuk-prose-scope a:active {
+  .govuk-link:active, .dft-search__clear-link:active, .govuk-prose-scope a:active {
     color: #2b8cc4; }
   @media print {
-    .govuk-link[href^="/"]::after, .govuk-prose-scope a[href^="/"]::after, .govuk-link[href^="http://"]::after, .govuk-prose-scope a[href^="http://"]::after, .govuk-link[href^="https://"]::after, .govuk-prose-scope a[href^="https://"]::after {
+    .govuk-link[href^="/"]::after, .dft-search__clear-link[href^="/"]::after, .govuk-prose-scope a[href^="/"]::after, .govuk-link[href^="http://"]::after, .dft-search__clear-link[href^="http://"]::after, .govuk-prose-scope a[href^="http://"]::after, .govuk-link[href^="https://"]::after, .dft-search__clear-link[href^="https://"]::after, .govuk-prose-scope a[href^="https://"]::after {
       content: " (" attr(href) ")";
       font-size: 90%;
       word-wrap: break-word; } }
@@ -2937,7 +2937,7 @@ input, select {
     padding: 20px; }
     @media (min-width: 48.0625em) {
       .dft-container .dft-main-wrapper {
-        padding: 50px 60px 50px 360px; } }
+        padding: 50px 60px 50px 60px; } }
     @media (min-width: 40.0625em) and (max-width: 48.0525em) {
       .dft-container .dft-main-wrapper .govuk-o-grid__item--two-thirds {
         width: 100%; } }
@@ -3003,20 +3003,53 @@ input, select {
 
 .dft-actions-panel {
   padding: 20px;
-  overflow: hidden;
   margin-bottom: 30px;
   background-color: #f8f8f8; }
-  .dft-actions-panel__cta-area {
-    float: right; }
   .dft-actions-panel .govuk-c-button {
     margin: 0; }
+  @media (min-width: 40.0625em) {
+    .dft-actions-panel__content {
+      float: left; } }
+  .dft-actions-panel__cta-area {
+    margin-top: 10px; }
+    @media (min-width: 40.0625em) {
+      .dft-actions-panel__cta-area {
+        margin: 0;
+        float: right; } }
 
 .govuk-c-table__head .govuk-c-table__row {
   border-bottom: 2px solid #dee0e2; }
 
+@media (min-width: 20em) and (max-width: 40.0525em) {
+  .govuk-c-table__head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap; } }
+
 .govuk-c-table__header, .govuk-c-table__cell {
   font-size: 16px;
   line-height: 20px; }
+
+@media (max-width: 40.0525em) {
+  .govuk-c-table__row {
+    padding: 5px 0;
+    display: block;
+    border-bottom: 1px solid #bfc1c3; } }
+
+@media (max-width: 40.0525em) {
+  .govuk-c-table__cell {
+    display: block;
+    padding: 2px 0;
+    font-size: 14px;
+    border-bottom: none; } }
 
 .dft-badge {
   font-size: 16px;
@@ -3032,5 +3065,111 @@ input, select {
     .dft-badge {
       font-size: 19px;
       line-height: 25px; } }
+
+.dft-search__container {
+  position: relative;
+  display: inline-block; }
+
+.dft-search__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap; }
+
+.dft-search__field {
+  width: 100%;
+  border: none;
+  padding: 9px 32px 6px 15px;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  outline: 2px solid #dee0e2; }
+  @media print {
+    .dft-search__field {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .dft-search__field {
+      font-size: 19px;
+      line-height: 25px; } }
+  @media print {
+    .dft-search__field {
+      font-size: 14pt;
+      line-height: 1.15; } }
+  .dft-search__field:focus {
+    outline-width: 2px; }
+  @media (min-width: 40.0625em) {
+    .dft-search__field {
+      width: 260px; } }
+
+.dft-search__button {
+  margin: 0;
+  width: 30px;
+  border: none;
+  height: 30px;
+  cursor: pointer;
+  margin-top: -15px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: right 5px top 6px;
+  background-image: url("../../images/search.png");
+  background-image: url("../../images/search.svg"); }
+
+.dft-search__options {
+  margin-left: 5px;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px; }
+  @media print {
+    .dft-search__options {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .dft-search__options {
+      font-size: 16px;
+      line-height: 20px; } }
+  @media print {
+    .dft-search__options {
+      font-size: 14pt;
+      line-height: 1.2; } }
+
+.dft-search__clear-link {
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: transparent;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px; }
+  @media print {
+    .dft-search__clear-link {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .dft-search__clear-link {
+      font-size: 16px;
+      line-height: 20px; } }
+  @media print {
+    .dft-search__clear-link {
+      font-size: 14pt;
+      line-height: 1.2; } }
 
 /*# sourceMappingURL=main.css.map */

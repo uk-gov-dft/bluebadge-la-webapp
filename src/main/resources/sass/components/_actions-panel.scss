@@ -1,16 +1,24 @@
 .dft-actions-panel {
     padding: 20px;
-    overflow: hidden;
     margin-bottom: 30px;
     background-color: $govuk-grey-4;
 
-
-    &__cta-area {
-        float: right;
-    }
-
     .govuk-c-button {
         margin: 0;
+    }
 
+    &__content {
+        @include mq(tablet) {
+            float: left;
+        }
+    }
+
+    &__cta-area {
+        margin-top: 10px;
+
+        @include mq(tablet) {
+            margin: 0;
+            float: right;
+        }
     }
 }

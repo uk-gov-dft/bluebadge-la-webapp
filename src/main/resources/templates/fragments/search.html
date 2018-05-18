@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+/* ------------------------------------------------------------------------------
+
+* Input Field
+
+@label - String: Label for form input field
+@name - String: Name for the form input field. This same name is used
+for id and attaching label to the input field.
+@hint - String: Adds hint for the input field underneath the label.
+@type - String: change the type of input field. Default is set to text
+
+-------------------------------------------------------------------------------- */
+
+<form th:fragment="dft-search(label, name, resultCount, showClearBtn)" class="dft-search">
+
+    <div class="dft-search__container govuk-h-clearfix">
+
+        <label th:for="${name}" class="dft-search__label" th:utext="${label}" />
+
+        <input type="text" th:name="${name}" th:attr="id=${name}" class="dft-search__field" />
+
+        <button type="submit" class="dft-search__button">
+
+            <span class="govuk-h-visually-hidden" th:utext="${label}" />
+
+        </button>
+
+    </div>
+
+   <span class="dft-search__options">
+        <span th:if="${resultCount}" th:utext="${resultCount} + ' results'" />
+
+        <button th:if="${showClearBtn}"
+                class="dft-search__clear-link"
+                aria-label="clear search input field"
+                type="reset">Clear
+        </button>
+
+    </span>
+
+</form>
+
+</body>
+</html>
