@@ -29,7 +29,6 @@ node {
         def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'build'
         server.publishBuildInfo buildInfo
     }
-
     stage ('Artifactory Upload') {
 
         def uploadSpec = """{
