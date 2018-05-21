@@ -1,3 +1,9 @@
+/* ---------------------------------------------
+
+    * Global Imports / Style Resets
+
+--------------------------------------------- */
+
 @import "reset";
 
 *, *:before, *:after {
@@ -5,38 +11,69 @@
 }
 
 @import "@govuk-frontend/all/all";
+@import "accessibility";
 
-@import "dft-layout";
 
-@import "components/grid";
-@import "components/topbar";
-@import "components/sidebar";
-@import "components/login";
-@import "components/form-group";
-@import "components/form";
-@import "components/error-message";
-@import "components/actions-panel";
-@import "components/table";
-@import "components/badge";
-@import "components/search";
 
+
+/* ---------------------------------------------
+
+    * GOV UK Pattern Overrides
+
+--------------------------------------------- */
+
+@import "patterns/grid";
+@import "patterns/form";
+@import "patterns/list";
+@import "patterns/table";
+@import "patterns/form-group";
+@import "patterns/error-message";
+@import "patterns/dft/actions-panel";
+
+
+
+
+
+/* ---------------------------------------------
+
+    * DFT Specific Patterns
+
+--------------------------------------------- */
+
+@import "patterns/dft/login";
+@import "patterns/dft/badge";
+@import "patterns/dft/search";
+@import "patterns/dft/layout";
+@import "patterns/dft/topbar";
+@import "patterns/dft/sidebar";
+
+
+
+
+
+/* ---------------------------------------------
+
+    * Responsive Debugger
+
+--------------------------------------------- */
 
 $debug: false;
 
 @if($debug){
     body::before {
-        content: "DEBUGGER - MOBILE VIEW";
+        content: "DEBUGGER - MOBILE";
         background-color: red;
         color: white;
         display:block;
         font-size: 16px;
+        line-height: 30px;
 
         @include mq(tablet) {
-            content: "DEBUGGER - TABLET VIEW";
+            content: "DEBUGGER - TABLET";
         }
 
         @include mq(desktop) {
-            content: "DEBUGGER - DESKTOP VIEW";
+            content: "DEBUGGER - DESKTOP";
         }
     }
 }

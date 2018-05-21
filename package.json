@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@govuk-frontend/all": "0.0.28-alpha",
-    "browser-sync": "^2.23.7",
+    "browser-sync": "^2.24.4",
     "del": "^3.0.0",
     "govuk_template_jinja": "^0.24.0",
     "gulp": "^3.9.1",
