@@ -13,7 +13,7 @@
     }
 
     &__container {
-        @include govuk-h-clearfix;
+        @include govuk-clearfix;
         padding: 22px 15px 17px 15px;
 
         @include mq($from: tablet) {

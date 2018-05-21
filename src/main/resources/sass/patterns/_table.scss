@@ -1,4 +1,4 @@
-.govuk-c-table {
+.govuk-table {
     $this: &;
 
     &__head {
@@ -7,7 +7,7 @@
         }
 
         @include mq(mobile, tablet) {
-            @include govuk-h-visually-hidden;
+            @include govuk-visually-hidden;
         }
 
     }

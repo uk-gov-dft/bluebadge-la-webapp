@@ -11,7 +11,7 @@
   "author": "Ali Ashik",
   "license": "ISC",
   "dependencies": {
-    "@govuk-frontend/all": "0.0.28-alpha",
+    "@govuk-frontend/frontend": "0.0.29-alpha",
     "browser-sync": "^2.24.4",
     "del": "^3.0.0",
     "govuk_template_jinja": "^0.24.0",

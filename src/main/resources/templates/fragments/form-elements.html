@@ -15,24 +15,25 @@
     -------------------------------------------------------------------------------- */
 
     <div th:fragment="govuk-input(label, name, hint, type)"
-         th:class="${#fields.hasErrors(name)} ? 'govuk-o-form-group govuk-o-form-group--error' : 'govuk-o-form-group'">
+         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
 
-        <label class="govuk-c-label" th:attr="for=${name}">
+        <label
+                class="govuk-label"
+                th:attr="for=${name}"
+                th:utext="${label}"
+                th:data-uipath="${name} + '.label'" />
 
-            <span th:utext="${label}" th:data-uipath="${name} + '.label'" />
+        <span class="govuk-hint"
+              th:if="${hint}"
+              th:utext="${hint}"
+              th:data-uipath="${name} + '.label_hint'" />
 
-            <span class="govuk-c-label__hint"
-                  th:if="${hint}"
-                  th:utext="${hint}"
-                  th:data-uipath="${name} + '.label_hint'" />
-        </label>
-
-        <span class="govuk-c-error-message"
+        <span class="govuk-error-message"
               th:data-uipath="${name} + '.error'"
               th:if="${#fields.hasErrors(name)}"
               th:errors="*{__${name}__}" />
 
-        <input class="govuk-c-input"
+        <input th:class="${#fields.hasErrors(name)} ? 'govuk-input govuk-input--error' : 'govuk-input'"
                th:data-uipath="${name} + '.field'"
                th:attr="id=${name}"
                th:name="${name}"

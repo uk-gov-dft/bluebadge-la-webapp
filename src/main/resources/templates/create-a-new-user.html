@@ -12,13 +12,13 @@
 
     <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
 
-    <div class="govuk-o-grid">
-        <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
-            <div class="govuk-o-grid">
-                <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
+            <div class="govuk-grid">
+                <div class="govuk-grid-column-two-thirds">
 
                     <form  th:action="@{/create-user}" th:object="${formRequest}" method="post" novalidate>
 
@@ -26,7 +26,7 @@
 
                         <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
 
-                        <input value="Create user" type="submit" class="govuk-c-button">
+                        <input value="Create user" type="submit" class="govuk-button">
                     </form>
                 </div>
             </div>

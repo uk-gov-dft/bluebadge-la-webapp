@@ -6,7 +6,7 @@
     }
 
     &__label {
-        @include govuk-h-visually-hidden;
+        @include govuk-visually-hidden;
     }
 
     &__field {
