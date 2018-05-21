@@ -2,8 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
@@ -30,14 +27,15 @@ public class UserControllerImpl implements UserController {
   public static final String URL_SERVER_ERROR = "/server-error";
   public static final String URL_SIGN_IN = "/sign-in";
   public static final String URL_SIGN_OUT = "/sign-out";
+  public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
   public static final String URL_MANAGE_USERS = "/manage-users";
-  public static final String URL_CREATE_USER = "/manage-users/create-user";
+  public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
-  public static final String TEMPLATE_CREATE_USER = "create-user";
+  public static final String TEMPLATE_CREATE_A_NEW_USER = "create-a-new-user";
 
   private UserManagementService userManagementService;
 
@@ -97,17 +95,31 @@ public class UserControllerImpl implements UserController {
     }
   }
 
+  @GetMapping(URL_SIGNED_OUT)
+  public String showSignedOut(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+    model.addAttribute("signedOut", true);
+    return TEMPLATE_SIGN_IN;
+  }
+
   @GetMapping(URL_EXPIRED_SESSION)
   public String showExpiredSession(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("errorSummary", new ErrorViewModel("You've been signed out", "You were inactive for 2 hours so we've signed you out to secure your account"));
+    model.addAttribute(
+        "errorSummary",
+        new ErrorViewModel(
+            "You've been signed out",
+            "You were inactive for 2 hours so we've signed you out to secure your account"));
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_ACCESS_DENIED)
   public String showAccessDenied(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("errorSummary", new ErrorViewModel("Access Denied", "You've entered an incorrect email address or password"));
+    model.addAttribute(
+        "errorSummary",
+        new ErrorViewModel(
+            "Access Denied", "You've entered an incorrect email address or password"));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -119,12 +131,13 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_MANAGE_USERS)
-  public String showManageUsers(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showManageUsers(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest) {
     return TEMPLATE_MANAGE_USERS;
   }
 
-  @GetMapping(URL_CREATE_USER)
-  public String showCreateUser(@ModelAttribute("formRequest") final CreateFormRequest formRequest) {
-    return TEMPLATE_CREATE_USER;
+  @GetMapping(URL_CREATE_A_NEW_USER)
+  public String showCreateUser(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+    return TEMPLATE_CREATE_A_NEW_USER;
   }
 }

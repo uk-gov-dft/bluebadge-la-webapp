@@ -1,0 +1,37 @@
+.govuk-table {
+    $this: &;
+
+    &__head {
+        #{$this}__row {
+            border-bottom: 2px solid $govuk-grey-3;
+        }
+
+        @include mq(mobile, tablet) {
+            @include govuk-visually-hidden;
+        }
+
+    }
+
+    &__header, &__cell {
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    &__row {
+        @include mq($until: tablet) {
+            padding: 5px 0;
+            display: block;
+            border-bottom: 1px solid $govuk-border-colour;
+        }
+    }
+
+    &__cell {
+        @include mq($until: tablet) {
+            display: block;
+            padding: 2px 0;
+            font-size: 14px;
+            border-bottom: none;
+        }
+    }
+
+}

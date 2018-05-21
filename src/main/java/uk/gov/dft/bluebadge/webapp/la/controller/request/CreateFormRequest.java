@@ -1,8 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
 
 public class CreateFormRequest {
 
@@ -13,7 +13,11 @@ public class CreateFormRequest {
   @NotEmpty(message = "{error.form.field.createUser.fullname.notEmpty}")
   private String fullName;
 
-  public CreateFormRequest(@NotEmpty(message = "{error.form.field.createUser.email.notEmpty}") @Email(message = "{error.form.field.createUser.email.wrongFormat}") String email, @NotEmpty(message = "{error.form.field.createUser.fullname.notEmpty}") String fullName) {
+  public CreateFormRequest(
+      @NotEmpty(message = "{error.form.field.createUser.email.notEmpty}")
+          @Email(message = "{error.form.field.createUser.email.wrongFormat}")
+          String email,
+      @NotEmpty(message = "{error.form.field.createUser.fullname.notEmpty}") String fullName) {
     this.email = email;
     this.fullName = fullName;
   }
@@ -39,8 +43,7 @@ public class CreateFormRequest {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     CreateFormRequest that = (CreateFormRequest) o;
-    return Objects.equals(email, that.email) &&
-            Objects.equals(fullName, that.fullName);
+    return Objects.equals(email, that.email) && Objects.equals(fullName, that.fullName);
   }
 
   @Override
@@ -51,9 +54,6 @@ public class CreateFormRequest {
 
   @Override
   public String toString() {
-    return "CreateFormRequest{" +
-            "email='" + email + '\'' +
-            ", fullName='" + fullName + '\'' +
-            '}';
+    return "CreateFormRequest{" + "email='" + email + '\'' + ", fullName='" + fullName + '\'' + '}';
   }
 }
