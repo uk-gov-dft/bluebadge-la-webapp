@@ -4,14 +4,14 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title>Manage Users - GOV.UK Manage Blue Badges</title>
+    <title>Manage users - GOV.UK Manage Blue Badges</title>
 </head>
 <body>
 
     <main layout:fragment="content">
 
         <h1 class="govuk-heading-l" data-uipath="title">Manage users
-            <span class="dft-badge dft-badge--heading">29</span>
+            <span class="dft-badge dft-badge--heading" th:utext="${users.size()}" />
         </h1>
 
         <div role="toolbar" class="dft-actions-panel govuk-clearfix">
@@ -31,22 +31,17 @@
                 <tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="col">Name</th>
                     <th class="govuk-table__header" scope="col">Email address</th>
-                    <th class="govuk-table__header" scope="col">Permissions</th>
+                    <!-- <th class="govuk-table__header" scope="col">Permissions</th> -->
                 </tr>
             </thead>
 
             <tbody class="govuk-table__body" data-uipath="table.body">
-                <tr class="govuk-table__row">
+                <tr class="govuk-table__row" th:each="user : ${users}">
                     <td class="govuk-table__cell">
-                        <a href="#">Joe Bloggs</a>
+                        <a href="#" th:utext="${user.getName()}" />
                     </td>
-                    <td class="govuk-table__cell">joe.bloggs@does.not.exist</td>
-                    <td class="govuk-table__cell">Standard</td>
-                </tr>
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><a href="#">Jane Doe</a></td>
-                    <td class="govuk-table__cell">jane.doe@does.not.exist</td>
-                    <td class="govuk-table__cell">Standard</td>
+                    <td class="govuk-table__cell" th:utext="${user.getEmailAddress()}" />
+                    <!-- <td class="govuk-table__cell" th:utext="${user.getLocalAuthorityId()}" /> -->
                 </tr>
             </tbody>
         </table>

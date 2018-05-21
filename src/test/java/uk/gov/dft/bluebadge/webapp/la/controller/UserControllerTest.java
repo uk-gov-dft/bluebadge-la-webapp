@@ -13,9 +13,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UserControllerTest {
 
@@ -173,5 +180,23 @@ public class UserControllerTest {
         .perform(get("/sign-out"))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/sign-in"));
+  }
+
+  @Test
+  public void shouldDisplayManagerUsersTemplateWithUsers_WhenThereAreUsers() throws Exception {
+
+    List<User> users = Arrays.asList(
+            new User().name("Joe").id(1).emailAddress("joe.blogs@email.com"),
+            new User().name("Jane").id(2).emailAddress("jane.blogs@email.com"),
+            new User().name("Fred").id(3).emailAddress("jfred.blogs@email.com")
+    );
+
+    when(service.getUsersForAuthority(1, "")).thenReturn(new UsersResponse().data(new UsersData().users(users)));
+
+    mockMvc
+            .perform(get("/manage-users"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("manage-users"))
+            .andExpect(model().attribute("users", users));
   }
 }
