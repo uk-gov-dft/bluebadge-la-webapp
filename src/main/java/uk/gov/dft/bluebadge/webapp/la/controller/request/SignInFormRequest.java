@@ -1,16 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import java.util.Objects;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 public class SignInFormRequest {
 
-  @NotEmpty(message = "{error.form.field.signin.email.notEmpty}")
-  @Email(message = "{error.form.field.signin.email.wrongFormat}")
+  //  @NotEmpty(message = "{error.form.field.signin.email.notEmpty}")
+  //  @Email(message = "{error.form.field.signin.email.wrongFormat}")
   private String email;
 
-  @NotEmpty(message = "{error.form.field.signin.password.notEmpty}")
+  //  @NotEmpty(message = "{error.form.field.signin.password.notEmpty}")
   private String password;
 
   public SignInFormRequest(String email, String password) {

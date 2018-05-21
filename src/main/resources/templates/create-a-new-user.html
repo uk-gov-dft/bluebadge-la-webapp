@@ -20,7 +20,7 @@
             <div class="govuk-o-grid">
                 <div class="govuk-o-grid__item govuk-o-grid__item--two-thirds">
 
-                    <form  th:action="@{/create-user}" th:object="${formRequest}" method="post" novalidate>
+                    <form  th:action="@{/manage-users/create-a-new-user}" th:object="${formRequest}" method="post" novalidate>
 
                         <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'fullName', null, 'text') }"/>
 

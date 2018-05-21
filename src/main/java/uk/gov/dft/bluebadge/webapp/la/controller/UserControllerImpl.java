@@ -5,17 +5,25 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import org.springframework.web.client.HttpClientErrorException;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.BindingResultUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
 public class UserControllerImpl implements UserController {
@@ -36,17 +44,20 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
   public static final String TEMPLATE_CREATE_A_NEW_USER = "create-a-new-user";
 
-  private UserManagementService userManagementService;
+  private UserService userService;
+
+  private CreateANewUserRequestToUser createANewUserRequest2User;
 
   @Autowired
-  public UserControllerImpl(UserManagementService userManagementService) {
-    this.userManagementService = userManagementService;
+  public UserControllerImpl(
+      UserService userService, CreateANewUserRequestToUser createANewUserRequest2UserConverter) {
+    this.userService = userService;
+    this.createANewUserRequest2User = createANewUserRequest2UserConverter;
   }
 
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
-
     if (session.getAttribute("email") != null) {
       return "redirect:" + URL_HOME;
     }
@@ -67,7 +78,7 @@ public class UserControllerImpl implements UserController {
         return TEMPLATE_SIGN_IN;
       } else {
         String email = formRequest.getEmail();
-        if (userManagementService.checkUserExistsForEmail(email)) {
+        if (userService.checkUserExistsForEmail(email)) {
           session.setAttribute("email", email);
           return "redirect:" + URL_HOME;
         }
@@ -123,13 +134,43 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_MANAGE_USERS)
-  public String showManageUsers(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showManageUsers() {
     return TEMPLATE_MANAGE_USERS;
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
-  public String showCreateUser(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showCreateANewUser(
+      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest) {
     return TEMPLATE_CREATE_A_NEW_USER;
+  }
+
+  @PostMapping(URL_CREATE_A_NEW_USER)
+  public String createANewUser(
+      @ModelAttribute("formRequest") CreateANewUserFormRequest formRequest,
+      BindingResult bindingResult,
+      Model model) {
+    try {
+      User user = createANewUserRequest2User.convert(formRequest);
+      UserResponse userResponse = userService.create(user);
+      uk.gov.dft.bluebadge.model.usermanagement.Error error = userResponse.getError();
+      if (error.getErrors().isEmpty()) {
+        return TEMPLATE_MANAGE_USERS;
+      } else {
+
+        logger.error("errors []", error);
+        BindingResultUtils.addApiErrors(error, bindingResult);
+        TemplateModelUtils.addApiError(error, model);
+        return TEMPLATE_CREATE_A_NEW_USER;
+      }
+    } catch (HttpClientErrorException cex) {
+      if (cex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+        return TEMPLATE_CREATE_A_NEW_USER;
+      }
+      return TEMPLATE_CREATE_A_NEW_USER;
+    } catch (Exception ex) {
+      TemplateModelUtils.addCustomError(
+          "general error creating user", "error in creating user", model);
+      return TEMPLATE_CREATE_A_NEW_USER;
+    }
   }
 }
