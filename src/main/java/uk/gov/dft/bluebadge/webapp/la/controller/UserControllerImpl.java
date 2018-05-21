@@ -153,10 +153,9 @@ public class UserControllerImpl implements UserController {
       User user = createANewUserRequest2User.convert(formRequest);
       UserResponse userResponse = userService.create(user);
       uk.gov.dft.bluebadge.model.usermanagement.Error error = userResponse.getError();
-      if (error.getErrors().isEmpty()) {
+      if (error == null || error.getErrors() == null || error.getErrors().isEmpty()) {
         return TEMPLATE_MANAGE_USERS;
       } else {
-
         logger.error("errors []", error);
         BindingResultUtils.addApiErrors(error, bindingResult);
         TemplateModelUtils.addApiError(error, model);
