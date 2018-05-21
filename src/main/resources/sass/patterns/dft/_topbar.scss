@@ -1,0 +1,59 @@
+.dft-topbar{
+    $this: &;
+    color: white;
+    background-color: $govuk-black;
+
+    a {
+        color: white;
+    }
+
+    &__container {
+        @include govuk-clearfix;
+        padding: 22px 15px 17px 15px;
+
+        @include mq($from: tablet) {
+            padding: 20px 30px 15px 30px;
+        }
+    }
+
+    &__proposition {
+        float: left;
+    }
+
+    &__title {
+        display: none;
+        @include govuk-font-regular-19;
+
+        @include mq($from: tablet) {
+            display: inline-block;
+        }
+    }
+
+    &__title-link {
+        text-decoration: none;
+        @include govuk-font-bold-19;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        @include mq($from: tablet) {
+            margin-right: 5px;
+        }
+    }
+
+    &__menu {
+        float: right;
+        margin-top: 2px;
+        @include govuk-font-regular-16;
+    }
+
+    &__signout {
+        margin-left: 5px;
+
+        @include mq($from: tablet) {
+            margin-right: 10px;
+        }
+    }
+
+ }

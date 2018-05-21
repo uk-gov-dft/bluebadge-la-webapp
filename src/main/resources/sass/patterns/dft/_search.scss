@@ -1,0 +1,61 @@
+.dft-search{
+
+    &__container {
+        position: relative;
+        display: inline-block;
+    }
+
+    &__label {
+        @include govuk-visually-hidden;
+    }
+
+    &__field {
+        width: 100%;
+        border: none;
+        padding: 9px 32px 6px 15px;
+        @include govuk-font-regular-19;
+        outline: 2px solid $govuk-grey-3;
+
+        &:focus {
+            outline-width: 2px;
+        }
+
+        @include mq(tablet) {
+            width: 260px;
+        }
+    }
+
+    &__button {
+        margin: 0;
+        width: 30px;
+        border: none;
+        height: 30px;
+        cursor: pointer;
+        margin-top: -15px;
+        position: absolute;
+        right: 5px; top: 50%;
+        background-repeat: no-repeat;
+        background-color: transparent;
+        background-position: right 5px top 6px;
+        background-image: url('../../images/search.png'); // fall back for old browsers
+        background-image: url('../../images/search.svg');
+    }
+
+    &__options {
+        margin-left: 5px;
+        @include govuk-font-regular-16;
+    }
+
+    &__clear-link {
+        margin: 0;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        @extend .govuk-link;
+        text-decoration: underline;
+        background-color: transparent;
+        @include govuk-font-regular-16;
+    }
+
+
+}
