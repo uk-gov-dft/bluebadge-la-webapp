@@ -1,12 +1,7 @@
 .dft-topbar{
     $this: &;
     color: white;
-    margin-bottom: 20px;
     background-color: $govuk-black;
-
-    @include mq($from: tablet) {
-        margin-bottom: 50px;
-    }
 
     a {
         color: white;

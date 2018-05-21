@@ -3241,7 +3241,11 @@ input, select {
 --------------------------------------------- */
 .dft-login-wrapper {
   max-width: 400px;
-  margin: auto; }
+  margin: auto;
+  margin-top: 20px; }
+  @media (min-width: 40.0625em) {
+    .dft-login-wrapper {
+      margin-top: 50px; } }
 
 .dft-badge {
   font-size: 16px;
@@ -3385,11 +3389,7 @@ input, select {
 
 .dft-topbar {
   color: white;
-  margin-bottom: 20px;
   background-color: #0b0c0c; }
-  @media (min-width: 40.0625em) {
-    .dft-topbar {
-      margin-bottom: 50px; } }
   .dft-topbar a {
     color: white; }
   .dft-topbar__container {
