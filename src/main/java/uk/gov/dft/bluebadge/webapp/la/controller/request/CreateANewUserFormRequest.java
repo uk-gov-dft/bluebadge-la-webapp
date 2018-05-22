@@ -5,30 +5,30 @@ import java.util.Objects;
 public class CreateANewUserFormRequest {
 
   //@NotEmpty @Email
-  private String email;
+  private String emailAddress;
 
   //@NotEmpty
-  private String fullName;
+  private String name;
 
-  public CreateANewUserFormRequest(String email, String fullName) {
-    this.email = email;
-    this.fullName = fullName;
+  public CreateANewUserFormRequest(String emailAddress, String name) {
+    this.emailAddress = emailAddress;
+    this.name = name;
   }
 
-  public String getEmail() {
-    return email;
+  public String getEmailAddress() {
+    return emailAddress;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setEmailAddress(String emailAddress) {
+    this.emailAddress = emailAddress;
   }
 
-  public String getFullName() {
-    return fullName;
+  public String getName() {
+    return name;
   }
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override
@@ -36,23 +36,23 @@ public class CreateANewUserFormRequest {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     CreateANewUserFormRequest that = (CreateANewUserFormRequest) o;
-    return Objects.equals(email, that.email) && Objects.equals(fullName, that.fullName);
+    return Objects.equals(emailAddress, that.emailAddress) && Objects.equals(name, that.name);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(email, fullName);
+    return Objects.hash(emailAddress, name);
   }
 
   @Override
   public String toString() {
     return "CreateANewUserFormRequest{"
-        + "email='"
-        + email
+        + "emailAddress='"
+        + emailAddress
         + '\''
-        + ", fullName='"
-        + fullName
+        + ", name='"
+        + name
         + '\''
         + '}';
   }

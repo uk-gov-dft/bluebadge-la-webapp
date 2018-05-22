@@ -15,8 +15,8 @@ public class CreateANewUserRequestToUser implements Converter<CreateANewUserForm
     // TODO: Remove hardcoded values: id and password
     return new User()
         .id(1)
-        .name(source.getFullName())
-        .emailAddress(source.getEmail())
+        .name(source.getName())
+        .emailAddress(source.getEmailAddress())
         .localAuthorityId(1);
   }
 }

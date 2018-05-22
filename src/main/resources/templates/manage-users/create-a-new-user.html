@@ -22,9 +22,9 @@
 
                     <form  th:action="@{/manage-users/create-a-new-user}" th:object="${formRequest}" method="post" novalidate>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'fullName', null, 'text') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full Name', 'name', null, 'text') }"/>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'emailAddress') }"/>
 
                         <input value="Create user" type="submit" class="govuk-button">
                     </form>

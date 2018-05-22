@@ -42,7 +42,7 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_SIGN_IN = "sign-in";
   public static final String TEMPLATE_SIGNED_OUT = "signed-out";
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
-  public static final String TEMPLATE_CREATE_A_NEW_USER = "create-a-new-user";
+  public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
   private UserService userService;
 
@@ -158,7 +158,7 @@ public class UserControllerImpl implements UserController {
       } else {
         logger.error("errors []", error);
         BindingResultUtils.addApiErrors(error, bindingResult);
-        TemplateModelUtils.addApiError(error, model);
+        //TemplateModelUtils.addApiError(error, model);
         return TEMPLATE_CREATE_A_NEW_USER;
       }
     } catch (HttpClientErrorException cex) {
