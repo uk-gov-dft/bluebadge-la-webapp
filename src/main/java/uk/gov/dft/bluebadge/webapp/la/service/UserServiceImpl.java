@@ -47,8 +47,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<User> getUsers() {
-    UsersResponse usersResponse = this.userManagementService.getUsersForAuthority(1, "");
+  public List<User> findAll(int localAuthority) {
+    UsersResponse usersResponse =
+        this.userManagementService.getUsersForAuthority(localAuthority, "");
     List<User> users = usersResponse.getData().getUsers();
     Collections.sort(users, new UserComparatorByFullName());
     return users;

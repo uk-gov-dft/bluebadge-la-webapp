@@ -1,13 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,6 +21,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserControllerTest {
@@ -32,6 +34,7 @@ public class UserControllerTest {
 
   @Mock private UserManagementService userManagementService;
   @Mock private UserService userService;
+  @Mock private SignInService signInService;
 
   private UserController controller;
 
@@ -43,7 +46,7 @@ public class UserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new UserControllerImpl(userService, userManagementService);
+    controller = new UserControllerImpl(userService, userManagementService, signInService);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -68,15 +71,16 @@ public class UserControllerTest {
 
   @Test
   public void shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
+    User user = new User().emailAddress("joeblogs");
     mockMvc
-        .perform(get("/sign-in").sessionAttr("email", "joeblogs"))
+        .perform(get("/sign-in").sessionAttr("user", user))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/"));
   }
 
   @Test
   public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
-    when(userManagementService.checkUserExistsForEmail(EMAIL)).thenReturn(true);
+    when(signInService.signIn(EMAIL)).thenReturn(Optional.of(new User().emailAddress(EMAIL)));
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
@@ -87,7 +91,7 @@ public class UserControllerTest {
   public void
       shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
           throws Exception {
-    when(userManagementService.checkUserExistsForEmail(EMAIL)).thenReturn(false);
+    when(signInService.signIn(EMAIL)).thenReturn(Optional.empty());
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
@@ -130,7 +134,7 @@ public class UserControllerTest {
   @Test
   public void shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
       throws Exception {
-    when(userManagementService.checkUserExistsForEmail(EMAIL))
+    when(signInService.signIn(EMAIL))
         .thenThrow(
             new GeneralServiceException(
                 "General Service Exception", new Exception("Cause Exception")));
@@ -210,20 +214,38 @@ public class UserControllerTest {
   }
 
   @Test
-  public void shouldDisplayManagerUsersTemplateWithUsers_WhenThereAreUsers() throws Exception {
+  public void
+      shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenThereAreUsers()
+          throws Exception {
+    final int LOCAL_AUTHORITY = 1;
+    User userSignedIn =
+        new User()
+            .name("Joe")
+            .id(1)
+            .emailAddress("joe.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+    User user2 =
+        new User()
+            .name("Jane")
+            .id(2)
+            .emailAddress("jane.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+    User user3 =
+        new User()
+            .name("Fred")
+            .id(3)
+            .emailAddress("jfred.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
 
-    List<User> users =
-        Arrays.asList(
-            new User().name("Joe").id(1).emailAddress("joe.blogs@email.com"),
-            new User().name("Jane").id(2).emailAddress("jane.blogs@email.com"),
-            new User().name("Fred").id(3).emailAddress("jfred.blogs@email.com"));
+    List<User> users = Arrays.asList(userSignedIn, user2, user3);
 
-    when(userService.getUsers()).thenReturn(users);
+    when(userService.findAll(userSignedIn.getLocalAuthorityId())).thenReturn(users);
 
     mockMvc
-        .perform(get("/manage-users"))
+        .perform(get("/manage-users").sessionAttr("user", userSignedIn))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("users", users));
+    verify(userService.findAll(LOCAL_AUTHORITY), times(1));
   }
 }

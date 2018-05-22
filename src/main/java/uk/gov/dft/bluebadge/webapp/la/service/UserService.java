@@ -16,5 +16,5 @@ public interface UserService {
 
   int delete(Long id);
 
-  List<User> getUsers();
+  List<User> findAll(int localAuthority);
 }

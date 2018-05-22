@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
@@ -42,18 +44,23 @@ public class UserControllerImpl implements UserController {
 
   private UserManagementService userManagementService;
   private UserService userService;
+  private SignInService signInService;
 
   @Autowired
-  public UserControllerImpl(UserService userService, UserManagementService userManagementService) {
+  public UserControllerImpl(
+      UserService userService,
+      UserManagementService userManagementService,
+      SignInService signInService) {
     this.userService = userService;
     this.userManagementService = userManagementService;
+    this.signInService = signInService;
   }
 
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
 
-    if (session.getAttribute("email") != null) {
+    if (session.getAttribute("user") != null) {
       return "redirect:" + URL_HOME;
     }
     return TEMPLATE_SIGN_IN;
@@ -73,8 +80,9 @@ public class UserControllerImpl implements UserController {
         return TEMPLATE_SIGN_IN;
       } else {
         String email = formRequest.getEmail();
-        if (userManagementService.checkUserExistsForEmail(email)) {
-          session.setAttribute("email", email);
+        Optional<User> user = signInService.signIn(email);
+        if (user.isPresent()) {
+          session.setAttribute("user", user.get());
           return "redirect:" + URL_HOME;
         }
       }
@@ -137,15 +145,26 @@ public class UserControllerImpl implements UserController {
 
   @GetMapping(URL_MANAGE_USERS)
   public String showManageUsers(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    List<User> users = userService.getUsers();
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest,
+      Model model,
+      HttpSession session) {
+    Optional<String> email = SignInUtils.getEmailSignedIn(session);
+    if (!email.isPresent()) {
+      return "redirect:" + UserControllerImpl.URL_SIGN_IN;
+    }
+    User user = (User) session.getAttribute("user");
+    List<User> users = userService.findAll(user.getLocalAuthorityId());
     model.addAttribute("users", users);
     return TEMPLATE_MANAGE_USERS;
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
   public String showCreateUser(
-      @ModelAttribute("formRequest") final CreateANewFormRequest formRequest) {
+      @ModelAttribute("formRequest") final CreateANewFormRequest formRequest, HttpSession session) {
+    Optional<String> email = SignInUtils.getEmailSignedIn(session);
+    if (!email.isPresent()) {
+      return "redirect:" + UserControllerImpl.URL_SIGN_IN;
+    }
     return TEMPLATE_CREATE_A_NEW_USER;
   }
 }

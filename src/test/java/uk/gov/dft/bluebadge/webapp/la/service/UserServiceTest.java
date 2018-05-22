@@ -34,16 +34,42 @@ public class UserServiceTest {
   }
 
   @Test
-  public void shouldReturnUsersInAlfabeticalAscendingOrder_WhenThereAreUsers() {
-    User user1 = new User().id(1).name("z").localAuthorityId(1).emailAddress("name-1@email.com");
-    User user2 = new User().id(2).name("c").localAuthorityId(1).emailAddress("name-2@email.com");
-    User user3 = new User().id(3).name("a").localAuthorityId(1).emailAddress("name-3@email.com");
-    User user4 = new User().id(4).name("m").localAuthorityId(1).emailAddress("name-4@email.com");
-    User user5 = new User().id(5).name("h").localAuthorityId(1).emailAddress("name-5@email.com");
+  public void shouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
+    final int LOCAL_AUTHORITY = 1;
+    User user1 =
+        new User()
+            .id(1)
+            .name("z")
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .emailAddress("name-1@email.com");
+    User user2 =
+        new User()
+            .id(2)
+            .name("c")
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .emailAddress("name-2@email.com");
+    User user3 =
+        new User()
+            .id(3)
+            .name("a")
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .emailAddress("name-3@email.com");
+    User user4 =
+        new User()
+            .id(4)
+            .name("m")
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .emailAddress("name-4@email.com");
+    User user5 =
+        new User()
+            .id(5)
+            .name("h")
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .emailAddress("name-5@email.com");
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
-    when(userManagementServiceMock.getUsersForAuthority(1, ""))
+    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
         .thenReturn(new UsersResponse().data(new UsersData().users(usersFromClient)));
-    List<User> users = userService.getUsers();
+    List<User> users = userService.findAll(LOCAL_AUTHORITY);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
     assertThat(users).isEqualTo(expectedUsers);
   }
