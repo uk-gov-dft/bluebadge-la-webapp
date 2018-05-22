@@ -31,7 +31,7 @@
                 <tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="col">Name</th>
                     <th class="govuk-table__header" scope="col">Email address</th>
-                    <!-- <th class="govuk-table__header" scope="col">Permissions</th> -->
+                    <th class="govuk-table__header" scope="col">Permissions</th>
                 </tr>
             </thead>
 
@@ -41,7 +41,7 @@
                         <a href="#" th:utext="${user.getName()}" />
                     </td>
                     <td class="govuk-table__cell" th:utext="${user.getEmailAddress()}" />
-                    <!-- <td class="govuk-table__cell" th:utext="${user.getLocalAuthorityId()}" /> -->
+                    <td class="govuk-table__cell" th:utext="${user.getLocalAuthorityId()}" />
                 </tr>
             </tbody>
         </table>
