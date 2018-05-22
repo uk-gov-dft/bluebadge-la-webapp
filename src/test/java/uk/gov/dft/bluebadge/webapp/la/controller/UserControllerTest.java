@@ -16,12 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserControllerTest {
 
@@ -31,7 +30,8 @@ public class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private UserManagementService service;
+  @Mock private UserManagementService userManagementService;
+  @Mock private UserService userService;
 
   private UserController controller;
 
@@ -43,7 +43,7 @@ public class UserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new UserControllerImpl(service);
+    controller = new UserControllerImpl(userService, userManagementService);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -76,7 +76,7 @@ public class UserControllerTest {
 
   @Test
   public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(true);
+    when(userManagementService.checkUserExistsForEmail(EMAIL)).thenReturn(true);
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
@@ -87,7 +87,7 @@ public class UserControllerTest {
   public void
       shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
           throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(false);
+    when(userManagementService.checkUserExistsForEmail(EMAIL)).thenReturn(false);
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
@@ -130,7 +130,7 @@ public class UserControllerTest {
   @Test
   public void shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
       throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL))
+    when(userManagementService.checkUserExistsForEmail(EMAIL))
         .thenThrow(
             new GeneralServiceException(
                 "General Service Exception", new Exception("Cause Exception")));
@@ -218,8 +218,7 @@ public class UserControllerTest {
             new User().name("Jane").id(2).emailAddress("jane.blogs@email.com"),
             new User().name("Fred").id(3).emailAddress("jfred.blogs@email.com"));
 
-    when(service.getUsersForAuthority(1, ""))
-        .thenReturn(new UsersResponse().data(new UsersData().users(users)));
+    when(userService.getUsers()).thenReturn(users);
 
     mockMvc
         .perform(get("/manage-users"))

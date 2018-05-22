@@ -4,7 +4,7 @@ import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class CreateFormRequest {
+public class CreateANewFormRequest {
 
   @NotEmpty(message = "{error.form.field.createUser.email.notEmpty}")
   @Email(message = "{error.form.field.createUser.email.wrongFormat}")
@@ -13,7 +13,7 @@ public class CreateFormRequest {
   @NotEmpty(message = "{error.form.field.createUser.fullname.notEmpty}")
   private String fullName;
 
-  public CreateFormRequest(
+  public CreateANewFormRequest(
       @NotEmpty(message = "{error.form.field.createUser.email.notEmpty}")
           @Email(message = "{error.form.field.createUser.email.wrongFormat}")
           String email,
@@ -42,7 +42,7 @@ public class CreateFormRequest {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    CreateFormRequest that = (CreateFormRequest) o;
+    CreateANewFormRequest that = (CreateANewFormRequest) o;
     return Objects.equals(email, that.email) && Objects.equals(fullName, that.fullName);
   }
 
@@ -54,6 +54,13 @@ public class CreateFormRequest {
 
   @Override
   public String toString() {
-    return "CreateFormRequest{" + "email='" + email + '\'' + ", fullName='" + fullName + '\'' + '}';
+    return "CreateANewFormRequest{"
+        + "email='"
+        + email
+        + '\''
+        + ", fullName='"
+        + fullName
+        + '\''
+        + '}';
   }
 }

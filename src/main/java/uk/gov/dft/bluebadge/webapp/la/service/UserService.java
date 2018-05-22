@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.List;
 import java.util.Optional;
-import uk.gov.dft.bluebadge.webapp.la.service.model.User;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
 
 public interface UserService {
 
@@ -15,4 +15,6 @@ public interface UserService {
   int update(User user);
 
   int delete(Long id);
+
+  List<User> getUsers();
 }

@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
+import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
 public class UserControllerImpl implements UserController {
@@ -34,14 +37,15 @@ public class UserControllerImpl implements UserController {
   public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
-  public static final String TEMPLATE_SIGNED_OUT = "signed-out";
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
-  public static final String TEMPLATE_CREATE_A_NEW_USER = "create-a-new-user";
+  public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
   private UserManagementService userManagementService;
+  private UserService userService;
 
   @Autowired
-  public UserControllerImpl(UserManagementService userManagementService) {
+  public UserControllerImpl(UserService userService, UserManagementService userManagementService) {
+    this.userService = userService;
     this.userManagementService = userManagementService;
   }
 
@@ -134,14 +138,14 @@ public class UserControllerImpl implements UserController {
   @GetMapping(URL_MANAGE_USERS)
   public String showManageUsers(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-
-    UsersResponse usersResponse = this.userManagementService.getUsersForAuthority(1, "");
-    model.addAttribute("users", usersResponse.getData().getUsers());
+    List<User> users = userService.getUsers();
+    model.addAttribute("users", users);
     return TEMPLATE_MANAGE_USERS;
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
-  public String showCreateUser(@ModelAttribute("formRequest") final SignInFormRequest formRequest) {
+  public String showCreateUser(
+      @ModelAttribute("formRequest") final CreateANewFormRequest formRequest) {
     return TEMPLATE_CREATE_A_NEW_USER;
   }
 }
