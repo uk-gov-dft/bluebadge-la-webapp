@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,15 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class UserControllerTest {
 
@@ -93,7 +92,14 @@ public class UserControllerTest {
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("accessDenied", is(true)));
+        .andExpect(
+            model()
+                .attribute(
+                    "errorSummary",
+                    is(
+                        new ErrorViewModel(
+                            "Access Denied",
+                            "You've entered an incorrect email address or password"))));
   }
 
   @Test
@@ -133,7 +139,10 @@ public class UserControllerTest {
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("serverError", true));
+        .andExpect(
+            model()
+                .attribute(
+                    "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
   }
 
   @Test
@@ -143,7 +152,10 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("serverError", true));
+        .andExpect(
+            model()
+                .attribute(
+                    "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
   }
 
   @Test
@@ -153,7 +165,15 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("accessDenied", true));
+        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
+        .andExpect(
+            model()
+                .attribute(
+                    "errorSummary",
+                    is(
+                        new ErrorViewModel(
+                            "Access Denied",
+                            "You've entered an incorrect email address or password"))));
   }
 
   @Test
@@ -163,7 +183,14 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("expiredSession", true));
+        .andExpect(
+            model()
+                .attribute(
+                    "errorSummary",
+                    is(
+                        new ErrorViewModel(
+                            "You've been signed out",
+                            "You were inactive for 2 hours so we've signed you out to secure your account"))));
   }
 
   @Test
@@ -185,18 +212,19 @@ public class UserControllerTest {
   @Test
   public void shouldDisplayManagerUsersTemplateWithUsers_WhenThereAreUsers() throws Exception {
 
-    List<User> users = Arrays.asList(
+    List<User> users =
+        Arrays.asList(
             new User().name("Joe").id(1).emailAddress("joe.blogs@email.com"),
             new User().name("Jane").id(2).emailAddress("jane.blogs@email.com"),
-            new User().name("Fred").id(3).emailAddress("jfred.blogs@email.com")
-    );
+            new User().name("Fred").id(3).emailAddress("jfred.blogs@email.com"));
 
-    when(service.getUsersForAuthority(1, "")).thenReturn(new UsersResponse().data(new UsersData().users(users)));
+    when(service.getUsersForAuthority(1, ""))
+        .thenReturn(new UsersResponse().data(new UsersData().users(users)));
 
     mockMvc
-            .perform(get("/manage-users"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("manage-users"))
-            .andExpect(model().attribute("users", users));
+        .perform(get("/manage-users"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-users"))
+        .andExpect(model().attribute("users", users));
   }
 }

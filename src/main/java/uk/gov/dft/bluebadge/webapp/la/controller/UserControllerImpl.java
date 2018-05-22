@@ -12,15 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.ListConverter;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
-
-import java.util.List;
 
 @Controller
 public class UserControllerImpl implements UserController {
@@ -66,7 +62,7 @@ public class UserControllerImpl implements UserController {
       Model model,
       HttpSession session) {
 
-    model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
+    //   model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
 
     try {
       if (bindingResult.hasErrors()) {
@@ -136,7 +132,8 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_MANAGE_USERS)
-  public String showManageUsers(@ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
+  public String showManageUsers(
+      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
 
     UsersResponse usersResponse = this.userManagementService.getUsersForAuthority(1, "");
     model.addAttribute("users", usersResponse.getData().getUsers());
