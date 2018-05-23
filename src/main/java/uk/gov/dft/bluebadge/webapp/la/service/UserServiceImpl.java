@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByFullName;
 
@@ -32,8 +33,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public int create(User user) {
-    return 1;
+  public UserResponse create(User user) {
+    return userManagementService.createUser(user.getLocalAuthorityId(), user);
   }
 
   @Override
@@ -53,5 +54,10 @@ public class UserServiceImpl implements UserService {
     List<User> users = usersResponse.getData().getUsers();
     Collections.sort(users, new UserComparatorByFullName());
     return users;
+  }
+
+  @Override
+  public boolean checkUserExistsForEmail(String email) {
+    return userManagementService.checkUserExistsForEmail(email);
   }
 }

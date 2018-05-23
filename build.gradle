@@ -18,7 +18,7 @@ plugins {
     id "com.moowork.node" version "1.2.0"
 //    id "com.moowork.grunt" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
-    id "com.jfrog.artifactory" version "4.5.4"
+//    id "com.jfrog.artifactory" version "4.5.4"
 }
 
 
@@ -29,7 +29,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 
 
 

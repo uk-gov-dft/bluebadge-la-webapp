@@ -18,6 +18,22 @@
         <selenium.version>3.10.0</selenium.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>acceptance-test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <base.url>http://localhost:8080</base.url>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <dependencies>
         <dependency>
             <groupId>info.cukes</groupId>
@@ -117,59 +133,49 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/AcceptanceTest.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <buildDirectory>${project.build.directory}</buildDirectory>
+                        <webdriver.base.url>${base.url}</webdriver.base.url>
+                    </systemPropertyVariables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>acceptance-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- Automatically downloads and installs Chromederiver binaries within a temporary project
+                space so that they don't have to be deployed manually. -->
+                <groupId>com.github.webdriverextensions</groupId>
+                <artifactId>webdriverextensions-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <drivers>
+                        <driver>
+                            <name>chromedriver</name>
+                            <version>2.35</version>
+                        </driver>
+                    </drivers>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
-    <profiles>
-        <profile>
-            <id>acceptance-test</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
 
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.20.1</version>
-                        <configuration>
-                            <includes>
-                                <include>**/AcceptanceTest.java</include>
-                            </includes>
-                            <systemPropertyVariables>
-                                <buildDirectory>${project.build.directory}</buildDirectory>
-                            </systemPropertyVariables>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>acceptance-test</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <!-- Automatically downloads and installs Chromederiver binaries within a temporary project
-                        space so that they don't have to be deployed manually. -->
-                        <groupId>com.github.webdriverextensions</groupId>
-                        <artifactId>webdriverextensions-maven-plugin</artifactId>
-                        <version>3.1.1</version>
-                        <configuration>
-                            <drivers>
-                                <driver>
-                                    <name>chromedriver</name>
-                                    <version>2.35</version>
-                                </driver>
-                            </drivers>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>

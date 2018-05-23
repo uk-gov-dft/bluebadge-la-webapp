@@ -13,10 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewFormRequest;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
@@ -33,7 +36,6 @@ public class UserControllerImpl implements UserController {
   public static final String URL_SERVER_ERROR = "/server-error";
   public static final String URL_SIGN_IN = "/sign-in";
   public static final String URL_SIGN_OUT = "/sign-out";
-  public static final String URL_SIGNED_OUT = "/signed-out";
   public static final String URL_HOME = "/";
   public static final String URL_MANAGE_USERS = "/manage-users";
   public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
@@ -42,18 +44,19 @@ public class UserControllerImpl implements UserController {
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
   public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
-  private UserManagementService userManagementService;
   private UserService userService;
   private SignInService signInService;
+
+  private CreateANewUserRequestToUser createANewUserRequest2User;
 
   @Autowired
   public UserControllerImpl(
       UserService userService,
-      UserManagementService userManagementService,
-      SignInService signInService) {
+      SignInService signInService,
+      CreateANewUserRequestToUser createANewUserRequest2UserConverter) {
     this.userService = userService;
-    this.userManagementService = userManagementService;
     this.signInService = signInService;
+    this.createANewUserRequest2User = createANewUserRequest2UserConverter;
   }
 
   @GetMapping(URL_SIGN_IN)
@@ -108,13 +111,6 @@ public class UserControllerImpl implements UserController {
     }
   }
 
-  @GetMapping(URL_SIGNED_OUT)
-  public String showSignedOut(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("signedOut", true);
-    return TEMPLATE_SIGN_IN;
-  }
-
   @GetMapping(URL_EXPIRED_SESSION)
   public String showExpiredSession(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
@@ -144,10 +140,7 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_MANAGE_USERS)
-  public String showManageUsers(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest,
-      Model model,
-      HttpSession session) {
+  public String showManageUsers(Model model, HttpSession session) {
     Optional<String> email = SignInUtils.getEmailSignedIn(session);
     if (!email.isPresent()) {
       return "redirect:" + UserControllerImpl.URL_SIGN_IN;
@@ -159,12 +152,34 @@ public class UserControllerImpl implements UserController {
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
-  public String showCreateUser(
-      @ModelAttribute("formRequest") final CreateANewFormRequest formRequest, HttpSession session) {
+  public String showCreateANewUser(
+      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest,
+      HttpSession session) {
     Optional<String> email = SignInUtils.getEmailSignedIn(session);
     if (!email.isPresent()) {
       return "redirect:" + UserControllerImpl.URL_SIGN_IN;
     }
     return TEMPLATE_CREATE_A_NEW_USER;
+  }
+
+  @PostMapping(URL_CREATE_A_NEW_USER)
+  public String createANewUser(
+      @ModelAttribute("formRequest") CreateANewUserFormRequest formRequest,
+      BindingResult bindingResult,
+      Model model) {
+    try {
+      User user = createANewUserRequest2User.convert(formRequest).localAuthorityId(1);
+      UserResponse userResponse = userService.create(user);
+      return ErrorHandlingUtils.handleError(
+          userResponse.getError(),
+          "redirect:/" + TEMPLATE_MANAGE_USERS,
+          TEMPLATE_CREATE_A_NEW_USER,
+          bindingResult,
+          model);
+    } catch (Exception ex) {
+      TemplateModelUtils.addCustomError(
+          "general error creating user", "error in creating user", model);
+      return TEMPLATE_CREATE_A_NEW_USER;
+    }
   }
 }

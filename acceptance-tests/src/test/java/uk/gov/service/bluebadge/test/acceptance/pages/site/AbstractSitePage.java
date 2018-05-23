@@ -5,7 +5,7 @@ import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
 
 public abstract class AbstractSitePage extends AbstractPage {
 
-  public static final String URL = "http://localhost:8080";
+  public static final String URL = System.getProperty("webdriver.base.url");
 
   public AbstractSitePage(WebDriverProvider webDriverProvider) {
     super(webDriverProvider);

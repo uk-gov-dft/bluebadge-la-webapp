@@ -21,7 +21,7 @@
                   th:if="${session.email}"
                   th:utext="${session.email}" />
 
-            <a th:data-uipath="signout" class="dft-topbar__signout" href="/sign-out">Sign out</a>
+            <a th:if="${session.email != null && session.email != ''}" th:data-uipath="signout" class="dft-topbar__signout" href="/sign-out">Sign out</a>
         </div>
 
     </div>

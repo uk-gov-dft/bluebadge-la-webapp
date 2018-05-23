@@ -1,8 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+// Make sure this is the user we want
 import java.util.List;
 import java.util.Optional;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 
 public interface UserService {
 
@@ -10,7 +12,9 @@ public interface UserService {
 
   List<User> findAll();
 
-  int create(User user);
+  boolean checkUserExistsForEmail(String email);
+
+  UserResponse create(User user);
 
   int update(User user);
 

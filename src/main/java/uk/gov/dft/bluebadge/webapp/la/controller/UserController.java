@@ -3,7 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 
 public interface UserController {
@@ -21,7 +21,10 @@ public interface UserController {
 
   String showServerError(SignInFormRequest formRequest, Model model);
 
-  String showManageUsers(SignInFormRequest formRequest, Model model, HttpSession session);
+  String showManageUsers(Model model, HttpSession session);
 
-  String showCreateUser(CreateANewFormRequest formRequest, HttpSession session);
+  String showCreateANewUser(CreateANewUserFormRequest formRequest, HttpSession session);
+
+  String createANewUser(
+      CreateANewUserFormRequest formRequest, BindingResult bindingResul, Model model);
 }

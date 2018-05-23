@@ -26,6 +26,7 @@ public class TestContentUrls {
     add("home", "/");
     add("news", "/news");
     add("sign-in", "/sign-in");
+    add("manage-users", "/manage-users");
   }
 
   private void add(String pageName, String url) {
