@@ -156,16 +156,10 @@ public class UserControllerImpl implements UserController {
       if (error == null || error.getErrors() == null || error.getErrors().isEmpty()) {
         return TEMPLATE_MANAGE_USERS;
       } else {
-        logger.error("errors []", error);
         BindingResultUtils.addApiErrors(error, bindingResult);
         //TemplateModelUtils.addApiError(error, model);
         return TEMPLATE_CREATE_A_NEW_USER;
       }
-    } catch (HttpClientErrorException cex) {
-      if (cex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-        return TEMPLATE_CREATE_A_NEW_USER;
-      }
-      return TEMPLATE_CREATE_A_NEW_USER;
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "general error creating user", "error in creating user", model);
