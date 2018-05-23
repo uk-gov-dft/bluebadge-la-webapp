@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title>Manage Users - GOV.UK Manage Blue Badges</title>
+</head>
+<body>
+
+    <main layout:fragment="content">
+
+        <h1 class="govuk-heading-l" data-uipath="title">Manage Users
+            <span class="dft-badge dft-badge--heading">29</span>
+        </h1>
+
+        <div role="toolbar" class="dft-actions-panel govuk-clearfix">
+            <div class="dft-actions-panel__content">
+
+                <form th:replace="~{ fragments/search :: dft-search('Search', 'search', '0', true) }" />
+
+            </div>
+
+            <div class="dft-actions-panel__cta-area">
+                <a role="button" href="/manage-users/create-a-new-user" class="govuk-button" data-uipath="actionsPanel.button">Create a new user</a>
+            </div>
+        </div>
+
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="col">Name</th>
+                    <th class="govuk-table__header" scope="col">Email address</th>
+                    <th class="govuk-table__header" scope="col">Permissions</th>
+                </tr>
+            </thead>
+
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell"><a href="#">Joe Bloggs</a></td>
+                    <td class="govuk-table__cell">joe.bloggs@does.not.exist</td>
+                    <td class="govuk-table__cell">Standard</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell"><a href="#">Jane Doe</a></td>
+                    <td class="govuk-table__cell">jane.doe@does.not.exist</td>
+                    <td class="govuk-table__cell">Standard</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+</body>
+</html>

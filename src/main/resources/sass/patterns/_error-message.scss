@@ -1,0 +1,9 @@
+.govuk-error-message {
+    font-size: 14px;
+    line-height: 16px;
+
+    @include mq($from: tablet) {
+        font-size: 16px;
+        line-height: 20px;
+    }
+}

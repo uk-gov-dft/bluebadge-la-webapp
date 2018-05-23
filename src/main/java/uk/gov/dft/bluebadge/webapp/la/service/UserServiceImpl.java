@@ -3,11 +3,21 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.webapp.la.service.model.User;
+import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+  @Autowired
+  public UserServiceImpl(UserManagementService userManagementService) {
+    this.userManagementService = userManagementService;
+  }
+
+  private UserManagementService userManagementService;
 
   @Override
   public Optional<User> findById(Long id) {
@@ -20,8 +30,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public int create(User user) {
-    return 1;
+  public UserResponse create(User user) {
+    return userManagementService.createUser(user.getLocalAuthorityId(), user);
   }
 
   @Override
@@ -32,5 +42,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public int delete(Long id) {
     return 1;
+  }
+
+  @Override
+  public boolean checkUserExistsForEmail(String email) {
+    return userManagementService.checkUserExistsForEmail(email);
   }
 }

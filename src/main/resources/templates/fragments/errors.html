@@ -4,57 +4,50 @@
 
 <body>
 
-<!--
-     Displays an error. Used when the error is not in the form itself (neither field related or global). I.e. when you want
-     to display custom errors not related to the form.
+/* ------------------------------------------------------------------------------
 
-     shouldShow: Boolean to control if the error should be displayed or not
-     title: The error has two parts the title and the description, this is the title
-     description: The error has two parts the title and the description, this is the description
--->
-<div class="govuk-c-error-summary"
-     tabindex="-1"
-     role="alert"
+* Error Summary
+
+@title - String: Overrides default error title
+@description - String: Adds description message to the error summary
+
+Individual input field errors will be displayed automatically
+if form validation fails. These errors are included inside the fields
+variable which comes from Thymleaf / Spring integration.
+
+
+-------------------------------------------------------------------------------- */
+
+<div th:fragment="govuk-error-summary(errorSummary})" tabindex="-1" role="alert"
+     class="govuk-error-summary"
      th:aria-labelledby="error-summary-title"
-     th:if="${shouldShow}"
-     th:fragment="general-form-error(shouldShow, title, description)">
-        <h2 class="govuk-c-error-summary__title" id="error-summary-title" th:text="${title}"></h2>
-        <div class="govuk-c-error-summary__body">
-            <p th:utext="${description}"></p>
-        </div>
-</div>
+     th:if="${errorSummary} OR ${#fields.hasErrors('formRequest.*')}">
 
-<!--
-    Generates a div with all the errors of a form that can be retrieved via "fields" which represents BindingResult in Spring MVC.
+    <h2 class="govuk-error-summary__title"
+        th:if="${errorSummary} AND ${errorSummary.title}"
+        id="error-summary-title"
+        th:utext="${errorSummary.title}" />
 
-    fields: It is the the binding result that allows access to the errors in the form. This is the BindingResult class in Spring MVC.
--->
+    <div th:if="${errorSummary} AND ${errorSummary.description}"
+         th:utext="${errorSummary.description}"
+         class="govuk-error-summary__body" />
 
-<div th:fragment="form-field-errors(fields)"
-     class="govuk-c-error-summary"
-     th:aria-labelledby="error-title"
-     role="alert"
-     tabindex="-1"
-     th:if="${#fields.hasErrors('formRequest.*')}">
+    <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
 
-        <h2 data-uipath="error-title" id="error-title" class="govuk-c-error-summary__title" th:text="#{error.form.summary.title}"></h2>
+        <ul class="govuk-list govuk-error-summary__list">
 
-        <div class="govuk-c-error-summary__body">
+            <li th:if="${!err.isGlobal()}"
+                th:each="err : ${#fields.detailedErrors('formRequest.*')}"
+                th:data-uipath="${err.fieldName} + '.summary-error'">
 
-        <ul class="govuk-list govuk-c-error-summary__list" th:if="${fields.hasErrors('formRequest.*')}">
+                <a th:href="'#' + ${err.fieldName}" th:text="${err.message}"/>
 
-            <li data-uipath="error" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${err.isGlobal()}">
-                <span th:utext="${err.message}">Input is incorrect</span>
-            </li>
-
-            <li data-uipath="error" th:each="err : ${fields.detailedErrors('formRequest.*')}" th:if="${!err.isGlobal()}">
-                <a href="#" th:href="'#' + ${err.fieldName}">
-                    <span th:text="${err.message}">Input is incorrect</span>
-                </a>
             </li>
 
         </ul>
+
     </div>
+
 </div>
 
 <!--

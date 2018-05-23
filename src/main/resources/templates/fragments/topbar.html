@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="topbar" role="banner" class="dft-topbar">
+    <div class="dft-topbar__container">
+        <div class="dft-topbar__proposition">
+            <a href="/"
+               class="dft-topbar__title-link"
+               data-uipath="topbar.link"
+               th:utext="${session.email} ? 'Manchester City Council' : 'Manage Blue Badges'" />
+
+            <span class="dft-topbar__title"
+                  data-uipath="topbar.title"
+                  th:if="${session.email}">Manage Blue Badges</span>
+        </div>
+
+        <div class="dft-topbar__menu">
+            <span th:data-uipath="username"
+                  class="dft-topbar__username"
+                  th:if="${session.email}"
+                  th:utext="${session.email}" />
+
+            <a th:if="${session.email != null && session.email != ''}" th:data-uipath="signout" class="dft-topbar__signout" href="/sign-out">Sign out</a>
+        </div>
+
+    </div>
+</header>
+
+</body>
+</html>

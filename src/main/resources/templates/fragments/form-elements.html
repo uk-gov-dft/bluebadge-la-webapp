@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    /* ------------------------------------------------------------------------------
+
+    * Input Field
+
+    @label - String: Label for form input field
+    @name - String: Name for the form input field. This same name is used
+                    for id and attaching label to the input field.
+    @hint - String: Adds hint for the input field underneath the label.
+    @type - String: change the type of input field. Default is set to text
+
+    -------------------------------------------------------------------------------- */
+
+    <div th:fragment="govuk-input(label, name, hint, type)"
+         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+        <label
+                class="govuk-label"
+                th:attr="for=${name}"
+                th:utext="${label}"
+                th:data-uipath="${name} + '.label'" />
+
+        <span class="govuk-hint"
+              th:if="${hint}"
+              th:utext="${hint}"
+              th:data-uipath="${name} + '.label_hint'" />
+
+        <span class="govuk-error-message"
+              th:data-uipath="${name} + '.error'"
+              th:if="${#fields.hasErrors(name)}"
+              th:errors="*{__${name}__}" />
+
+        <input th:class="${#fields.hasErrors(name)} ? 'govuk-input govuk-input--error' : 'govuk-input'"
+               th:data-uipath="${name} + '.field'"
+               th:attr="id=${name}"
+               th:name="${name}"
+               th:type="type ? type : 'text'"
+               th:field="*{__${name}__}" />
+
+    </div><!-- govuk-o-form-group -->
+
+</body>
+</html>
