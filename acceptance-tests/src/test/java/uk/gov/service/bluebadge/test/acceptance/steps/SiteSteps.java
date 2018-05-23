@@ -42,7 +42,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @When("^I (?:can )?click on(?: the| link)? \"([^\"]+)\"(?: link| button)?$")
   public void whenIClickOn(String linkTitle) throws Throwable {
-    sitePage.findPageElementById("idcta-username").click();
+    sitePage.findElementWithText(linkTitle).click();
   }
 
   @Then("^I (?:can )?see \"([^\"]+)\" (?:link|button|image)$")
@@ -227,5 +227,10 @@ public class SiteSteps extends AbstractSpringSteps {
         "Sign out link expected",
         signInPage.findElementWithUiPath("signout").getText(),
         getMatcherForText("Sign out"));
+  }
+
+  @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field$")
+  public void whenItypeTextForField(String text, String field) throws Throwable {
+    signInPage.findPageElementById(field).sendKeys(text);
   }
 }
