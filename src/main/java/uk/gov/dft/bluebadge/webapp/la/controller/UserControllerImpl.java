@@ -148,14 +148,15 @@ public class UserControllerImpl implements UserController {
       BindingResult bindingResult,
       Model model) {
     try {
-      User user = createANewUserRequest2User.convert(formRequest);
+      User user = createANewUserRequest2User.convert(formRequest).localAuthorityId(1);
       UserResponse userResponse = userService.create(user);
       uk.gov.dft.bluebadge.model.usermanagement.Error error = userResponse.getError();
       if (error == null || error.getErrors() == null || error.getErrors().isEmpty()) {
         return TEMPLATE_MANAGE_USERS;
       } else {
+        TemplateModelUtils.addCustomError("Fix the following errors", "", model);
         BindingResultUtils.addApiErrors(error, bindingResult);
-        //TemplateModelUtils.addApiError(error, model);
+        // TemplateModelUtils.addApiError(error, model);
         return TEMPLATE_CREATE_A_NEW_USER;
       }
     } catch (Exception ex) {
