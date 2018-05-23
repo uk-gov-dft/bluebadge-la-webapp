@@ -12,11 +12,7 @@ public class CreateANewUserRequestToUser implements Converter<CreateANewUserForm
   @Override
   public User convert(CreateANewUserFormRequest source) {
     Assert.notNull(source, "Source cannot be null");
-    // TODO: Remove hardcoded values: id and password
-    return new User()
-        .id(1)
-        .name(source.getName())
-        .emailAddress(source.getEmailAddress())
-        .localAuthorityId(1);
+    // TODO: Remove hardcoded values: localauthority
+    return new User().name(source.getName()).emailAddress(source.getEmailAddress());
   }
 }
