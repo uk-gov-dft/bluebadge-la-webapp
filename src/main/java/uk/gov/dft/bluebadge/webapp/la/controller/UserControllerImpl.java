@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
@@ -34,11 +34,11 @@ public class UserControllerImpl implements UserController {
 
   private UserService userService;
 
-  private CreateANewUserFormequestToUser createANewUserRequest2User;
+  private CreateANewUserFormRequestToUser createANewUserRequest2User;
 
   @Autowired
   public UserControllerImpl(
-      UserService userService, CreateANewUserFormequestToUser createANewUserRequest2UserConverter) {
+          UserService userService, CreateANewUserFormRequestToUser createANewUserRequest2UserConverter) {
     this.userService = userService;
     this.createANewUserRequest2User = createANewUserRequest2UserConverter;
   }

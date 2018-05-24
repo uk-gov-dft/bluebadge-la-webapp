@@ -36,7 +36,7 @@ public class HomeControllerTest {
   }
 
   @Test
-  public void shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn() throws Exception {
+  public void showHome_shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn() throws Exception {
     User user = new User().emailAddress("joeBlogs");
     mockMvc
         .perform(get("/").sessionAttr("user", user))
