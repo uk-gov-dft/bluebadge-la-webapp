@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,18 @@ import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
+import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByFullName;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+  private UserManagementService userManagementService;
 
   @Autowired
   public UserServiceImpl(UserManagementService userManagementService) {
     this.userManagementService = userManagementService;
   }
-
-  private UserManagementService userManagementService;
 
   @Override
   public Optional<User> findById(Long id) {
@@ -42,6 +45,15 @@ public class UserServiceImpl implements UserService {
   @Override
   public int delete(Long id) {
     return 1;
+  }
+
+  @Override
+  public List<User> findAll(int localAuthority) {
+    UsersResponse usersResponse =
+        this.userManagementService.getUsersForAuthority(localAuthority, "");
+    List<User> users = usersResponse.getData().getUsers();
+    Collections.sort(users, new UserComparatorByFullName());
+    return users;
   }
 
   @Override

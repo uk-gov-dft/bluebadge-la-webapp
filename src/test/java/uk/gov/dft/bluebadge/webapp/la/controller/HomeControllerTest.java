@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 
 public class HomeControllerTest {
@@ -36,11 +37,12 @@ public class HomeControllerTest {
 
   @Test
   public void shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn() throws Exception {
+    User user = new User().emailAddress("joeBlogs");
     mockMvc
-        .perform(get("/").sessionAttr("email", "joeBlogs"))
+        .perform(get("/").sessionAttr("user", user))
         .andExpect(status().isOk())
-        .andExpect(view().name("home"))
-        .andExpect(model().attribute("email", "joeBlogs"));
+        .andExpect(view().name("home"));
+    // TODO: We should expect the name of the user printed out
   }
 
   @Test

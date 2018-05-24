@@ -18,7 +18,8 @@ plugins {
     id "com.moowork.node" version "1.2.0"
 //    id "com.moowork.grunt" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
-//    id "com.jfrog.artifactory" version "4.5.4"
+    id "com.jfrog.artifactory" version "4.5.4"
+    id 'net.saliman.cobertura' version '2.5.4'
 }
 
 
@@ -67,7 +68,7 @@ dependencies {
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
 
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.1-SNAPSHOT')
+    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.2-SNAPSHOT')
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
