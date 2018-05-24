@@ -3382,7 +3382,7 @@ input, select {
     padding: 20px; }
     @media (min-width: 48.0625em) {
       .dft-container .dft-main-wrapper {
-        padding: 50px 60px 50px 60px; } }
+        padding: 50px 60px 50px 360px; } }
     @media (min-width: 40.0625em) and (max-width: 48.0525em) {
       .dft-container .dft-main-wrapper .govuk-o-grid__item--two-thirds {
         width: 100%; } }
