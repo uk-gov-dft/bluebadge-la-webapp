@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -18,7 +17,6 @@ import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 
 public class SignInControllerTest {
@@ -50,7 +48,7 @@ public class SignInControllerTest {
   }
 
   @Test
-  public void shouldDisplaySignInPage() throws Exception {
+  public void showSignIn_shouldDisplaySignInPage() throws Exception {
     mockMvc
         .perform(get("/sign-in"))
         .andExpect(status().isOk())
@@ -65,7 +63,7 @@ public class SignInControllerTest {
   }
 
   @Test
-  public void shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
+  public void showSignIn_shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
     User user = new User().emailAddress("joeblogs");
     mockMvc
         .perform(get("/sign-in").sessionAttr("user", user))
@@ -74,7 +72,7 @@ public class SignInControllerTest {
   }
 
   @Test
-  public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
+  public void signIn_shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
     when(signInService.signIn(EMAIL)).thenReturn(Optional.of(new User().emailAddress(EMAIL)));
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
@@ -82,10 +80,9 @@ public class SignInControllerTest {
         .andExpect(view().name("redirect:/"));
   }
 
-  @Ignore
   @Test
   public void
-      shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
+      signIn_shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
           throws Exception {
     when(signInService.signIn(EMAIL)).thenReturn(Optional.empty());
     mockMvc
@@ -102,10 +99,9 @@ public class SignInControllerTest {
                             "You've entered an incorrect email address or password"))));
   }
 
-  @Ignore
   @Test
   public void
-      shouldDisplaySignInTemplateWithErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
+      signIn_shouldDisplaySignInTemplateWithErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
           throws Exception {
     mockMvc
         .perform(post("/sign-in").param("email", "").param(" ***REMOVED***))
@@ -116,10 +112,9 @@ public class SignInControllerTest {
         .andExpect(model().attributeHasFieldErrorCode("formRequest", " ***REMOVED***));
   }
 
-  @Ignore
   @Test
   public void
-      shouldDisplaySignInTemplateWithErrorMessageForEmailAndHttpStatusIsOK_WhenEmailIsWrongFormat()
+      signIn_shouldDisplaySignInTemplateWithErrorMessageForEmailAndHttpStatusIsOK_WhenEmailIsWrongFormat()
           throws Exception {
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL_WRONG_FORMAT).param("password", PASSWORD))
@@ -129,14 +124,11 @@ public class SignInControllerTest {
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "email", "Email"));
   }
 
-  @Ignore
   @Test
-  public void shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
+  public void signIn_shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
       throws Exception {
     when(signInService.signIn(EMAIL))
-        .thenThrow(
-            new GeneralServiceException(
-                "General Service Exception", new Exception("Cause Exception")));
+        .thenThrow(new Exception("Exception", new Exception("Cause Exception")));
 
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
@@ -148,9 +140,8 @@ public class SignInControllerTest {
                     "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
   }
 
-  @Ignore
   @Test
-  public void shouldDisplayServerError() throws Exception {
+  public void showServerError_shouldDisplayServerError() throws Exception {
     mockMvc
         .perform(get("/server-error"))
         .andExpect(status().isOk())
@@ -162,9 +153,8 @@ public class SignInControllerTest {
                     "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
   }
 
-  @Ignore
   @Test
-  public void shouldDisplayAccessDenied() throws Exception {
+  public void showAccessDenied_shouldDisplayAccessDenied() throws Exception {
     mockMvc
         .perform(get("/access-denied"))
         .andExpect(status().isOk())
@@ -181,9 +171,8 @@ public class SignInControllerTest {
                             "You've entered an incorrect email address or password"))));
   }
 
-  @Ignore
   @Test
-  public void shouldDisplayExpiredSession() throws Exception {
+  public void showExpiredSession_shouldDisplayExpiredSession() throws Exception {
     mockMvc
         .perform(get("/expired-session"))
         .andExpect(status().isOk())
@@ -200,7 +189,7 @@ public class SignInControllerTest {
   }
 
   @Test
-  public void shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
+  public void signOut_shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
     mockMvc
         .perform(get("/sign-out").sessionAttr("email", "joeblogs"))
         .andExpect(status().isFound())

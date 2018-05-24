@@ -4,5 +4,5 @@ import java.util.Optional;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 
 public interface SignInService {
-  Optional<User> signIn(String email);
+  Optional<User> signIn(String email) throws Exception;
 }

@@ -16,7 +16,6 @@ import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 
 @Controller
@@ -44,7 +43,7 @@ public class SignInControllerImpl implements SignInController {
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
-    if (session.getAttribute("user") != null) {
+    if (SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_HOME;
     }
     return TEMPLATE_SIGN_IN;
@@ -56,11 +55,7 @@ public class SignInControllerImpl implements SignInController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-    if (session.getAttribute("user") != null) {
-      return REDIRECT_URL_HOME;
-    }
-
-    //   model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
+    model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
 
     try {
       if (bindingResult.hasErrors()) {
@@ -74,9 +69,6 @@ public class SignInControllerImpl implements SignInController {
         }
       }
       return showAccessDenied(formRequest, model);
-    } catch (GeneralServiceException gex) {
-      logger.error("There was a general controller exception", gex);
-      return showServerError(formRequest, model);
     } catch (Exception ex) {
       logger.error("There was an unexpected exception", ex);
       return showServerError(formRequest, model);
@@ -89,9 +81,9 @@ public class SignInControllerImpl implements SignInController {
     try {
       session.invalidate();
       return "redirect:" + URL_SIGN_IN;
-    } catch (GeneralServiceException ex) {
-      logger.error("There was a general controller exception", ex);
-      throw new GeneralControllerException("There was a general controller exception", ex);
+    } catch (Exception ex) {
+      logger.error("There was an unexpected exception", ex);
+      throw new GeneralControllerException("There was an unexpected exception", ex);
     }
   }
 
