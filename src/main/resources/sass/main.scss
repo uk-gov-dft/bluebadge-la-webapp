@@ -12,7 +12,13 @@
 
 @import "@govuk-frontend/frontend/all";
 @import "accessibility";
-
+// need to replace breakpoints at govuk level so
+// that govuk components can consume the new breakpoints
+$mq-breakpoints: (
+    mobile:  320px,
+    tablet:  768px,
+    desktop: 1024px
+);
 
 
 
@@ -57,23 +63,36 @@
 
 --------------------------------------------- */
 
-$debug: false;
+$debug: true;
 
 @if($debug){
+
     body::before {
-        content: "DEBUGGER - MOBILE";
-        background-color: red;
         color: white;
         display:block;
         font-size: 16px;
-        line-height: 30px;
+        padding: 0 15px;
+        line-height: 40px;
+        background-color: green;
+        content: "DEBUGGER - MOBILE";
 
         @include mq(tablet) {
-            content: "DEBUGGER - TABLET";
+            background-color: red;
+            content: "DEBUGGER - TABLET (768px)";
         }
 
         @include mq(desktop) {
-            content: "DEBUGGER - DESKTOP";
+            background-color: blue;
+            content: "DEBUGGER - DESKTOP (1024px)";
         }
     }
+
+    /* .govuk-grid-row {
+        background-color: rgba(red, 0.4);
+    }
+
+    .govuk-grid-column-two-thirds {
+        background-color: rgba(red, 0.2);
+    } */
+
 }

@@ -8,21 +8,25 @@
 </head>
 <body>
 
-    <main layout:fragment="content" class="dft-login-wrapper">
+    <main layout:fragment="content">
 
-        <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
+        <div class="dft-login-box">
 
-        <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+            <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-        <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
-            <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
+            <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-            <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'email', null, 'email') }"/>
 
-            <input data-uipath="button" value="Sign in" type="submit" class="govuk-button">
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
 
-        </form>
+                <input data-uipath="button" value="Sign in" type="submit" class="govuk-button">
+
+            </form>
+
+        </div>
     </main>
 
 </body>

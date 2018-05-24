@@ -1,5 +1,19 @@
-.dft-o-grid__item--center{
-    float: none;
-    margin: auto;
+.dft-grid-row {
+    @include govuk-clearfix;
+    margin-left: - ($govuk-gutter-half);
+    margin-right: - ($govuk-gutter-half);
 
+    &--no-gutters {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.dft-grid-col {
+    padding: 0 $govuk-gutter-half;
+
+    &--no-gutters {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

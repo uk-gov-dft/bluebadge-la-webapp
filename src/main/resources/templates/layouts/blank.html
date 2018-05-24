@@ -13,10 +13,17 @@
 
     <header th:replace="~{fragments/topbar :: topbar }" />
 
-    <div class="govuk-o-width-container">
+    <div class="dft-container">
 
-        <main class="govuk-o-main-wrapper" layout:fragment="content" />
+        <div class="dft-width-container">
+
+            <div layout:fragment="top"></div>
+
+            <main class="dft-main-wrapper" layout:fragment="content" />
+
+        </div>
 
     </div>
+
 </body>
 </html>

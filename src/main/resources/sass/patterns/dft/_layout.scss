@@ -1,30 +1,47 @@
 .dft-container {
-    position: relative;
 
     .dft-sidebar {
-        background-color: #eee;
+        display: none; // to remove
 
         @include mq(desktop){
+            display: block; // to remove
             width:300px;
             height: 100vh;
             max-width: 300px;
             position: absolute;
         }
-
     }
 
-    .dft-main-wrapper {
-        padding: 20px;
+    &--with-sidebar {
+        position: relative;
 
-        @include mq($from: desktop){
-            padding: 50px 60px 50px 360px;
-        }
-
-        @include mq(tablet, desktop) {
-            .govuk-o-grid__item--two-thirds {
-                width: 100%;
+        .dft-width-container {
+            @include mq($from: desktop){
+                padding-left: 360px;
+                padding-right: 60px;
             }
         }
     }
+}
 
+.dft-width-container {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    @include mq($from: desktop){
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+
+
+.dft-main-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    @include mq($from: desktop){
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
 }
