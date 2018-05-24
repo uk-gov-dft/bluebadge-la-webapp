@@ -1,7 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +15,9 @@ public class HomeControllerImpl implements HomeController {
 
   @GetMapping(URL_HOME)
   public String showHome(Model model, HttpSession session) {
-    String email = (String) session.getAttribute("email");
-    if (StringUtils.isEmpty(email)) {
-      return "redirect:" + UserControllerImpl.URL_SIGN_IN;
+    Optional<String> email = SignInUtils.getEmailSignedIn(session);
+    if (!email.isPresent()) {
+      return "redirect:" + SignInControllerImpl.URL_SIGN_IN;
     }
     model.addAttribute("email", email);
     return TEMPLATE_HOME;
