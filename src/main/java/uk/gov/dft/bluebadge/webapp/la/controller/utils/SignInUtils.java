@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import java.util.Optional;
 import javax.servlet.http.HttpSession;

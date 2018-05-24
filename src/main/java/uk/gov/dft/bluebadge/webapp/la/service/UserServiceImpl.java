@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
-import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByFullName;
+import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseSensitive;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,14 +23,37 @@ public class UserServiceImpl implements UserService {
     this.userManagementService = userManagementService;
   }
 
-  @Override
-  public Optional<User> findById(Long id) {
-    return Optional.empty();
+  public Optional<User> findOneByEmail(String email) {
+    if (userManagementService.checkUserExistsForEmail(email)) {
+      UserResponse userResponse = userManagementService.getUserForEmail(email);
+      UserData userData = userResponse.getData();
+      User user =
+          new User()
+              .id(userData.getId())
+              .name(userData.getName())
+              .localAuthorityId(userData.getLocalAuthorityId())
+              .emailAddress(userData.getEmailAddress());
+      return Optional.of(user);
+    } else {
+      return Optional.empty();
+    }
   }
 
   @Override
-  public List<User> findAll() {
-    return Lists.newArrayList();
+  public List<User> find(int localAuthority, String nameFilter) {
+    UsersResponse usersResponse =
+        this.userManagementService.getUsersForAuthority(localAuthority, nameFilter);
+    List<User> users = usersResponse.getData().getUsers();
+    if (users == null) {
+      return Lists.newArrayList();
+    }
+    Collections.sort(users, new UserComparatorByNameAscendingOrderCaseSensitive());
+    return users;
+  }
+
+  @Override
+  public List<User> find(int localAuthority) {
+    return find(localAuthority, "");
   }
 
   @Override
@@ -45,15 +69,6 @@ public class UserServiceImpl implements UserService {
   @Override
   public int delete(Long id) {
     return 1;
-  }
-
-  @Override
-  public List<User> findAll(int localAuthority) {
-    UsersResponse usersResponse =
-        this.userManagementService.getUsersForAuthority(localAuthority, "");
-    List<User> users = usersResponse.getData().getUsers();
-    Collections.sort(users, new UserComparatorByFullName());
-    return users;
   }
 
   @Override

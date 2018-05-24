@@ -31,13 +31,14 @@ for id and attaching label to the input field.
     </div>
 
    <span class="dft-search__options">
-        <span th:if="${resultCount}" th:utext="${resultCount} + ' results'" />
+        <span th:if="${searchCount != null}" th:utext="${searchCount} + ' results'" />
 
-        <button th:if="${showClearBtn}"
+        <a th:href="@{/manage-users}"
+                th:if="${showClearBtn}"
                 class="dft-search__clear-link"
                 aria-label="clear search input field"
                 type="reset">Clear
-        </button>
+        </a>
 
     </span>
 

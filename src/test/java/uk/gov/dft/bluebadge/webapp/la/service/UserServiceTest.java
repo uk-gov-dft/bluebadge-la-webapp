@@ -69,7 +69,7 @@ public class UserServiceTest {
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
     when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
         .thenReturn(new UsersResponse().data(new UsersData().users(usersFromClient)));
-    List<User> users = userService.findAll(LOCAL_AUTHORITY);
+    List<User> users = userService.find(LOCAL_AUTHORITY);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
     assertThat(users).isEqualTo(expectedUsers);
   }

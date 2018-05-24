@@ -8,9 +8,11 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 
 public interface UserService {
 
-  Optional<User> findById(Long id);
+  Optional<User> findOneByEmail(String email);
 
-  List<User> findAll();
+  List<User> find(int localAuthority, String nameFilter);
+
+  List<User> find(int localAuthority);
 
   boolean checkUserExistsForEmail(String email);
 
@@ -19,6 +21,4 @@ public interface UserService {
   int update(User user);
 
   int delete(Long id);
-
-  List<User> findAll(int localAuthority);
 }

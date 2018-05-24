@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 

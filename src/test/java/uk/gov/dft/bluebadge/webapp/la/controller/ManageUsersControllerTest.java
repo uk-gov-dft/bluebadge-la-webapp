@@ -80,13 +80,13 @@ public class ManageUsersControllerTest {
 
     List<User> users = Arrays.asList(userSignedIn, user2, user3);
 
-    when(userServiceMock.findAll(userSignedIn.getLocalAuthorityId())).thenReturn(users);
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityId())).thenReturn(users);
 
     mockMvc
         .perform(get("/manage-users").sessionAttr("user", userSignedIn))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("users", users));
-    verify(userServiceMock, times(1)).findAll(LOCAL_AUTHORITY);
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY);
   }
 }

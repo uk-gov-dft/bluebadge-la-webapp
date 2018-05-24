@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.Comparator;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 
-/** To be used to sort <code>User</code> by name in ascending order. */
-public class UserComparatorByFullName implements Comparator<User>, Serializable {
+/** To be used to sort <code>User</code> by name in ascending order case sensitive. */
+public class UserComparatorByNameAscendingOrderCaseSensitive
+    implements Comparator<User>, Serializable {
   public int compare(User a, User b) {
     return a.getName().compareTo(b.getName());
   }
