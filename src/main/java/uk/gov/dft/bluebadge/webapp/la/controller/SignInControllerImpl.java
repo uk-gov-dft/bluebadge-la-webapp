@@ -1,8 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.Optional;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class SignInControllerImpl implements SignInController {
@@ -78,13 +78,8 @@ public class SignInControllerImpl implements SignInController {
   @Override
   @GetMapping(URL_SIGN_OUT)
   public String signOut(HttpSession session) {
-    try {
-      session.invalidate();
-      return "redirect:" + URL_SIGN_IN;
-    } catch (Exception ex) {
-      logger.error("There was an unexpected exception", ex);
-      throw new GeneralControllerException("There was an unexpected exception", ex);
-    }
+    session.invalidate();
+    return "redirect:" + URL_SIGN_IN;
   }
 
   @GetMapping(URL_EXPIRED_SESSION)
