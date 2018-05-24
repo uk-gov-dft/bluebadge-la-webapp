@@ -1,5 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -15,19 +20,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 public class CreateANewUserControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
   private static final String NAME = "joeblogs@joe.com";
   private static final int ROLE_ID = 1;
+  private static final int LOCAL_AUTHORITY = 1;
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
 
   private MockMvc mockMvc;
@@ -39,7 +37,7 @@ public class CreateANewUserControllerTest {
   private final SignInFormRequest emptySignInFormRequest = new SignInFormRequest(null, null);
 
   // Test Data
-  final int LOCAL_AUTHORITY = 1;
+
   private User userSignedIn;
   private User user;
 
@@ -49,7 +47,8 @@ public class CreateANewUserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new CreateANewUserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
+    controller =
+        new CreateANewUserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

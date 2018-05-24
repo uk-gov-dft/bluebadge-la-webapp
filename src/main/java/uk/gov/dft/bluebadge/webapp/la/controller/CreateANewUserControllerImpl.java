@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 public class CreateANewUserControllerImpl implements CreateANewUserController {
 
@@ -29,7 +28,8 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
   public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
-  public static final String REDIRECT_URL_MANAGE_USERS = "redirect" + ManageUsersControllerImpl.URL_MANAGE_USERS;
+  public static final String REDIRECT_URL_MANAGE_USERS =
+      "redirect:" + ManageUsersControllerImpl.URL_MANAGE_USERS;
 
   private UserService userService;
 
@@ -73,7 +73,7 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
-              REDIRECT_URL_MANAGE_USERS,
+          REDIRECT_URL_MANAGE_USERS,
           TEMPLATE_CREATE_A_NEW_USER,
           bindingResult,
           model);
