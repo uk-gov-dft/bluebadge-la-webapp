@@ -35,9 +35,9 @@
 
         <input th:class="${#fields.hasErrors(name)} ? 'govuk-input govuk-input--error' : 'govuk-input'"
                th:data-uipath="${name} + '.field'"
-               th:attr="id=${name}"
+               th:id="${name}"
                th:name="${name}"
-               th:type="type ? type : 'text'"
+               th:type="${type}"
                th:field="*{__${name}__}" />
 
     </div><!-- govuk-o-form-group -->
