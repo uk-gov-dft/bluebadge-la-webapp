@@ -1,8 +1,13 @@
 .dft-search{
 
     &__container {
-        position: relative;
+        width: 65%;
         display: inline-block;
+        position: relative;
+
+        @include mq($from: tablet) {
+            width: auto;
+        }
     }
 
     &__label {
@@ -12,6 +17,7 @@
     &__field {
         width: 100%;
         border: none;
+        display: block;
         padding: 9px 32px 6px 15px;
         @include govuk-font-regular-19;
         outline: 2px solid $govuk-grey-3;
