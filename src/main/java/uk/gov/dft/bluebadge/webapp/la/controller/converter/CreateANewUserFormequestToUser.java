@@ -7,7 +7,7 @@ import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 
 @Component
-public class CreateANewUserRequestToUser implements Converter<CreateANewUserFormRequest, User> {
+public class CreateANewUserFormequestToUser implements Converter<CreateANewUserFormRequest, User> {
 
   @Override
   public User convert(CreateANewUserFormRequest source) {

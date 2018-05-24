@@ -17,7 +17,7 @@ public class HomeControllerImpl implements HomeController {
   public String showHome(Model model, HttpSession session) {
     Optional<String> email = SignInUtils.getEmailSignedIn(session);
     if (!email.isPresent()) {
-      return "redirect:" + UserControllerImpl.URL_SIGN_IN;
+      return "redirect:" + SignInControllerImpl.URL_SIGN_IN;
     }
     model.addAttribute("email", email);
     return TEMPLATE_HOME;
