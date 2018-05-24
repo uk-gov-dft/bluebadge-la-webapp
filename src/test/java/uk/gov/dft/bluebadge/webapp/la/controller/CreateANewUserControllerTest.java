@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class UserControllerTest {
+public class CreateANewUserControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
   private static final String NAME = "joeblogs@joe.com";
@@ -34,7 +34,7 @@ public class UserControllerTest {
 
   @Mock private UserService userServiceMock;
 
-  private UserController controller;
+  private CreateANewUserController controller;
 
   private final SignInFormRequest emptySignInFormRequest = new SignInFormRequest(null, null);
 
@@ -49,7 +49,7 @@ public class UserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new UserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
+    controller = new CreateANewUserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -64,43 +64,6 @@ public class UserControllerTest {
             .localAuthorityId(LOCAL_AUTHORITY);
     user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
-  }
-
-  @Test
-  public void showManageUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn() throws Exception {
-    mockMvc
-        .perform(get("/manage-users"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
-  }
-
-  @Test
-  public void
-      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenThereAreUsers()
-          throws Exception {
-    User user2 =
-        new User()
-            .name("Jane")
-            .id(2)
-            .emailAddress("jane.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
-    User user3 =
-        new User()
-            .name("Fred")
-            .id(3)
-            .emailAddress("jfred.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
-
-    List<User> users = Arrays.asList(userSignedIn, user2, user3);
-
-    when(userServiceMock.findAll(userSignedIn.getLocalAuthorityId())).thenReturn(users);
-
-    mockMvc
-        .perform(get("/manage-users").sessionAttr("user", userSignedIn))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users"))
-        .andExpect(model().attribute("users", users));
-    verify(userServiceMock, times(1)).findAll(LOCAL_AUTHORITY);
   }
 
   @Test
@@ -171,7 +134,6 @@ public class UserControllerTest {
             model()
                 .attribute(
                     "errorSummary",
-                    new ErrorViewModel(
-                        "general error creating user", "error in creating user")));
+                    new ErrorViewModel("general error creating user", "error in creating user")));
   }
 }

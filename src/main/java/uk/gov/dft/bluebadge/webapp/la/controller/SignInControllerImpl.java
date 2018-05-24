@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.Optional;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,6 @@ import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class SignInControllerImpl implements SignInController {

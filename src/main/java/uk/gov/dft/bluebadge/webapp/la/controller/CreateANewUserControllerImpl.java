@@ -1,7 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,39 +17,30 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
-public class UserControllerImpl implements UserController {
+public class CreateANewUserControllerImpl implements CreateANewUserController {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(CreateANewUserControllerImpl.class);
 
-  public static final String URL_MANAGE_USERS = "/manage-users";
   public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
-  public static final String TEMPLATE_MANAGE_USERS = "manage-users";
   public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
+  public static final String REDIRECT_URL_MANAGE_USERS = "redirect" + ManageUsersControllerImpl.URL_MANAGE_USERS;
 
   private UserService userService;
 
   private CreateANewUserFormRequestToUser createANewUserRequest2User;
 
   @Autowired
-  public UserControllerImpl(
-          UserService userService, CreateANewUserFormRequestToUser createANewUserRequest2UserConverter) {
+  public CreateANewUserControllerImpl(
+      UserService userService,
+      CreateANewUserFormRequestToUser createANewUserRequest2UserConverter) {
     this.userService = userService;
     this.createANewUserRequest2User = createANewUserRequest2UserConverter;
-  }
-
-  @GetMapping(URL_MANAGE_USERS)
-  public String showManageUsers(Model model, HttpSession session) {
-    if (!SignInUtils.isSignedIn(session)) {
-      return REDIRECT_URL_SIGN_IN;
-    }
-    User user = SignInUtils.getUserSignedIn(session).get();
-    List<User> users = userService.findAll(user.getLocalAuthorityId());
-    model.addAttribute("users", users);
-    return TEMPLATE_MANAGE_USERS;
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
@@ -84,7 +73,7 @@ public class UserControllerImpl implements UserController {
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
-          "redirect:/" + TEMPLATE_MANAGE_USERS,
+              REDIRECT_URL_MANAGE_USERS,
           TEMPLATE_CREATE_A_NEW_USER,
           bindingResult,
           model);
