@@ -154,7 +154,7 @@ public class UserControllerImpl implements UserController {
       if (error == null || error.getErrors() == null || error.getErrors().isEmpty()) {
         return TEMPLATE_MANAGE_USERS;
       } else {
-        TemplateModelUtils.addCustomError("Fix the following errors", "", model);
+        TemplateModelUtils.addCustomError("Fix the following errors:", "", model);
         BindingResultUtils.addApiErrors(error, bindingResult);
         // TemplateModelUtils.addApiError(error, model);
         return TEMPLATE_CREATE_A_NEW_USER;
