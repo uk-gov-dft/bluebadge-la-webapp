@@ -3209,6 +3209,10 @@ input, select {
 .govuk-table__header, .govuk-table__cell {
   font-size: 16px;
   line-height: 20px; }
+  .govuk-table__header a, .govuk-table__cell a {
+    text-decoration: none; }
+    .govuk-table__header a:hover, .govuk-table__cell a:hover {
+      text-decoration: underline; }
 
 @media (max-width: 47.99em) {
   .govuk-table__row {

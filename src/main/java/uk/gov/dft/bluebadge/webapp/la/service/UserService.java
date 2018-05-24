@@ -19,4 +19,6 @@ public interface UserService {
   int update(User user);
 
   int delete(Long id);
+
+  List<User> findAll(int localAuthority);
 }

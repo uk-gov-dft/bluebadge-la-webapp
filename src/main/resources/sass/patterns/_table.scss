@@ -15,6 +15,14 @@
     &__header, &__cell {
         font-size: 16px;
         line-height: 20px;
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     &__row {

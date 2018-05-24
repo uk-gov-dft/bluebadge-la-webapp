@@ -1,22 +1,21 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserControllerTest {
@@ -27,7 +26,7 @@ public class UserControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private UserService service;
+  @Mock private UserService userService;
 
   private UserController controller;
 
@@ -39,7 +38,7 @@ public class UserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new UserControllerImpl(service, new CreateANewUserRequestToUser());
+    controller = new UserControllerImpl(userService, new CreateANewUserFormequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -48,139 +47,38 @@ public class UserControllerTest {
   }
 
   @Test
-  public void shouldDisplaySignInPage() throws Exception {
-    mockMvc
-        .perform(get("/sign-in"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(
-            model()
-                .attribute(
-                    "formRequest",
-                    allOf(
-                        hasProperty("email", isEmptyOrNullString()),
-                        hasProperty("password", isEmptyOrNullString()))));
-  }
-
-  @Test
-  public void shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
-    mockMvc
-        .perform(get("/sign-in").sessionAttr("email", "joeblogs"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/"));
-  }
-
-  @Test
-  public void shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(true);
-    mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
-        .andExpect(status().isFound())
-        .andExpect(view().name("redirect:/"));
-  }
-
-  @Ignore
-  @Test
   public void
-      shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
+      shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenThereAreUsers()
           throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL)).thenReturn(false);
+    final int LOCAL_AUTHORITY = 1;
+    User userSignedIn =
+        new User()
+            .name("Joe")
+            .id(1)
+            .emailAddress("joe.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+    User user2 =
+        new User()
+            .name("Jane")
+            .id(2)
+            .emailAddress("jane.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+    User user3 =
+        new User()
+            .name("Fred")
+            .id(3)
+            .emailAddress("jfred.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+
+    List<User> users = Arrays.asList(userSignedIn, user2, user3);
+
+    when(userService.findAll(userSignedIn.getLocalAuthorityId())).thenReturn(users);
+
     mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .perform(get("/manage-users").sessionAttr("user", userSignedIn))
         .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("accessDenied", is(true)));
-  }
-
-  @Ignore
-  @Test
-  public void
-      shouldDisplaySignInTemplateWithErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
-          throws Exception {
-    mockMvc
-        .perform(post("/sign-in").param("email", "").param(" ***REMOVED***))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().errorCount(2))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "email", "NotEmpty"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", " ***REMOVED***));
-  }
-
-  @Ignore
-  @Test
-  public void
-      shouldDisplaySignInTemplateWithErrorMessageForEmailAndHttpStatusIsOK_WhenEmailIsWrongFormat()
-          throws Exception {
-    mockMvc
-        .perform(post("/sign-in").param("email", EMAIL_WRONG_FORMAT).param("password", PASSWORD))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().errorCount(1))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "email", "Email"));
-  }
-
-  @Ignore
-  @Test
-  public void shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
-      throws Exception {
-    when(service.checkUserExistsForEmail(EMAIL))
-        .thenThrow(
-            new GeneralServiceException(
-                "General Service Exception", new Exception("Cause Exception")));
-
-    mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("serverError", true));
-  }
-
-  @Ignore
-  @Test
-  public void shouldDisplayServerError() throws Exception {
-    mockMvc
-        .perform(get("/server-error"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("serverError", true));
-  }
-
-  @Ignore
-  @Test
-  public void shouldDisplayAccessDenied() throws Exception {
-    mockMvc
-        .perform(get("/access-denied"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("accessDenied", true));
-  }
-
-  @Ignore
-  @Test
-  public void shouldDisplayExpiredSession() throws Exception {
-    mockMvc
-        .perform(get("/expired-session"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("sign-in"))
-        .andExpect(model().attribute("formRequest", emptySignInFormRequest))
-        .andExpect(model().attribute("expiredSession", true));
-  }
-
-  @Test
-  public void shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
-    mockMvc
-        .perform(get("/sign-out").sessionAttr("email", "joeblogs"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
-  }
-
-  @Test
-  public void shouldDisplaySignInPage_WhenSignOutAndUserWasNotSignedIn() throws Exception {
-    mockMvc
-        .perform(get("/sign-out"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
+        .andExpect(view().name("manage-users"))
+        .andExpect(model().attribute("users", users));
+    // verify(userService.findAll(LOCAL_AUTHORITY), times(1));
   }
 }
