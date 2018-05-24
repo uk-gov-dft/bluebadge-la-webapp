@@ -10,14 +10,14 @@
 
 <main layout:fragment="content">
 
-    <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
-
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
 
+            <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
+
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
-            <div class="govuk-grid">
+            <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
 
                     <form  th:action="@{/manage-users/create-a-new-user}" th:object="${formRequest}" method="post" novalidate>
