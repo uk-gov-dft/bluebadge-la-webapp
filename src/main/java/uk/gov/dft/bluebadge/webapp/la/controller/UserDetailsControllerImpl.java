@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
@@ -22,13 +22,13 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class CreateANewUserControllerImpl implements CreateANewUserController {
+public class UserDetailsControllerImpl implements UserDetailsController {
 
-  private static final Logger logger = LoggerFactory.getLogger(CreateANewUserControllerImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(UserDetailsControllerImpl.class);
 
-  public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
+  public static final String URL_USER_DETAILS = "/manage-users/user-details";
 
-  public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
+  public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
 
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
   public static final String REDIRECT_URL_MANAGE_USERS =
@@ -36,29 +36,29 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
 
   private UserService userService;
 
-  private CreateANewUserFormRequestToUser createANewUserRequest2User;
+  private UserDetailsFormRequestToUser userDetailsFormRequestToUser;
 
   @Autowired
-  public CreateANewUserControllerImpl(
+  public UserDetailsControllerImpl(
       UserService userService,
-      CreateANewUserFormRequestToUser createANewUserRequest2UserConverter) {
+      UserDetailsFormRequestToUser userDetailsFormRequestToUser) {
     this.userService = userService;
-    this.createANewUserRequest2User = createANewUserRequest2UserConverter;
+    this.userDetailsFormRequestToUser = userDetailsFormRequestToUser;
   }
 
-  @GetMapping(URL_CREATE_A_NEW_USER)
-  public String showCreateANewUser(
-      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest,
+  @GetMapping(URL_USER_DETAILS)
+  public String showUserDetails(
+      @ModelAttribute("formRequest") final UserDetailsFormRequest formRequest,
       HttpSession session) {
     if (!SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_SIGN_IN;
     }
-    return TEMPLATE_CREATE_A_NEW_USER;
+    return TEMPLATE_USER_DETAILS;
   }
 
-  @PostMapping(URL_CREATE_A_NEW_USER)
-  public String createANewUser(
-      @ModelAttribute("formRequest") CreateANewUserFormRequest formRequest,
+  @PostMapping(URL_USER_DETAILS)
+  public String updateUserDetails(
+      @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
@@ -66,24 +66,18 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
       if (!SignInUtils.isSignedIn(session)) {
         return REDIRECT_URL_SIGN_IN;
       }
-      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
-      // TODO: Role id should come from the form
-      User user =
-          createANewUserRequest2User
-              .convert(formRequest)
-              .localAuthorityId(signedInUser.getLocalAuthorityId())
-              .roleId(1);
-      UserResponse userResponse = userService.create(user);
+      User user = userDetailsFormRequestToUser.convert(formRequest);
+      UserResponse userResponse = userService.update(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
           REDIRECT_URL_MANAGE_USERS,
-          TEMPLATE_CREATE_A_NEW_USER,
+          TEMPLATE_USER_DETAILS,
           bindingResult,
           model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
-          "general error creating user", "error in creating user", model);
-      return TEMPLATE_CREATE_A_NEW_USER;
+          "general error updating user", "error in updating a user", model);
+      return TEMPLATE_USER_DETAILS;
     }
   }
 }

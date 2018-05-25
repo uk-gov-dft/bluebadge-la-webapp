@@ -17,4 +17,6 @@ public interface UserService {
   boolean checkUserExistsForEmail(String email);
 
   UserResponse create(User user) throws Exception;
+
+  UserResponse update(User user) throws Exception;
 }

@@ -1,7 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import java.util.Collections;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
@@ -9,6 +7,9 @@ import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,6 +49,9 @@ public class UserServiceImpl implements UserService {
   public UserResponse create(User user) {
     return userManagementService.createUser(user.getLocalAuthorityId(), user);
   }
+
+  @Override
+  public UserResponse update(User user) { return userManagementService.updateUser(user); }
 
   @Override
   public boolean checkUserExistsForEmail(String email) {

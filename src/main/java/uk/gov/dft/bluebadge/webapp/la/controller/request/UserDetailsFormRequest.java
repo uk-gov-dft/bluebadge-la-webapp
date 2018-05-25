@@ -48,12 +48,12 @@ public class UserDetailsFormRequest {
   @Override
   public String toString() {
     return "CreateANewUserFormRequest{"
-            + "emailAddress='"
-            + emailAddress
-            + '\''
-            + ", name='"
-            + name
-            + '\''
-            + '}';
+        + "emailAddress='"
+        + emailAddress
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + '}';
   }
 }
