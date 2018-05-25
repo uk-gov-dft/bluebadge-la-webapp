@@ -10,52 +10,28 @@
 
 <main layout:fragment="content">
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
             <h1 class="govuk-heading-l" data-uipath="title">User details</h1>
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+        </div>
+    </div>
 
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--half">
 
-                    <form  th:action="@{/manage-users/user-details}" th:object="${formRequest}" method="post" novalidate>
+            <form  th:action="@{/manage-users/user-details}" th:object="${formRequest}" method="post" novalidate>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
 
-                        <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
-                    </form>
-
-
-                    <details class="govuk-details">
-                        <summary class="govuk-details__summary">
-                            <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Remove user</span>
-                        </summary>
-
-                        <div class="govuk-details__text">
-                            <form action="manage-users">
-                                <p>Are you sure you want to remove access for <strong data-uipath="removeUserName">John Doe</strong>?</p>
-                                <p>You won't be able to undo this.</p>
-                                <input data-uipath="removeUserId" id="success" name="success" type="hidden" value="User removed">
-                                <input data-uipath="removeUserButton" value="Yes, remove user" type="submit" class="govuk-button">
-                            </form>
-
-                            <p class="govuk-body">
-                                <a href="/manage-users/user-details" data-uipath="doNotRemoveUser">No, don't remove user</a>
-                            </p>
-                        </div>
-                    </details>
-
-
-                </div>
-            </div>
-
-
-        </div><!-- govuk-o-grid -->
-    </div><!-- govuk-o-grid__item -->
+                <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
+            </form>
+        </div>
+    </div>
+    
 </main>
 
 </body>
