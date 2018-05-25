@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserDetailsControllerImpl implements UserDetailsController {
@@ -40,8 +38,7 @@ public class UserDetailsControllerImpl implements UserDetailsController {
 
   @Autowired
   public UserDetailsControllerImpl(
-      UserService userService,
-      UserDetailsFormRequestToUser userDetailsFormRequestToUser) {
+      UserService userService, UserDetailsFormRequestToUser userDetailsFormRequestToUser) {
     this.userService = userService;
     this.userDetailsFormRequestToUser = userDetailsFormRequestToUser;
   }

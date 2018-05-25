@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class CreateANewUserControllerImpl implements CreateANewUserController {
