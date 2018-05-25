@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -62,9 +62,9 @@ public class SignInControllerImpl implements SignInController {
         return TEMPLATE_SIGN_IN;
       } else {
         String email = formRequest.getEmail();
-        Optional<User> user = signInService.signIn(email);
+        Optional<UserResponse> user = signInService.signIn(email);
         if (user.isPresent()) {
-          session.setAttribute("user", user.get());
+          session.setAttribute("user", user.get().getData());
           return REDIRECT_URL_HOME;
         }
       }

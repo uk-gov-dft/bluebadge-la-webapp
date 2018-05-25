@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
@@ -64,7 +65,7 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
       if (!SignInUtils.isSignedIn(session)) {
         return REDIRECT_URL_SIGN_IN;
       }
-      User signedInUser = SignInUtils.getUserSignedIn(session).get();
+      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
       // TODO: Role id should come from the form
       User user =
           createANewUserRequest2User

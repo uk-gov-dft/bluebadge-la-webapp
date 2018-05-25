@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.ManageUsersFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -39,13 +40,21 @@ public class ManageUsersControllerImpl implements ManageUsersController {
     if (!SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_SIGN_IN;
     }
-    User user = SignInUtils.getUserSignedIn(session).get();
+    UserData user = SignInUtils.getUserSignedIn(session).get();
 
-    List<User> allUsers = userService.find(user.getLocalAuthorityId(), "");
+    List<User> allUsers = userService.find(user.getLocalAuthorityId()).getData().getUsers();
     List<User> users = Lists.newArrayList();
-    users.addAll(userService.find(user.getLocalAuthorityId(), formRequest.getSearch()));
+    if (StringUtils.isEmpty(formRequest.getSearch())) {
+      users.addAll(allUsers);
+    } else {
+      users.addAll(
+          userService
+              .find(user.getLocalAuthorityId(), formRequest.getSearch())
+              .getData()
+              .getUsers());
+    }
 
-    model.addAttribute("search", formRequest.getSearch());
+    model.addAttribute("search", StringUtils.trimToEmpty(formRequest.getSearch()));
     model.addAttribute("users", users);
     model.addAttribute("allUsersSize", allUsers.size());
     if (!StringUtils.isEmpty(formRequest.getSearch())) {

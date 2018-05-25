@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -13,6 +14,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
@@ -30,7 +34,13 @@ public class ManageUsersControllerTest {
 
   // Test Data
   final int LOCAL_AUTHORITY = 1;
+  final String NAME_JANE = "Jane";
+
+  private UserData userDataSignedIn;
   private User userSignedIn;
+  private User userJane;
+  private User user3;
+  private List<User> allUsers;
 
   @Before
   public void setup() {
@@ -51,6 +61,30 @@ public class ManageUsersControllerTest {
             .id(1)
             .emailAddress("joe.blogs@email.com")
             .localAuthorityId(LOCAL_AUTHORITY);
+
+    userDataSignedIn =
+        new UserData()
+            .name("Joe")
+            .id(1)
+            .emailAddress("joe.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+
+    userJane =
+        new User()
+            .name(NAME_JANE)
+            .id(2)
+            .emailAddress("jane.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+    user3 =
+        new User()
+            .name("Fred")
+            .id(3)
+            .emailAddress("jfred.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
+
+    allUsers = Arrays.asList(userSignedIn, userJane, user3);
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityId()))
+        .thenReturn(new UsersResponse().data(new UsersData().users(allUsers)));
   }
 
   @Test
@@ -63,30 +97,34 @@ public class ManageUsersControllerTest {
 
   @Test
   public void
-      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenThereAreUsers()
+      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenSearchParamIsEmptyAndThereAreUsers()
           throws Exception {
-    User user2 =
-        new User()
-            .name("Jane")
-            .id(2)
-            .emailAddress("jane.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
-    User user3 =
-        new User()
-            .name("Fred")
-            .id(3)
-            .emailAddress("jfred.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
-
-    List<User> users = Arrays.asList(userSignedIn, user2, user3);
-
-    when(userServiceMock.find(userSignedIn.getLocalAuthorityId())).thenReturn(users);
-
     mockMvc
-        .perform(get("/manage-users").sessionAttr("user", userSignedIn))
+        .perform(get("/manage-users").sessionAttr("user", userDataSignedIn))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
-        .andExpect(model().attribute("users", users));
+        .andExpect(model().attribute("search", ""))
+        .andExpect(model().attribute("users", allUsers))
+        .andExpect(model().attribute("allUsersSize", 3));
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY);
+  }
+
+  @Test
+  public void
+      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFilteredBySearchTermAndFromTheLocalAuthorityOfTheUserSignedIn_WhenSearchParamIsNonEmptyAndThereAreUsers()
+          throws Exception {
+    List<User> users = Lists.newArrayList(userJane);
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityId(), NAME_JANE))
+        .thenReturn(new UsersResponse().data(new UsersData().users(users)));
+    mockMvc
+        .perform(
+            get("/manage-users").sessionAttr("user", userDataSignedIn).param("search", NAME_JANE))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-users"))
+        .andExpect(model().attribute("search", NAME_JANE))
+        .andExpect(model().attribute("users", users))
+        .andExpect(model().attribute("allUsersSize", 3))
+        .andExpect(model().attribute("searchCount", 1));
     verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY);
   }
 }

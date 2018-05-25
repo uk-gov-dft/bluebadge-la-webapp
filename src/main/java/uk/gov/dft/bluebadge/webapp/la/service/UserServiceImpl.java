@@ -1,17 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import com.google.common.collect.Lists;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
-import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseSensitive;
+import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,52 +21,33 @@ public class UserServiceImpl implements UserService {
     this.userManagementService = userManagementService;
   }
 
-  public Optional<User> findOneByEmail(String email) {
+  public Optional<UserResponse> findOneByEmail(String email) {
     if (userManagementService.checkUserExistsForEmail(email)) {
       UserResponse userResponse = userManagementService.getUserForEmail(email);
-      UserData userData = userResponse.getData();
-      User user =
-          new User()
-              .id(userData.getId())
-              .name(userData.getName())
-              .localAuthorityId(userData.getLocalAuthorityId())
-              .emailAddress(userData.getEmailAddress());
-      return Optional.of(user);
+      return Optional.of(userResponse);
     } else {
       return Optional.empty();
     }
   }
 
   @Override
-  public List<User> find(int localAuthority, String nameFilter) {
+  public UsersResponse find(int localAuthority, String nameFilter) {
     UsersResponse usersResponse =
         this.userManagementService.getUsersForAuthority(localAuthority, nameFilter);
-    List<User> users = usersResponse.getData().getUsers();
-    if (users == null) {
-      return Lists.newArrayList();
-    }
-    Collections.sort(users, new UserComparatorByNameAscendingOrderCaseSensitive());
-    return users;
+    Collections.sort(
+        usersResponse.getData().getUsers(),
+        new UserComparatorByNameAscendingOrderCaseInsensitive());
+    return usersResponse;
   }
 
   @Override
-  public List<User> find(int localAuthority) {
+  public UsersResponse find(int localAuthority) {
     return find(localAuthority, "");
   }
 
   @Override
   public UserResponse create(User user) {
     return userManagementService.createUser(user.getLocalAuthorityId(), user);
-  }
-
-  @Override
-  public int update(User user) {
-    return 1;
-  }
-
-  @Override
-  public int delete(Long id) {
-    return 1;
   }
 
   @Override

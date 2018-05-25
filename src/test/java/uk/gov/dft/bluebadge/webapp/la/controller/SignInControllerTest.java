@@ -13,7 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -64,7 +65,7 @@ public class SignInControllerTest {
 
   @Test
   public void showSignIn_shouldDisplayHomePage_WhenUserIsSignedIn() throws Exception {
-    User user = new User().emailAddress("joeblogs");
+    UserData user = new UserData().emailAddress("joeblogs");
     mockMvc
         .perform(get("/sign-in").sessionAttr("user", user))
         .andExpect(status().isFound())
@@ -73,7 +74,8 @@ public class SignInControllerTest {
 
   @Test
   public void signIn_shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
-    when(signInService.signIn(EMAIL)).thenReturn(Optional.of(new User().emailAddress(EMAIL)));
+    when(signInService.signIn(EMAIL))
+        .thenReturn(Optional.of(new UserResponse().data(new UserData().emailAddress(EMAIL))));
     mockMvc
         .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
@@ -190,8 +192,9 @@ public class SignInControllerTest {
 
   @Test
   public void signOut_shouldDisplaySignInPage_WhenSignOutAndUserWasSignedIn() throws Exception {
+    UserData user = new UserData().emailAddress("joeblogs");
     mockMvc
-        .perform(get("/sign-out").sessionAttr("email", "joeblogs"))
+        .perform(get("/sign-out").sessionAttr("user", user))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/sign-in"));
   }

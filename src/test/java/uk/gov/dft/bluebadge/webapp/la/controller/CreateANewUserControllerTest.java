@@ -37,7 +37,7 @@ public class CreateANewUserControllerTest {
   private final SignInFormRequest emptySignInFormRequest = new SignInFormRequest(null, null);
 
   // Test Data
-
+  private UserData userDataSignedIn;
   private User userSignedIn;
   private User user;
 
@@ -54,6 +54,13 @@ public class CreateANewUserControllerTest {
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
+
+    userDataSignedIn =
+        new UserData()
+            .name("Joe")
+            .id(1)
+            .emailAddress("joe.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
 
     userSignedIn =
         new User()
@@ -78,7 +85,7 @@ public class CreateANewUserControllerTest {
   public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
       throws Exception {
     mockMvc
-        .perform(get("/manage-users/create-a-new-user").sessionAttr("user", userSignedIn))
+        .perform(get("/manage-users/create-a-new-user").sessionAttr("user", userDataSignedIn))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-a-new-user"));
   }
@@ -109,7 +116,7 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userSignedIn)
+                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isFound())
@@ -124,7 +131,7 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userSignedIn)
+                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isOk())
