@@ -36,7 +36,7 @@
             <tbody class="govuk-table__body" data-uipath="table.body">
                 <tr class="govuk-table__row" th:each="user : ${users}">
                     <td class="govuk-table__cell">
-                        <a href="#" th:utext="${user.name}" />
+                        <a href="/manage-users/user-details" th:utext="${user.name}" />
                     </td>
                     <td class="govuk-table__cell" th:utext="${user.emailAddress}" />
                     <td class="govuk-table__cell" th:utext="${user.roleName}" />

@@ -15,6 +15,7 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
@@ -26,8 +27,10 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
   private static final Logger logger = LoggerFactory.getLogger(CreateANewUserControllerImpl.class);
 
   public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
+  public static final String URL_USER_DETAILS = "/manage-users/user-details";
 
   public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
+  public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
 
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
   public static final String REDIRECT_URL_MANAGE_USERS =
@@ -83,6 +86,47 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
       TemplateModelUtils.addCustomError(
           "general error creating user", "error in creating user", model);
       return TEMPLATE_CREATE_A_NEW_USER;
+    }
+  }
+
+  @GetMapping(URL_USER_DETAILS)
+  public String showUserDetails(
+          @ModelAttribute("formRequest") final UserDetailsFormRequest formRequest,
+          HttpSession session) {
+    if (!SignInUtils.isSignedIn(session)) {
+      return REDIRECT_URL_SIGN_IN;
+    }
+    return TEMPLATE_USER_DETAILS;
+  }
+
+  @PostMapping(URL_USER_DETAILS)
+  public String updateUserDetails(
+          @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,
+          BindingResult bindingResult,
+          Model model,
+          HttpSession session) {
+    try {
+      if (!SignInUtils.isSignedIn(session)) {
+        return REDIRECT_URL_SIGN_IN;
+      }
+      User signedInUser = SignInUtils.getUserSignedIn(session).get();
+      // TODO: Role id should come from the form
+      User user = null;
+              /* createANewUserRequest2User
+                      .convert(formRequest)
+                      .localAuthorityId(signedInUser.getLocalAuthorityId())
+                      .roleId(1); */
+      UserResponse userResponse = userService.create(user);
+      return ErrorHandlingUtils.handleError(
+              userResponse.getError(),
+              "redirect:/" + TEMPLATE_MANAGE_USERS,
+              TEMPLATE_USER_DETAILS,
+              bindingResult,
+              model);
+    } catch (Exception ex) {
+      TemplateModelUtils.addCustomError(
+              "general error updating user", "error in updating a user", model);
+      return TEMPLATE_USER_DETAILS;
     }
   }
 }
