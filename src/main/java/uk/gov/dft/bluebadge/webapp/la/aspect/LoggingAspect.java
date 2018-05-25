@@ -31,8 +31,12 @@ public class LoggingAspect {
     }
 
     CodeSignature signature = (CodeSignature) joinPoint.getSignature();
+    String[] paramNames = signature.getParameterNames();
 
-    List<String> parameterNames = Arrays.asList(signature.getParameterNames());
+    List<String> parameterNames = Lists.newArrayList();
+    if (paramNames != null) {
+      parameterNames.addAll(Arrays.asList(paramNames));
+    }
     List<String> parameterValues = Lists.newArrayList();
 
     if (joinPoint.getArgs() != null) {
