@@ -30,6 +30,7 @@
 
         <span class="govuk-error-message"
               th:data-uipath="${name} + '.error'"
+              th:id="${name} + '-hint'"
               th:if="${#fields.hasErrors(name)}"
               th:errors="*{__${name}__}" />
 
@@ -38,9 +39,9 @@
                th:id="${name}"
                th:name="${name}"
                th:type="${type}"
-               th:field="*{__${name}__}"/>
+               th:field="*{__${name}__}"
+               th:aria-describedby="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'" />
 
     </div><!-- govuk-o-form-group -->
-
 </body>
 </html>
