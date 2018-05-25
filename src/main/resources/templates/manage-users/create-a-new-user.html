@@ -22,15 +22,14 @@
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--half">
 
-        <form  th:action="@{/manage-users/create-a-new-user}" th:object="${formRequest}" method="post" novalidate>
+            <form  th:action="@{/manage-users/create-a-new-user}" th:object="${formRequest}" method="post" novalidate>
 
-            <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
-            <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
 
-            <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
-        </form>
-
+                <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
+            </form>
 
         </div><!-- govuk-o-grid -->
     </div><!-- govuk-o-grid__item -->

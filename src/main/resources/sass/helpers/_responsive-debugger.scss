@@ -20,9 +20,9 @@
                 content: "DEBUGGER - DESKTOP (1024px)";
             }
 
-            @include mq(uber) {
+            @include mq(wide) {
                 background-color: orange;
-                content: "DEBUGGER - UBER (1200px)";
+                content: "DEBUGGER - WIDE (1200px)";
             }
         }
     }

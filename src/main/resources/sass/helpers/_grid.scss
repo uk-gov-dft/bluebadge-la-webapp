@@ -22,7 +22,7 @@
             width: 62.5%;
         }
 
-        @include mq($from: uber) {
+        @include mq($from: wide) {
             width: 50%;
         }
     }
@@ -34,7 +34,7 @@
             width: 93%;
         }
 
-        @include mq($from: uber) {
+        @include mq($from: wide) {
             width: 75%;
         }
 
