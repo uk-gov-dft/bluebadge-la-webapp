@@ -1,0 +1,47 @@
+.dft-grid-row {
+    @include govuk-clearfix;
+}
+
+
+.dft-grid-col {
+
+    @include mq($from: tablet) {
+        float: left;
+        padding: 0 $govuk-gutter-half;
+    }
+
+    &--full {
+        float: none;
+        width: 100%;
+    }
+
+    &--half {
+        width: 100%;
+
+        @include mq($from: tablet) {
+            width: 62.5%;
+        }
+
+        @include mq($from: wide) {
+            width: 50%;
+        }
+    }
+
+    &--two-thirds {
+        width: 100%;
+
+        @include mq($from: tablet) {
+            width: 93%;
+        }
+
+        @include mq($from: wide) {
+            width: 75%;
+        }
+
+    }
+
+    &--no-gutters {
+        padding: 0 0;
+    }
+
+}

@@ -1,0 +1,47 @@
+.dft-container {
+
+    .dft-sidebar {
+        display: none; // to remove
+
+        @include mq(desktop){
+            display: block; // to remove
+            width:300px;
+            height: 100vh;
+            max-width: 300px;
+            position: absolute;
+        }
+    }
+
+    &--with-sidebar {
+        position: relative;
+
+        .dft-width-container {
+            @include mq($from: desktop){
+                padding-left: 350px;
+                padding-right: 50px;
+            }
+        }
+    }
+}
+
+.dft-width-container {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    @include mq($from: desktop){
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+
+
+.dft-main-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    @include mq($from: desktop){
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+}
