@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
@@ -24,13 +25,15 @@ public class UserDetailsControllerImpl implements UserDetailsController {
 
   private static final Logger logger = LoggerFactory.getLogger(UserDetailsControllerImpl.class);
 
-  public static final String URL_USER_DETAILS = "/manage-users/user-details";
+  public static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
 
   public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
 
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
   public static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersControllerImpl.URL_MANAGE_USERS;
+
+  public static final String PARAM_ID = "id";
 
   private UserService userService;
 
@@ -43,16 +46,22 @@ public class UserDetailsControllerImpl implements UserDetailsController {
     this.userDetailsFormRequestToUser = userDetailsFormRequestToUser;
   }
 
+  @Override
   @GetMapping(URL_USER_DETAILS)
   public String showUserDetails(
+      @PathVariable(PARAM_ID) int id,
       @ModelAttribute("formRequest") final UserDetailsFormRequest formRequest,
+      Model model,
       HttpSession session) {
     if (!SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_SIGN_IN;
     }
+    UserResponse userResponse = userService.findOneById(id);
+    model.addAttribute("user", userResponse.getData());
     return TEMPLATE_USER_DETAILS;
   }
 
+  @Override
   @PostMapping(URL_USER_DETAILS)
   public String updateUserDetails(
       @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,

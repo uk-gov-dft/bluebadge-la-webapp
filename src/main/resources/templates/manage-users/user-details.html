@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title>User details John Doe - GOV.UK Manage Blue Badges</title>
+    <title th:text="'User details ' + ${user.name} + ' - GOV.UK Manage Blue Badges'"></title>
 </head>
 <body>
 
