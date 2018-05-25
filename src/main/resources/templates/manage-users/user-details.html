@@ -28,6 +28,28 @@
 
                         <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
                     </form>
+
+
+                    <details class="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Remove user</span>
+                        </summary>
+
+                        <div class="govuk-details__text">
+                            <form action="manage-users">
+                                <p>Are you sure you want to remove access for <strong data-uipath="removeUserName">John Doe</strong>?</p>
+                                <p>You won't be able to undo this.</p>
+                                <input data-uipath="removeUserId" id="success" name="success" type="hidden" value="User removed">
+                                <input data-uipath="removeUserButton" value="Yes, remove user" type="submit" class="govuk-button">
+                            </form>
+
+                            <p class="govuk-body">
+                                <a href="/manage-users/user-details" data-uipath="doNotRemoveUser">No, don't remove user</a>
+                            </p>
+                        </div>
+                    </details>
+
+
                 </div>
             </div>
 
