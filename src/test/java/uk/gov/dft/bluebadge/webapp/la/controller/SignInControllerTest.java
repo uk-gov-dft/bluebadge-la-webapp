@@ -97,8 +97,8 @@ public class SignInControllerTest {
                     "errorSummary",
                     is(
                         new ErrorViewModel(
-                            "Access Denied",
-                            "You've entered an incorrect email address or password"))));
+                            "error.form.global.accessDenied.title",
+                            "error.form.global.accessDenied.description"))));
   }
 
   @Test
@@ -139,7 +139,11 @@ public class SignInControllerTest {
         .andExpect(
             model()
                 .attribute(
-                    "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
+                    "errorSummary",
+                    is(
+                        new ErrorViewModel(
+                            "error.form.global.serverError.title",
+                            "error.form.global.serverError.description"))));
   }
 
   @Test
@@ -152,7 +156,11 @@ public class SignInControllerTest {
         .andExpect(
             model()
                 .attribute(
-                    "errorSummary", is(new ErrorViewModel("Can't sign in", "Please try again."))));
+                    "errorSummary",
+                    is(
+                        new ErrorViewModel(
+                            "error.form.global.serverError.title",
+                            "error.form.global.serverError.description"))));
   }
 
   @Test
@@ -169,8 +177,8 @@ public class SignInControllerTest {
                     "errorSummary",
                     is(
                         new ErrorViewModel(
-                            "Access Denied",
-                            "You've entered an incorrect email address or password"))));
+                            "error.form.global.accessDenied.title",
+                            "error.form.global.accessDenied.description"))));
   }
 
   @Test
@@ -186,8 +194,8 @@ public class SignInControllerTest {
                     "errorSummary",
                     is(
                         new ErrorViewModel(
-                            "You've been signed out",
-                            "You were inactive for 2 hours so we've signed you out to secure your account"))));
+                            "error.form.global.expiredSession.title",
+                            "error.form.global.expiredSession.description"))));
   }
 
   @Test

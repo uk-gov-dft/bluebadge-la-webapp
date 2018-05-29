@@ -119,7 +119,7 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereNoValidationErrors()
+      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
           throws Exception {
     user.setEmailAddress(EMAIL_WRONG_FORMAT);
     user.setName(NAME_WRONG_FORMAT);
@@ -162,6 +162,8 @@ public class CreateANewUserControllerTest {
             model()
                 .attribute(
                     "errorSummary",
-                    new ErrorViewModel("general error creating user", "error in creating user")));
+                    new ErrorViewModel(
+                        "error.createUser.generalError.title",
+                        "error.createUser.generalError.description")));
   }
 }

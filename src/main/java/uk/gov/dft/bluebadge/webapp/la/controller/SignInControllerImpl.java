@@ -55,7 +55,7 @@ public class SignInControllerImpl implements SignInController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-    model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
+    model.addAttribute("errorSummary", new ErrorViewModel());
 
     try {
       if (bindingResult.hasErrors()) {
@@ -88,8 +88,8 @@ public class SignInControllerImpl implements SignInController {
     model.addAttribute(
         "errorSummary",
         new ErrorViewModel(
-            "You've been signed out",
-            "You were inactive for 2 hours so we've signed you out to secure your account"));
+            "error.form.global.expiredSession.title",
+            "error.form.global.expiredSession.description"));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -99,14 +99,17 @@ public class SignInControllerImpl implements SignInController {
     model.addAttribute(
         "errorSummary",
         new ErrorViewModel(
-            "Access Denied", "You've entered an incorrect email address or password"));
+            "error.form.global.accessDenied.title", "error.form.global.accessDenied.description"));
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_SERVER_ERROR)
   public String showServerError(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("errorSummary", new ErrorViewModel("Can't sign in", "Please try again."));
+    model.addAttribute(
+        "errorSummary",
+        new ErrorViewModel(
+            "error.form.global.serverError.title", "error.form.global.serverError.description"));
     return TEMPLATE_SIGN_IN;
   }
 }
