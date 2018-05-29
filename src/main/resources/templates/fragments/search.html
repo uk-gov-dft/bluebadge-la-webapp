@@ -31,7 +31,7 @@ for id and attaching label to the input field.
     </div>
 
    <span class="dft-search__options" th:if="${searchCount != null}">
-        <span th:utext="${searchCount == 1 } ? ${searchCount} + ' Results' : ${searchCount} + ' Result'" />
+        <span th:utext="${searchCount == 1} ? ${searchCount} + ' Result' : ${searchCount} + ' Results'" />
 
         <a th:href="@{/manage-users}"
                 th:if="${showClearBtn}"
