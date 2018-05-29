@@ -10,6 +10,7 @@ public interface UserDetailsController {
       int id, UserDetailsFormRequest formRequest, Model model, HttpSession session);
 
   String updateUserDetails(
+      int id,
       UserDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
@@ -57,13 +58,17 @@ public class UserDetailsControllerImpl implements UserDetailsController {
       return REDIRECT_URL_SIGN_IN;
     }
     UserResponse userResponse = userService.findOneById(id);
-    model.addAttribute("user", userResponse.getData());
+    UserData user = userResponse.getData();
+    formRequest.setEmailAddress(user.getEmailAddress());
+    formRequest.setName(user.getName());
+    model.addAttribute("id", id);
     return TEMPLATE_USER_DETAILS;
   }
 
   @Override
   @PostMapping(URL_USER_DETAILS)
   public String updateUserDetails(
+      @PathVariable(PARAM_ID) int id,
       @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
@@ -73,6 +78,10 @@ public class UserDetailsControllerImpl implements UserDetailsController {
         return REDIRECT_URL_SIGN_IN;
       }
       User user = userDetailsFormRequestToUser.convert(formRequest);
+      UserData userData = userService.findOneById(id).getData();
+      user.setId(userData.getId());
+      user.setLocalAuthorityId(userData.getLocalAuthorityId());
+      user.setRoleId(userData.getRoleId());
       UserResponse userResponse = userService.update(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
@@ -83,6 +92,7 @@ public class UserDetailsControllerImpl implements UserDetailsController {
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "general error updating user", "error in updating a user", model);
+      model.addAttribute("id", id);
       return TEMPLATE_USER_DETAILS;
     }
   }

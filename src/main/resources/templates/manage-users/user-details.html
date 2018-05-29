@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="'User details ' + ${user.name} + ' - GOV.UK Manage Blue Badges'"></title>
+    <title th:text="'User details ' + ${formRequest.name} + ' - GOV.UK Manage Blue Badges'"></title>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
 
-                    <form  th:action="@{/manage-users/user-details}" th:object="${formRequest}" method="post" novalidate>
+                    <form  th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" method="post" novalidate>
 
                         <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
