@@ -5,30 +5,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.model.usermanagement.*;
-import uk.gov.dft.bluebadge.model.usermanagement.Error;
+import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class CreateANewUserControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
-  private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String NAME = "joeblogs@joe.com";
-  private static final String NAME_WRONG_FORMAT = "111";
   private static final int ROLE_ID = 1;
   private static final int LOCAL_AUTHORITY = 1;
-  public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
-  public static final String ERROR_IN_NAME = "error in name";
+  private static final String EMAIL_WRONG_FORMAT = "joeblogs";
 
   private MockMvc mockMvc;
 
@@ -36,8 +34,11 @@ public class CreateANewUserControllerTest {
 
   private CreateANewUserController controller;
 
+  private final SignInFormRequest emptySignInFormRequest = new SignInFormRequest(null, null);
+
   // Test Data
   private UserData userDataSignedIn;
+  private User userSignedIn;
   private User user;
 
   @Before
@@ -61,6 +62,12 @@ public class CreateANewUserControllerTest {
             .emailAddress("joe.blogs@email.com")
             .localAuthorityId(LOCAL_AUTHORITY);
 
+    userSignedIn =
+        new User()
+            .name("Joe")
+            .id(1)
+            .emailAddress("joe.blogs@email.com")
+            .localAuthorityId(LOCAL_AUTHORITY);
     user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
   }
@@ -114,35 +121,6 @@ public class CreateANewUserControllerTest {
                 .param("name", NAME))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/manage-users"));
-    verify(userServiceMock, times(1)).create(user);
-  }
-
-  @Test
-  public void
-      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereNoValidationErrors()
-          throws Exception {
-    user.setEmailAddress(EMAIL_WRONG_FORMAT);
-    user.setName(NAME_WRONG_FORMAT);
-    ErrorErrors emailError =
-        new ErrorErrors().field("emailAddress").message(ERROR_IN_EMAIL_ADDRESS);
-    ErrorErrors nameError = new ErrorErrors().field("name").message(ERROR_IN_NAME);
-    UserResponse userResponse = new UserResponse();
-    userResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
-    when(userServiceMock.create(user)).thenReturn(userResponse);
-    mockMvc
-        .perform(
-            post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userDataSignedIn)
-                .param("emailAddress", EMAIL_WRONG_FORMAT)
-                .param("name", NAME_WRONG_FORMAT))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users/create-a-new-user"))
-        .andExpect(model().errorCount(2))
-        .andExpect(
-            model()
-                .attributeHasFieldErrorCode("formRequest", "emailAddress", ERROR_IN_EMAIL_ADDRESS))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_IN_NAME));
-
     verify(userServiceMock, times(1)).create(user);
   }
 

@@ -73,7 +73,7 @@ public class SignInControllerTest {
   }
 
   @Test
-  public void signIn_shouldRedirectToHomePageWithEmail_WhenSignInIsSuccessful() throws Exception {
+  public void signIn_shouldRedirectToHomePage_WhenSignInIsSuccessful() throws Exception {
     when(signInService.signIn(EMAIL))
         .thenReturn(Optional.of(new UserResponse().data(new UserData().emailAddress(EMAIL))));
     mockMvc
@@ -103,7 +103,7 @@ public class SignInControllerTest {
 
   @Test
   public void
-      signIn_shouldDisplaySignInTemplateWithErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
+      signIn_shouldDisplaySignInTemplateWithValidationErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
           throws Exception {
     mockMvc
         .perform(post("/sign-in").param("email", "").param(" ***REMOVED***))
