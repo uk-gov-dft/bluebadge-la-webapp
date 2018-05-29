@@ -12,20 +12,20 @@ Feature: Dft BlueBadge LA Sign In Page
     And I can click Sign in button
     Then I should see the page titled "GOV.UK Manage Blue Badges"
     And I should see LA name as "Manchester City Council"
-    And I should see username as "abc@dft.gov.uk"
+    And I should see username as "Sampath"
     And I should see signout link
 
   Scenario: Verify Sign in with an invalid email address
     Given I navigate to the "sign-in" page
     And I type username "example" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message "Enter a valid email address"
+    Then I should see the validation message for "invalid email" as "Enter a valid email address"
 
   Scenario: Verify Sign in with an invalid password
     Given I navigate to the "sign-in" page
     And I type username "example@gmail.com" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message "Enter a password"
+    Then I should see the validation message for "invalid  ***REMOVED***
 
 
 

@@ -1,5 +1,6 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static java.time.OffsetDateTime.now;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.containsString;
@@ -8,6 +9,7 @@ import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
@@ -66,7 +69,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void thenIShouldSeeTheContent(String content) throws Throwable {
     assertThat(
         "Document content is as expected",
-        sitePage.getDocumentContent(),
+        sitePage.getPageContent(),
         getMatcherForText(content));
   }
 
@@ -172,14 +175,6 @@ public class SiteSteps extends AbstractSpringSteps {
     signInPage.findElementWithUiPath("button").click();
   }
 
-  @Then("^I should see the validation message \"([^\"]*)\"$")
-  public void thenIShouldSeeTheValidationMessage(String validation) throws Throwable {
-    assertThat(
-        "Validation message expected",
-        signInPage.findElementWithUiPath("error").getText(),
-        getMatcherForText(validation));
-  }
-
   @Then("^I should see the title \"([^\"]*)\"$")
   public void iShouldSeeTheTitle(String title) throws Throwable {
     assertThat("Incorrect page title", sitePage.getH1Tag(), getMatcherForText(title));
@@ -209,7 +204,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeLANameAs(String la) throws Throwable {
     assertThat(
         "LA name expected",
-        signInPage.findElementWithUiPath("la-name").getText(),
+        signInPage.findElementWithUiPath("topbar.link").getText(),
         getMatcherForText(la));
   }
 
@@ -232,5 +227,51 @@ public class SiteSteps extends AbstractSpringSteps {
   @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field$")
   public void whenItypeTextForField(String text, String field) throws Throwable {
     signInPage.findPageElementById(field).sendKeys(text);
+  }
+
+    @When("^I enter full name and email address and clicks on create a new user button$")
+    public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
+      NameGenerator ng = new NameGenerator();
+
+      String fn = ng.get_first_name();
+      String ln = ng.get_last_name();
+      String name = fn + " " + ln;
+      System.setProperty("fullname", name);
+      String un = "QA_" + fn + "_" + ln  + "_" + Integer.toString(now().getDayOfYear());
+      System.setProperty("uid", un);
+      String email = un +  "@dft.gov.uk";
+      System.setProperty("email", email);
+
+
+      sitePage.findPageElementById("name").sendKeys(name);
+      sitePage.findPageElementById("emailAddress").sendKeys(email);
+      sitePage.findElementWithUiPath("createUserButton").click();
+
+    }
+
+  @And("^I should see the newly created user is on the users list$")
+  public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
+      sitePage.getPageContent().contains(System.getProperty("email"));
+  }
+
+  @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
+  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+    if(arg0.equals("invalid email")) {
+      assertThat(
+              "Validation message expected",
+              signInPage.findElementWithUiPath("email.summary-error").getText(),
+              getMatcherForText(arg1));
+    }
+    else {
+      assertThat(
+              "Validation message expected",
+              signInPage.findElementWithUiPath("password.summary-error").getText(),
+              getMatcherForText(arg1));
+    }
+  }
+
+  @Then("^I should see the validation message \"([^\"]*)\"$")
+  public void thenIShouldSeeTheValidationMessage(String validation) throws Throwable {
+
   }
 }
