@@ -40,7 +40,7 @@
                th:name="${name}"
                th:type="${type}"
                th:field="*{__${name}__}"
-               th:aria-describedby="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'" />
+               th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint') : null " />
 
     </div><!-- govuk-o-form-group -->
 </body>

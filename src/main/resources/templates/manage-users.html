@@ -44,7 +44,7 @@
             </tbody>
         </table>
 
-        <p th:if="${users == null || users.size() == 0}" th:text="'There are no results for ' +  ${search}"/>
+        <p th:if="${users == null || users.size() == 0}" th:utext="'There are no results for <strong>' +  ${search} + '</strong>.'"/>
 
     </main>
 

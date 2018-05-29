@@ -1,6 +1,16 @@
 .govuk-table {
     $this: &;
 
+    &--fixed {
+        table-layout: fixed;
+
+        #{$this}__cell {
+            width: 100%;
+            word-wrap: break-word;
+        }
+    }
+
+
     &__head {
         #{$this}__row {
             border-bottom: 2px solid $govuk-grey-3;
