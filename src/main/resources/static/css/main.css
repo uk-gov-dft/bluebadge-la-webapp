@@ -3245,6 +3245,12 @@ input, select {
       font-size: 14pt;
       line-height: 1.2; } }
 
+.govuk-table--fixed {
+  table-layout: fixed; }
+  .govuk-table--fixed .govuk-table__cell {
+    width: 100%;
+    word-wrap: break-word; }
+
 .govuk-table__head .govuk-table__row {
   border-bottom: 2px solid #dee0e2; }
 

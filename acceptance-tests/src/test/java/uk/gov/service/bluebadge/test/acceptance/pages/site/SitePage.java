@@ -57,8 +57,8 @@ public class SitePage extends AbstractSitePage {
     return getWebDriver().getTitle();
   }
 
-  public String getDocumentContent() {
-    return helper.findElement(By.id("form-message-username")).getText();
+  public String getPageContent() {
+    return getWebDriver().getPageSource();
   }
 
   public WebElement findPageElement(String elementName) {
