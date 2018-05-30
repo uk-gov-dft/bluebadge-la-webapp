@@ -1,16 +1,16 @@
 .dft-container {
 
     .dft-sidebar {
-        display: none; // to remove
 
-        @include mq(desktop){
-            display: block; // to remove
+        /* @include mq(desktop){ */
+            display: block;
             width:300px;
             height: 100vh;
             max-width: 300px;
             position: absolute;
-        }
+        /* } */
     }
+
 
     &--with-sidebar {
         position: relative;

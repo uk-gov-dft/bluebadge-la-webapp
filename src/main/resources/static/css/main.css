@@ -3181,14 +3181,13 @@ input, select {
   padding: 0 0; }
 
 .dft-container .dft-sidebar {
-  display: none; }
-  @media (min-width: 64em) {
-    .dft-container .dft-sidebar {
-      display: block;
-      width: 300px;
-      height: 100vh;
-      max-width: 300px;
-      position: absolute; } }
+  /* @include mq(desktop){ */
+  display: block;
+  width: 300px;
+  height: 100vh;
+  max-width: 300px;
+  position: absolute;
+  /* } */ }
 
 .dft-container--with-sidebar {
   position: relative; }
@@ -3531,6 +3530,38 @@ input, select {
         margin-right: 10px; } }
 
 .dft-sidebar {
-  background-color: #eee; }
+  background-color: #f8f8f8; }
+  .dft-sidebar__menu {
+    margin: 0;
+    padding: 0;
+    list-style: none; }
+  .dft-sidebar__item {
+    margin: 0;
+    display: block;
+    color: #1754B9;
+    text-decoration: none;
+    padding: 12px 20px 11px 30px;
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px; }
+    @media print {
+      .dft-sidebar__item {
+        font-family: sans-serif; } }
+    @media (min-width: 48em) {
+      .dft-sidebar__item {
+        font-size: 19px;
+        line-height: 25px; } }
+    @media print {
+      .dft-sidebar__item {
+        font-size: 14pt;
+        line-height: 1.15; } }
+    .dft-sidebar__item:visited {
+      color: #1754B9; }
+    .dft-sidebar__item:focus {
+      outline: none;
+      background: none; }
 
 /*# sourceMappingURL=main.css.map */

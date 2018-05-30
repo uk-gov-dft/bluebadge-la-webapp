@@ -100,8 +100,8 @@ public class UserControllerImpl implements UserController {
 
   @GetMapping(URL_USER_DETAILS)
   public String showUserDetails(
-          @ModelAttribute("formRequest") final UserDetailsFormRequest formRequest,
-          HttpSession session) {
+      @ModelAttribute("formRequest") final UserDetailsFormRequest formRequest,
+      HttpSession session) {
     if (!SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_SIGN_IN;
     }
@@ -110,10 +110,10 @@ public class UserControllerImpl implements UserController {
 
   @PostMapping(URL_USER_DETAILS)
   public String updateUserDetails(
-          @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,
-          BindingResult bindingResult,
-          Model model,
-          HttpSession session) {
+      @ModelAttribute("formRequest") UserDetailsFormRequest formRequest,
+      BindingResult bindingResult,
+      Model model,
+      HttpSession session) {
     try {
       if (!SignInUtils.isSignedIn(session)) {
         return REDIRECT_URL_SIGN_IN;
@@ -121,20 +121,20 @@ public class UserControllerImpl implements UserController {
       User signedInUser = SignInUtils.getUserSignedIn(session).get();
       // TODO: Role id should come from the form
       User user = null;
-              /* createANewUserRequest2User
-                      .convert(formRequest)
-                      .localAuthorityId(signedInUser.getLocalAuthorityId())
-                      .roleId(1); */
+      /* createANewUserRequest2User
+      .convert(formRequest)
+      .localAuthorityId(signedInUser.getLocalAuthorityId())
+      .roleId(1); */
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
-              userResponse.getError(),
-              "redirect:/" + TEMPLATE_MANAGE_USERS,
-              TEMPLATE_USER_DETAILS,
-              bindingResult,
-              model);
+          userResponse.getError(),
+          "redirect:/" + TEMPLATE_MANAGE_USERS,
+          TEMPLATE_USER_DETAILS,
+          bindingResult,
+          model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
-              "general error updating user", "error in updating a user", model);
+          "general error updating user", "error in updating a user", model);
       return TEMPLATE_USER_DETAILS;
     }
   }

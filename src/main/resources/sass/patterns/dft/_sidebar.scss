@@ -1,3 +1,34 @@
+$la-blue: #1754B9;
+
 .dft-sidebar {
-    background-color: #eee;
+    background-color: $govuk-grey-4;
+
+    &__menu {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        margin: 0;
+        display:block;
+        color: $la-blue;
+        text-decoration: none;
+        padding: 12px 20px 11px 30px;
+        @include govuk-font-regular-19;
+
+        &:visited {
+            color: $la-blue;
+        }
+
+        &:focus {
+            outline: none;
+            background: none;
+        }
+    }
+
+    &__item-label {
+
+    }
+
 }
