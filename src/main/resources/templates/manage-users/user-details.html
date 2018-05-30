@@ -4,36 +4,33 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title>User details John Doe - GOV.UK Manage Blue Badges</title>
+    <title th:text="'User details ' + ${formRequest.name} + ' - GOV.UK Manage Blue Badges'"></title>
 </head>
 <body>
 
 <main layout:fragment="content">
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
             <h1 class="govuk-heading-l" data-uipath="title">User details</h1>
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+        </div>
+    </div>
 
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--half">
 
-                    <form  th:action="@{/manage-users/user-details}" th:object="${formRequest}" method="post" novalidate>
+                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" method="post" novalidate>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
 
-                        <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
-                    </form>
-                </div>
-            </div>
-
-
-        </div><!-- govuk-o-grid -->
-    </div><!-- govuk-o-grid__item -->
+                <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
+            </form>
+        </div>
+    </div>
 </main>
 
 </body>
