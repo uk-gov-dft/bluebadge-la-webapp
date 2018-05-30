@@ -1,6 +1,5 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import static java.time.OffsetDateTime.now;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.containsString;
@@ -28,6 +27,7 @@ import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
+  NameGenerator ng = new NameGenerator();
 
   @Autowired private SitePage sitePage;
 
@@ -228,15 +228,10 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @When("^I enter full name and email address and clicks on create a new user button$")
   public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
-    NameGenerator ng = new NameGenerator();
 
-    String fn = ng.get_first_name();
-    String ln = ng.get_last_name();
-    String name = fn + " " + ln;
+    String name = ng.get_full_name();
+    String email = ng.get_email(name);
     System.setProperty("fullname", name);
-    String un = "QA_" + fn + "_" + ln + "_" + Integer.toString(now().getDayOfYear());
-    System.setProperty("uid", un);
-    String email = un + "@dft.gov.uk";
     System.setProperty("email", email);
 
     sitePage.findPageElementById("name").sendKeys(name);
@@ -290,5 +285,41 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click on the \"([^\"]*)\" button on manage user page$")
   public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
     sitePage.findElementWithUiPath("createUserButton").click();
+  }
+
+  @When("^I click on the first name link from users table$")
+  public void iClickOnTheFirstNameLinkFromUsersTable() throws Throwable {
+    sitePage.findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(1)>a").click();
+  }
+
+  @When("^I change email address and clicks on update button$")
+  public void iChangeEmailAddressAndClicksOnUpdateButton() throws Throwable {
+    String new_email = ng.get_email(sitePage.findPageElementById("name").getAttribute("value"));
+
+    sitePage.findElementWithUiPath("emailAddress.field").clear();
+    sitePage.findElementWithUiPath("emailAddress.field").sendKeys(new_email);
+    System.setProperty("updated_email", new_email);
+
+    sitePage.findElementWithUiPath("updateUserButton").click();
+  }
+
+  @Then("^I should see the relevant email address has updated$")
+  public void iShouldSeeTheUpdatedUserIsOnTheUsersTable() throws Throwable {
+
+    assertThat(
+        "Updated email address expected",
+        sitePage
+            .findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(2)")
+            .getText(),
+        getMatcherForText(System.getProperty("updated_email")));
+  }
+
+  @When("^I enter invalid email address and clicks on update button$")
+  public void iEnterInvalidEmailAddressAndClicksOnUpdateButton() throws Throwable {
+
+    sitePage.findElementWithUiPath("emailAddress.field").clear();
+    sitePage.findElementWithUiPath("emailAddress.field").sendKeys("Not valid email");
+
+    sitePage.findElementWithUiPath("updateUserButton").click();
   }
 }

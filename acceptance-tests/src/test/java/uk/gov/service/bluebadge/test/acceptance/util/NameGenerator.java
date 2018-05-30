@@ -1,5 +1,6 @@
 package uk.gov.service.bluebadge.test.acceptance.util;
 
+import java.sql.Timestamp;
 import java.util.Random;
 
 public class NameGenerator {
@@ -218,5 +219,15 @@ public class NameGenerator {
   public String get_last_name() {
 
     return last_name;
+  }
+
+  public String get_full_name() {
+    return get_first_name() + " " + get_last_name();
+  }
+
+  public String get_email(String fullName) {
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    String un = "QA_" + fullName.replace(" ", "_") + "_" + timestamp.getTime();
+    return un + "@dft.gov.uk";
   }
 }
