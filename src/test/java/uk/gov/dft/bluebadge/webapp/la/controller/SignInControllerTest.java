@@ -26,6 +26,8 @@ public class SignInControllerTest {
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String PASSWORD = "password";
 
+  private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
+
   private MockMvc mockMvc;
 
   @Mock private SignInService signInService;
@@ -59,7 +61,7 @@ public class SignInControllerTest {
                 .attribute(
                     "formRequest",
                     allOf(
-                        hasProperty("email", isEmptyOrNullString()),
+                        hasProperty(EMAIL_ADDRESS_PARAM, isEmptyOrNullString()),
                         hasProperty("password", isEmptyOrNullString()))));
   }
 
@@ -77,7 +79,7 @@ public class SignInControllerTest {
     when(signInService.signIn(EMAIL))
         .thenReturn(Optional.of(new UserResponse().data(new UserData().emailAddress(EMAIL))));
     mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
         .andExpect(view().name("redirect:/"));
   }
@@ -88,7 +90,7 @@ public class SignInControllerTest {
           throws Exception {
     when(signInService.signIn(EMAIL)).thenReturn(Optional.empty());
     mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(
@@ -106,11 +108,12 @@ public class SignInControllerTest {
       signIn_shouldDisplaySignInTemplateWithValidationErrorMessageForEmailAndPasswordAndHttpStatusIsOK_WhenEmailAndPasswordAreEmpty()
           throws Exception {
     mockMvc
-        .perform(post("/sign-in").param("email", "").param(" ***REMOVED***))
+        .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, "").param(" ***REMOVED***))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().errorCount(2))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "email", "NotEmpty"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", EMAIL_ADDRESS_PARAM, "NotEmpty"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", " ***REMOVED***));
   }
 
@@ -119,11 +122,14 @@ public class SignInControllerTest {
       signIn_shouldDisplaySignInTemplateWithErrorMessageForEmailAndHttpStatusIsOK_WhenEmailIsWrongFormat()
           throws Exception {
     mockMvc
-        .perform(post("/sign-in").param("email", EMAIL_WRONG_FORMAT).param("password", PASSWORD))
+        .perform(
+            post("/sign-in")
+                .param(EMAIL_ADDRESS_PARAM, EMAIL_WRONG_FORMAT)
+                .param("password", PASSWORD))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().errorCount(1))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "email", "Email"));
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", EMAIL_ADDRESS_PARAM, "Email"));
   }
 
   @Test
@@ -133,7 +139,7 @@ public class SignInControllerTest {
         .thenThrow(new Exception("Exception", new Exception("Cause Exception")));
 
     mockMvc
-        .perform(post("/sign-in").param("email", EMAIL).param("password", PASSWORD))
+        .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(

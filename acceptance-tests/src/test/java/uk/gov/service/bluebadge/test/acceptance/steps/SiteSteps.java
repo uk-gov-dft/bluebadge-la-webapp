@@ -163,7 +163,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I type username \"([^\"]+)\" and  ***REMOVED***)
   public void andITypeUsernameAndPassword(String username, String password) throws Throwable {
-    signInPage.findPageElementById("email").sendKeys(username);
+    signInPage.findPageElementById("emailAddress").sendKeys(username);
     signInPage.findPageElementById("password").sendKeys(password);
   }
 
@@ -254,7 +254,7 @@ public class SiteSteps extends AbstractSpringSteps {
     if (arg0.equals("invalid email")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("email.summary-error").getText(),
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
           getMatcherForText(arg1));
     } else if (arg0.equals("invalid password")) {
       assertThat(

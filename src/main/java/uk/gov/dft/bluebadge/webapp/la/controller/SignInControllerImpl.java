@@ -61,8 +61,8 @@ public class SignInControllerImpl implements SignInController {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
       } else {
-        String email = formRequest.getEmail();
-        Optional<UserResponse> user = signInService.signIn(email);
+        String emailAddress = formRequest.getEmailAddress();
+        Optional<UserResponse> user = signInService.signIn(emailAddress);
         if (user.isPresent()) {
           session.setAttribute("user", user.get().getData());
           return REDIRECT_URL_HOME;
