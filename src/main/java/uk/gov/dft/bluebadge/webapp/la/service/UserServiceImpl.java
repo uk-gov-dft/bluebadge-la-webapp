@@ -20,6 +20,14 @@ public class UserServiceImpl implements UserService {
     this.userManagementService = userManagementService;
   }
 
+  @Override
+  public UserResponse findOneById(int id) {
+    // TODO: There should be a getById with only one id prettty soon.
+    return userManagementService.getById(2, id);
+  }
+
+  // TODO: Changes to return UserResponse, if it is empty or not is inside UserResponse.
+  @Override
   public Optional<UserResponse> findOneByEmail(String email) {
     if (userManagementService.checkUserExistsForEmail(email)) {
       UserResponse userResponse = userManagementService.getUserForEmail(email);

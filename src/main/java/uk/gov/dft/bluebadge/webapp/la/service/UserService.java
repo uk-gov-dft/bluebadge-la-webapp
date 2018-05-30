@@ -8,6 +8,8 @@ import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 
 public interface UserService {
 
+  UserResponse findOneById(int id);
+
   Optional<UserResponse> findOneByEmail(String email);
 
   UsersResponse find(int localAuthority, String nameFilter);

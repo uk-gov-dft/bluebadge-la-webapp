@@ -5,7 +5,7 @@ Feature: Dft BlueBadge LA Manage User
   I want to create,remove,modify a new user in LA webapp
   So that the new users can login to LA webapp
 
-  Scenario: Verify Create a new user page
+  Scenario: Verify Create a new user
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
@@ -41,6 +41,22 @@ Feature: Dft BlueBadge LA Manage User
     When I search for newly create user using email address
     Then I should see the search results with newly created user
 
+  Scenario: Verify update user details - email address
+    Given I navigate to the "sign-in" page
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I navigate to the "manage-users" page
+    When I click on the first name link from users table
+    Then I should see the title "User details"
+    When I change email address and clicks on update button
+    Then I should see the relevant email address has updated
 
-
-
+  Scenario: Verify update user details with invalid email address
+    Given I navigate to the "sign-in" page
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I navigate to the "manage-users" page
+    When I click on the first name link from users table
+    Then I should see the title "User details"
+    When I enter invalid email address and clicks on update button
+    Then I should see the validation message for "invalid email" as "Enter a valid email address"

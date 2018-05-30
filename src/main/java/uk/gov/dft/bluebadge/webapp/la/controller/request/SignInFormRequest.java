@@ -8,18 +8,18 @@ public class SignInFormRequest {
 
   @NotEmpty(message = "{error.form.field.signin.email.notEmpty}")
   @Email(message = "{error.form.field.signin.email.wrongFormat}")
-  private String email;
+  private String emailAddress;
 
   @NotEmpty(message = "{error.form.field.signin.password.notEmpty}")
   private String password;
 
-  public SignInFormRequest(String email, String password) {
-    this.email = email;
+  public SignInFormRequest(String emailAddress, String password) {
+    this.emailAddress = emailAddress;
     this.password = password;
   }
 
-  public String getEmail() {
-    return this.email;
+  public String getEmailAddress() {
+    return this.emailAddress;
   }
 
   public String getPassword() {
@@ -28,7 +28,7 @@ public class SignInFormRequest {
 
   @Override
   public String toString() {
-    return String.format("SignInFormRequest [email=%s]", email);
+    return String.format("SignInFormRequest [emailAddress=%s]", emailAddress);
   }
 
   @Override
@@ -40,17 +40,18 @@ public class SignInFormRequest {
       return false;
     }
     SignInFormRequest that = (SignInFormRequest) o;
-    return Objects.equals(email, that.email) && Objects.equals(password, that.password);
+    return Objects.equals(emailAddress, that.emailAddress)
+        && Objects.equals(password, that.password);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(email, password);
+    return Objects.hash(emailAddress, password);
   }
 
   public static final class SignInRequestBuilder {
-    private String email;
+    private String emailAddress;
     private String password;
 
     private SignInRequestBuilder() {}
@@ -59,8 +60,8 @@ public class SignInFormRequest {
       return new SignInRequestBuilder();
     }
 
-    public SignInRequestBuilder withEmail(String email) {
-      this.email = email;
+    public SignInRequestBuilder withEmailAddress(String emailAddress) {
+      this.emailAddress = emailAddress;
       return this;
     }
 
@@ -70,7 +71,7 @@ public class SignInFormRequest {
     }
 
     public SignInFormRequest build() {
-      return new SignInFormRequest(email, password);
+      return new SignInFormRequest(emailAddress, password);
     }
   }
 }
