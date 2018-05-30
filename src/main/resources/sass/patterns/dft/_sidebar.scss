@@ -1,6 +1,7 @@
 $la-blue: #1754B9;
 
 .dft-sidebar {
+    $this: &;
     background-color: $govuk-grey-4;
 
     &__menu {
@@ -11,24 +12,61 @@ $la-blue: #1754B9;
 
     &__item {
         margin: 0;
+        clear: both;
         display:block;
         color: $la-blue;
+        overflow: hidden;
+        position: relative;
         text-decoration: none;
-        padding: 12px 20px 11px 30px;
+
         @include govuk-font-regular-19;
 
-        &:visited {
-            color: $la-blue;
+        @include mq($from: tablet) {
+            padding: 12px 20px 11px 30px;
         }
 
-        &:focus {
-            outline: none;
-            background: none;
+        &:hover, &--active {
+            color: white;
+            background: $la-blue;
+            
+            
+            &:after {
+                top: 0;
+                right: 0;               
+                width: 0;
+                height: 0;
+                bottom: 0;
+                content: '';
+                margin: auto;
+                position: absolute;
+                border-style: solid;
+                border-width: 7px 8px 7px 0;
+                border-color: transparent #ffffff transparent transparent;
+            }
+
+            .dft-badge {
+                color: white;
+                background-color: darken($la-blue, 15%);
+            }
+
+            &:visited {
+                color: $la-blue;
+            }
+    
+            &:focus {
+                outline: none;
+                background: none;
+            }
+
         }
     }
 
     &__item-label {
+        float: left;
+    }
 
+    .dft-badge {
+        float: right;
     }
 
 }

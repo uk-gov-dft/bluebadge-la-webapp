@@ -63,7 +63,7 @@ const isDev = getEnv() === "development";
 -------------------------------------------------- **/
 
 
-gulp.task('clean:css', () => del.sync(['./assets/dist/css/**']));
+gulp.task('clean:css', () => del.sync(['./src/resources/static/css/**']));
 
 
 gulp.task('sass', ['clean:css'], () => {

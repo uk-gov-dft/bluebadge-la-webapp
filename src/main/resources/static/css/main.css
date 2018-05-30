@@ -3322,19 +3322,37 @@ input, select {
   max-width: 400px; }
 
 .dft-badge {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  font-family: "nta", Arial, sans-serif; }
-  .dft-badge--heading {
-    display: inline-block;
-    color: #6f777b; }
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px; }
+  @media print {
+    .dft-badge {
+      font-family: sans-serif; } }
   @media (min-width: 48em) {
     .dft-badge {
       font-size: 19px;
       line-height: 25px; } }
+  @media print {
+    .dft-badge {
+      font-size: 14pt;
+      line-height: 1.15; } }
+  .dft-badge--nav {
+    min-width: 26px;
+    text-align: center;
+    border-radius: 3px;
+    padding: 3px 3px 0;
+    display: inline-block;
+    background-color: #fff; }
+    @media (min-width: 48em) {
+      .dft-badge--nav {
+        min-width: 35px;
+        padding: 5px 5px 0; } }
+  .dft-badge--heading {
+    display: inline-block;
+    color: #6f777b; }
 
 .dft-search__container {
   width: 65%;
@@ -3543,10 +3561,12 @@ input, select {
     list-style: none; }
   .dft-sidebar__item {
     margin: 0;
+    clear: both;
     display: block;
     color: #1754B9;
+    overflow: hidden;
+    position: relative;
     text-decoration: none;
-    padding: 12px 20px 11px 30px;
     font-family: "nta", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -3564,10 +3584,35 @@ input, select {
       .dft-sidebar__item {
         font-size: 14pt;
         line-height: 1.15; } }
-    .dft-sidebar__item:visited {
-      color: #1754B9; }
-    .dft-sidebar__item:focus {
-      outline: none;
-      background: none; }
+    @media (min-width: 48em) {
+      .dft-sidebar__item {
+        padding: 12px 20px 11px 30px; } }
+    .dft-sidebar__item:hover, .dft-sidebar__item--active {
+      color: white;
+      background: #1754B9; }
+      .dft-sidebar__item:hover:after, .dft-sidebar__item--active:after {
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        bottom: 0;
+        content: '';
+        margin: auto;
+        position: absolute;
+        border-style: solid;
+        border-width: 7px 8px 7px 0;
+        border-color: transparent #ffffff transparent transparent; }
+      .dft-sidebar__item:hover .dft-badge, .dft-sidebar__item--active .dft-badge {
+        color: white;
+        background-color: #0f3575; }
+      .dft-sidebar__item:hover:visited, .dft-sidebar__item--active:visited {
+        color: #1754B9; }
+      .dft-sidebar__item:hover:focus, .dft-sidebar__item--active:focus {
+        outline: none;
+        background: none; }
+  .dft-sidebar__item-label {
+    float: left; }
+  .dft-sidebar .dft-badge {
+    float: right; }
 
 /*# sourceMappingURL=main.css.map */
