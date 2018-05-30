@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -68,9 +67,7 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see the content \"([^\"]*)\"$")
   public void thenIShouldSeeTheContent(String content) throws Throwable {
     assertThat(
-        "Document content is as expected",
-        sitePage.getPageContent(),
-        getMatcherForText(content));
+        "Document content is as expected", sitePage.getPageContent(), getMatcherForText(content));
   }
 
   @Then("^I should see the \"page not found\" error page$")
@@ -229,49 +226,69 @@ public class SiteSteps extends AbstractSpringSteps {
     signInPage.findPageElementById(field).sendKeys(text);
   }
 
-    @When("^I enter full name and email address and clicks on create a new user button$")
-    public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
-      NameGenerator ng = new NameGenerator();
+  @When("^I enter full name and email address and clicks on create a new user button$")
+  public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
+    NameGenerator ng = new NameGenerator();
 
-      String fn = ng.get_first_name();
-      String ln = ng.get_last_name();
-      String name = fn + " " + ln;
-      System.setProperty("fullname", name);
-      String un = "QA_" + fn + "_" + ln  + "_" + Integer.toString(now().getDayOfYear());
-      System.setProperty("uid", un);
-      String email = un +  "@dft.gov.uk";
-      System.setProperty("email", email);
+    String fn = ng.get_first_name();
+    String ln = ng.get_last_name();
+    String name = fn + " " + ln;
+    System.setProperty("fullname", name);
+    String un = "QA_" + fn + "_" + ln + "_" + Integer.toString(now().getDayOfYear());
+    System.setProperty("uid", un);
+    String email = un + "@dft.gov.uk";
+    System.setProperty("email", email);
 
-
-      sitePage.findPageElementById("name").sendKeys(name);
-      sitePage.findPageElementById("emailAddress").sendKeys(email);
-      sitePage.findElementWithUiPath("createUserButton").click();
-
-    }
+    sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findPageElementById("emailAddress").sendKeys(email);
+    sitePage.findElementWithUiPath("createUserButton").click();
+  }
 
   @And("^I should see the newly created user is on the users list$")
   public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
-      sitePage.getPageContent().contains(System.getProperty("email"));
+    sitePage.getPageContent().contains(System.getProperty("email"));
   }
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
   public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
-    if(arg0.equals("invalid email")) {
+    if (arg0.equals("invalid email")) {
       assertThat(
-              "Validation message expected",
-              signInPage.findElementWithUiPath("email.summary-error").getText(),
-              getMatcherForText(arg1));
-    }
-    else {
+          "Validation message expected",
+          signInPage.findElementWithUiPath("email.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid password")) {
       assertThat(
-              "Validation message expected",
-              signInPage.findElementWithUiPath("password.summary-error").getText(),
-              getMatcherForText(arg1));
+          "Validation message expected",
+          signInPage.findElementWithUiPath("password.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid name")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("name.summary-error").getText(),
+          getMatcherForText(arg1));
     }
   }
 
-  @Then("^I should see the validation message \"([^\"]*)\"$")
-  public void thenIShouldSeeTheValidationMessage(String validation) throws Throwable {
+  @When("^I search for newly create user using email address$")
+  public void iSearchForNewlyCreateUserUsingEmailAddress() throws Throwable {
+    sitePage.findPageElementById("search").sendKeys(System.getProperty("email"));
+    sitePage.findElementWithUiPath("search.button").click();
+  }
 
+  @Then("^I should see the search results with newly created user$")
+  public void iShouldSeeTheSearchResultsWithNewlyCreatedUser() throws Throwable {
+    assertThat(
+        "Only 1 result is expected",
+        sitePage.findElementWithUiPath("search.count").getText(),
+        getMatcherForText("1 Result:"));
+    assert (sitePage
+        .findElementWithUiPath("table.body")
+        .getText()
+        .contains(System.getProperty("email")));
+  }
+
+  @And("^I can click on the \"([^\"]*)\" button on manage user page$")
+  public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
+    sitePage.findElementWithUiPath("createUserButton").click();
   }
 }

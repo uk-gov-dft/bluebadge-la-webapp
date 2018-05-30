@@ -20,9 +20,9 @@ for id and attaching label to the input field.
 
         <label th:for="${name}" class="dft-search__label" th:utext="${label}" />
 
-        <input th:value="${search}" type="text" th:name="${name}" th:attr="id=${name}" placeholder="Search" class="dft-search__field" />
+        <input th:value="${search}" data-uipath="search.field" type="text" th:name="${name}" th:attr="id=${name}" placeholder="Search" class="dft-search__field" />
 
-        <button type="submit" class="dft-search__button">
+        <button type="submit" data-uipath="search.button" class="dft-search__button">
 
             <span class="govuk-visually-hidden" th:utext="${label}" />
 
@@ -31,7 +31,7 @@ for id and attaching label to the input field.
     </div>
 
    <span class="dft-search__options" th:if="${searchCount != null}">
-        <span th:utext="${searchCount == 1} ? ${searchCount} + ' Result:' : ${searchCount} + ' Results:'" />
+        <span data-uipath="search.count" th:utext="${searchCount == 1} ? ${searchCount} + ' Result:' : ${searchCount} + ' Results:'" />
 
         <a th:href="@{/manage-users}"
                 th:if="${showClearBtn}"
