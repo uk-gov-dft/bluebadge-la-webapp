@@ -81,7 +81,9 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
           model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
-          "general error creating user", "error in creating user", model);
+          "error.createUser.generalError.title",
+          "error.createUser.generalError.description",
+          model);
       return TEMPLATE_CREATE_A_NEW_USER;
     }
   }

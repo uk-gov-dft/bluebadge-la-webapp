@@ -44,20 +44,19 @@ public class ManageUsersControllerImpl implements ManageUsersController {
 
     List<User> allUsers = userService.find(user.getLocalAuthorityId()).getData().getUsers();
     List<User> users = Lists.newArrayList();
-    if (StringUtils.isEmpty(formRequest.getSearch())) {
+
+    String trimmedSearch = StringUtils.trimToEmpty(formRequest.getSearch());
+    if (StringUtils.isEmpty(trimmedSearch)) {
       users.addAll(allUsers);
     } else {
       users.addAll(
-          userService
-              .find(user.getLocalAuthorityId(), formRequest.getSearch())
-              .getData()
-              .getUsers());
+          userService.find(user.getLocalAuthorityId(), trimmedSearch).getData().getUsers());
     }
 
-    model.addAttribute("search", StringUtils.trimToEmpty(formRequest.getSearch()));
+    model.addAttribute("search", trimmedSearch);
     model.addAttribute("users", users);
     model.addAttribute("allUsersSize", allUsers.size());
-    if (!StringUtils.isEmpty(formRequest.getSearch())) {
+    if (!StringUtils.isEmpty(trimmedSearch)) {
       model.addAttribute("searchCount", users.size());
     }
     return TEMPLATE_MANAGE_USERS;

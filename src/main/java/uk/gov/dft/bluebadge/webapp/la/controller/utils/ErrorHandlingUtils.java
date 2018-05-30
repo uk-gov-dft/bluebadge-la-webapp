@@ -15,7 +15,7 @@ public class ErrorHandlingUtils {
     if (error == null || error.getErrors() == null || error.getErrors().isEmpty()) {
       return successTemplate;
     } else {
-      TemplateModelUtils.addCustomError("Fix the following errors:", "", model);
+      TemplateModelUtils.addCustomError("error.form.summary.title", "empty", model);
       BindingResultUtils.addApiErrors(error, bindingResult);
       // TemplateModelUtils.addApiError(error, model);
       return errorTemplate;
