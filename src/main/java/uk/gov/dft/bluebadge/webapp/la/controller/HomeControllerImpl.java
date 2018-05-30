@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 
 @Controller
 public class HomeControllerImpl implements HomeController {

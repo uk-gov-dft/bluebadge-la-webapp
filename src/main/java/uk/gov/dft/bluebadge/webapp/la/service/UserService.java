@@ -1,24 +1,24 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 // Make sure this is the user we want
-import java.util.List;
 import java.util.Optional;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 
 public interface UserService {
 
-  Optional<User> findById(Long id);
+  UserResponse findOneById(int id);
 
-  List<User> findAll();
+  Optional<UserResponse> findOneByEmail(String email);
+
+  UsersResponse find(int localAuthority, String nameFilter);
+
+  UsersResponse find(int localAuthority);
 
   boolean checkUserExistsForEmail(String email);
 
-  UserResponse create(User user);
+  UserResponse create(User user) throws Exception;
 
-  int update(User user);
-
-  int delete(Long id);
-
-  List<User> findAll(int localAuthority);
+  UserResponse update(User user) throws Exception;
 }

@@ -91,6 +91,10 @@ checkstyle {
     toolVersion "8.9"
 }
 
+cobertura {
+    coverageExcludes = ['.*uk.gov.dft.bluebadge.webapp.la.controller.request.*', '.*uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.*', '.*uk.gov.dft.bluebadge.webapp.la.service.model.*','.*uk.gov.dft.bluebadge.webapp.la.exception.*']
+}
+
 bootRun {
     sourceResources sourceSets.main
 }
