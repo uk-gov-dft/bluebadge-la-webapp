@@ -22,10 +22,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class ManageUsersControllerTest {
 
-  private static final String EMAIL = "joeblogs@joe.com";
-  private static final String NAME = "joeblogs@joe.com";
-  private static final int ROLE_ID = 1;
-
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
@@ -35,6 +31,7 @@ public class ManageUsersControllerTest {
   // Test Data
   final int LOCAL_AUTHORITY = 1;
   final String NAME_JANE = "Jane";
+  final String NAME_NOT_FOUND = "NotFound";
 
   private UserData userDataSignedIn;
   private User userSignedIn;
@@ -125,6 +122,27 @@ public class ManageUsersControllerTest {
         .andExpect(model().attribute("users", users))
         .andExpect(model().attribute("allUsersSize", 3))
         .andExpect(model().attribute("searchCount", 1));
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY);
+  }
+
+  @Test
+  public void
+      showManageUsers_shouldDisplayManagerUsersTemplateWithNoUsers_WhenSearchParamIsNonEmptyAndThereNoAreUsers()
+          throws Exception {
+    List<User> users = Lists.newArrayList();
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityId(), NAME_NOT_FOUND))
+        .thenReturn(new UsersResponse().data(new UsersData().users(users)));
+    mockMvc
+        .perform(
+            get("/manage-users")
+                .sessionAttr("user", userDataSignedIn)
+                .param("search", NAME_NOT_FOUND))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-users"))
+        .andExpect(model().attribute("search", NAME_NOT_FOUND))
+        .andExpect(model().attribute("users", users))
+        .andExpect(model().attribute("allUsersSize", 3))
+        .andExpect(model().attribute("searchCount", 0));
     verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY);
   }
 }

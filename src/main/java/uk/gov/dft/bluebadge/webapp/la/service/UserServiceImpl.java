@@ -41,9 +41,11 @@ public class UserServiceImpl implements UserService {
   public UsersResponse find(int localAuthority, String nameFilter) {
     UsersResponse usersResponse =
         this.userManagementService.getUsersForAuthority(localAuthority, nameFilter);
-    Collections.sort(
-        usersResponse.getData().getUsers(),
-        new UserComparatorByNameAscendingOrderCaseInsensitive());
+    if (usersResponse.getData().getTotalItems() > 0) {
+      Collections.sort(
+          usersResponse.getData().getUsers(),
+          new UserComparatorByNameAscendingOrderCaseInsensitive());
+    }
     return usersResponse;
   }
 
