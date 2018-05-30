@@ -20,9 +20,9 @@ for id and attaching label to the input field.
 
         <label th:for="${name}" class="dft-search__label" th:utext="${label}" />
 
-        <input type="text" th:name="${name}" th:attr="id=${name}" class="dft-search__field" />
+        <input th:value="${search}" data-uipath="search.field" type="text" th:name="${name}" th:attr="id=${name}" placeholder="Search" class="dft-search__field" />
 
-        <button type="submit" class="dft-search__button">
+        <button type="submit" data-uipath="search.button" class="dft-search__button">
 
             <span class="govuk-visually-hidden" th:utext="${label}" />
 
@@ -30,14 +30,15 @@ for id and attaching label to the input field.
 
     </div>
 
-   <span class="dft-search__options">
-        <span th:if="${resultCount}" th:utext="${resultCount} + ' results'" />
+   <span class="dft-search__options" th:if="${searchCount != null}">
+        <span data-uipath="search.count" th:utext="${searchCount == 1} ? ${searchCount} + ' Result:' : ${searchCount} + ' Results:'" />
 
-        <button th:if="${showClearBtn}"
+        <a th:href="@{/manage-users}"
+                th:if="${showClearBtn}"
                 class="dft-search__clear-link"
                 aria-label="clear search input field"
                 type="reset">Clear
-        </button>
+        </a>
 
     </span>
 
