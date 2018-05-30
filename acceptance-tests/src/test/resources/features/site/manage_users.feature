@@ -17,7 +17,7 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see the newly created user is on the users list
 
-  Scenario: Verify Create a new user with an invalid full name and email address
+  Scenario: Verify Create a new user with an invalid full name
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
@@ -30,16 +30,13 @@ Feature: Dft BlueBadge LA Manage User
     And I can click on the "Create user" button on manage user page
     Then I should see the validation message for "invalid name" as "Enter a valid name"
 
-  Scenario: Verify Find user
+  Scenario: Verify Find user by email address
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I navigate to the "manage-users" page
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     When I can click on the "Create a new user" button
-    Then I should see the page titled "Create a new user - GOV.UK Manage Blue Badges"
-    When I enter full name and email address and clicks on create a new user button
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
     Then I should see the search results with newly created user
