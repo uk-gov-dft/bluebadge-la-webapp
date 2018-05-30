@@ -3,7 +3,6 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
 const cssnano = require('gulp-cssnano');
-const browserSync = require('browser-sync');
 const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
@@ -86,7 +85,6 @@ gulp.task('sass', ['clean:css'], () => {
 			}
 		})))
 		.pipe(gulp.dest(PATH.compiledAssets.css))
-		// .pipe(browserSync.stream()); // ?
 
 });
 
