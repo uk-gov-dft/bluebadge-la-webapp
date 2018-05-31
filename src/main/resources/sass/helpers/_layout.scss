@@ -1,14 +1,15 @@
 .dft-container {
 
     .dft-sidebar {
+        display: none;
 
-        /* @include mq(desktop){ */
-            display: block;
+        @include mq(desktop){
             width:300px;
             height: 100vh;
+            display: block;
             max-width: 300px;
             position: absolute;
-        /* } */
+        }
     }
 
 

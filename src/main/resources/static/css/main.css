@@ -3181,13 +3181,14 @@ input, select {
   padding: 0 0; }
 
 .dft-container .dft-sidebar {
-  /* @include mq(desktop){ */
-  display: block;
-  width: 300px;
-  height: 100vh;
-  max-width: 300px;
-  position: absolute;
-  /* } */ }
+  display: none; }
+  @media (min-width: 64em) {
+    .dft-container .dft-sidebar {
+      width: 300px;
+      height: 100vh;
+      display: block;
+      max-width: 300px;
+      position: absolute; } }
 
 .dft-container--with-sidebar {
   position: relative; }
@@ -3321,38 +3322,55 @@ input, select {
   margin: auto;
   max-width: 400px; }
 
-.dft-badge {
+.dft-badge--nav {
+  min-width: 24px;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px 4px 1px 4px;
+  display: inline-block;
+  background-color: #fff;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px; }
+  @media print {
+    .dft-badge--nav {
+      font-family: sans-serif; } }
+  @media (min-width: 48em) {
+    .dft-badge--nav {
+      font-size: 14px;
+      line-height: 20px; } }
+  @media print {
+    .dft-badge--nav {
+      font-size: 12pt;
+      line-height: 1.2; } }
+  @media (min-width: 48em) {
+    .dft-badge--nav {
+      min-width: 25px;
+      padding: 5px 5px 0; } }
+
+.dft-badge--heading {
+  display: inline-block;
   font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
-  line-height: 20px; }
+  line-height: 20px;
+  color: #6f777b; }
   @media print {
-    .dft-badge {
+    .dft-badge--heading {
       font-family: sans-serif; } }
   @media (min-width: 48em) {
-    .dft-badge {
+    .dft-badge--heading {
       font-size: 19px;
       line-height: 25px; } }
   @media print {
-    .dft-badge {
+    .dft-badge--heading {
       font-size: 14pt;
       line-height: 1.15; } }
-  .dft-badge--nav {
-    min-width: 26px;
-    text-align: center;
-    border-radius: 3px;
-    padding: 3px 3px 0;
-    display: inline-block;
-    background-color: #fff; }
-    @media (min-width: 48em) {
-      .dft-badge--nav {
-        min-width: 35px;
-        padding: 5px 5px 0; } }
-  .dft-badge--heading {
-    display: inline-block;
-    color: #6f777b; }
 
 .dft-search__container {
   width: 65%;
@@ -3554,6 +3572,7 @@ input, select {
         margin-right: 10px; } }
 
 .dft-sidebar {
+  z-index: 100;
   background-color: #f8f8f8; }
   .dft-sidebar__menu {
     margin: 0;
@@ -3566,7 +3585,9 @@ input, select {
     color: #1754B9;
     overflow: hidden;
     position: relative;
+    line-height: unset;
     text-decoration: none;
+    padding: 12px 20px 11px 20px;
     font-family: "nta", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -3587,6 +3608,8 @@ input, select {
     @media (min-width: 48em) {
       .dft-sidebar__item {
         padding: 12px 20px 11px 30px; } }
+    .dft-sidebar__item:visited, .dft-sidebar__item:link {
+      color: #1754B9; }
     .dft-sidebar__item:hover, .dft-sidebar__item--active {
       color: white;
       background: #1754B9; }
@@ -3600,18 +3623,19 @@ input, select {
         margin: auto;
         position: absolute;
         border-style: solid;
-        border-width: 7px 8px 7px 0;
-        border-color: transparent #ffffff transparent transparent; }
+        border-width: 5px 6px 5px 0;
+        border-color: transparent white transparent transparent; }
+        @media (min-width: 48em) {
+          .dft-sidebar__item:hover:after, .dft-sidebar__item--active:after {
+            border-width: 7px 8px 7px 0; } }
       .dft-sidebar__item:hover .dft-badge, .dft-sidebar__item--active .dft-badge {
         color: white;
         background-color: #0f3575; }
-      .dft-sidebar__item:hover:visited, .dft-sidebar__item--active:visited {
-        color: #1754B9; }
-      .dft-sidebar__item:hover:focus, .dft-sidebar__item--active:focus {
-        outline: none;
-        background: none; }
-  .dft-sidebar__item-label {
-    float: left; }
+      .dft-sidebar__item:hover:visited, .dft-sidebar__item:hover:link, .dft-sidebar__item--active:visited, .dft-sidebar__item--active:link {
+        color: white; }
+    .dft-sidebar__item:focus {
+      outline: none;
+      background: none; }
   .dft-sidebar .dft-badge {
     float: right; }
 

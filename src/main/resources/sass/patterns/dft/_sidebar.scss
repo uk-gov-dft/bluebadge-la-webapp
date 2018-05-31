@@ -2,6 +2,7 @@ $la-blue: #1754B9;
 
 .dft-sidebar {
     $this: &;
+    z-index: 100;
     background-color: $govuk-grey-4;
 
     &__menu {
@@ -17,12 +18,18 @@ $la-blue: #1754B9;
         color: $la-blue;
         overflow: hidden;
         position: relative;
+        line-height: unset;
         text-decoration: none;
+        padding: 12px 20px 11px 20px;
 
         @include govuk-font-regular-19;
 
         @include mq($from: tablet) {
             padding: 12px 20px 11px 30px;
+        }
+
+        &:visited, &:link {
+            color: $la-blue;
         }
 
         &:hover, &--active {
@@ -40,8 +47,12 @@ $la-blue: #1754B9;
                 margin: auto;
                 position: absolute;
                 border-style: solid;
-                border-width: 7px 8px 7px 0;
-                border-color: transparent #ffffff transparent transparent;
+                border-width: 5px 6px 5px 0;
+                border-color: transparent white transparent transparent;
+
+                @include mq($from: tablet) {
+                    border-width: 7px 8px 7px 0;
+                }
             }
 
             .dft-badge {
@@ -49,20 +60,15 @@ $la-blue: #1754B9;
                 background-color: darken($la-blue, 15%);
             }
 
-            &:visited {
-                color: $la-blue;
+            &:visited, &:link {
+                color: white;
             }
-    
-            &:focus {
-                outline: none;
-                background: none;
-            }
-
         }
-    }
 
-    &__item-label {
-        float: left;
+        &:focus {
+            outline: none;
+            background: none;
+        }
     }
 
     .dft-badge {
