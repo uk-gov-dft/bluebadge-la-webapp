@@ -1,12 +1,26 @@
-<aside th:fragment="dft-sidebar" class="dft-sidebar">
-	<nav class="dft-sidebar__menu">
-		<a class="dft-sidebar__item" href="/manage-users">Manage users</a>
-		<a class="dft-sidebar__item" href="">Renewals
-			<span class="dft-badge dft-badge--nav">5</span>
-		</a>
-		<a class="dft-sidebar__item" href="">New applications</a>
-		<a class="dft-sidebar__item" href="">Cancellations
-			<span class="dft-badge dft-badge--nav">10</span>
-		</a>
-	</nav>
-</aside>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<aside th:fragment="dft-sidebar" class="dft-sidebar">
+
+		<nav class="dft-sidebar__menu" data-uipath="sidebar-nav">
+
+			<a class="dft-sidebar__item dft-sidebar__item--active" href="" data-uipath="sidebar-home">Home
+				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>
+			</a>
+
+			<a class="dft-sidebar__item" data-uipath="sidebar-nav.manage-users" href="/manage-users">
+				Manage users
+				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span>
+			</a>
+			
+			<a class="dft-sidebar__item" data-uipath="sidebar-nav.without-badge" href="">Without Badge</a>
+			
+			<a class="dft-sidebar__item" data-uipath="sidebar-nav.cancellations" href="">Cancellations
+				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.cancellations.badge" aria-label="has 10 records in total">10</span>
+			</a>
+		</nav>
+
+	</aside>
+</body>

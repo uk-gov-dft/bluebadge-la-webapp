@@ -32,10 +32,10 @@ $la-blue: #1754B9;
             color: $la-blue;
         }
 
-        &:hover, &--active {
+        &:hover, &:focus, &--active {
+            outline: none;
             color: white;
             background: $la-blue;
-            
             
             &:after {
                 top: 0;
@@ -63,11 +63,6 @@ $la-blue: #1754B9;
             &:visited, &:link {
                 color: white;
             }
-        }
-
-        &:focus {
-            outline: none;
-            background: none;
         }
     }
 
