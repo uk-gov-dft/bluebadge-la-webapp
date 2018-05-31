@@ -41,6 +41,10 @@ public class SitePage extends AbstractSitePage {
     return helper.findOptionalElement(By.xpath("//*[@title='" + title + "']"));
   }
 
+  public WebElement findElementWithCssSelector(String CssSelector) {
+    return helper.findOptionalElement(By.cssSelector(CssSelector));
+  }
+
   public WebElement findElementWithUiPath(String uiPath) {
     return helper.findOptionalElement(By.xpath("//*[@data-uipath='" + uiPath + "']"));
   }
@@ -57,8 +61,8 @@ public class SitePage extends AbstractSitePage {
     return getWebDriver().getTitle();
   }
 
-  public String getDocumentContent() {
-    return helper.findElement(By.id("form-message-username")).getText();
+  public String getPageContent() {
+    return getWebDriver().getPageSource();
   }
 
   public WebElement findPageElement(String elementName) {

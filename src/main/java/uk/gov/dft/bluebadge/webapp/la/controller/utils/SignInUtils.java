@@ -1,18 +1,18 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 
 public class SignInUtils {
-  public static final Optional<User> getUserSignedIn(HttpSession session) {
-    User user = ((User) session.getAttribute("user"));
+  public static final Optional<UserData> getUserSignedIn(HttpSession session) {
+    UserData user = ((UserData) session.getAttribute("user"));
     return Optional.ofNullable(user);
   }
 
   public static final Optional<String> getEmailSignedIn(HttpSession session) {
-    Optional<User> user = getUserSignedIn(session);
+    Optional<UserData> user = getUserSignedIn(session);
     if (user.isPresent()) {
       String email = user.get().getEmailAddress();
       if (!StringUtils.isEmpty(email)) {

@@ -4,15 +4,13 @@ import java.util.Objects;
 
 public class UserDetailsFormRequest {
 
-  //@NotEmpty @Email
   private String emailAddress;
 
-  //@NotEmpty
   private String name;
 
-  public UserDetailsFormRequest() {
-    this.emailAddress = "john.doe@does.not.exist";
-    this.name = "Jon Doe";
+  public UserDetailsFormRequest(String emailAddress, String name) {
+    this.emailAddress = emailAddress;
+    this.name = name;
   }
 
   public String getEmailAddress() {
@@ -47,13 +45,13 @@ public class UserDetailsFormRequest {
 
   @Override
   public String toString() {
-    return "CreateANewUserFormRequest{"
-            + "emailAddress='"
-            + emailAddress
-            + '\''
-            + ", name='"
-            + name
-            + '\''
-            + '}';
+    return "UserDetailsFormRequest{"
+        + "emailAddress='"
+        + emailAddress
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + '}';
   }
 }

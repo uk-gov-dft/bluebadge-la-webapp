@@ -11,14 +11,12 @@
     <main layout:fragment="content">
 
         <h1 class="govuk-heading-l" data-uipath="title">Manage users
-            <span class="dft-badge dft-badge--heading" th:utext="${users.size()}" />
+            <span class="dft-badge dft-badge--heading" th:utext="${allUsersSize}" />
         </h1>
 
         <div role="toolbar" class="dft-actions-panel govuk-clearfix">
             <div class="dft-actions-panel__content">
-
-                <form th:replace="~{ fragments/search :: dft-search('Search', 'search', '0', true) }" />
-
+                <form th:replace="~{ fragments/search :: dft-search('Search', 'search', ${users.size()}, true) }" />
             </div>
 
             <div class="dft-actions-panel__cta-area">
@@ -26,7 +24,7 @@
             </div>
         </div>
 
-        <table class="govuk-table">
+        <table class="govuk-table" th:if="${users != null && users.size() > 0}">
             <thead class="govuk-table__head" data-uipath="table.head">
                 <tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="col">Name</th>
@@ -38,13 +36,15 @@
             <tbody class="govuk-table__body" data-uipath="table.body">
                 <tr class="govuk-table__row" th:each="user : ${users}">
                     <td class="govuk-table__cell">
-                        <a href="/manage-users/user-details" th:utext="${user.name}" />
+                        <a href="update.html" th:href="@{/manage-users/user-details/{id}(id=${user.id})}" th:utext="${user.name}" />
                     </td>
                     <td class="govuk-table__cell" th:utext="${user.emailAddress}" />
                     <td class="govuk-table__cell" th:utext="${user.roleName}" />
                 </tr>
             </tbody>
         </table>
+
+        <p th:if="${users == null || users.size() == 0}" th:utext="'There are no results for <strong>' +  ${search} + '</strong>.'"/>
 
     </main>
 

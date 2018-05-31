@@ -1,17 +1,30 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
 import java.util.Objects;
+import org.springframework.util.Assert;
 
 public class ErrorViewModel {
 
-  public String title;
-  public String description;
+  public String title = "error.form.summary.title";
+  public String description = "empty";
+
+  public ErrorViewModel() {
+    this.title = "error.form.summary.title";
+    this.description = "empty";
+  }
 
   public ErrorViewModel(String title) {
+    Assert.notNull(title, "title cannot be null");
+    Assert.hasText(title, "title should have text");
     this.title = title;
+    this.description = "empty";
   }
 
   public ErrorViewModel(String title, String description) {
+    Assert.notNull(title, "title cannot be null");
+    Assert.hasText(title, "title should have text");
+    Assert.notNull(description, "description cannot be null");
+    Assert.hasText(description, "description should have text");
     this.title = title;
     this.description = description;
   }
@@ -21,6 +34,8 @@ public class ErrorViewModel {
   }
 
   public void setTitle(String title) {
+    Assert.notNull(title, "title cannot be null");
+    Assert.hasText(title, "title should have text");
     this.title = title;
   }
 
@@ -29,6 +44,8 @@ public class ErrorViewModel {
   }
 
   public void setDescription(String description) {
+    Assert.notNull(description, "description cannot be null");
+    Assert.hasText(description, "description should have text");
     this.description = description;
   }
 

@@ -4,10 +4,8 @@ import java.util.Objects;
 
 public class CreateANewUserFormRequest {
 
-  //@NotEmpty @Email
   private String emailAddress;
 
-  //@NotEmpty
   private String name;
 
   public CreateANewUserFormRequest(String emailAddress, String name) {

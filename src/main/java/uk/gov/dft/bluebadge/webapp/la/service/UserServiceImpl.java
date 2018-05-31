@@ -1,8 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import com.google.common.collect.Lists;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +8,7 @@ import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
-import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByFullName;
+import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,13 +21,37 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Optional<User> findById(Long id) {
-    return Optional.empty();
+  public UserResponse findOneById(int id) {
+    // TODO: There should be a getById with only one id prettty soon.
+    return userManagementService.getById(2, id);
+  }
+
+  // TODO: Changes to return UserResponse, if it is empty or not is inside UserResponse.
+  @Override
+  public Optional<UserResponse> findOneByEmail(String email) {
+    if (userManagementService.checkUserExistsForEmail(email)) {
+      UserResponse userResponse = userManagementService.getUserForEmail(email);
+      return Optional.of(userResponse);
+    } else {
+      return Optional.empty();
+    }
   }
 
   @Override
-  public List<User> findAll() {
-    return Lists.newArrayList();
+  public UsersResponse find(int localAuthority, String nameFilter) {
+    UsersResponse usersResponse =
+        this.userManagementService.getUsersForAuthority(localAuthority, nameFilter);
+    if (usersResponse.getData().getTotalItems() > 0) {
+      Collections.sort(
+          usersResponse.getData().getUsers(),
+          new UserComparatorByNameAscendingOrderCaseInsensitive());
+    }
+    return usersResponse;
+  }
+
+  @Override
+  public UsersResponse find(int localAuthority) {
+    return find(localAuthority, "");
   }
 
   @Override
@@ -38,22 +60,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public int update(User user) {
-    return 1;
-  }
-
-  @Override
-  public int delete(Long id) {
-    return 1;
-  }
-
-  @Override
-  public List<User> findAll(int localAuthority) {
-    UsersResponse usersResponse =
-        this.userManagementService.getUsersForAuthority(localAuthority, "");
-    List<User> users = usersResponse.getData().getUsers();
-    Collections.sort(users, new UserComparatorByFullName());
-    return users;
+  public UserResponse update(User user) {
+    return userManagementService.updateUser(user);
   }
 
   @Override

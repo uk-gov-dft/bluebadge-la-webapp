@@ -21,11 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
+  NameGenerator ng = new NameGenerator();
 
   @Autowired private SitePage sitePage;
 
@@ -65,9 +67,7 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see the content \"([^\"]*)\"$")
   public void thenIShouldSeeTheContent(String content) throws Throwable {
     assertThat(
-        "Document content is as expected",
-        sitePage.getDocumentContent(),
-        getMatcherForText(content));
+        "Document content is as expected", sitePage.getPageContent(), getMatcherForText(content));
   }
 
   @Then("^I should see the \"page not found\" error page$")
@@ -163,21 +163,13 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I type username \"([^\"]+)\" and  ***REMOVED***)
   public void andITypeUsernameAndPassword(String username, String password) throws Throwable {
-    signInPage.findPageElementById("email").sendKeys(username);
+    signInPage.findPageElementById("emailAddress").sendKeys(username);
     signInPage.findPageElementById("password").sendKeys(password);
   }
 
   @And("^I can click Sign in button$")
   public void andICanClickSignInButton() throws Throwable {
     signInPage.findElementWithUiPath("button").click();
-  }
-
-  @Then("^I should see the validation message \"([^\"]*)\"$")
-  public void thenIShouldSeeTheValidationMessage(String validation) throws Throwable {
-    assertThat(
-        "Validation message expected",
-        signInPage.findElementWithUiPath("error").getText(),
-        getMatcherForText(validation));
   }
 
   @Then("^I should see the title \"([^\"]*)\"$")
@@ -209,7 +201,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeLANameAs(String la) throws Throwable {
     assertThat(
         "LA name expected",
-        signInPage.findElementWithUiPath("la-name").getText(),
+        signInPage.findElementWithUiPath("topbar.link").getText(),
         getMatcherForText(la));
   }
 
@@ -232,5 +224,102 @@ public class SiteSteps extends AbstractSpringSteps {
   @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field$")
   public void whenItypeTextForField(String text, String field) throws Throwable {
     signInPage.findPageElementById(field).sendKeys(text);
+  }
+
+  @When("^I enter full name and email address and clicks on create a new user button$")
+  public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
+
+    String name = ng.get_full_name();
+    String email = ng.get_email(name);
+    System.setProperty("fullname", name);
+    System.setProperty("email", email);
+
+    sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findPageElementById("emailAddress").sendKeys(email);
+    sitePage.findElementWithUiPath("createUserButton").click();
+  }
+
+  @And("^I should see the newly created user is on the users list$")
+  public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
+    sitePage.getPageContent().contains(System.getProperty("email"));
+  }
+
+  @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
+  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+    if (arg0.equals("invalid email")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid password")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("password.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid name")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("name.summary-error").getText(),
+          getMatcherForText(arg1));
+    }
+  }
+
+  @When("^I search for newly create user using email address$")
+  public void iSearchForNewlyCreateUserUsingEmailAddress() throws Throwable {
+    sitePage.findPageElementById("search").sendKeys(System.getProperty("email"));
+    sitePage.findElementWithUiPath("search.button").click();
+  }
+
+  @Then("^I should see the search results with newly created user$")
+  public void iShouldSeeTheSearchResultsWithNewlyCreatedUser() throws Throwable {
+    assertThat(
+        "Only 1 result is expected",
+        sitePage.findElementWithUiPath("search.count").getText(),
+        getMatcherForText("1 Result:"));
+    assert (sitePage
+        .findElementWithUiPath("table.body")
+        .getText()
+        .contains(System.getProperty("email")));
+  }
+
+  @And("^I can click on the \"([^\"]*)\" button on manage user page$")
+  public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
+    sitePage.findElementWithUiPath("createUserButton").click();
+  }
+
+  @When("^I click on the first name link from users table$")
+  public void iClickOnTheFirstNameLinkFromUsersTable() throws Throwable {
+    sitePage.findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(1)>a").click();
+  }
+
+  @When("^I change email address and clicks on update button$")
+  public void iChangeEmailAddressAndClicksOnUpdateButton() throws Throwable {
+    String new_email = ng.get_email(sitePage.findPageElementById("name").getAttribute("value"));
+
+    sitePage.findElementWithUiPath("emailAddress.field").clear();
+    sitePage.findElementWithUiPath("emailAddress.field").sendKeys(new_email);
+    System.setProperty("updated_email", new_email);
+
+    sitePage.findElementWithUiPath("updateUserButton").click();
+  }
+
+  @Then("^I should see the relevant email address has updated$")
+  public void iShouldSeeTheUpdatedUserIsOnTheUsersTable() throws Throwable {
+
+    assertThat(
+        "Updated email address expected",
+        sitePage
+            .findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(2)")
+            .getText(),
+        getMatcherForText(System.getProperty("updated_email")));
+  }
+
+  @When("^I enter invalid email address and clicks on update button$")
+  public void iEnterInvalidEmailAddressAndClicksOnUpdateButton() throws Throwable {
+
+    sitePage.findElementWithUiPath("emailAddress.field").clear();
+    sitePage.findElementWithUiPath("emailAddress.field").sendKeys("Not valid email");
+
+    sitePage.findElementWithUiPath("updateUserButton").click();
   }
 }

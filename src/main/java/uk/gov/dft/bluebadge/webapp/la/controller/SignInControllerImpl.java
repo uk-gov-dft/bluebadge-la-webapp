@@ -12,11 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralControllerException;
-import uk.gov.dft.bluebadge.webapp.la.exception.GeneralServiceException;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 
 @Controller
@@ -44,7 +43,7 @@ public class SignInControllerImpl implements SignInController {
   @GetMapping(URL_SIGN_IN)
   public String showSignIn(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
-    if (session.getAttribute("user") != null) {
+    if (SignInUtils.isSignedIn(session)) {
       return REDIRECT_URL_HOME;
     }
     return TEMPLATE_SIGN_IN;
@@ -56,27 +55,20 @@ public class SignInControllerImpl implements SignInController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-    if (session.getAttribute("user") != null) {
-      return REDIRECT_URL_HOME;
-    }
-
-    //   model.addAttribute("errorSummary", new ErrorViewModel("Fix the following errors:", null));
+    model.addAttribute("errorSummary", new ErrorViewModel());
 
     try {
       if (bindingResult.hasErrors()) {
         return TEMPLATE_SIGN_IN;
       } else {
-        String email = formRequest.getEmail();
-        Optional<User> user = signInService.signIn(email);
+        String emailAddress = formRequest.getEmailAddress();
+        Optional<UserResponse> user = signInService.signIn(emailAddress);
         if (user.isPresent()) {
-          session.setAttribute("user", user.get());
+          session.setAttribute("user", user.get().getData());
           return REDIRECT_URL_HOME;
         }
       }
       return showAccessDenied(formRequest, model);
-    } catch (GeneralServiceException gex) {
-      logger.error("There was a general controller exception", gex);
-      return showServerError(formRequest, model);
     } catch (Exception ex) {
       logger.error("There was an unexpected exception", ex);
       return showServerError(formRequest, model);
@@ -86,13 +78,8 @@ public class SignInControllerImpl implements SignInController {
   @Override
   @GetMapping(URL_SIGN_OUT)
   public String signOut(HttpSession session) {
-    try {
-      session.invalidate();
-      return "redirect:" + URL_SIGN_IN;
-    } catch (GeneralServiceException ex) {
-      logger.error("There was a general controller exception", ex);
-      throw new GeneralControllerException("There was a general controller exception", ex);
-    }
+    session.invalidate();
+    return "redirect:" + URL_SIGN_IN;
   }
 
   @GetMapping(URL_EXPIRED_SESSION)
@@ -101,8 +88,8 @@ public class SignInControllerImpl implements SignInController {
     model.addAttribute(
         "errorSummary",
         new ErrorViewModel(
-            "You've been signed out",
-            "You were inactive for 2 hours so we've signed you out to secure your account"));
+            "error.form.global.expiredSession.title",
+            "error.form.global.expiredSession.description"));
     return TEMPLATE_SIGN_IN;
   }
 
@@ -112,14 +99,17 @@ public class SignInControllerImpl implements SignInController {
     model.addAttribute(
         "errorSummary",
         new ErrorViewModel(
-            "Access Denied", "You've entered an incorrect email address or password"));
+            "error.form.global.accessDenied.title", "error.form.global.accessDenied.description"));
     return TEMPLATE_SIGN_IN;
   }
 
   @GetMapping(URL_SERVER_ERROR)
   public String showServerError(
       @ModelAttribute("formRequest") final SignInFormRequest formRequest, Model model) {
-    model.addAttribute("errorSummary", new ErrorViewModel("Can't sign in", "Please try again."));
+    model.addAttribute(
+        "errorSummary",
+        new ErrorViewModel(
+            "error.form.global.serverError.title", "error.form.global.serverError.description"));
     return TEMPLATE_SIGN_IN;
   }
 }
