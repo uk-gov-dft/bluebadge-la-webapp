@@ -26,10 +26,10 @@ variable which comes from Thymleaf / Spring integration.
     <h2 class="govuk-error-summary__title"
         th:if="${errorSummary} AND ${errorSummary.title}"
         id="error-summary-title"
-        th:utext="${errorSummary.title}" />
+        th:utext="#{${errorSummary.title}}" />
 
     <div th:if="${errorSummary} AND ${errorSummary.description}"
-         th:utext="${errorSummary.description}"
+         th:utext="#{${errorSummary.description}}"
          class="govuk-error-summary__body" />
 
     <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
@@ -56,7 +56,7 @@ variable which comes from Thymleaf / Spring integration.
     fields: It is the the binding result that allows access to the errors in the form. This is the BindingResult class in Spring MVC.
     fieldId: field id as it appears in the id attribute of an html tag.
     label: text of the label associated to the field
-    type: type of html input, i.e.: text, email, password
+    type: type of html input, i.e.: text, emailAddress, password
 -->
 <div class="govuk-o-form-group"
      th:fragment="form-field-input(fields, fieldId, label, type)"
