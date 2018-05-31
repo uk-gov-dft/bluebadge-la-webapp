@@ -16,6 +16,8 @@
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 
+            First segment=<p th:text="${#la.getURLFirstSegment(#request.requestURI)}"/>
+
             <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
