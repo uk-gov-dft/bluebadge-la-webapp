@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "@govuk-frontend/frontend": "0.0.29-alpha",
-    "browser-sync": "^2.24.4",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",

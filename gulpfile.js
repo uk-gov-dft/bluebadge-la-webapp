@@ -3,7 +3,6 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
 const cssnano = require('gulp-cssnano');
-const browserSync = require('browser-sync');
 const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
@@ -63,7 +62,7 @@ const isDev = getEnv() === "development";
 -------------------------------------------------- **/
 
 
-gulp.task('clean:css', () => del.sync(['./assets/dist/css/**']));
+gulp.task('clean:css', () => del.sync(['./src/resources/static/css/**']));
 
 
 gulp.task('sass', ['clean:css'], () => {
@@ -82,7 +81,6 @@ gulp.task('sass', ['clean:css'], () => {
 			}
 		})))
 		.pipe(gulp.dest(PATH.compiledAssets.css))
-		// .pipe(browserSync.stream()); // ?
 
 });
 

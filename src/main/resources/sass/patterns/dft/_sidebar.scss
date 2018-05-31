@@ -1,3 +1,73 @@
+$la-blue: #1754B9;
+
 .dft-sidebar {
-    background-color: #eee;
+    $this: &;
+    z-index: 100;
+    background-color: $govuk-grey-4;
+
+    &__menu {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        margin: 0;
+        clear: both;
+        display:block;
+        color: $la-blue;
+        overflow: hidden;
+        position: relative;
+        line-height: unset;
+        text-decoration: none;
+        padding: 12px 20px 11px 20px;
+
+        @include govuk-font-regular-19;
+
+        @include mq($from: tablet) {
+            padding: 12px 20px 11px 30px;
+        }
+
+        &:visited, &:link {
+            color: $la-blue;
+        }
+
+        &:hover, &:focus, &--active {
+            outline: none;
+            color: white;
+            background: $la-blue;
+            
+            &:after {
+                top: 0;
+                right: 0;               
+                width: 0;
+                height: 0;
+                bottom: 0;
+                content: '';
+                margin: auto;
+                position: absolute;
+                border-style: solid;
+                border-width: 5px 6px 5px 0;
+                border-color: transparent white transparent transparent;
+
+                @include mq($from: tablet) {
+                    border-width: 7px 8px 7px 0;
+                }
+            }
+
+            .dft-badge {
+                color: white;
+                background-color: darken($la-blue, 15%);
+            }
+
+            &:visited, &:link {
+                color: white;
+            }
+        }
+    }
+
+    .dft-badge {
+        float: right;
+    }
+
 }

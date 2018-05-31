@@ -14,11 +14,7 @@
 
     <div class="dft-container dft-container--with-sidebar">
 
-        <aside class="dft-sidebar">
-            sidebar
-
-            <a href="/manage-users">Manage users</a>
-        </aside>
+        <aside th:replace="~{ fragments/sidebar :: dft-sidebar }" />
 
         <div class="dft-width-container">
 
