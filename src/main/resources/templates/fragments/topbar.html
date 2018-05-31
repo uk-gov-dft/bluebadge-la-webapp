@@ -7,12 +7,11 @@
         <div class="dft-topbar__proposition">
             <a href="/"
                class="dft-topbar__title-link"
-               data-uipath="topbar.link"
-               th:utext="${session.user} ? 'Manchester City Council' : 'Manage Blue Badges'" />
+               data-uipath="topbar.link">Manage Blue Badges</a>
 
             <span class="dft-topbar__title"
                   data-uipath="topbar.title"
-                  th:if="${session.user}">Manage Blue Badges</span>
+                  th:if="${session.user}" th:utext="'Manchester City Council'" />
         </div>
 
         <div class="dft-topbar__menu">
@@ -21,7 +20,11 @@
                   th:if="${session.user != null && session.user.name != null}"
                   th:utext="${session.user.name}" />
 
-            <a th:if="${session.user != null && session.user != ''}" th:data-uipath="signout" class="dft-topbar__signout" href="/sign-out">Sign out</a>
+            <a  th:if="${session.user != null && session.user != ''}"
+                th:data-uipath="signout"
+                class="dft-topbar__signout"
+                href="/sign-out">Sign out</a>
+                
         </div>
 
     </div>

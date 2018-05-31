@@ -3180,22 +3180,26 @@ input, select {
 .dft-grid-col--no-gutters {
   padding: 0 0; }
 
-.dft-container .dft-sidebar {
-  display: none; }
-  @media (min-width: 64em) {
-    .dft-container .dft-sidebar {
-      width: 300px;
-      height: 100vh;
-      display: block;
-      max-width: 300px;
-      position: absolute; } }
+html, body {
+  height: 100%; }
 
-.dft-container--with-sidebar {
-  position: relative; }
-  @media (min-width: 64em) {
-    .dft-container--with-sidebar .dft-width-container {
-      padding-left: 350px;
-      padding-right: 50px; } }
+.dft-container {
+  height: 100%; }
+  .dft-container .dft-sidebar {
+    display: none; }
+    @media (min-width: 64em) {
+      .dft-container .dft-sidebar {
+        height: 100%;
+        width: 300px;
+        display: block;
+        max-width: 300px;
+        position: absolute; } }
+  .dft-container--with-sidebar {
+    position: relative; }
+    @media (min-width: 64em) {
+      .dft-container--with-sidebar .dft-width-container {
+        padding-left: 350px;
+        padding-right: 50px; } }
 
 .dft-width-container {
   padding-left: 20px;

@@ -4,18 +4,25 @@
 
 	<aside th:fragment="dft-sidebar" class="dft-sidebar">
 
-		<nav class="dft-sidebar__menu" data-uipath="sidebar-nav">
+		<nav class="dft-sidebar__menu" data-uipath="sidebar-nav"
+			th:with="currentPage=${#la.getURLFirstSegment(#request.requestURI)},
+						menuItemClass='dft-sidebar__item',
+						activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
 
-			<a class="dft-sidebar__item dft-sidebar__item--active" href="" data-uipath="sidebar-home">Home
+			<a href="/" data-uipath="sidebar-home"
+				th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">Home
 				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>
 			</a>
 
-			<a class="dft-sidebar__item" data-uipath="sidebar-nav.manage-users" href="/manage-users">
+			<a data-uipath="sidebar-nav.manage-users" href="/manage-users"
+				th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
 				Manage users
 				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span>
 			</a>
 			
-			<a class="dft-sidebar__item" data-uipath="sidebar-nav.without-badge" href="">Without Badge</a>
+			<a
+				data-uipath="sidebar-nav.without-badge" href=""
+				th:class="${currentPage == 'without-badge'} ? ${activeClass} : ${menuItemClass}">Without Badge</a>
 			
 			<a class="dft-sidebar__item" data-uipath="sidebar-nav.cancellations" href="">Cancellations
 				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.cancellations.badge" aria-label="has 10 records in total">10</span>
