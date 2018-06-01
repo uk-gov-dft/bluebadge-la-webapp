@@ -3359,17 +3359,17 @@ html, body {
       text-align: right;
       position: absolute; }
       .dft-nav__dropdown-label span {
-        margin-top: 6px;
-        padding: 6px 10px;
-        margin-right: 6px;
-        border-radius: 2px;
-        display: inline-block;
         font-family: "nta", Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
+        margin-top: 6px;
+        padding: 6px 10px;
+        margin-right: 6px;
+        border-radius: 2px;
+        display: inline-block;
         line-height: initial; } }
     @media print and (max-width: 63.99em) {
       .dft-nav__dropdown-label span {
@@ -3414,6 +3414,12 @@ html, body {
   list-style: none; }
 
 .dft-nav__item {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
   margin: 0;
   clear: both;
   display: block;
@@ -3422,13 +3428,7 @@ html, body {
   position: relative;
   line-height: unset;
   text-decoration: none;
-  padding: 12px 15px 11px;
-  font-family: "nta", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px; }
+  padding: 12px 15px 11px; }
   @media print {
     .dft-nav__item {
       font-family: sans-serif; } }

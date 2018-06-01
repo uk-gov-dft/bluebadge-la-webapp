@@ -1,15 +1,15 @@
 .dft-nav {
-	$this: &;
+    $this: &;
 
-	// mobile and tablet only
+    // mobile and tablet only
     @include mq($until: desktop) {
         position: relative;
 
-         #{$this}__wrapper {
+        #{$this}__wrapper {
             overflow: hidden;
             max-height: 43px;
             position: relative;
-         }
+        }
 
         #{$this}__menu {
             padding-top: 43px;
@@ -23,7 +23,7 @@
                 position: absolute;
             }
         }
-	}
+    }
 	
 	// tablet only
     @include mq(tablet, desktop) {
@@ -52,12 +52,12 @@
             position: absolute;
 
             span {
+                @include govuk-font-regular-16;
                 margin-top: 6px;
                 padding: 6px 10px;
                 margin-right: 6px;
                 border-radius: 2px;
                 display: inline-block;
-                @include govuk-font-regular-16;
                 line-height: initial;
 
                 &::after {
@@ -106,6 +106,7 @@
     }
 
     &__item {
+        @include govuk-font-regular-19;
         margin: 0;
         clear: both;
         display:block;
@@ -115,8 +116,6 @@
         line-height: unset;
         text-decoration: none;
         padding: 12px 15px 11px;
-
-        @include govuk-font-regular-19;
 
         @include mq($from: desktop) {
             padding: 12px 20px 11px 30px;
