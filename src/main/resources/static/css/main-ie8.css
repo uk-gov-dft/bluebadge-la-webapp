@@ -3327,22 +3327,22 @@ html, body {
 @media (max-width: 63.99em) {
   .dft-nav {
     position: relative; }
-    .dft-nav__wrapper {
+    .dft-nav .dft-nav__wrapper {
       overflow: hidden;
       max-height: 43px;
       position: relative; }
-    .dft-nav__menu {
-      padding-top: 43px; }
-    .dft-nav__item--active {
+    .dft-nav .dft-nav__menu {
+      padding-top: 42px; }
+    .dft-nav .dft-nav__item--active {
       top: 0;
       left: 0;
       width: 100%;
       position: absolute; } }
 
 @media (min-width: 48em) and (max-width: 63.99em) {
-  .dft-nav__wrapper {
+  .dft-nav .dft-nav__wrapper {
     max-height: 49px; }
-  .dft-nav__menu {
+  .dft-nav .dft-nav__menu {
     padding-top: 49px; } }
 
 .dft-nav__dropdown-label {
