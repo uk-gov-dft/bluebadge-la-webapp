@@ -1,6 +1,7 @@
 .dft-nav {
 	$this: &;
 
+	// mobile and tablet only
     @include mq($until: desktop) {
         position: relative;
 
@@ -24,6 +25,7 @@
         }
 	}
 	
+	// tablet only
 	@include mq(tablet, desktop) {
 		#{$this}__wrapper {
             max-height: 49px;
@@ -37,6 +39,7 @@
     &__dropdown-label {
         display: none;
 
+		// from desktop onwards
         @include mq($until: desktop) {
 			top: 0;
 			left: 0;
