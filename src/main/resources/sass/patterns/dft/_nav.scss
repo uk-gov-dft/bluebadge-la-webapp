@@ -26,62 +26,62 @@
 	}
 	
 	// tablet only
-	@include mq(tablet, desktop) {
-		#{$this}__wrapper {
+    @include mq(tablet, desktop) {
+        #{$this}__wrapper {
             max-height: 49px;
-         }
+        }
 
         #{$this}__menu {
-        	padding-top: 49px;
+            padding-top: 49px;
         }
-	}
+    }
 
     &__dropdown-label {
         display: none;
 
-		// from desktop onwards
+        // from desktop onwards
         @include mq($until: desktop) {
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 43px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 43px;
             z-index: 100;
             color: white;
-			display: block;
-			text-align: right;
+            display: block;
+            text-align: right;
             position: absolute;
 
-			span {
-				margin-top: 6px;
-				padding: 6px 10px;
-				margin-right: 6px;
-				border-radius: 2px;
-				display: inline-block;
-				@include govuk-font-regular-16;
-				line-height: initial;
+            span {
+                margin-top: 6px;
+                padding: 6px 10px;
+                margin-right: 6px;
+                border-radius: 2px;
+                display: inline-block;
+                @include govuk-font-regular-16;
+                line-height: initial;
 
-				&::after {
-					width: 0;
-					height: 0;
-					content: "";
-					margin-left: 5px;
-					display: inline-block;
-					vertical-align: middle;
-					border-top: 5px solid white;
-					border-left: 4px solid transparent;
-					border-right: 4px solid transparent;
-				}
-			}
-		}
+                &::after {
+                    width: 0;
+                    height: 0;
+                    content: "";
+                    margin-left: 5px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    border-top: 5px solid white;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                }
+            }
+        }
 
-		@include mq(tablet, desktop) {
-			height: 49px;
-		}
+        @include mq(tablet, desktop) {
+            height: 49px;
+        }
     }
 
     &__dropdown-check {
         display: none;
-        
+
         &:checked ~ #{$this}__wrapper {
             max-height: none;
             overflow: visible;
@@ -89,13 +89,13 @@
 
         &:checked + label {
             span {
-				background-color: $dft-blue-dark;
+                background-color: $dft-blue-dark;
 
-				&::after {
-					border-top: none;
-					border-bottom: 5px solid white;
-				}
-			}
+                &::after {
+                    border-top: none;
+                    border-bottom: 5px solid white;
+                }
+            }
         }
     }
     
@@ -117,8 +117,8 @@
         padding: 12px 15px 11px;
 
         @include govuk-font-regular-19;
-		
-		@include mq($from: desktop) {
+
+        @include mq($from: desktop) {
             padding: 12px 20px 11px 30px;
         }
 
