@@ -5,17 +5,17 @@
     @include mq($until: desktop) {
         position: relative;
 
-        #{$this}__wrapper {
+        &__wrapper {
             overflow: hidden;
             max-height: 43px;
             position: relative;
         }
 
-        #{$this}__menu {
+        &__menu {
             padding-top: 43px;
         }
 
-        #{$this}__item {
+        &__item {
             &--active {
                 top: 0;
                 left: 0;
@@ -27,11 +27,11 @@
 	
 	// tablet only
     @include mq(tablet, desktop) {
-        #{$this}__wrapper {
+        &__wrapper {
             max-height: 49px;
         }
 
-        #{$this}__menu {
+        &__menu {
             padding-top: 49px;
         }
     }
