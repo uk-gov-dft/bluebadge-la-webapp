@@ -117,8 +117,8 @@ public class UserDetailsControllerImpl implements UserDetailsController {
       return REDIRECT_URL_MANAGE_USERS;
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
-          "error.updateUser.generalError.title",
-          "error.updateUser.generalError.description",
+          "error.deleteUser.generalError.title",
+          "error.deleteUser.generalError.description",
           model);
       model.addAttribute(MODEL_ID, id);
       return TEMPLATE_USER_DETAILS;
