@@ -75,7 +75,11 @@
         }
 
         @include mq(tablet, desktop) {
-            height: 49px;
+			height: 49px;
+			
+			span {
+				margin-top: 8px;
+			}
         }
     }
 

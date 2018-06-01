@@ -3395,7 +3395,9 @@ html, body {
           border-right: 4px solid transparent; } }
   @media (min-width: 48em) and (max-width: 63.99em) {
     .dft-nav__dropdown-label {
-      height: 49px; } }
+      height: 49px; }
+      .dft-nav__dropdown-label span {
+        margin-top: 8px; } }
 
 .dft-nav__dropdown-check {
   display: none; }
