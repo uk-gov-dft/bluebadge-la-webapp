@@ -12,7 +12,11 @@
         padding: 22px 15px 17px 15px;
 
         @include mq($from: tablet) {
-            padding: 20px 30px 15px 30px;
+            padding: 20px 15px 15px;
+        }
+
+        @include mq($from: desktop) {
+            padding: 20px 30px 15px;
         }
     }
 
@@ -60,7 +64,7 @@
         margin-left: 5px;
 
         @include mq($from: tablet) {
-            margin-right: 10px;
+            margin-left: 10px;
         }
     }
 

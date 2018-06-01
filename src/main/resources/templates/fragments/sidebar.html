@@ -2,32 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-	<aside th:fragment="dft-sidebar" class="dft-sidebar">
+	<aside th:fragment="dft-sidebar"
+			class="dft-sidebar" 
+			th:with="currentPage=${#la.getURLFirstSegment(#request.requestURI)}">
 
-		<nav class="dft-sidebar__menu" data-uipath="sidebar-nav"
-			th:with="currentPage=${#la.getURLFirstSegment(#request.requestURI)},
-						menuItemClass='dft-sidebar__item',
-						activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
+		<div class="dft-nav">
+			<input class="dft-nav__dropdown-check" type="checkbox" id="menu" />
+			<label class="dft-nav__dropdown-label" for="menu">
+				<span>Menu</span>
+			</label>
 
-			<a href="/" data-uipath="sidebar-home"
-				th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">Home
-				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>
-			</a>
+			<div class="dft-nav__wrapper">
 
-			<a data-uipath="sidebar-nav.manage-users" href="/manage-users"
-				th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
-				Manage users
-				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span>
-			</a>
+				<nav class="dft-nav__menu"
+						data-uipath="dft-nav-menu"
+						th:with="menuItemClass='dft-nav__item',
+									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
+
+					<a data-uipath="sidebar-home"
+						th:attr="href=${currentPage == ''} ? '' : '/'"
+						th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">
+						Home
+						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>
+					</a>
+
+					<a data-uipath="sidebar-nav.manage-users"
+						th:attr="href=${currentPage == 'manage-users'} ? '' : '/manage-users'"
+						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
+						Manage users
+						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span>
+					</a>
+					
+					<a data-uipath="sidebar-nav.without-badge"
+						th:attr="href=${currentPage == 'without-badge'} ? '' : '/without-badge'"
+						th:class="${currentPage == 'without-badge'} ? ${activeClass} : ${menuItemClass}">
+						Without Badge
+					</a>
+					
+					<a data-uipath="sidebar-nav.cancellations"
+						th:attr="href=${currentPage == 'cancellations'} ? '' : '/cancellations'"
+						th:class="${currentPage == 'cancellations'} ? ${activeClass} : ${menuItemClass}">
+						Cancellations
+						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.cancellations.badge" aria-label="has 10 records in total">10</span>
+					</a>
+				</nav>
+
+			</div>
 			
-			<a
-				data-uipath="sidebar-nav.without-badge" href=""
-				th:class="${currentPage == 'without-badge'} ? ${activeClass} : ${menuItemClass}">Without Badge</a>
-			
-			<a class="dft-sidebar__item" data-uipath="sidebar-nav.cancellations" href="">Cancellations
-				<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.cancellations.badge" aria-label="has 10 records in total">10</span>
-			</a>
-		</nav>
+		</div><!--dft-nav-->
 
 	</aside>
 </body>

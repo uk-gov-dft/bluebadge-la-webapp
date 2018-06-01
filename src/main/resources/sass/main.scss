@@ -31,6 +31,7 @@ $mq-breakpoints: (
 
 --------------------------------------------- */
 
+@import "helpers/variables";
 @import "helpers/grid";
 @import "helpers/layout";
 @import "helpers/accessibility";
@@ -66,6 +67,7 @@ $mq-breakpoints: (
 
 --------------------------------------------- */
 
+@import "patterns/dft/nav";
 @import "patterns/dft/login";
 @import "patterns/dft/badge";
 @import "patterns/dft/search";

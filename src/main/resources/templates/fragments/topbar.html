@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<header th:fragment="topbar" role="banner" class="dft-topbar">
+<header th:fragment="topbar" class="dft-topbar">
     <div class="dft-topbar__container">
         <div class="dft-topbar__proposition">
             <a href="/"
@@ -18,6 +18,7 @@
             <span th:data-uipath="username"
                   class="dft-topbar__username"
                   th:if="${session.user != null && session.user.name != null}"
+                  th:aria-label="'You are logged in as ' + ${session.user.name}"
                   th:utext="${session.user.name}" />
 
             <a  th:if="${session.user != null && session.user != ''}"

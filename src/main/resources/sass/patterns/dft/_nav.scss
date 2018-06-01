@@ -1,0 +1,167 @@
+.dft-nav {
+	$this: &;
+
+    @include mq($until: desktop) {
+        position: relative;
+
+         #{$this}__wrapper {
+            overflow: hidden;
+            max-height: 43px;
+            position: relative;
+         }
+
+        #{$this}__menu {
+            padding-top: 43px;
+        }
+
+        #{$this}__item {
+            &--active {
+                top: 0;
+                left: 0;
+                width: 100%;
+                position: absolute;
+            }
+        }
+	}
+	
+	@include mq(tablet, desktop) {
+		#{$this}__wrapper {
+            max-height: 49px;
+         }
+
+        #{$this}__menu {
+        	padding-top: 49px;
+        }
+	}
+
+    &__dropdown-label {
+        display: none;
+
+        @include mq($until: desktop) {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 43px;
+            z-index: 100;
+            color: white;
+			display: block;
+			text-align: right;
+            position: absolute;
+
+			span {
+				margin-top: 6px;
+				padding: 6px 10px;
+				margin-right: 6px;
+				border-radius: 2px;
+				display: inline-block;
+				@include govuk-font-regular-16;
+				line-height: initial;
+
+				&::after {
+					width: 0;
+					height: 0;
+					content: "";
+					margin-left: 5px;
+					display: inline-block;
+					vertical-align: middle;
+					border-top: 5px solid white;
+					border-left: 4px solid transparent;
+					border-right: 4px solid transparent;
+				}
+			}
+		}
+
+		@include mq(tablet, desktop) {
+			height: 49px;
+		}
+    }
+
+    &__dropdown-check {
+        display: none;
+        
+        &:checked ~ #{$this}__wrapper {
+            max-height: none;
+            overflow: visible;
+        }
+
+        &:checked + label {
+            span {
+				background-color: $dft-blue-dark;
+
+				&::after {
+					border-top: none;
+					border-bottom: 5px solid white;
+				}
+			}
+        }
+    }
+    
+    &__menu {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        margin: 0;
+        clear: both;
+        display:block;
+        color: $dft-blue;
+        overflow: hidden;
+        position: relative;
+        line-height: unset;
+        text-decoration: none;
+        padding: 12px 15px 11px;
+
+        @include govuk-font-regular-19;
+		
+		@include mq($from: desktop) {
+            padding: 12px 20px 11px 30px;
+        }
+
+        &:visited, &:link {
+            color: $dft-blue;
+        }
+
+        &:hover, &:focus, &--active {
+            outline: none;
+            color: white;
+            background: $dft-blue;
+
+            @include mq($from: desktop) {
+                &:after {
+                    top: 0;
+                    right: 0;               
+                    width: 0;
+                    height: 0;
+                    bottom: 0;
+                    content: '';
+                    margin: auto;
+                    position: absolute;
+                    border-style: solid;
+                    border-width: 7px 8px 7px 0;
+                    border-color: transparent white transparent transparent;
+                }
+            }
+
+            .dft-badge {
+                color: white;
+                background-color: $dft-blue-dark;
+            }
+
+            &:visited, &:link {
+                color: white;
+            }
+        }
+    }
+
+    .dft-badge {
+        margin-left: 10px;
+
+        @include mq($from: desktop) {
+            float: right;
+            margin-left: 0px;
+        }
+    }
+
+}
