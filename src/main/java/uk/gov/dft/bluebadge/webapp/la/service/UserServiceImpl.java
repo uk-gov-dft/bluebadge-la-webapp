@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public void delete(Integer localAuthorityId, Integer id) {
+    userManagementService.deleteUser(localAuthorityId, id);
+  }
+
+  @Override
   public boolean checkUserExistsForEmail(String email) {
     return userManagementService.checkUserExistsForEmail(email);
   }

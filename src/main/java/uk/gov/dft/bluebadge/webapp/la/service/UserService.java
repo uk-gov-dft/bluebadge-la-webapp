@@ -21,4 +21,6 @@ public interface UserService {
   UserResponse create(User user) throws Exception;
 
   UserResponse update(User user) throws Exception;
+
+  void delete(Integer localAuthorityId, Integer id);
 }
