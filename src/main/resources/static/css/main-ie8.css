@@ -3393,10 +3393,6 @@ html, body {
   white-space: nowrap; }
 
 .dft-search__field {
-  width: 100%;
-  border: none;
-  display: block;
-  padding: 9px 32px 6px 15px;
   font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -3408,6 +3404,10 @@ html, body {
   line-height: 25px;
   font-size: 14pt;
   line-height: 1.15;
+  width: 100%;
+  border: none;
+  display: block;
+  padding: 9px 32px 6px 15px;
   outline: 2px solid #dee0e2;
   width: 260px; }
   .dft-search__field:focus {
@@ -3425,12 +3425,10 @@ html, body {
   top: 50%;
   background-repeat: no-repeat;
   background-color: transparent;
-  background-position: right 5px top 6px;
-  background-image: url("../../images/search.png");
-  background-image: url("../../images/search.svg"); }
+  background-position: center center;
+  background-image: url("../../images/search.png"); }
 
 .dft-search__options {
-  margin-left: 5px;
   font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -3441,26 +3439,27 @@ html, body {
   font-size: 16px;
   line-height: 20px;
   font-size: 14pt;
-  line-height: 1.2; }
+  line-height: 1.2;
+  margin-left: 5px; }
 
 .dft-search__clear-link {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  font-size: 14pt;
+  line-height: 1.2;
   margin: 0;
   padding: 0;
   border: none;
   cursor: pointer;
   text-decoration: underline;
-  background-color: transparent;
-  font-family: "nta", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
-  font-size: 16px;
-  line-height: 20px;
-  font-size: 14pt;
-  line-height: 1.2; }
+  background-color: transparent; }
 
 .dft-topbar {
   color: white;
