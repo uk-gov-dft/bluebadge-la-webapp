@@ -48,6 +48,14 @@
         @include govuk-font-regular-16;
     }
 
+    &__username {
+        display: none;
+
+        @include mq($from: tablet) {
+            display: inline-block;
+        }
+    }
+
     &__signout {
         margin-left: 5px;
 
