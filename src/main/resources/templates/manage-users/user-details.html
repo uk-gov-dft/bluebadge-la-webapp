@@ -37,14 +37,14 @@
 
                 <div class="govuk-details__text">
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
-                        <p>Are you sure you want to remove access for <strong data-uipath="userName">John Doe</strong>?</p>
+                        <p>Are you sure you want to remove access for <strong data-uipath="userName" th:text="*{name}">John Doe</strong>?</p>
                         <p>You won't be able to undo this.</p>
                         <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
                         <input data-uipath="removeUserButton" value="Yes, remove user" type="submit" class="govuk-button">
                     </form>
 
                     <p class="govuk-body">
-                        <a href="/manage-users/user-details" data-uipath="doNotRemoveUserButton">No, don't remove user</a>
+                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotRemoveUserButton">No, don't remove user</a>
                     </p>
                 </div>
             </details>
