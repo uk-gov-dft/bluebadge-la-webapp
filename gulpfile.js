@@ -5,6 +5,10 @@ const gulpIf = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 
+// const rollup = require('gulp-better-rollup');
+// const babel = require('rollup-plugin-babel');
+// const resolve = require('rollup-plugin-node-resolve');
+
 /** --------------------------------------------------
 
  * Configs and paths
@@ -82,14 +86,49 @@ gulp.task('sass', ['clean:css'], () => {
 
 });
 
-
+const babel = require('gulp-babel');
+// installed gulp-babel
+// set es2015 preset inside package.json
+// installed babel core and es2015 preset
 gulp.task('js', () => {
 	gulp.src(PATH.sourceAssets.js)
-		//.pipe(linter)
-		.pipe(gulpIf(isDev, sourcemaps.init()))
-		.pipe(gulpIf(isDev, sourcemaps.write('./')))
+		.pipe(babel({
+			presets: ['es2015'],
+		}))
+		// .pipe(gulpIf(isDev, sourcemaps.init()))
+		// .pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.js))
 });
+
+
+const rollup = require('rollup-stream');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+// installed rollup rollup-stream vinyl-source-stream vinyl-buffer--save-dev
+const rollupJS = (inputFile, options) => {
+	return () => {
+		return rollup({
+			input: options.basePath + inputFile,
+			format: options.format,
+			sourcemap: options.sourcemap
+		})
+		// point to the entry file.
+		.pipe(source(inputFile, options.basePath))
+		// we need to buffer the output, since many gulp plugins don't support streams.
+		.pipe(buffer())
+		.pipe(sourcemaps.init({loadMaps: true}))
+		// some transformations like uglify, rename, etc.
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest(options.distPath));
+	};
+};
+
+gulp.task('rollit', rollupJS('main.js', {
+	basePath:  BASE_PATH + "/js/",
+	format: 'iife',
+	distPath: PATH.compiledAssets.js,
+	sourcemap: false
+ }));
 
 
 gulp.task('default', ['sass', 'js'], () => {

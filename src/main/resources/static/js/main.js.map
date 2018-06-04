@@ -1,1 +1,1 @@
-{"version":3,"names":[],"mappings":"","sources":["main.js"],"sourcesContent":["import Button from '@govuk-frontend/frontend/Button';\n\nconst hi = () => {\n   console.log('test');\n}"],"file":"main.js"}
+{"version":3,"names":[],"mappings":"","sources":["main.js"],"sourcesContent":["const All = require('@govuk-frontend/frontend/all');\nconst myModule = require('./my-module');\n"],"file":"main.js"}
