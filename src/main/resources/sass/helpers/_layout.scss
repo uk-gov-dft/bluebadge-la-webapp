@@ -1,25 +1,30 @@
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
 .dft-container {
-
-    .dft-sidebar {
-        display: none;
-
-        @include mq(desktop){
-            width:300px;
-            height: 100vh;
-            display: block;
-            max-width: 300px;
-            position: absolute;
-        }
-    }
-
-
     &--with-sidebar {
-        position: relative;
+        width: 100%;
+        height: 100%;
+        display: table;
 
         .dft-width-container {
             @include mq($from: desktop){
-                padding-left: 350px;
+                width: auto;
+                padding-left: 50px;
                 padding-right: 50px;
+                display: table-cell;
+            }
+        }
+    
+        .dft-sidebar {
+            @include mq($from: desktop){
+                height: 100%;
+                width: 300px;
+                max-width: 300px;
+                display: table-cell;
+                vertical-align: top;
             }
         }
     }
@@ -38,6 +43,7 @@
 
 
 .dft-main-wrapper {
+    display: block;
     padding-top: 20px;
     padding-bottom: 20px;
 

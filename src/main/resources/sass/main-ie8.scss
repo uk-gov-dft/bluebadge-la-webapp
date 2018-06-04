@@ -10,12 +10,6 @@
     box-sizing: border-box;
 }
 
-// Enables GDS global styles - Disabled by default.
-// https://github.com/alphagov/govuk-frontend/blob/master/src/core/_global-styles.scss
-
-$govuk-global-styles: true;
-
-
 @import "@govuk-frontend/frontend/all";
 
 // need to replace breakpoints at govuk level so
@@ -27,6 +21,10 @@ $mq-breakpoints: (
     wide: 1200px,
 );
 
+$is-ie: true;
+$ie-version: 8;
+$mq-responsive: false;
+$mq-static-breakpoint: desktop;
 
 
 
