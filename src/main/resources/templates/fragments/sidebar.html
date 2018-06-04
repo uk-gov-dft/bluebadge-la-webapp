@@ -23,7 +23,7 @@
 						th:attr="href=${currentPage == ''} ? '' : '/'"
 						th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">
 						Home
-						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>
+						<!--<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>-->
 					</a>
 
 					<a data-uipath="sidebar-nav.manage-users"
@@ -31,19 +31,6 @@
 						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
 						Manage users
 						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span>
-					</a>
-					
-					<a data-uipath="sidebar-nav.without-badge"
-						th:attr="href=${currentPage == 'without-badge'} ? '' : '/without-badge'"
-						th:class="${currentPage == 'without-badge'} ? ${activeClass} : ${menuItemClass}">
-						Without Badge
-					</a>
-					
-					<a data-uipath="sidebar-nav.cancellations"
-						th:attr="href=${currentPage == 'cancellations'} ? '' : '/cancellations'"
-						th:class="${currentPage == 'cancellations'} ? ${activeClass} : ${menuItemClass}">
-						Cancellations
-						<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.cancellations.badge" aria-label="has 10 records in total">10</span>
 					</a>
 				</nav>
 
