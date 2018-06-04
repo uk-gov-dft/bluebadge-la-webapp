@@ -60,3 +60,19 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the title "User details"
     When I enter invalid email address and clicks on update button
     Then I should see the validation message for "invalid email" as "Enter a valid email address"
+
+  Scenario: Verify remove user
+    Given I navigate to the "sign-in" page
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I navigate to the "manage-users" page
+    When I can click on the "Create a new user" button
+    And I enter full name and email address and clicks on create a new user button
+    And I should see the newly created user is on the users list
+    When I search for newly create user using email address
+    And I click on the first name link from users table
+    Then I should see the title "User details"
+    And I can click on element "removeUserSummaryText" link
+    And I can click on element "removeUserButton" button
+    Then I search for newly create user using email address
+    And I should see the content "There are no results for"
