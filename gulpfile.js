@@ -2,8 +2,6 @@ const del = require('del');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
-const cssnano = require('gulp-cssnano');
-const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 
@@ -79,11 +77,6 @@ gulp.task('sass', ['clean:css'], () => {
 		.pipe(gulpIf(isDev, sourcemaps.init()))
 		.pipe(autoprefixer()) // needs to go down to iE8 ?
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
-		.pipe(gulpIf(isProd, cssnano({
-			discardComments: {
-				removeAll: true
-			}
-		})))
 		.pipe(gulp.dest(PATH.compiledAssets.css))
 
 });
@@ -94,7 +87,7 @@ gulp.task('js', () => {
 		//.pipe(linter)
 		.pipe(gulpIf(isDev, sourcemaps.init()))
 		//.pipe(rollup({plugins: [babel()]}, 'umd'))
-		.pipe(rollup())
+		// .pipe(rollup())
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.js))
 });
