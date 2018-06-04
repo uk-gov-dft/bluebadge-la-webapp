@@ -1,9 +1,7 @@
-const del = require('del');
 const gulp = require('gulp');
+const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
-const cssnano = require('gulp-cssnano');
-const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 
@@ -13,19 +11,18 @@ const autoprefixer = require('gulp-autoprefixer');
 
 -------------------------------------------------- **/
 
-const DEFAULT_ENV = "development";
 const BASE_PATH = "./src/main/resources";
 const PATH = {
-	compiledAssets: {
-		css: `${BASE_PATH}/static/css`,
-		js: `${BASE_PATH}/static/js`,
-	},
-
 	sourceAssets: {
 		sass: `${BASE_PATH}/sass/**/*.scss`,
 		js: `${BASE_PATH}/js/main.js`
+	},
+
+	compiledAssets: {
+		css: `${BASE_PATH}/static/css`,
+		js: `${BASE_PATH}/static/js`,
 	}
-};
+}
 
 
 /** --------------------------------------------------
@@ -34,7 +31,7 @@ const PATH = {
 
 -------------------------------------------------- **/
 
-const getEnv = () => {
+const getEnv = (default_env = "development") => {
 	
 	const params = global.process.argv;
 
@@ -43,12 +40,12 @@ const getEnv = () => {
 		if(param.includes("--env")) {
 
 			const env = param.split('=')[1];
-			return env ? env : DEFAULT_ENV;
+			return env ? env : default_env;
 
 		}
 	}
 
-	return DEFAULT_ENV;
+	return default_env;
 }
 
 const isProd = getEnv() === "production";
@@ -61,13 +58,13 @@ const isDev = getEnv() === "development";
 
 -------------------------------------------------- **/
 
-
-gulp.task('clean:css', () => del.sync(['./src/resources/static/css/**']));
+gulp.task('clean:css', () => rimraf(PATH.compiledAssets.css, () => {}));
+gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => {}));
 
 
 gulp.task('sass', ['clean:css'], () => {
 
-	return gulp.src('./src/main/resources/sass/**/*.scss')
+	return gulp.src(PATH.sourceAssets.sass)
 		//.pipe(linter)
 		.pipe(sass({
 			includePaths: ['node_modules']
@@ -75,11 +72,12 @@ gulp.task('sass', ['clean:css'], () => {
 		.pipe(gulpIf(isDev, sourcemaps.init()))
 		.pipe(autoprefixer()) // needs to go down to iE8 ?
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
-		.pipe(gulpIf(isProd, cssnano({
+		// have uninstalled cssnano for the moment
+		/* .pipe(gulpIf(isProd, cssnano({
 			discardComments: {
 				removeAll: true
 			}
-		})))
+		})))*/
 		.pipe(gulp.dest(PATH.compiledAssets.css))
 
 });
@@ -89,8 +87,6 @@ gulp.task('js', () => {
 	gulp.src(PATH.sourceAssets.js)
 		//.pipe(linter)
 		.pipe(gulpIf(isDev, sourcemaps.init()))
-		// .pipe(rollup({plugins: [babel()]}, 'umd'))
-		// .pipe(rollup())
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.js))
 });

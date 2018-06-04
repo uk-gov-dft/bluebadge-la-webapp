@@ -8,19 +8,17 @@
     "prod": "gulp --env=production",
     "start": "npm run dev"
   },
-  "author": "Ali Ashik",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "@govuk-frontend/frontend": "0.0.29-alpha",
-    "del": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^5.0.0",
-    "gulp-better-rollup": "^3.1.0",
-    "gulp-cssnano": "^2.1.3",
-    "gulp-if": "^2.0.2"
+    "@govuk-frontend/frontend": "0.0.29-alpha"
   },
   "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-if": "^2.0.2",
     "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.4"
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-autoprefixer": "^5.0.0"
   }
 }
