@@ -1,4 +1,4 @@
-export const MyModule = () => {
+export default () => {
 
    console.log('this is my module!');
 

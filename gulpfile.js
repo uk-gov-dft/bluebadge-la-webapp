@@ -6,8 +6,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 
 // const rollup = require('gulp-better-rollup');
-// const babel = require('rollup-plugin-babel');
-// const resolve = require('rollup-plugin-node-resolve');
 
 /** --------------------------------------------------
 
@@ -86,13 +84,13 @@ gulp.task('sass', ['clean:css'], () => {
 
 });
 
-const babel = require('gulp-babel');
+const babelB = require('gulp-babel');
 // installed gulp-babel
-// set es2015 preset inside package.json
+// set babel-preset-es2015 preset inside package.json
 // installed babel core and es2015 preset
 gulp.task('js', () => {
 	gulp.src(PATH.sourceAssets.js)
-		.pipe(babel({
+		.pipe(babelB({
 			presets: ['es2015'],
 		}))
 		// .pipe(gulpIf(isDev, sourcemaps.init()))
@@ -100,17 +98,24 @@ gulp.task('js', () => {
 		.pipe(gulp.dest(PATH.compiledAssets.js))
 });
 
-
+const babel = require('rollup-plugin-babel');
+const resolve = require('rollup-plugin-node-resolve');
+const commonJs = require('rollup-plugin-commonjs');
 const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+
 // installed rollup rollup-stream vinyl-source-stream vinyl-buffer--save-dev
+// needs babel-preset-es2015 which is already installed
+
 const rollupJS = (inputFile, options) => {
 	return () => {
 		return rollup({
 			input: options.basePath + inputFile,
 			format: options.format,
-			sourcemap: options.sourcemap
+			sourcemap: options.sourcemap,
+			plugins: options.plugins,
+			legacy: true,
 		})
 		// point to the entry file.
 		.pipe(source(inputFile, options.basePath))
@@ -123,12 +128,47 @@ const rollupJS = (inputFile, options) => {
 	};
 };
 
+// installed npm i rollup-plugin-babel 5 babel-plugin-external-helpers
+const babelConfig = {
+	presets: [ [ "es2015", { "modules": false } ] ],
+	plugins: [ "external-helpers" ],
+	babelrc: false,
+	exclude: 'node_modules/**'
+ };
+
 gulp.task('rollit', rollupJS('main.js', {
 	basePath:  BASE_PATH + "/js/",
-	format: 'iife',
+	format: 'umd',
 	distPath: PATH.compiledAssets.js,
-	sourcemap: false
+	sourcemap: false,
+	plugins: [
+		resolve(),
+		babel(babelConfig),
+		commonJs(),
+	 ],
+	//external: ['@govuk-frontend']
  }));
+
+ gulp.task('test', () => {
+	rollup({
+		input: PATH.sourceAssets.js,
+		format: 'umd',
+		legacy: true,
+		plugins: [
+			resolve(),
+			babel(babelConfig),
+			commonJs(),
+		 ],
+	})
+	// point to the entry file.
+	.pipe(source())
+	// we need to buffer the output, since many gulp plugins don't support streams.
+	.pipe(buffer())
+	// .pipe(sourcemaps.init({loadMaps: true}))
+	// some transformations like uglify, rename, etc.
+	//.pipe(sourcemaps.write('.'))
+	.pipe(gulp.dest(PATH.compiledAssets.js)); 
+ })
 
 
 gulp.task('default', ['sass', 'js'], () => {
