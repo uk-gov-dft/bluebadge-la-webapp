@@ -1,9 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersControllerImpl.URL_MANAGE_USERS;
 
 import com.google.common.collect.Lists;
 import org.junit.Before;
@@ -36,6 +38,7 @@ public class UserDetailsControllerTest extends ControllerTest {
   public static final int USER_ID = 1;
   public static final String NAME_PARAM = "name";
   public static final String EMAIL_ADDRESS_PARAM = "emailAddress";
+  public static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityId";
   public static final String MODEL_FORM_REQUEST = "formRequest";
   public static final String MODEL_ID = "id";
 
@@ -96,12 +99,20 @@ public class UserDetailsControllerTest extends ControllerTest {
                     .localAuthorityId(LOCAL_AUTHORITY));
   }
 
+  private UserDetailsFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
+    UserDetailsFormRequest userDetailsFormRequest = new UserDetailsFormRequest();
+    userDetailsFormRequest.setEmailAddress(emailAddress);
+    userDetailsFormRequest.setName(name);
+    return userDetailsFormRequest;
+  }
+
   @Test
   public void
       showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
           throws Exception {
     when(userServiceMock.findOneById(USER_ID)).thenReturn(userResponse);
-    UserDetailsFormRequest formRequest = new UserDetailsFormRequest(EMAIL_ADDRESS, NAME);
+    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
+    formRequest.setLocalAuthorityId(userResponse.getData().getLocalAuthorityId());
     mockMvc
         .perform(get(URL_USER_DETAILS + USER_ID).sessionAttr("user", userDataSignedIn))
         .andExpect(status().isOk())
@@ -116,7 +127,7 @@ public class UserDetailsControllerTest extends ControllerTest {
           throws Exception {
     when(userServiceMock.findOneById(USER_ID)).thenReturn(userResponse);
     UserDetailsFormRequest formRequest =
-        new UserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
+        getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
     mockMvc
         .perform(
             post(URL_USER_DETAILS + USER_ID)
@@ -158,8 +169,7 @@ public class UserDetailsControllerTest extends ControllerTest {
             .localAuthorityId(LOCAL_AUTHORITY);
     when(userServiceMock.update(user)).thenReturn(userResponseUpdate);
 
-    UserDetailsFormRequest formRequest =
-        new UserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
+    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
 
     mockMvc
         .perform(
@@ -178,5 +188,17 @@ public class UserDetailsControllerTest extends ControllerTest {
         .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, "name", ERROR_MSG_NAME));
 
     verify(userServiceMock, times(1)).update(user);
+  }
+
+  @Test
+  public void deleteUser_shouldRedirectToManageUsers_WhenYouAreSignedInAndThereAreNoErrors()
+      throws Exception {
+    mockMvc
+        .perform(
+            delete(URL_USER_DETAILS + USER_ID)
+                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY)))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl(URL_MANAGE_USERS));
+    verify(userServiceMock, times(1)).delete(LOCAL_AUTHORITY, USER_ID);
   }
 }

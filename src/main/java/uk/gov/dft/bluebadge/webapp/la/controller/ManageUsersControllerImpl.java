@@ -21,6 +21,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 public class ManageUsersControllerImpl implements ManageUsersController {
 
   public static final String URL_MANAGE_USERS = "/manage-users";
+  public static final String REDIRECT_URL_MANAGE_USERS = "redirect:" + URL_MANAGE_USERS;
   public static final String TEMPLATE_MANAGE_USERS = "manage-users";
   public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
 

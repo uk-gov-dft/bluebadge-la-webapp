@@ -1,12 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +22,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
+@Slf4j
 public class UserDetailsControllerImpl implements UserDetailsController {
-
-  private static final Logger logger = LoggerFactory.getLogger(UserDetailsControllerImpl.class);
 
   public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
 
@@ -62,6 +61,7 @@ public class UserDetailsControllerImpl implements UserDetailsController {
     }
     UserResponse userResponse = userService.findOneById(id);
     UserData user = userResponse.getData();
+    formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
     model.addAttribute(MODEL_ID, id);
@@ -105,5 +105,23 @@ public class UserDetailsControllerImpl implements UserDetailsController {
     user.setLocalAuthorityId(userData.getLocalAuthorityId());
     user.setRoleId(userData.getRoleId());
     return user;
+  }
+
+  @DeleteMapping(URL_USER_DETAILS)
+  public String deleteUser(
+      @PathVariable(PARAM_ID) int id,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      Model model) {
+    try {
+      userService.delete(formRequest.getLocalAuthorityId(), id);
+      return REDIRECT_URL_MANAGE_USERS;
+    } catch (Exception ex) {
+      TemplateModelUtils.addCustomError(
+          "error.deleteUser.generalError.title",
+          "error.deleteUser.generalError.description",
+          model);
+      model.addAttribute(MODEL_ID, id);
+      return TEMPLATE_USER_DETAILS;
+    }
   }
 }
