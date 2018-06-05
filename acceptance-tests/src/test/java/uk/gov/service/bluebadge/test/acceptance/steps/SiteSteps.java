@@ -66,8 +66,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I should see the content \"([^\"]*)\"$")
   public void thenIShouldSeeTheContent(String content) throws Throwable {
-    assertThat(
-        "Document content is as expected", sitePage.getPageContent(), getMatcherForText(content));
+    assertThat(sitePage.getPageContent(), containsString(content));
   }
 
   @Then("^I should see the \"page not found\" error page$")
@@ -321,5 +320,10 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithUiPath("emailAddress.field").sendKeys("Not valid email");
 
     sitePage.findElementWithUiPath("updateUserButton").click();
+  }
+
+  @And("^I (?:can )?click on element \"([^\"]+)\"(?: link| button)?$")
+  public void AndIcanClickOnElement(String uiPath) throws Throwable {
+    sitePage.findElementWithUiPath(uiPath).click();
   }
 }
