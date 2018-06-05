@@ -1143,10 +1143,7 @@ var myModule = (function () {
    console.log('this is my module!');
 });
 
-//const all = require('@govuk-frontend/frontend/all');
-// const myModule = require('./my-module');
 all.initAll();
-// import * as _ from 'lodash';
 
 myModule();
 
