@@ -57,7 +57,6 @@ public class SignInPage extends AbstractSitePage {
     return getWebDriver().getTitle();
   }
 
-
   public WebElement findPageElement(String elementName) {
     return findPageElement(elementName, 0);
   }

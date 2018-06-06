@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -331,7 +330,7 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
   public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
     String uipath = "sidebar-nav";
-    if(linkTitle.equals("Manage users")) {
+    if (linkTitle.equals("Manage users")) {
       uipath = "sidebar-nav.manage-users";
     }
     sitePage.findElementWithUiPath(uipath).click();

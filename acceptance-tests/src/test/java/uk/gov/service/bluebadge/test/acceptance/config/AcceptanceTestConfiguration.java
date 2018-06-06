@@ -79,7 +79,6 @@ public class AcceptanceTestConfiguration {
     return new SitePage(webDriverProvider, pageHelper);
   }
 
-
   @Bean
   public SignInPage signInPage(final WebDriverProvider webDriverProvider, PageHelper helper) {
     return new SignInPage(webDriverProvider, helper);
