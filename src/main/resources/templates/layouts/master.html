@@ -4,9 +4,18 @@
     <title>GOV.UK Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/govuk-template.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+
+    <!--[if IE 8]>
+        <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main-ie8.css}">
+    <![endif]-->
+
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}">
+    <!--<![endif]-->    
+
+    <!--[if lt IE 9]>
+        <script src="/html5shiv.js"></script>
+    <![endif]-->
 </head>
 <body>
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
@@ -15,11 +24,7 @@
 
     <div class="dft-container dft-container--with-sidebar">
 
-        <aside class="dft-sidebar">
-            sidebar
-
-            <a href="/manage-users">Manage users</a>
-        </aside>
+        <aside th:replace="~{ fragments/sidebar :: dft-sidebar }" />
 
         <div class="dft-width-container">
 

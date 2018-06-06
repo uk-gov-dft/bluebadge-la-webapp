@@ -1,3 +1,4 @@
 .dft-sidebar {
-    background-color: #eee;
+    $this: &;
+    background-color: $govuk-grey-4;
 }

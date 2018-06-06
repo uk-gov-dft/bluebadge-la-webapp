@@ -27,5 +27,10 @@ Feature: Dft BlueBadge LA Sign In Page
     And I can click Sign in button
     Then I should see the validation message for "invalid  ***REMOVED***
 
-
+  Scenario: Verify Sign out
+    Given I navigate to the "sign-in" page
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I can click on the "Sign out" link
+    Then I should see the title "Sign in"
 

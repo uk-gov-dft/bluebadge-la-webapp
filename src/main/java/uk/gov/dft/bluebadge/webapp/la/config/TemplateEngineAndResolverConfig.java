@@ -1,20 +1,24 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
+import com.google.common.collect.Sets;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import uk.gov.dft.bluebadge.webapp.la.controller.thdialect.LocalAuthorityDialect;
 
 @Configuration
 public class TemplateEngineAndResolverConfig {
 
   @Autowired private ApplicationContext applicationContext;
 
+  @Bean
   public SpringResourceTemplateResolver templateResolver() {
     // SpringResourceTemplateResolver automatically integrates with Spring's own
     // resource resolution infrastructure, which is highly recommended.
@@ -30,7 +34,8 @@ public class TemplateEngineAndResolverConfig {
     return templateResolver;
   }
 
-  private SpringTemplateEngine templateEngine() {
+  @Bean
+  public SpringTemplateEngine templateEngine() {
     // SpringTemplateEngine automatically applies SpringStandardDialect and
     // enables Spring's own MessageSource message resolution mechanisms.
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -42,9 +47,11 @@ public class TemplateEngineAndResolverConfig {
     // for safer backwards compatibility.
     templateEngine.setEnableSpringELCompiler(true);
     templateEngine.addDialect(new LayoutDialect(new GroupingStrategy()));
+    templateEngine.setAdditionalDialects(Sets.newHashSet(new LocalAuthorityDialect()));
     return templateEngine;
   }
 
+  @Bean
   public ThymeleafViewResolver viewResolver() {
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
     viewResolver.setTemplateEngine(templateEngine());

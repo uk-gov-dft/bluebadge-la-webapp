@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<aside th:fragment="dft-sidebar"
+			class="dft-sidebar" 
+			th:with="currentPage=${#la.getURLFirstSegment(#request.requestURI)}">
+
+		<div class="dft-nav">
+			<input class="dft-nav__dropdown-check" type="checkbox" id="menu" />
+			<label class="dft-nav__dropdown-label" for="menu">
+				<span>Menu</span>
+			</label>
+
+			<div class="dft-nav__wrapper">
+
+				<nav class="dft-nav__menu"
+						data-uipath="dft-nav-menu"
+						th:with="menuItemClass='dft-nav__item',
+									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
+
+					<a data-uipath="sidebar-home"
+						th:attr="href=${currentPage == ''} ? '' : '/'"
+						th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">
+						Home
+						<!--<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>-->
+					</a>
+
+					<a data-uipath="sidebar-nav.manage-users"
+						th:attr="href=${currentPage == 'manage-users'} ? '' : '/manage-users'"
+						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
+						Manage users
+						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span> -->
+					</a>
+				</nav>
+
+			</div>
+			
+		</div><!--dft-nav-->
+
+	</aside>
+</body>

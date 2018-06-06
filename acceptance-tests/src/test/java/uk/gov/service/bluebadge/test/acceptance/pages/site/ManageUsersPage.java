@@ -57,12 +57,6 @@ public class ManageUsersPage extends AbstractSitePage {
     return getWebDriver().getTitle();
   }
 
-  public String getDocumentContent() {
-    return helper
-        .findElement(By.xpath("/html/body/div/main/div/div[3]/div/div/div/ul/li/a/span"))
-        .getText();
-  }
-
   public WebElement findPageElement(String elementName) {
     return findPageElement(elementName, 0);
   }

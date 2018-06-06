@@ -21,6 +21,10 @@ $mq-breakpoints: (
     wide: 1200px,
 );
 
+$is-ie: true;
+$ie-version: 8;
+$mq-responsive: false;
+$mq-static-breakpoint: desktop;
 
 
 
