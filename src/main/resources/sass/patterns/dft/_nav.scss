@@ -7,7 +7,7 @@
 
         #{$this}__wrapper {
             overflow: hidden;
-            max-height: 43px;
+            max-height: 42px;
             position: relative;
         }
 
@@ -24,62 +24,50 @@
             }
         }
     }
-	
-	// tablet only
-    @include mq(tablet, desktop) {
-        #{$this}__wrapper {
-            max-height: 49px;
-        }
-
-        #{$this}__menu {
-            padding-top: 49px;
-        }
-    }
 
     &__dropdown-label {
         display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 42px;
+        z-index: 100;
+        color: white;
+        display: block;
+        text-align: right;
+        position: absolute;
 
-        // from desktop onwards
-        @include mq($until: desktop) {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 43px;
-            z-index: 100;
-            color: white;
-            display: block;
-            text-align: right;
-            position: absolute;
+        span {
+            @include govuk-font-regular-16;
+            margin-top: 6px;
+            margin-right: 6px;
+            line-height: unset;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 9px 10px 7px 10px;
 
-            span {
-                @include govuk-font-regular-16;
-                margin-top: 6px;
-                padding: 6px 10px;
-                margin-right: 6px;
-                border-radius: 2px;
+            &::after {
+                width: 0;
+                height: 0;
+                content: "";
+                margin-left: 5px;
                 display: inline-block;
-                line-height: initial;
-
-                &::after {
-                    width: 0;
-                    height: 0;
-                    content: "";
-                    margin-left: 5px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    border-top: 5px solid white;
-                    border-left: 4px solid transparent;
-                    border-right: 4px solid transparent;
-                }
+                vertical-align: middle;
+                border-top: 5px solid white;
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
             }
         }
 
-        @include mq(tablet, desktop) {
-			height: 49px;
-			
-			span {
-				margin-top: 8px;
-			}
+        @include mq(tablet) {
+            span {
+                margin-top: 4px;
+                padding: 7px 10px 5px 10px;
+            }
+        }
+
+        @include mq($from: desktop) {
+            display: none;
         }
     }
 
@@ -117,12 +105,16 @@
         color: $dft-blue;
         overflow: hidden;
         position: relative;
-        line-height: unset;
         text-decoration: none;
-        padding: 12px 15px 11px;
 
+        @include mq($until: desktop) {
+            padding: 0 15px;
+            line-height: 42px;
+        }
+        
         @include mq($from: desktop) {
-            padding: 12px 20px 11px 30px;
+            line-height: 48px;
+            padding: 0 20px 0 30px;
         }
 
         &:visited, &:link {

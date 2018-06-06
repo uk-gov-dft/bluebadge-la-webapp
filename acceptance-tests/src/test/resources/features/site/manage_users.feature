@@ -9,7 +9,7 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
+    And I can click on the "Manage users" link on left navigation
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     When I can click on the "Create a new user" button
     Then I should see the page titled "Create a new user - GOV.UK Manage Blue Badges"
@@ -21,10 +21,8 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    Then I should see the page titled "Create a new user - GOV.UK Manage Blue Badges"
     When I type " " for "name" field
     And I type "test@dft.gov.uk" for "emailAddress" field
     And I can click on the "Create user" button on manage user page
@@ -34,7 +32,7 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
+    And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
@@ -45,7 +43,7 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
+    And I can click on the "Manage users" link on left navigation
     When I click on the first name link from users table
     Then I should see the title "User details"
     When I change email address and clicks on update button
@@ -55,7 +53,7 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
+    And I can click on the "Manage users" link on left navigation
     When I click on the first name link from users table
     Then I should see the title "User details"
     When I enter invalid email address and clicks on update button
@@ -65,7 +63,7 @@ Feature: Dft BlueBadge LA Manage User
     Given I navigate to the "sign-in" page
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I navigate to the "manage-users" page
+    And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list

@@ -3331,7 +3331,7 @@ html, body {
     position: relative; }
     .dft-nav .dft-nav__wrapper {
       overflow: hidden;
-      max-height: 43px;
+      max-height: 42px;
       position: relative; }
     .dft-nav .dft-nav__menu {
       padding-top: 42px; }
@@ -3341,65 +3341,58 @@ html, body {
       width: 100%;
       position: absolute; } }
 
-@media (min-width: 48em) and (max-width: 63.99em) {
-  .dft-nav .dft-nav__wrapper {
-    max-height: 49px; }
-  .dft-nav .dft-nav__menu {
-    padding-top: 49px; } }
-
 .dft-nav__dropdown-label {
-  display: none; }
-  @media (max-width: 63.99em) {
-    .dft-nav__dropdown-label {
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 43px;
-      z-index: 100;
-      color: white;
-      display: block;
-      text-align: right;
-      position: absolute; }
-      .dft-nav__dropdown-label span {
-        font-family: "nta", Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        margin-top: 6px;
-        padding: 6px 10px;
-        margin-right: 6px;
-        border-radius: 2px;
-        display: inline-block;
-        line-height: initial; } }
-    @media print and (max-width: 63.99em) {
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  z-index: 100;
+  color: white;
+  display: block;
+  text-align: right;
+  position: absolute; }
+  .dft-nav__dropdown-label span {
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 6px;
+    margin-right: 6px;
+    line-height: unset;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 9px 10px 7px 10px; }
+    @media print {
       .dft-nav__dropdown-label span {
         font-family: sans-serif; } }
-    @media (max-width: 63.99em) and (min-width: 48em) {
+    @media (min-width: 48em) {
       .dft-nav__dropdown-label span {
         font-size: 16px;
         line-height: 20px; } }
-    @media print and (max-width: 63.99em) {
+    @media print {
       .dft-nav__dropdown-label span {
         font-size: 14pt;
         line-height: 1.2; } }
-  @media (max-width: 63.99em) {
-        .dft-nav__dropdown-label span::after {
-          width: 0;
-          height: 0;
-          content: "";
-          margin-left: 5px;
-          display: inline-block;
-          vertical-align: middle;
-          border-top: 5px solid white;
-          border-left: 4px solid transparent;
-          border-right: 4px solid transparent; } }
-  @media (min-width: 48em) and (max-width: 63.99em) {
+    .dft-nav__dropdown-label span::after {
+      width: 0;
+      height: 0;
+      content: "";
+      margin-left: 5px;
+      display: inline-block;
+      vertical-align: middle;
+      border-top: 5px solid white;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent; }
+  @media (min-width: 48em) {
+    .dft-nav__dropdown-label span {
+      margin-top: 4px;
+      padding: 7px 10px 5px 10px; } }
+  @media (min-width: 64em) {
     .dft-nav__dropdown-label {
-      height: 49px; }
-      .dft-nav__dropdown-label span {
-        margin-top: 8px; } }
+      display: none; } }
 
 .dft-nav__dropdown-check {
   display: none; }
@@ -3430,9 +3423,7 @@ html, body {
   color: #1754B9;
   overflow: hidden;
   position: relative;
-  line-height: unset;
-  text-decoration: none;
-  padding: 12px 15px 11px; }
+  text-decoration: none; }
   @media print {
     .dft-nav__item {
       font-family: sans-serif; } }
@@ -3444,9 +3435,14 @@ html, body {
     .dft-nav__item {
       font-size: 14pt;
       line-height: 1.15; } }
+  @media (max-width: 63.99em) {
+    .dft-nav__item {
+      padding: 0 15px;
+      line-height: 42px; } }
   @media (min-width: 64em) {
     .dft-nav__item {
-      padding: 12px 20px 11px 30px; } }
+      line-height: 48px;
+      padding: 0 20px 0 30px; } }
   .dft-nav__item:visited, .dft-nav__item:link {
     color: #1754B9; }
   .dft-nav__item:hover, .dft-nav__item:focus, .dft-nav__item--active {
