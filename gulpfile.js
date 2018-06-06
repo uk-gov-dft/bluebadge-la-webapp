@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
+const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const eslint = require('gulp-eslint');
 const buffer = require('vinyl-buffer');
@@ -110,7 +111,7 @@ gulp.task('lint', () => {
 });
 
 
-gulp.task('js', () => {
+gulp.task('js', ['clean:js'], () => {
 	rollup({
 		format: 'umd',
 		legacy: true,
@@ -122,12 +123,16 @@ gulp.task('js', () => {
 			commonJs()
 		],
 	})
-	.pipe(source(PATH.sourceAssets.js, BASE_PATH + "/js/"))
+	.pipe(source(PATH.sourceAssets.js))
 	.pipe(buffer())
-	.pipe(gulpIf(isDev,sourcemaps.init({ loadMaps: true })))
-	.pipe(gulpIf(isProd, uglify()))
-	.pipe(gulpIf(isDev,sourcemaps.write('.')))
-	.pipe(gulp.dest('./static'));
+	
+	.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
+		.pipe(gulpIf(isDev, rename('main.js')))
+		.pipe(gulpIf(isProd, uglify()))
+		.pipe(gulpIf(isProd, rename('main.min.js')))
+	.pipe(gulpIf(isDev, sourcemaps.write('.')))
+	
+	.pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
 
