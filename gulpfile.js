@@ -1,17 +1,17 @@
+/* eslint-disable */
+
 const gulp = require('gulp');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
 const uglify = require('gulp-uglify');
 const eslint = require('gulp-eslint');
-// const stylelint = require('gulp-stylelint');
-const uglifyCSS = require('gulp-uglifycss');
-const sourcemaps = require('gulp-sourcemaps');
-const autoprefixer = require('gulp-autoprefixer');
 const buffer = require('vinyl-buffer');
 const rollup = require('rollup-stream');
 const babel = require('rollup-plugin-babel');
 const source = require('vinyl-source-stream');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
 const commonJs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
 
@@ -30,7 +30,7 @@ const PATH = {
 
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
-		js: `${BASE_PATH}/static/js`,
+		js: `${BASE_PATH}/static/js`
 	}
 }
 
@@ -78,16 +78,15 @@ const isDev = getEnv() === "development";
 gulp.task('clean:css', () => rimraf(PATH.compiledAssets.css, () => { }));
 gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => { }));
 
+
 gulp.task('sass', ['clean:css'], () => {
 	return gulp.src(PATH.sourceAssets.sass)
-		.pipe(sass({
-			includePaths: ['node_modules']
-		}).on('error', sass.logError))
 		.pipe(gulpIf(isDev, sourcemaps.init()))
+		.pipe(sass({
+			includePaths: ['node_modules'],
+			outputStyle: isProd ? 'compressed' : 'expanded'
+		}).on('error', sass.logError))
 		.pipe(autoprefixer())
-		.pipe(gulpIf(isProd, uglifyCSS({
-			"uglyComments": true
-		})))
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.css))
 });
@@ -120,15 +119,15 @@ gulp.task('js', () => {
 		plugins: [
 			resolve(),
 			babel(babelConfig),
-			commonJs(),
+			commonJs()
 		],
 	})
 	.pipe(source(PATH.sourceAssets.js, BASE_PATH + "/js/"))
 	.pipe(buffer())
-	.pipe(sourcemaps.init({ loadMaps: true }))
-	.pipe(gulpIf(isDev, uglify()))
-	.pipe(sourcemaps.write('.'))
-	.pipe(gulp.dest(PATH.compiledAssets.js));
+	.pipe(gulpIf(isDev,sourcemaps.init({ loadMaps: true })))
+	.pipe(gulpIf(isProd, uglify()))
+	.pipe(gulpIf(isDev,sourcemaps.write('.')))
+	.pipe(gulp.dest('./static'));
 });
 
 
