@@ -28,6 +28,7 @@
     "gulp-if": "^2.0.2",
     "gulp-rename": "^1.2.3",
     "gulp-sass": "^4.0.1",
+    "gulp-sass-lint": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "rollup-plugin-babel": "^3.0.4",

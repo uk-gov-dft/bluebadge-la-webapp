@@ -16,6 +16,8 @@ const autoprefixer = require('gulp-autoprefixer');
 const commonJs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
 
+const sassLint = require('gulp-sass-lint');
+
 /** --------------------------------------------------
 
  * Configs and paths
@@ -41,7 +43,6 @@ const babelConfig = {
 	babelrc: false,
 	exclude: 'node_modules/**'
 };
-
 
 /** --------------------------------------------------
 
@@ -82,18 +83,25 @@ gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => { }));
 
 gulp.task('sass', ['clean:css'], () => {
 	return gulp.src(PATH.sourceAssets.sass)
+		.pipe(sassLint({
+			configFile: './.sass-lint.yml'
+		 }))
+		.pipe(sassLint.format())
+		.pipe(sassLint.failOnError())
+		 
 		.pipe(gulpIf(isDev, sourcemaps.init()))
-		.pipe(sass({
-			includePaths: ['node_modules'],
-			outputStyle: isProd ? 'compressed' : 'expanded'
-		}).on('error', sass.logError))
-		.pipe(autoprefixer())
+			.pipe(sass({
+				includePaths: ['node_modules'],
+				outputStyle: isProd ? 'compressed' : 'expanded'
+			}).on('error', sass.logError))
+			.pipe(autoprefixer())
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
+
 		.pipe(gulp.dest(PATH.compiledAssets.css))
 });
 
 
-gulp.task('lint', () => {
+gulp.task('js-lint', () => {
 	// ESLint ignores files with "node_modules" paths.
 	// So, it's best to have gulp ignore the directory as well.
 	// Also, Be sure to return the stream from the task;
@@ -136,8 +144,8 @@ gulp.task('js', ['clean:js'], () => {
 });
 
 
-gulp.task('default', ['sass', 'lint', 'js'], () => {
+gulp.task('default', ['sass', 'js-lint', 'js'], () => {
 	gulp.watch(PATH.sourceAssets.sass, ['sass']);
-	gulp.watch(BASE_PATH + "/js/**/*.js", ['lint']);
+	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
 	gulp.watch(PATH.sourceAssets.js, ['js']);
 });

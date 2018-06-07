@@ -1,66 +1,65 @@
-.dft-search{
+.dft-search {
 
-    &__container {
-        width: 65%;
-        display: inline-block;
-        position: relative;
+	&__container {
+		width: 65%;
+		display: inline-block;
+		position: relative;
 
-        @include mq($from: tablet) {
-            width: auto;
-        }
-    }
+		@include mq($from: tablet) {
+			width: auto;
+		}
+	}
 
-    &__label {
-        @include govuk-visually-hidden;
-    }
+	&__label {
+		@include govuk-visually-hidden;
+	}
+	
+	&__field {
+		@include govuk-font-regular-19;
+		width: 100%;
+		border: 0;
+		display: block;
+		padding: 9px 32px 6px 15px;
+		outline: 2px solid $govuk-grey-3;
 
-    &__field {
-        @include govuk-font-regular-19;
-        width: 100%;
-        border: none;
-        display: block;
-        padding: 9px 32px 6px 15px;
-        outline: 2px solid $govuk-grey-3;
+		&:focus {
+			outline-width: 2px;
+		}
 
-        &:focus {
-            outline-width: 2px;
-        }
+		@include mq(tablet) {
+			width: 260px;
+		}
+	}
 
-        @include mq(tablet) {
-            width: 260px;
-        }
-    }
+	&__button {
+		margin: 0;
+		width: 30px;
+		border: 0;
+		height: 30px;
+		cursor: pointer;
+		margin-top: -15px;
+		position: absolute;
+		right: 5px;
+		top: 50%;
+		background-repeat: no-repeat;
+		background-color: transparent;
+		background-position: center center;
+		background-image: url("../../images/search.png");
+	}
 
-    &__button {
-        margin: 0;
-        width: 30px;
-        border: none;
-        height: 30px;
-        cursor: pointer;
-        margin-top: -15px;
-        position: absolute;
-        right: 5px; top: 50%;
-        background-repeat: no-repeat;
-        background-color: transparent;
-        background-position: center center;
-        background-image: url('../../images/search.png');
-    }
+	&__options {
+		@include govuk-font-regular-16;
+		margin-left: 5px;
+	}
 
-    &__options {
-        @include govuk-font-regular-16;
-        margin-left: 5px;
-    }
-
-    &__clear-link {
-        @extend .govuk-link;
-        @include govuk-font-regular-16;
-        margin: 0;
-        padding: 0;
-        border: none;
-        cursor: pointer;
-        text-decoration: underline;
-        background-color: transparent;
-    }
-
-
+	&__clear-link {
+		@extend .govuk-link;
+		@include govuk-font-regular-16;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		cursor: pointer;
+		text-decoration: underline;
+		background-color: transparent;
+	}
 }
