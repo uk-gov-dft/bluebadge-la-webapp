@@ -9,14 +9,13 @@ const uglify = require('gulp-uglify');
 const eslint = require('gulp-eslint');
 const buffer = require('vinyl-buffer');
 const rollup = require('rollup-stream');
+const sassLint = require('gulp-sass-lint');
 const babel = require('rollup-plugin-babel');
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const commonJs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
-
-const sassLint = require('gulp-sass-lint');
 
 /** --------------------------------------------------
 
