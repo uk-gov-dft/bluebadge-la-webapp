@@ -4971,7 +4971,7 @@ html, body {
 
 @media (min-width: 64em) {
   .dft-nav__dropdown-label {
-    display: 0;
+    display: none;
   }
 }
 
