@@ -4788,7 +4788,7 @@ html, body {
   display: block;
   text-align: right;
   position: absolute;
-  display: 0;
+  display: none;
 }
 
 .dft-nav__dropdown-label span {
