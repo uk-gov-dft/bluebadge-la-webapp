@@ -43,13 +43,7 @@ node {
           "recursive": "false"
         },
         {
-          "pattern": "server/build/libs/*.jar",
-          "target": "gradle-release-local/",
-          "regexp": "false",
-          "recursive": "false"
-        },
-        {
-          "pattern": "build/libs/*.jar",
+          "pattern": "service/build/libs/*.jar",
           "target": "gradle-release-local/",
           "regexp": "false",
           "recursive": "false"
@@ -57,11 +51,7 @@ node {
         ]
         }"""
 
-        env.WORKSPACE = pwd()
-        def gradleVersion = readFile "${env.WORKSPACE}/VERSION"
-        echo "Building version:${gradleVersion}"
-
-        def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'clear wrapper build', switches: gradleVersion
+        def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'clean wrapper build bootJar'
         def buildInfo2 = server.upload(uploadSpec)
         buildInfo1.append buildInfo2
         server.publishBuildInfo buildInfo1

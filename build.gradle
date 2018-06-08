@@ -24,25 +24,16 @@ plugins {
 
 
 apply plugin: 'java'
-//apply plugin: 'eclipse'
+apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-//apply plugin: 'findbugs'
-
-
 
 group = 'uk.gov.dft.bluebadge.webapp.la'
-version = 'NOT_SET'
+version = rootProject.file('VERSION').text.trim()
 sourceCompatibility = 1.8
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-}
 
 tasks.withType(FindBugs) {
     reports {
