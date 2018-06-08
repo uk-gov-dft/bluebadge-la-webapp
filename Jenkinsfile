@@ -11,7 +11,7 @@ node {
     stage('Clone sources') {
       git(
            url: "${REPONAME}",
-           credentialsId: 'githubsshkey',
+           credentialsId: 'username***REMOVED***-github-automation-uk-gov-dft',
            branch: "${BRANCH_NAME}"
         )
      }
@@ -61,7 +61,12 @@ node {
         }
         ]
         }"""
-        def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'wrapper build'
+
+        env.WORKSPACE = pwd()
+        def gradleVersion = readFile "${env.WORKSPACE}/VERSION"
+        echo "Building version:${gradleVersion}"
+
+        def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'clear wrapper build', switches: gradleVersion
         def buildInfo2 = server.upload(uploadSpec)
         buildInfo1.append buildInfo2
         server.publishBuildInfo buildInfo1
