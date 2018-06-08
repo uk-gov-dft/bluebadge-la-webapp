@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SetPasswordFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
