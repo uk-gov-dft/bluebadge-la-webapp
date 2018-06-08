@@ -16,9 +16,7 @@ plugins {
     id 'com.github.sherter.google-java-format' version '0.6'
     id "org.sonarqube" version "2.6.2"
     id "com.moowork.node" version "1.2.0"
-//    id "com.moowork.grunt" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
-    id "com.jfrog.artifactory" version "4.5.4"
     id 'net.saliman.cobertura' version '2.5.4'
 }
 
