@@ -56,7 +56,7 @@ dependencies {
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
 
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.1.0')
+    compile(':usermanagement-service-client:0.1.0')
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
