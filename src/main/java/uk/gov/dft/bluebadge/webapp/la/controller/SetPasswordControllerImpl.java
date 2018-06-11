@@ -17,6 +17,8 @@ public class SetPasswordControllerImpl implements SetPasswordController {
 
   public static final String URL_SET_PASSWORD = "/set***REMOVED***";
   public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
+  public static final String REDIRECT_URL_HOME = "redirect:" + HomeControllerImpl.URL_HOME;
+
   private UserService userService;
 
   @Autowired
@@ -38,7 +40,11 @@ public class SetPasswordControllerImpl implements SetPasswordController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-
-    return TEMPLATE_SET_PASSWORD;
+    if (bindingResult.hasErrors()) {
+      return TEMPLATE_SET_PASSWORD;
+    } else {
+      // Set Password in the service
+      return REDIRECT_URL_HOME;
+    }
   }
 }

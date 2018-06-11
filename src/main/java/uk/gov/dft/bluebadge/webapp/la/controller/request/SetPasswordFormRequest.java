@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import uk.gov.dft.bluebadge.webapp.la.controller.validator.PasswordsMatch;
+
+@PasswordsMatch(message = "error.form.setPassword.passwords.dont.match")
 public class SetPasswordFormRequest {
 
   private String password;
