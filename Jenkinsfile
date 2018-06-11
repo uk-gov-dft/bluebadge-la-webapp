@@ -51,6 +51,8 @@ node {
         ]
         }"""
 
+        
+        
         def buildInfo1  = rtGradle.run buildFile: 'build.gradle', tasks: 'clean wrapper build bootJar'
         def buildInfo2 = server.upload(uploadSpec)
         buildInfo1.append buildInfo2
