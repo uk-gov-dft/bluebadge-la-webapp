@@ -27,7 +27,7 @@ public class HomeControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new HomeControllerImpl();
+    controller = new HomeController();
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
