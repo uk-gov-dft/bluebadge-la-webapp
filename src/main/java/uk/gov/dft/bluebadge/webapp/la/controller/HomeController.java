@@ -13,12 +13,6 @@ public class HomeController {
 
   @GetMapping(URL_HOME)
   public String showHome(Model model) {
-    // TODO each page needs the user's name and/or email
-    //    Optional<String> email = SignInUtils.getEmailSignedIn(session);
-    //    if (!email.isPresent()) {
-    //      return "redirect:" + SignInControllerImpl.URL_SIGN_IN;
-    //    }
-    model.addAttribute("email", "TODO:  BOB");
     return TEMPLATE_HOME;
   }
 }
