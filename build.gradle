@@ -64,6 +64,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
 
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
