@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <header th:fragment="topbar" class="dft-topbar">
@@ -11,21 +11,21 @@
 
             <span class="dft-topbar__title"
                   data-uipath="topbar.title"
-                  th:if="${session.user}" th:utext="'Manchester City Council'" />
+                  sec:authorize="isAuthenticated()" th:utext="'Manchester City Council'" />
         </div>
 
         <div class="dft-topbar__menu">
-            <span th:data-uipath="username"
-                  class="dft-topbar__username"
-                  th:if="${session.user != null && session.user.name != null}"
-                  th:aria-label="'You are logged in as ' + ${session.user.name}"
-                  th:utext="${session.user.name}" />
-
-            <a  th:if="${session.user != null && session.user != ''}"
-                th:data-uipath="signout"
-                class="dft-topbar__signout"
-                href="/sign-out">Sign out</a>
-                
+            <span sec:authorize="isAuthenticated()">
+                <span class="dft-topbar__username"
+                      th:aria-label="'You are logged in as ' + ${#authentication.name}"
+                      sec:authentication="name"/>
+                <form name="logoutForm" th:action="@{/logout}" method="post" >
+                  <input class="dft-topbar__signout" type="submit" value="Sign Out"/>
+                </form>
+                <a  th:data-uipath="signout"
+                    class="dft-topbar__signout"
+                    href="/logout">TODO: Sign out</a>
+            </span>
         </div>
 
     </div>
