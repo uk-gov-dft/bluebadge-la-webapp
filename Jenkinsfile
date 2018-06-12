@@ -17,18 +17,10 @@ node {
      }
 
     stage ('Gradle build') {
-
-        gradle {
-            tasks('clean')
-            tasks('wrapper')
-            tasks('build')
-            tasks('bootJar')
-            tasks('artifactoryPublish')
-            tasks('artifactoryDeploy')
-        }
+        sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
     }
     
-        stage('SonarQube analysis') {
+    stage('SonarQube analysis') {
         withSonarQubeEnv('sonarqube') {
               // requires SonarQube Scanner for Gradle 2.1+
               // It's important to add --info because of SONARJNKNS-281
