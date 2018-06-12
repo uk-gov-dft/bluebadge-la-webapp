@@ -47,7 +47,7 @@ public class CreateANewUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateANewUserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
+        new CreateANewUserController(userServiceMock, new CreateANewUserFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

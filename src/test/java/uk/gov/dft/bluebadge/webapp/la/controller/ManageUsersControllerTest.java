@@ -45,7 +45,7 @@ public class ManageUsersControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new ManageUsersControllerImpl(userServiceMock);
+    controller = new ManageUsersController(userServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
