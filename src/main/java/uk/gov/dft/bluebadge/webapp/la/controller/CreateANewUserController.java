@@ -47,11 +47,7 @@ public class CreateANewUserController {
 
   @GetMapping(URL_CREATE_A_NEW_USER)
   public String showCreateANewUser(
-      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest,
-      HttpSession session) {
-    if (!SignInUtils.isSignedIn(session)) {
-      return REDIRECT_URL_SIGN_IN;
-    }
+      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest) {
     return TEMPLATE_CREATE_A_NEW_USER;
   }
 
