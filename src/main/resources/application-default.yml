@@ -1,3 +1,6 @@
+bbb:
+  auth-server-url: http://localhost:8380/bbb_auth
+
 logging:
   level:
     uk.gov.dft.bluebadge: DEBUG
@@ -13,6 +16,7 @@ management:
       exposure:
         include: '*'
 
+
 spring:
   devtools:
     restart:
@@ -20,3 +24,15 @@ spring:
       poll-interval: 10
       quiet-period: 5
 #spring.devtools.restart.include=static/css/**,static/js/**
+
+security:
+  oauth2:
+    client:
+      client-id: bbb_test_web_app_id
+       ***REMOVED***
+      access-token-uri: ${bbb.auth-server-url}/oauth/token
+      user-authorization-uri: ${bbb.auth-server-url}/oauth/authorize
+      # All scopes approve, else user redirect to auth server to approve the protected resource
+      auto-approve-scopes: '.*'
+    resource:
+      user-info-uri: ${bbb.auth-server-url}/me
