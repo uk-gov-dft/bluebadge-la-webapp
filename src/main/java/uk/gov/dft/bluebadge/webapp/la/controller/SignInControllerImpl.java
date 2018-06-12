@@ -31,7 +31,7 @@ public class SignInControllerImpl implements SignInController {
 
   public static final String TEMPLATE_SIGN_IN = "sign-in";
 
-  public static final String REDIRECT_URL_HOME = "redirect:" + HomeControllerImpl.URL_HOME;
+  public static final String REDIRECT_URL_HOME = "redirect:" + HomeController.URL_HOME;
 
   private SignInService signInService;
 

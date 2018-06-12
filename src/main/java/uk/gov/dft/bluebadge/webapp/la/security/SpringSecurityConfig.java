@@ -1,10 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
@@ -21,34 +23,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        //        .antMatchers("**")
-        // .antMatchers("/", "/home", "/about")
-        .antMatchers(
-            "*",
-            "/development/**",
-            "/access-denied",
-            "/signed-out",
-            "/expired-session",
-            "/sign-out",
-            "/",
-            "/sign-in")
-        .permitAll()
-        // .antMatchers("/admin/**")
-        // .hasAnyRole("ADMIN")
-        //        .antMatchers("/user/showWelcome", "/applications/**")
-        //        .hasAnyRole("USER")
-        //        .anyRequest()
-        //        .authenticated()
-        //        .and()
-        //      .formLogin()
-        //    .loginPage("/sign-in")
-        //  .permitAll()
-        //   .and()
-        //  .logout()
-        //  .permitAll()
+        .antMatchers("/**")
+        .fullyAuthenticated()
         .and()
-        .exceptionHandling()
-        .accessDeniedHandler(accessDeniedHandler);
+        .formLogin()
+        .permitAll()
+    //        .and()
+    //          .exceptionHandling()
+    //          .accessDeniedHandler(accessDeniedHandler)
+    ;
   }
 
   // create two users, admin and user
@@ -63,5 +46,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .withUser("admin")
         . ***REMOVED***)
         .roles("ADMIN");
+  }
+
+  @Bean
+  public static NoOpPasswordEncoder passwordEncoder() {
+    return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
   }
 }
