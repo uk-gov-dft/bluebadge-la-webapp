@@ -15,7 +15,7 @@ public class SecurityUtils {
     //    return userDetails.getBlueBadgeUser();
     // TODO
     UserData userData = new UserData();
-    userData.setLocalAuthorityId(2);
+    userData.setLocalAuthorityId(22);
     userData.setEmailAddress(authentication.getName());
     userData.setName("TODO SecurityUtils"); // TODO
     // @see uk.gov.dft.bluebadge.webapp.la.controller.CreateANewUserController.createANewUser()
