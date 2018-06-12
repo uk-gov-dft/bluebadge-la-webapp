@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
+
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
@@ -53,11 +52,7 @@ public class UserDetailsController {
   public String showUserDetails(
       @PathVariable(PARAM_ID) int id,
       @ModelAttribute(MODEL_FORM_REQUEST) final UserDetailsFormRequest formRequest,
-      Model model,
-      HttpSession session) {
-    if (!SignInUtils.isSignedIn(session)) {
-      return REDIRECT_URL_SIGN_IN;
-    }
+      Model model) {
     UserResponse userResponse = userService.findOneById(id);
     UserData user = userResponse.getData();
     formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
@@ -72,12 +67,8 @@ public class UserDetailsController {
       @PathVariable(PARAM_ID) int id,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
       BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+      Model model) {
     try {
-      if (!SignInUtils.isSignedIn(session)) {
-        return REDIRECT_URL_SIGN_IN;
-      }
       UserData userData = userService.findOneById(id).getData();
       User user = combine(formRequest, userData);
       UserResponse userResponse = userService.update(user);

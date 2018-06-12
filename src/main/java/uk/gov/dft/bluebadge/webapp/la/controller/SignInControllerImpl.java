@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -12,14 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 
 @Controller
-public class SignInControllerImpl implements SignInController {
+public class SignInControllerImpl {
 
   private static final Logger logger = LoggerFactory.getLogger(SignInControllerImpl.class);
 
@@ -33,21 +29,17 @@ public class SignInControllerImpl implements SignInController {
 
   public static final String REDIRECT_URL_HOME = "redirect:" + HomeController.URL_HOME;
 
-  private SignInService signInService;
-
   @Autowired
-  public SignInControllerImpl(SignInService signInService) {
-    this.signInService = signInService;
-  }
+  public SignInControllerImpl() {}
 
-  @GetMapping(URL_SIGN_IN)
-  public String showSignIn(
-      @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
-    if (SignInUtils.isSignedIn(session)) {
-      return REDIRECT_URL_HOME;
-    }
-    return TEMPLATE_SIGN_IN;
-  }
+  //  @GetMapping(URL_SIGN_IN)
+  //  public String showSignIn(
+  //      @ModelAttribute("formRequest") final SignInFormRequest formRequest, HttpSession session) {
+  //    if (SignInUtils.isSignedIn(session)) {
+  //      return REDIRECT_URL_HOME;
+  //    }
+  //    return TEMPLATE_SIGN_IN;
+  //  }
 
   @PostMapping(URL_SIGN_IN)
   public String signIn(
@@ -62,11 +54,11 @@ public class SignInControllerImpl implements SignInController {
         return TEMPLATE_SIGN_IN;
       } else {
         String emailAddress = formRequest.getEmailAddress();
-        Optional<UserResponse> user = signInService.signIn(emailAddress);
-        if (user.isPresent()) {
-          session.setAttribute("user", user.get().getData());
-          return REDIRECT_URL_HOME;
-        }
+        //        Optional<UserResponse> user = signInService.signIn(emailAddress);
+        //        if (user.isPresent()) {
+        //          session.setAttribute("user", user.get().getData());
+        //          return REDIRECT_URL_HOME;
+        //        }
       }
       return showAccessDenied(formRequest, model);
     } catch (Exception ex) {
@@ -75,7 +67,6 @@ public class SignInControllerImpl implements SignInController {
     }
   }
 
-  @Override
   @GetMapping(URL_SIGN_OUT)
   public String signOut(HttpSession session) {
     session.invalidate();

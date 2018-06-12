@@ -18,6 +18,7 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class ManageUsersControllerTest {
@@ -25,6 +26,7 @@ public class ManageUsersControllerTest {
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
+  @Mock private SecurityUtils securityUtils;
 
   private ManageUsersController controller;
 
@@ -45,7 +47,7 @@ public class ManageUsersControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new ManageUsersController(userServiceMock);
+    controller = new ManageUsersController(userServiceMock, securityUtils);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

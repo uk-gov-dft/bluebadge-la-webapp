@@ -1,24 +1,25 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.model.usermanagement.UserData;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SignInFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 
 public class SignInControllerTest {
 
@@ -30,9 +31,7 @@ public class SignInControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private SignInService signInService;
-
-  private SignInController controller;
+  private SignInControllerImpl controller;
 
   private final SignInFormRequest emptySignInFormRequest = new SignInFormRequest(null, null);
 
@@ -42,7 +41,7 @@ public class SignInControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new SignInControllerImpl(signInService);
+    controller = new SignInControllerImpl();
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -76,8 +75,8 @@ public class SignInControllerTest {
 
   @Test
   public void signIn_shouldRedirectToHomePage_WhenSignInIsSuccessful() throws Exception {
-    when(signInService.signIn(EMAIL))
-        .thenReturn(Optional.of(new UserResponse().data(new UserData().emailAddress(EMAIL))));
+    //    when(signInService.signIn(EMAIL))
+    //        .thenReturn(Optional.of(new UserResponse().data(new UserData().emailAddress(EMAIL))));
     mockMvc
         .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))
         .andExpect(status().isFound())
@@ -88,7 +87,7 @@ public class SignInControllerTest {
   public void
       signIn_shouldDisplaySignInTemplateAndShowAccessDeniedMessageAndHttpStatusIsOK_WhenSignInIsNotSuccessful()
           throws Exception {
-    when(signInService.signIn(EMAIL)).thenReturn(Optional.empty());
+    //    when(signInService.signIn(EMAIL)).thenReturn(Optional.empty());
     mockMvc
         .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))
         .andExpect(status().isOk())
@@ -135,8 +134,8 @@ public class SignInControllerTest {
   @Test
   public void signIn_shouldDisplaySignInTemplateWithServerErrorMessage_WhenThereIsAServerError()
       throws Exception {
-    when(signInService.signIn(EMAIL))
-        .thenThrow(new Exception("Exception", new Exception("Cause Exception")));
+    //    when(signInService.signIn(EMAIL))
+    //        .thenThrow(new Exception("Exception", new Exception("Cause Exception")));
 
     mockMvc
         .perform(post("/sign-in").param(EMAIL_ADDRESS_PARAM, EMAIL).param("password", PASSWORD))

@@ -17,6 +17,7 @@ import uk.gov.dft.bluebadge.model.usermanagement.Error;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class CreateANewUserControllerTest {
@@ -33,6 +34,7 @@ public class CreateANewUserControllerTest {
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
+  @Mock private SecurityUtils securityUtils;
 
   private CreateANewUserController controller;
 
@@ -47,7 +49,8 @@ public class CreateANewUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateANewUserController(userServiceMock, new CreateANewUserFormRequestToUser());
+        new CreateANewUserController(
+            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtils);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

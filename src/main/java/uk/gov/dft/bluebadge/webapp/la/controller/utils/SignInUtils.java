@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 
+@Deprecated
 public class SignInUtils {
   public static final Optional<UserData> getUserSignedIn(HttpSession session) {
     UserData user = ((UserData) session.getAttribute("user"));

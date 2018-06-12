@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.SignInUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
+import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
@@ -33,16 +32,18 @@ public class CreateANewUserController {
   public static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
 
-  private UserService userService;
-
-  private CreateANewUserFormRequestToUser createANewUserRequest2User;
+  private final UserService userService;
+  private final CreateANewUserFormRequestToUser createANewUserRequest2User;
+  private final SecurityUtils securityUtils;
 
   @Autowired
   public CreateANewUserController(
       UserService userService,
-      CreateANewUserFormRequestToUser createANewUserRequest2UserConverter) {
+      CreateANewUserFormRequestToUser createANewUserRequest2UserConverter,
+      SecurityUtils securityUtils) {
     this.userService = userService;
     this.createANewUserRequest2User = createANewUserRequest2UserConverter;
+    this.securityUtils = securityUtils;
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
@@ -55,19 +56,14 @@ public class CreateANewUserController {
   public String createANewUser(
       @ModelAttribute("formRequest") CreateANewUserFormRequest formRequest,
       BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+      Model model) {
     try {
-      if (!SignInUtils.isSignedIn(session)) {
-        return REDIRECT_URL_SIGN_IN;
-      }
-      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
-      // TODO: Role id should come from the form
+      UserData signedInUser = securityUtils.getCurrentUserDetails();
       User user =
           createANewUserRequest2User
               .convert(formRequest)
               .localAuthorityId(signedInUser.getLocalAuthorityId())
-              .roleId(1);
+              .roleId(signedInUser.getRoleId());
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
