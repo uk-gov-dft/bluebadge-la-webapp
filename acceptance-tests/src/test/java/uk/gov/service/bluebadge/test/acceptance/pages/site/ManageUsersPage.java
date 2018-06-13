@@ -25,7 +25,7 @@ public class ManageUsersPage extends AbstractSitePage {
   }
 
   public void openByPageName(final String pageName) {
-    String lookupUrl = urlLookup.lookupUrl(pageName);
+    String lookupUrl = urlLookup.lookupUrl("main", pageName);
     getWebDriver().get(lookupUrl);
   }
 
