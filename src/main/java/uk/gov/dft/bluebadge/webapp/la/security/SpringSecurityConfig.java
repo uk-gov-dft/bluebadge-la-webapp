@@ -5,5 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableOAuth2Sso
-public class SpringSecurityConfig {
-}
+public class SpringSecurityConfig {}

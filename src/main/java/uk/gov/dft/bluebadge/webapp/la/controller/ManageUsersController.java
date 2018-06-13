@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.ManageUsersFormRequest;
-
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
