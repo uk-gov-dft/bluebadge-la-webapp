@@ -69,29 +69,12 @@ public class CreateANewUserControllerTest {
   }
 
   @Test
-  public void showCreateANewUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn()
-      throws Exception {
-    mockMvc
-        .perform(get("/manage-users/create-a-new-user"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
-  }
-
-  @Test
   public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
       throws Exception {
     mockMvc
         .perform(get("/manage-users/create-a-new-user").sessionAttr("user", userDataSignedIn))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-a-new-user"));
-  }
-
-  @Test
-  public void createANewUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn() throws Exception {
-    mockMvc
-        .perform(post("/manage-users/create-a-new-user"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
   }
 
   @Test
@@ -112,7 +95,6 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isFound())
@@ -156,7 +138,6 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isOk())

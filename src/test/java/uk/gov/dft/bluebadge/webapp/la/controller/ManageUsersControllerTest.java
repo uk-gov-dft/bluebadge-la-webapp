@@ -87,19 +87,11 @@ public class ManageUsersControllerTest {
   }
 
   @Test
-  public void showManageUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn() throws Exception {
-    mockMvc
-        .perform(get("/manage-users"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
-  }
-
-  @Test
   public void
       showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenSearchParamIsEmptyAndThereAreUsers()
           throws Exception {
     mockMvc
-        .perform(get("/manage-users").sessionAttr("user", userDataSignedIn))
+        .perform(get("/manage-users"))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("search", ""))
@@ -117,7 +109,7 @@ public class ManageUsersControllerTest {
         .thenReturn(new UsersResponse().data(new UsersData().users(users)));
     mockMvc
         .perform(
-            get("/manage-users").sessionAttr("user", userDataSignedIn).param("search", NAME_JANE))
+            get("/manage-users").param("search", NAME_JANE))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("search", NAME_JANE))
@@ -137,7 +129,6 @@ public class ManageUsersControllerTest {
     mockMvc
         .perform(
             get("/manage-users")
-                .sessionAttr("user", userDataSignedIn)
                 .param("search", NAME_NOT_FOUND))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))

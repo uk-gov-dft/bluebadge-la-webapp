@@ -27,7 +27,6 @@ public class UserDetailsController {
 
   public static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
 
-  public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
   public static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
 
