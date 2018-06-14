@@ -24,7 +24,7 @@ node {
     stage ('Gradle build') {
         sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
     }
-    
+
     stage('SonarQube analysis') {
         withSonarQubeEnv('sonarqube') {
               // requires SonarQube Scanner for Gradle 2.1+
@@ -32,4 +32,14 @@ node {
               sh './gradlew --info sonarqube'
         }
     }
+    
+    stage ('Build Ami') {
+      git(
+           url: "https://github.com/uk-gov-dft/WebOps.git",
+           credentialsId: 'username***REMOVED***-github-automation-uk-gov-dft',
+           branch: "master"
+        )
+    }
+
+
 }
