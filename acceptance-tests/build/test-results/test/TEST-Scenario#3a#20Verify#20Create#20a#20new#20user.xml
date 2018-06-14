@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Verify Create a new user" tests="1" skipped="1" failures="0" errors="0" timestamp="2018-06-13T13:38:34" hostname="SampathMahavithanas-MacBook-Pro.local" time="0.492">
+  <properties/>
+  <testcase name="classMethod" classname="Scenario: Verify Create a new user" time="0.492">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Jun 13, 2018 2:38:34 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
+INFO: Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+Jun 13, 2018 2:38:34 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
+INFO: Using TestExecutionListeners: [org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3a48aa6d, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@1e6e135f, org.springframework.test.context.support.DirtiesContextTestExecutionListener@30cafcf5]
+Jun 13, 2018 2:38:34 PM org.springframework.context.support.GenericApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.context.support.GenericApplicationContext@57e21b70: startup date [Wed Jun 13 14:38:34 BST 2018]; root of context hierarchy
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Starting ChromeDriver 2.35.528157 (4429ca2590d6988c0745c24c8858745aaaec01ef) on port 46649
+Only local connections are allowed.
+Jun 13, 2018 2:38:35 PM org.springframework.context.support.GenericApplicationContext refresh
+WARNING: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'pageHelper' defined in uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestConfiguration: Unsatisfied dependency expressed through method 'pageHelper' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webDriverProvider' defined in uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestConfiguration: Unsatisfied dependency expressed through method 'webDriverProvider' parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'acceptanceTestProperties' defined in uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestConfiguration: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties]: Factory method 'acceptanceTestProperties' threw exception; nested exception is java.lang.IllegalStateException: Required key 'buildDirectory' not found
+]]></system-err>
+</testsuite>
