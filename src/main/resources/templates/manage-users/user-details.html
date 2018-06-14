@@ -32,6 +32,25 @@
 
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Reset password</span>
+                </summary>
+
+                <div class="govuk-details__text">
+                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="post">
+                        <p>Are you sure want to reset  ***REMOVED***>John Doe</strong>?</p>
+                        <p>We'll send them an email to reset their password.</p>
+                        <input data-uipath="localAuthorityId.resetPassword" type="hidden" th:field="*{localAuthorityId}">
+                        <input data-uipath="resetPasswordButton" value="Yes, reset  ***REMOVED***>
+                    </form>
+
+                    <p class="govuk-body">
+                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotResetPasswordButton">No, don't reset password</a>
+                    </p>
+                </div>
+            </details>
+
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Remove user</span>
                 </summary>
 

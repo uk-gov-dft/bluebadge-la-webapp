@@ -7,8 +7,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.SetPasswordFormRequest;
 
 public interface SetPasswordController {
 
-  String showSetPassword(SetPasswordFormRequest formRequest, HttpSession session);
+  String showSetPassword(SetPasswordFormRequest formRequest, Model model, String uuid, HttpSession session);
 
   String setPassword(
-      SetPasswordFormRequest formRequest, BindingResult result, Model model, HttpSession session);
+      SetPasswordFormRequest formRequest,
+      String uuid,
+      BindingResult result,
+      Model model,
+      HttpSession session);
 }
