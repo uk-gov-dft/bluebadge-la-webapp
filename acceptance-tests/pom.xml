@@ -29,7 +29,6 @@
             <id>local</id>
             <properties>
                 <base.url>http://localhost:8080</base.url>
-                <actuator.url>http://localhost:8081/manage/actuator</actuator.url>
             </properties>
         </profile>
     </profiles>
@@ -152,7 +151,6 @@
                     <systemPropertyVariables>
                         <buildDirectory>${project.build.directory}</buildDirectory>
                         <webdriver.base.url>${base.url}</webdriver.base.url>
-                        <webdriver.actuator.url>${actuator.url}</webdriver.actuator.url>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>

@@ -1,2 +1,2 @@
-#!/usr/bin/env bash
-mvn verify -f acceptance-tests/pom.xml -Pacceptance-test,local
+#!/bin/bash
+mvn verify -f pom.xml -Pacceptance-test,local

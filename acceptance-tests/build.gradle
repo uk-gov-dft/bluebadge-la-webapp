@@ -1,0 +1,81 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'groovy'
+
+classpath 'com.android.tools.build:gradle:2.3.3'
+
+group = 'uk.gov.service.bluebadge'
+version = '${revision}'
+
+description = """DFT Blue Badge"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+configurations {
+    functTestCompile.extendsFrom testCompile
+    functTestRuntime.extendsFrom testRuntime
+
+}
+
+dependencies {
+    compile group: 'commons-io', name: 'commons-io', version:'2.6'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
+    testCompile group: 'info.cukes', name: 'cucumber-java', version:'1.2.5'
+    testCompile group: 'info.cukes', name: 'cucumber-junit', version:'1.2.5'
+    testCompile group: 'info.cukes', name: 'cucumber-spring', version:'1.2.5'
+    testCompile group: 'org.springframework', name: 'spring-context', version:'5.0.4.RELEASE'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'5.0.4.RELEASE'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'3.10.0'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version:'3.10.0'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
+    testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
+}
+
+sourceSets{
+    functionalTest {
+        java.srcDir file('src/test/java')
+        resources.srcDir('src/test/resources')
+
+        compileClasspath = sourceSets.main.output + configurations.functTestCompile
+        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
+    }
+}
+
+task functionalTest(type: Test){
+    testClassesDir = sourceSets.functionalTest.output.classesDir
+    classpath = sourceSets.functionalTest.runtimeClasspath
+    reports.html.destination = file("$reports.html.destination/functional")
+    reports.junitXml.destination = file("$reports.junitXml.destination/functional")
+
+    systemProperty 'base.url', 'http://localhost:8080'
+
+}
+
+ext{
+    functionalJettyStopPort = 8081
+    functionalJettyStopKey = 'stopKey'
+
+}
+
+task functionalJettyRun(type: org.gradle.api.plugins.getty.jettyRun){
+    stopPort = functionalJettyStopPort
+    stopKey = functionalJettyStopKey
+    contextPath = 'todo'
+    deamon = true
+
+}
+
+task functionalJettyStop(type: org.gradle.api.plugins.getty.jettyStop){
+    stopPort = functionalJettyStopPort
+    stopKey = functionalJettyStopKey
+
+}
