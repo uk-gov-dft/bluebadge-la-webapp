@@ -12,13 +12,15 @@ public class TestContentUrls {
     setup();
   }
 
-  public String lookupUrl(String pageName) {
+  public String lookupUrl(String site, String pageName) {
     String url = urlLookup.get(pageName.toLowerCase());
     if (url == null) {
       throw new RuntimeException("Unknown pageName: " + pageName);
+    } else if (site.equals("main")) {
+      return AbstractSitePage.URL + url;
+    } else {
+      return AbstractSitePage.actuator_URL + url;
     }
-
-    return AbstractSitePage.URL + url;
   }
 
   private void setup() {
@@ -27,6 +29,9 @@ public class TestContentUrls {
     add("news", "/news");
     add("sign-in", "/sign-in");
     add("manage-users", "/manage-users");
+    add("info", "/info");
+    add("health", "/health");
+    add("loggers", "/loggers");
   }
 
   private void add(String pageName, String url) {

@@ -1,5 +1,6 @@
 package uk.gov.service.bluebadge.test.acceptance.pages.site;
 
+import io.restassured.RestAssured;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -9,13 +10,13 @@ import uk.gov.service.bluebadge.test.acceptance.pages.PageHelper;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
 
-public class SitePage extends AbstractSitePage {
+public class ActuatorPage extends AbstractSitePage {
 
   private PageHelper helper;
   private TestContentUrls urlLookup;
   private List<PageElements> pagesElements;
 
-  public SitePage(WebDriverProvider webDriverProvider, final PageHelper helper) {
+  public ActuatorPage(WebDriverProvider webDriverProvider, final PageHelper helper) {
     super(webDriverProvider);
     this.helper = helper;
     this.urlLookup = new TestContentUrls();
@@ -25,7 +26,8 @@ public class SitePage extends AbstractSitePage {
   }
 
   public void openByPageName(final String pageName) {
-    String lookupUrl = urlLookup.lookupUrl("main", pageName);
+    String lookupUrl = urlLookup.lookupUrl("actuator", pageName);
+    System.setProperty("currentURL", lookupUrl);
     getWebDriver().get(lookupUrl);
   }
 
@@ -91,5 +93,13 @@ public class SitePage extends AbstractSitePage {
 
   public String getH1Tag() {
     return getWebDriver().findElement(By.tagName("h1")).getText();
+  }
+
+  public int getStatusCode() {
+    return httpResponseCodeViaGet(System.getProperty("currentURL"));
+  }
+
+  public int httpResponseCodeViaGet(String url) {
+    return RestAssured.get(url).statusCode();
   }
 }
