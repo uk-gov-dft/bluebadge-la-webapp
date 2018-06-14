@@ -22,11 +22,14 @@ public abstract class IntegrationTestsBase {
   @LocalServerPort protected int serverPort;
 
   protected static final int MANAGEMENT_PORT = 19999;
+  protected String baseUrl;
 
   @Before
   public void setup() {
     RestAssured.baseURI = "http://localhost";
     RestAssured.basePath = "/";
     RestAssured.port = serverPort;
+
+    baseUrl = RestAssured.baseURI + ":" + RestAssured.port + RestAssured.basePath;
   }
 }
