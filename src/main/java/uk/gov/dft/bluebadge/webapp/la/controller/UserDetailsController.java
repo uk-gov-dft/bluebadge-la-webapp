@@ -16,7 +16,6 @@ import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
