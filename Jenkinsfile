@@ -18,7 +18,7 @@ node {
 
     stage('Read Version') {
       def version = readFile('VERSION').trim()
-      println ${version}
+      println "${version}""
     }
 
     stage ('Gradle build') {
