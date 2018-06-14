@@ -28,7 +28,6 @@ public class CreateANewUserController {
 
   public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
-  public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
   public static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
 
