@@ -18,8 +18,10 @@ public class SecuredPageTests extends IntegrationTestsBase {
   @Test
   public void givenNoAuth_whenHomepageRequested_thenRedirected() {
     given()
-        .redirects().follow(false)
-        .log().all()
+        .redirects()
+        .follow(false)
+        .log()
+        .all()
         .get("/")
         .then()
         .statusCode(302)
@@ -28,23 +30,28 @@ public class SecuredPageTests extends IntegrationTestsBase {
 
   @Test
   public void givenNoAuth_whenLoginRequested_thenRedirectedToAuthServer() {
-    String redirectUrl = given()
-        .redirects().follow(false)
-        .log().all()
-        .get("/")
-        .then()
-        .statusCode(302)
-        .header(HttpHeaders.LOCATION, baseUrl + "login")
-        .extract().header(HttpHeaders.LOCATION);
+    String redirectUrl =
+        given()
+            .redirects()
+            .follow(false)
+            .log()
+            .all()
+            .get("/")
+            .then()
+            .statusCode(302)
+            .header(HttpHeaders.LOCATION, baseUrl + "login")
+            .extract()
+            .header(HttpHeaders.LOCATION);
 
     given()
-        .redirects().follow(false)
-        .log().all()
+        .redirects()
+        .follow(false)
+        .log()
+        .all()
         .get(redirectUrl)
         .then()
         .statusCode(302)
         .header(HttpHeaders.LOCATION, startsWith(authServerUrl + "/oauth/authorize"))
-        .header(HttpHeaders.LOCATION, containsString("response_type=code"))
-    ;
+        .header(HttpHeaders.LOCATION, containsString("response_type=code"));
   }
 }

@@ -34,7 +34,7 @@ public class CreateANewUserControllerTest {
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
-  @Mock private SecurityUtils securityUtils;
+  @Mock private SecurityUtils securityUtilsMock;
 
   private CreateANewUserController controller;
 
@@ -48,9 +48,10 @@ public class CreateANewUserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
+
     controller =
         new CreateANewUserController(
-            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtils);
+            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -62,7 +63,9 @@ public class CreateANewUserControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
+
+    when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
     user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);

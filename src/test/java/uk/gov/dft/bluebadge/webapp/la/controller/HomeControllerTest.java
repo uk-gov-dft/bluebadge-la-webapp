@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.model.usermanagement.UserData;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 
 public class HomeControllerTest {
@@ -38,10 +37,7 @@ public class HomeControllerTest {
   @Test
   public void showHome_shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn()
       throws Exception {
-    mockMvc
-        .perform(get("/"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("home"));
+    mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("home"));
     // TODO: We should expect the name of the user printed out
   }
 }

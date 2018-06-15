@@ -26,7 +26,7 @@ public class ManageUsersControllerTest {
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
-  @Mock private SecurityUtils securityUtils;
+  @Mock private SecurityUtils securityUtilsMock;
 
   private ManageUsersController controller;
 
@@ -34,6 +34,7 @@ public class ManageUsersControllerTest {
   final int LOCAL_AUTHORITY = 1;
   final String NAME_JANE = "Jane";
   final String NAME_NOT_FOUND = "NotFound";
+  final Integer ROLE_ID = 1;
 
   private UserData userDataSignedIn;
   private User userSignedIn;
@@ -47,7 +48,7 @@ public class ManageUsersControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new ManageUsersController(userServiceMock, securityUtils);
+    controller = new ManageUsersController(userServiceMock, securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -59,7 +60,7 @@ public class ManageUsersControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
 
     userDataSignedIn =
         new UserData()
@@ -67,6 +68,9 @@ public class ManageUsersControllerTest {
             .id(1)
             .emailAddress("joe.blogs@email.com")
             .localAuthorityId(LOCAL_AUTHORITY);
+
+    when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
+
 
     userJane =
         new User()
@@ -108,8 +112,7 @@ public class ManageUsersControllerTest {
     when(userServiceMock.find(userSignedIn.getLocalAuthorityId(), NAME_JANE))
         .thenReturn(new UsersResponse().data(new UsersData().users(users)));
     mockMvc
-        .perform(
-            get("/manage-users").param("search", NAME_JANE))
+        .perform(get("/manage-users").param("search", NAME_JANE))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("search", NAME_JANE))
@@ -127,9 +130,7 @@ public class ManageUsersControllerTest {
     when(userServiceMock.find(userSignedIn.getLocalAuthorityId(), NAME_NOT_FOUND))
         .thenReturn(new UsersResponse().data(new UsersData().users(users)));
     mockMvc
-        .perform(
-            get("/manage-users")
-                .param("search", NAME_NOT_FOUND))
+        .perform(get("/manage-users").param("search", NAME_NOT_FOUND))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users"))
         .andExpect(model().attribute("search", NAME_NOT_FOUND))
