@@ -72,7 +72,7 @@ public class CreateANewUserControllerTest {
   public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
       throws Exception {
     mockMvc
-        .perform(get("/manage-users/create-a-new-user").sessionAttr("user", userDataSignedIn))
+        .perform(get("/manage-users/create-a-new-user"))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-a-new-user"));
   }
