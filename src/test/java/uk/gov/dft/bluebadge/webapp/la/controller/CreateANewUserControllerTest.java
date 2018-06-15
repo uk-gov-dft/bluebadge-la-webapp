@@ -48,7 +48,6 @@ public class CreateANewUserControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-
     controller =
         new CreateANewUserController(
             userServiceMock, new CreateANewUserFormRequestToUser(), securityUtilsMock);
@@ -63,7 +62,8 @@ public class CreateANewUserControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .roleId(ROLE_ID);
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 

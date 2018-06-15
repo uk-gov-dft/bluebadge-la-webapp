@@ -60,7 +60,8 @@ public class ManageUsersControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .roleId(ROLE_ID);
 
     userDataSignedIn =
         new UserData()
@@ -70,7 +71,6 @@ public class ManageUsersControllerTest {
             .localAuthorityId(LOCAL_AUTHORITY);
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
-
 
     userJane =
         new User()
