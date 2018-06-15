@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
 import uk.gov.dft.bluebadge.model.usermanagement.User;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
@@ -13,24 +13,24 @@ import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOr
 @Service
 public class UserServiceImpl implements UserService {
 
-  private UserManagementService userManagementService;
+  private UserManagementClient userManagementClient;
 
   @Autowired
-  public UserServiceImpl(UserManagementService userManagementService) {
-    this.userManagementService = userManagementService;
+  public UserServiceImpl(UserManagementClient userManagementClient) {
+    this.userManagementClient = userManagementClient;
   }
 
   @Override
   public UserResponse findOneById(int id) {
     // TODO: There should be a getById with only one id prettty soon.
-    return userManagementService.getById(2, id);
+    return userManagementClient.getById(2, id);
   }
 
   // TODO: Changes to return UserResponse, if it is empty or not is inside UserResponse.
   @Override
   public Optional<UserResponse> findOneByEmail(String email) {
-    if (userManagementService.checkUserExistsForEmail(email)) {
-      UserResponse userResponse = userManagementService.getUserForEmail(email);
+    if (userManagementClient.checkUserExistsForEmail(email)) {
+      UserResponse userResponse = userManagementClient.getUserForEmail(email);
       return Optional.of(userResponse);
     } else {
       return Optional.empty();
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UsersResponse find(int localAuthority, String nameFilter) {
     UsersResponse usersResponse =
-        this.userManagementService.getUsersForAuthority(localAuthority, nameFilter);
+        this.userManagementClient.getUsersForAuthority(localAuthority, nameFilter);
     if (usersResponse.getData().getTotalItems() > 0) {
       Collections.sort(
           usersResponse.getData().getUsers(),
@@ -56,21 +56,26 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse create(User user) {
-    return userManagementService.createUser(user.getLocalAuthorityId(), user);
+    return userManagementClient.createUser(user.getLocalAuthorityId(), user);
   }
 
   @Override
   public UserResponse update(User user) {
-    return userManagementService.updateUser(user);
+    return userManagementClient.updateUser(user);
+  }
+
+  @Override
+  public UserResponse updatePassword(String uuid, String password, String passwordConfirm) {
+    return userManagementClient.updatePassword(uuid, password, passwordConfirm);
   }
 
   @Override
   public void delete(Integer localAuthorityId, Integer id) {
-    userManagementService.deleteUser(localAuthorityId, id);
+    userManagementClient.deleteUser(localAuthorityId, id);
   }
 
   @Override
   public boolean checkUserExistsForEmail(String email) {
-    return userManagementService.checkUserExistsForEmail(email);
+    return userManagementClient.checkUserExistsForEmail(email);
   }
 }
