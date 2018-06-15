@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -15,8 +16,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-import java.util.Optional;
-
 @Controller
 public class SetPasswordControllerImpl implements SetPasswordController {
 
@@ -31,7 +30,7 @@ public class SetPasswordControllerImpl implements SetPasswordController {
   @Autowired
   public SetPasswordControllerImpl(UserService userService, SignInService signInService) {
     this.userService = userService;
-      this.signInService = signInService;
+    this.signInService = signInService;
   }
 
   @GetMapping(URL_SET_PASSWORD)
@@ -41,7 +40,7 @@ public class SetPasswordControllerImpl implements SetPasswordController {
       @PathVariable("uuid") String uuid,
       HttpSession session) {
 
-      model.addAttribute("uuid", uuid);
+    model.addAttribute("uuid", uuid);
 
     return TEMPLATE_SET_PASSWORD;
   }
@@ -54,33 +53,32 @@ public class SetPasswordControllerImpl implements SetPasswordController {
       Model model,
       HttpSession session) {
 
-        try {
+    try {
 
-            String password = formRequest.getPassword();
-            String passwordConfirm = formRequest.getPasswordConfirm();
+      String password = formRequest.getPassword();
+      String passwordConfirm = formRequest.getPasswordConfirm();
 
-            UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
+      UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
-            if(userResponse.getData() != null) {
-                String emailAddress = userResponse.getData().getEmailAddress();
-                Optional<UserResponse> user = signInService.signIn(emailAddress);
-                if (user.isPresent()) {
-                    session.setAttribute("user", user.get().getData());
-                    return "redirect:/manage-users";
-                }
-            }
-
-            return ErrorHandlingUtils.handleError(
-                    userResponse.getError(),
-                    REDIRECT_URL_SIGN_IN,
-                    TEMPLATE_SET_PASSWORD,
-                    bindingResult,
-                    model);
-
-        } catch (Exception ex) {
-          logger.error("There was an unexpected exception", ex);
-          return TEMPLATE_SET_PASSWORD;
+      if (userResponse.getData() != null) {
+        String emailAddress = userResponse.getData().getEmailAddress();
+        Optional<UserResponse> user = signInService.signIn(emailAddress);
+        if (user.isPresent()) {
+          session.setAttribute("user", user.get().getData());
+          return "redirect:/manage-users";
         }
+      }
 
+      return ErrorHandlingUtils.handleError(
+          userResponse.getError(),
+          REDIRECT_URL_SIGN_IN,
+          TEMPLATE_SET_PASSWORD,
+          bindingResult,
+          model);
+
+    } catch (Exception ex) {
+      logger.error("There was an unexpected exception", ex);
+      return TEMPLATE_SET_PASSWORD;
+    }
   }
 }
