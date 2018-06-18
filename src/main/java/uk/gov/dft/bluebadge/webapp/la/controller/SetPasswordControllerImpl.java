@@ -75,7 +75,8 @@ public class SetPasswordControllerImpl implements SetPasswordController {
                     REDIRECT_URL_SIGN_IN,
                     TEMPLATE_SET_PASSWORD,
                     bindingResult,
-                    model);
+                    model,
+                    null);
 
         } catch (Exception ex) {
           logger.error("There was an unexpected exception", ex);

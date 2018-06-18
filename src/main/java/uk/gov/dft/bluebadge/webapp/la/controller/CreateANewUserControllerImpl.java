@@ -74,11 +74,12 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
               .roleId(1);
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
-          userResponse.getError(),
-          REDIRECT_URL_MANAGE_USERS,
-          TEMPLATE_CREATE_A_NEW_USER,
-          bindingResult,
-          model);
+              userResponse.getError(),
+              REDIRECT_URL_MANAGE_USERS,
+              TEMPLATE_CREATE_A_NEW_USER,
+              bindingResult,
+              model,
+              formRequest.errorListOrder());
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "error.createUser.generalError.title",

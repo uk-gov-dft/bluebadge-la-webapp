@@ -1,8 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.Objects;
 
-public class CreateANewUserFormRequest {
+public class CreateANewUserFormRequest implements ErrorListOrderInterface {
 
   private String emailAddress;
 
@@ -53,5 +55,13 @@ public class CreateANewUserFormRequest {
         + name
         + '\''
         + '}';
+  }
+
+  @Override
+  public ImmutableList<String> errorListOrder() {
+    return ImmutableList.of(
+            "name",
+            "emailAddress"
+    );
   }
 }

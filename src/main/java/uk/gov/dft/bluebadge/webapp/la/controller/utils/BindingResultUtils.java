@@ -4,6 +4,10 @@ import org.springframework.validation.BindingResult;
 import uk.gov.dft.bluebadge.model.usermanagement.Error;
 import uk.gov.dft.bluebadge.model.usermanagement.ErrorErrors;
 
+import java.util.Collections;
+import java.util.List;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorComparator;
+
 public class BindingResultUtils {
   /**
    * Populates BindingResult with the given error.
@@ -12,7 +16,12 @@ public class BindingResultUtils {
    * @param bindingResult the binding result to which we add the error, should contain the field
    *     name referred by the error.
    */
-  public static void addApiErrors(final Error error, final BindingResult bindingResult) {
+  public static void addApiErrors(final Error error, final BindingResult bindingResult, List<String> errorListOrder) {
+
+      if(errorListOrder != null || errorListOrder.size() > 0) {
+        Collections.sort(error.getErrors(), new ErrorComparator(errorListOrder));
+      }
+
     for (ErrorErrors errorItem : error.getErrors()) {
       addCustomError(errorItem.getField(), errorItem.getMessage(), bindingResult);
     }
@@ -31,4 +40,5 @@ public class BindingResultUtils {
       final String formField, final String message, final BindingResult bindingResult) {
     bindingResult.rejectValue(formField, message);
   }
+
 }

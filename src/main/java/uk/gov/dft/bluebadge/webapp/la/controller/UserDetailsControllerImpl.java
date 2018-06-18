@@ -88,7 +88,8 @@ public class UserDetailsControllerImpl implements UserDetailsController {
           REDIRECT_URL_MANAGE_USERS,
           TEMPLATE_USER_DETAILS,
           bindingResult,
-          model);
+          model,
+      null);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "error.updateUser.generalError.title",
