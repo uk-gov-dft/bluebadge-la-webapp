@@ -4,10 +4,6 @@ import org.springframework.validation.BindingResult;
 import uk.gov.dft.bluebadge.model.usermanagement.Error;
 import uk.gov.dft.bluebadge.model.usermanagement.ErrorErrors;
 
-import java.util.Collections;
-import java.util.List;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorComparator;
-
 public class BindingResultUtils {
   /**
    * Populates BindingResult with the given error.

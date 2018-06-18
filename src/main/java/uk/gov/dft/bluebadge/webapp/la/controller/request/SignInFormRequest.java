@@ -1,12 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
-import com.google.common.collect.ImmutableList;
-
 import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class SignInFormRequest implements ErrorListOrderInterface{
+public class SignInFormRequest {
 
   @NotEmpty(message = "{error.form.field.signin.email.notEmpty}")
   @Email(message = "{error.form.field.signin.email.wrongFormat}")
@@ -50,11 +48,6 @@ public class SignInFormRequest implements ErrorListOrderInterface{
   public int hashCode() {
 
     return Objects.hash(emailAddress, password);
-  }
-
-  @Override
-  public ImmutableList<String> errorListOrder() {
-    return ImmutableList.of("email", "password");
   }
 
   public static final class SignInRequestBuilder {

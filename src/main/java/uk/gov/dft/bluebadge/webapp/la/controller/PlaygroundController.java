@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.Error;
 import uk.gov.dft.bluebadge.model.usermanagement.ErrorErrors;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.ErrorListOrderInterface;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.ErrorListOrder;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class User implements ErrorListOrderInterface {
+class User implements ErrorListOrder {
 
     private String email;
 

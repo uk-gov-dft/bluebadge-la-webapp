@@ -9,15 +9,6 @@ import java.util.List;
 
 public class ErrorHandlingUtils {
 
-
-  /**
-   *
-   * @param commonResponseErrorHandler@return
-   */
-  public static final String handleError(CommonResponseErrorHandler commonResponseErrorHandler) {
-    return ErrorHandlingUtils.internalHandleError(commonResponseErrorHandler.getError(), commonResponseErrorHandler.getSuccessTemplate(), commonResponseErrorHandler.getErrorTemplate(), commonResponseErrorHandler.getBindingResult(), commonResponseErrorHandler.getModel(), null);
-  }
-
   /**
    *
    * @param error
@@ -35,7 +26,15 @@ public class ErrorHandlingUtils {
     Model model,
     List<String> errorListOrder) {
 
-    // validate arguments and include checking the errorListOrder is not null
+    return ErrorHandlingUtils.internalHandleError(error, successTemplate, errorTemplate, bindingResult, model, errorListOrder);
+  }
+
+  public static final String handleError(
+          Error error,
+          String successTemplate,
+          String errorTemplate,
+          BindingResult bindingResult,
+          Model model) {
 
     return ErrorHandlingUtils.internalHandleError(error, successTemplate, errorTemplate, bindingResult, model, null);
   }
@@ -63,8 +62,9 @@ public class ErrorHandlingUtils {
 
     TemplateModelUtils.addCustomError("error.form.summary.title", "empty", model);
 
-    //sort
-    sortAndFilterErrors(error, errorListOrder);
+    if(errorListOrder != null) {
+      sortAndFilterErrors(error, errorListOrder);
+    }
 
     BindingResultUtils.addApiErrors(error, bindingResult);
 

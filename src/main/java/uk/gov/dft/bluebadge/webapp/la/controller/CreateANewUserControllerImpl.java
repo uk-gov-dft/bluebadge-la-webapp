@@ -78,8 +78,7 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
               REDIRECT_URL_MANAGE_USERS,
               TEMPLATE_CREATE_A_NEW_USER,
               bindingResult,
-              model,
-              formRequest.errorListOrder());
+              model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "error.createUser.generalError.title",
