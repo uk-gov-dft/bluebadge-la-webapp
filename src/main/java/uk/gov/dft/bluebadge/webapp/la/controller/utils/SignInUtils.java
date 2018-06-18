@@ -3,7 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
-import uk.gov.dft.bluebadge.model.usermanagement.UserData;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
 
 public class SignInUtils {
   public static final Optional<UserData> getUserSignedIn(HttpSession session) {
