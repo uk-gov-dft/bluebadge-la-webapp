@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -9,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SetPasswordFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.SignInService;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
@@ -21,16 +22,15 @@ public class SetPasswordControllerImpl implements SetPasswordController {
 
   public static final String URL_SET_PASSWORD = "/set***REMOVED***/{uuid}";
   public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
-  public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
+  public static final String URL_HOME_PAGE = "/";
+  public static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
 
   private UserService userService;
-  private SignInService signInService;
   private static final Logger logger = LoggerFactory.getLogger(SetPasswordControllerImpl.class);
 
   @Autowired
-  public SetPasswordControllerImpl(UserService userService, SignInService signInService) {
+  public SetPasswordControllerImpl(UserService userService) {
     this.userService = userService;
-    this.signInService = signInService;
   }
 
   @GetMapping(URL_SET_PASSWORD)
@@ -60,18 +60,20 @@ public class SetPasswordControllerImpl implements SetPasswordController {
 
       UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
-      if (userResponse.getData() != null) {
-        String emailAddress = userResponse.getData().getEmailAddress();
-        Optional<UserResponse> user = signInService.signIn(emailAddress);
-        if (user.isPresent()) {
-          session.setAttribute("user", user.get().getData());
-          return "redirect:/manage-users";
-        }
-      }
-
+      //    return "redirect:/manage-users";
+      /*
+            if (userResponse.getData() != null) {
+              String emailAddress = userResponse.getData().getEmailAddress();
+              Optional<UserResponse> user = signInService.signIn(emailAddress);
+              if (user.isPresent()) {
+                session.setAttribute("user", user.get().getData());
+                return "redirect:/manage-users";
+              }
+            }
+      */
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
-          REDIRECT_URL_SIGN_IN,
+          REDIRECT_URL_HOME_PAGE,
           TEMPLATE_SET_PASSWORD,
           bindingResult,
           model);
