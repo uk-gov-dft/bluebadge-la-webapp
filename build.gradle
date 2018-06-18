@@ -6,9 +6,17 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
+        maven {
+            url 'https://artifactory.does.not.exist/artifactory/gradle-dev-local'
+            credentials {
+                username = "rob"
+                 ***REMOVED***
+            }
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
     }
 }
 
@@ -16,7 +24,6 @@ plugins {
     id 'com.github.sherter.google-java-format' version '0.6'
     id "org.sonarqube" version "2.6.2"
     id "com.moowork.node" version "1.2.0"
-//    id "com.moowork.grunt" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
     id "com.jfrog.artifactory" version "4.5.4"
     id 'net.saliman.cobertura' version '2.5.4'
@@ -30,18 +37,67 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 //apply plugin: 'findbugs'
 
 
 
 group = 'uk.gov.dft.bluebadge.webapp.la'
-version = '0.0.1-SNAPSHOT'
+version = rootProject.file('VERSION').text.trim()
 sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
+    maven {
+        url 'https://artifactory.does.not.exist/artifactory/gradle-dev-local'
+        credentials {
+            username = "rob"
+             ***REMOVED***
+        }
+    }
+}
+
+publishing {
+    publications {
+        project_webapp(MavenPublication) {
+            from components.java
+            artifactId "la-webapp"
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "https://artifactory.does.not.exist/artifactory"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-dev-local'
+            username = "rob"
+             ***REMOVED***
+            maven = true
+        }
+
+        publishArtifacts=true
+        publishPom=true
+        defaults {
+            publications('project_webapp')
+            publishArtifacts=true
+            publishPom=true
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = 'gradle-release'
+            username = "rob"
+             ***REMOVED***
+            maven = true
+
+        }
+    }
+
 }
 
 tasks.withType(FindBugs) {
@@ -62,21 +118,21 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE')
+    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
 
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
 
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.2-SNAPSHOT')
+    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.3-SNAPSHOT')
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile('org.apache.commons:commons-lang3:3.7')
-
-    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
-
     compileOnly ('org.projectlombok:lombok:1.16.22')
 
     //hot swapping, disable cache for template, enable live reload
@@ -85,6 +141,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
     testCompile("org.assertj:assertj-core:3.9.1")
+    testCompile('com.jayway.restassured:rest-assured:2.9.0')
 }
 
 

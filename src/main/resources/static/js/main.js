@@ -1138,7 +1138,7 @@ exports.initAll = initAll;
 })));
 });
 
-all.init();
+all.initAll();
 
 })));
 //# sourceMappingURL=main.js.map

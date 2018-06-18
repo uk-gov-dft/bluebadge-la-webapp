@@ -17,7 +17,6 @@ public class TestContentUrls {
     if (url == null) {
       throw new RuntimeException("Unknown pageName: " + pageName);
     }
-
     return AbstractSitePage.URL + url;
   }
 
