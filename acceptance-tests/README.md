@@ -7,11 +7,42 @@ be saved by keeping an instance of the application running in the background and
 without having to restart the application. To do so, make sure to have the application already started and running in a
 standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute (from project folder ..../la-webapp):
 
+####Prerequisites
+Start user management service
+```
+cd usermanagement-service
+git pull
+git checkout whateverbranch
+cd model
+gradle install
+cd ../client
+gradle install
+cd ..
+gradle build
+gradle bootRun
+```
+
+Start la-webapp
+```
+gradle build
+gradle bootRun
+```
+
+####Run the all acceptance tests
+
 ```
 gradle acceptanceTest -PbuildProfile=local
 ```
 
 -PbuildProfile is the profile for environment that you want to run tests against{Eg, local,dev,qa,prepod,prod}
+
+OR you can run the shell script
+
+Go to acceptance-tests folder & run (run_local.sh) shell script
+
+```
+./run_local.sh
+```
 
 
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:

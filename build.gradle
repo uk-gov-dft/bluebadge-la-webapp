@@ -118,21 +118,21 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE')
+    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
 
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
 
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.1.0')
+    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.3-SNAPSHOT')
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile('org.apache.commons:commons-lang3:3.7')
-
-    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
-
     compileOnly ('org.projectlombok:lombok:1.16.22')
 
     //hot swapping, disable cache for template, enable live reload
@@ -141,6 +141,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
     testCompile("org.assertj:assertj-core:3.9.1")
+    testCompile('com.jayway.restassured:rest-assured:2.9.0')
 }
 
 

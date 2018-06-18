@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementService;
+import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
 
 public class SignInServiceTest {
 
@@ -16,7 +16,7 @@ public class SignInServiceTest {
   private static final String PASSWORD = "password";
 
   @Mock private UserService userService;
-  @Mock private UserManagementService userManagementServiceMock;
+  @Mock private UserManagementClient userManagementServiceMock;
 
   private SignInService signInService;
 
