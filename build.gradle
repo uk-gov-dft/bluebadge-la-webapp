@@ -8,10 +8,6 @@ buildscript {
         jcenter()
         maven {
             url 'https://artifactory.does.not.exist/artifactory/gradle-dev-local'
-            credentials {
-                username = "rob"
-                 ***REMOVED***
-            }
         }
     }
     dependencies {
@@ -53,10 +49,6 @@ repositories {
     jcenter()
     maven {
         url 'https://artifactory.does.not.exist/artifactory/gradle-dev-local'
-        credentials {
-            username = "rob"
-             ***REMOVED***
-        }
     }
 }
 
@@ -74,8 +66,6 @@ artifactory {
     publish {
         repository {
             repoKey = 'gradle-dev-local'
-            username = "rob"
-             ***REMOVED***
             maven = true
         }
 
@@ -91,8 +81,6 @@ artifactory {
     resolve {
         repository {
             repoKey = 'gradle-release'
-            username = "rob"
-             ***REMOVED***
             maven = true
 
         }
@@ -126,7 +114,10 @@ dependencies {
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
 
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.3-SNAPSHOT')
+    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.1.0')
+    compile('uk.gov.dft.bluebadge:badgemanagement-service-client:0.1.0')
+
+
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
