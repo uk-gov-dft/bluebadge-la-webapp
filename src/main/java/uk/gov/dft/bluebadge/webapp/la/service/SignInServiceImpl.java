@@ -2,8 +2,8 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 
 @Service
 public class SignInServiceImpl implements SignInService {

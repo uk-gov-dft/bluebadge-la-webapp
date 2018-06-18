@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
 
 @Service

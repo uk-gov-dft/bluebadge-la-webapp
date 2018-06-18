@@ -9,10 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersData;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersData;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 public class UserServiceTest {
 

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.dft.bluebadge.client.usermanagement.api.UserManagementClient;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient;
 
 public class SignInServiceTest {
 

@@ -26,3 +26,12 @@ server:
   tomcat:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
+
+usermanagementservice:
+  servicehost:
+    host: localhost
+    port: 8180
+    scheme: http
+    connectiontimeout: 6000
+    requesttimeout: 6000
+    contextpath: /uk-gov-dft/user-management-service/1.0.0
