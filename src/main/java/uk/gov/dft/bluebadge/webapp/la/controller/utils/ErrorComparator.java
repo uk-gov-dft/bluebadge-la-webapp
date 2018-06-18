@@ -1,7 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import uk.gov.dft.bluebadge.model.usermanagement.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
 
 import java.util.Comparator;
 import java.util.List;
