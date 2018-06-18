@@ -16,12 +16,7 @@ public class BindingResultUtils {
    * @param bindingResult the binding result to which we add the error, should contain the field
    *     name referred by the error.
    */
-  public static void addApiErrors(final Error error, final BindingResult bindingResult, List<String> errorListOrder) {
-
-      if(errorListOrder != null || errorListOrder.size() > 0) {
-        Collections.sort(error.getErrors(), new ErrorComparator(errorListOrder));
-      }
-
+  public static void addApiErrors(final Error error, final BindingResult bindingResult) {
     for (ErrorErrors errorItem : error.getErrors()) {
       addCustomError(errorItem.getField(), errorItem.getMessage(), bindingResult);
     }
