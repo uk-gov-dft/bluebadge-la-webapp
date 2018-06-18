@@ -1,10 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 // Make sure this is the user we want
+
 import java.util.Optional;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
-import uk.gov.dft.bluebadge.model.usermanagement.UsersResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 public interface UserService {
 

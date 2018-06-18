@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import uk.gov.dft.bluebadge.model.usermanagement.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
 
 import java.util.Collections;
 import java.util.List;

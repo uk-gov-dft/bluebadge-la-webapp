@@ -32,14 +32,14 @@
 
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Reset password</span>
+                    <span class="govuk-details__summary-text" data-uipath="resetPasswordSummaryText">Reset Password</span>
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="post">
-                        <p>Are you sure want to reset  ***REMOVED***>John Doe</strong>?</p>
+                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
+                        <p>Are you sure you want to reset the  ***REMOVED*** /></p>
                         <p>We'll send them an email to reset their password.</p>
-                        <input data-uipath="localAuthorityId.resetPassword" type="hidden" th:field="*{localAuthorityId}">
+                        <input data-uipath="reset.localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
                         <input data-uipath="resetPasswordButton" value="Yes, reset  ***REMOVED***>
                     </form>
 
@@ -56,7 +56,7 @@
 
                 <div class="govuk-details__text">
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
-                        <p>Are you sure you want to remove access for <strong data-uipath="userName" th:text="*{name}">John Doe</strong>?</p>
+                        <p>Are you sure you want to remove access for <strong data-uipath="userName" th:text="*{name} + '?'" /></p>
                         <p>You won't be able to undo this.</p>
                         <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
                         <input data-uipath="removeUserButton" value="Yes, remove user" type="submit" class="govuk-button">
