@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient.Endpoints.*;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,9 +19,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 @Service
-public class UserManagementClient {
+public class UserManagementApiClient {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserManagementClient.class);
+  private static final Logger logger = LoggerFactory.getLogger(UserManagementApiClient.class);
 
   class Endpoints {
     static final String GET_USER_BY_EMAIL_ENDPOINT = "/users?emailAddress={emailAddress}";
@@ -38,7 +38,7 @@ public class UserManagementClient {
   private UserManagementServiceConfiguration serviceConfiguration;
 
   @Autowired
-  public UserManagementClient(
+  public UserManagementApiClient(
       UserManagementServiceConfiguration serviceConfiguration,
       RestTemplateFactory restTemplateFactory) {
     this.serviceConfiguration = serviceConfiguration;

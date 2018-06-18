@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementClient;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
@@ -20,7 +20,7 @@ public class UserServiceTest {
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String PASSWORD = "password";
 
-  @Mock private UserManagementClient userManagementServiceMock;
+  @Mock private UserManagementApiClient userManagementServiceMock;
 
   private UserService userService;
 
