@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model;
+package uk.gov.dft.bluebadge.webapp.la.client.common.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,7 +21,7 @@ public class Error {
   @Valid
   private List<ErrorErrors> errors = null;
 
-  public uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error code(Integer code) {
+  public Error code(Integer code) {
     this.code = code;
     return this;
   }
@@ -40,7 +40,7 @@ public class Error {
     this.code = code;
   }
 
-  public uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error message(String message) {
+  public Error message(String message) {
     this.message = message;
     return this;
   }
@@ -59,14 +59,12 @@ public class Error {
     this.message = message;
   }
 
-  public uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error errors(
-      List<ErrorErrors> errors) {
+  public Error errors(List<ErrorErrors> errors) {
     this.errors = errors;
     return this;
   }
 
-  public uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error addErrorsItem(
-      ErrorErrors errorsItem) {
+  public Error addErrorsItem(ErrorErrors errorsItem) {
     if (this.errors == null) {
       this.errors = new ArrayList<>();
     }
@@ -97,8 +95,7 @@ public class Error {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error error =
-        (uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Error) o;
+    Error error = (Error) o;
     return Objects.equals(this.code, error.code)
         && Objects.equals(this.message, error.message)
         && Objects.equals(this.errors, error.errors);

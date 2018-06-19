@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
 /** Returns a badge number. */
 @ApiModel(description = "Returns a badge number.")
