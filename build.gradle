@@ -123,11 +123,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
     compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
-
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
     compile('org.webjars:jquery:3.2.1')
     //compile('org.webjars:bootstrap:3.3.7')
-
-    compile('uk.gov.dft.bluebadge:usermanagement-service-client:0.0.3-SNAPSHOT')
 
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
@@ -151,7 +149,7 @@ checkstyle {
 }
 
 cobertura {
-    coverageExcludes = ['.*uk.gov.dft.bluebadge.webapp.la.controller.request.*', '.*uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.*', '.*uk.gov.dft.bluebadge.webapp.la.service.model.*','.*uk.gov.dft.bluebadge.webapp.la.exception.*']
+    coverageExcludes = ['.*uk.gov.dft.bluebadge.webapp.la.controller.request.*', '.*uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.*', '.*uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.*','.*uk.gov.dft.bluebadge.webapp.la.exception.*']
 }
 
 bootRun {
