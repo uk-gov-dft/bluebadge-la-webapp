@@ -16,9 +16,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 @Slf4j
 @Controller
 public class OrderABadgeController {
-  public static final String URL_ORDER_A_BADGE = "/order-a-badge";
+  public static final String URL_ORDER_A_BADGE = "/order-a-badge/details";
 
-  public static final String TEMPLATE_ORDER_A_BADGE = "order-a-badge";
+  public static final String TEMPLATE_ORDER_A_BADGE = "order-a-badge/details";
 
   public static final String REDIRECT_URL_HOME = "/";
 
