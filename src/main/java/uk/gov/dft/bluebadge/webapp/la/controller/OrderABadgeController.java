@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
@@ -42,26 +41,18 @@ public class OrderABadgeController {
       @ModelAttribute("formRequest") OrderABadgeFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
-    try {
+    badgeService.validateOrder();
 
-      badgeService.validateOrder();
+    //      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
+    // TODO: Role id should come from the form
+    /*User user =
+    createANewUserRequest2User
+        .convert(formRequest)
+        .localAuthorityId(signedInUser.getLocalAuthorityId())
+        .roleId(1);*/
+    //UserResponse userResponse = userService.create(user);
 
-      //      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
-      // TODO: Role id should come from the form
-      /*User user =
-      createANewUserRequest2User
-          .convert(formRequest)
-          .localAuthorityId(signedInUser.getLocalAuthorityId())
-          .roleId(1);*/
-      //UserResponse userResponse = userService.create(user);
-      return ErrorHandlingUtils.handleError(
-          null, REDIRECT_URL_HOME, URL_ORDER_A_BADGE, bindingResult, model);
-    } catch (Exception ex) {
-      TemplateModelUtils.addCustomError(
-          "error.validateOrder.generalError.title",
-          "error.validateOrder.generalError.description",
-          model);
-      return URL_ORDER_A_BADGE;
-    }
+    return ErrorHandlingUtils.handleError(
+        null, REDIRECT_URL_HOME, URL_ORDER_A_BADGE, bindingResult, model);
   }
 }

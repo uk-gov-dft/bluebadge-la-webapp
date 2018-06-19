@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="Order a Badge"></title>
+    <title>Order a Badge</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--two-thirds">
-            <h1 class="govuk-heading-l" data-uipath="title">User details</h1>
+            <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
         </div>
@@ -25,7 +25,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
-                <input value="Continue" type="submit" data-uipath="updateUserButton" class="govuk-button">
+                <input value="Continue" type="submit" data-uipath="orderABadgeButton" class="govuk-button">
             </form>
 
         </div>
