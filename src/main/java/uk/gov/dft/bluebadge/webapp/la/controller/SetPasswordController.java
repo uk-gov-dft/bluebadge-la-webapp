@@ -15,7 +15,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
-public class SetPasswordControllerImpl {
+public class SetPasswordController {
 
   public static final String URL_SET_PASSWORD = "/set***REMOVED***/{uuid}";
   public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
@@ -23,10 +23,10 @@ public class SetPasswordControllerImpl {
   public static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
 
   private UserService userService;
-  private static final Logger logger = LoggerFactory.getLogger(SetPasswordControllerImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(SetPasswordController.class);
 
   @Autowired
-  public SetPasswordControllerImpl(UserService userService) {
+  public SetPasswordController(UserService userService) {
     this.userService = userService;
   }
 

@@ -1,8 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.integration;
 
 import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.authentication.FormAuthConfig.formAuthConfig;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.util.UUID;
 import org.junit.Test;
