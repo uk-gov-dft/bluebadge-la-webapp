@@ -4,6 +4,7 @@ bbb:
 logging:
   level:
     uk.gov.dft.bluebadge: DEBUG
+    org.springframework.security: DEBUG
 
 management:
   server:

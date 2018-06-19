@@ -6,5 +6,5 @@ import org.springframework.core.annotation.Order;
 
 @Configuration
 @EnableOAuth2Sso
-@Order(51)
+@Order(52)
 public class SpringSecurityConfig {}
