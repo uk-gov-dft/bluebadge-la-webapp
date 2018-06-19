@@ -9,8 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
-import uk.gov.dft.bluebadge.model.usermanagement.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
@@ -22,6 +20,8 @@ public class OrderABadgeController {
   public static final String URL_ORDER_A_BADGE = "/order-a-badge";
 
   public static final String TEMPLATE_ORDER_A_BADGE = "order-a-badge";
+
+  public static final String REDIRECT_URL_HOME = "/";
 
   private BadgeService badgeService;
 
@@ -43,26 +43,25 @@ public class OrderABadgeController {
       BindingResult bindingResult,
       Model model) {
     try {
+
+      badgeService.validateOrder();
+
       //      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
       // TODO: Role id should come from the form
-      User user =
-          createANewUserRequest2User
-              .convert(formRequest)
-              .localAuthorityId(signedInUser.getLocalAuthorityId())
-              .roleId(1);
-      UserResponse userResponse = userService.create(user);
+      /*User user =
+      createANewUserRequest2User
+          .convert(formRequest)
+          .localAuthorityId(signedInUser.getLocalAuthorityId())
+          .roleId(1);*/
+      //UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
-          userResponse.getError(),
-          REDIRECT_URL_MANAGE_USERS,
-          TEMPLATE_CREATE_A_NEW_USER,
-          bindingResult,
-          model);
+          null, REDIRECT_URL_HOME, URL_ORDER_A_BADGE, bindingResult, model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
-          "error.createUser.generalError.title",
-          "error.createUser.generalError.description",
+          "error.validateOrder.generalError.title",
+          "error.validateOrder.generalError.description",
           model);
-      return TEMPLATE_CREATE_A_NEW_USER;
+      return URL_ORDER_A_BADGE;
     }
   }
 }
