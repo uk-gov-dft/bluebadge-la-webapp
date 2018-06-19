@@ -15,7 +15,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
-public class SetPasswordControllerImpl implements SetPasswordController {
+public class SetPasswordControllerImpl {
 
   public static final String URL_SET_PASSWORD = "/set***REMOVED***/{uuid}";
   public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
