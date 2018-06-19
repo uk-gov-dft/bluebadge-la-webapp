@@ -8,6 +8,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ErrorHandlingUtils {
 
@@ -75,26 +76,16 @@ public class ErrorHandlingUtils {
 
   }
 
+
   private static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
+    List<ErrorErrors> filteredAndSorted = error.getErrors().stream()
+            .filter(e -> errorListOrder.contains(e.getField()))
+            .sorted(new ErrorComparator((errorListOrder)))
+            .collect(Collectors.toList());
 
-    List<String> filters = new ArrayList<String>();
-    filters.add("emailAddress");
-
-    int index = 0;
-
-    for(ErrorErrors field : error.getErrors()) {
-
-      if(filters.contains(field.getField())) {
-        error.getErrors().remove(index);
-      }
-
-      index++;
-    }
-
-    if(errorListOrder != null || errorListOrder.size() > 0) {
-      Collections.sort(error.getErrors(), new ErrorComparator(errorListOrder));
-    }
+      error.setErrors(filteredAndSorted);
   }
+
 
   private static boolean hasNoErrors(Error error) {
     return error == null || error.getErrors() == null || error.getErrors().isEmpty();
