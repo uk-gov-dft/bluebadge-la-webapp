@@ -4738,6 +4738,35 @@ html, body {
     * GOV UK Pattern Overrides
 
 --------------------------------------------- */
+.govuk-body {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+@media print {
+  .govuk-body {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .govuk-body {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media print {
+  .govuk-body {
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+
 .govuk-label {
   font-size: 14px;
   line-height: 16px;
