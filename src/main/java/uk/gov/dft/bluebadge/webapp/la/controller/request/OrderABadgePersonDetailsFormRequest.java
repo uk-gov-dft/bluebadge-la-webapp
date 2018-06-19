@@ -3,7 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.request;
 import lombok.Data;
 
 @Data
-public class OrderABadgeFormRequest {
+public class OrderABadgePersonDetailsFormRequest {
   private String name;
   private Integer dobDay;
   private Integer dobMonth;

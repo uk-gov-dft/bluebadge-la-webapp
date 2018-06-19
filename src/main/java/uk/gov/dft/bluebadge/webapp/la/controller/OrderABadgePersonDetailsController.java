@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,36 +8,35 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
 @Controller
-public class OrderABadgeController {
-  public static final String URL_ORDER_A_BADGE = "/order-a-badge/details";
+public class OrderABadgePersonDetailsController {
+  public static final String URL = "/order-a-badge/details";
 
-  public static final String TEMPLATE_ORDER_A_BADGE = "order-a-badge/details";
+  public static final String TEMPLATE = "order-a-badge/details";
 
   public static final String REDIRECT_URL_HOME = "/";
 
   private BadgeService badgeService;
 
   @Autowired
-  public OrderABadgeController(BadgeService badgeService) {
+  public OrderABadgePersonDetailsController(BadgeService badgeService) {
     this.badgeService = badgeService;
   }
 
-  @GetMapping(URL_ORDER_A_BADGE)
-  public String showOrderABadge(
-      @ModelAttribute("formRequest") final OrderABadgeFormRequest formRequest,
-      HttpSession session) {
-    return TEMPLATE_ORDER_A_BADGE;
+  @GetMapping(URL)
+  public String show(
+      @ModelAttribute("formRequest") final OrderABadgePersonDetailsFormRequest formRequest) {
+    return TEMPLATE;
   }
 
-  @PostMapping(URL_ORDER_A_BADGE)
-  public String orderABadge(
-      @ModelAttribute("formRequest") OrderABadgeFormRequest formRequest,
+  @PostMapping(URL)
+  public String submit(
+      @ModelAttribute("formRequest") OrderABadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
     badgeService.validateOrder();
@@ -50,9 +48,8 @@ public class OrderABadgeController {
         .convert(formRequest)
         .localAuthorityId(signedInUser.getLocalAuthorityId())
         .roleId(1);*/
-    //UserResponse userResponse = userService.create(user);
+    // UserResponse userResponse = userService.create(user);
 
-    return ErrorHandlingUtils.handleError(
-        null, REDIRECT_URL_HOME, URL_ORDER_A_BADGE, bindingResult, model);
+    return ErrorHandlingUtils.handleError(null, REDIRECT_URL_HOME, URL, bindingResult, model);
   }
 }
