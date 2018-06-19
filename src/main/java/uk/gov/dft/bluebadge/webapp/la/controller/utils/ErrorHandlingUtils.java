@@ -1,19 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class ErrorHandlingUtils {
 
   /**
-   *
    * @param error
    * @param successTemplate
    * @param errorTemplate
@@ -22,24 +18,26 @@ public class ErrorHandlingUtils {
    * @return
    */
   public static final String handleError(
-    Error error,
-    String successTemplate,
-    String errorTemplate,
-    BindingResult bindingResult,
-    Model model,
-    List<String> errorListOrder) {
+      Error error,
+      String successTemplate,
+      String errorTemplate,
+      BindingResult bindingResult,
+      Model model,
+      List<String> errorListOrder) {
 
-    return ErrorHandlingUtils.internalHandleError(error, successTemplate, errorTemplate, bindingResult, model, errorListOrder);
+    return ErrorHandlingUtils.internalHandleError(
+        error, successTemplate, errorTemplate, bindingResult, model, errorListOrder);
   }
 
   public static final String handleError(
-          Error error,
-          String successTemplate,
-          String errorTemplate,
-          BindingResult bindingResult,
-          Model model) {
+      Error error,
+      String successTemplate,
+      String errorTemplate,
+      BindingResult bindingResult,
+      Model model) {
 
-    return ErrorHandlingUtils.internalHandleError(error, successTemplate, errorTemplate, bindingResult, model, null);
+    return ErrorHandlingUtils.internalHandleError(
+        error, successTemplate, errorTemplate, bindingResult, model, null);
   }
 
   /**
@@ -52,12 +50,12 @@ public class ErrorHandlingUtils {
    * @return
    */
   private static final String internalHandleError(
-    Error error,
-    String successTemplate,
-    String errorTemplate,
-    BindingResult bindingResult,
-    Model model,
-    List<String> errorListOrder) {
+      Error error,
+      String successTemplate,
+      String errorTemplate,
+      BindingResult bindingResult,
+      Model model,
+      List<String> errorListOrder) {
 
     if (hasNoErrors(error)) {
       return successTemplate;
@@ -65,7 +63,7 @@ public class ErrorHandlingUtils {
 
     TemplateModelUtils.addCustomError("error.form.summary.title", "empty", model);
 
-    if(errorListOrder != null) {
+    if (errorListOrder != null) {
       sortAndFilterErrors(error, errorListOrder);
     }
 
@@ -73,22 +71,21 @@ public class ErrorHandlingUtils {
 
     // TemplateModelUtils.addApiError(error, model);
     return errorTemplate;
-
   }
 
-
   private static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
-    List<ErrorErrors> filteredAndSorted = error.getErrors().stream()
+    List<ErrorErrors> filteredAndSorted =
+        error
+            .getErrors()
+            .stream()
             .filter(e -> errorListOrder.contains(e.getField()))
             .sorted(new ErrorComparator((errorListOrder)))
             .collect(Collectors.toList());
 
-      error.setErrors(filteredAndSorted);
+    error.setErrors(filteredAndSorted);
   }
-
 
   private static boolean hasNoErrors(Error error) {
     return error == null || error.getErrors() == null || error.getErrors().isEmpty();
   }
-
 }
