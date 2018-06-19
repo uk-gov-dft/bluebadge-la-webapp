@@ -3,7 +3,9 @@ package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,6 +76,21 @@ public class ErrorHandlingUtils {
   }
 
   private static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
+
+    List<String> filters = new ArrayList<String>();
+    filters.add("emailAddress");
+
+    int index = 0;
+
+    for(ErrorErrors field : error.getErrors()) {
+
+      if(filters.contains(field.getField())) {
+        error.getErrors().remove(index);
+      }
+
+      index++;
+    }
+
     if(errorListOrder != null || errorListOrder.size() > 0) {
       Collections.sort(error.getErrors(), new ErrorComparator(errorListOrder));
     }
