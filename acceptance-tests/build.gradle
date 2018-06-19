@@ -1,28 +1,39 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'war'
-apply plugin: 'jetty'
-apply plugin: 'groovy'
-
-classpath 'com.android.tools.build:gradle:2.3.3'
-
-group = 'uk.gov.service.bluebadge'
-version = '${revision}'
-
-description = """DFT Blue Badge"""
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+apply plugin : 'eclipse'
+apply plugin : 'eclipse-wtp'
+apply plugin : 'java'
+apply plugin : 'jacoco'
+apply plugin : 'war'
+apply plugin : 'org.akhikhl.gretty'
 
 repositories {
-        
-     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:1.1.1'
+
+    }
 }
 
 configurations {
     functTestCompile.extendsFrom testCompile
     functTestRuntime.extendsFrom testRuntime
 
+}
+
+sourceSets{
+    functionalTest {
+        java.srcDir file('src/test/java/')
+        resources.srcDir('src/test/resources')
+
+        compileClasspath = sourceSets.main.output + configurations.functTestCompile
+        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
+    }
 }
 
 dependencies {
@@ -38,44 +49,30 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
     testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
+    functionalTestCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 }
 
-sourceSets{
-    functionalTest {
-        java.srcDir file('src/test/java')
-        resources.srcDir('src/test/resources')
+gretty {
+    contextConfigFile = "${projectDir}/tomcat-context.xml"
+    jvmArgs = ['-Dspring.profiles.active=test']
+    integrationTestTask = 'integrationTest'
+    servletContainer = 'tomcat7'
 
-        compileClasspath = sourceSets.main.output + configurations.functTestCompile
-        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
+
+    afterEvaluate {
+        // Add integration test classes to Jetty's war
+        tasks['prepareInplaceWebApp'].dependsOn 'copyIntegrationTestClasses', 'copyIntegrationTestResources'
     }
 }
 
-task functionalTest(type: Test){
-    testClassesDir = sourceSets.functionalTest.output.classesDir
-    classpath = sourceSets.functionalTest.runtimeClasspath
-    reports.html.destination = file("$reports.html.destination/functional")
-    reports.junitXml.destination = file("$reports.junitXml.destination/functional")
-
-    systemProperty 'base.url', 'http://localhost:8080'
-
+jacocoTestReport {
+    executionData = fileTree(dir:"${buildDir}/jacoco/", include:"*.exec")
 }
 
-ext{
-    functionalJettyStopPort = 8081
-    functionalJettyStopKey = 'stopKey'
-
+test {
+    reports.junitXml.destination = "$buildDir/test-results/unit"
+    reports.html.destination = "$buildDir/reports/tests/unit"
 }
 
-task functionalJettyRun(type: org.gradle.api.plugins.getty.jettyRun){
-    stopPort = functionalJettyStopPort
-    stopKey = functionalJettyStopKey
-    contextPath = 'todo'
-    deamon = true
-
-}
-
-task functionalJettyStop(type: org.gradle.api.plugins.getty.jettyStop){
-    stopPort = functionalJettyStopPort
-    stopKey = functionalJettyStopKey
-
-}
+if (!hasProperty('buildProfile')) ext.buildProfile = 'local'
+apply from: "./gradle/profiles/${buildProfile}.gradle"

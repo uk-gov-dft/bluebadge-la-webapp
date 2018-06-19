@@ -3,7 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import uk.gov.dft.bluebadge.model.usermanagement.UserData;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
 
 @Component
 public class SecurityUtils {

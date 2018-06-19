@@ -53,7 +53,8 @@ public class AcceptanceTestConfiguration {
   @Bean
   public AcceptanceTestProperties acceptanceTestProperties(final Environment environment) {
 
-    final String buildDirectory = environment.getRequiredProperty("buildDirectory");
+    //final String buildDirectory = environment.getRequiredProperty("buildDirectory");
+    final String buildDirectory = "./build";
 
     // Supported custom JVM system properties:
     //
@@ -65,7 +66,7 @@ public class AcceptanceTestConfiguration {
 
     final AcceptanceTestProperties acceptanceTestProperties =
         new AcceptanceTestProperties(
-            Boolean.parseBoolean(environment.getProperty("headless", "true")),
+            Boolean.parseBoolean(System.getProperty("headless", "true")),
             Paths.get(buildDirectory, "download"),
             Paths.get(buildDirectory));
 

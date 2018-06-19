@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import uk.gov.dft.bluebadge.model.usermanagement.User;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 
 /** To be used to sort <code>User</code> by name in ascending order case sensitive. */
 public class UserComparatorByNameAscendingOrderCaseInsensitive
