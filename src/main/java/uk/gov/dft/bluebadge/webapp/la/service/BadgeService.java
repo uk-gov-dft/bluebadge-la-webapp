@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.client.badgemanagement.api.BadgeManagementApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 
 @Service
 public class BadgeService {
