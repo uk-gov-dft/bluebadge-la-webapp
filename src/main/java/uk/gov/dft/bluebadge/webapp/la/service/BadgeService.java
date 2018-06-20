@@ -13,9 +13,4 @@ public class BadgeService {
   public BadgeService(BadgeManagementApiClient badgeServiceApiClient) {
     this.badgeServiceApiClient = badgeServiceApiClient;
   }
-
-  public void validateOrder() {
-    //this.badgeServiceApiClient.validateOrder();
-    return;
-  }
 }

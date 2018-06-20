@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
@@ -19,7 +20,7 @@ public class OrderABadgePersonDetailsController {
 
   public static final String TEMPLATE = "order-a-badge/details";
 
-  public static final String REDIRECT_URL_HOME = "/";
+  public static final String REDIRECT_ORDER_A_BADGE_PROCESSING = "/";
 
   private BadgeService badgeService;
 
@@ -36,20 +37,13 @@ public class OrderABadgePersonDetailsController {
 
   @PostMapping(URL)
   public String submit(
-      @ModelAttribute("formRequest") OrderABadgePersonDetailsFormRequest formRequest,
+      @Valid @ModelAttribute("formRequest") final OrderABadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
-    badgeService.validateOrder();
-
-    //      UserData signedInUser = SignInUtils.getUserSignedIn(session).get();
-    // TODO: Role id should come from the form
-    /*User user =
-    createANewUserRequest2User
-        .convert(formRequest)
-        .localAuthorityId(signedInUser.getLocalAuthorityId())
-        .roleId(1);*/
-    // UserResponse userResponse = userService.create(user);
-
-    return ErrorHandlingUtils.handleError(null, REDIRECT_URL_HOME, URL, bindingResult, model);
+    model.addAttribute("errorSummary", new ErrorViewModel());
+    if (bindingResult.hasErrors()) {
+      return TEMPLATE;
+    }
+    return REDIRECT_ORDER_A_BADGE_PROCESSING;
   }
 }
