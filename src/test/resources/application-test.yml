@@ -1,5 +1,5 @@
 bbb:
-  auth-server-url: http://localhost:8380/bbb_auth
+  auth-server-url: http://localhost:8380/test-auth
 
 usermanagementservice:
   servicehost:
