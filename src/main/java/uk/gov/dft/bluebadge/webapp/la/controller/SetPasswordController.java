@@ -57,17 +57,6 @@ public class SetPasswordController {
 
       UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
-      //    return "redirect:/manage-users";
-      /*
-            if (userResponse.getData() != null) {
-              String emailAddress = userResponse.getData().getEmailAddress();
-              Optional<UserResponse> user = signInService.signIn(emailAddress);
-              if (user.isPresent()) {
-                session.setAttribute("user", user.get().getData());
-                return "redirect:/manage-users";
-              }
-            }
-      */
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),
           REDIRECT_URL_HOME_PAGE,
