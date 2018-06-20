@@ -13,17 +13,17 @@ public class OrderABadgePersonDetailsFormRequest {
   @Size(max = 100)
   private String name;
 
-  @NotNull(message = "Day is mandatory")
-  @Min(1)
-  @Max(31)
+  @NotNull(message = "{NotNull.badge.dob.day}")
+  @Min(value=1, message = "{Pattern.badge.dob.day}")
+  @Max(value=31, message = "{Pattern.badge.dob.day}")
   private Integer dobDay;
 
-  @NotNull(message = "Month is mandatory")
-  @Min(1)
-  @Max(12)
+  @NotNull(message = "{NotNull.badge.dob.month}")
+  @Min(value=1, message = "{Pattern.badge.dob.month}")
+  @Max(value=12, message = "{Pattern.badge.dob.month}")
   private Integer dobMonth;
 
-  @NotNull(message = "Year is mandatory")
+  @NotNull(message = "{NotNull.badge.dob.year}")
   private Integer dobYear;
 
   @Pattern(
@@ -44,9 +44,16 @@ public class OrderABadgePersonDetailsFormRequest {
   )
   private String nino;
 
+  @NotNull(message="Building and/or address is mandatory")
   private String buildingAndStreet;
+
+
   private String optionalAddressField;
+
+  @NotNull(message="Town or city is mandatory")
   private String townOrCity;
+
+
   private String postcode;
   private String contactDetailsName;
   private String contactDetailsContactNumber;
