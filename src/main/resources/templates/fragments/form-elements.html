@@ -54,7 +54,9 @@
     <div class="govuk-form-group" th:fragment="govuk-date(label, hint, day, month, year)">
         <fieldset class="govuk-fieldset" aria-describedby="dob-hint" role="group">
 
-            <legend class="govuk-fieldset__legend" th:if="${label}" th:utext="${label}" />
+            <legend class="govuk-fieldset__legend" th:if="${label}">
+                <h3 th:utext="${label}" class="govuk-heading-s" />
+            </legend>
             <span id="dob-hint" class="govuk-hint" th:if="${hint}" th:utext="${hint}" />
 
             <div class="govuk-date-input" id="dob">

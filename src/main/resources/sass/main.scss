@@ -63,9 +63,9 @@ $mq-breakpoints: (
 @import "patterns/form";
 @import "patterns/list";
 @import "patterns/table";
+@import "patterns/fieldset";
 @import "patterns/form-group";
 @import "patterns/error-message";
-@import "patterns/dft/actions-panel";
 
 
 
@@ -84,5 +84,6 @@ $mq-breakpoints: (
 @import "patterns/dft/topbar";
 @import "patterns/dft/sidebar";
 @import "patterns/dft/group-heading";
+@import "patterns/dft/actions-panel";
 
 @import "patterns/dft/utilities";
