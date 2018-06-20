@@ -18,14 +18,15 @@
          th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
 
         <label
-                class="govuk-label"
-                th:attr="for=${name}"
-                th:utext="${label}"
-                th:data-uipath="${name} + '.label'" />
+            class="govuk-label"
+            th:attr="for=${name}"
+            th:utext="${label}"
+            th:data-uipath="${name} + '.label'" />
 
         <span class="govuk-hint"
               th:if="${hint}"
               th:utext="${hint}"
+              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
         <span class="govuk-error-message"
