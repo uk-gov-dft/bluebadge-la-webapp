@@ -105,7 +105,9 @@ input, select {
   vertical-align: middle;
 }
 
-*, *:before, *:after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -4629,30 +4631,40 @@ input, select {
 }
 
 .dft-grid-col {
-  float: left;
+  width: 100%;
   padding: 0 15px;
 }
 
-.dft-grid-col--full {
-  float: none;
-  width: 100%;
+.dft-grid-col--half, .dft-grid-col--two-thirds {
+  float: left;
 }
 
 .dft-grid-col--half {
-  width: 100%;
-  width: 62.5%;
+  width: 50%;
 }
 
 .dft-grid-col--two-thirds {
-  width: 100%;
-  width: 93%;
+  width: 75%;
 }
 
 .dft-grid-col--no-gutters {
-  padding: 0 0;
+  padding: 0;
 }
 
-html, body {
+.dft-width-one-quarter {
+  width: 25%;
+}
+
+.dft-width-one-half {
+  width: 50%;
+}
+
+.dft-width-two-third {
+  width: 75%;
+}
+
+html,
+body {
   height: 100%;
   min-height: 100%;
 }
@@ -4681,8 +4693,8 @@ html, body {
 .dft-width-container {
   padding-left: 20px;
   padding-right: 20px;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .dft-main-wrapper {
@@ -4698,6 +4710,34 @@ html, body {
     * GOV UK Pattern Overrides
 
 --------------------------------------------- */
+.govuk-hint {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  font-size: 14pt;
+  line-height: 1.2;
+}
+
+.govuk-body {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  font-size: 14pt;
+  line-height: 1.2;
+}
+
 .govuk-label {
   font-size: 14px;
   line-height: 16px;

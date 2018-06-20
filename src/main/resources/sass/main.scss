@@ -6,8 +6,10 @@
 
 @import "reset";
 
-*, *:before, *:after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
 }
 
 // Enables GDS global styles - Disabled by default.
@@ -21,10 +23,10 @@ $govuk-global-styles: true;
 // need to replace breakpoints at govuk level so
 // that govuk components can consume the new breakpoints
 $mq-breakpoints: (
-    mobile:  320px,
-    tablet:  768px,
-    desktop: 1024px,
-    wide: 1200px,
+	mobile:  320px,
+	tablet:  768px,
+	desktop: 1024px,
+	wide: 1200px,
 );
 
 
@@ -56,6 +58,7 @@ $mq-breakpoints: (
 
 --------------------------------------------- */
 
+@import "patterns/hint";
 @import "patterns/body";
 @import "patterns/form";
 @import "patterns/list";

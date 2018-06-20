@@ -1,47 +1,54 @@
 .dft-grid-row {
-    @include govuk-clearfix;
+	@include govuk-clearfix;
 }
 
-
 .dft-grid-col {
+	width: 100%;
+	
+	@include mq($from: tablet) {
+		padding: 0 $govuk-gutter-half;
+	}
 
-    @include mq($from: tablet) {
-        float: left;
-        padding: 0 $govuk-gutter-half;
-    }
+	&--half,
+	&--two-thirds {
+		@include mq($from: desktop) {
+			float: left;
+		}
+	}
 
-    &--full {
-        float: none;
-        width: 100%;
-    }
+	&--half {
+		@include mq($from: desktop) {
+			width: 50%;
+		}
+	}
 
-    &--half {
-        width: 100%;
+	&--two-thirds {
+		@include mq($from: desktop) {
+			width: 75%;
+		}
+	}
 
-        @include mq($from: tablet) {
-            width: 62.5%;
-        }
+	&--no-gutters {
+		padding: 0;
+	}
+}
 
-        @include mq($from: wide) {
-            width: 50%;
-        }
-    }
+.dft-width {
+	&-one-quarter {
+		@include mq($from: desktop) {
+			width: 25%;
+		}
+	}
 
-    &--two-thirds {
-        width: 100%;
+	&-one-half {
+		@include mq($from: desktop) {
+			width: 50%;
+		}
+	}
 
-        @include mq($from: tablet) {
-            width: 93%;
-        }
-
-        @include mq($from: wide) {
-            width: 75%;
-        }
-
-    }
-
-    &--no-gutters {
-        padding: 0 0;
-    }
-
+	&-two-third {
+		@include mq($from: desktop) {
+			width: 75%;
+		}
+	}
 }

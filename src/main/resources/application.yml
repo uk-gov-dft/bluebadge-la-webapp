@@ -19,7 +19,7 @@ spring:
       additional-exclude: sass/**,js/**
       poll-interval: 10
       quiet-period: 5
-#spring.devtools.restart.include=static/css/**,static/js/**
+      # include: static/css/**,static/js/**
 
 server:
   port: 8080

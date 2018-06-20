@@ -105,7 +105,9 @@ input, select {
   vertical-align: middle;
 }
 
-*, *:before, *:after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -4630,55 +4632,58 @@ p + .govuk-heading-s,
   clear: both;
 }
 
+.dft-grid-col {
+  width: 100%;
+}
+
 @media (min-width: 48em) {
   .dft-grid-col {
-    float: left;
     padding: 0 15px;
   }
 }
 
-.dft-grid-col--full {
-  float: none;
-  width: 100%;
-}
-
-.dft-grid-col--half {
-  width: 100%;
-}
-
-@media (min-width: 48em) {
-  .dft-grid-col--half {
-    width: 62.5%;
+@media (min-width: 64em) {
+  .dft-grid-col--half, .dft-grid-col--two-thirds {
+    float: left;
   }
 }
 
-@media (min-width: 75em) {
+@media (min-width: 64em) {
   .dft-grid-col--half {
     width: 50%;
   }
 }
 
-.dft-grid-col--two-thirds {
-  width: 100%;
-}
-
-@media (min-width: 48em) {
-  .dft-grid-col--two-thirds {
-    width: 93%;
-  }
-}
-
-@media (min-width: 75em) {
+@media (min-width: 64em) {
   .dft-grid-col--two-thirds {
     width: 75%;
   }
 }
 
 .dft-grid-col--no-gutters {
-  padding: 0 0;
+  padding: 0;
 }
 
-html, body {
+@media (min-width: 64em) {
+  .dft-width-one-quarter {
+    width: 25%;
+  }
+}
+
+@media (min-width: 64em) {
+  .dft-width-one-half {
+    width: 50%;
+  }
+}
+
+@media (min-width: 64em) {
+  .dft-width-two-third {
+    width: 75%;
+  }
+}
+
+html,
+body {
   height: 100%;
   min-height: 100%;
 }
@@ -4715,8 +4720,8 @@ html, body {
 
 @media (min-width: 64em) {
   .dft-width-container {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -4738,6 +4743,64 @@ html, body {
     * GOV UK Pattern Overrides
 
 --------------------------------------------- */
+.govuk-hint {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+@media print {
+  .govuk-hint {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .govuk-hint {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media print {
+  .govuk-hint {
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+
+.govuk-body {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+@media print {
+  .govuk-body {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .govuk-body {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media print {
+  .govuk-body {
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+
 .govuk-label {
   font-size: 14px;
   line-height: 16px;
