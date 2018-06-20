@@ -11,7 +11,7 @@ public class SecurityUtils {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     // Would be a coding error if this called for a non-authenticated area.
-    if(null == authentication){
+    if (null == authentication) {
       throw new NullPointerException("No user currently authenticated.");
     }
 
