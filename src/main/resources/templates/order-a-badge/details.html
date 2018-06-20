@@ -24,7 +24,7 @@
 
     <div class="dft-grid-row">
         <div class="dft-grid-col">
-            <form th:action="@{/order-a-badge}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
 
                 <div class="dft-width-one-half">
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
@@ -61,12 +61,12 @@
                         <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
                     </div>
                 </fieldset>
-                
+
 
                 <hr class="govuk-!-margin-bottom-6">
                 <h2 class="govuk-heading-m">Eligibility</h2>
 
-                
+
                 <div class="dft-width-one-half">
                     <div class="govuk-form-group">
                         <label class="govuk-label" for="eligibility">Select from list</label>
@@ -79,7 +79,7 @@
                 </div>
 
                 <input value="Continue" type="submit" data-uipath="orderABadgeButton" class="govuk-button">
-                
+
             </form>
         </div>
     </div>
