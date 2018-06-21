@@ -162,7 +162,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I type username \"([^\"]+)\" and  ***REMOVED***)
   public void andITypeUsernameAndPassword(String username, String password) throws Throwable {
-    signInPage.findPageElementById("emailAddress").sendKeys(username);
+    signInPage.findPageElementById("username").sendKeys(username);
     signInPage.findPageElementById("password").sendKeys(password);
   }
 
@@ -208,7 +208,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeUsernameAs(String username) throws Throwable {
     assertThat(
         "Username expected",
-        signInPage.findElementWithUiPath("username").getText(),
+        signInPage.findElementWithUiPath("topbar.username").getText(),
         getMatcherForText(username));
   }
 
@@ -216,7 +216,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeSignoutLink() throws Throwable {
     assertThat(
         "Sign out link expected",
-        signInPage.findElementWithUiPath("signout").getText(),
+        signInPage.findElementWithUiPath("topbar.signout").getText(),
         getMatcherForText("Sign out"));
   }
 
@@ -248,17 +248,17 @@ public class SiteSteps extends AbstractSpringSteps {
     if (arg0.equals("invalid email")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
           getMatcherForText(arg1));
     } else if (arg0.equals("invalid password")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("password.summary-error").getText(),
+          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
           getMatcherForText(arg1));
     } else if (arg0.equals("invalid name")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("name.summary-error").getText(),
+          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
           getMatcherForText(arg1));
     }
   }

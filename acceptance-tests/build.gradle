@@ -76,3 +76,5 @@ test {
 
 if (!hasProperty('buildProfile')) ext.buildProfile = 'local'
 apply from: "./gradle/profiles/${buildProfile}.gradle"
+
+if (!hasProperty('os')) ext.os = 'mac'

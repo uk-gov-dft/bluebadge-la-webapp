@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
 
 <head>
-	<title>Order a Badge</title>
+	<title>Order a badge - GOV.UK Manage Blue Badges</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 			<div class="dft-grid-col dft-grid-col--two-thirds">
 
 				<div class="dft-group-heading">
-					<h5 class="dft-sub-heading">Step 1</h5>
+					<p class="dft-sub-heading" data-uipath="step">Step 1</p>
 					<h1 class="govuk-heading-l" data-uipath="title">Order a badge</h1>
 				</div>
 
@@ -27,14 +27,14 @@
 
 					<div class="govuk-form-group">
 						<fieldset class="govuk-fieldset">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+							<legend class="govuk-fieldset__legend govuk-fieldset__legend--m" data-uipath="badgeFor.legend">
 								Who is the badge for?
 							</legend>
 							
 							<div class="govuk-radios" data-module="radios">
 								<div class="govuk-radios__item">
 									<input class="govuk-radios__input" id="person" name="application-for" type="radio" value="person" data-aria-controls="person">
-									<label class="govuk-label govuk-radios__label" for="person">
+									<label class="govuk-label govuk-radios__label" for="person" data-uipath="badgeFor.radioLabel.person">
 										A person
 									</label>
 								</div>
@@ -42,7 +42,7 @@
 		
 								<div class="govuk-radios__item">
 									<input class="govuk-radios__input" id="organisation" name="application-for" type="radio" value="organisation" data-aria-controls="organisation">
-									<label class="govuk-label govuk-radios__label" for="organisation">
+									<label class="govuk-label govuk-radios__label" for="organisation" data-uipath="badgeFor.radioLabel.organisation">
 										An Organisation
 									</label>
 								</div>

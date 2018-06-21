@@ -24,7 +24,7 @@
 
 	&--two-thirds {
 		@include mq($from: desktop) {
-			width: 75%;
+			width: 66.67%;
 		}
 	}
 
@@ -46,7 +46,7 @@
 		}
 	}
 
-	&-two-third {
+	&-three-quarters {
 		@include mq($from: desktop) {
 			width: 75%;
 		}

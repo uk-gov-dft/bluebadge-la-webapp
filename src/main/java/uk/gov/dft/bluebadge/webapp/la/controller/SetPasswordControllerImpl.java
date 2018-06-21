@@ -65,7 +65,7 @@ public class SetPasswordControllerImpl implements SetPasswordController {
         Optional<UserResponse> user = signInService.signIn(emailAddress);
         if (user.isPresent()) {
           session.setAttribute("user", user.get().getData());
-          return "redirect:/manage-users";
+          return "redirect:/";
         }
       }
 

@@ -4644,7 +4644,7 @@ input, select {
 }
 
 .dft-grid-col--two-thirds {
-  width: 75%;
+  width: 66.67%;
 }
 
 .dft-grid-col--no-gutters {
@@ -4659,7 +4659,7 @@ input, select {
   width: 50%;
 }
 
-.dft-width-two-third {
+.dft-width-three-quarters {
   width: 75%;
 }
 
@@ -4789,7 +4789,8 @@ body {
   margin-bottom: 5px;
 }
 
-.govuk-fieldset__legend h3 {
+.govuk-fieldset__legend .govuk-heading-s,
+.govuk-fieldset__legend .govuk-heading-m {
   margin: 0;
   padding: 0;
 }
@@ -4806,6 +4807,14 @@ body {
     * DFT Specific Patterns
 
 --------------------------------------------- */
+.dft-hr {
+  border-top-color: #dee0e2;
+}
+
+.dft-hr--small {
+  margin: 30px 0;
+}
+
 .dft-nav__dropdown-label {
   display: none;
   top: 0;
