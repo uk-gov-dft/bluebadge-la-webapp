@@ -4807,7 +4807,11 @@ body {
     * DFT Specific Patterns
 
 --------------------------------------------- */
-.dft-hr__small {
+.dft-hr {
+  border-top-color: #dee0e2;
+}
+
+.dft-hr--small {
   margin: 30px 0;
 }
 
