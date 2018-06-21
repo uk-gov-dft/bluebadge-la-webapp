@@ -16,15 +16,12 @@
 
         <div class="dft-topbar__menu">
             <span sec:authorize="isAuthenticated()">
-                <span class="dft-topbar__username"
+                <span class="dft-topbar__username" th:data-uipath="topbar.username"
                       th:aria-label="'You are logged in as ' + ${#authentication.name}"
                       sec:authentication="name"/>
                 <form name="logoutForm" th:action="@{/logout}" method="post" >
-                  <input class="dft-topbar__signout" type="submit" value="Sign Out"/>
+                  <input th:data-uipath="topbar.signout" class="dft-topbar__signout" type="submit" value="Sign Out"/>
                 </form>
-                <a  th:data-uipath="signout"
-                    class="dft-topbar__signout"
-                    href="/logout">TODO: Sign out</a>
             </span>
         </div>
 
