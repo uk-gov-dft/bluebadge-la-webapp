@@ -6,7 +6,8 @@ Feature: Dft BlueBadge LA Sign In Page
   So that I can view admin dashbaord
 
   Scenario: Verify valid Sign in
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     Then I should see the page titled "Sign in - GOV.UK Manage Blue Badges"
     And I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
@@ -16,19 +17,22 @@ Feature: Dft BlueBadge LA Sign In Page
     And I should see signout link
 
   Scenario: Verify Sign in with an invalid email address
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     And I type username "example" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message for "invalid email" as "Enter a valid email address"
+    Then I should see the validation message for "invalid email" as "Invalid email or password"
 
   Scenario: Verify Sign in with an invalid password
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     And I type username "example@gmail.com" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the validation message for "invalid  ***REMOVED***
 
   Scenario: Verify Sign out
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Sign out" link
