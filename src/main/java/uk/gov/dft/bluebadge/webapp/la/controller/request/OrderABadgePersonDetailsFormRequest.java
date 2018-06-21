@@ -5,7 +5,7 @@ import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 
 @Data
-@ConsistentDate(message = "{error.orderabadgepersondetails.dob.consistentdate}")
+@ConsistentDate(message = "{Pattern.badge.dob}")
 public class OrderABadgePersonDetailsFormRequest {
 
   @NotNull
@@ -13,17 +13,17 @@ public class OrderABadgePersonDetailsFormRequest {
   @Size(max = 100)
   private String name;
 
-  @NotNull(message = "{NotNull.badge.dob.day}")
-  @Min(value=1, message = "{Pattern.badge.dob.day}")
-  @Max(value=31, message = "{Pattern.badge.dob.day}")
+  @NotNull(message = "{NotNull.badge.dobDay}")
+  @Min(value = 1, message = "{Pattern.badge.dobDay}")
+  @Max(value = 31, message = "{Pattern.badge.dobDay}")
   private Integer dobDay;
 
-  @NotNull(message = "{NotNull.badge.dob.month}")
-  @Min(value=1, message = "{Pattern.badge.dob.month}")
-  @Max(value=12, message = "{Pattern.badge.dob.month}")
+  @NotNull(message = "{NotNull.badge.dobMonth}")
+  @Min(value = 1, message = "{Pattern.badge.dobMonth}")
+  @Max(value = 12, message = "{Pattern.badge.dobMonth}")
   private Integer dobMonth;
 
-  @NotNull(message = "{NotNull.badge.dob.year}")
+  @NotNull(message = "{NotNull.badge.dobYear}")
   private Integer dobYear;
 
   @Pattern(
@@ -44,19 +44,27 @@ public class OrderABadgePersonDetailsFormRequest {
   )
   private String nino;
 
-  @NotNull(message="Building and/or address is mandatory")
+  @NotNull(message = "{NotNull.badge.buildingAndStreet}")
   private String buildingAndStreet;
-
 
   private String optionalAddressField;
 
-  @NotNull(message="Town or city is mandatory")
+  @NotNull(message = "{NotNull.badge.townOrCity}")
   private String townOrCity;
 
-
+  @NotNull(message = "{NotNull.badge.postcode}")
+  @Pattern(
+    regexp =
+        "^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$",
+    message = "{Pattern.badge.postcode}"
+  )
   private String postcode;
+
   private String contactDetailsName;
+
+  @NotNull(message = "{NotNull.badge.contactDetailsContactNumber}")
   private String contactDetailsContactNumber;
+
   private String contactDetailsEmailAddress;
   private String eligibility;
 }
