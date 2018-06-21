@@ -30,7 +30,7 @@ public class ErrorHandlingUtilsTest {
     Model model = new ExtendedModelMap();
     String template =
         ErrorHandlingUtils.handleError(
-            null, SUCCESS_TEMPLATE, ERROR_TEMPLATE, bindingResult, model);
+            null, SUCCESS_TEMPLATE, ERROR_TEMPLATE, bindingResult, model, null);
     assertThat(template).isEqualTo(SUCCESS_TEMPLATE);
   }
 
@@ -47,7 +47,7 @@ public class ErrorHandlingUtilsTest {
     Model model = new ExtendedModelMap();
     String template =
         ErrorHandlingUtils.handleError(
-            error, SUCCESS_TEMPLATE, ERROR_TEMPLATE, bindingResult, model);
+            error, SUCCESS_TEMPLATE, ERROR_TEMPLATE, bindingResult, model, null);
     assertThat(template).isEqualTo(ERROR_TEMPLATE);
   }
 }

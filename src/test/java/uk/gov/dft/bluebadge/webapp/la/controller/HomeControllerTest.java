@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
 
 public class HomeControllerTest {
 
@@ -27,7 +26,7 @@ public class HomeControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new HomeControllerImpl();
+    controller = new HomeController();
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -38,16 +37,7 @@ public class HomeControllerTest {
   @Test
   public void showHome_shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn()
       throws Exception {
-    UserData user = new UserData().emailAddress("joeBlogs");
-    mockMvc
-        .perform(get("/").sessionAttr("user", user))
-        .andExpect(status().isOk())
-        .andExpect(view().name("home"));
+    mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("home"));
     // TODO: We should expect the name of the user printed out
-  }
-
-  @Test
-  public void shouldRedirectToSignInPage_WhenUserIsNotSignedIn() throws Exception {
-    mockMvc.perform(get("/")).andExpect(status().isFound()).andExpect(redirectedUrl("/sign-in"));
   }
 }
