@@ -86,5 +86,49 @@
         </fieldset>
     </div>
 
+    <div class="govuk-form-group" th:fragment="govuk-date-2(label, hint, day, month, year, date)">
+        <fieldset class="govuk-fieldset" aria-describedby="dob-hint" role="group">
+
+            <legend class="govuk-fieldset__legend" th:if="${label}">
+                <h3 th:utext="${label}" class="govuk-heading-s" />
+            </legend>
+            <span id="dob-hint" class="govuk-hint" th:if="${hint}" th:utext="${hint}" />
+
+            <div class="govuk-date-input" id="dob">
+
+                        <span class="govuk-error-message"
+                              th:data-uipath="*{__${date}__} + '.error'"
+                              th:id="*{__${date}__} + '-hint'"
+                              th:if="${#fields.hasErrors(date)}"
+                              th:errors="*{__${date}__}" />
+
+                <input th:field="*{__${date}__}" type="hidden">
+
+
+                <div class="govuk-date-input__item govuk-date-input__item--day" th:if="${day}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:attr="for=${day}">Day</label>
+                        <input class="govuk-input govuk-date-input__input" th:field="*{__${day}__}" type="number" pattern="[0-9]*">
+                    </div>
+                </div>
+
+                <div class="govuk-date-input__item govuk-date-input__item--month" th:if="${month}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:attr="for=${month}">Month</label>
+                        <input class="govuk-input govuk-date-input__input"  th:field="*{__${month}__}" type="number" pattern="[0-9]*">
+                    </div>
+                </div>
+
+                <div class="govuk-date-input__item govuk-date-input__item--year" th:if="${year}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:attr="for=${year}">Year</label>
+                        <input class="govuk-input govuk-date-input__input" th:field="*{__${year}__}" type="number" pattern="[0-9]*">
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </div>
+
 </body>
 </html>

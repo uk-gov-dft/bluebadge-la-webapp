@@ -14,7 +14,7 @@ public class ConsistentDateValidator
       OrderABadgePersonDetailsFormRequest value, ConstraintValidatorContext context) {
     try {
       if (value.getDobYear() != null && value.getDobMonth() != null && value.getDobYear() != null) {
-        LocalDate dob = LocalDate.of(value.getDobYear(), value.getDobMonth(), value.getDobYear());
+        LocalDate dob = LocalDate.of(value.getDobYear(), value.getDobMonth(), value.getDobDay());
         if (dob.isBefore(LocalDate.now())) {
           return true;
         }

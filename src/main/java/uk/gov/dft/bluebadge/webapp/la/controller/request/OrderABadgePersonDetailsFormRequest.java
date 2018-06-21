@@ -2,10 +2,10 @@ package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import javax.validation.constraints.*;
 import lombok.Data;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate2;
 
 @Data
-@ConsistentDate(message = "{Pattern.badge.dob}")
+//@ConsistentDate(message = "{Pattern.badge.dob}")
 public class OrderABadgePersonDetailsFormRequest {
 
   @NotNull
@@ -13,18 +13,18 @@ public class OrderABadgePersonDetailsFormRequest {
   @Size(max = 100)
   private String name;
 
-  @NotNull(message = "{NotNull.badge.dobDay}")
-  @Min(value = 1, message = "{Pattern.badge.dobDay}")
-  @Max(value = 31, message = "{Pattern.badge.dobDay}")
   private Integer dobDay;
 
-  @NotNull(message = "{NotNull.badge.dobMonth}")
-  @Min(value = 1, message = "{Pattern.badge.dobMonth}")
-  @Max(value = 12, message = "{Pattern.badge.dobMonth}")
   private Integer dobMonth;
 
-  @NotNull(message = "{NotNull.badge.dobYear}")
   private Integer dobYear;
+
+  private String dob;
+
+  @ConsistentDate2(message = "{Pattern.badge.dob}")
+  public String getDob() {
+    return "" + dobDay + "/" + dobMonth + "/" + dobYear;
+  }
 
   @Pattern(
     regexp =
