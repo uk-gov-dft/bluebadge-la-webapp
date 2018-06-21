@@ -11,8 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ComponentScan(
   basePackages = {
-    "uk.gov.dft.bluebadge.webapp.la.*",
-    "uk.gov.dft.bluebadge.client.usermanagement.*"
+    "uk.gov.dft.bluebadge.webapp.la.*"
   }
 )
 public class LocalAuthorityApplication {
