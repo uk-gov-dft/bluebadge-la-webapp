@@ -4656,7 +4656,7 @@ p + .govuk-heading-s,
 
 @media (min-width: 64em) {
   .dft-grid-col--two-thirds {
-    width: 75%;
+    width: 66.67%;
   }
 }
 
@@ -4677,7 +4677,7 @@ p + .govuk-heading-s,
 }
 
 @media (min-width: 64em) {
-  .dft-width-two-third {
+  .dft-width-three-quarters {
     width: 75%;
   }
 }

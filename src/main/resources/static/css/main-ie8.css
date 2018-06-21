@@ -4644,7 +4644,7 @@ input, select {
 }
 
 .dft-grid-col--two-thirds {
-  width: 75%;
+  width: 66.67%;
 }
 
 .dft-grid-col--no-gutters {
@@ -4659,7 +4659,7 @@ input, select {
   width: 50%;
 }
 
-.dft-width-two-third {
+.dft-width-three-quarters {
   width: 75%;
 }
 
