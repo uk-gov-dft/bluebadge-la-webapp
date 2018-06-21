@@ -18,14 +18,7 @@
 						data-uipath="dft-nav-menu"
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
-
-					<a data-uipath="sidebar-home"
-						th:attr="href=${currentPage == ''} ? '' : '/'"
-						th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">
-						Home
-						<!--<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>-->
-					</a>
-
+									
 					<a data-uipath="sidebar-nav.order-a-badge"
 					   th:attr="href=${currentPage == 'order-a-badge'} ? '' : '/order-a-badge/'"
 					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}">
