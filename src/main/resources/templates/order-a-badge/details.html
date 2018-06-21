@@ -32,7 +32,7 @@
                     <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
                 </div>
 
-                <hr>
+                <hr class="dft-hr__small">
 
                 <fieldset class="govuk-fieldset fieldset-with-inputs">
                     <legend>
@@ -49,17 +49,16 @@
                     </div>
                 </fieldset>
 
-                <hr>
+                <hr class="dft-hr__small">
                 <h2 class="govuk-heading-m">Contact details</h2>
                 
                 <div class="dft-width-one-half">
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Full name (optional)', 'contactDetailsName', 'This should be the name of the main point of contact', 'text') }"/>
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Contact number', 'contactDetailsContactNumber', null, 'text') }"/>
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
-                </fieldset>
+                </div>
 
-
-                <hr class="govuk-!-margin-bottom-6">
+                <hr class="dft-hr__small">
                 <h2 class="govuk-heading-m">Eligibility</h2>
 
 

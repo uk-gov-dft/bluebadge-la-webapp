@@ -4905,7 +4905,8 @@ body {
   margin-bottom: 5px;
 }
 
-.govuk-fieldset__legend h3 {
+.govuk-fieldset__legend .govuk-heading-s,
+.govuk-fieldset__legend .govuk-heading-m {
   margin: 0;
   padding: 0;
 }
@@ -4927,6 +4928,10 @@ body {
     * DFT Specific Patterns
 
 --------------------------------------------- */
+.dft-hr__small {
+  margin: 30px 0;
+}
+
 @media (max-width: 63.99em) {
   .dft-nav {
     position: relative;
