@@ -1,0 +1,9 @@
+bbb:
+  auth-server-url: http://localhost:8380/test-auth
+
+usermanagementservice:
+  servicehost:
+    host: localhost
+    port: 8180
+    contextpath: /test-usermanagementservice
+

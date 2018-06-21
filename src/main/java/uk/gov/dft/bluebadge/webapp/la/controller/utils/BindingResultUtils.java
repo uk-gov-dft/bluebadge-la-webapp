@@ -31,5 +31,4 @@ public class BindingResultUtils {
       final String formField, final String message, final BindingResult bindingResult) {
     bindingResult.rejectValue(formField, message);
   }
-
 }

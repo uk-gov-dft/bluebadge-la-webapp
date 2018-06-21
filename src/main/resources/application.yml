@@ -1,6 +1,10 @@
+bbb:
+  auth-server-url: http://localhost:8380/bbb_auth
+
 logging:
   level:
     uk.gov.dft.bluebadge: DEBUG
+    org.springframework.security: DEBUG
 
 management:
   server:
@@ -35,3 +39,16 @@ usermanagementservice:
     connectiontimeout: 6000
     requesttimeout: 6000
     contextpath: /uk-gov-dft/user-management-service/1.0.0
+
+
+security:
+  oauth2:
+    client:
+      client-id: bbb_test_web_app_id
+       ***REMOVED***
+      access-token-uri: ${bbb.auth-server-url}/oauth/token
+      user-authorization-uri: ${bbb.auth-server-url}/oauth/authorize
+      # All scopes approve, else user redirect to auth server to approve the protected resource
+      auto-approve-scopes: '.*'
+    resource:
+      user-info-uri: ${bbb.auth-server-url}/me
