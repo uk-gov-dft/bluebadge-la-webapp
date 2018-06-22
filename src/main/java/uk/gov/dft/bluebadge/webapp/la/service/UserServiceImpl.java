@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse findOneById(int id) {
-    // TODO: There should be a getById with only one id prettty soon.
     return userManagementApiClient.getById(2, id);
   }
 
@@ -77,5 +76,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public boolean checkUserExistsForEmail(String email) {
     return userManagementApiClient.checkUserExistsForEmail(email);
+  }
+
+  @Override
+  public void requestResetPassword(Integer localAuthorityId, Integer id) {
+    userManagementApiClient.requestResetPassword(localAuthorityId, id);
   }
 }

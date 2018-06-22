@@ -27,4 +27,6 @@ public interface UserService {
       throws Exception;
 
   void delete(Integer localAuthorityId, Integer id);
+
+  void requestResetPassword(Integer localAuthorityId, Integer id);
 }

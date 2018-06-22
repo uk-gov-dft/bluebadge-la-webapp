@@ -56,27 +56,27 @@ public class SignInControllerImpl implements SignInController {
       Model model,
       HttpSession session) {
 
-        model.addAttribute("errorSummary", new ErrorViewModel());
+    model.addAttribute("errorSummary", new ErrorViewModel());
 
-        try {
-          if (bindingResult.hasErrors()) {
-            return TEMPLATE_SIGN_IN;
-          } else {
-            String emailAddress = formRequest.getEmailAddress();
-            Optional<UserResponse> user = signInService.signIn(emailAddress);
+    try {
+      if (bindingResult.hasErrors()) {
+        return TEMPLATE_SIGN_IN;
+      } else {
+        String emailAddress = formRequest.getEmailAddress();
+        Optional<UserResponse> user = signInService.signIn(emailAddress);
 
-            if (user.isPresent()) {
-              session.setAttribute("user", user.get().getData());
-              return REDIRECT_URL_HOME;
-            }
+        if (user.isPresent()) {
+          session.setAttribute("user", user.get().getData());
+          return REDIRECT_URL_HOME;
         }
+      }
 
-        return showAccessDenied(formRequest, model);
+      return showAccessDenied(formRequest, model);
 
-        } catch (Exception ex) {
-          logger.error("There was an unexpected exception", ex);
-          return showServerError(formRequest, model);
-        }
+    } catch (Exception ex) {
+      logger.error("There was an unexpected exception", ex);
+      return showServerError(formRequest, model);
+    }
   }
 
   @Override

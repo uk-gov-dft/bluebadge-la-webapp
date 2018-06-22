@@ -25,18 +25,21 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Slf4j
 public class UserDetailsControllerImpl implements UserDetailsController {
 
-  public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
+  private static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
 
-  public static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
+  private static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
 
-  public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
-  public static final String REDIRECT_URL_MANAGE_USERS =
+  private static final String URL_REQUEST_RESET_PASSWORD =
+      "/manage-users/request-reset***REMOVED***/{id}";
+
+  private static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
+  private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersControllerImpl.URL_MANAGE_USERS;
 
-  public static final String PARAM_ID = "id";
+  private static final String PARAM_ID = "id";
 
-  public static final String MODEL_FORM_REQUEST = "formRequest";
-  public static final String MODEL_ID = "id";
+  private static final String MODEL_FORM_REQUEST = "formRequest";
+  private static final String MODEL_ID = "id";
 
   private UserService userService;
 
@@ -119,6 +122,24 @@ public class UserDetailsControllerImpl implements UserDetailsController {
       TemplateModelUtils.addCustomError(
           "error.deleteUser.generalError.title",
           "error.deleteUser.generalError.description",
+          model);
+      model.addAttribute(MODEL_ID, id);
+      return TEMPLATE_USER_DETAILS;
+    }
+  }
+
+  @PostMapping(URL_REQUEST_RESET_PASSWORD)
+  public String requestPasswordReset(
+      @PathVariable(PARAM_ID) int id,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      Model model) {
+    try {
+      userService.requestResetPassword(formRequest.getLocalAuthorityId(), id);
+      return REDIRECT_URL_MANAGE_USERS;
+    } catch (Exception ex) {
+      TemplateModelUtils.addCustomError(
+          "error.requestResetPassword.generalError.title",
+          "error.requestResetPassword.generalError.description",
           model);
       model.addAttribute(MODEL_ID, id);
       return TEMPLATE_USER_DETAILS;

@@ -3,8 +3,6 @@ package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -21,8 +19,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 @Service
 public class UserManagementApiClient {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserManagementApiClient.class);
-
   class Endpoints {
     static final String GET_USER_BY_EMAIL_ENDPOINT = "/users?emailAddress={emailAddress}";
     static final String GET_BY_ID_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
@@ -32,6 +28,8 @@ public class UserManagementApiClient {
     static final String UPDATE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
     static final String DELETE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
     static final String UPDATE_PASSWORD_ENDPOINT = "/user/password/{uuid}";
+    static final String REQUEST_PASSWORD_RESET_ENDPOINT =
+        "/authorities/{authorityId}/users/{userId}/passwordReset";
   }
 
   private RestTemplateFactory restTemplateFactory;
@@ -161,9 +159,17 @@ public class UserManagementApiClient {
     restTemplateFactory.getInstance().delete(uri, localAuthorityId, userId);
   }
 
-  public void resetPassword(Integer authorityId, Integer userId) {
-    // TODO mocked out API.  To be replaced.
-    logger.warn("Using mock resetPassword api.  To be implemented.");
+  public void requestResetPassword(Integer localAuthorityId, Integer id) {
+    Assert.notNull(id, "must be provided");
+    Assert.notNull(id, "must not be null");
+
+    restTemplateFactory
+        .getInstance()
+        .getForEntity(
+            serviceConfiguration.getUrlPrefix() + REQUEST_PASSWORD_RESET_ENDPOINT,
+            String.class,
+            localAuthorityId,
+            id);
   }
 
   public UserResponse updatePassword(String uuid, String password, String passwordConfirm) {

@@ -1,8 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +21,12 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Controller
 public class CreateANewUserControllerImpl implements CreateANewUserController {
 
-  private static final Logger logger = LoggerFactory.getLogger(CreateANewUserControllerImpl.class);
+  private static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
-  public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
+  private static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
-  public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
-
-  public static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
-  public static final String REDIRECT_URL_MANAGE_USERS =
+  private static final String REDIRECT_URL_SIGN_IN = "redirect:" + SignInControllerImpl.URL_SIGN_IN;
+  private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersControllerImpl.URL_MANAGE_USERS;
 
   private UserService userService;
@@ -74,11 +70,11 @@ public class CreateANewUserControllerImpl implements CreateANewUserController {
               .roleId(1);
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
-              userResponse.getError(),
-              REDIRECT_URL_MANAGE_USERS,
-              TEMPLATE_CREATE_A_NEW_USER,
-              bindingResult,
-              model);
+          userResponse.getError(),
+          REDIRECT_URL_MANAGE_USERS,
+          TEMPLATE_CREATE_A_NEW_USER,
+          bindingResult,
+          model);
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "error.createUser.generalError.title",

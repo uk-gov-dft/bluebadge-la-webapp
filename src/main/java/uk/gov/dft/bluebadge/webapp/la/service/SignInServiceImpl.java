@@ -11,7 +11,8 @@ public class SignInServiceImpl implements SignInService {
   private UserManagementApiClient userManagementApiClient;
   private UserService userService;
 
-  public SignInServiceImpl(UserManagementApiClient userManagementApiClient, UserService userService) {
+  public SignInServiceImpl(
+      UserManagementApiClient userManagementApiClient, UserService userService) {
     this.userManagementApiClient = userManagementApiClient;
     this.userService = userService;
   }
