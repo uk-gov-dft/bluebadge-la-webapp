@@ -1,15 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeIndexFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
 @Controller
@@ -21,11 +18,11 @@ public class OrderABadgeIndexController {
       "redirect:" + OrderABadgePersonDetailsController.URL;
   public static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "TODO";
 
-/*  @Autowired
-  public OrderABadgeIndexController() {
-    this.badgeService = badgeService;
-  }
-*/
+  /*  @Autowired
+    public OrderABadgeIndexController() {
+      this.badgeService = badgeService;
+    }
+  */
   @GetMapping(URL)
   public String show(@ModelAttribute("formRequest") final OrderABadgeIndexFormRequest formRequest) {
     return TEMPLATE;

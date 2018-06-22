@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.List;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetail
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.Eligibility;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
