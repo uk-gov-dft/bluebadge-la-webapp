@@ -22,7 +22,8 @@ public class OrderABadgePersonDetailsController {
 
   private static final String TEMPLATE = "order-a-badge/details";
 
-  private static final String REDIRECT_ORDER_A_BADGE_PROCESSING = "/";
+  private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
+      "redirect:" + OrderABadgeProcessingController.URL;
 
   private ReferenceDataService referenceDataService;
 

@@ -46,13 +46,12 @@ public class CreateANewUserController {
   }
 
   @GetMapping(URL_CREATE_A_NEW_USER)
-  public String showCreateANewUser(
-      @ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest) {
+  public String show(@ModelAttribute("formRequest") final CreateANewUserFormRequest formRequest) {
     return TEMPLATE_CREATE_A_NEW_USER;
   }
 
   @PostMapping(URL_CREATE_A_NEW_USER)
-  public String createANewUser(
+  public String submit(
       @ModelAttribute("formRequest") CreateANewUserFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
