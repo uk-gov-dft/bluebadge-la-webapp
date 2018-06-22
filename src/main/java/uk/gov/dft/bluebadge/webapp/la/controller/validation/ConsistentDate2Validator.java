@@ -10,7 +10,7 @@ public class ConsistentDate2Validator implements ConstraintValidator<ConsistentD
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     try {
-      if (value == null) return false;
+      if (value == null) return true;
       String[] dateParts = value.split("/");
       if (dateParts == null || dateParts.length == 3) {
         Integer day = Integer.valueOf(dateParts[0]);

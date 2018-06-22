@@ -64,9 +64,10 @@
 
                 <div class="dft-width-one-half">
                     <div class="govuk-form-group">
-                        <label class="govuk-label" for="eligibility" data-uipath="eligibility.label">Select from list</label>
-                        <select class="govuk-select" id="eligibility" name="eligibility">
-                            <option value="key">Value</option>
+                        <label class="govuk-label" th:attr="for=${eligibility}" data-uipath="eligibility.label">Select from list</label>
+                        <select class="govuk-select" th:field="*{eligibility}">
+                            <option value="" th:text="'select eligibility'"></option>
+                            <option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>
                         </select>
                     </div>
                 </div>
