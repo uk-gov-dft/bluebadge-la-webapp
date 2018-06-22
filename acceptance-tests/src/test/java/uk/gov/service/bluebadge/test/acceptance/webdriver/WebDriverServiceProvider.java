@@ -26,7 +26,9 @@ public class WebDriverServiceProvider {
    * Location where the WebDriver is installed by {@code webdriverextensions-maven-plugin}, relative
    * to the directory of the current working directory (i.e. that of current Maven module).
    */
-  private static final String WEB_DRIVER_LOCATION = "drivers";
+  private static final String OS = System.getProperty("os", "mac");
+
+  private static final String WEB_DRIVER_LOCATION = "drivers" + "/" + OS;
 
   private ChromeDriverService chromeDriverService;
 

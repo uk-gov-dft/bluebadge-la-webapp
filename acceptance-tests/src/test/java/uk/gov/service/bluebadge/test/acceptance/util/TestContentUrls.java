@@ -23,8 +23,6 @@ public class TestContentUrls {
   private void setup() {
 
     add("home", "/");
-    add("news", "/news");
-    add("sign-in", "/sign-in");
     add("manage-users", "/manage-users");
   }
 

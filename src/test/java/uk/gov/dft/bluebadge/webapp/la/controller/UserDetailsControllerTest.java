@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersControllerImpl.URL_MANAGE_USERS;
+import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersController.URL_MANAGE_USERS;
 
 import com.google.common.collect.Lists;
 import org.junit.Before;
@@ -60,7 +60,7 @@ public class UserDetailsControllerTest extends ControllerTest {
     MockitoAnnotations.initMocks(this);
 
     UserDetailsController controller =
-        new UserDetailsControllerImpl(userServiceMock, new UserDetailsFormRequestToUser());
+        new UserDetailsController(userServiceMock, new UserDetailsFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

@@ -6,7 +6,8 @@ Feature: Dft BlueBadge LA Manage User
   So that the new users can login to LA webapp
 
   Scenario: Verify Create a new user
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
@@ -18,7 +19,8 @@ Feature: Dft BlueBadge LA Manage User
     And I should see the newly created user is on the users list
 
   Scenario: Verify Create a new user with an invalid full name
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
@@ -29,7 +31,8 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the validation message for "invalid name" as "Enter a valid name"
 
   Scenario: Verify Find user by email address
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
@@ -40,7 +43,8 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the search results with newly created user
 
   Scenario: Verify update user details - email address
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
@@ -50,7 +54,8 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the relevant email address has updated
 
   Scenario: Verify update user details with invalid email address
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
@@ -60,7 +65,8 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the validation message for "invalid email" as "Enter a valid email address"
 
   Scenario: Verify remove user
-    Given I navigate to the "sign-in" page
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation

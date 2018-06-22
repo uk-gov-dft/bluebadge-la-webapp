@@ -44,6 +44,13 @@ Go to acceptance-tests folder & run (run_local.sh) shell script
 ./run_local.sh
 ```
 
+To specify your operating system; By default it will use as 'mac'
+
+```
+gradle acceptanceTest -PbuildProfile=local -Dos=mac
+```
+os parameter values can be 'mac' or 'linux' or 'windows'
+
 
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 

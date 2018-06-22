@@ -20,6 +20,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class CreateANewUserControllerTest {
@@ -36,6 +37,7 @@ public class CreateANewUserControllerTest {
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
+  @Mock private SecurityUtils securityUtilsMock;
 
   private CreateANewUserController controller;
 
@@ -50,7 +52,8 @@ public class CreateANewUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateANewUserControllerImpl(userServiceMock, new CreateANewUserFormRequestToUser());
+        new CreateANewUserController(
+            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -62,36 +65,22 @@ public class CreateANewUserControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY)
+            .roleId(ROLE_ID);
+
+    when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
     user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
   }
 
   @Test
-  public void showCreateANewUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn()
-      throws Exception {
-    mockMvc
-        .perform(get("/manage-users/create-a-new-user"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
-  }
-
-  @Test
   public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
       throws Exception {
     mockMvc
-        .perform(get("/manage-users/create-a-new-user").sessionAttr("user", userDataSignedIn))
+        .perform(get("/manage-users/create-a-new-user"))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-a-new-user"));
-  }
-
-  @Test
-  public void createANewUser_shouldDisplaySignInTemplate_WhenUserIsNotSignedIn() throws Exception {
-    mockMvc
-        .perform(post("/manage-users/create-a-new-user"))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/sign-in"));
   }
 
   @Test
@@ -112,7 +101,6 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isFound())
@@ -156,7 +144,6 @@ public class CreateANewUserControllerTest {
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
-                .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL)
                 .param("name", NAME))
         .andExpect(status().isOk())
