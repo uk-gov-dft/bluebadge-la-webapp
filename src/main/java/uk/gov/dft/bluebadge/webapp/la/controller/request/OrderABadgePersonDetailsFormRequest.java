@@ -8,7 +8,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
-// @ConsistentDate(message = "{Pattern.badge.dob}")
 public class OrderABadgePersonDetailsFormRequest {
 
   @NotBlank(message = "{NotNull.user.name}")

@@ -21,13 +21,11 @@ public class OrderABadgeIndexController {
       "redirect:" + OrderABadgePersonDetailsController.URL;
   public static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "TODO";
 
-  private BadgeService badgeService;
-
-  @Autowired
-  public OrderABadgeIndexController(BadgeService badgeService) {
+/*  @Autowired
+  public OrderABadgeIndexController() {
     this.badgeService = badgeService;
   }
-
+*/
   @GetMapping(URL)
   public String show(@ModelAttribute("formRequest") final OrderABadgeIndexFormRequest formRequest) {
     return TEMPLATE;
@@ -36,8 +34,7 @@ public class OrderABadgeIndexController {
   @PostMapping(URL)
   public String submit(
       @ModelAttribute("formRequest") OrderABadgeIndexFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model) {
+      BindingResult bindingResult) {
     if ("organisation".equalsIgnoreCase(formRequest.getApplicantType())) {
       return REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS;
     } else {
