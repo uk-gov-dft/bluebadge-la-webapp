@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Data;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate2;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
@@ -25,7 +25,7 @@ public class OrderABadgePersonDetailsFormRequest {
   private String dob;
 
   @NotBlank(message = "{NotNull.badge.dob}")
-  @ConsistentDate2(message = "{Pattern.badge.dob}")
+  @ConsistentDate(message = "{Pattern.badge.dob}")
   public String getDob() {
     if (dobDay == null && dobMonth == null && dobYear == null) {
       return null;

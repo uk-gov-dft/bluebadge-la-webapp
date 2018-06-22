@@ -10,12 +10,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Constraint(validatedBy = ConsistentDateValidator.class)
-@Target({TYPE, ANNOTATION_TYPE})
+@Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
 public @interface ConsistentDate {
 
-  String message() default "End date must be after begin date and both must be in the future";
+  String message() default "Enter a valid date";
 
   Class<?>[] groups() default {};
 

@@ -4,23 +4,28 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetailsFormRequest;
 
-public class ConsistentDateValidator
-    implements ConstraintValidator<ConsistentDate, OrderABadgePersonDetailsFormRequest> {
+public class ConsistentDateValidator implements ConstraintValidator<ConsistentDate, String> {
 
   @Override
-  public boolean isValid(
-      OrderABadgePersonDetailsFormRequest value, ConstraintValidatorContext context) {
+  public boolean isValid(String value, ConstraintValidatorContext context) {
     try {
-      if (value.getDobYear() != null && value.getDobMonth() != null && value.getDobYear() != null) {
-        LocalDate dob = LocalDate.of(value.getDobYear(), value.getDobMonth(), value.getDobDay());
-        if (dob.isBefore(LocalDate.now())) {
+      if (value == null) return true;
+      String[] dateParts = value.split("/");
+      if (dateParts == null || dateParts.length == 3) {
+        Integer day = Integer.valueOf(dateParts[0]);
+        Integer month = Integer.valueOf(dateParts[1]);
+        Integer year = Integer.valueOf(dateParts[2]);
+
+        LocalDate date = LocalDate.of(year, month, day);
+        if (date.isBefore(LocalDate.now())) {
           return true;
         }
       }
       return false;
     } catch (DateTimeException dtex) {
+      return false;
+    } catch (NumberFormatException nfex) {
       return false;
     }
   }
