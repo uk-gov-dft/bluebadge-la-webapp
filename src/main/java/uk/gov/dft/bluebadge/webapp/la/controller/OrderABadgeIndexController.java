@@ -11,6 +11,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeIndexFormReq
 public class OrderABadgeIndexController {
   private static final String URL = "/order-a-badge/";
   private static final String TEMPLATE = "order-a-badge/index";
+  private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
 
   private static final String REDIRECT_ORDER_A_BADGE_PERSON_DETAILS =
       "redirect:" + OrderABadgePersonDetailsController.URL;
@@ -25,7 +26,7 @@ public class OrderABadgeIndexController {
   public String submit(
       @ModelAttribute("formRequest") OrderABadgeIndexFormRequest formRequest,
       BindingResult bindingResult) {
-    if ("organisation".equalsIgnoreCase(formRequest.getApplicantType())) {
+    if (APPLICANT_TYPE_ORGANISATION.equalsIgnoreCase(formRequest.getApplicantType())) {
       return REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS;
     } else {
       return REDIRECT_ORDER_A_BADGE_PERSON_DETAILS;

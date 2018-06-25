@@ -15,6 +15,7 @@ import cucumber.api.java.en.When;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Select;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,6 +187,12 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findPageElementById(value).click();
   }
 
+  @And("^I select an option \"([^\"]*)\" on \"([^\"]*)\"$")
+  public void iSelectAnOption(String value, String selectId) throws Throwable {
+    Select select = new Select(sitePage.findPageElementById(selectId));
+    select.selectByVisibleText(value);
+  }
+
   @And("^I click on Continue button$")
   public void iClickOnContinueButton() throws Throwable {
     sitePage.findPageElementById("submit").click();
@@ -330,8 +337,15 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
   public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
     String uipath = "sidebar-nav";
-    if (linkTitle.equals("Manage users")) {
-      uipath = "sidebar-nav.manage-users";
+    switch (linkTitle) {
+      case "Manage users":
+        uipath = "sidebar-nav.manage-users";
+        break;
+      case "Order a badge":
+        uipath = "sidebar-nav.order-a-badge";
+        break;
+      default:
+        break;
     }
     sitePage.findElementWithUiPath(uipath).click();
   }

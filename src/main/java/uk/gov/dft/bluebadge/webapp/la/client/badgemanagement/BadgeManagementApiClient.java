@@ -14,17 +14,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesRespons
 @Service
 public class BadgeManagementApiClient {
 
-  class Endpoints {
-    // static final String GET_USER_BY_EMAIL_ENDPOINT = "/users?emailAddress={emailAddress}";
-    // static final String CREATE_ENDPOINT = "/authorities/{authorityId}/users";
-  }
-
   private RestTemplateFactory restTemplateFactory;
-  // private ServiceConfiguration serviceConfiguration;
 
   @Autowired
   public BadgeManagementApiClient(RestTemplateFactory restTemplateFactory) {
-    // this.serviceConfiguration = serviceConfiguration;
     this.restTemplateFactory = restTemplateFactory;
   }
 

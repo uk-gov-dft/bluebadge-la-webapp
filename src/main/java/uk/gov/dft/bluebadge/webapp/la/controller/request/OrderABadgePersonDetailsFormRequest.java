@@ -29,7 +29,7 @@ public class OrderABadgePersonDetailsFormRequest {
     if (dobDay == null && dobMonth == null && dobYear == null) {
       return null;
     } else {
-      return "" + dobDay + "/" + dobMonth + "/" + dobYear;
+      return String.format("%d/%d/%d", dobDay, dobMonth, dobYear);
     }
   }
 
