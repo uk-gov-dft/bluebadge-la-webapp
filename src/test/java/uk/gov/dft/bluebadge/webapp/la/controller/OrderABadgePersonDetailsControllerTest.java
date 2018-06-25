@@ -158,82 +158,80 @@ public class OrderABadgePersonDetailsControllerTest {
 
   @Test
   public void
-  submit_shouldRedirectToDetailsPage_WhenAllFieldsAreSetAndMandatoryFieldsAreOkButNonMandotoryFieldsAreWrong()
+      submit_shouldRedirectToDetailsPage_WhenAllFieldsAreSetAndMandatoryFieldsAreOkButNonMandotoryFieldsAreWrong()
           throws Exception {
     mockMvc
-            .perform(
-                    post("/order-a-badge/details")
-                            .param(NAME_FIELD, NAME)
-                            .param(DOB_DAY_FIELD, DOB_DAY)
-                            .param(DOB_MONTH_FIELD, DOB_MONTH)
-                            .param(DOB_YEAR_FIELD, DOB_YEAR)
-                            .param(DOB_FIELD, DOB)
-                            .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
-                            .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                            .param(POSTCODE_FIED, POSTCODE)
-                            .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
-                            .param(ELIGIBILITY_FIELD, ELIGIBILITY)
-                            .param(NINO_FIELD, NINO_WRONG)
-                            .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
-                            .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
-                            .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
-            .andExpect(status().isOk())
-            .andExpect(view().name("order-a-badge/details"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "Pattern"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode(
-                                    "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-            .andExpect(model().errorCount(3));
+        .perform(
+            post("/order-a-badge/details")
+                .param(NAME_FIELD, NAME)
+                .param(DOB_DAY_FIELD, DOB_DAY)
+                .param(DOB_MONTH_FIELD, DOB_MONTH)
+                .param(DOB_YEAR_FIELD, DOB_YEAR)
+                .param(DOB_FIELD, DOB)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                .param(POSTCODE_FIED, POSTCODE)
+                .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY)
+                .param(NINO_FIELD, NINO_WRONG)
+                .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
+                .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
+                .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "Pattern"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
+        .andExpect(model().errorCount(3));
   }
 
-  public void
-  submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong()
-          throws Exception {
+  public void submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong() throws Exception {
     mockMvc
-            .perform(
-                    post("/order-a-badge/details")
-                            .param(NAME_FIELD, NAME_WRONG)
-                            .param(DOB_DAY_FIELD, DOB_DAY_WRONG)
-                            .param(DOB_MONTH_FIELD, DOB_MONTH_WRONG)
-                            .param(DOB_YEAR_FIELD, DOB_YEAR_WRONG)
-                            .param(DOB_FIELD, DOB_WRONG)
-                            .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_WRONG)
-                            .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_WRONG)
-                            .param(POSTCODE_FIED, POSTCODE_WRONG)
-                            .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_WRONG)
-                            .param(ELIGIBILITY_FIELD, ELIGIBILITY_WRONG)
-                            .param(NINO_FIELD, NINO_WRONG)
-                            .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
-                            .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
-                            .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
-            .andExpect(status().isOk())
-            .andExpect(view().name("order-a-badge/details"))
-            .andExpect(view().name("order-a-badge/details"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
-            .andExpect(
-                    model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode(
-                                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", ELIGIBILITY_FIELD, "NotBlank"))
-            .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "Pattern"))
-            .andExpect(
-                    model()
-                            .attributeHasFieldErrorCode(
-                                    "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-            .andExpect(model().errorCount(10));
+        .perform(
+            post("/order-a-badge/details")
+                .param(NAME_FIELD, NAME_WRONG)
+                .param(DOB_DAY_FIELD, DOB_DAY_WRONG)
+                .param(DOB_MONTH_FIELD, DOB_MONTH_WRONG)
+                .param(DOB_YEAR_FIELD, DOB_YEAR_WRONG)
+                .param(DOB_FIELD, DOB_WRONG)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_WRONG)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_WRONG)
+                .param(POSTCODE_FIED, POSTCODE_WRONG)
+                .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_WRONG)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY_WRONG)
+                .param(NINO_FIELD, NINO_WRONG)
+                .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
+                .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
+                .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", ELIGIBILITY_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "Pattern"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
+        .andExpect(model().errorCount(10));
   }
 }

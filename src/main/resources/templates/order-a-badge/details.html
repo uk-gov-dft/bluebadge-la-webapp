@@ -61,8 +61,16 @@
                 <hr class="dft-hr dft-hr--small">
                 <h2 class="govuk-heading-m" data-uipath="eligibilityTitle">Eligibility</h2>
 
+                <div th:class="${#fields.hasErrors('eligibility')} ? 'dft-width-one-half govuk-form-group govuk-form-group--error' : 'dft-width-one-half govuk-form-group'">
 
-                <div class="dft-width-one-half">
+<span class="govuk-error-message"
+      th:data-uipath="'eligibility.error'"
+      th:id="eligibility-hint"
+      th:if="${#fields.hasErrors('eligibility')}"
+      th:errors="*{eligibility}" />
+
+
+                <!--div class="dft-width-one-half"-->
                     <div class="govuk-form-group">
                         <label class="govuk-label" th:attr="for=${eligibility}" data-uipath="eligibility.label">Select from list</label>
                         <select class="govuk-select" th:field="*{eligibility}">

@@ -52,7 +52,7 @@
     -------------------------------------------------------------------------------- */
 
     <div class="govuk-form-group" th:fragment="govuk-date(label, hint, day, month, year)"
-        th:class="${#fields.hasErrors(day)} OR ${#fields.hasErrors(month)} OR ${#fields.hasErrors(year)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+        th:class="${#fields.hasErrors(day)} OR ${#fields.hasErrors(month)} OR ${#fields.hasErrors(year)}? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
         <fieldset class="govuk-fieldset" aria-describedby="dob-hint" role="group">
 
             <legend class="govuk-fieldset__legend" th:if="${label}">
@@ -102,8 +102,9 @@
         </fieldset>
     </div>
 
-    <div class="govuk-form-group" th:fragment="govuk-date-2(label, hint, day, month, year, date)">
-        <fieldset class="govuk-fieldset" aria-describedby="dob-hint" role="group">
+    <div class="govuk-form-group" th:fragment="govuk-date-2(label, hint, day, month, year, date)"
+         th:class="${#fields.hasErrors(date)} OR ${#fields.hasErrors(day)} OR ${#fields.hasErrors(month)} OR ${#fields.hasErrors(year)}? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+    <fieldset class="govuk-fieldset" aria-describedby="dob-hint" role="group">
 
             <legend class="govuk-fieldset__legend" th:if="${label}">
                 <h3 th:utext="${label}" class="govuk-heading-s" />
@@ -112,11 +113,11 @@
 
             <div class="govuk-date-input" id="dob">
 
-                        <span class="govuk-error-message"
-                              th:data-uipath="*{__${date}__} + '.error'"
-                              th:id="*{__${date}__} + '-hint'"
-                              th:if="${#fields.hasErrors(date)}"
-                              th:errors="*{__${date}__}" />
+                <span class="govuk-error-message"
+                      th:data-uipath="*{__${date}__} + '.error'"
+                      th:id="*{__${date}__} + '-hint'"
+                      th:if="${#fields.hasErrors(date)}"
+                      th:errors="*{__${date}__}" />
 
                 <input th:field="*{__${date}__}" type="hidden">
 
