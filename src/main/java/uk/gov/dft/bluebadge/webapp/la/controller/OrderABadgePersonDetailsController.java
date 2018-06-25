@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
-import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.Eligibility;
+import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.ReferenceData;
 
 @Slf4j
 @Controller
@@ -51,8 +51,8 @@ public class OrderABadgePersonDetailsController {
   }
 
   @ModelAttribute("eligibilities")
-  public List<Eligibility> eligibilities() {
-    List<Eligibility> eligibilities = referenceDataService.retrieveEligilities();
+  public List<ReferenceData> eligibilities() {
+    List<ReferenceData> eligibilities = referenceDataService.retrieveEligilities();
     return eligibilities;
   }
 }
