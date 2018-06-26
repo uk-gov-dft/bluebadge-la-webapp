@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void requestResetPassword(Integer localAuthorityId, Integer id) {
-    userManagementApiClient.requestResetPassword(localAuthorityId, id);
+  public void requestPasswordReset(Integer localAuthorityId, Integer id) {
+    userManagementApiClient.requestPasswordReset(localAuthorityId, id);
   }
 }

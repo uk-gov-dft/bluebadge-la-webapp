@@ -202,15 +202,14 @@ public class UserDetailsControllerTest extends ControllerTest {
   }
 
   @Test
-  public void
-      requestPasswordReset_shouldRedirectToManageUsers_WhenYouAreSignedInAndThereAreNoErrors()
-          throws Exception {
+  public void requestPasswordReset_shouldRedirectToManageUsers_WhenThereAreNoErrors()
+      throws Exception {
     mockMvc
         .perform(
             post(URL_REQUEST_PASSWORD_RESET + USER_ID)
                 .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY)))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
-    verify(userServiceMock, times(1)).requestResetPassword(LOCAL_AUTHORITY, USER_ID);
+    verify(userServiceMock, times(1)).requestPasswordReset(LOCAL_AUTHORITY, USER_ID);
   }
 }

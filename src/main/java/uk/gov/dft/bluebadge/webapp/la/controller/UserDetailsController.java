@@ -30,8 +30,8 @@ public class UserDetailsController {
   private static final String PARAM_ID = "id";
   private static final String MODEL_FORM_REQUEST = "formRequest";
   private static final String MODEL_ID = "id";
-  private static final String URL_REQUEST_RESET_PASSWORD =
-      "/manage-users/request-reset***REMOVED***/{id}";
+  private static final String URL_REQUEST_PASSWORD_RESET =
+      "/manage-users/request***REMOVED***-reset/{id}";
   private UserService userService;
 
   private UserDetailsFormRequestToUser userDetailsFormRequestToUser;
@@ -109,21 +109,13 @@ public class UserDetailsController {
     return user;
   }
 
-  @PostMapping(URL_REQUEST_RESET_PASSWORD)
+  @PostMapping(URL_REQUEST_PASSWORD_RESET)
   public String requestPasswordReset(
       @PathVariable(PARAM_ID) int id,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
       Model model) {
-    try {
-      userService.requestResetPassword(formRequest.getLocalAuthorityId(), id);
-      return REDIRECT_URL_MANAGE_USERS;
-    } catch (Exception ex) {
-      TemplateModelUtils.addCustomError(
-          "error.requestResetPassword.generalError.title",
-          "error.requestResetPassword.generalError.description",
-          model);
-      model.addAttribute(MODEL_ID, id);
-      return TEMPLATE_USER_DETAILS;
-    }
+
+    userService.requestPasswordReset(formRequest.getLocalAuthorityId(), id);
+    return REDIRECT_URL_MANAGE_USERS;
   }
 }

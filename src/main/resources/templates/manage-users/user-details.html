@@ -23,11 +23,11 @@
 
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.fullname}, 'name', null, 'text') }"></div>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.name}, 'name', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.email}, 'emailAddress', null, 'email') }"></div>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.emailAddress}, 'emailAddress', null, 'email') }"></div>
 
-                <input th:value="#{common.update.button}" type="submit" data-uipath="updateUserButton" class="govuk-button">
+                <input th:value="#{common.button.update}" type="submit" data-uipath="updateUserButton" class="govuk-button">
             </form>
 
             <details class="govuk-details">
@@ -36,7 +36,7 @@
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/request-reset- ***REMOVED***>
+                    <form th:action="@{/manage-users/request- ***REMOVED***>
                         <p th:utext="#{userdetail.text.confirm ***REMOVED***></p>
                         <p th:text="#{userdetail.text.confirmpassword.line2}"></p>
                         <input data-uipath="reset.localAuthorityId" type="hidden" th:field="*{localAuthorityId}">

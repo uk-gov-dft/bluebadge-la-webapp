@@ -159,7 +159,7 @@ public class UserManagementApiClient {
     restTemplateFactory.getInstance().delete(uri, localAuthorityId, userId);
   }
 
-  public void requestResetPassword(Integer localAuthorityId, Integer id) {
+  public void requestPasswordReset(Integer localAuthorityId, Integer id) {
     Assert.notNull(id, "must be provided");
     Assert.notNull(id, "must not be null");
 

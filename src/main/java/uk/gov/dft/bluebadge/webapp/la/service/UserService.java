@@ -28,5 +28,5 @@ public interface UserService {
 
   void delete(Integer localAuthorityId, Integer id);
 
-  void requestResetPassword(Integer localAuthorityId, Integer id);
+  void requestPasswordReset(Integer localAuthorityId, Integer id);
 }
