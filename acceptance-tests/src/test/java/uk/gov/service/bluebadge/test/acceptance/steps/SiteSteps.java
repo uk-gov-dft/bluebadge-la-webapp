@@ -8,27 +8,32 @@ import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Select;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
+import uk.gov.service.bluebadge.test.acceptance.util.*;
 
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
   NameGenerator ng = new NameGenerator();
+  LocalDateGenerator ldg = new LocalDateGenerator();
+  PostCodeGenerator pcg = new PostCodeGenerator();
 
   @Autowired private SitePage sitePage;
 
@@ -348,5 +353,37 @@ public class SiteSteps extends AbstractSpringSteps {
         break;
     }
     sitePage.findElementWithUiPath(uipath).click();
+  }
+
+  @When("^I select option \"([^\"]*)\"$")
+  public void iSelectOption(String arg0) throws Throwable {
+    sitePage.findElementWithUiPath(arg0).click();
+  }
+
+  @And("^I can click \"([^\"]*)\" button$")
+  public void iCanClickButton(String uiPath) throws Throwable {
+    sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  @When("^I enter all the mandatory valid personal details to order a badge$")
+  public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
+    String name = ng.get_full_name();
+    LocalDate date = ldg.get_local_date();
+
+    String dobDay = String.valueOf(date.getDayOfMonth());
+    String dobMonth = String.valueOf(date.getMonth().getValue());
+    String dobYear = String.valueOf(date.getYear());
+    String postcode = pcg.get_postcode();
+
+
+    sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findPageElementById("dobDay").sendKeys(dobDay);
+    sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
+    sitePage.findPageElementById("dobYear").sendKeys(dobYear);
+    sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
+    sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    iSelectAnOption("PIP", "eligibility");
   }
 }
