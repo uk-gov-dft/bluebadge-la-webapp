@@ -58,7 +58,7 @@ By default acceptance tests will run on headless chrome. If you need to run it o
 gradle acceptanceTest -PbuildProfile=local -Dheadless=false
 ```
 
-If you need to run only speficied features, then add a tag to feature file & specify that in run command as below, execute:
+If you need to run only specified features, then add a tag to feature file & specify that in run command as below, execute:
 
 Run a single feature
 
