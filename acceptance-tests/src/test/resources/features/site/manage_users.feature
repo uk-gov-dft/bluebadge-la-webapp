@@ -94,6 +94,5 @@ Feature: Dft BlueBadge LA Manage User
     And I click on the first name link from users table
     Then I should see the title "User details"
     And I can click on element "resetPasswordSummaryText" link
-    And I wait 20s
     And I can click on element "resetPasswordButton" button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
