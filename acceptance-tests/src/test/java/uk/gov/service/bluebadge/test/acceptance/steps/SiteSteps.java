@@ -8,17 +8,14 @@ import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import java.time.LocalDate;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
@@ -374,7 +371,6 @@ public class SiteSteps extends AbstractSpringSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
-
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);

@@ -16,7 +16,7 @@ Feature: Dft BlueBadge LA Order a Badge
     And I can click "continue" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     Then I click on element "continue" button
-#    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
 
   Scenario: Verify Submit person details with all fields set
     Given I navigate to the "home" page
