@@ -18,9 +18,6 @@ public class OrderBadgeProcessingController {
 
   public static final String REDIRECT_ORDER_A_BADGE_SUMMARY = "/";
 
-  @Autowired
-  public OrderBadgeProcessingController() {};
-
   @GetMapping(URL)
   public String show(
       @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest) {
