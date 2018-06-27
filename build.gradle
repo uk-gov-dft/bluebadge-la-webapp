@@ -22,19 +22,17 @@ plugins {
     id "com.moowork.node" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
     id "com.jfrog.artifactory" version "4.5.4"
-    id 'net.saliman.cobertura' version '2.5.4'
 }
 
-
 apply plugin: 'java'
-//apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
 //apply plugin: 'findbugs'
 
 def getCurrentGitBranch() {
@@ -146,13 +144,14 @@ dependencies {
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
 }
 
-
-checkstyle {
-    toolVersion "8.9"
+jacoco {
+    toolVersion = "0.8.1"
 }
 
-cobertura {
-    coverageExcludes = ['.*uk.gov.dft.bluebadge.webapp.la.controller.request.*', '.*uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.*', '.*uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.*','.*uk.gov.dft.bluebadge.webapp.la.exception.*']
+test {
+    jacoco {
+        excludes += ['.*uk.gov.dft.bluebadge.webapp.la.controller.request.*', '.*uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.*', '.*uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.*','.*uk.gov.dft.bluebadge.webapp.la.exception.*']
+    }
 }
 
 bootRun {
@@ -162,4 +161,4 @@ bootRun {
 // build.dependsOn gulp_css
 
 compileJava.dependsOn 'googleJavaFormat'
-//verifyGoogleJavaFormat.dependsOn 'googleJavaFormat'
+
