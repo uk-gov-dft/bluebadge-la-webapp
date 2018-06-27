@@ -50,8 +50,6 @@ public class SetPasswordController {
       Model model,
       HttpSession session) {
 
-    try {
-
       String password = formRequest.getPassword();
       String passwordConfirm = formRequest.getPasswordConfirm();
 
@@ -59,10 +57,5 @@ public class SetPasswordController {
 
       return ErrorHandlingUtils.handleError(
           userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET, bindingResult, model);
-
-    } catch (Exception ex) {
-      logger.error("There was an unexpected exception", ex);
-      return TEMPLATE_SET;
-    }
   }
 }
