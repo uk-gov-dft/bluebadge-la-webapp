@@ -248,7 +248,7 @@ public class SiteSteps extends AbstractSpringSteps {
     if (arg0.equals("invalid email")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
           getMatcherForText(arg1));
     } else if (arg0.equals("invalid password")) {
       assertThat(
@@ -258,7 +258,7 @@ public class SiteSteps extends AbstractSpringSteps {
     } else if (arg0.equals("invalid name")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
+          signInPage.findElementWithUiPath("name.summary-error").getText(),
           getMatcherForText(arg1));
     }
   }
@@ -317,7 +317,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iEnterInvalidEmailAddressAndClicksOnUpdateButton() throws Throwable {
 
     sitePage.findElementWithUiPath("emailAddress.field").clear();
-    sitePage.findElementWithUiPath("emailAddress.field").sendKeys("Not valid email");
+    sitePage.findElementWithUiPath("emailAddress.field").sendKeys("not valid email");
 
     sitePage.findElementWithUiPath("updateUserButton").click();
   }
