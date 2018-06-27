@@ -23,7 +23,7 @@ public class SetPasswordController {
   private static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
 
   private UserService userService;
-  private static final Logger logger = LoggerFactory.getLogger(SetPasswordController.class);
+  private static final Logger log = LoggerFactory.getLogger(SetPasswordController.class);
 
   @Autowired
   public SetPasswordController(UserService userService) {
@@ -49,13 +49,14 @@ public class SetPasswordController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
+    log.debug("Posting set password form.");
 
-      String password = formRequest.getPassword();
-      String passwordConfirm = formRequest.getPasswordConfirm();
+    String password = formRequest.getPassword();
+    String passwordConfirm = formRequest.getPasswordConfirm();
 
-      UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
+    UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
-      return ErrorHandlingUtils.handleError(
-          userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET, bindingResult, model);
+    return ErrorHandlingUtils.handleError(
+        userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET, bindingResult, model);
   }
 }
