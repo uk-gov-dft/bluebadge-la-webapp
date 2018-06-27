@@ -33,3 +33,5 @@ gradle/*
 
 target
 target/*
+
+acceptance-tests/output/
