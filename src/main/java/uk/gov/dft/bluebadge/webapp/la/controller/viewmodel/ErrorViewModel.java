@@ -9,9 +9,8 @@ public class ErrorViewModel {
   private String description;
 
   public ErrorViewModel() {
-    this.title = "error.form.summary.title";
+    title = "error.form.summary.title";
     description = "empty";
-    this.description = "empty";
   }
 
   public ErrorViewModel(String title) {
@@ -19,7 +18,6 @@ public class ErrorViewModel {
     Assert.hasText(title, "title should have text");
     this.title = title;
     description = "empty";
-    this.description = "empty";
   }
 
   public ErrorViewModel(String title, String description) {
@@ -28,7 +26,6 @@ public class ErrorViewModel {
     Assert.notNull(description, "description cannot be null");
     Assert.hasText(description, "description should have text");
     this.title = title;
-    this.description = "empty";
     this.description = description;
   }
 
