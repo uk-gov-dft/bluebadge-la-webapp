@@ -17,10 +17,10 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Controller
 public class SetPasswordController {
 
-  public static final String URL_SET_PASSWORD = "/set***REMOVED***/{uuid}";
-  public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
-  public static final String URL_HOME_PAGE = "/";
-  public static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
+  private static final String URL_SET_PWD = "/set***REMOVED***/{uuid}";
+  private static final String TEMPLATE_SET_PWD = "set***REMOVED***";
+  private static final String URL_HOME_PAGE = "/";
+  private static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
 
   private UserService userService;
   private static final Logger logger = LoggerFactory.getLogger(SetPasswordController.class);
@@ -30,7 +30,7 @@ public class SetPasswordController {
     this.userService = userService;
   }
 
-  @GetMapping(URL_SET_PASSWORD)
+  @GetMapping(URL_SET_PWD)
   public String showSetPassword(
       @ModelAttribute("formRequest") final SetPasswordFormRequest formRequest,
       Model model,
@@ -39,10 +39,10 @@ public class SetPasswordController {
 
     model.addAttribute("uuid", uuid);
 
-    return TEMPLATE_SET_PASSWORD;
+    return TEMPLATE_SET_PWD;
   }
 
-  @PostMapping(URL_SET_PASSWORD)
+  @PostMapping(URL_SET_PWD)
   public String setPassword(
       @Valid @ModelAttribute("formRequest") final SetPasswordFormRequest formRequest,
       @PathVariable("uuid") String uuid,
@@ -58,15 +58,11 @@ public class SetPasswordController {
       UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
       return ErrorHandlingUtils.handleError(
-          userResponse.getError(),
-          REDIRECT_URL_HOME_PAGE,
-          TEMPLATE_SET_PASSWORD,
-          bindingResult,
-          model);
+          userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET_PWD, bindingResult, model);
 
     } catch (Exception ex) {
       logger.error("There was an unexpected exception", ex);
-      return TEMPLATE_SET_PASSWORD;
+      return TEMPLATE_SET_PWD;
     }
   }
 }
