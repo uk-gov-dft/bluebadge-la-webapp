@@ -227,7 +227,7 @@ public class NameGenerator {
 
   public String get_email(String fullName) {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    String un = "QA_" + fullName.replace(" ", "_") + "_" + timestamp.getTime();
+    String un = ("QA_" + fullName.replace(" ", "_") + "_" + timestamp.getTime());
     return un + "@dft.gov.uk";
   }
 }
