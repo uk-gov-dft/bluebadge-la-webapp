@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.validation;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -9,23 +10,15 @@ public class ConsistentDateValidator implements ConstraintValidator<ConsistentDa
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    try {
-      if (value == null) return true;
-      String[] dateParts = value.split("/");
-      if (dateParts == null || dateParts.length == 3) {
-        Integer day = Integer.valueOf(dateParts[0]);
-        Integer month = Integer.valueOf(dateParts[1]);
-        Integer year = Integer.valueOf(dateParts[2]);
 
-        LocalDate date = LocalDate.of(year, month, day);
-        if (date.isBefore(LocalDate.now())) {
-          return true;
-        }
-      }
-      return false;
+    if (value == null) {
+      return true;
+    }
+
+    try {
+      LocalDate date = LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
+      return date.isBefore(LocalDate.now());
     } catch (DateTimeException dtex) {
-      return false;
-    } catch (NumberFormatException nfex) {
       return false;
     }
   }

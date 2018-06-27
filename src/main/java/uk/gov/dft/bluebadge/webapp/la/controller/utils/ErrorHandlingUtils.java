@@ -9,6 +9,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class ErrorHandlingUtils {
 
+  private ErrorHandlingUtils() {}
+
   /**
    * @param error
    * @param successTemplate

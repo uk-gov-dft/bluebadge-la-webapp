@@ -14,7 +14,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
-public class OrderABadgePersonDetailsControllerTest {
+public class OrderBadgePersonDetailsControllerTest {
   private static final String NAME_FIELD = "name";
   private static final String DOB_DAY_FIELD = "dobDay";
   private static final String DOB_MONTH_FIELD = "dobMonth";
@@ -64,7 +64,7 @@ public class OrderABadgePersonDetailsControllerTest {
   @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
 
-  private OrderABadgePersonDetailsController controller;
+  private OrderBadgePersonDetailsController controller;
 
   @Before
   public void setup() {
@@ -72,7 +72,7 @@ public class OrderABadgePersonDetailsControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderABadgePersonDetailsController(referenceDataServiceMock);
+    controller = new OrderBadgePersonDetailsController(referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

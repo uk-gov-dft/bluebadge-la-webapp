@@ -8,33 +8,28 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 
 @Slf4j
 @Controller
-public class OrderABadgeProcessingController {
+public class OrderBadgeProcessingController {
   public static final String URL = "/order-a-badge/processing";
   public static final String TEMPLATE = "order-a-badge/processing";
 
   public static final String REDIRECT_ORDER_A_BADGE_SUMMARY = "/";
 
-  private BadgeService badgeService;
-
   @Autowired
-  public OrderABadgeProcessingController(BadgeService badgeService) {
-    this.badgeService = badgeService;
-  }
+  public OrderBadgeProcessingController() {};
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") final OrderABadgeProcessingFormRequest formRequest) {
+      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest) {
     return TEMPLATE;
   }
 
   @PostMapping(URL)
   public String submit(
-      @ModelAttribute("formRequest") OrderABadgeProcessingFormRequest formRequest,
+      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
     return REDIRECT_ORDER_A_BADGE_SUMMARY;

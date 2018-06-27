@@ -5,6 +5,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class BindingResultUtils {
+
+  private BindingResultUtils() {}
+
   /**
    * Populates BindingResult with the given error.
    *

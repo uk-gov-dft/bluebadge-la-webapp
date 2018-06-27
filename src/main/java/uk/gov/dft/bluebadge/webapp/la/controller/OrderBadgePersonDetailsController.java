@@ -10,37 +10,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderABadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.ReferenceData;
 
 @Slf4j
 @Controller
-public class OrderABadgePersonDetailsController {
+public class OrderBadgePersonDetailsController {
   public static final String URL = "/order-a-badge/details";
 
   private static final String TEMPLATE = "order-a-badge/details";
 
   private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
-      "redirect:" + OrderABadgeProcessingController.URL;
+      "redirect:" + OrderBadgeProcessingController.URL;
 
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public OrderABadgePersonDetailsController(ReferenceDataService referenceDataService) {
+  public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") final OrderABadgePersonDetailsFormRequest formRequest) {
+      @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest) {
     return TEMPLATE;
   }
 
   @PostMapping(URL)
   public String submit(
-      @Valid @ModelAttribute("formRequest") final OrderABadgePersonDetailsFormRequest formRequest,
+      @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
     model.addAttribute("errorSummary", new ErrorViewModel());
@@ -52,7 +52,6 @@ public class OrderABadgePersonDetailsController {
 
   @ModelAttribute("eligibilities")
   public List<ReferenceData> eligibilities() {
-    List<ReferenceData> eligibilities = referenceDataService.retrieveEligilities();
-    return eligibilities;
+    return referenceDataService.retrieveEligilities();
   }
 }

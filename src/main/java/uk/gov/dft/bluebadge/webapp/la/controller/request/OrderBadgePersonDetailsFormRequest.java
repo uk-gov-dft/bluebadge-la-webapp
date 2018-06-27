@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -8,7 +10,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
-public class OrderABadgePersonDetailsFormRequest {
+public class OrderBadgePersonDetailsFormRequest {
 
   @NotBlank(message = "{NotNull.user.name}")
   @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
@@ -28,9 +30,9 @@ public class OrderABadgePersonDetailsFormRequest {
   public String getDob() {
     if (dobDay == null && dobMonth == null && dobYear == null) {
       return null;
-    } else {
-      return String.format("%d/%d/%d", dobDay, dobMonth, dobYear);
     }
+
+    return LocalDate.of(dobYear, dobMonth, dobDay).format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
