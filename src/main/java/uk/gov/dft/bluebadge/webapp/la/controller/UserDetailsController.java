@@ -30,7 +30,7 @@ public class UserDetailsController {
   private static final String PARAM_ID = "id";
   private static final String MODEL_FORM_REQUEST = "formRequest";
   private static final String MODEL_ID = "id";
-  private static final String URL_REQUEST_PWD_RESET = "/manage-users/request***REMOVED***-reset/{id}";
+  private static final String URL_REQUEST_RESET_EMAIL = "/manage-users/request***REMOVED***-reset/{id}";
   private UserService userService;
 
   private UserDetailsFormRequestToUser userDetailsFormRequestToUser;
@@ -108,7 +108,7 @@ public class UserDetailsController {
     return user;
   }
 
-  @PostMapping(URL_REQUEST_PWD_RESET)
+  @PostMapping(URL_REQUEST_RESET_EMAIL)
   public String requestPasswordReset(
       @PathVariable(PARAM_ID) int id,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,

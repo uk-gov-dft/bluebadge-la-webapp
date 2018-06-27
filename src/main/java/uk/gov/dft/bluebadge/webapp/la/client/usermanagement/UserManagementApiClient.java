@@ -29,8 +29,8 @@ public class UserManagementApiClient {
         "/authorities/{authorityId}/users?name={name}";
     static final String UPDATE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
     static final String DELETE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
-    static final String UPDATE_PWD_ENDPOINT = "/user/password/{uuid}";
-    static final String REQUEST_PWD_RESET_ENDPOINT =
+    static final String UPDATE_P_ENDPOINT = "/user/password/{uuid}";
+    static final String REQUEST_RESET_EMAIL_ENDPOINT =
         "/authorities/{authorityId}/users/{userId}/passwordReset";
   }
 
@@ -158,7 +158,7 @@ public class UserManagementApiClient {
     restTemplateFactory
         .getInstance()
         .getForEntity(
-            serviceConfiguration.getUrlPrefix() + REQUEST_PWD_RESET_ENDPOINT,
+            serviceConfiguration.getUrlPrefix() + REQUEST_RESET_EMAIL_ENDPOINT,
             String.class,
             localAuthorityId,
             id);
@@ -169,7 +169,7 @@ public class UserManagementApiClient {
     Assert.notNull( ***REMOVED***);
     Assert.notNull( ***REMOVED***);
 
-    String uri = serviceConfiguration.getUrlPrefix() + UPDATE_PWD_ENDPOINT;
+    String uri = serviceConfiguration.getUrlPrefix() + UPDATE_P_ENDPOINT;
     Password passwords = new Password();
     passwords.setPassword(password);
     passwords.setPasswordConfirm(passwordConfirm);
