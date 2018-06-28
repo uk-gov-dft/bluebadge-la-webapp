@@ -15,7 +15,7 @@ public class OrderBadgeIndexController {
 
   private static final String REDIRECT_ORDER_A_BADGE_PERSON_DETAILS =
       "redirect:" + OrderBadgePersonDetailsController.URL;
-  private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "TODO";
+  private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "redirect:/";
 
   @GetMapping(URL)
   public String show(@ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest) {

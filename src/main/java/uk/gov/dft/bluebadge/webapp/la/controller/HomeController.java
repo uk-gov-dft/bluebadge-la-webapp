@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-  public static final String URL_HOME = "/";
+  public static final String URL = "/";
 
-  public static final String TEMPLATE_HOME = "home";
+  public static final String TEMPLATE = "home";
 
-  @GetMapping(URL_HOME)
+  @GetMapping(URL)
   public String showHome(Model model) {
-    return TEMPLATE_HOME;
+    return TEMPLATE;
   }
 }
