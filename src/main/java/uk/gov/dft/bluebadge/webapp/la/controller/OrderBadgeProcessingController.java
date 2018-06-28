@@ -12,6 +12,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFor
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
+import java.awt.*;
+import java.lang.reflect.Array;
+
 @Slf4j
 @Controller
 public class OrderBadgeProcessingController {
@@ -30,7 +33,14 @@ public class OrderBadgeProcessingController {
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest) {
+      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest, Model model) {
+
+    List options = new List();
+    options.add("Badge holder");
+    options.add("Manchester City Council");
+    options.
+    model.addAttribute("deliverTo", options);
+
     return TEMPLATE;
   }
 

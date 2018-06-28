@@ -45,10 +45,18 @@
 
     </div><!-- govuk-o-form-group -->
 
+
     /* ------------------------------------------------------------------------------
 
     * Date Field
 
+    @label - String: Label for form input field
+    @hint - String: Adds hint for the input field underneath the label
+    @Day - String: Name of day field
+    @Month - String: Name of month field
+    @year - String: Name of year field
+    @name - String: Name for the form input field.
+    
     -------------------------------------------------------------------------------- */
 
     <div th:fragment="govuk-date(label, hint, day, month, year, date)"

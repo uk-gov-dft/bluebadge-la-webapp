@@ -10,15 +10,16 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 public class OrderBadgeProcessingFormRequest {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
-  private Integer applicationDataYear;
+  private Integer applicationDateYear;
+  private String applicationDate;
 
   @NotBlank(message = "{NotNull.badge.applicationDate}")
   @ConsistentDate(message = "{Pattern.badge.applicationDate}")
   public String getApplicationDate() {
-    if (applicationDateDay == null && applicationDateMonth == null && applicationDataYear == null) {
+    if (applicationDateDay == null && applicationDateMonth == null && applicationDateYear == null) {
       return null;
     }
-    return LocalDate.of(applicationDateDay, applicationDateMonth, applicationDataYear)
+    return LocalDate.of(applicationDateDay, applicationDateMonth, applicationDateYear)
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
@@ -30,6 +31,7 @@ public class OrderBadgeProcessingFormRequest {
   private Integer badgeStartDateDay;
   private Integer badgeStartDateMonth;
   private Integer badgeStartDateYear;
+  private String badgeStartDate;
 
   @NotBlank(message = "{NotNull.badge.startDate}")
   @ConsistentDate(message = "{Pattern.badge.startDate}")
@@ -54,6 +56,7 @@ public class OrderBadgeProcessingFormRequest {
   private Integer badgeExpiryDateDay;
   private Integer badgeExpiryDateMonth;
   private Integer badgeExpiryDateYear;
+  private String badgeExpiryDate;
 
   @NotBlank(message = "{NotNull.badge.deliverTo}")
   private String deliverTo;
