@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.awt.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
-
-import java.awt.*;
-import java.lang.reflect.Array;
 
 @Slf4j
 @Controller
@@ -33,14 +31,7 @@ public class OrderBadgeProcessingController {
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest, Model model) {
-
-    List options = new List();
-    options.add("Badge holder");
-    options.add("Manchester City Council");
-    options.
-    model.addAttribute("deliverTo", options);
-
+      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest) {
     return TEMPLATE;
   }
 

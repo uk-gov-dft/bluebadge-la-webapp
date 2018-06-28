@@ -22,13 +22,13 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Controller
 public class CreateANewUserController {
 
-  private static final Logger logger = LoggerFactory.getLogger(CreateANewUserController.class);
+  private static final Logger log = LoggerFactory.getLogger(CreateANewUserController.class);
 
-  public static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
+  private static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
-  public static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
+  private static final String TEMPLATE_CREATE_A_NEW_USER = "manage-users/create-a-new-user";
 
-  public static final String REDIRECT_URL_MANAGE_USERS =
+  private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
 
   private final UserService userService;
@@ -56,12 +56,14 @@ public class CreateANewUserController {
       BindingResult bindingResult,
       Model model) {
     try {
+      log.debug("Creating new user");
       UserData signedInUser = securityUtils.getCurrentUserDetails();
       User user =
           createANewUserRequest2User
               .convert(formRequest)
               .localAuthorityId(signedInUser.getLocalAuthorityId())
               .roleId(signedInUser.getRoleId());
+      log.debug("Creating user for email {}", user.getEmailAddress());
       UserResponse userResponse = userService.create(user);
       return ErrorHandlingUtils.handleError(
           userResponse.getError(),

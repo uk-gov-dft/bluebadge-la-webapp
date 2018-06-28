@@ -37,3 +37,4 @@ target/*
 
 *.bak
 acceptance-tests/screenshot/
+acceptance-tests/output/

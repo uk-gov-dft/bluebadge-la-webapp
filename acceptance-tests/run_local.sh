@@ -1,2 +1,2 @@
 #!/bin/bash
-gradle acceptanceTest -PbuildProfile=local
+gradle acceptanceTest -PbuildProfile=local -Dheadless=false

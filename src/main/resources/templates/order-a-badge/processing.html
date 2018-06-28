@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<div layout:fragment="headline">
+    <a href="#" class="govuk-back-link">Back</a>
+</div>
+
 <main layout:fragment="content">
 
     <div class="dft-grid-row">
@@ -29,24 +33,34 @@
 					<h2 class="govuk-heading-m">Application details</h2>
 
 					<div class="dft-width-one-half">
-						<div th:replace="~{ fragments/form-elements :: govuk-date('Application Date', 'For example, 31 3 1980', 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
+						<div th:replace="~{ fragments/form-elements :: govuk-date('Application date', 'For example, 31 3 1980', 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
 						
 						<div class="govuk-form-group">
 							<fieldset class="govuk-fieldset">
 								
 								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-									<h3 class="govuk-heading-s">Application Channel</h3>
+									<h3 class="govuk-heading-s">Application channel</h3>
 								</legend>
 								
 								<div class="govuk-radios">
 									<div class="govuk-radios__item">
-										<input class="govuk-radios__input" id="how-contacted-conditional-1" name="how-contacted" type="radio" value="email" data-aria-controls="conditional-how-contacted-conditional-1">
-										<label class="govuk-label govuk-radios__label" for="how-contacted-conditional-1">Email</label>
+										<input class="govuk-radios__input" id="online" name="applicationChannel" type="radio" value="online" data-aria-controls="online">
+										<label class="govuk-label govuk-radios__label" for="online">Online</label>
 									</div>
 
 									<div class="govuk-radios__item">
-										<input class="govuk-radios__input" id="how-contacted-conditional-1" name="how-contacted" type="radio" value="email" data-aria-controls="conditional-how-contacted-conditional-1">
-										<label class="govuk-label govuk-radios__label" for="how-contacted-conditional-1">Email</label>
+										<input class="govuk-radios__input" id="paper" name="applicationChannel" type="radio" value="paper" data-aria-controls="paper">
+										<label class="govuk-label govuk-radios__label" for="paper">Paper</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="phone" name="applicationChannel" type="radio" value="phone" data-aria-controls="phone">
+										<label class="govuk-label govuk-radios__label" for="phone">Phone</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="inPerson" name="applicationChannel" type="radio" value="inPerson" data-aria-controls="inPerson">
+										<label class="govuk-label govuk-radios__label" for="inPerson">In person</label>
 									</div>
 								</div>
 							</fieldset>
@@ -58,34 +72,54 @@
 					
 					<div class="dft-width-one-half">
 						<div th:replace="~{ fragments/form-elements :: govuk-input('Local authority reference number (optional)', 'localAuthorityReferenceNumber', null, 'text') }"/>
-
 						<div th:replace="~{ fragments/form-elements :: govuk-date('Badge start date', null, 'badgeStartDateDay', 'badgeStartDateMonth', 'badgeStartDateYear', 'badgeStartDate') }"/>
 						<div th:replace="~{ fragments/form-elements :: govuk-date('Badge end date', null, 'badgeExpiryDateDay', 'badgeExpiryDateMonth', 'badgeExpiryDateYear', 'badgeExpiryDate') }"/>
 					</div>
 
 					<hr class="dft-hr dft-hr--small">
-					<h2 class="govuk-heading-m" data-uipath="deliveryInfoTitle">Delivery Information</h2>
+					<h2 class="govuk-heading-m" data-uipath="deliveryInfoTitle">Delivery information</h2>
 					
 					<div class="dft-width-one-half">
 
-						<div th:replace="~{ fragments/radios :: govuk-radios('Something', 'deliverTo', options) }"/>
+						<!--<div th:replace="~{ fragments/radios :: govuk-radios('Something', 'deliverTo', deliverToOptions) }"/>-->
 
 						<div class="govuk-form-group">
 							<fieldset class="govuk-fieldset">
-								
+
 								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
 									<h3 class="govuk-heading-s">Deliver to</h3>
 								</legend>
-								
+
 								<div class="govuk-radios">
 									<div class="govuk-radios__item">
-										<input class="govuk-radios__input" id="how-contacted-conditional-1" name="how-contacted" type="radio" value="email" data-aria-controls="conditional-how-contacted-conditional-1">
-										<label class="govuk-label govuk-radios__label" for="how-contacted-conditional-1">Badge holder</label>
+										<input class="govuk-radios__input" id="badgeHolder" name="deliverTo" type="radio" value="badgeHolder" data-aria-controls="badgeHolder">
+										<label class="govuk-label govuk-radios__label" for="badgeHolder">Badge holder</label>
 									</div>
 
 									<div class="govuk-radios__item">
-										<input class="govuk-radios__input" id="how-contacted-conditional-1" name="how-contacted" type="radio" value="email" data-aria-controls="conditional-how-contacted-conditional-1">
-										<label class="govuk-label govuk-radios__label" for="how-contacted-conditional-1">Manchester City Council</label>
+										<input class="govuk-radios__input" id="council" name="deliverTo" type="radio" value="council" data-aria-controls="council">
+										<label class="govuk-label govuk-radios__label" for="council">Council</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+
+						<div class="govuk-form-group">
+							<fieldset class="govuk-fieldset">
+
+								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+									<h3 class="govuk-heading-s">Delivery options</h3>
+								</legend>
+
+								<div class="govuk-radios">
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="standard" name="deliveryOption" type="radio" value="standard" data-aria-controls="standard">
+										<label class="govuk-label govuk-radios__label" for="standard">Standard delivery</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="fast" name="deliveryOption" type="radio" value="fast" data-aria-controls="fast">
+										<label class="govuk-label govuk-radios__label" for="fast">Fast track (more expensive)</label>
 									</div>
 								</div>
 							</fieldset>
