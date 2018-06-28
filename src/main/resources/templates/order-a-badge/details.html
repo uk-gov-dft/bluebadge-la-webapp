@@ -28,7 +28,7 @@
 
                 <div class="dft-width-one-half">
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
-                    <div th:replace="~{ fragments/form-elements :: govuk-date-2('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
                     <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
                 </div>
 
@@ -70,7 +70,7 @@
                       th:errors="*{eligibility}" />
 
                     <div class="govuk-form-group">
-                        <label class="govuk-label" th:attr="for=${eligibility}" data-uipath="eligibility.label">Select from list</label>
+                        <label class="govuk-label" for="eligibility" data-uipath="eligibility.label">Select from list</label>
                         <select class="govuk-select" th:field="*{eligibility}" data-uipath="eligibility">
                             <option value="" th:text="'select eligibility'"></option>
                             <option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>
