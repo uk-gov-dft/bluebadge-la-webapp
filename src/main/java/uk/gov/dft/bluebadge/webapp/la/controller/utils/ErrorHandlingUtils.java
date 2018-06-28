@@ -19,7 +19,7 @@ public class ErrorHandlingUtils {
    * @param model
    * @return
    */
-  public static final String handleError(
+  public static String handleError(
       Error error,
       String successTemplate,
       String errorTemplate,
@@ -31,7 +31,7 @@ public class ErrorHandlingUtils {
         error, successTemplate, errorTemplate, bindingResult, model, errorListOrder);
   }
 
-  public static final String handleError(
+  public static String handleError(
       Error error,
       String successTemplate,
       String errorTemplate,
@@ -42,16 +42,7 @@ public class ErrorHandlingUtils {
         error, successTemplate, errorTemplate, bindingResult, model, null);
   }
 
-  /**
-   * @param error
-   * @param successTemplate
-   * @param errorTemplate
-   * @param bindingResult
-   * @param model
-   * @param errorListOrder
-   * @return
-   */
-  private static final String internalHandleError(
+  private static String internalHandleError(
       Error error,
       String successTemplate,
       String errorTemplate,
@@ -71,7 +62,6 @@ public class ErrorHandlingUtils {
 
     BindingResultUtils.addApiErrors(error, bindingResult);
 
-    // TemplateModelUtils.addApiError(error, model);
     return errorTemplate;
   }
 

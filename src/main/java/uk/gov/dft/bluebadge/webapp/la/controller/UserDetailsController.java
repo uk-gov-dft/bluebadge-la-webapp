@@ -23,18 +23,14 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Slf4j
 public class UserDetailsController {
 
-  public static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
-
-  public static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
-
-  public static final String REDIRECT_URL_MANAGE_USERS =
+  private static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
+  private static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
+  private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
-
-  public static final String PARAM_ID = "id";
-
-  public static final String MODEL_FORM_REQUEST = "formRequest";
-  public static final String MODEL_ID = "id";
-
+  private static final String PARAM_ID = "id";
+  private static final String MODEL_FORM_REQUEST = "formRequest";
+  private static final String MODEL_ID = "id";
+  private static final String URL_REQUEST_RESET_EMAIL = "/manage-users/request***REMOVED***-reset/{id}";
   private UserService userService;
 
   private UserDetailsFormRequestToUser userDetailsFormRequestToUser;
@@ -110,5 +106,15 @@ public class UserDetailsController {
     user.setLocalAuthorityId(userData.getLocalAuthorityId());
     user.setRoleId(userData.getRoleId());
     return user;
+  }
+
+  @PostMapping(URL_REQUEST_RESET_EMAIL)
+  public String requestPasswordReset(
+      @PathVariable(PARAM_ID) int id,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      Model model) {
+
+    userService.requestPasswordReset(formRequest.getLocalAuthorityId(), id);
+    return REDIRECT_URL_MANAGE_USERS;
   }
 }

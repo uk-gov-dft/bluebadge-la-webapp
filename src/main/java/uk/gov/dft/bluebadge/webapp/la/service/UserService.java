@@ -23,8 +23,9 @@ public interface UserService {
 
   UserResponse update(User user) throws Exception;
 
-  UserResponse updatePassword(String uuid, String password, String passwordConfirm)
-      throws Exception;
+  UserResponse updatePassword(String uuid, String password, String passwordConfirm);
 
   void delete(Integer localAuthorityId, Integer id);
+
+  void requestPasswordReset(Integer localAuthorityId, Integer id);
 }
