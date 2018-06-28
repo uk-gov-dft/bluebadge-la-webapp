@@ -91,7 +91,7 @@ public class BadgeManagementApiClient {
     ResponseEntity<BadgeResponse> response =
         restTemplateFactory
             .getInstance()
-            .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class, "abc");
+            .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class);
     return response.getBody().getData();
   }
 
@@ -99,7 +99,9 @@ public class BadgeManagementApiClient {
   Creates a builder for a given apiEndpoint using standard configuration
    */
   private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
-    return UriComponentsBuilder.fromUriString(serviceConfiguration.getHost())
+
+    return UriComponentsBuilder.newInstance()
+        .host(serviceConfiguration.getHost())
         .scheme(serviceConfiguration.getScheme())
         .port(serviceConfiguration.getPort())
         .path(serviceConfiguration.getContextPath())
