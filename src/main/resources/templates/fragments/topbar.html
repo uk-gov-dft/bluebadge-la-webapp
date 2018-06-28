@@ -19,7 +19,7 @@
                 <span class="dft-topbar__username" th:data-uipath="topbar.username"
                       th:aria-label="'You are logged in as ' + ${#authentication.name}"
                       sec:authentication="name"/>
-                <form name="logoutForm" th:action="@{/logout}" method="post" >
+                <form name="logoutForm" th:action="@{/sign-out}" method="post" >
                   <input th:data-uipath="topbar.signout" class="dft-topbar__signout" type="submit" value="Sign Out"/>
                 </form>
             </span>

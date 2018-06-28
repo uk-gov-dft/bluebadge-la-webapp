@@ -139,9 +139,10 @@ dependencies {
     runtime('org.springframework.boot:spring-boot-devtools')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+    testCompile('org.springframework.security:spring-security-test')
     testCompile("org.assertj:assertj-core:3.9.1")
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
+    testCompileOnly ('org.projectlombok:lombok:1.16.22')
 }
 
 jacoco {
