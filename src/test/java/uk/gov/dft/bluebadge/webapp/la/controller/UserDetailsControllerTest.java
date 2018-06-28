@@ -35,19 +35,17 @@ public class UserDetailsControllerTest extends ControllerTest {
 
   private static final int ROLE_ID = 1;
   private static final int LOCAL_AUTHORITY = 1;
-  public static final int USER_ID = 1;
-  public static final String NAME_PARAM = "name";
-  public static final String EMAIL_ADDRESS_PARAM = "emailAddress";
-  public static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityId";
-  public static final String MODEL_FORM_REQUEST = "formRequest";
-  public static final String MODEL_ID = "id";
+  private static final int USER_ID = 1;
+  private static final String NAME_PARAM = "name";
+  private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
+  private static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityId";
+  private static final String MODEL_FORM_REQUEST = "formRequest";
+  private static final String MODEL_ID = "id";
 
-  public static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
-  public static final String ERROR_MSG_NAME = "error in name";
+  private static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
+  private static final String ERROR_MSG_NAME = "error in name";
 
   @Mock private UserService userServiceMock;
-
-  private UserDetailsController controller;
 
   // Test Data
   private UserData userDataSignedIn;
@@ -61,7 +59,8 @@ public class UserDetailsControllerTest extends ControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new UserDetailsController(userServiceMock, new UserDetailsFormRequestToUser());
+    UserDetailsController controller =
+        new UserDetailsController(userServiceMock, new UserDetailsFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -200,5 +199,17 @@ public class UserDetailsControllerTest extends ControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
     verify(userServiceMock, times(1)).delete(LOCAL_AUTHORITY, USER_ID);
+  }
+
+  @Test
+  public void requestPasswordReset_shouldRedirectToManageUsers_WhenThereAreNoErrors()
+      throws Exception {
+    mockMvc
+        .perform(
+            post(URL_REQUEST_PASSWORD_RESET + USER_ID)
+                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY)))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl(URL_MANAGE_USERS));
+    verify(userServiceMock, times(1)).requestPasswordReset(LOCAL_AUTHORITY, USER_ID);
   }
 }
