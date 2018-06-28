@@ -111,4 +111,4 @@ Feature: Dft BlueBadge LA Manage User
     Then I should see the title "User details"
     And I can click on element "resetPasswordSummaryText" link
     And I can click on element "doNotResetPasswordButton" button
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    Then I should see the title "User details"
