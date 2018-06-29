@@ -23,22 +23,6 @@ public class SignInTests extends MockMVCWithSecurityTests{
 
   @Test
   @SneakyThrows
-  public void givenValidCredentials_whenLoginRequest_thenRedirect() {
-//    mockAuthServer.expectSuccessPasswordGrantTokenRequest();
-
-    mockMvc
-        .perform(
-            post("/sign-in")
-                .param("username", VALID_USERNAME_1)
-                .param("password", USERNAME_1_PASSWORD)
-                .with(SecurityMockMvcRequestPostProcessors.csrf()))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/"))
-    ;
-  }
-
-  @Test
-  @SneakyThrows
   public void givenInvalidUsername_whenLoginRequest_thenRedirectBackToLogin() {
     mockMvc
         .perform(
