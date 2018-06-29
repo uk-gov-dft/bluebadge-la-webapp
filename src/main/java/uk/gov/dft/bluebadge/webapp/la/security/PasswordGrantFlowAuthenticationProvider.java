@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.security;
 
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -25,6 +26,7 @@ import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatExce
 @Slf4j
 public class PasswordGrantFlowAuthenticationProvider implements AuthenticationProvider {
 
+  private static final Pattern EMAIL_REGEX = Pattern.compile(".+\\@.+");
   private final OAuth2RestTemplate oAuth2RestTemplate;
   private final ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails;
   private final ResourceOwnerPasswordAccessTokenProvider accessTokenProvider;
@@ -52,7 +54,7 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
 
     String username = (String) authentication.getPrincipal();
     log.debug("Attempting to authenticate username:{}", username);
-    if (StringUtils.isEmpty(username)) {
+    if (StringUtils.isEmpty(username) || !EMAIL_REGEX.matcher(username).find()) {
       throw new InvalidEmailFormatException("Username is not in an email format: " + username);
     }
 
