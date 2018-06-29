@@ -5,10 +5,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 
 public class TemplateModelUtils {
-<<<<<<< HEAD
 
-=======
->>>>>>> develop
   private TemplateModelUtils() {}
 
   public static void addApiError(final Error error, final Model model) {
