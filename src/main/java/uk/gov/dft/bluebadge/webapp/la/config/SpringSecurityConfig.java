@@ -44,7 +44,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
         .authorizeRequests()
-        //        .antMatchers("").permitAll()
+        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**")
+        .permitAll()
         .anyRequest()
         .fullyAuthenticated()
         .and()
@@ -55,8 +56,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .logoutUrl("/sign-out")
-    //        .addLogoutHandler(signOutHandler())
-    //        .logoutSuccessUrl("/")
     ;
   }
 
@@ -67,12 +66,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         new UserInfoTokenServices(authServerProps.getUserInfoUri(), authServerProps.getClientId());
     services.setTokenType(authServerProps.getTokenType());
     services.setRestTemplate(restTemplate);
-    //    if (this.authoritiesExtractor != null) {
-    //      services.setAuthoritiesExtractor(this.authoritiesExtractor);
-    //    }
-    //    if (this.principalExtractor != null) {
-    //      services.setPrincipalExtractor(this.principalExtractor);
-    //    }
     return services;
   }
 }

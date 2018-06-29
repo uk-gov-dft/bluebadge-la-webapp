@@ -17,6 +17,9 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.ResourceAccessException;
+import uk.gov.dft.bluebadge.webapp.la.security.exceptions.AuthServerConnectionException;
+import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatException;
 
 @Component
 @Slf4j
@@ -49,6 +52,10 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
 
     String username = (String) authentication.getPrincipal();
     log.debug("Attempting to authenticate username:{}", username);
+    if (StringUtils.isEmpty(username)) {
+      throw new InvalidEmailFormatException("Username is not in an email format: " + username);
+    }
+
     String password = (String) authentication.getCredentials();
     if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
       throw new BadCredentialsException("Username and password are mandatory");
@@ -69,7 +76,10 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
           userInfoTokenServices.loadAuthentication(oAuth2AccessToken.getValue());
       return oAuth2Authentication;
     } catch (OAuth2AccessDeniedException ade) {
-      throw new BadCredentialsException(ade.getOAuth2ErrorCode());
+      if (ade.getCause() instanceof ResourceAccessException) {
+        throw new AuthServerConnectionException("Failed to connect to authorisation service.", ade);
+      }
+      throw new BadCredentialsException("Failed to authenticate user.", ade);
     }
   }
 }
