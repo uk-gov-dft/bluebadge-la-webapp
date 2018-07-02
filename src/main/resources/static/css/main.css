@@ -4740,11 +4740,11 @@ html, body {
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  color: #fff;
+  border: 0;
   margin: 0;
   padding: 0;
-  border: 0;
   cursor: pointer;
+  color: #ffffff;
   text-decoration: underline;
   background-color: transparent;
 }
