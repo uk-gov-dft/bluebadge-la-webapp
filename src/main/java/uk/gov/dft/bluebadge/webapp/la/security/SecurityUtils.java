@@ -22,7 +22,7 @@ public class SecurityUtils {
     userData.setLocalAuthorityId(22);
     userData.setEmailAddress(authentication.getName());
     userData.setName("TODO SecurityUtils");
-    // @see uk.gov.dft.bluebadge.webapp.la.controller.CreateANewUserController.createANewUser()
+    // @see uk.gov.dft.bluebadge.webapp.la.controller.CreateANewUserController.submit()
     userData.setRoleId(1);
 
     return userData;

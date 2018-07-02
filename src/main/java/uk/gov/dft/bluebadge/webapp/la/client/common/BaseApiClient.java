@@ -5,7 +5,7 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.CommonResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
 @Slf4j
 public abstract class BaseApiClient {

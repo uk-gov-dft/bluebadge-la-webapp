@@ -1,10 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import org.springframework.ui.Model;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 
 public class TemplateModelUtils {
+
   private TemplateModelUtils() {}
 
   public static void addApiError(final Error error, final Model model) {

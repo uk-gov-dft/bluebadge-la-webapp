@@ -3,7 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class ErrorComparator implements Comparator<ErrorErrors> {
 

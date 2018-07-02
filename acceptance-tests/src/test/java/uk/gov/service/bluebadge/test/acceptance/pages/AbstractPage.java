@@ -1,6 +1,7 @@
 package uk.gov.service.bluebadge.test.acceptance.pages;
 
 import org.openqa.selenium.WebDriver;
+import uk.gov.service.bluebadge.test.acceptance.util.SnapshotHelper;
 import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
 
 /**
@@ -17,5 +18,9 @@ public abstract class AbstractPage {
 
   protected WebDriver getWebDriver() {
     return webDriverProvider.getWebDriver();
+  }
+
+  public void takeSnapShot() throws Exception {
+    SnapshotHelper.takeSnapShot(getWebDriver());
   }
 }
