@@ -25,8 +25,7 @@ public abstract class BaseApiClient {
       }
     } catch (IOException e) {
       log.error("Could not parse 400 response", e);
-      // TODO ?
-      throw new RuntimeException("Could not parse 400 response", e);
+      throw new ServiceException("Could not parse 400 response", e);
     }
   }
 }

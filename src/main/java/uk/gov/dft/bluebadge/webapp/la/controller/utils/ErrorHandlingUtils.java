@@ -29,7 +29,7 @@ public class ErrorHandlingUtils {
     }
   }
 
-  private static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
+  public static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
     List<ErrorErrors> filteredAndSorted =
         error
             .getErrors()
