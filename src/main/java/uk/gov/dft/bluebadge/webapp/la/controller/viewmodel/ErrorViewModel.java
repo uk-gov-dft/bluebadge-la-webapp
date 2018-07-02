@@ -5,19 +5,22 @@ import org.springframework.util.Assert;
 
 public class ErrorViewModel {
 
-  private String title;
-  private String description;
+  private static final String DEFAULT_TITLE = "error.form.summary.title";
+  private static final String DEFAULT_DESCRIPTION = "empty";
+
+  private String title = DEFAULT_TITLE;
+  private String description = DEFAULT_DESCRIPTION;
 
   public ErrorViewModel() {
-    title = "error.form.summary.title";
-    description = "empty";
+    title = DEFAULT_TITLE;
+    description = DEFAULT_DESCRIPTION;
   }
 
   public ErrorViewModel(String title) {
     Assert.notNull(title, "title cannot be null");
     Assert.hasText(title, "title should have text");
     this.title = title;
-    description = "empty";
+    description = DEFAULT_DESCRIPTION;
   }
 
   public ErrorViewModel(String title, String description) {
