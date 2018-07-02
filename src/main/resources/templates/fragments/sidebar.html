@@ -3,7 +3,7 @@
 <body>
 
 	<aside th:fragment="dft-sidebar"
-			class="dft-sidebar" 
+			class="dft-sidebar"
 			th:with="currentPage=${#la.getURLFirstSegment(#request.requestURI)}">
 
 		<div class="dft-nav">
@@ -18,12 +18,12 @@
 						data-uipath="dft-nav-menu"
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
-
-					<a data-uipath="sidebar-home"
-						th:attr="href=${currentPage == ''} ? '' : '/'"
-						th:class="${currentPage == ''} ? ${activeClass} : ${menuItemClass}">
-						Home
-						<!--<span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.home.badge" aria-label="has 5 records in total">5</span>-->
+									
+					<a data-uipath="sidebar-nav.order-a-badge"
+					   th:attr="href=${currentPage == 'order-a-badge'} ? '' : '/order-a-badge/details/'"
+					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}">
+						Order a badge
+						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.order-a-badge.badge" aria-label="has 8 records in total">8</span> -->
 					</a>
 
 					<a data-uipath="sidebar-nav.manage-users"
@@ -35,7 +35,7 @@
 				</nav>
 
 			</div>
-			
+
 		</div><!--dft-nav-->
 
 	</aside>

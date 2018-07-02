@@ -1,8 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import org.springframework.validation.BindingResult;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class BindingResultUtils {
 

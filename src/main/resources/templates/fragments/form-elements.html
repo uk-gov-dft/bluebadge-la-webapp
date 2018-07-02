@@ -18,14 +18,15 @@
          th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
 
         <label
-                class="govuk-label"
-                th:attr="for=${name}"
-                th:utext="${label}"
-                th:data-uipath="${name} + '.label'" />
+            class="govuk-label"
+            th:attr="for=${name}"
+            th:utext="${label}"
+            th:data-uipath="${name} + '.label'" />
 
         <span class="govuk-hint"
               th:if="${hint}"
               th:utext="${hint}"
+              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
         <span class="govuk-error-message"
@@ -43,5 +44,65 @@
                th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint') : null " />
 
     </div><!-- govuk-o-form-group -->
+
+
+    /* ------------------------------------------------------------------------------
+
+    * Date Field
+
+    @label - String: Label for form input field
+    @hint - String: Adds hint for the input field underneath the label
+    @Day - String: Name of day field
+    @Month - String: Name of month field
+    @year - String: Name of year field
+    @name - String: Name for the form input field.
+    
+    -------------------------------------------------------------------------------- */
+
+    <div th:fragment="govuk-date(label, hint, day, month, year, date)"
+        th:class="${#fields.hasErrors(date)}? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+        <fieldset class="govuk-fieldset"
+            th:aria-describedby="${hint} ? ${date} + '-hint'" role="group">
+
+            <legend class="govuk-fieldset__legend" th:if="${label}">
+                <h2 th:utext="${label}" data-uipath="${date} + '.legend'" class="govuk-heading-s" />
+            </legend>
+
+            <span th:id="${date} + '-hint'" class="govuk-hint" th:if="${hint}" th:utext="${hint}" />
+
+            <span class="govuk-error-message"
+                th:data-uipath="*{__${date}__} + '.error'"
+                th:id="*{__${date}__} + '-error'"
+                th:if="${#fields.hasErrors(date)}"
+                th:errors="*{__${date}__}" />
+
+            <div class="govuk-date-input" th:id="${date}">
+
+                <div class="govuk-date-input__item govuk-date-input__item--day" th:if="${day}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.day.label'" th:attr="for=${day}">Day</label>
+                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.day.field'" th:field="*{__${day}__}" type="text" pattern="[0-9]*">
+                    </div>
+                </div>
+
+                <div class="govuk-date-input__item govuk-date-input__item--month" th:if="${month}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.month.label'" th:attr="for=${month}">Month</label>
+                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.month.field'"  th:field="*{__${month}__}" type="text" pattern="[0-9]*">
+                    </div>
+                </div>
+
+                <div class="govuk-date-input__item govuk-date-input__item--year" th:if="${year}">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.year.label'" th:attr="for=${year}">Year</label>
+                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.year.label'" th:field="*{__${year}__}" type="text" pattern="[0-9]*">
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </div>
+
 </body>
 </html>

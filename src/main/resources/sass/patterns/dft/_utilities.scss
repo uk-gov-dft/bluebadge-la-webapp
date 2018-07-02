@@ -1,0 +1,7 @@
+.dft-u {
+	&-label--visually-hidden {
+		.govuk-label {
+			@include govuk-visually-hidden;
+		}
+	}
+}

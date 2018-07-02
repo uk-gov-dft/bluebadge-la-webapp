@@ -1,47 +1,52 @@
 .dft-grid-row {
-    @include govuk-clearfix;
+	@include govuk-clearfix;
 }
 
-
 .dft-grid-col {
+	width: 100%;
+	
+	@include mq($from: tablet) {
+	    // gutters are currently not required. We may need to enable this
+	    // and rejig the layouts
+		// padding: 0 $govuk-gutter-half;
+	}
 
-    @include mq($from: tablet) {
-        float: left;
-        padding: 0 $govuk-gutter-half;
-    }
+	&--half,
+	&--two-thirds {
+		@include mq($from: desktop) {
+			float: left;
+		}
+	}
 
-    &--full {
-        float: none;
-        width: 100%;
-    }
+	&--half {
+		@include mq($from: desktop) {
+			width: 50%;
+		}
+	}
 
-    &--half {
-        width: 100%;
+	&--two-thirds {
+		@include mq($from: desktop) {
+			width: 66.67%;
+		}
+	}
+}
 
-        @include mq($from: tablet) {
-            width: 62.5%;
-        }
+.dft-width {
+	&-one-quarter {
+		@include mq($from: desktop) {
+			width: 25%;
+		}
+	}
 
-        @include mq($from: wide) {
-            width: 50%;
-        }
-    }
+	&-one-half {
+		@include mq($from: desktop) {
+			width: 50%;
+		}
+	}
 
-    &--two-thirds {
-        width: 100%;
-
-        @include mq($from: tablet) {
-            width: 93%;
-        }
-
-        @include mq($from: wide) {
-            width: 75%;
-        }
-
-    }
-
-    &--no-gutters {
-        padding: 0 0;
-    }
-
+	&-three-quarters {
+		@include mq($from: desktop) {
+			width: 75%;
+		}
+	}
 }

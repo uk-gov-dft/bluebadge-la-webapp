@@ -11,8 +11,8 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class ErrorHandlingUtilsTest {
   private static final String SUCCESS_TEMPLATE = "successTemplate";
