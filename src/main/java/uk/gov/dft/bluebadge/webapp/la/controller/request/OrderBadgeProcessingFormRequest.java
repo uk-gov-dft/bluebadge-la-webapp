@@ -10,15 +10,15 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
 public class OrderBadgeProcessingFormRequest {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
-  private Integer applicationDataYear;
+  private Integer applicationDateYear;
 
   @NotBlank(message = "{NotNull.badge.applicationDate}")
   @ConsistentDate(message = "{Pattern.badge.applicationDate}")
   public String getApplicationDate() {
-    if (applicationDateDay == null && applicationDateMonth == null && applicationDataYear == null) {
+    if (applicationDateDay == null && applicationDateMonth == null && applicationDateYear == null) {
       return null;
     }
-    return LocalDate.of(applicationDateDay, applicationDateMonth, applicationDataYear)
+    return LocalDate.of(applicationDateDay, applicationDateMonth, applicationDateYear)
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
