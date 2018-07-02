@@ -38,3 +38,4 @@ target/*
 *.bak
 acceptance-tests/screenshot/
 acceptance-tests/output/
+acceptance-tests/.DS_Store
