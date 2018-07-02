@@ -18,7 +18,7 @@ public class OrderBadgeProcessingFormRequest {
     if (applicationDateDay == null && applicationDateMonth == null && applicationDateYear == null) {
       return null;
     }
-    return LocalDate.of(applicationDateDay, applicationDateMonth, applicationDateYear)
+    return LocalDate.of(applicationDateYear, applicationDateMonth, applicationDateDay)
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
@@ -38,7 +38,7 @@ public class OrderBadgeProcessingFormRequest {
     if (badgeStartDateDay == null && badgeStartDateMonth == null && badgeStartDateYear == null) {
       return null;
     }
-    return LocalDate.of(badgeStartDateDay, badgeStartDateMonth, badgeStartDateYear)
+    return LocalDate.of(badgeStartDateYear, badgeStartDateMonth, badgeStartDateDay)
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 
@@ -48,7 +48,7 @@ public class OrderBadgeProcessingFormRequest {
     if (badgeExpiryDateDay == null && badgeExpiryDateMonth == null && badgeExpiryDateYear == null) {
       return null;
     }
-    return LocalDate.of(badgeExpiryDateDay, badgeExpiryDateMonth, badgeExpiryDateYear)
+    return LocalDate.of(badgeExpiryDateYear, badgeExpiryDateMonth, badgeExpiryDateDay)
         .format(DateTimeFormatter.ISO_LOCAL_DATE);
   }
 

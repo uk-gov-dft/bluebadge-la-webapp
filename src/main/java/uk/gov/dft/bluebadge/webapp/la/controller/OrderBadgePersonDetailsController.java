@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,8 @@ public class OrderBadgePersonDetailsController {
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-details");
     if (sessionFormRequest != null) {
-      formRequest = (OrderBadgePersonDetailsFormRequest) sessionFormRequest;
+      BeanUtils.copyProperties(
+          (OrderBadgePersonDetailsFormRequest) sessionFormRequest, formRequest);
     }
     return TEMPLATE;
   }

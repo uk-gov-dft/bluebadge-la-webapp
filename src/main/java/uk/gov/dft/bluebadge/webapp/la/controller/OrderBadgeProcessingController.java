@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import java.awt.*;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,7 @@ public class OrderBadgeProcessingController {
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
     if (sessionFormRequest != null) {
-      formRequest = (OrderBadgeProcessingFormRequest) sessionFormRequest;
+      BeanUtils.copyProperties((OrderBadgeProcessingFormRequest) sessionFormRequest, formRequest);
     }
     return TEMPLATE;
   }
