@@ -45,17 +45,25 @@
 
     </div><!-- govuk-o-form-group -->
 
+
     /* ------------------------------------------------------------------------------
 
     * Date Field
 
+    @label - String: Label for form input field
+    @hint - String: Adds hint for the input field underneath the label
+    @Day - String: Name of day field
+    @Month - String: Name of month field
+    @year - String: Name of year field
+    @name - String: Name for the form input field.
+    
     -------------------------------------------------------------------------------- */
 
     <div th:fragment="govuk-date(label, hint, day, month, year, date)"
         th:class="${#fields.hasErrors(date)}? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
 
         <fieldset class="govuk-fieldset"
-            th:attr="aria-describedby=${date} + '-hint'" role="group">
+            th:aria-describedby="${hint} ? ${date} + '-hint'" role="group">
 
             <legend class="govuk-fieldset__legend" th:if="${label}">
                 <h2 th:utext="${label}" data-uipath="${date} + '.legend'" class="govuk-heading-s" />
@@ -65,7 +73,7 @@
 
             <span class="govuk-error-message"
                 th:data-uipath="*{__${date}__} + '.error'"
-                th:id="*{__${date}__} + '-hint'"
+                th:id="*{__${date}__} + '-error'"
                 th:if="${#fields.hasErrors(date)}"
                 th:errors="*{__${date}__}" />
 

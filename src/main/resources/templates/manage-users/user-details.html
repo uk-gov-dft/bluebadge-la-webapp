@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="'User details ' + ${formRequest.name} + ' - GOV.UK Manage Blue Badges'"></title>
+    <title th:text="#{userdetail.title.prefix} + '&nbsp;' + ${formRequest.name} + '&nbsp;' + #{common.title.suffix}"></title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
         <div class="dft-grid-col dft-grid-col--two-thirds">
             <h1 class="govuk-heading-l" data-uipath="title">User details</h1>
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" ></div>
         </div>
     </div>
 
@@ -23,51 +23,51 @@
 
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.name}, 'name', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.emailAddress}, 'emailAddress', null, 'email') }"></div>
 
-                <input value="Update" type="submit" data-uipath="updateUserButton" class="govuk-button">
+                <input th:value="#{common.button.update}" type="submit" data-uipath="updateUserButton" class="govuk-button">
             </form>
 
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text" data-uipath="resetPasswordSummaryText">Reset Password</span>
+                    <span class="govuk-details__summary-text" data-uipath="resetPasswordSummaryText" th:text="#{userdetail.resetPasswordSummaryText}"></span>
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
-                        <p>Are you sure you want to reset the  ***REMOVED*** /></p>
-                        <p>We'll send them an email to reset their password.</p>
+                    <form th:action="@{/manage-users/request- ***REMOVED***>
+                        <p th:utext="#{userdetail.text.confirm ***REMOVED***></p>
+                        <p th:text="#{userdetail.text.confirmpassword.line2}"></p>
                         <input data-uipath="reset.localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
-                        <input data-uipath="resetPasswordButton" value="Yes, reset  ***REMOVED***>
+                        <input data-uipath="resetPasswordButton" th:value="#{userdetail.resetPasswordButton}" type="submit" class="govuk-button">
                     </form>
 
                     <p class="govuk-body">
-                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotResetPasswordButton">No, don't reset password</a>
+                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotResetPasswordButton" th:text="#{userdetail.doNotResetPasswordButton}"></a>
                     </p>
                 </div>
             </details>
 
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText">Remove user</span>
+                    <span class="govuk-details__summary-text" data-uipath="removeUserSummaryText" th:text="#{userdetail.removeUserSummaryText}"></span>
                 </summary>
 
                 <div class="govuk-details__text">
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
-                        <p>Are you sure you want to remove access for <strong data-uipath="userName" th:text="*{name} + '?'" /></p>
-                        <p>You won't be able to undo this.</p>
+                        <p th:utext="#{userdetail.text.confirmdelete.line1} + '<strong data-uipath=&quot;userName&quot;>&nbsp;' + *{name} + '?</strong>'"></p>
+                        <p th:text="#{userdetail.text.confirmdelete.line2}"></p>
                         <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
-                        <input data-uipath="removeUserButton" value="Yes, remove user" type="submit" class="govuk-button">
+                        <input data-uipath="removeUserButton" th:value="#{userdetail.removeUserButton}" type="submit" class="govuk-button">
                     </form>
 
                     <p class="govuk-body">
-                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotRemoveUserButton">No, don't remove user</a>
+                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotRemoveUserButton" th:text="#{userdetail.doNotRemoveUserButton}"></a>
                     </p>
                 </div>
             </details>
-            
+
         </div>
     </div>
 </main>

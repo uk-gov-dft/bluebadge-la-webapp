@@ -1,17 +1,138 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
-
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
 <head>
-	<title>Processing - GOV.UK Manage Blue Badges</title>
+    <title>Processing - GOV.UK Manage Blue Badges</title>
 </head>
-
 <body>
 
-	<main layout:fragment="content">
+<div layout:fragment="headline">
+    <a href="#" class="govuk-back-link">Back</a>
+</div>
 
+<main layout:fragment="content">
 
-	</main>
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
+
+            <div class="dft-group-heading">
+                <!--<p class="dft-sub-heading" data-uipath="step">Step 3</p>-->
+                <h1 class="govuk-heading-l" data-uipath="title">Processing</h1>
+            </div>
+
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+        </div>
+    </div>
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col">
+            <form th:action="@{/order-a-badge/processing}" th:object="${formRequest}" method="post" novalidate>
+
+					<h2 class="govuk-heading-m">Application details</h2>
+
+					<div class="dft-width-one-half">
+						<div th:replace="~{ fragments/form-elements :: govuk-date('Application date', 'For example, 31 3 1980', 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
+						
+						<div class="govuk-form-group">
+							<fieldset class="govuk-fieldset">
+								
+								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+									<h3 class="govuk-heading-s">Application channel</h3>
+								</legend>
+								
+								<div class="govuk-radios">
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="online" name="applicationChannel" type="radio" value="online" data-aria-controls="online">
+										<label class="govuk-label govuk-radios__label" for="online">Online</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="paper" name="applicationChannel" type="radio" value="paper" data-aria-controls="paper">
+										<label class="govuk-label govuk-radios__label" for="paper">Paper</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="phone" name="applicationChannel" type="radio" value="phone" data-aria-controls="phone">
+										<label class="govuk-label govuk-radios__label" for="phone">Phone</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="inPerson" name="applicationChannel" type="radio" value="inPerson" data-aria-controls="inPerson">
+										<label class="govuk-label govuk-radios__label" for="inPerson">In person</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+
+					<hr class="dft-hr dft-hr--small">
+					<h2 class="govuk-heading-m" data-uipath="badgeDetailsTitle">Badge details</h2>
+					
+					<div class="dft-width-one-half">
+						<div th:replace="~{ fragments/form-elements :: govuk-input('Local authority reference number (optional)', 'localAuthorityReferenceNumber', null, 'text') }"/>
+						<div th:replace="~{ fragments/form-elements :: govuk-date('Badge start date', null, 'badgeStartDateDay', 'badgeStartDateMonth', 'badgeStartDateYear', 'badgeStartDate') }"/>
+						<div th:replace="~{ fragments/form-elements :: govuk-date('Badge end date', null, 'badgeExpiryDateDay', 'badgeExpiryDateMonth', 'badgeExpiryDateYear', 'badgeExpiryDate') }"/>
+					</div>
+
+					<hr class="dft-hr dft-hr--small">
+					<h2 class="govuk-heading-m" data-uipath="deliveryInfoTitle">Delivery information</h2>
+					
+					<div class="dft-width-one-half">
+
+						<!--<div th:replace="~{ fragments/radios :: govuk-radios('Something', 'deliverTo', deliverToOptions) }"/>-->
+
+						<div class="govuk-form-group">
+							<fieldset class="govuk-fieldset">
+
+								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+									<h3 class="govuk-heading-s">Deliver to</h3>
+								</legend>
+
+								<div class="govuk-radios">
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="badgeHolder" name="deliverTo" type="radio" value="badgeHolder" data-aria-controls="badgeHolder">
+										<label class="govuk-label govuk-radios__label" for="badgeHolder">Badge holder</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="council" name="deliverTo" type="radio" value="council" data-aria-controls="council">
+										<label class="govuk-label govuk-radios__label" for="council">Council</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+
+						<div class="govuk-form-group">
+							<fieldset class="govuk-fieldset">
+
+								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+									<h3 class="govuk-heading-s">Delivery options</h3>
+								</legend>
+
+								<div class="govuk-radios">
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="standard" name="deliveryOption" type="radio" value="standard" data-aria-controls="standard">
+										<label class="govuk-label govuk-radios__label" for="standard">Standard delivery</label>
+									</div>
+
+									<div class="govuk-radios__item">
+										<input class="govuk-radios__input" id="fast" name="deliveryOption" type="radio" value="fast" data-aria-controls="fast">
+										<label class="govuk-label govuk-radios__label" for="fast">Fast track (more expensive)</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+
+					</div>
+
+					<input value="Order badge" type="submit" data-uipath="orderBadge.button" class="govuk-button">
+
+			  </form>
+        </div>
+    </div>
+</main>
 
 </body>
-
 </html>

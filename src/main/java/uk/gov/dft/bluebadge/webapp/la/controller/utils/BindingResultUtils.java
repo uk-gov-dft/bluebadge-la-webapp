@@ -30,7 +30,7 @@ public class BindingResultUtils {
    * @param bindingResult the binding result whose field with id formField will get the error
    *     message.
    */
-  public static void addCustomError(
+  private static void addCustomError(
       final String formField, final String message, final BindingResult bindingResult) {
     bindingResult.rejectValue(formField, message);
   }

@@ -30,6 +30,7 @@ public class OrderBadgeProcessingFormRequest {
   private Integer badgeStartDateDay;
   private Integer badgeStartDateMonth;
   private Integer badgeStartDateYear;
+  private String badgeStartDate;
 
   @NotBlank(message = "{NotNull.badge.startDate}")
   @ConsistentDate(message = "{Pattern.badge.startDate}")
@@ -54,6 +55,7 @@ public class OrderBadgeProcessingFormRequest {
   private Integer badgeExpiryDateDay;
   private Integer badgeExpiryDateMonth;
   private Integer badgeExpiryDateYear;
+  private String badgeExpiryDate;
 
   @NotBlank(message = "{NotNull.badge.deliverTo}")
   private String deliverTo;
