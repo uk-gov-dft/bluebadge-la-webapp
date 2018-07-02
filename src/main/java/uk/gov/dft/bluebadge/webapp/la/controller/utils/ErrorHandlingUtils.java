@@ -11,6 +11,14 @@ public class ErrorHandlingUtils {
 
   private ErrorHandlingUtils() {}
 
+  /**
+   * @param error
+   * @param successTemplate
+   * @param errorTemplate
+   * @param bindingResult
+   * @param model
+   * @return
+   */
   public static String handleError(
       Error error,
       String successTemplate,

@@ -17,7 +17,7 @@ public class ReferenceDataService {
         new ReferenceData("WALKD", "Walking ability", 0),
         new ReferenceData("ARMS", "Disability in both arms", 0),
         new ReferenceData("CHILDBULK", "Child under 3 with bulky medical equipment", 0),
-        new ReferenceData("CHILDVEHIC", "Chuld under 3 who needs to be near a vehicle", 0),
+        new ReferenceData("CHILDVEHIC", "Child under 3 who needs to be near a vehicle", 0),
         new ReferenceData("TERMILL", "Terminal illness", 0),
         new ReferenceData("ORG", "Organisation", 0));
   }
