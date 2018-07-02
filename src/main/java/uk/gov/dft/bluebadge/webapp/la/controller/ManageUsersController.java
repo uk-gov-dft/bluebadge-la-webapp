@@ -21,9 +21,9 @@ public class ManageUsersController {
 
   public static final String URL_MANAGE_USERS = "/manage-users";
   public static final String REDIRECT_URL_MANAGE_USERS = "redirect:" + URL_MANAGE_USERS;
-  public static final String TEMPLATE_MANAGE_USERS = "manage-users";
+  private static final String TEMPLATE_MANAGE_USERS = "manage-users";
 
-  private static final Logger logger = LoggerFactory.getLogger(ManageUsersController.class);
+  private static final Logger log = LoggerFactory.getLogger(ManageUsersController.class);
 
   private final UserService userService;
   private final SecurityUtils securityUtils;
@@ -37,7 +37,7 @@ public class ManageUsersController {
   @GetMapping(URL_MANAGE_USERS)
   public String manageUsers(@ModelAttribute final ManageUsersFormRequest formRequest, Model model) {
     UserData user = securityUtils.getCurrentUserDetails();
-
+    log.debug("Showing manage users page.");
     List<User> allUsers = userService.find(user.getLocalAuthorityId()).getData().getUsers();
     List<User> users = Lists.newArrayList();
 

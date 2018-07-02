@@ -17,20 +17,20 @@ import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 @Controller
 public class SetPasswordController {
 
-  public static final String URL_SET_PASSWORD = "/set***REMOVED***/{uuid}";
-  public static final String TEMPLATE_SET_PASSWORD = "set***REMOVED***";
-  public static final String URL_HOME_PAGE = "/";
-  public static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
+  private static final String URL_SET = "/set***REMOVED***/{uuid}";
+  private static final String TEMPLATE_SET = "set***REMOVED***";
+  private static final String URL_HOME_PAGE = "/";
+  private static final String REDIRECT_URL_HOME_PAGE = "redirect:" + URL_HOME_PAGE;
 
   private UserService userService;
-  private static final Logger logger = LoggerFactory.getLogger(SetPasswordController.class);
+  private static final Logger log = LoggerFactory.getLogger(SetPasswordController.class);
 
   @Autowired
   public SetPasswordController(UserService userService) {
     this.userService = userService;
   }
 
-  @GetMapping(URL_SET_PASSWORD)
+  @GetMapping(URL_SET)
   public String showSetPassword(
       @ModelAttribute("formRequest") final SetPasswordFormRequest formRequest,
       Model model,
@@ -39,34 +39,24 @@ public class SetPasswordController {
 
     model.addAttribute("uuid", uuid);
 
-    return TEMPLATE_SET_PASSWORD;
+    return TEMPLATE_SET;
   }
 
-  @PostMapping(URL_SET_PASSWORD)
+  @PostMapping(URL_SET)
   public String setPassword(
       @Valid @ModelAttribute("formRequest") final SetPasswordFormRequest formRequest,
       @PathVariable("uuid") String uuid,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
+    log.debug("Posting set password form.");
 
-    try {
+    String password = formRequest.getPassword();
+    String passwordConfirm = formRequest.getPasswordConfirm();
 
-      String password = formRequest.getPassword();
-      String passwordConfirm = formRequest.getPasswordConfirm();
+    UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
 
-      UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
-
-      return ErrorHandlingUtils.handleError(
-          userResponse.getError(),
-          REDIRECT_URL_HOME_PAGE,
-          TEMPLATE_SET_PASSWORD,
-          bindingResult,
-          model);
-
-    } catch (Exception ex) {
-      logger.error("There was an unexpected exception", ex);
-      return TEMPLATE_SET_PASSWORD;
-    }
+    return ErrorHandlingUtils.handleError(
+        userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET, bindingResult, model);
   }
 }
