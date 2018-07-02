@@ -6,7 +6,9 @@
 	width: 100%;
 	
 	@include mq($from: tablet) {
-		padding: 0 $govuk-gutter-half;
+	    // gutters are currently not required. We may need to enable this
+	    // and rejig the layouts
+		// padding: 0 $govuk-gutter-half;
 	}
 
 	&--half,
@@ -26,10 +28,6 @@
 		@include mq($from: desktop) {
 			width: 66.67%;
 		}
-	}
-
-	&--no-gutters {
-		padding: 0;
 	}
 }
 

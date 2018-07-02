@@ -6,10 +6,13 @@
 <head>
     <title>Processing - GOV.UK Manage Blue Badges</title>
 </head>
+
 <body>
 
 <div layout:fragment="headline">
-    <a href="#" class="govuk-back-link">Back</a>
+	<div class="dft-headline-wrapper">
+    	<a href="#" aria-label="go back" data-uipath="back-link" class="govuk-back-link">Back</a>
+	</div>
 </div>
 
 <main layout:fragment="content">
@@ -127,7 +130,7 @@
 
 					</div>
 
-					<input value="Order badge" type="submit" data-uipath="orderBadge.button" class="govuk-button">
+					<input value="Continue" type="submit" data-uipath="orderBadge.button" class="govuk-button">
 
 			  </form>
         </div>
