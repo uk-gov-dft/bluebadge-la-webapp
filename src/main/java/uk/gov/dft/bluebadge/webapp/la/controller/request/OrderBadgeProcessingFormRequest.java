@@ -11,7 +11,6 @@ public class OrderBadgeProcessingFormRequest {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
   private Integer applicationDateYear;
-  private String applicationDate;
 
   @NotBlank(message = "{NotNull.badge.applicationDate}")
   @ConsistentDate(message = "{Pattern.badge.applicationDate}")

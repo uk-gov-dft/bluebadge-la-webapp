@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.*;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,12 @@ public class OrderBadgeProcessingController {
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") final OrderBadgeProcessingFormRequest formRequest) {
+      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+      HttpSession session) {
+    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
+    if (sessionFormRequest != null) {
+      formRequest = (OrderBadgeProcessingFormRequest) sessionFormRequest;
+    }
     return TEMPLATE;
   }
 
@@ -39,11 +45,13 @@ public class OrderBadgeProcessingController {
   public String submit(
       @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
       BindingResult bindingResult,
-      Model model) {
+      Model model,
+      HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
+    session.setAttribute("formRequest-order-a-badge-processing", formRequest);
     return REDIRECT_HOME;
   }
 }
