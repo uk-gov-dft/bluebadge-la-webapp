@@ -1,0 +1,11 @@
+.dft-btn-link {
+    @extend .govuk-link;
+    @include govuk-font-regular-16;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: transparent;
+}

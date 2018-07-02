@@ -109,7 +109,7 @@ input, select {
   box-sizing: border-box;
 }
 
-.govuk-link, .dft-search__clear-link, .govuk-prose-scope a {
+.govuk-link, .dft-btn-link, .dft-search__clear-link, .govuk-prose-scope a {
   font-family: "nta", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -144,35 +144,35 @@ input, select {
 }
 
 @media print {
-  .govuk-link, .dft-search__clear-link, .govuk-prose-scope a {
+  .govuk-link, .dft-btn-link, .dft-search__clear-link, .govuk-prose-scope a {
     font-family: sans-serif;
   }
 }
 
-.govuk-link:focus, .dft-search__clear-link:focus, .govuk-prose-scope a:focus {
+.govuk-link:focus, .dft-btn-link:focus, .dft-search__clear-link:focus, .govuk-prose-scope a:focus {
   outline: 3px solid #ffbf47;
   outline-offset: 0;
   background-color: #ffbf47;
 }
 
-.govuk-link:link, .dft-search__clear-link:link, .govuk-prose-scope a:link {
+.govuk-link:link, .dft-btn-link:link, .dft-search__clear-link:link, .govuk-prose-scope a:link {
   color: #005ea5;
 }
 
-.govuk-link:visited, .dft-search__clear-link:visited, .govuk-prose-scope a:visited {
+.govuk-link:visited, .dft-btn-link:visited, .dft-search__clear-link:visited, .govuk-prose-scope a:visited {
   color: #4c2c92;
 }
 
-.govuk-link:hover, .dft-search__clear-link:hover, .govuk-prose-scope a:hover {
+.govuk-link:hover, .dft-btn-link:hover, .dft-search__clear-link:hover, .govuk-prose-scope a:hover {
   color: #2b8cc4;
 }
 
-.govuk-link:active, .dft-search__clear-link:active, .govuk-prose-scope a:active {
+.govuk-link:active, .dft-btn-link:active, .dft-search__clear-link:active, .govuk-prose-scope a:active {
   color: #2b8cc4;
 }
 
 @media print {
-  .govuk-link[href^="/"]::after, .dft-search__clear-link[href^="/"]::after, .govuk-prose-scope a[href^="/"]::after, .govuk-link[href^="http://"]::after, .dft-search__clear-link[href^="http://"]::after, .govuk-prose-scope a[href^="http://"]::after, .govuk-link[href^="https://"]::after, .dft-search__clear-link[href^="https://"]::after, .govuk-prose-scope a[href^="https://"]::after {
+  .govuk-link[href^="/"]::after, .dft-btn-link[href^="/"]::after, .dft-search__clear-link[href^="/"]::after, .govuk-prose-scope a[href^="/"]::after, .govuk-link[href^="http://"]::after, .dft-btn-link[href^="http://"]::after, .dft-search__clear-link[href^="http://"]::after, .govuk-prose-scope a[href^="http://"]::after, .govuk-link[href^="https://"]::after, .dft-btn-link[href^="https://"]::after, .dft-search__clear-link[href^="https://"]::after, .govuk-prose-scope a[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -4693,6 +4693,27 @@ html, body {
   padding-bottom: 50px;
 }
 
+.dft-btn-link {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  font-size: 14pt;
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
 /* ---------------------------------------------
 
     * GOV UK Pattern Overrides
@@ -5144,12 +5165,20 @@ html, body {
   margin-top: 2px;
 }
 
+.dft-topbar__menu:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .dft-topbar__username {
   display: none;
+  float: left;
   display: inline-block;
 }
 
 .dft-topbar__signout {
+  float: left;
   margin-left: 5px;
   margin-left: 10px;
 }

@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.dft.bluebadge.webapp.la.controller.MockMVCWithSecurityTests;
 
 @RunWith(SpringRunner.class)
-public class SignInTests extends MockMVCWithSecurityTests{
+public class SignInTests extends MockMVCWithSecurityTests {
 
   @Test
   @SneakyThrows
