@@ -17,6 +17,9 @@ public class Error {
   @JsonProperty("message")
   private String message = null;
 
+  @JsonProperty("reason")
+  private String reason = null;
+
   @JsonProperty("errors")
   @Valid
   private List<ErrorErrors> errors = null;
@@ -59,6 +62,25 @@ public class Error {
     this.message = message;
   }
 
+  public Error reason(String reason) {
+    this.reason = reason;
+    return this;
+  }
+
+  /**
+   * Get reason
+   *
+   * @return reason
+   */
+  @ApiModelProperty(value = "")
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
   public Error errors(List<ErrorErrors> errors) {
     this.errors = errors;
     return this;
@@ -98,12 +120,13 @@ public class Error {
     Error error = (Error) o;
     return Objects.equals(this.code, error.code)
         && Objects.equals(this.message, error.message)
+        && Objects.equals(this.reason, error.reason)
         && Objects.equals(this.errors, error.errors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, errors);
+    return Objects.hash(code, message, reason, errors);
   }
 
   @Override
@@ -113,6 +136,7 @@ public class Error {
 
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");
     return sb.toString();

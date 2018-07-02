@@ -11,8 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersData;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 public class UserServiceTest {
 
@@ -67,11 +65,10 @@ public class UserServiceTest {
             .localAuthorityId(LOCAL_AUTHORITY)
             .emailAddress("name-5@email.com");
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
-    UsersData usersData = new UsersData().users(usersFromClient);
-    usersData.setTotalItems(usersFromClient.size());
+
     when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
-        .thenReturn(new UsersResponse().data(usersData));
-    List<User> users = userService.find(LOCAL_AUTHORITY).getData().getUsers();
+        .thenReturn(usersFromClient);
+    List<User> users = userService.find(LOCAL_AUTHORITY);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
     assertThat(users).isEqualTo(expectedUsers);
   }

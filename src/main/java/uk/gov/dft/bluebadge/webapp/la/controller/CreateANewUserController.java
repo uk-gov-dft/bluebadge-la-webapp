@@ -9,13 +9,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
@@ -58,25 +56,17 @@ public class CreateANewUserController {
       Model model) {
     try {
       log.debug("Creating new user");
-      UserData signedInUser = securityUtils.getCurrentUserDetails();
+      User signedInUser = securityUtils.getCurrentUserDetails();
       User user =
           createANewUserRequest2User
               .convert(formRequest)
               .localAuthorityId(signedInUser.getLocalAuthorityId())
               .roleId(signedInUser.getRoleId());
       log.debug("Creating user for email {}", user.getEmailAddress());
-      UserResponse userResponse = userService.create(user);
-      return ErrorHandlingUtils.handleError(
-          userResponse.getError(),
-          REDIRECT_URL_MANAGE_USERS,
-          TEMPLATE_CREATE_A_NEW_USER,
-          bindingResult,
-          model);
-    } catch (Exception ex) {
-      TemplateModelUtils.addCustomError(
-          "error.createUser.generalError.title",
-          "error.createUser.generalError.description",
-          model);
+      userService.create(user);
+      return REDIRECT_URL_MANAGE_USERS;
+    } catch (BadRequestException e) {
+      ErrorHandlingUtils.bindBadRequestException(e, bindingResult, model);
       return TEMPLATE_CREATE_A_NEW_USER;
     }
   }

@@ -1,13 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
 
 @Service
@@ -21,65 +19,47 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserResponse findOneById(int id) {
-    return userManagementApiClient.getById(2, id);
-  }
-
-  // TODO: Changes to return UserResponse, if it is empty or not is inside UserResponse.
-  @Override
-  public Optional<UserResponse> findOneByEmail(String email) {
-    if (userManagementApiClient.checkUserExistsForEmail(email)) {
-      UserResponse userResponse = userManagementApiClient.getUserForEmail(email);
-      return Optional.of(userResponse);
-    } else {
-      return Optional.empty();
-    }
+  public User findOneById(int id) {
+    return userManagementApiClient.getById(id);
   }
 
   @Override
-  public UsersResponse find(int localAuthority, String nameFilter) {
-    UsersResponse usersResponse =
+  public List<User> find(int localAuthority, String nameFilter) {
+    List<User> usersResponse =
         this.userManagementApiClient.getUsersForAuthority(localAuthority, nameFilter);
-    if (usersResponse.getData().getTotalItems() > 0) {
-      Collections.sort(
-          usersResponse.getData().getUsers(),
-          new UserComparatorByNameAscendingOrderCaseInsensitive());
+    if (usersResponse.size() > 0) {
+      Collections.sort(usersResponse, new UserComparatorByNameAscendingOrderCaseInsensitive());
     }
     return usersResponse;
   }
 
   @Override
-  public UsersResponse find(int localAuthority) {
+  public List<User> find(int localAuthority) {
     return find(localAuthority, "");
   }
 
   @Override
-  public UserResponse create(User user) {
-    return userManagementApiClient.createUser(user.getLocalAuthorityId(), user);
+  public User create(User user) {
+    return userManagementApiClient.createUser(user);
   }
 
   @Override
-  public UserResponse update(User user) {
+  public User update(User user) {
     return userManagementApiClient.updateUser(user);
   }
 
   @Override
-  public UserResponse updatePassword(String uuid, String password, String passwordConfirm) {
+  public User updatePassword(String uuid, String password, String passwordConfirm) {
     return userManagementApiClient.updatePassword(uuid, password, passwordConfirm);
   }
 
   @Override
-  public void delete(Integer localAuthorityId, Integer id) {
-    userManagementApiClient.deleteUser(localAuthorityId, id);
+  public void delete(Integer id) {
+    userManagementApiClient.deleteUser(id);
   }
 
   @Override
-  public boolean checkUserExistsForEmail(String email) {
-    return userManagementApiClient.checkUserExistsForEmail(email);
-  }
-
-  @Override
-  public void requestPasswordReset(Integer localAuthorityId, Integer id) {
-    userManagementApiClient.requestPasswordReset(localAuthorityId, id);
+  public void requestPasswordReset(Integer id) {
+    userManagementApiClient.requestPasswordReset(id);
   }
 }
