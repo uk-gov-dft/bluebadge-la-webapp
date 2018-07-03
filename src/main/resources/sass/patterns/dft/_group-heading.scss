@@ -1,0 +1,19 @@
+.dft-group-heading {
+
+	h1,
+	h2 {
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+	.dft-sub-heading {
+		padding: 0;
+		margin-bottom: 5px;
+	}
+
+}
+
+.dft-sub-heading {
+	@include govuk-font-regular-19;
+	color: $govuk-secondary-text-colour;
+}

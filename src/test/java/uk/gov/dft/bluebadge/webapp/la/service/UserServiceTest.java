@@ -20,7 +20,7 @@ public class UserServiceTest {
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String PASSWORD = "password";
 
-  @Mock private UserManagementApiClient userManagementServiceMock;
+  @Mock private UserManagementApiClient userManagementApiClientMock;
 
   private UserService userService;
 
@@ -30,7 +30,7 @@ public class UserServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    userService = new UserServiceImpl(userManagementServiceMock);
+    userService = new UserServiceImpl(userManagementApiClientMock);
   }
 
   @Test
@@ -69,7 +69,7 @@ public class UserServiceTest {
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
     UsersData usersData = new UsersData().users(usersFromClient);
     usersData.setTotalItems(usersFromClient.size());
-    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
+    when(userManagementApiClientMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
         .thenReturn(new UsersResponse().data(usersData));
     List<User> users = userService.find(LOCAL_AUTHORITY).getData().getUsers();
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);

@@ -4,13 +4,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class ErrorHandlingUtils {
 
   private ErrorHandlingUtils() {}
 
+  /**
+   * @param error
+   * @param successTemplate
+   * @param errorTemplate
+   * @param bindingResult
+   * @param model
+   * @return
+   */
   public static String handleError(
       Error error,
       String successTemplate,

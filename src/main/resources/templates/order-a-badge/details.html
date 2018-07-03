@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title>Personal Details - GOV.UK Manage Blue Badges</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
+
+            <div class="dft-group-heading">
+                <p class="dft-sub-heading" data-uipath="step">Step 2</p>
+                <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
+            </div>
+
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+        </div>
+    </div>
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col">
+            <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
+
+                <div class="dft-width-one-half">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
+                </div>
+
+                <hr class="dft-hr dft-hr--small">
+
+                <fieldset class="govuk-fieldset fieldset-with-inputs">
+                    <legend>
+                        <h2 class="govuk-heading-m" data-uipath="addressTitle">Address</h2>
+                    </legend>
+                    <div class="dft-width-one-half">
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Building and street', 'buildingAndStreet', null, 'text') }"/>
+                        <div class="dft-u-label--visually-hidden" th:insert="~{ fragments/form-elements :: govuk-input('Address line 2', 'optionalAddressField', null, 'text') }"/>
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Town or city', 'townOrCity', null, 'text') }"/>
+                    </div>
+
+                    <div class="dft-width-one-quarter">
+                        <div th:replace="~{ fragments/form-elements :: govuk-input('Postcode', 'postcode', null, 'text') }"/>
+                    </div>
+                </fieldset>
+
+                <hr class="dft-hr dft-hr--small">
+                <h2 class="govuk-heading-m" data-uipath="contactTitle">Contact details</h2>
+
+                <div class="dft-width-one-half">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name (optional)', 'contactDetailsName', 'This should be the name of the main point of contact', 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Contact number', 'contactDetailsContactNumber', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
+                </div>
+
+                <hr class="dft-hr dft-hr--small">
+                <h2 class="govuk-heading-m" data-uipath="eligibilityTitle">Eligibility</h2>
+
+                <div th:class="${#fields.hasErrors('eligibility')} ? 'dft-width-one-half govuk-form-group govuk-form-group--error' : 'dft-width-one-half govuk-form-group'">
+
+                <span class="govuk-error-message"
+                      th:data-uipath="'eligibility.error'"
+                      th:id="eligibility-hint"
+                      th:if="${#fields.hasErrors('eligibility')}"
+                      th:errors="*{eligibility}" />
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="eligibility" data-uipath="eligibility.label">Select from list</label>
+                        <select class="govuk-select" th:field="*{eligibility}" data-uipath="eligibility">
+                            <option value="" th:text="'select eligibility'"></option>
+                            <option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+
+            </form>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

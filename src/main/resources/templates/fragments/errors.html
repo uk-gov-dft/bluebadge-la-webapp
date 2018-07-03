@@ -36,6 +36,13 @@ variable which comes from Thymleaf / Spring integration.
 
         <ul class="govuk-list govuk-error-summary__list">
 
+            <li th:if="${err.isGlobal()}"
+                th:each="err : ${#fields.detailedErrors('formRequest')}">
+
+                <p th:text="${err.message}"/>
+
+            </li>
+
             <li th:if="${!err.isGlobal()}"
                 th:each="err : ${#fields.detailedErrors('formRequest.*')}"
                 th:data-uipath="${err.fieldName} + '.summary-error'">

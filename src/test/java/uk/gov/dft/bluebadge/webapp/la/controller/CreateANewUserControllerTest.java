@@ -13,8 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.ErrorErrors;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
@@ -75,8 +75,7 @@ public class CreateANewUserControllerTest {
   }
 
   @Test
-  public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
-      throws Exception {
+  public void show_shouldDisplayCreateANewUserTemplate() throws Exception {
     mockMvc
         .perform(get("/manage-users/create-a-new-user"))
         .andExpect(status().isOk())
@@ -85,7 +84,7 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
+      submit_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
@@ -110,7 +109,7 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
+      submit_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
           throws Exception {
     user.setEmailAddress(EMAIL_WRONG_FORMAT);
     user.setName(NAME_WRONG_FORMAT);
@@ -138,7 +137,7 @@ public class CreateANewUserControllerTest {
   }
 
   @Test
-  public void createANewUser_shouldDisplayCreateANewUserWithError_WhenThereIsAnUnexpectedException()
+  public void submit_shouldDisplayCreateANewUserWithError_WhenThereIsAnUnexpectedException()
       throws Exception {
     when(userServiceMock.create(user)).thenThrow(new Exception());
     mockMvc
