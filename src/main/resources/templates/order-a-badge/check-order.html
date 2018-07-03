@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
+
+<head>
+    <title>Check order - GOV.UK Manage Blue Badges</title>
+</head>
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a href="#" aria-label="go back" data-uipath="back-link" class="govuk-back-link">Back</a>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
+
+            <h1 class="govuk-heading-l" data-uipath="title">Check order</h1>
+
+            <section class="dft-check-answers">
+
+                <div class="dft-check-answers__heading">
+                    <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="organisationsDetails.title">Organisation details</h2>
+                    <a class="dft-check-answers__cta" aria-label="change organisation details" data-uipath="organisationsDetails.change" href="">Change</a>
+                </div>
+
+                <dl class="dft-data-list" data-uipath="organisationsDetails.answers">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Organisation name</dt>
+                        <dd class="dft-data-list__dd">Answer</dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Address</dt>
+                        <dd class="dft-data-list__dd">Answer</dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Contact number</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Email address</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Eligibility</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <!-- <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Logo</dt>
+                        <dd class="dft-data-list__dd">
+                            <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
+                        </dd>
+                    </div> -->
+                </dl>
+            </section>
+
+            <section class="dft-check-answers">
+                <div class="dft-check-answers__heading">
+                    <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title">Processing</h2>
+                    <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change" href="">Change</a>
+                </div>
+
+                <dl class="dft-data-list" data-uipath="processing.answers">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Local authority reference</dt>
+                        <dd class="dft-data-list__dd">Answer</dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Badge start date</dt>
+                        <dd class="dft-data-list__dd">Answer</dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Badge expiry date</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Application date</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Application channel</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Delivery to</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Deliver options</dt>
+                        <dd class="dft-data-list__dd"></dd>
+                    </div>
+                </dl>
+            </section>
+
+            <form action="/" method="post" novalidate>
+                <input value="Order badge" type="submit" data-uipath="orderBadge.button" class="govuk-button">
+            </form>
+
+        </div>
+    </div>
+</main>
+
+</body>
+
+</html>
