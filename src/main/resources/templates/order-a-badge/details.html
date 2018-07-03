@@ -8,10 +8,6 @@
 </head>
 <body>
 
-<!--<div layout:fragment="headline">
-    <a href="#" class="govuk-back-link">Back</a>
-</div>-->
-
 <main layout:fragment="content">
 
     <div class="dft-grid-row">
@@ -75,9 +71,25 @@
 
                     <div class="govuk-form-group">
                         <label class="govuk-label" for="eligibility" data-uipath="eligibility.label">Select from list</label>
-                        <select class="govuk-select" th:field="*{eligibility}" data-uipath="eligibility">
-                            <option value="" th:text="'select eligibility'"></option>
-                            <option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>
+                        <select class="govuk-select" id="eligibility" th:field="*{eligibility}" data-uipath="eligibility">
+                            <option value="">Select one</option>
+                            <optgroup label="Automatic">
+                                <option value="PIP" >PIP</option>
+                                <option value="DLA" >DLA</option>
+                                <option value="AFRFCS" >Armed Forces Compensation scheme</option>
+                                <option value="WPMS" >War Pensioners Mobility Supplement</option>
+                                <option value="BLIND" >Registered blind</option>
+                            </optgroup>
+                            <optgroup label="Further assessment">
+                                <option value="WALKD" >Walking ability</option>
+                                <option value="ARMS" >Disability in both arms</option>
+                                <option value="CHILDBULK" >Child under 3 with bulky medical equipment</option>
+                                <option value="CHILDVEHIC" >Child under 3 who needs to be near a vehicle</option>
+                                <option value="TERMILL" >Terminal illness</option>
+                                <option value="ORG" >Organisation</option>
+                            </optgroup>
+
+                            <!--<option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>-->
                         </select>
                     </div>
                 </div>
