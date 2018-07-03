@@ -84,7 +84,7 @@ public class OrderBadgePersonDetailsControllerTest {
   }
 
   @Test
-  public void show_shouldDisplayOrderABadgePersonDetails() throws Exception {
+  public void show_shouldDisplayOrderABadgePersonDetailsTemplate() throws Exception {
     mockMvc
         .perform(get("/order-a-badge/details"))
         .andExpect(status().isOk())
@@ -113,8 +113,9 @@ public class OrderBadgePersonDetailsControllerTest {
   }
 
   @Test
-  public void submit_shouldRedirectToProcessingPage_WhenAllFieldsAreSetAndThereNoValidationErrors()
-      throws Exception {
+  public void
+      submit_shouldRedirectToProcessingPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
+          throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/details")

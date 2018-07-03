@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.*;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class OrderBadgeProcessingController {
 
   @PostMapping(URL)
   public String submit(
-      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+      @Valid @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
