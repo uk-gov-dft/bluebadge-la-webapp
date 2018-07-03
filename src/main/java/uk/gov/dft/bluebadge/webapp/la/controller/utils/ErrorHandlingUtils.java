@@ -2,70 +2,34 @@ package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
+@Slf4j
 public class ErrorHandlingUtils {
 
   private ErrorHandlingUtils() {}
 
-  /**
-   * @param error
-   * @param successTemplate
-   * @param errorTemplate
-   * @param bindingResult
-   * @param model
-   * @return
-   */
-  public static String handleError(
-      Error error,
-      String successTemplate,
-      String errorTemplate,
-      BindingResult bindingResult,
-      Model model,
-      List<String> errorListOrder) {
-
-    return ErrorHandlingUtils.internalHandleError(
-        error, successTemplate, errorTemplate, bindingResult, model, errorListOrder);
-  }
-
-  public static String handleError(
-      Error error,
-      String successTemplate,
-      String errorTemplate,
-      BindingResult bindingResult,
-      Model model) {
-
-    return ErrorHandlingUtils.internalHandleError(
-        error, successTemplate, errorTemplate, bindingResult, model, null);
-  }
-
-  private static String internalHandleError(
-      Error error,
-      String successTemplate,
-      String errorTemplate,
-      BindingResult bindingResult,
-      Model model,
-      List<String> errorListOrder) {
-
-    if (hasNoErrors(error)) {
-      return successTemplate;
-    }
+  public static void bindBadRequestException(
+      BadRequestException c, BindingResult bindingResult, Model model) {
 
     TemplateModelUtils.addCustomError("error.form.summary.title", "empty", model);
-
-    if (errorListOrder != null) {
-      sortAndFilterErrors(error, errorListOrder);
+    Assert.notNull(c, "400 response without CommonResponse");
+    try {
+      for (ErrorErrors errorItem : c.getCommonResponse().getError().getErrors()) {
+        bindingResult.rejectValue(errorItem.getField(), errorItem.getMessage());
+      }
+    } catch (NullPointerException npe) {
+      log.error("bindBadRequestException called with empty errors list.");
     }
-
-    BindingResultUtils.addApiErrors(error, bindingResult);
-
-    return errorTemplate;
   }
 
-  private static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
+  public static void sortAndFilterErrors(Error error, List<String> errorListOrder) {
     List<ErrorErrors> filteredAndSorted =
         error
             .getErrors()
@@ -75,9 +39,5 @@ public class ErrorHandlingUtils {
             .collect(Collectors.toList());
 
     error.setErrors(filteredAndSorted);
-  }
-
-  private static boolean hasNoErrors(Error error) {
-    return error == null || error.getErrors() == null || error.getErrors().isEmpty();
   }
 }

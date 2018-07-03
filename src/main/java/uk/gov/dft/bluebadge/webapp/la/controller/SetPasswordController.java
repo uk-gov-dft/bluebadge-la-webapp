@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.SetPasswordFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -54,9 +57,12 @@ public class SetPasswordController {
     String password = formRequest.getPassword();
     String passwordConfirm = formRequest.getPasswordConfirm();
 
-    UserResponse userResponse = this.userService.updatePassword(uuid, password, passwordConfirm);
-
-    return ErrorHandlingUtils.handleError(
-        userResponse.getError(), REDIRECT_URL_HOME_PAGE, TEMPLATE_SET, bindingResult, model);
+    try {
+      userService.updatePassword(uuid, password, passwordConfirm);
+      return REDIRECT_URL_HOME_PAGE;
+    } catch (BadRequestException e) {
+      ErrorHandlingUtils.bindBadRequestException(e, bindingResult, model);
+      return TEMPLATE_SET;
+    }
   }
 }

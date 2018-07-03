@@ -13,13 +13,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserData;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
@@ -42,7 +41,7 @@ public class CreateANewUserControllerTest {
   private CreateANewUserController controller;
 
   // Test Data
-  private UserData userDataSignedIn;
+  private User userDataSignedIn;
   private User user;
 
   @Before
@@ -61,7 +60,7 @@ public class CreateANewUserControllerTest {
             .build();
 
     userDataSignedIn =
-        new UserData()
+        new User()
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
@@ -75,7 +74,8 @@ public class CreateANewUserControllerTest {
   }
 
   @Test
-  public void show_shouldDisplayCreateANewUserTemplate() throws Exception {
+  public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
+      throws Exception {
     mockMvc
         .perform(get("/manage-users/create-a-new-user"))
         .andExpect(status().isOk())
@@ -84,19 +84,12 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      submit_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
+      createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
         new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
-    UserResponse userResponse =
-        new UserResponse()
-            .data(
-                new UserData()
-                    .emailAddress(EMAIL)
-                    .name(NAME)
-                    .localAuthorityId(LOCAL_AUTHORITY)
-                    .roleId(ROLE_ID));
-    when(userServiceMock.create(user)).thenReturn(userResponse);
+
+    when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
@@ -109,16 +102,17 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      submit_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
+      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
           throws Exception {
     user.setEmailAddress(EMAIL_WRONG_FORMAT);
     user.setName(NAME_WRONG_FORMAT);
+
     ErrorErrors emailError =
         new ErrorErrors().field("emailAddress").message(ERROR_IN_EMAIL_ADDRESS);
     ErrorErrors nameError = new ErrorErrors().field("name").message(ERROR_IN_NAME);
-    UserResponse userResponse = new UserResponse();
-    userResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
-    when(userServiceMock.create(user)).thenReturn(userResponse);
+    CommonResponse commonResponse = new CommonResponse();
+    commonResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
+    when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
     mockMvc
         .perform(
             post("/manage-users/create-a-new-user")
@@ -134,25 +128,5 @@ public class CreateANewUserControllerTest {
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_IN_NAME));
 
     verify(userServiceMock, times(1)).create(user);
-  }
-
-  @Test
-  public void submit_shouldDisplayCreateANewUserWithError_WhenThereIsAnUnexpectedException()
-      throws Exception {
-    when(userServiceMock.create(user)).thenThrow(new Exception());
-    mockMvc
-        .perform(
-            post("/manage-users/create-a-new-user")
-                .param("emailAddress", EMAIL)
-                .param("name", NAME))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users/create-a-new-user"))
-        .andExpect(
-            model()
-                .attribute(
-                    "errorSummary",
-                    new ErrorViewModel(
-                        "error.createUser.generalError.title",
-                        "error.createUser.generalError.description")));
   }
 }

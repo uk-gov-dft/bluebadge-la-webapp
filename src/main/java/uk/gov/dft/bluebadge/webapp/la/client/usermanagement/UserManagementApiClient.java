@@ -2,69 +2,48 @@ package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
 import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.*;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Password;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 @Service
-public class UserManagementApiClient {
+public class UserManagementApiClient extends BaseApiClient {
 
   class Endpoints {
     private Endpoints() {}
 
-    static final String GET_USER_BY_EMAIL_ENDPOINT = "/users?emailAddress={emailAddress}";
-    static final String GET_BY_ID_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
-    static final String CREATE_ENDPOINT = "/authorities/{authorityId}/users";
+    static final String GET_BY_ID_ENDPOINT = "/users/{userId}";
+    static final String CREATE_ENDPOINT = "/users";
     static final String GET_USERS_FOR_AUTHORITY_ENDPOINT =
-        "/authorities/{authorityId}/users?name={name}";
-    static final String UPDATE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
-    static final String DELETE_ENDPOINT = "/authorities/{authorityId}/users/{userId}";
+        "/users?name={name}&authorityId={authorityId}";
+    static final String UPDATE_ENDPOINT = "/users/{userId}";
+    static final String DELETE_ENDPOINT = "/users/{userId}";
     static final String UPDATE_P_ENDPOINT = "/user/password/{uuid}";
-    static final String REQUEST_RESET_EMAIL_ENDPOINT =
-        "/authorities/{authorityId}/users/{userId}/passwordReset";
+    static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{userId}/passwordReset";
   }
 
   private RestTemplateFactory restTemplateFactory;
-  private UserManagementServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration serviceConfiguration;
 
   @Autowired
   public UserManagementApiClient(
-      UserManagementServiceConfiguration serviceConfiguration,
-      RestTemplateFactory restTemplateFactory) {
-    this.serviceConfiguration = serviceConfiguration;
+      ServiceConfiguration userManagementApiConfig, RestTemplateFactory restTemplateFactory) {
+    this.serviceConfiguration = userManagementApiConfig;
     this.restTemplateFactory = restTemplateFactory;
-  }
-
-  public boolean checkUserExistsForEmail(String emailAddress) {
-    Assert.notNull(emailAddress, "checkUserExistsForEmail - emailAddress must be supplied");
-
-    UserResponse userResponse = getUserForEmail(emailAddress);
-    return 1 == userResponse.getData().getTotalItems();
-  }
-
-  public UserResponse getUserForEmail(String emailAddress) {
-
-    String trimmedAddress = StringUtils.trimToNull(emailAddress);
-    Assert.notNull(
-        trimmedAddress, "getUserForEmail - emailAddress must be provided for getUserForEmail");
-
-    return restTemplateFactory
-        .getInstance()
-        .getForEntity(
-            serviceConfiguration.getUrlPrefix() + GET_USER_BY_EMAIL_ENDPOINT,
-            UserResponse.class,
-            trimmedAddress)
-        .getBody();
   }
 
   /**
@@ -73,7 +52,7 @@ public class UserManagementApiClient {
    * @param authorityId The Local Authority to retrieve for.
    * @return UsersResponse containing list of Users.
    */
-  public UsersResponse getUsersForAuthority(Integer authorityId, String nameFilter) {
+  public List<User> getUsersForAuthority(Integer authorityId, String nameFilter) {
 
     Assert.notNull(authorityId, "getUsersForAuthority - Local Authority Id must be provided");
 
@@ -83,41 +62,51 @@ public class UserManagementApiClient {
             .getForEntity(
                 serviceConfiguration.getUrlPrefix() + GET_USERS_FOR_AUTHORITY_ENDPOINT,
                 UsersResponse.class,
-                authorityId,
-                nameFilter);
-    return userListResponse.getBody();
+                nameFilter,
+                authorityId);
+    return Objects.requireNonNull(userListResponse.getBody()).getData();
   }
 
-  public UserResponse getById(Integer authorityId, Integer userId) {
-    Assert.notNull(authorityId, "authorityId must be provided for getById");
+  public User getById(Integer userId) {
     Assert.notNull(userId, "userId must be provided for getById");
 
-    return restTemplateFactory
-        .getInstance()
-        .getForEntity(
-            serviceConfiguration.getUrlPrefix() + GET_BY_ID_ENDPOINT,
-            UserResponse.class,
-            authorityId,
-            userId)
-        .getBody();
+    try {
+      return Objects.requireNonNull(
+              restTemplateFactory
+                  .getInstance()
+                  .getForEntity(
+                      serviceConfiguration.getUrlPrefix() + GET_BY_ID_ENDPOINT,
+                      UserResponse.class,
+                      userId)
+                  .getBody())
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 
-  public UserResponse createUser(Integer authorityId, User user) {
-    Assert.notNull(authorityId, "Authority Id must be provided");
+  public User createUser(User user) {
     Assert.notNull(user, "createUser - user must be set");
 
     HttpEntity<User> request = new HttpEntity<>(user);
 
-    return restTemplateFactory
-        .getInstance()
-        .postForObject(
-            serviceConfiguration.getUrlPrefix() + CREATE_ENDPOINT,
-            request,
-            UserResponse.class,
-            authorityId);
+    try {
+      return Objects.requireNonNull(
+              restTemplateFactory
+                  .getInstance()
+                  .postForObject(
+                      serviceConfiguration.getUrlPrefix() + CREATE_ENDPOINT,
+                      request,
+                      UserResponse.class))
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 
-  public UserResponse updateUser(User user) {
+  public User updateUser(User user) {
     Assert.notNull(user, "updateUser - must be set");
 
     HttpEntity<User> request = new HttpEntity<>(user);
@@ -127,44 +116,47 @@ public class UserManagementApiClient {
             .build()
             .toUriString();
 
-    return restTemplateFactory
-        .getInstance()
-        .exchange(
-            uri,
-            HttpMethod.PUT,
-            request,
-            UserResponse.class,
-            user.getLocalAuthorityId(),
-            user.getId())
-        .getBody();
+    try {
+      return Objects.requireNonNull(
+              restTemplateFactory
+                  .getInstance()
+                  .exchange(uri, HttpMethod.PUT, request, UserResponse.class, user.getId())
+                  .getBody())
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 
-  public void deleteUser(Integer localAuthorityId, Integer userId) {
-    Assert.notNull(localAuthorityId, "deleteUser - authority must be set");
+  public void deleteUser(Integer userId) {
     Assert.notNull(userId, "deleteUser - userId must be set");
 
     String uri =
         UriComponentsBuilder.fromUriString(serviceConfiguration.getUrlPrefix() + DELETE_ENDPOINT)
             .build()
             .toUriString();
-
-    restTemplateFactory.getInstance().delete(uri, localAuthorityId, userId);
+    try {
+      restTemplateFactory.getInstance().delete(uri, userId);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
   }
 
-  public void requestPasswordReset(Integer localAuthorityId, Integer id) {
-    Assert.notNull(id, "requestPasswordReset - localAuthorityId must be provided");
+  public void requestPasswordReset(Integer id) {
     Assert.notNull(id, "requestPasswordReset - id must not be null");
 
-    restTemplateFactory
-        .getInstance()
-        .getForEntity(
-            serviceConfiguration.getUrlPrefix() + REQUEST_RESET_EMAIL_ENDPOINT,
-            String.class,
-            localAuthorityId,
-            id);
+    try {
+      restTemplateFactory
+          .getInstance()
+          .getForEntity(
+              serviceConfiguration.getUrlPrefix() + REQUEST_RESET_EMAIL_ENDPOINT, String.class, id);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
   }
 
-  public UserResponse updatePassword(String uuid, String password, String passwordConfirm) {
+  public User updatePassword(String uuid, String password, String passwordConfirm) {
     Assert.notNull(uuid, "updatePassword - uuid must be provided");
     Assert.notNull( ***REMOVED***);
     Assert.notNull( ***REMOVED***);
@@ -176,8 +168,15 @@ public class UserManagementApiClient {
 
     HttpEntity<Password> requestBody = new HttpEntity<>(passwords);
 
-    return this.restTemplateFactory
-        .getInstance()
-        .patchForObject(uri, requestBody, UserResponse.class, uuid);
+    try {
+      return Objects.requireNonNull(
+              this.restTemplateFactory
+                  .getInstance()
+                  .patchForObject(uri, requestBody, UserResponse.class, uuid))
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 }

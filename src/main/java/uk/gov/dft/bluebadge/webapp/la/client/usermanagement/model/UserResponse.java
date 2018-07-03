@@ -11,9 +11,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 @Validated
 public class UserResponse extends CommonResponse {
   @JsonProperty("data")
-  private UserData data = null;
+  private User data = null;
 
-  public UserResponse data(UserData data) {
+  public UserResponse data(User data) {
     this.data = data;
     return this;
   }
@@ -25,11 +25,11 @@ public class UserResponse extends CommonResponse {
    */
   @ApiModelProperty(value = "")
   @Valid
-  public UserData getData() {
+  public User getData() {
     return data;
   }
 
-  public void setData(UserData data) {
+  public void setData(User data) {
     this.data = data;
   }
 
