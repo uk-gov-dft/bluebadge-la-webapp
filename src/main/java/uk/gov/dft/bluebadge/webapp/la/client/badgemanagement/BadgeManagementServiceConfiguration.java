@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Configuration
+@SuppressWarnings("all")
 public class BadgeManagementServiceConfiguration {
 
   @Value("${badgemanagementservice.servicehost.scheme}")

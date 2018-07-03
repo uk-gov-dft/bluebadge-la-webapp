@@ -50,7 +50,7 @@ public class BadgeManagementApiClient {
    * @return
    */
   public List<BadgeSummary> findBadges(String name, String niNumber, String badgeNumber) {
-    log.debug("findBages with name={}, niNumber={}, badgeNumber={}", name, niNumber, badgeNumber);
+    log.debug("findBadges with name={}, niNumber={}, badgeNumber={}", name, niNumber, badgeNumber);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -109,7 +109,7 @@ public class BadgeManagementApiClient {
   }
 
   /*
-  Convenience method to add non-null parametes to an endpoint
+  Convenience method to add non-null parameters to an endpoint
    */
   private void addParameterMethod(
       String name, UriComponentsBuilder builder, String queryParamName) {
