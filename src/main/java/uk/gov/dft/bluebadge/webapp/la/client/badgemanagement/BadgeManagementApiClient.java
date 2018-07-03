@@ -19,6 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
 @Service
 public class BadgeManagementApiClient {
@@ -31,14 +32,13 @@ public class BadgeManagementApiClient {
   private static final String QUERY_PARAM_NI = "ni";
 
   private RestTemplateFactory restTemplateFactory;
-  private BadgeManagementServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration serviceConfiguration;
 
   @Autowired
   public BadgeManagementApiClient(
-      RestTemplateFactory restTemplateFactory,
-      BadgeManagementServiceConfiguration serviceConfiguration) {
+      RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
     this.restTemplateFactory = restTemplateFactory;
-    this.serviceConfiguration = serviceConfiguration;
+    this.serviceConfiguration = badgeManagementApiConfig;
   }
 
   /**
@@ -104,7 +104,7 @@ public class BadgeManagementApiClient {
         .host(serviceConfiguration.getHost())
         .scheme(serviceConfiguration.getScheme())
         .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextPath())
+        .path(serviceConfiguration.getContextpath())
         .pathSegment(apiEndpoint);
   }
 

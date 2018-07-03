@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Password;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
@@ -36,13 +37,12 @@ public class UserManagementApiClient extends BaseApiClient {
   }
 
   private RestTemplateFactory restTemplateFactory;
-  private UserManagementServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration serviceConfiguration;
 
   @Autowired
   public UserManagementApiClient(
-      UserManagementServiceConfiguration serviceConfiguration,
-      RestTemplateFactory restTemplateFactory) {
-    this.serviceConfiguration = serviceConfiguration;
+      ServiceConfiguration userManagementApiConfig, RestTemplateFactory restTemplateFactory) {
+    this.serviceConfiguration = userManagementApiConfig;
     this.restTemplateFactory = restTemplateFactory;
   }
 
