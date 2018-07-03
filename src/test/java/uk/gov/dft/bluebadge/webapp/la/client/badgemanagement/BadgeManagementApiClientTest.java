@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -12,10 +12,9 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
@@ -23,8 +22,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
-@RunWith(SpringRunner.class)
 public class BadgeManagementApiClientTest {
 
   private static final String SCHEME = "http";
@@ -38,30 +37,29 @@ public class BadgeManagementApiClientTest {
 
   private static final Integer SAMPLE_SIZE = 5;
 
-  String NAME = "myname";
-  String NI_NUMBER = "aa101010a";
-  String BADGE_NUMBER = "12345";
+  private String NAME = "myname";
+  private String NI_NUMBER = "aa101010a";
+  private String BADGE_NUMBER = "12345";
 
   @Mock private RestTemplateFactory mockRestTemplateFactory;
 
-  private BadgeManagementServiceConfiguration serviceConfiguration;
-
   private BadgeManagementApiClient client;
 
-  MockRestServiceServer mockServer;
+  private MockRestServiceServer mockServer;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  BadgesResponse badgesResponse;
-  String badgesResponseBody = "";
+  private BadgesResponse badgesResponse;
+  private String badgesResponseBody = "";
 
   @Before
   public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     when(mockRestTemplateFactory.getInstance()).thenReturn(restTemplate);
 
-    serviceConfiguration = buildServiceConfiguration();
+    ServiceConfiguration serviceConfiguration = buildServiceConfiguration();
 
     client = new BadgeManagementApiClient(mockRestTemplateFactory, serviceConfiguration);
     badgesResponse = buildResponse(SAMPLE_SIZE);
@@ -70,8 +68,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void findBadges_shouldReturnAllBadges_whenNoParametersAreGiven()
-      throws JsonProcessingException {
+  public void findBadges_shouldReturnAllBadges_whenNoParametersAreGiven() {
     mockServer
         .expect(once(), requestTo(BASE_ENDPOINT))
         .andRespond(withSuccess(badgesResponseBody, MediaType.APPLICATION_JSON));
@@ -80,8 +77,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void findBadges_shouldReturnFilteredBadges_whenNameParameterIsGiven()
-      throws JsonProcessingException {
+  public void findBadges_shouldReturnFilteredBadges_whenNameParameterIsGiven() {
     mockServer
         .expect(once(), requestTo(BASE_ENDPOINT + "?name=" + NAME))
         .andRespond(withSuccess(badgesResponseBody, MediaType.APPLICATION_JSON));
@@ -90,8 +86,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void findBadges_shouldReturnFilteredBadges_whenNiNumberParameterIsGiven()
-      throws JsonProcessingException {
+  public void findBadges_shouldReturnFilteredBadges_whenNiNumberParameterIsGiven() {
     mockServer
         .expect(once(), requestTo(BASE_ENDPOINT + "?ni=" + NI_NUMBER))
         .andRespond(withSuccess(badgesResponseBody, MediaType.APPLICATION_JSON));
@@ -100,8 +95,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void findBadges_shouldReturnFilteredBadges_whenBadNumberNumberParameterIsGiven()
-      throws JsonProcessingException {
+  public void findBadges_shouldReturnFilteredBadges_whenBadNumberNumberParameterIsGiven() {
     mockServer
         .expect(once(), requestTo(BASE_ENDPOINT + "?badgeNumber=" + BADGE_NUMBER))
         .andRespond(withSuccess(badgesResponseBody, MediaType.APPLICATION_JSON));
@@ -110,8 +104,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void findBadges_shouldReturnFilteredBadges_whenAllParametersAreGiven()
-      throws JsonProcessingException {
+  public void findBadges_shouldReturnFilteredBadges_whenAllParametersAreGiven() {
     mockServer
         .expect(
             once(),
@@ -166,13 +159,12 @@ public class BadgeManagementApiClientTest {
     return badgesResponse;
   }
 
-  private BadgeManagementServiceConfiguration buildServiceConfiguration() {
-    BadgeManagementServiceConfiguration serviceConfiguration =
-        new BadgeManagementServiceConfiguration();
+  private ServiceConfiguration buildServiceConfiguration() {
+    ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
     serviceConfiguration.setScheme(SCHEME);
     serviceConfiguration.setHost(HOST);
     serviceConfiguration.setPort(PORT);
-    serviceConfiguration.setContextPath(CONTEXT);
+    serviceConfiguration.setContextpath(CONTEXT);
     return serviceConfiguration;
   }
 }
