@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
@@ -36,12 +38,19 @@ public class OrderBadgePersonDetailsController {
 
   @GetMapping(URL)
   public String show(
+      @RequestParam(name = "action", required = false) String action,
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-details");
-    if (sessionFormRequest != null) {
-      BeanUtils.copyProperties(
-          (OrderBadgePersonDetailsFormRequest) sessionFormRequest, formRequest);
+    if ("reset".equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
+      session.removeAttribute("formRequest-order-a-badge-index");
+      session.removeAttribute("formRequest-order-a-badge-details");
+      session.removeAttribute("formRequest-order-a-badge-processing");
+    } else {
+      Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-details");
+      if (sessionFormRequest != null) {
+        BeanUtils.copyProperties(
+            (OrderBadgePersonDetailsFormRequest) sessionFormRequest, formRequest);
+      }
     }
     return TEMPLATE;
   }

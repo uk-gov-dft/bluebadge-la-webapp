@@ -122,6 +122,37 @@ public class OrderBadgePersonDetailsControllerTest {
 
   @Test
   public void
+      show_shouldDisplayOrderABadgeDetailsTemplateWithoutValuesCommingFromSession_WhenTheFormWasSavedToSessionBeforeButRequestParamActionEqualsReset()
+          throws Exception {
+    OrderBadgePersonDetailsFormRequest beforeResetFormRequest =
+        OrderBadgePersonDetailsFormRequest.builder()
+            .buildingAndStreet(BUILDING_AND_STREET)
+            .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+            .contactDetailsName(CONTACT_DETAILS_NAME)
+            .dobDay(Integer.valueOf(DOB_DAY))
+            .dobMonth(Integer.valueOf(DOB_MONTH))
+            .dobYear(Integer.valueOf(DOB_YEAR))
+            .eligibility(ELIGIBILITY)
+            .name(NAME)
+            .nino(NINO)
+            .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+            .postcode(POSTCODE)
+            .townOrCity(TOWN_OR_CITY)
+            .build();
+
+    OrderBadgePersonDetailsFormRequest expectedFormRequest =
+        OrderBadgePersonDetailsFormRequest.builder().build();
+    mockMvc
+        .perform(
+            get("/order-a-badge/details?action=reset")
+                .sessionAttr("formRequest-order-a-badge-details", beforeResetFormRequest))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(model().attribute("formRequest", expectedFormRequest));
+  }
+
+  @Test
+  public void
       submit_shouldRedirectToProcessingPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
           throws Exception {
     mockMvc
