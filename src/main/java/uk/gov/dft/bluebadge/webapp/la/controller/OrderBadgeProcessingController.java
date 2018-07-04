@@ -27,7 +27,7 @@ public class OrderBadgeProcessingController {
   @Autowired
   public OrderBadgeProcessingController() {
     super();
-  };
+  }
 
   @GetMapping(URL)
   public String show(
