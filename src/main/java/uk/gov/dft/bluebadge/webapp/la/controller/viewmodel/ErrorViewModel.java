@@ -8,6 +8,12 @@ public class ErrorViewModel {
   private static final String DEFAULT_TITLE = "error.form.summary.title";
   private static final String DEFAULT_DESCRIPTION = "empty";
 
+  private static final String ASSERTION_TITLE_CANNOT_BE_NULL = "title cannot be null";
+  private static final String ASSERTION_DESCRIPTION_CANNOT_BE_NULL = "description cannot be null";
+  private static final String ASSERTION_TITLE_SHOULD_HAVE_TEXT = "title should have text";
+  private static final String ASSERTION_DESCRIPTION_SHOULD_HAVE_TEXT =
+      "description should have text";
+
   private String title = DEFAULT_TITLE;
   private String description = DEFAULT_DESCRIPTION;
 
@@ -17,17 +23,17 @@ public class ErrorViewModel {
   }
 
   public ErrorViewModel(String title) {
-    Assert.notNull(title, "title cannot be null");
-    Assert.hasText(title, "title should have text");
+    Assert.notNull(title, ASSERTION_TITLE_CANNOT_BE_NULL);
+    Assert.hasText(title, ASSERTION_TITLE_SHOULD_HAVE_TEXT);
     this.title = title;
     description = DEFAULT_DESCRIPTION;
   }
 
   public ErrorViewModel(String title, String description) {
-    Assert.notNull(title, "title cannot be null");
-    Assert.hasText(title, "title should have text");
-    Assert.notNull(description, "description cannot be null");
-    Assert.hasText(description, "description should have text");
+    Assert.notNull(title, ASSERTION_TITLE_CANNOT_BE_NULL);
+    Assert.hasText(title, ASSERTION_TITLE_SHOULD_HAVE_TEXT);
+    Assert.notNull(description, ASSERTION_DESCRIPTION_CANNOT_BE_NULL);
+    Assert.hasText(description, ASSERTION_DESCRIPTION_SHOULD_HAVE_TEXT);
     this.title = title;
     this.description = description;
   }
@@ -37,8 +43,8 @@ public class ErrorViewModel {
   }
 
   public void setTitle(String title) {
-    Assert.notNull(title, "title cannot be null");
-    Assert.hasText(title, "title should have text");
+    Assert.notNull(title, ASSERTION_TITLE_CANNOT_BE_NULL);
+    Assert.hasText(title, ASSERTION_TITLE_SHOULD_HAVE_TEXT);
     this.title = title;
   }
 
@@ -47,8 +53,8 @@ public class ErrorViewModel {
   }
 
   public void setDescription(String description) {
-    Assert.notNull(description, "description cannot be null");
-    Assert.hasText(description, "description should have text");
+    Assert.notNull(description, ASSERTION_DESCRIPTION_CANNOT_BE_NULL);
+    Assert.hasText(description, ASSERTION_DESCRIPTION_SHOULD_HAVE_TEXT);
     this.description = description;
   }
 
