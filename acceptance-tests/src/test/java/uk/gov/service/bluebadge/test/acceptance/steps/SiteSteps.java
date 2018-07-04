@@ -225,8 +225,17 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeSignoutLink() throws Throwable {
     assertThat(
         "Sign out link expected",
-        signInPage.findElementWithUiPath("topbar.signout").getText(),
+        signInPage.findElementWithUiPath("topbar.signout"),
+        notNullValue());
+    assertThat(
+        "Sign out link expected",
+        signInPage.findElementWithUiPath("topbar.signout").getAttribute("value"),
         getMatcherForText("Sign out"));
+  }
+
+  @And("^I can click Sign out button$")
+  public void andICanClickSignOutButton() throws Throwable {
+    sitePage.findElementWithUiPath("topbar.signout").click();
   }
 
   @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field$")
@@ -332,7 +341,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @And("^I (?:can )?click on element \"([^\"]+)\"(?: link| button)?$")
-  public void AndIcanClickOnElement(String uiPath) throws Throwable {
+  public void AndICanClickOnElement(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
   }
 
