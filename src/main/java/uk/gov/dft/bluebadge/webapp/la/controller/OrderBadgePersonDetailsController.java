@@ -29,6 +29,9 @@ public class OrderBadgePersonDetailsController {
   private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
+  public static final String FORM_REQUEST_ORDER_A_BADGE_DETAILS = "formRequest-order-a-badge-details";
+
+
   private ReferenceDataService referenceDataService;
 
   @Autowired
@@ -43,10 +46,10 @@ public class OrderBadgePersonDetailsController {
       HttpSession session) {
     if ("reset".equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
       session.removeAttribute("formRequest-order-a-badge-index");
-      session.removeAttribute("formRequest-order-a-badge-details");
+      session.removeAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS);
       session.removeAttribute("formRequest-order-a-badge-processing");
     } else {
-      Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-details");
+      Object sessionFormRequest = session.getAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS);
       if (sessionFormRequest != null) {
         BeanUtils.copyProperties(
             (OrderBadgePersonDetailsFormRequest) sessionFormRequest, formRequest);
@@ -65,7 +68,7 @@ public class OrderBadgePersonDetailsController {
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    session.setAttribute("formRequest-order-a-badge-details", formRequest);
+    session.setAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
     return REDIRECT_ORDER_A_BADGE_PROCESSING;
   }
 
