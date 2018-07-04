@@ -1,6 +1,9 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import cucumber.api.java.en.When;
+import java.time.LocalDate;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,6 @@ import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
 
-import java.time.LocalDate;
-
-import static org.slf4j.LoggerFactory.getLogger;
-
 public class OrderABadgeSiteSteps {
 
   private static final Logger log = getLogger(OrderABadgeSiteSteps.class);
@@ -20,8 +19,7 @@ public class OrderABadgeSiteSteps {
   protected LocalDateGenerator ldg = new LocalDateGenerator();
   protected PostCodeGenerator pcg = new PostCodeGenerator();
 
-  @Autowired
-  protected SitePage sitePage;
+  @Autowired protected SitePage sitePage;
 
   @When("^I enter all the mandatory valid personal details to order a badge$")
   public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
