@@ -142,6 +142,9 @@ dependencies {
 
     //hot swapping, disable cache for template, enable live reload
     runtime('org.springframework.boot:spring-boot-devtools')
+    runtime group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version: '0.1.5'
+    runtime group: 'ch.qos.logback.contrib', name: 'logback-jackson', version: '0.1.5'
+    runtime group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
