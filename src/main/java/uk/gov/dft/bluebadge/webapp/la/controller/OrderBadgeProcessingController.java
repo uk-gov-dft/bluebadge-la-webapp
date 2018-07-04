@@ -21,9 +21,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 public class OrderBadgeProcessingController {
   public static final String URL = "/order-a-badge/processing";
 
-  public static final String TEMPLATE = "order-a-badge/processing";
+  private static final String TEMPLATE = "order-a-badge/processing";
 
-  public static final String REDIRECT_HOME = "redirect:" + HomeController.URL;
+  private static final String REDIRECT_HOME = "redirect:" + HomeController.URL;
 
   private ReferenceDataService referenceDataService;
 

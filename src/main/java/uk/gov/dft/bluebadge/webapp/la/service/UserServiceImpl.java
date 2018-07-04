@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
     return userManagementApiClient.getById(2, id);
   }
 
-  // TODO: Changes to return UserResponse, if it is empty or not is inside UserResponse.
   @Override
   public Optional<UserResponse> findOneByEmail(String email) {
     if (userManagementApiClient.checkUserExistsForEmail(email)) {

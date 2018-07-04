@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import javax.validation.constraints.AssertTrue;
@@ -11,7 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInThePastDat
 
 @Data
 @Builder
-public class OrderBadgeProcessingFormRequest {
+public class OrderBadgeProcessingFormRequest implements Serializable {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
   private Integer applicationDateYear;

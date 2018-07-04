@@ -7,8 +7,10 @@ import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
+import java.io.Serializable;
+
 @Data
-public class OrderBadgePersonDetailsFormRequest {
+public class OrderBadgePersonDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotNull.user.name}")
   @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
