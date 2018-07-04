@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
 public class OrderBadgeProcessingControllerTest {
   private static final String APPLICATION_DATE_DAY_FIELD = "applicationDateDay";
@@ -67,7 +66,6 @@ public class OrderBadgeProcessingControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
 
   private OrderBadgeProcessingController controller;
@@ -78,7 +76,7 @@ public class OrderBadgeProcessingControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderBadgeProcessingController(referenceDataServiceMock);
+    controller = new OrderBadgeProcessingController();
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

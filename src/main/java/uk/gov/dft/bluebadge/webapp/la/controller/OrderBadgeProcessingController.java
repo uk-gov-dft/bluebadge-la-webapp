@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
 @Slf4j
 @Controller
@@ -25,12 +24,10 @@ public class OrderBadgeProcessingController {
 
   private static final String REDIRECT_HOME = "redirect:" + HomeController.URL;
 
-  private ReferenceDataService referenceDataService;
-
   @Autowired
-  public OrderBadgeProcessingController(ReferenceDataService referenceDataService) {
-    this.referenceDataService = referenceDataService;
-  }
+  public OrderBadgeProcessingController() {
+    super();
+  };
 
   @GetMapping(URL)
   public String show(
