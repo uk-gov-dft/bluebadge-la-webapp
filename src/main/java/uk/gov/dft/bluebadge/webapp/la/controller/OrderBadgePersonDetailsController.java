@@ -29,8 +29,8 @@ public class OrderBadgePersonDetailsController {
   private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
-  public static final String FORM_REQUEST_ORDER_A_BADGE_DETAILS = "formRequest-order-a-badge-details";
-
+  public static final String FORM_REQUEST_ORDER_A_BADGE_DETAILS =
+      "formRequest-order-a-badge-details";
 
   private ReferenceDataService referenceDataService;
 

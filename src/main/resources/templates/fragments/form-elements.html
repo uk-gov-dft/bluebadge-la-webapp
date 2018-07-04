@@ -56,7 +56,7 @@
     @Month - String: Name of month field
     @year - String: Name of year field
     @name - String: Name for the form input field.
-    
+
     -------------------------------------------------------------------------------- */
 
     <div th:fragment="govuk-date(label, hint, day, month, year, date)"
@@ -96,7 +96,7 @@
                 <div class="govuk-date-input__item govuk-date-input__item--year" th:if="${year}">
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.year.label'" th:attr="for=${year}">Year</label>
-                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.year.label'" th:field="*{__${year}__}" type="text" pattern="[0-9]*">
+                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.year.field'" th:field="*{__${year}__}" type="text" pattern="[0-9]*">
                     </div>
                 </div>
 
