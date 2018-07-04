@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils.addCustomError;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -18,15 +19,14 @@ public class SignInController {
   @GetMapping("/sign-in")
   public String startSignIn(
       Model model,
-      @RequestParam(name = "error", required = false) String error,
-      @RequestParam(name = "logout", required = false) String loggedOut,
+      HttpServletRequest request,
       @SessionAttribute(name = "SPRING_SECURITY_LAST_EXCEPTION", required = false)
           AuthenticationException signInException) {
     model.addAttribute("formRequest", new SignInForm());
 
-    if (null != error && null != signInException) {
+    if (null != request.getParameter("error") && null != signInException) {
       handleSignInError(model, signInException);
-    } else if (null != loggedOut) {
+    } else if (null != request.getParameter("logout")) {
       addCustomError("info.form.global.signedOut.title", "empty", model);
     }
 
