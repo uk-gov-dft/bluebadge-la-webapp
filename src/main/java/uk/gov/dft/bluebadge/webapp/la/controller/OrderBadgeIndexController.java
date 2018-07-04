@@ -25,7 +25,7 @@ public class OrderBadgeIndexController {
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-index");
     if (sessionFormRequest != null) {
-      BeanUtils.copyProperties((OrderBadgeIndexFormRequest) sessionFormRequest, formRequest);
+      BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
     return TEMPLATE;
   }

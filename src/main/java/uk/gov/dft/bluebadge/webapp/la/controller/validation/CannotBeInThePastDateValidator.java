@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller.validation;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -16,9 +15,12 @@ public class CannotBeInThePastDateValidator
     }
 
     try {
-      LocalDate date = LocalDate.parse(value, DateTimeFormatter.ofPattern("y-M-d"));
+      LocalDate date = DateFormatValidatorUtils.tryBuildDate(value);
+      if (date == null) {
+        return false;
+      }
       return date.isAfter(LocalDate.now());
-    } catch (DateTimeException dtex) {
+    } catch (DateTimeException | NumberFormatException ex) {
       return false;
     }
   }

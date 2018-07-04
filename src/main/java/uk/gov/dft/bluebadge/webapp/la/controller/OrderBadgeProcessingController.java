@@ -35,7 +35,7 @@ public class OrderBadgeProcessingController {
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
     if (sessionFormRequest != null) {
-      BeanUtils.copyProperties((OrderBadgeProcessingFormRequest) sessionFormRequest, formRequest);
+      BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
     return TEMPLATE;
   }
