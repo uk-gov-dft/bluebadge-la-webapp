@@ -4,11 +4,13 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
+@Builder
 public class OrderBadgePersonDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotNull.user.name}")
