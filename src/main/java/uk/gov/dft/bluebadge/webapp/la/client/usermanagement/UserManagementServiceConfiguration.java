@@ -1,13 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@Setter
-@Getter
 @Configuration
 public class UserManagementServiceConfiguration {
 
@@ -28,6 +24,54 @@ public class UserManagementServiceConfiguration {
 
   @Value("${usermanagementservice.servicehost.contextpath}")
   private String contextPath;
+
+  public String getScheme() {
+    return scheme;
+  }
+
+  public void setScheme(String scheme) {
+    this.scheme = scheme;
+  }
+
+  public String getHost() {
+    return host;
+  }
+
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  public Integer getPort() {
+    return port;
+  }
+
+  public void setPort(Integer port) {
+    this.port = port;
+  }
+
+  public Integer getConnectionTimeout() {
+    return connectionTimeout;
+  }
+
+  public void setConnectionTimeout(Integer connectionTimeout) {
+    this.connectionTimeout = connectionTimeout;
+  }
+
+  public Integer getRequestTimeout() {
+    return requestTimeout;
+  }
+
+  public void setRequestTimeout(Integer requestTimeout) {
+    this.requestTimeout = requestTimeout;
+  }
+
+  public String getContextPath() {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath) {
+    this.contextPath = contextPath;
+  }
 
   public String getUrlPrefix() {
     return UriComponentsBuilder.newInstance()
