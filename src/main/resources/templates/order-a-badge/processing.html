@@ -34,7 +34,7 @@
 					<div class="dft-width-one-half">
 						<div th:replace="~{ fragments/form-elements :: govuk-date('Application date', 'For example, 31 3 1980', 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
 
-						<div class="govuk-form-group">
+						<div class="govuk-form-group" id="applicationChannel">
 							<fieldset class="govuk-fieldset">
 
 								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
@@ -82,7 +82,7 @@
 
 						<!--<div th:replace="~{ fragments/radios :: govuk-radios('Something', 'deliverTo', deliverToOptions) }"/>-->
 
-						<div class="govuk-form-group">
+						<div class="govuk-form-group" id="deliverTo">
 							<fieldset class="govuk-fieldset">
 
 								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
@@ -103,7 +103,7 @@
 							</fieldset>
 						</div>
 
-						<div class="govuk-form-group">
+						<div class="govuk-form-group" id="deliveryOptions">
 							<fieldset class="govuk-fieldset">
 
 								<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
