@@ -74,9 +74,7 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
           accessTokenProvider.obtainAccessToken(
               resourceOwnerPasswordResourceDetails, accessTokenRequest);
 
-      OAuth2Authentication oAuth2Authentication =
-          userInfoTokenServices.loadAuthentication(oAuth2AccessToken.getValue());
-      return oAuth2Authentication;
+      return userInfoTokenServices.loadAuthentication(oAuth2AccessToken.getValue());
     } catch (OAuth2AccessDeniedException ade) {
       if (ade.getCause() instanceof ResourceAccessException) {
         throw new AuthServerConnectionException("Failed to connect to authorisation service.", ade);
