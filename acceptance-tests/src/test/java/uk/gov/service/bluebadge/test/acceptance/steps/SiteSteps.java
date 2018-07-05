@@ -367,6 +367,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
+    sitePage.takeSnapShot();
     sitePage.findElementWithUiPath(uiPath).click();
   }
 }

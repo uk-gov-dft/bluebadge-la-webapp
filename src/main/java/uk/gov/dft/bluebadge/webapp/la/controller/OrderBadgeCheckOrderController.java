@@ -16,7 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
 @Slf4j
 @Controller
-public class CheckOrderController {
+public class OrderBadgeCheckOrderController {
   public static final String URL = "/order-a-badge/check-order";
 
   public static final String TEMPLATE = "order-a-badge/check-order";
@@ -26,18 +26,12 @@ public class CheckOrderController {
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public CheckOrderController(ReferenceDataService referenceDataService) {
+  public OrderBadgeCheckOrderController(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL)
-  public String show(
-      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
-      HttpSession session) {
-    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
-    if (sessionFormRequest != null) {
-      formRequest = (OrderBadgeProcessingFormRequest) sessionFormRequest;
-    }
+  public String show(@ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest) {
     return TEMPLATE;
   }
 
@@ -51,7 +45,9 @@ public class CheckOrderController {
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    session.setAttribute("formRequest-order-a-badge-processing", formRequest);
+    session.removeAttribute("formRequest-order-a-badge-index");
+    session.removeAttribute("formRequest-order-a-badge-details");
+    session.removeAttribute("formRequest-order-a-badge-processing");
     return REDIRECT_HOME;
   }
 }

@@ -49,7 +49,7 @@ Feature: Dft BlueBadge LA Order a Badge
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid processing details to order a badge
     And I can click "continue" button
-    Then I should see the page titled "GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
 
   Scenario: Verify person details are prepopulated and submittable once they are submitted and we go back to details from processing page
     Given I navigate to the "home" page

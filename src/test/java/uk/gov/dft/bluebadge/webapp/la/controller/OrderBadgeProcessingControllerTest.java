@@ -123,7 +123,7 @@ public class OrderBadgeProcessingControllerTest {
 
   @Test
   public void
-      submit_shouldRedirectToHomePage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
+      submit_shouldRedirectToCheckOrderPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
           throws Exception {
     mockMvc
         .perform(
@@ -141,12 +141,13 @@ public class OrderBadgeProcessingControllerTest {
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/"));
+        .andExpect(redirectedUrl("/order-a-badge/check-order"));
   }
 
   @Test
-  public void submit_shouldRedirectToHomePage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
-      throws Exception {
+  public void
+      submit_shouldRedirectToCheckOrderPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
+          throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/processing")
@@ -164,7 +165,7 @@ public class OrderBadgeProcessingControllerTest {
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/"));
+        .andExpect(redirectedUrl("/order-a-badge/check-order"));
   }
 
   @Test
