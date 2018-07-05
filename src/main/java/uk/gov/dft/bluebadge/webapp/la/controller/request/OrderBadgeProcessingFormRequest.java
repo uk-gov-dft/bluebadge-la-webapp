@@ -66,10 +66,15 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
       return false;
     }
     try {
-      LocalDate startDate =
-          LocalDate.of(badgeStartDateYear, badgeStartDateMonth, badgeStartDateDay);
       LocalDate expiryDate =
           LocalDate.of(badgeExpiryDateYear, badgeExpiryDateMonth, badgeExpiryDateDay);
+
+      if (badgeStartDateDay == null || badgeStartDateMonth == null || badgeStartDateYear == null) {
+        return true;
+      }
+
+      LocalDate startDate =
+          LocalDate.of(badgeStartDateYear, badgeStartDateMonth, badgeStartDateDay);
       if (expiryDate.isBefore(startDate)) {
         return false;
       }
