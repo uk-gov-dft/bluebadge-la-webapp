@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -15,10 +18,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.ReferenceData;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
