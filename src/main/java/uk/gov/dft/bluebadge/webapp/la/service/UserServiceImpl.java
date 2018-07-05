@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
   public List<User> find(int localAuthority, String nameFilter) {
     List<User> usersResponse =
         this.userManagementApiClient.getUsersForAuthority(localAuthority, nameFilter);
-    if (usersResponse.size() > 0) {
+    if (!usersResponse.isEmpty()) {
       Collections.sort(usersResponse, new UserComparatorByNameAscendingOrderCaseInsensitive());
     }
     return usersResponse;
