@@ -75,7 +75,7 @@
             <section class="dft-check-answers">
                 <div class="dft-check-answers__heading">
                     <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title">Processing</h2>
-                    <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change" th:href="/order-a-badge/processing">Change</a>
+                    <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change" th:href="@{/order-a-badge/processing}">Change</a>
                 </div>
 
                 <dl class="dft-data-list" data-uipath="processing.answers">
@@ -116,7 +116,7 @@
                 </dl>
             </section>
 
-            <form action="/" method="post" novalidate>
+            <form th:action="@{/order-a-badge/check-order}" method="post" novalidate>
                 <input value="Order badge" type="submit" data-uipath="orderBadge.button" class="govuk-button">
             </form>
 

@@ -34,7 +34,7 @@ Feature: Dft BlueBadge LA Order a Badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
 
-  Scenario: Verify Submit person details with all fields set and Processing with all fields set
+  Scenario: Verify Submit person details with all fields set and Processing with all fields set and continue to check order a page and ordered a badge
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -50,8 +50,10 @@ Feature: Dft BlueBadge LA Order a Badge
     When I enter all the mandatory valid processing details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "orderBadge.button" button
+    Then I should see the page titled "GOV.UK Manage Blue Badges"
 
-  Scenario: Verify person details are prepopulated and submittable once they are submitted and we go back to details from processing page
+  Scenario: Person details and processing details are submitted and from check your order we go back to details, then the two forms should be prepulated
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -64,6 +66,16 @@ Feature: Dft BlueBadge LA Order a Badge
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I enter all the mandatory valid processing details to order a badge
+    And I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I navigate to the "order-a-badge/details" page
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    And I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "orderBadge.button" button
+    Then I should see the page titled "GOV.UK Manage Blue Badges"
+    When I navigate to the "order-a-badge/details" page
+    And I can click "continue" button
+    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"

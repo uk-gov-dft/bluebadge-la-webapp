@@ -1,17 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.awt.*;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
 @Slf4j
@@ -36,15 +32,11 @@ public class OrderBadgeCheckOrderController {
   }
 
   @PostMapping(URL)
-  public String submit(
-      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
-    model.addAttribute("errorSummary", new ErrorViewModel());
-    if (bindingResult.hasErrors()) {
+  public String submit(HttpSession session) {
+    //model.addAttribute("errorSummary", new ErrorViewModel());
+    /*if (bindingResult.hasErrors()) {
       return TEMPLATE;
-    }
+    }*/
     session.removeAttribute("formRequest-order-a-badge-index");
     session.removeAttribute("formRequest-order-a-badge-details");
     session.removeAttribute("formRequest-order-a-badge-processing");
