@@ -17,6 +17,9 @@ public class OrderBadgePersonDetailsFormRequest {
   @Size(max = 100)
   private String name;
 
+  @NotBlank(message = "{NotNull.badge.gender}")
+  private String gender;
+
   private Integer dobDay;
 
   private Integer dobMonth;

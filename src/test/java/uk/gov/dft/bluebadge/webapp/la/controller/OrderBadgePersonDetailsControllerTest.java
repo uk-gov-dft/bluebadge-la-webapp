@@ -32,6 +32,7 @@ public class OrderBadgePersonDetailsControllerTest {
   private static final String OPTIONAL_ADDRESS_FIELD_FIELD = "optionalAddressField";
   private static final String CONTACT_DETAILS_NAME_FIELD = "contactDetailsName";
   private static final String CONTACT_DETAILS_EMAIL_ADDRESS_FIELD = "contactDetailsEmailAddress";
+  private static final String GENDER_FIELD = "gender";
 
   private static final String NAME = "My Name";
   private static final String DOB_DAY = "15";
@@ -47,6 +48,7 @@ public class OrderBadgePersonDetailsControllerTest {
   private static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
   private static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   private static final String ELIGIBILITY = "PIP";
+  private static final String GENDER = "male";
 
   private static final String NAME_WRONG = "  My Na me 2";
   private static final String DOB_DAY_WRONG = "32";
@@ -99,6 +101,7 @@ public class OrderBadgePersonDetailsControllerTest {
         .perform(
             post("/order-a-badge/details")
                 .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
                 .param(DOB_MONTH_FIELD, DOB_MONTH)
                 .param(DOB_YEAR_FIELD, DOB_YEAR)
@@ -119,6 +122,7 @@ public class OrderBadgePersonDetailsControllerTest {
         .perform(
             post("/order-a-badge/details")
                 .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
                 .param(DOB_MONTH_FIELD, DOB_MONTH)
                 .param(DOB_YEAR_FIELD, DOB_YEAR)
@@ -144,6 +148,7 @@ public class OrderBadgePersonDetailsControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", GENDER_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))
         .andExpect(
             model()
@@ -156,17 +161,18 @@ public class OrderBadgePersonDetailsControllerTest {
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", ELIGIBILITY_FIELD, "NotBlank"))
-        .andExpect(model().errorCount(7));
+        .andExpect(model().errorCount(8));
   }
 
   @Test
   public void
-      submit_shouldRedirectToDetailsPage_WhenAllFieldsAreSetAndMandatoryFieldsAreOkButNonMandotoryFieldsAreWrong()
+      submit_shouldRedirectToDetailsPage_WhenAllFieldsAreSetAndMandatoryFieldsAreOkButNonMandatoryFieldsAreWrong()
           throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/details")
                 .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
                 .param(DOB_MONTH_FIELD, DOB_MONTH)
                 .param(DOB_YEAR_FIELD, DOB_YEAR)
@@ -215,6 +221,7 @@ public class OrderBadgePersonDetailsControllerTest {
         .andExpect(view().name("order-a-badge/details"))
         .andExpect(view().name("order-a-badge/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", GENDER_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))
         .andExpect(
             model()
@@ -235,6 +242,6 @@ public class OrderBadgePersonDetailsControllerTest {
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-        .andExpect(model().errorCount(10));
+        .andExpect(model().errorCount(11));
   }
 }
