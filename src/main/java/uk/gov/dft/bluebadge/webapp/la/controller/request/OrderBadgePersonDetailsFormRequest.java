@@ -1,16 +1,17 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
-public class OrderBadgePersonDetailsFormRequest {
+@Builder
+public class OrderBadgePersonDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotNull.user.name}")
   @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
@@ -26,13 +27,13 @@ public class OrderBadgePersonDetailsFormRequest {
   private String dob;
 
   @NotBlank(message = "{NotNull.badge.dob}")
-  @ConsistentDate(message = "{Pattern.badge.dob}")
+  @CannotBeInTheFutureDate(message = "{Pattern.badge.dob}")
   public String getDob() {
     if (dobDay == null && dobMonth == null && dobYear == null) {
       return null;
     }
 
-    return LocalDate.of(dobYear, dobMonth, dobDay).format(DateTimeFormatter.ISO_LOCAL_DATE);
+    return dobYear + "-" + dobMonth + "-" + dobDay;
   }
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")

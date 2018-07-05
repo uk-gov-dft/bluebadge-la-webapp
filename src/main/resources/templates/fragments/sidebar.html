@@ -18,9 +18,9 @@
 						data-uipath="dft-nav-menu"
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
-									
+
 					<a data-uipath="sidebar-nav.order-a-badge"
-					   th:attr="href=${currentPage == 'order-a-badge'} ? '' : '/order-a-badge/details/'"
+					   th:attr="href=${currentPage == 'order-a-badge'} ? '' : '/order-a-badge/details?action=reset'"
 					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}">
 						Order a badge
 						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.order-a-badge.badge" aria-label="has 8 records in total">8</span> -->

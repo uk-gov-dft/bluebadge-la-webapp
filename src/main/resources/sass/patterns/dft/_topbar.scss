@@ -47,13 +47,16 @@
 	}
 
 	&__menu {
+	    @include govuk-clearfix;
 		@include govuk-font-regular-16;
 		float: right;
 		margin-top: 2px;
+
 	}
 
 	&__username {
 		display: none;
+		float: left;
 
 		@include mq($from: tablet) {
 			display: inline-block;
@@ -61,10 +64,11 @@
 	}
 
 	&__signout {
-		margin-left: 5px;
-		
-		@include mq($from: tablet) {
-			margin-left: 10px;
-		}
-	}
+	    float: left;
+        margin-left: 5px;
+
+        @include mq($from: tablet) {
+            margin-left: 10px;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +20,22 @@ public class OrderBadgeIndexController {
   private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "redirect:/";
 
   @GetMapping(URL)
-  public String show(@ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest) {
+  public String show(
+      @ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest,
+      HttpSession session) {
+    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-index");
+    if (sessionFormRequest != null) {
+      BeanUtils.copyProperties(sessionFormRequest, formRequest);
+    }
     return TEMPLATE;
   }
 
   @PostMapping(URL)
   public String submit(
       @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
-      BindingResult bindingResult) {
+      BindingResult bindingResult,
+      HttpSession session) {
+    session.setAttribute("formRequest-order-a-badge-index", formRequest);
     if (APPLICANT_TYPE_ORGANISATION.equalsIgnoreCase(formRequest.getApplicantType())) {
       return REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS;
     } else {

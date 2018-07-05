@@ -19,6 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
 @Service
 public class BadgeManagementApiClient {
@@ -31,14 +32,13 @@ public class BadgeManagementApiClient {
   private static final String QUERY_PARAM_NI = "ni";
 
   private RestTemplateFactory restTemplateFactory;
-  private BadgeManagementServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration serviceConfiguration;
 
   @Autowired
   public BadgeManagementApiClient(
-      RestTemplateFactory restTemplateFactory,
-      BadgeManagementServiceConfiguration serviceConfiguration) {
+      RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
     this.restTemplateFactory = restTemplateFactory;
-    this.serviceConfiguration = serviceConfiguration;
+    this.serviceConfiguration = badgeManagementApiConfig;
   }
 
   /**
@@ -50,7 +50,7 @@ public class BadgeManagementApiClient {
    * @return
    */
   public List<BadgeSummary> findBadges(String name, String niNumber, String badgeNumber) {
-    log.debug("findBages with name={}, niNumber={}, badgeNumber={}", name, niNumber, badgeNumber);
+    log.debug("findBadges with name={}, niNumber={}, badgeNumber={}", name, niNumber, badgeNumber);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -104,12 +104,12 @@ public class BadgeManagementApiClient {
         .host(serviceConfiguration.getHost())
         .scheme(serviceConfiguration.getScheme())
         .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextPath())
+        .path(serviceConfiguration.getContextpath())
         .pathSegment(apiEndpoint);
   }
 
   /*
-  Convenience method to add non-null parametes to an endpoint
+  Convenience method to add non-null parameters to an endpoint
    */
   private void addParameterMethod(
       String name, UriComponentsBuilder builder, String queryParamName) {

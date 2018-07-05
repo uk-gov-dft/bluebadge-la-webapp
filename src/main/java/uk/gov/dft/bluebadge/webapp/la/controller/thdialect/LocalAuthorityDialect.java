@@ -6,7 +6,7 @@ import org.thymeleaf.expression.IExpressionObjectFactory;
 
 public class LocalAuthorityDialect extends AbstractDialect implements IExpressionObjectDialect {
 
-  private final IExpressionObjectFactory LA_EXPRESSION_OBJECTS_FACTORY =
+  private final IExpressionObjectFactory localAuthorityExpressionFactory =
       new LocalAuthorityExpressionFactory();
 
   public LocalAuthorityDialect() {
@@ -15,6 +15,6 @@ public class LocalAuthorityDialect extends AbstractDialect implements IExpressio
 
   @Override
   public IExpressionObjectFactory getExpressionObjectFactory() {
-    return LA_EXPRESSION_OBJECTS_FACTORY;
+    return localAuthorityExpressionFactory;
   }
 }
