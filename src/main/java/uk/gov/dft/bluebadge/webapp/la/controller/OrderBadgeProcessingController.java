@@ -1,8 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.awt.*;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -31,8 +31,8 @@ public class OrderBadgeProcessingController {
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
-      HttpSession session) {
+    @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+    HttpSession session) {
     Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
@@ -42,10 +42,10 @@ public class OrderBadgeProcessingController {
 
   @PostMapping(URL)
   public String submit(
-      @Valid @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+    @Valid @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+    BindingResult bindingResult,
+    Model model,
+    HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
