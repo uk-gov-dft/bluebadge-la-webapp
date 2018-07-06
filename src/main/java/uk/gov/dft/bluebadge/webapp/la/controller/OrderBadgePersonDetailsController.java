@@ -64,10 +64,10 @@ public class OrderBadgePersonDetailsController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
+    session.setAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    session.setAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
     return REDIRECT_ORDER_A_BADGE_PROCESSING;
   }
 

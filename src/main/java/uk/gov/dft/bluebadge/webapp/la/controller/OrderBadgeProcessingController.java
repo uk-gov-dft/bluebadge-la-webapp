@@ -47,10 +47,10 @@ public class OrderBadgeProcessingController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
+    session.setAttribute("formRequest-order-a-badge-processing", formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    session.setAttribute("formRequest-order-a-badge-processing", formRequest);
     return REDIRECT_ORDER_A_BADGE_CHECK_ORDER;
   }
 }
