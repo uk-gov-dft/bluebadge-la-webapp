@@ -53,7 +53,7 @@ Feature: Dft BlueBadge LA Order a Badge
     When I can click "orderBadge.button" button
     Then I should see the page titled "GOV.UK Manage Blue Badges"
 
-  Scenario: Person details and processing details are submitted and from check your order we go back to details, then the two forms should be prepulated
+  Scenario: Pressing back button on processing page should go back to personal details and you should be able to resubmit the form
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -66,16 +66,7 @@ Feature: Dft BlueBadge LA Order a Badge
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
-    And I can click "continue" button
-    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-    When I navigate to the "order-a-badge/details" page
+    When I can click "back-link" button
+    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    And I can click "continue" button
-    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-    When I can click "orderBadge.button" button
-    Then I should see the page titled "GOV.UK Manage Blue Badges"
-    When I navigate to the "order-a-badge/details" page
-    And I can click "continue" button
-    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
