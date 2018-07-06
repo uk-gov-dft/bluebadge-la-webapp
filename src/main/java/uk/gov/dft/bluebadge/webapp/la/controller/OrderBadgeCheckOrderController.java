@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToBadgeOrder;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.service.model.badge.BadgeOrder;
@@ -46,27 +44,21 @@ public class OrderBadgeCheckOrderController {
 
   @PostMapping(URL)
   public String submit(Model model, HttpSession session) {
-    try {
-      //model.addAttribute("errorSummary", new ErrorViewModel());
-      /*if (bindingResult.hasErrors()) {
-        return TEMPLATE;
-      }*/
-      OrderBadgePersonDetailsFormRequest detailsForm =
-          (OrderBadgePersonDetailsFormRequest)
-              session.getAttribute("formRequest-order-a-badge-details");
-      OrderBadgeProcessingFormRequest processingForm =
-          (OrderBadgeProcessingFormRequest)
-              session.getAttribute("formRequest-order-a-badge-processing");
-      BadgeOrder badgeOrder = converter.convert(detailsForm, processingForm);
-      badgeService.orderABadge(badgeOrder);
-      //session.removeAttribute("formRequest-order-a-badge-index");
-      //session.removeAttribute("formRequest-order-a-badge-details");
-      //session.removeAttribute("formRequest-order-a-badge-processing");
-      return REDIRECT_HOME;
-    } catch (BadRequestException e) {
-      model.addAttribute("errorSummary", new ErrorViewModel("Error in the request"));
+    //model.addAttribute("errorSummary", new ErrorViewModel());
+    /*if (bindingResult.hasErrors()) {
       return TEMPLATE;
-      // TODO: handling errors, it is not in the scope of this story
-    }
+    }*/
+    OrderBadgePersonDetailsFormRequest detailsForm =
+        (OrderBadgePersonDetailsFormRequest)
+            session.getAttribute("formRequest-order-a-badge-details");
+    OrderBadgeProcessingFormRequest processingForm =
+        (OrderBadgeProcessingFormRequest)
+            session.getAttribute("formRequest-order-a-badge-processing");
+    BadgeOrder badgeOrder = converter.convert(detailsForm, processingForm);
+    badgeService.orderABadge(badgeOrder);
+    //session.removeAttribute("formRequest-order-a-badge-index");
+    //session.removeAttribute("formRequest-order-a-badge-details");
+    //session.removeAttribute("formRequest-order-a-badge-processing");
+    return REDIRECT_HOME;
   }
 }
