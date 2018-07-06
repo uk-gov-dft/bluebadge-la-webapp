@@ -27,6 +27,15 @@ public class FindBadgeController {
     return TEMPLATE_FIND_A_BADGE;
   }
 
+  @GetMapping(URL_SEARCH_RESULTS)
+  public String show(Model model) {
+
+    List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
+
+    model.addAttribute("results", results);
+    return TEMPLATE_SEARCH_RESULTS;
+  }
+
   @PostMapping(URL_FIND_A_BADGE)
   public String submit(
       @Valid @ModelAttribute("formRequest") FindBadgeFormRequest formRequest,
@@ -47,10 +56,10 @@ public class FindBadgeController {
     data.put("status", "Active");
 
     List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
-    //results.add(data);
+    results.add(data);
 
     model.addAttribute("results", results);
 
-    return TEMPLATE_SEARCH_RESULTS;
+    return "redirect:" + TEMPLATE_SEARCH_RESULTS;
   }
 }
