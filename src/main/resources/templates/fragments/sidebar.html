@@ -26,6 +26,12 @@
 						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.order-a-badge.badge" aria-label="has 8 records in total">8</span> -->
 					</a>
 
+					<a data-uipath="sidebar-nav.find-a-badge"
+					   th:attr="href=${currentPage == 'find-a-badge'} ? '' : '/find-a-badge/'"
+					   th:class="${currentPage == 'find-a-badge'} ? ${activeClass} : ${menuItemClass}">
+						Find a badge
+					</a>
+
 					<a data-uipath="sidebar-nav.manage-users"
 						th:attr="href=${currentPage == 'manage-users'} ? '' : '/manage-users'"
 						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
