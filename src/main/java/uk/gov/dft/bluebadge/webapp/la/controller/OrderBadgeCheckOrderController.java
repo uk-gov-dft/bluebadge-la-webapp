@@ -48,15 +48,15 @@ public class OrderBadgeCheckOrderController {
   public String submit(Model model, HttpSession session) {
     try {
       //model.addAttribute("errorSummary", new ErrorViewModel());
-    /*if (bindingResult.hasErrors()) {
-      return TEMPLATE;
-    }*/
+      /*if (bindingResult.hasErrors()) {
+        return TEMPLATE;
+      }*/
       OrderBadgePersonDetailsFormRequest detailsForm =
-        (OrderBadgePersonDetailsFormRequest)
-          session.getAttribute("formRequest-order-a-badge-details");
+          (OrderBadgePersonDetailsFormRequest)
+              session.getAttribute("formRequest-order-a-badge-details");
       OrderBadgeProcessingFormRequest processingForm =
-        (OrderBadgeProcessingFormRequest)
-          session.getAttribute("formRequest-order-a-badge-processing");
+          (OrderBadgeProcessingFormRequest)
+              session.getAttribute("formRequest-order-a-badge-processing");
       BadgeOrder badgeOrder = converter.convert(detailsForm, processingForm);
       badgeService.orderABadge(badgeOrder);
       //session.removeAttribute("formRequest-order-a-badge-index");

@@ -25,7 +25,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final Logger log = LoggerFactory.getLogger(BadgeManagementApiClient.class);
 
-
   private static final String BADGES_BASE_ENDPOINT = "badges";
 
   private static final String ORDER_BADGES_ENDPOINT = BADGES_BASE_ENDPOINT + "/";
