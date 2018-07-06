@@ -29,7 +29,7 @@ public class OrderBadgeIndexController {
   public String show(
       @ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-index");
+    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_ORDER_A_BADGE_INDEX);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }

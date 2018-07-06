@@ -4,6 +4,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class DateValidationUtils {
+  private DateValidationUtils() {}
+
   public static String buildDateStringIfValidNullIfInvalid(
       Integer day, Integer month, Integer year) {
     if (dateShouldBeNull(day, month, year)) {
@@ -36,8 +38,7 @@ public class DateValidationUtils {
    *     12 or inconsistent, i.e. 29/2/1900 is invalid, because in year 1900, february only had 28
    *     days.
    */
-  public static LocalDate validateAndBuildLocalDateIfValid(Integer day, Integer month, Integer year)
-      throws DateTimeException {
+  public static LocalDate validateAndBuildLocalDateIfValid(Integer day, Integer month, Integer year) {
     return LocalDate.of(year, month, day);
   }
 }
