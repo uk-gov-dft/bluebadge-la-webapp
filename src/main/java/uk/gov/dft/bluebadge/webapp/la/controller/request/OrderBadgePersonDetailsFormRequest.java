@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
@@ -29,11 +30,7 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
   @NotBlank(message = "{NotNull.badge.dob}")
   @CannotBeInTheFutureDate(message = "{Pattern.badge.dob}")
   public String getDob() {
-    if (dobDay == null && dobMonth == null && dobYear == null) {
-      return null;
-    }
-
-    return dobYear + "-" + dobMonth + "-" + dobDay;
+    return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
