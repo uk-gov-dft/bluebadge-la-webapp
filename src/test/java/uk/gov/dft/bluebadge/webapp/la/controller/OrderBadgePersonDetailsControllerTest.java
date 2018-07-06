@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
@@ -84,11 +85,70 @@ public class OrderBadgePersonDetailsControllerTest {
   }
 
   @Test
-  public void show_shouldDisplayOrderABadgePersonDetails() throws Exception {
+  public void show_shouldDisplayOrderABadgePersonDetailsTemplate() throws Exception {
     mockMvc
         .perform(get("/order-a-badge/details"))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/details"));
+  }
+
+  @Test
+  public void
+      show_shouldDisplayOrderABadgeDetailsTemplateWithValuesCommingFromSession_WhenTheFormWasSavedToSessionBefore()
+          throws Exception {
+    OrderBadgePersonDetailsFormRequest formRequest =
+        OrderBadgePersonDetailsFormRequest.builder()
+            .buildingAndStreet(BUILDING_AND_STREET)
+            .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+            .contactDetailsName(CONTACT_DETAILS_NAME)
+            .dobDay(Integer.valueOf(DOB_DAY))
+            .dobMonth(Integer.valueOf(DOB_MONTH))
+            .dobYear(Integer.valueOf(DOB_YEAR))
+            .eligibility(ELIGIBILITY)
+            .name(NAME)
+            .nino(NINO)
+            .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+            .postcode(POSTCODE)
+            .townOrCity(TOWN_OR_CITY)
+            .build();
+    mockMvc
+        .perform(
+            get("/order-a-badge/details")
+                .sessionAttr("formRequest-order-a-badge-details", formRequest))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(model().attribute("formRequest", formRequest));
+  }
+
+  @Test
+  public void
+      show_shouldDisplayOrderABadgeDetailsTemplateWithoutValuesCommingFromSession_WhenTheFormWasSavedToSessionBeforeButRequestParamActionEqualsReset()
+          throws Exception {
+    OrderBadgePersonDetailsFormRequest beforeResetFormRequest =
+        OrderBadgePersonDetailsFormRequest.builder()
+            .buildingAndStreet(BUILDING_AND_STREET)
+            .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+            .contactDetailsName(CONTACT_DETAILS_NAME)
+            .dobDay(Integer.valueOf(DOB_DAY))
+            .dobMonth(Integer.valueOf(DOB_MONTH))
+            .dobYear(Integer.valueOf(DOB_YEAR))
+            .eligibility(ELIGIBILITY)
+            .name(NAME)
+            .nino(NINO)
+            .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+            .postcode(POSTCODE)
+            .townOrCity(TOWN_OR_CITY)
+            .build();
+
+    OrderBadgePersonDetailsFormRequest expectedFormRequest =
+        OrderBadgePersonDetailsFormRequest.builder().build();
+    mockMvc
+        .perform(
+            get("/order-a-badge/details?action=reset")
+                .sessionAttr("formRequest-order-a-badge-details", beforeResetFormRequest))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(model().attribute("formRequest", expectedFormRequest));
   }
 
   @Test
@@ -113,8 +173,9 @@ public class OrderBadgePersonDetailsControllerTest {
   }
 
   @Test
-  public void submit_shouldRedirectToProcessingPage_WhenAllFieldsAreSetAndThereNoValidationErrors()
-      throws Exception {
+  public void
+      submit_shouldRedirectToProcessingPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
+          throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/details")

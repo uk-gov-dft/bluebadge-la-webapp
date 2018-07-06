@@ -12,7 +12,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.time.LocalDate;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
@@ -28,11 +27,11 @@ import uk.gov.service.bluebadge.test.acceptance.util.*;
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
-  NameGenerator ng = new NameGenerator();
-  LocalDateGenerator ldg = new LocalDateGenerator();
-  PostCodeGenerator pcg = new PostCodeGenerator();
+  protected NameGenerator ng = new NameGenerator();
+  protected LocalDateGenerator ldg = new LocalDateGenerator();
+  protected PostCodeGenerator pcg = new PostCodeGenerator();
 
-  @Autowired private SitePage sitePage;
+  @Autowired protected SitePage sitePage;
 
   @Autowired private SignInPage signInPage;
 
@@ -369,26 +368,5 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
-  }
-
-  @When("^I enter all the mandatory valid personal details to order a badge$")
-  public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
-    String name = ng.get_full_name();
-    LocalDate date = ldg.get_local_date();
-
-    String dobDay = String.valueOf(date.getDayOfMonth());
-    String dobMonth = String.valueOf(date.getMonth().getValue());
-    String dobYear = String.valueOf(date.getYear());
-    String postcode = pcg.get_postcode();
-
-    sitePage.findPageElementById("name").sendKeys(name);
-    sitePage.findPageElementById("dobDay").sendKeys(dobDay);
-    sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
-    sitePage.findPageElementById("dobYear").sendKeys(dobYear);
-    sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
-    sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
-    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
-    iSelectAnOption("PIP", "eligibility");
   }
 }
