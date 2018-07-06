@@ -44,12 +44,4 @@ node {
         }
     }
 
-    stage ('Build Ami') {
-      git(
-           url: "https://github.com/uk-gov-dft/WebOps.git",
-           credentialsId: 'username***REMOVED***-github-automation-uk-gov-dft',
-           branch: "master"
-        )
-    }
-
 }
