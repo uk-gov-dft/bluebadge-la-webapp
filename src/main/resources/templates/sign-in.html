@@ -28,7 +28,7 @@
 
             <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'username', null, 'username') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'username') }"/>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
 
