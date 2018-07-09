@@ -32,6 +32,7 @@ public class OrderABadgeSiteSteps {
     String postcode = pcg.get_postcode();
 
     sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findPageElementById("male").click();
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);
     sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
