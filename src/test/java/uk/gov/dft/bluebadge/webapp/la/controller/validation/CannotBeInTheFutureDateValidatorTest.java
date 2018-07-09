@@ -23,14 +23,14 @@ public class CannotBeInTheFutureDateValidatorTest extends BaseDateValidatorTest 
 
   @Test
   public void isValid_shouldReturnFalse_WhenDateInTheFuture() {
-    String value = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("y-M-d"));
+    String value = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("d/M/y"));
     Boolean result = validator.isValid(value, context);
     assertFalse(value + " should be invalid (false)", result);
   }
 
   @Test
   public void isValid_shouldReturnTrue_WhenDateInThePast() {
-    String value = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("y-M-d"));
+    String value = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("d/M/y"));
     Boolean result = validator.isValid(value, context);
     assertTrue(value + " should be valid (true)", result);
   }
