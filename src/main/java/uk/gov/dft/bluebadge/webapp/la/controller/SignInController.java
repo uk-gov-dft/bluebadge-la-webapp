@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.security.exceptions.AuthServerConnectionException;
 import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatException;
 
@@ -46,16 +47,24 @@ public class SignInController {
 
   private void handleSignInError(
       Model model, BindingResult bindingResult, AuthenticationException signInException) {
+
     if (signInException instanceof BadCredentialsException) {
 
-      addCustomError(
-          "error.form.summary.title", "error.form.global.accessDenied.description", model);
+      if (signInException.getMessage() == "password is empty") {
+
+        model.addAttribute("errorSummary", new ErrorViewModel("error.form.summary.title"));
+        bindingResult.addError(new FieldError(" ***REMOVED***));
+
+      } else {
+
+        addCustomError(
+            "error.form.summary.title", "error.form.global.accessDenied.description", model);
+      }
 
     } else if (signInException instanceof InvalidEmailFormatException) {
-      bindingResult.addError(
-          new FieldError("emailAddress", "emailAddress", "Enter a valid email address"));
 
-      // addCustomError("error.form.summary.title", "error.form.field.signin.email.invalid", model);
+      model.addAttribute("errorSummary", new ErrorViewModel("error.form.summary.title"));
+      bindingResult.addError(new FieldError("username", "username", "Enter a valid email address"));
 
     } else if (signInException instanceof AuthServerConnectionException) {
 
@@ -68,7 +77,7 @@ public class SignInController {
 
   @Data
   private class SignInForm {
-    private String emailAddress;
+    private String username;
     private String password;
   }
 }
