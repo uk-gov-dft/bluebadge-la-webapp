@@ -23,13 +23,13 @@ public class OrderBadgeFormsToBadgeOrderRequest {
     Assert.notNull(processing, "processing cannot be null");
 
     LocalDate dob = LocalDate.of(details.getDobYear(), details.getDobMonth(), details.getDobDay());
-    // TODO: UNSPECIFIE is harcoded, we should take this from the form, once bbb-434 (gender) is merged into develop
+
     Person person =
         new Person()
             .badgeHolderName(details.getName())
             .dob(dob)
             .nino(details.getNino())
-            .genderCode("UNSPECIFIE");
+            .genderCode(details.getGender());
 
     Contact contact =
         new Contact()
