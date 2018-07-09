@@ -25,7 +25,7 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
     if (applicationDateDay == null && applicationDateMonth == null && applicationDateYear == null) {
       return null;
     }
-    return applicationDateYear + "-" + applicationDateMonth + "-" + applicationDateDay;
+    return applicationDateDay + "-" + applicationDateMonth + "-" + applicationDateYear;
   }
 
   @NotBlank(message = "{NotNull.badge.applicationChannel}")
@@ -45,7 +45,7 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
     if (badgeStartDateDay == null && badgeStartDateMonth == null && badgeStartDateYear == null) {
       return null;
     }
-    return badgeStartDateYear + "-" + badgeStartDateMonth + "-" + badgeStartDateDay;
+    return badgeStartDateDay + "-" + badgeStartDateMonth + "-" + badgeStartDateYear;
   }
 
   private Integer badgeExpiryDateDay;

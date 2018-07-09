@@ -33,7 +33,7 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
       return null;
     }
 
-    return dobYear + "-" + dobMonth + "-" + dobDay;
+    return dobDay + "-" + dobMonth + "-" + dobYear;
   }
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")

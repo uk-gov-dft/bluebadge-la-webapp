@@ -6,28 +6,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.converters.BadgeOrderToBadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.model.badge.BadgeOrder;
 
 @Service
 public class BadgeService {
 
   private BadgeManagementApiClient badgeManagementApiClient;
-  private BadgeOrderToBadgeOrderRequest converter;
 
   @Autowired
-  public BadgeService(
-      BadgeManagementApiClient badgeManagementApiClient, BadgeOrderToBadgeOrderRequest converter) {
+  public BadgeService(BadgeManagementApiClient badgeManagementApiClient) {
     this.badgeManagementApiClient = badgeManagementApiClient;
-    this.converter = converter;
   }
 
-  public String orderABadge(BadgeOrder badgeOrder) {
-    Assert.notNull(badgeOrder, "badgeOrder should not be null");
+  public String orderABadge(BadgeOrderRequest badgeOrderRequest) {
+    Assert.notNull(badgeOrderRequest, "badgeOrderRequest should not be null");
 
-    BadgeOrderRequest request = converter.convert(badgeOrder);
-
-    List<String> badgeNumbers = badgeManagementApiClient.orderBlueBadges(request);
+    List<String> badgeNumbers = badgeManagementApiClient.orderBlueBadges(badgeOrderRequest);
 
     Assert.notEmpty(badgeNumbers, "badgeNumbers should not be empty");
 

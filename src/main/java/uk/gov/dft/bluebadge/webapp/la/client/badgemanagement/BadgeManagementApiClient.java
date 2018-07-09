@@ -62,8 +62,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
-    } catch (Exception ex) {
-      System.out.println("unexpected exceptoipn"); // TODO
     }
     return null;
   }

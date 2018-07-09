@@ -94,7 +94,7 @@ public class OrderBadgeProcessingControllerTest {
 
   @Test
   public void
-      show_shouldDisplayOrderABadgeProcessingTemplateWithValuesCommingFromSession_WhenTheFormWasSavedToSessionBefore()
+      show_shouldDisplayOrderABadgeProcessingTemplateWithValuesComingFromSession_WhenTheFormWasSavedToSessionBefore()
           throws Exception {
     OrderBadgeProcessingFormRequest formRequest =
         OrderBadgeProcessingFormRequest.builder()

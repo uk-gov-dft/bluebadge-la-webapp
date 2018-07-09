@@ -7,12 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToBadgeOrder;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToBadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
-import uk.gov.dft.bluebadge.webapp.la.service.model.badge.BadgeOrder;
 
 @Slf4j
 @Controller
@@ -25,20 +25,28 @@ public class OrderBadgeCheckOrderController {
 
   private BadgeService badgeService;
   private ReferenceDataService referenceDataService;
-  private OrderBadgeFormsToBadgeOrder converter;
+  private OrderBadgeFormsToBadgeOrderRequest converter;
 
   @Autowired
   public OrderBadgeCheckOrderController(
       BadgeService badgeService,
       ReferenceDataService referenceDataService,
-      OrderBadgeFormsToBadgeOrder converter) {
+      OrderBadgeFormsToBadgeOrderRequest converter) {
     this.badgeService = badgeService;
     this.referenceDataService = referenceDataService;
     this.converter = converter;
   }
 
   @GetMapping(URL)
-  public String show() {
+  public String show(Model model, HttpSession session) {
+    OrderBadgePersonDetailsFormRequest detailsForm =
+        (OrderBadgePersonDetailsFormRequest)
+            session.getAttribute("formRequest-order-a-badge-details");
+    OrderBadgeProcessingFormRequest processingForm =
+        (OrderBadgeProcessingFormRequest)
+            session.getAttribute("formRequest-order-a-badge-processing");
+    model.addAttribute("details", detailsForm);
+    model.addAttribute("processing", processingForm);
     return TEMPLATE;
   }
 
@@ -54,8 +62,9 @@ public class OrderBadgeCheckOrderController {
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
             session.getAttribute("formRequest-order-a-badge-processing");
-    BadgeOrder badgeOrder = converter.convert(detailsForm, processingForm);
-    badgeService.orderABadge(badgeOrder);
+    BadgeOrderRequest badgeOrderRequest = converter.convert(detailsForm, processingForm, 2);
+    badgeService.orderABadge(badgeOrderRequest);
+    // TODO: Commented to help "dev" manual testing. Uncomment before commiting
     //session.removeAttribute("formRequest-order-a-badge-index");
     //session.removeAttribute("formRequest-order-a-badge-details");
     //session.removeAttribute("formRequest-order-a-badge-processing");
