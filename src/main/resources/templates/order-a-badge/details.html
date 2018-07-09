@@ -28,6 +28,33 @@
 
                 <div class="dft-width-one-half">
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+
+                    <div th:class="${#fields.hasErrors('gender')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'" id="gender">
+                        <fieldset class="govuk-fieldset">
+
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                <h3 class="govuk-heading-s">Gender</h3>
+                            </legend>
+
+                            <div class="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" th:field="*{gender}" id="female" name="gender" type="radio" value="female" data-aria-controls="female">
+                                    <label class="govuk-label govuk-radios__label" for="female">Female</label>
+                                </div>
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" th:field="*{gender}" id="male" name="gender" type="radio" value="male" data-aria-controls="male">
+                                    <label class="govuk-label govuk-radios__label" for="male">Male</label>
+                                </div>
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" th:field="*{gender}" id="unspecified" name="gender" type="radio" value="unspecified" data-aria-controls="unspecified">
+                                    <label class="govuk-label govuk-radios__label" for="unspecified">Unspecified</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
                     <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
                     <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
                 </div>
