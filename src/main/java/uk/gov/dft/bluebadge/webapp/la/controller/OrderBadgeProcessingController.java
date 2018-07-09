@@ -33,7 +33,8 @@ public class OrderBadgeProcessingController {
   public String show(
       @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute("formRequest-order-a-badge-processing");
+    Object sessionFormRequest =
+        session.getAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
@@ -47,7 +48,8 @@ public class OrderBadgeProcessingController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute("formRequest-order-a-badge-processing", formRequest);
+    session.setAttribute(
+        OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }

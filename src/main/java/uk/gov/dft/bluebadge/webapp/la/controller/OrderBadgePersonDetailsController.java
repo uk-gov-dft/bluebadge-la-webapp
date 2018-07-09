@@ -29,8 +29,7 @@ public class OrderBadgePersonDetailsController {
   private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
-  public static final String FORM_REQUEST_ORDER_A_BADGE_DETAILS =
-      "formRequest-order-a-badge-details";
+  private static final String FORM_ACTION_RESET = "reset";
 
   private ReferenceDataService referenceDataService;
 
@@ -44,12 +43,13 @@ public class OrderBadgePersonDetailsController {
       @RequestParam(name = "action", required = false) String action,
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session) {
-    if ("reset".equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
-      session.removeAttribute("formRequest-order-a-badge-index");
-      session.removeAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS);
-      session.removeAttribute("formRequest-order-a-badge-processing");
+    if (FORM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
+      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_INDEX);
+      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS);
+      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING);
     } else {
-      Object sessionFormRequest = session.getAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS);
+      Object sessionFormRequest =
+          session.getAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS);
       if (sessionFormRequest != null) {
         BeanUtils.copyProperties(sessionFormRequest, formRequest);
       }
@@ -64,7 +64,7 @@ public class OrderBadgePersonDetailsController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute(FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
+    session.setAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }

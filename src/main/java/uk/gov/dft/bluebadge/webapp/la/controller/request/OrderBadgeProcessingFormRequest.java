@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInThePastDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 
 @Data
 @Builder
@@ -22,10 +23,8 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
   @NotBlank(message = "{NotNull.badge.applicationDate}")
   @CannotBeInTheFutureDate(message = "{Pattern.badge.applicationDate}")
   public String getApplicationDate() {
-    if (applicationDateDay == null && applicationDateMonth == null && applicationDateYear == null) {
-      return null;
-    }
-    return applicationDateDay + "-" + applicationDateMonth + "-" + applicationDateYear;
+    return DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+        applicationDateDay, applicationDateMonth, applicationDateYear);
   }
 
   @NotBlank(message = "{NotNull.badge.applicationChannel}")
@@ -42,10 +41,8 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
   @NotBlank(message = "{NotNull.badge.startDate}")
   @CannotBeInThePastDate(message = "{Pattern.badge.startDate}")
   public String getBadgeStartDate() {
-    if (badgeStartDateDay == null && badgeStartDateMonth == null && badgeStartDateYear == null) {
-      return null;
-    }
-    return badgeStartDateDay + "-" + badgeStartDateMonth + "-" + badgeStartDateYear;
+    return DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+        badgeStartDateDay, badgeStartDateMonth, badgeStartDateYear);
   }
 
   private Integer badgeExpiryDateDay;
@@ -62,19 +59,23 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
   // of all alternatives.
   @AssertTrue(message = "{Pattern.badge.expiryDate}")
   public boolean isBadgeExpiryDateValid() {
-    if (badgeExpiryDateDay == null || badgeExpiryDateMonth == null || badgeExpiryDateYear == null) {
-      return false;
-    }
     try {
+      if (DateValidationUtils.isAnyDatePartMissing(
+          badgeExpiryDateDay, badgeExpiryDateMonth, badgeExpiryDateYear)) {
+        return false;
+      }
       LocalDate expiryDate =
-          LocalDate.of(badgeExpiryDateYear, badgeExpiryDateMonth, badgeExpiryDateDay);
+          DateValidationUtils.validateAndBuildLocalDateIfValid(
+              badgeExpiryDateDay, badgeExpiryDateMonth, badgeExpiryDateYear);
 
-      if (badgeStartDateDay == null || badgeStartDateMonth == null || badgeStartDateYear == null) {
+      if (DateValidationUtils.isAnyDatePartMissing(
+          badgeStartDateDay, badgeStartDateMonth, badgeStartDateYear)) {
         return true;
       }
-
       LocalDate startDate =
-          LocalDate.of(badgeStartDateYear, badgeStartDateMonth, badgeStartDateDay);
+          DateValidationUtils.validateAndBuildLocalDateIfValid(
+              badgeStartDateDay, badgeStartDateMonth, badgeStartDateYear);
+
       if (expiryDate.isBefore(startDate)) {
         return false;
       }
