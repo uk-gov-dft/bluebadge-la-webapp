@@ -4632,7 +4632,6 @@ input, select {
 
 .dft-grid-col {
   width: 100%;
-  padding: 0 15px;
 }
 
 .dft-grid-col--half, .dft-grid-col--two-thirds {
@@ -4645,10 +4644,6 @@ input, select {
 
 .dft-grid-col--two-thirds {
   width: 66.67%;
-}
-
-.dft-grid-col--no-gutters {
-  padding: 0;
 }
 
 .dft-width-one-quarter {
@@ -4697,12 +4692,17 @@ body {
   padding-right: 0;
 }
 
+.dft-headline-wrapper {
+  margin-top: 10px;
+  margin-top: 20px;
+}
+
 .dft-main-wrapper {
   display: block;
   padding-top: 20px;
   padding-bottom: 20px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .dft-btn-link {

@@ -12,7 +12,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.time.LocalDate;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
@@ -28,11 +27,11 @@ import uk.gov.service.bluebadge.test.acceptance.util.*;
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
-  NameGenerator ng = new NameGenerator();
-  LocalDateGenerator ldg = new LocalDateGenerator();
-  PostCodeGenerator pcg = new PostCodeGenerator();
+  protected NameGenerator ng = new NameGenerator();
+  protected LocalDateGenerator ldg = new LocalDateGenerator();
+  protected PostCodeGenerator pcg = new PostCodeGenerator();
 
-  @Autowired private SitePage sitePage;
+  @Autowired protected SitePage sitePage;
 
   @Autowired private SignInPage signInPage;
 
