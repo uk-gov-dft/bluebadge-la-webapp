@@ -369,26 +369,4 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
   }
-
-  @When("^I enter all the mandatory valid personal details to order a badge$")
-  public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
-    String name = ng.get_full_name();
-    LocalDate date = ldg.get_local_date();
-
-    String dobDay = String.valueOf(date.getDayOfMonth());
-    String dobMonth = String.valueOf(date.getMonth().getValue());
-    String dobYear = String.valueOf(date.getYear());
-    String postcode = pcg.get_postcode();
-
-    sitePage.findPageElementById("name").sendKeys(name);
-    sitePage.findPageElementById("male").click();
-    sitePage.findPageElementById("dobDay").sendKeys(dobDay);
-    sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
-    sitePage.findPageElementById("dobYear").sendKeys(dobYear);
-    sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
-    sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
-    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
-    iSelectAnOption("PIP", "eligibility");
-  }
 }
