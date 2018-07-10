@@ -30,42 +30,42 @@
                 <dl class="dft-data-list" data-uipath="personalDetails.answers">
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Full name</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.fullName}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.fullName}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Gender</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.gender}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.gender}"/>
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Date of birth</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.dob}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.dob}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">N.I number</dt>
-                        <dd class="dft-data-list__dd" th:with="ref=${data.nino}" th:text="${ref} ? ${ref} : ${noValue}" /></dd>
+                        <dd class="dft-data-list__dd" th:with="ref=${data.nino}" th:text="${ref} ? ${ref} : ${noValue}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Address</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.address}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.address}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Contact number</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.contactNumber}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.contactNumber}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Email address</dt>
-                        <dd class="dft-data-list__dd" th:with="ref=${data.emailAddress}" th:text="${ref} ? ${ref} : ${noValue}" /></dd>
+                        <dd class="dft-data-list__dd" th:with="ref=${data.emailAddress}" th:text="${ref} ? ${ref} : ${noValue}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Eligibility</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.eligibility}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.eligibility}" />
                     </div>
 
                     <!-- <div class="dft-data-list__item">
@@ -91,32 +91,32 @@
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Badge start date</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.badgeStartDate}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.badgeStartDate}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Badge expiry date</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.badgeExpiryDate}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.badgeExpiryDate}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Application date</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.applicationDate}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.applicationDate}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Application channel</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.applicationChannel}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.applicationChannel}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Deliver to</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.deliverTo}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.deliverTo}" />
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt">Delivery options</dt>
-                        <dd class="dft-data-list__dd" th:text="${data.deliveryOptions}"/></dd>
+                        <dd class="dft-data-list__dd" th:text="${data.deliveryOptions}" />
                     </div>
                 </dl>
             </section>
