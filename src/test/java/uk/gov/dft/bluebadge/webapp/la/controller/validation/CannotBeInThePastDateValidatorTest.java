@@ -33,4 +33,11 @@ public class CannotBeInThePastDateValidatorTest extends BaseDateValidatorTest {
     Boolean result = validator.isValid(value, context);
     assertFalse(value + " should be invalid (false)", result);
   }
+
+  @Test
+  public void isValid_shouldReturnTrue_WhenDateIsToday() {
+    String value = LocalDate.now().format(DateTimeFormatter.ofPattern("d/M/y"));
+    Boolean result = validator.isValid(value, context);
+    assertTrue(value + " should be valid (true)", result);
+  }
 }

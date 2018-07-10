@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 
 @Component
@@ -22,6 +23,12 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     address.append(",").append(details.getTownOrCity());
     address.append(",").append(details.getPostcode());
 
+    String badgeExpiryDate =
+        DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+            processing.getBadgeExpiryDateDay(),
+            processing.getBadgeExpiryDateMonth(),
+            processing.getBadgeExpiryDateYear());
+
     OrderBadgeCheckOrderViewModel viewModel =
         OrderBadgeCheckOrderViewModel.builder()
             .fullName(details.getName())
@@ -33,7 +40,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
             .eligibility(details.getEligibility())
             .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())
             .badgeStartDate(processing.getBadgeStartDate())
-            .badgeExpiryDate(processing.getBadgeStartDate())
+            .badgeExpiryDate(badgeExpiryDate)
             .applicationDate(processing.getApplicationDate())
             .applicationChannel(processing.getApplicationChannel())
             .deliverTo(processing.getDeliverTo())
