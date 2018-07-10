@@ -11,7 +11,7 @@ body {
 		display: table;
 
 		.dft-width-container {
-			@include mq($from: desktop) {
+			@include govuk-media-query($from: desktop) {
 				width: auto;
 				padding-left: 50px;
 				padding-right: 50px;
@@ -20,7 +20,7 @@ body {
 		}
 
 		.dft-sidebar {
-			@include mq($from: desktop) {
+			@include govuk-media-query($from: desktop) {
 				height: 100%;
 				width: 300px;
 				max-width: 300px;
@@ -32,30 +32,30 @@ body {
 }
 
 .dft-width-container {
-	padding-left: 20px;
-	padding-right: 20px;
-
-	@include mq($from: desktop) {
+	@include govuk-media-query($from: desktop) {
 		padding-left: 0;
 		padding-right: 0;
 	}
+
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
-.dft-headline-wrapper{
-	margin-top: 10px;
-
-	@include mq($from: desktop) {
+.dft-headline-wrapper {
+	@include govuk-media-query($from: desktop) {
 		margin-top: 20px;
 	}
+
+	margin-top: 10px;
 }
 
 .dft-main-wrapper {
-	display: block;
-	padding-top: 20px;
-	padding-bottom: 20px;
-
-	@include mq($from: desktop) {
+	@include govuk-media-query($from: desktop) {
 		padding-top: 30px;
 		padding-bottom: 30px;
 	}
+
+	display: block;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }

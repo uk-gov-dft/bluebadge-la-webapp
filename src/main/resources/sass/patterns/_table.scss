@@ -1,55 +1,54 @@
 .govuk-table {
-    $this: &;
+	$this: &;
 
-    &--fixed {
-        table-layout: fixed;
+	&--fixed {
+		table-layout: fixed;
 
-        #{$this}__cell {
-            width: 100%;
-            word-wrap: break-word;
-        }
-    }
+		#{$this}__cell {
+			width: 100%;
+			word-wrap: break-word;
+		}
+	}
 
 
-    &__head {
-        #{$this}__row {
-            border-bottom: 2px solid $govuk-grey-3;
-        }
+	&__head {
+		@include govuk-media-query(mobile, tablet) {
+			@include govuk-visually-hidden;
+		}
 
-        @include mq(mobile, tablet) {
-            @include govuk-visually-hidden;
-        }
+		#{$this}__row {
+			border-bottom: 2px solid govuk-colour("grey-3");
+		}
+	}
 
-    }
+	&__header,
+	&__cell {
+		font-size: 16px;
+		line-height: 20px;
 
-    &__header, &__cell {
-        font-size: 16px;
-        line-height: 20px;
+		a {
+			text-decoration: none;
 
-        a {
-            text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
 
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
+	&__row {
+		@include govuk-media-query($until: tablet) {
+			padding: 5px 0;
+			display: block;
+			border-bottom: 1px solid $govuk-border-colour;
+		}
+	}
 
-    &__row {
-        @include mq($until: tablet) {
-            padding: 5px 0;
-            display: block;
-            border-bottom: 1px solid $govuk-border-colour;
-        }
-    }
-
-    &__cell {
-        @include mq($until: tablet) {
-            display: block;
-            padding: 2px 0;
-            font-size: 14px;
-            border-bottom: 0;
-        }
-    }
-
+	&__cell {
+		@include govuk-media-query($until: tablet) {
+			display: block;
+			padding: 2px 0;
+			font-size: 14px;
+			border-bottom: 0;
+		}
+	}
 }

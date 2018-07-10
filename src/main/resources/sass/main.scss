@@ -1,63 +1,44 @@
-/* ---------------------------------------------
+// ---------------------------------------------
 
-    * Global Imports / Style Resets
+// Global Imports / Style Resets
 
---------------------------------------------- */
+// ---------------------------------------------
 
 @import "reset";
-
-*,
-*::before,
-*::after {
-   box-sizing: border-box;
-}
 
 // Enables GDS global styles - Disabled by default.
 // https://github.com/alphagov/govuk-frontend/blob/master/src/core/_global-styles.scss
 
 $govuk-global-styles: true;
-
-
-@import "@govuk-frontend/frontend/all";
-
-// need to replace breakpoints at govuk level so
-// that govuk components can consume the new breakpoints
-$mq-breakpoints: (
+$govuk-show-breakpoints: false;
+$govuk-breakpoints: (
 	mobile:  320px,
 	tablet:  768px,
 	desktop: 1024px,
 	wide: 1200px,
 );
 
+@import "govuk-frontend/all";
 
 
+// ---------------------------------------------
 
+// DFT Specific Helpers & Utilties
 
-/* ---------------------------------------------
-
-    * DFT Specific Helpers & Utilties
-
---------------------------------------------- */
+// ---------------------------------------------
 
 @import "helpers/variables";
 @import "helpers/grid";
 @import "helpers/layout";
 @import "helpers/btn-link";
-@import "helpers/accessibility";
-@import "helpers/responsive-debugger";
-
-// Tools init
-@include responsive-debugger(false);
 
 
 
+// ---------------------------------------------
 
+// GOV UK Pattern Overrides
 
-/* ---------------------------------------------
-
-    * GOV UK Pattern Overrides
-
---------------------------------------------- */
+// ---------------------------------------------
 
 @import "patterns/hint";
 @import "patterns/body";
@@ -72,11 +53,11 @@ $mq-breakpoints: (
 
 
 
-/* ---------------------------------------------
+// -----------------------s----------------------
 
-    * DFT Specific Patterns
+// DFT Specific Patterns
 
---------------------------------------------- */
+// ---------------------------------------------
 
 @import "patterns/dft/hr";
 @import "patterns/dft/nav";
@@ -87,5 +68,4 @@ $mq-breakpoints: (
 @import "patterns/dft/sidebar";
 @import "patterns/dft/group-heading";
 @import "patterns/dft/actions-panel";
-
 @import "patterns/dft/utilities";

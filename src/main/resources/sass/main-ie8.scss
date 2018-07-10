@@ -4,7 +4,7 @@
 
 --------------------------------------------- */
 
-@import "reset";
+/* @import "reset";
 
 *,
 *::before,
@@ -12,7 +12,7 @@
    box-sizing: border-box;
 }
 
-@import "@govuk-frontend/frontend/all";
+@import "govuk-frontend/all";
 
 // need to replace breakpoints at govuk level so
 // that govuk components can consume the new breakpoints
@@ -37,7 +37,7 @@ $mq-static-breakpoint: desktop;
 
 --------------------------------------------- */
 
-@import "helpers/variables";
+/* @import "helpers/variables";
 @import "helpers/grid";
 @import "helpers/layout";
 @import "helpers/btn-link";
@@ -57,7 +57,7 @@ $mq-static-breakpoint: desktop;
 
 --------------------------------------------- */
 
-@import "patterns/hint";
+/* @import "patterns/hint";
 @import "patterns/body";
 @import "patterns/form";
 @import "patterns/list";
@@ -76,7 +76,7 @@ $mq-static-breakpoint: desktop;
 
 --------------------------------------------- */
 
-@import "patterns/dft/hr";
+/* @import "patterns/dft/hr";
 @import "patterns/dft/nav";
 @import "patterns/dft/login";
 @import "patterns/dft/badge";
@@ -86,4 +86,4 @@ $mq-static-breakpoint: desktop;
 @import "patterns/dft/group-heading";
 @import "patterns/dft/actions-panel";
 
-@import "patterns/dft/utilities";
+@import "patterns/dft/utilities"; */

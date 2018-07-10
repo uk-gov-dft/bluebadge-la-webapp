@@ -11,7 +11,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "@govuk-frontend/frontend": "0.0.29-alpha"
+    "govuk-frontend": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

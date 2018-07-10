@@ -5,7 +5,7 @@
 		display: inline-block;
 		position: relative;
 
-		@include mq($from: tablet) {
+		@include govuk-media-query($from: tablet) {
 			width: auto;
 		}
 	}
@@ -15,18 +15,18 @@
 	}
 
 	&__field {
-		@include govuk-font-regular-19;
+		@include govuk-font(19, regular);
 		width: 100%;
 		border: 0;
 		display: block;
 		padding: 9px 32px 6px 15px;
-		outline: 2px solid $govuk-grey-3;
+		outline: 2px solid govuk-colour("grey-3");
 
 		&:focus {
 			outline-width: 2px;
 		}
 
-		@include mq(tablet) {
+		@include govuk-media-query(tablet) {
 			width: 260px;
 		}
 	}
@@ -48,13 +48,13 @@
 	}
 
 	&__options {
-		@include govuk-font-regular-16;
+		@include govuk-font(16, regular);
 		margin-left: 5px;
 	}
 
 	&__clear-link {
 		@extend .govuk-link;
-		@include govuk-font-regular-16;
+		@include govuk-font(16, regular);
 		margin: 0;
 		padding: 0;
 		border: 0;

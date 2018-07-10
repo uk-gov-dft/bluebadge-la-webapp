@@ -1,21 +1,22 @@
 .dft-badge {
 	&--nav {
-		@include govuk-font-regular-14;
+		@include govuk-font(14, regular);
+		
 		min-width: 24px;
 		text-align: center;
 		border-radius: 3px;
-		padding: 3px 4px 1px 4px;
+		padding: 3px 4px 1px;
 		display: inline-block;
-		background-color: #fff;
+		background-color: $dft-white;
 
-		@include mq($from: tablet) {
+		@include govuk-media-query($from: tablet) {
 			min-width: 25px;
 			padding: 5px 5px 0;
 		}
 	}
 
 	&--heading {
-		@include govuk-font-regular-19;
+		@include govuk-font(19, regular);
 		display: inline-block;
 		color: $govuk-secondary-text-colour;
 	}

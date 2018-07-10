@@ -2,7 +2,7 @@
 	$this: &;
 
 	// mobile and tablet only
-	@include mq($until: desktop) {
+	@include govuk-media-query($until: desktop) {
 		position: relative;
 
 		#{$this}__wrapper {
@@ -26,19 +26,18 @@
 	}
 
 	&__dropdown-label {
-		display: none;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 42px;
 		z-index: 100;
-		color: white;
+		color: $dft-white;
 		display: block;
 		text-align: right;
 		position: absolute;
 
 		span {
-			@include govuk-font-regular-16;
+			@include govuk-font(16, regular);
 			margin-top: 6px;
 			margin-right: 6px;
 			line-height: unset;
@@ -53,20 +52,20 @@
 				margin-left: 5px;
 				display: inline-block;
 				vertical-align: middle;
-				border-top: 5px solid white;
+				border-top: 5px solid $dft-white;
 				border-left: 4px solid transparent;
 				border-right: 4px solid transparent;
 			}
 		}
 
-		@include mq(tablet) {
+		@include govuk-media-query(tablet) {
 			span {
 				margin-top: 4px;
 				padding: 7px 10px 5px;
 			}
 		}
 
-		@include mq($from: desktop) {
+		@include govuk-media-query($from: desktop) {
 			display: none;
 		}
 	}
@@ -85,12 +84,12 @@
 
 				&::after {
 					border-top: 0;
-					border-bottom: 5px solid white;
+					border-bottom: 5px solid $dft-white;
 				}
 			}
 		}
 	}
-    
+
 	&__menu {
 		margin: 0;
 		padding: 0;
@@ -98,7 +97,7 @@
 	}
 
 	&__item {
-		@include govuk-font-regular-19;
+		@include govuk-font(19, regular);
 		margin: 0;
 		clear: both;
 		display: block;
@@ -107,12 +106,12 @@
 		position: relative;
 		text-decoration: none;
 
-		@include mq($until: desktop) {
+		@include govuk-media-query($until: desktop) {
 			padding: 0 15px;
 			line-height: 42px;
 		}
 
-		@include mq($from: desktop) {
+		@include govuk-media-query($from: desktop) {
 			line-height: 48px;
 			padding: 0 20px 0 30px;
 		}
@@ -126,11 +125,11 @@
 		&:focus,
 		&--active {
 			outline: none;
-			color: white;
+			color: $dft-white;
 			background: $dft-blue;
 
-			@include mq($from: desktop) {
-				&:after {
+			@include govuk-media-query($from: desktop) {
+				&::after {
 					top: 0;
 					right: 0;               
 					width: 0;
@@ -141,18 +140,18 @@
 					position: absolute;
 					border-style: solid;
 					border-width: 7px 8px 7px 0;
-					border-color: transparent white transparent transparent;
+					border-color: transparent $dft-white transparent transparent;
 				}
 			}
 
 			.dft-badge {
-				color: white;
+				color: $dft-white;
 				background-color: $dft-blue-dark;
 			}
-			
-			&:visited,
-			&:link {
-				color: white;
+
+			&:link,
+			&:visited {
+				color: $dft-white;
 			}
 		}
 	}
@@ -160,9 +159,9 @@
 	.dft-badge {
 		margin-left: 10px;
 
-		@include mq($from: desktop) {
+		@include govuk-media-query($from: desktop) {
 			float: right;
-			margin-left: 0px;
+			margin-left: 0;
 		}
 	}
 }

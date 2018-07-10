@@ -1,9 +1,9 @@
 .govuk-label {
-    font-size: 14px;
-    line-height: 16px;
+	@include govuk-media-query($from: tablet) {
+		font-size: 16px;
+		line-height: 20px;
+	}
 
-    @include mq($from: tablet) {
-        font-size: 16px;
-        line-height: 20px;
-    }
+	font-size: 14px;
+	line-height: 16px;
 }

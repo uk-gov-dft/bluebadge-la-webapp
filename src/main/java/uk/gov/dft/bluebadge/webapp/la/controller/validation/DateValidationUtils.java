@@ -38,7 +38,8 @@ public class DateValidationUtils {
    *     12 or inconsistent, i.e. 29/2/1900 is invalid, because in year 1900, february only had 28
    *     days.
    */
-  public static LocalDate validateAndBuildLocalDateIfValid(Integer day, Integer month, Integer year) {
+  public static LocalDate validateAndBuildLocalDateIfValid(
+      Integer day, Integer month, Integer year) {
     return LocalDate.of(year, month, day);
   }
 }

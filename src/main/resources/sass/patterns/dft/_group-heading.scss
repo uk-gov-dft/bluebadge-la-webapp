@@ -14,6 +14,6 @@
 }
 
 .dft-sub-heading {
-	@include govuk-font-regular-19;
+	@include govuk-font(19, regular);
 	color: $govuk-secondary-text-colour;
 }
