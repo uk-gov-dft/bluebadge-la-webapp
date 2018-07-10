@@ -14,7 +14,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
 
 @Slf4j
 @Controller
@@ -26,18 +25,15 @@ public class OrderBadgeCheckOrderController {
   public static final String REDIRECT_HOME = "redirect:" + HomeController.URL;
 
   private BadgeService badgeService;
-  private ReferenceDataService referenceDataService;
   private OrderBadgeFormsToBadgeOrderRequest converterToServiceModel;
   private OrderBadgeFormsToOrderBadgeCheckOrderViewModel converterToViewModel;
 
   @Autowired
   public OrderBadgeCheckOrderController(
       BadgeService badgeService,
-      ReferenceDataService referenceDataService,
       OrderBadgeFormsToBadgeOrderRequest converterToServiceModel,
       OrderBadgeFormsToOrderBadgeCheckOrderViewModel converterToViewModel) {
     this.badgeService = badgeService;
-    this.referenceDataService = referenceDataService;
     this.converterToServiceModel = converterToServiceModel;
     this.converterToViewModel = converterToViewModel;
   }

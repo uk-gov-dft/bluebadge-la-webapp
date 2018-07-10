@@ -48,10 +48,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
 
     controller =
         new OrderBadgeCheckOrderController(
-            badgeServiceMock,
-            referenceDataServiceMock,
-            converterToServiceModelMock,
-            converterToViewModelMock);
+            badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
