@@ -9,11 +9,10 @@
 <body>
 
     <div layout:fragment="content">
-    There was an error. Please try again later.
-        <span th:text="'Message: ' + ${errorMessage}"></span>
+    There was a server error. Please try again later.
 
+        <p th:text="${exception}"></p>
     </div>
-
 
 </body>
 </html>

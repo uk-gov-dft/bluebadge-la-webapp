@@ -37,5 +37,5 @@ Feature: Dft BlueBadge LA Sign In Page
     And I can click Sign in button
     And I can click Sign out button
     Then I should see the title "Sign in"
-    Then I can see labelled element "info.form.global.signedOut.title" with content "You've been signed out"
+    Then I can see labelled element "info.form.global.signedOut.title" with content "You''ve been signed out"
 

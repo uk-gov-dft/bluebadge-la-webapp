@@ -28,7 +28,7 @@ public class UserServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    userService = new UserService(userManagementServiceMock);
+    userService = new UserServiceImpl(userManagementServiceMock);
   }
 
   @Test
