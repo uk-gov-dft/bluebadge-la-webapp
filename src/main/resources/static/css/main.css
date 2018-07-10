@@ -5588,6 +5588,161 @@ body {
   background-color: #f8f8f8;
 }
 
+.dft-check-answers {
+  margin-bottom: 30px;
+}
+
+@media (min-width: 48em) {
+  .dft-check-answers {
+    margin-bottom: 60px;
+  }
+}
+
+.dft-check-answers__heading:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.dft-check-answers__title {
+  float: left;
+}
+
+.dft-check-answers__cta {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  float: right;
+}
+
+@media print {
+  .dft-check-answers__cta {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-check-answers__cta {
+    font-size: 19px;
+    line-height: 25px;
+  }
+}
+
+@media print {
+  .dft-check-answers__cta {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}
+
+.dft-data-list {
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  .dft-data-list {
+    display: table;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__item {
+    display: table-row;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__dt, .dft-data-list__dd {
+    display: table-cell;
+  }
+}
+
+.dft-data-list__dt {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  vertical-align: top;
+  padding: 0.63158em 1.05263em 0.47368em 0;
+}
+
+@media print {
+  .dft-data-list__dt {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__dt {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media print {
+  .dft-data-list__dt {
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__dt {
+    width: 35%;
+    border-bottom: 1px solid #bfc1c3;
+  }
+}
+
+.dft-data-list__dd {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  border-bottom: 1px solid #bfc1c3;
+  padding: 0 0 0.47368em;
+}
+
+@media print {
+  .dft-data-list__dd {
+    font-family: sans-serif;
+  }
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__dd {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media print {
+  .dft-data-list__dd {
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+
+.dft-data-list__dd img {
+  width: 100px;
+  height: auto;
+  display: block;
+  outline: 2px solid white;
+  border: 2px solid #bfc1c3;
+}
+
+@media (min-width: 48em) {
+  .dft-data-list__dd {
+    padding: 0.63158em 1.05263em 0.47368em 0;
+  }
+}
+
 .dft-group-heading h1,
 .dft-group-heading h2 {
   margin-top: 0;
