@@ -8,6 +8,7 @@ import lombok.Data;
 public class OrderBadgeCheckOrderViewModel {
   private String fullName;
   private String dob;
+  private String gender;
   private String nino;
   private String address;
   private String contactNumber;
