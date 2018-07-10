@@ -105,44 +105,48 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String DELIVER_TO_WRONG = "deliverTo";
   protected static final String DELIVERY_OPTIONS_WRONG = "deliveryOptions";
 
+  protected static final String VIEW_MODEL_APPLICATION_DATE = "1/7/2018";
+  protected static final String VIEW_MODEL_BADGE_START_DATE = "1/10/2045";
+  protected static final String VIEW_MODEL_BADGE_EXPIRY_DATE = "1/10/2047";
+  protected static final String VIEW_MODEL_DOB = "1/1/1990";
+  protected static final String VIEW_MODEL_ADDRESS = "An address, a place, a postcode";
+
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_DETAILS =
-    OrderBadgePersonDetailsFormRequest.builder()
-      .buildingAndStreet(BUILDING_AND_STREET)
-      .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-      .contactDetailsName(CONTACT_DETAILS_NAME)
-      .dobDay(Integer.valueOf(DOB_DAY))
-      .dobMonth(Integer.valueOf(DOB_MONTH))
-      .dobYear(Integer.valueOf(DOB_YEAR))
-      .eligibility(ELIGIBILITY)
-      .name(NAME)
-      .nino(NINO)
-      .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
-      .postcode(POSTCODE)
-      .townOrCity(TOWN_OR_CITY)
-      .build();
+      OrderBadgePersonDetailsFormRequest.builder()
+          .buildingAndStreet(BUILDING_AND_STREET)
+          .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+          .contactDetailsName(CONTACT_DETAILS_NAME)
+          .dobDay(Integer.valueOf(DOB_DAY))
+          .dobMonth(Integer.valueOf(DOB_MONTH))
+          .dobYear(Integer.valueOf(DOB_YEAR))
+          .eligibility(ELIGIBILITY)
+          .name(NAME)
+          .nino(NINO)
+          .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+          .postcode(POSTCODE)
+          .townOrCity(TOWN_OR_CITY)
+          .build();
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PROCESSING =
-    OrderBadgeProcessingFormRequest.builder()
-      .applicationChannel(APPLICATION_CHANNEL)
-      .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
-      .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
-      .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
-      .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-      .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
-      .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
-      .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
-      .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
-      .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
-      .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-      .deliverTo(DELIVER_TO)
-      .deliveryOptions(DELIVERY_OPTIONS)
-      .build();
-
+      OrderBadgeProcessingFormRequest.builder()
+          .applicationChannel(APPLICATION_CHANNEL)
+          .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
+          .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
+          .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
+          .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+          .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
+          .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
+          .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
+          .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
+          .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
+          .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
+          .deliverTo(DELIVER_TO)
+          .deliveryOptions(DELIVERY_OPTIONS)
+          .build();
 
   protected MockMvc mockMvc;
 
   @Mock protected SecurityUtils securityUtilsMock;
   @Mock protected ReferenceDataService referenceDataServiceMock;
   @Mock protected BadgeService badgeServiceMock;
-
 }

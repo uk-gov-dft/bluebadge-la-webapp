@@ -1,15 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
@@ -23,15 +18,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 @Service
 public class BadgeManagementApiClient extends BaseApiClient {
 
-  private static final Logger log = LoggerFactory.getLogger(BadgeManagementApiClient.class);
-
   private static final String BADGES_BASE_ENDPOINT = "badges";
 
   private static final String ORDER_BADGES_ENDPOINT = "/" + BADGES_BASE_ENDPOINT;
-
-  private static final String QUERY_PARAM_NAME = "name";
-  private static final String QUERY_PARAM_BADGE_NUMBER = "badgeNumber";
-  private static final String QUERY_PARAM_NI = "ni";
 
   private RestTemplateFactory restTemplateFactory;
   private ServiceConfiguration serviceConfiguration;
@@ -46,10 +35,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
   public List<String> orderBlueBadges(BadgeOrderRequest badgeOrder) {
     Assert.notNull(badgeOrder, "orderBlueBadges - badgeOrder must be set");
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-    HttpEntity<BadgeOrderRequest> request = new HttpEntity<BadgeOrderRequest>(badgeOrder);
+    HttpEntity<BadgeOrderRequest> request = new HttpEntity<>(badgeOrder);
 
     try {
       return Objects.requireNonNull(

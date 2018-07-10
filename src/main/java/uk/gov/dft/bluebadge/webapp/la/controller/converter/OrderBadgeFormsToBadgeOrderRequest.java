@@ -69,7 +69,6 @@ public class OrderBadgeFormsToBadgeOrderRequest {
         .expiryDate(expiryDate)
         .deliverToCode(processing.getDeliverTo())
         .deliveryOptionCode(processing.getDeliveryOptions())
-        .numberOfBadges(1)
         .localAuthorityId(localAuthority);
   }
 }

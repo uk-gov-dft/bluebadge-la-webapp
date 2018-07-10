@@ -11,7 +11,7 @@ public class ErrorControllerAdvice {
 
   private static final String URL = "/unexpected-error";
 
-  private static final String REDIRECT_URL = "redirect:/unexpected-error";
+  private static final String REDIRECT_URL = "redirect:" + URL;
 
   @ExceptionHandler(HttpServerErrorException.class)
   public String handleHttpServerErrorException(HttpServerErrorException exception) {

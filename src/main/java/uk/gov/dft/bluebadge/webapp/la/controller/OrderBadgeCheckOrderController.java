@@ -58,10 +58,6 @@ public class OrderBadgeCheckOrderController {
 
   @PostMapping(URL)
   public String submit(Model model, HttpSession session) {
-    //model.addAttribute("errorSummary", new ErrorViewModel());
-    /*if (bindingResult.hasErrors()) {
-      return TEMPLATE;
-    }*/
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute("formRequest-order-a-badge-details");
@@ -70,11 +66,10 @@ public class OrderBadgeCheckOrderController {
             session.getAttribute("formRequest-order-a-badge-processing");
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm, 2);
-    badgeService.orderABadge(badgeOrderRequest);
-    // TODO: Commented to help "dev" manual testing. Uncomment before commiting
-    //session.removeAttribute("formRequest-order-a-badge-index");
-    //session.removeAttribute("formRequest-order-a-badge-details");
-    //session.removeAttribute("formRequest-order-a-badge-processing");
+    badgeService.orderABadgeForAPerson(badgeOrderRequest);
+    session.removeAttribute("formRequest-order-a-badge-index");
+    session.removeAttribute("formRequest-order-a-badge-details");
+    session.removeAttribute("formRequest-order-a-badge-processing");
     return REDIRECT_HOME;
   }
 }

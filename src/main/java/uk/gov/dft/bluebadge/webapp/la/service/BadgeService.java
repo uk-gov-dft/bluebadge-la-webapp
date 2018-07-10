@@ -17,10 +17,11 @@ public class BadgeService {
     this.badgeManagementApiClient = badgeManagementApiClient;
   }
 
-  public String orderABadge(BadgeOrderRequest badgeOrderRequest) {
+  public String orderABadgeForAPerson(BadgeOrderRequest badgeOrderRequest) {
     Assert.notNull(badgeOrderRequest, "badgeOrderRequest should not be null");
 
-    List<String> badgeNumbers = badgeManagementApiClient.orderBlueBadges(badgeOrderRequest);
+    List<String> badgeNumbers =
+        badgeManagementApiClient.orderBlueBadges(badgeOrderRequest.numberOfBadges(1));
 
     Assert.notEmpty(badgeNumbers, "badgeNumbers should not be empty");
 

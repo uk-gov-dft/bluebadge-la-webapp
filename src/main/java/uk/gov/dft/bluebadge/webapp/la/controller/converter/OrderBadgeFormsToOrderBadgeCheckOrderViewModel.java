@@ -12,7 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
 
   public OrderBadgeCheckOrderViewModel convert(
-    OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
+      OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
     StringBuilder address = new StringBuilder(details.getBuildingAndStreet());
@@ -24,13 +24,12 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     address.append(",").append(details.getPostcode());
 
     String badgeExpiryDate =
-      DateValidationUtils.buildDateStringIfValidNullIfInvalid(
-        processing.getBadgeExpiryDateDay(),
-        processing.getBadgeExpiryDateMonth(),
-        processing.getBadgeExpiryDateYear());
+        DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+            processing.getBadgeExpiryDateDay(),
+            processing.getBadgeExpiryDateMonth(),
+            processing.getBadgeExpiryDateYear());
 
-    OrderBadgeCheckOrderViewModel viewModel =
-      OrderBadgeCheckOrderViewModel.builder()
+    return OrderBadgeCheckOrderViewModel.builder()
         .fullName(details.getName())
         .dob(details.getDob())
         .gender(details.getGender())
@@ -47,6 +46,5 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
         .deliverTo(processing.getDeliverTo())
         .deliveryOptions(processing.getDeliveryOptions())
         .build();
-    return viewModel;
   }
 }

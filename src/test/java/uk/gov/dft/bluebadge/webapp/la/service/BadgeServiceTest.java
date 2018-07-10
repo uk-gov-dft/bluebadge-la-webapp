@@ -1,5 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import com.google.common.collect.Lists;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,12 +14,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiC
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 
 public class BadgeServiceTest {
-  /*
-    private static final String EMAIL = "joeblogs@joe.com";
-    private static final String EMAIL_WRONG_FORMAT = "joeblogs";
-    private static final String PASSWORD = "password";
-  */
-  @Mock private BadgeManagementApiClient badgeManagementApiClient;
+  private static final String BADGE_NUMBER1 = "123";
+  private static final List<String> BADGE_NUMBERS_FOR_PERSON = Lists.newArrayList(BADGE_NUMBER1);
+
+  @Mock private BadgeManagementApiClient badgeManagementApiClientMock;
 
   private BadgeService badgeService;
 
@@ -24,57 +27,17 @@ public class BadgeServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    badgeService = new BadgeService(badgeManagementApiClient);
+    badgeService = new BadgeService(badgeManagementApiClientMock);
   }
 
   @Ignore
   @Test
-  public void orderBadge_shouldOrderABadge() {
+  public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
-    String badgeNumber = badgeService.orderABadge(badgeOrderRequest);
+    BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
+    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+        .thenReturn(BADGE_NUMBERS_FOR_PERSON);
+    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
+    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER1);
   }
-
-  /*
-  @Test
-  public void shouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
-    final int LOCAL_AUTHORITY = 1;
-    User user1 =
-        new User()
-            .id(1)
-            .name("z")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .emailAddress("name-1@email.com");
-    User user2 =
-        new User()
-            .id(2)
-            .name("c")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .emailAddress("name-2@email.com");
-    User user3 =
-        new User()
-            .id(3)
-            .name("a")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .emailAddress("name-3@email.com");
-    User user4 =
-        new User()
-            .id(4)
-            .name("m")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .emailAddress("name-4@email.com");
-    User user5 =
-        new User()
-            .id(5)
-            .name("h")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .emailAddress("name-5@email.com");
-    List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
-
-    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
-        .thenReturn(usersFromClient);
-    List<User> users = userService.find(LOCAL_AUTHORITY);
-    List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
-    assertThat(users).isEqualTo(expectedUsers);
-  }
-  */
 }
