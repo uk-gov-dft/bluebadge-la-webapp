@@ -52,27 +52,4 @@ public class BadgeManagementApiClient extends BaseApiClient {
     }
     return Lists.newArrayList();
   }
-
-  /*
-  Creates a builder for a given apiEndpoint using standard configuration
-   */
-  private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
-
-    return UriComponentsBuilder.newInstance()
-        .host(serviceConfiguration.getHost())
-        .scheme(serviceConfiguration.getScheme())
-        .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextpath())
-        .pathSegment(apiEndpoint);
-  }
-
-  /*
-  Convenience method to add non-null parameters to an endpoint
-   */
-  private void addParameterMethod(
-      String name, UriComponentsBuilder builder, String queryParamName) {
-    if (StringUtils.isNotBlank(name)) {
-      builder.queryParam(queryParamName, name);
-    }
-  }
 }
