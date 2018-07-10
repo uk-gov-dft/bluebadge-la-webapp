@@ -47,11 +47,11 @@ def getTheVersion() {
             gitBranch = 'SNAPSHOT'
         }
         if (gitBranch == 'master') {
-            versionSuffix = ''
+            versionSuffix = '' 
         } else {
             versionSuffix = '-' + gitBranch
         }
-
+        
     }
     return version + versionSuffix
 }
