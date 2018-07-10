@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -30,7 +29,6 @@ public class BadgeServiceTest {
     badgeService = new BadgeService(badgeManagementApiClientMock);
   }
 
-  @Ignore
   @Test
   public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();

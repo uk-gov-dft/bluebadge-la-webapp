@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +50,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
-    return null;
+    return Lists.newArrayList();
   }
 
   /*

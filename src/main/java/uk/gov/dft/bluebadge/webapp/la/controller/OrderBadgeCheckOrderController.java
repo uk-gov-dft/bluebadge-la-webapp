@@ -46,10 +46,10 @@ public class OrderBadgeCheckOrderController {
   public String show(Model model, HttpSession session) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
-            session.getAttribute("formRequest-order-a-badge-details");
+            session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
-            session.getAttribute("formRequest-order-a-badge-processing");
+            session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
     model.addAttribute("data", data);
@@ -60,16 +60,16 @@ public class OrderBadgeCheckOrderController {
   public String submit(Model model, HttpSession session) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
-            session.getAttribute("formRequest-order-a-badge-details");
+            session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
-            session.getAttribute("formRequest-order-a-badge-processing");
+            session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm, 2);
     badgeService.orderABadgeForAPerson(badgeOrderRequest);
-    session.removeAttribute("formRequest-order-a-badge-index");
-    session.removeAttribute("formRequest-order-a-badge-details");
-    session.removeAttribute("formRequest-order-a-badge-processing");
+    session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
+    session.removeAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
+    session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
     return REDIRECT_HOME;
   }
 }
