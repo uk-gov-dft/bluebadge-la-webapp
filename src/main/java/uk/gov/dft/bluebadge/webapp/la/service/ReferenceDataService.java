@@ -12,7 +12,7 @@ public class ReferenceDataService {
         new ReferenceData("PIP", "PIP", 0),
         new ReferenceData("DLA", "DLA", 0),
         new ReferenceData("AFRFCS", "Armed Forces Compensation scheme", 0),
-        new ReferenceData("WPMS", "War Pensioners' Mobility Supplement\n", 0),
+        new ReferenceData("WPMS", "War Pensioners'' Mobility Supplement\n", 0),
         new ReferenceData("BLIND", "Registered blind", 0),
         new ReferenceData("WALKD", "Walking ability", 0),
         new ReferenceData("ARMS", "Disability in both arms", 0),
