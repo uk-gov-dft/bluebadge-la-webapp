@@ -28,8 +28,6 @@ public class SignInController {
       @SessionAttribute(name = "SPRING_SECURITY_LAST_EXCEPTION", required = false)
           AuthenticationException signInException) {
 
-    // model.addAttribute("formRequest", new SignInForm());
-
     if (null != request.getParameter("error") && null != signInException) {
 
       // Handles validation errors
@@ -50,15 +48,15 @@ public class SignInController {
 
     if (signInException instanceof BadCredentialsException) {
 
-      if (signInException.getMessage() == "password is empty") {
+      if (signInException.getMessage().equals("password is empty")) {
 
         model.addAttribute("errorSummary", new ErrorViewModel("error.form.summary.title"));
         bindingResult.addError(new FieldError(" ***REMOVED***));
 
       } else {
 
-        addCustomError(
-            "error.form.summary.title", "error.form.global.accessDenied.description", model);
+        addCustomError("error.form.summary.title", "error.form.global.accessDenied.description", model);
+        
       }
 
     } else if (signInException instanceof InvalidEmailFormatException) {

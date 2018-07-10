@@ -18,11 +18,11 @@
 
             <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'username', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{form.label.emailAddress}, 'username', null, 'text') }"/>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{form.label. ***REMOVED***/>
 
-                <input data-uipath="button" value="Sign in" type="submit" class="govuk-button">
+                <input data-uipath="button" th:value="#{form.btn.signin}" type="submit" class="govuk-button">
 
             </form>
 
