@@ -12,7 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
 
   public OrderBadgeCheckOrderViewModel convert(
-    OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
+      OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
     StringBuilder address = new StringBuilder(details.getBuildingAndStreet());
@@ -24,29 +24,29 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     address.append(",").append(details.getPostcode());
 
     String badgeExpiryDate =
-      DateValidationUtils.buildDateStringIfValidNullIfInvalid(
-        processing.getBadgeExpiryDateDay(),
-        processing.getBadgeExpiryDateMonth(),
-        processing.getBadgeExpiryDateYear());
+        DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+            processing.getBadgeExpiryDateDay(),
+            processing.getBadgeExpiryDateMonth(),
+            processing.getBadgeExpiryDateYear());
 
     OrderBadgeCheckOrderViewModel viewModel =
-      OrderBadgeCheckOrderViewModel.builder()
-        .fullName(details.getName())
-        .dob(details.getDob())
-        .gender(details.getGender())
-        .nino(details.getNino())
-        .address(address.toString())
-        .contactNumber(details.getContactDetailsContactNumber())
-        .emailAddress(details.getContactDetailsEmailAddress())
-        .eligibility(details.getEligibility())
-        .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())
-        .badgeStartDate(processing.getBadgeStartDate())
-        .badgeExpiryDate(badgeExpiryDate)
-        .applicationDate(processing.getApplicationDate())
-        .applicationChannel(processing.getApplicationChannel())
-        .deliverTo(processing.getDeliverTo())
-        .deliveryOptions(processing.getDeliveryOptions())
-        .build();
+        OrderBadgeCheckOrderViewModel.builder()
+            .fullName(details.getName())
+            .dob(details.getDob())
+            .gender(details.getGender())
+            .nino(details.getNino())
+            .address(address.toString())
+            .contactNumber(details.getContactDetailsContactNumber())
+            .emailAddress(details.getContactDetailsEmailAddress())
+            .eligibility(details.getEligibility())
+            .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())
+            .badgeStartDate(processing.getBadgeStartDate())
+            .badgeExpiryDate(badgeExpiryDate)
+            .applicationDate(processing.getApplicationDate())
+            .applicationChannel(processing.getApplicationChannel())
+            .deliverTo(processing.getDeliverTo())
+            .deliveryOptions(processing.getDeliveryOptions())
+            .build();
     return viewModel;
   }
 }
