@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.security.PasswordGrantFlowAuthenticationProvider;
 import uk.gov.dft.bluebadge.webapp.la.security.exceptions.AuthServerConnectionException;
 import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatException;
 
@@ -50,15 +49,16 @@ public class SignInController {
       Model model, BindingResult bindingResult, AuthenticationException signInException) {
 
     if (signInException instanceof BadCredentialsException) {
-        addCustomError("error.form.summary.title", "error.form.global.accessDenied.description", model);
+      addCustomError(
+          "error.form.summary.title", "error.form.global.accessDenied.description", model);
     } else if (signInException instanceof InvalidEmailFormatException) {
       model.addAttribute("errorSummary", new ErrorViewModel("error.form.summary.title"));
       bindingResult.addError(new FieldError("username", "username", "Enter a valid email address"));
     } else if (signInException instanceof AuthServerConnectionException) {
       addCustomError(
-              "error.form.field.signin.connection.failure.title",
-              "error.form.field.signin.connection.failure.description",
-              model);
+          "error.form.field.signin.connection.failure.title",
+          "error.form.field.signin.connection.failure.description",
+          model);
     }
   }
 
