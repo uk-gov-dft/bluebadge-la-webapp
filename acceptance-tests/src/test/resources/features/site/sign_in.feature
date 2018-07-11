@@ -28,7 +28,7 @@ Feature: Dft BlueBadge LA Sign In Page
     When I can click on the "Sign in" link
     And I type username "example@gmail.com" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message for "invalid email address or  ***REMOVED***
+    Then I should see the validation message for "invalid  ***REMOVED***
 
   Scenario: Verify Sign out
     Given I navigate to the "home" page
