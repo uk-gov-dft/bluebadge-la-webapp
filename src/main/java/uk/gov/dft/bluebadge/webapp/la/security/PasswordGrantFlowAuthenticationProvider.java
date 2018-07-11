@@ -58,8 +58,8 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
     }
 
     String password = (String) authentication.getCredentials();
-    if (StringUtils.isEmpty(password)) {
-      throw new BadCredentialsException("password is empty");
+    if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+      throw new BadCredentialsException("Username and password are mandatory");
     }
 
     AccessTokenRequest accessTokenRequest =
