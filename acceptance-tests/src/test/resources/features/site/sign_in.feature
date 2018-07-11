@@ -21,7 +21,7 @@ Feature: Dft BlueBadge LA Sign In Page
     When I can click on the "Sign in" link
     And I type username "example" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message for "invalid email address or  ***REMOVED***
+    Then I should see the validation message for "invalid email" as "Enter a valid email address"
 
   Scenario: Verify Sign in with an invalid password
     Given I navigate to the "home" page
@@ -37,5 +37,5 @@ Feature: Dft BlueBadge LA Sign In Page
     And I can click Sign in button
     And I can click Sign out button
     Then I should see the title "Sign in"
-    Then I can see labelled element "info.form.global.signedOut.title" with content "You''ve been signed out"
+    Then I can see labelled element "info.form.global.signedOut.title" with content "You've been signed out"
 
