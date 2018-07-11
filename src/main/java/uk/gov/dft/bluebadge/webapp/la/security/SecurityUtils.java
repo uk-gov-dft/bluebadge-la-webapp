@@ -15,7 +15,6 @@ public class SecurityUtils {
       throw new NullPointerException("No user currently authenticated.");
     }
 
-    // TODO This needs to be populated from the details from the auth server. Which needs expanding first.
     User userData = new User();
     userData.setLocalAuthorityId(22);
     userData.setEmailAddress(authentication.getName());
