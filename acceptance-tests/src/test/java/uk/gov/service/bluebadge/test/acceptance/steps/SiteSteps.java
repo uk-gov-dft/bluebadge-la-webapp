@@ -265,18 +265,25 @@ public class SiteSteps extends AbstractSpringSteps {
     if (arg0.equals("invalid email")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          signInPage.findElementWithUiPath("username.summary-error").getText(),
           getMatcherForText(arg1));
-    } else if (arg0.equals("invalid email or password")) {
+    } else if (arg0.equals("invalid password")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
+          signInPage.findElementWithUiPath("error-summary-description").getText(),
           getMatcherForText(arg1));
     } else if (arg0.equals("invalid name")) {
       assertThat(
           "Validation message expected",
           signInPage.findElementWithUiPath("name.summary-error").getText(),
           getMatcherForText(arg1));
+    } else if (arg0.equals("invalid email on update details")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else {
+      fail("Please select a valid test condition");
     }
   }
 

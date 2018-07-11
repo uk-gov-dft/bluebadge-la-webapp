@@ -62,7 +62,7 @@ Feature: Dft BlueBadge LA Manage User
     When I click on the first name link from users table
     Then I should see the title "User details"
     When I enter invalid email address and clicks on update button
-    Then I should see the validation message for "invalid email" as "Enter a valid email address"
+    Then I should see the validation message for "invalid email on update details" as "Enter a valid email address"
 
   Scenario: Verify remove user
     Given I navigate to the "home" page
