@@ -14,9 +14,55 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 
-public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeProcessingControllerTest {
+  private static final String APPLICATION_DATE_DAY_FIELD = "applicationDateDay";
+  private static final String APPLICATION_DATE_MONTH_FIELD = "applicationDateMonth";
+  private static final String APPLICATION_DATE_YEAR_FIELD = "applicationDateYear";
+  private static final String APPLICATION_DATE_FIELD = "applicationDate";
+  private static final String APPLICATION_CHANNEL_FIELD = "applicationChannel";
+  private static final String LOCAL_AUTHORITY_REFERENCE_NUMBER_FIELD =
+      "localAuthorityReferenceNumber";
+  private static final String BADGE_START_DATE_DAY_FIELD = "badgeStartDateDay";
+  private static final String BADGE_START_DATE_MONTH_FIELD = "badgeStartDateMonth";
+  private static final String BADGE_START_DATE_YEAR_FIELD = "badgeStartDateYear";
+  private static final String BADGE_START_DATE_FIELD = "badgeStartDate";
+  private static final String BADGE_EXPIRY_DATE_DAY_FIELD = "badgeExpiryDateDay";
+  private static final String BADGE_EXPIRY_DATE_MONTH_FIELD = "badgeExpiryDateMonth";
+  private static final String BADGE_EXPIRY_DATE_YEAR_FIELD = "badgeExpiryDateYear";
+  private static final String BADGE_EXPIRY_DATE_VALID_FIELD = "badgeExpiryDateValid";
+
+  private static final String DELIVER_TO_FIELD = "deliverTo";
+  private static final String DELIVERY_OPTIONS_FIELD = "deliveryOptions";
+
+  private static final String APPLICATION_DATE_DAY = "2";
+  private static final String APPLICATION_DATE_MONTH = "7";
+  private static final String APPLICATION_DATE_YEAR = "2018";
+  private static final String APPLICATION_CHANNEL = "paper";
+  private static final String LOCAL_AUTHORITY_REFERENCE_NUMBER = "AA110";
+  private static final String BADGE_START_DATE_DAY = "7";
+  private static final String BADGE_START_DATE_MONTH = "8";
+  private static final String BADGE_START_DATE_YEAR = "2018";
+  private static final String BADGE_EXPIRY_DATE_DAY = "7";
+  private static final String BADGE_EXPIRY_DATE_MONTH = "8";
+  private static final String BADGE_EXPIRY_DATE_YEAR = "2021";
+  private static final String DELIVER_TO = "badgeHolder";
+  private static final String DELIVERY_OPTIONS = "fast";
+
+  private static final String APPLICATION_DATE_DAY_WRONG = "32";
+  private static final String APPLICATION_DATE_MONTH_WRONG = "13";
+  private static final String APPLICATION_DATE_YEAR_WRONG = "201";
+  private static final String APPLICATION_CHANNEL_WRONG = "paper";
+  private static final String BADGE_START_DATE_DAY_WRONG = "7";
+  private static final String BADGE_START_DATE_MONTH_WRONG = "6";
+  private static final String BADGE_START_DATE_YEAR_WRONG = "2018";
+  private static final String BADGE_EXPIRY_DATE_DAY_WRONG = "5";
+  private static final String BADGE_EXPIRY_DATE_MONTH_WRONG = "6";
+  private static final String BADGE_EXPIRY_DATE_YEAR_WRONG = "2018";
+  private static final String DELIVER_TO_WRONG = "deliverTo";
+  private static final String DELIVERY_OPTIONS_WRONG = "deliveryOptions";
 
   private MockMvc mockMvc;
 
@@ -48,20 +94,36 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
 
   @Test
   public void
-      show_shouldDisplayOrderABadgeProcessingTemplateWithValuesComingFromSession_WhenTheFormWasSavedToSessionBefore()
+      show_shouldDisplayOrderABadgeProcessingTemplateWithValuesCommingFromSession_WhenTheFormWasSavedToSessionBefore()
           throws Exception {
+    OrderBadgeProcessingFormRequest formRequest =
+        OrderBadgeProcessingFormRequest.builder()
+            .applicationChannel(APPLICATION_CHANNEL)
+            .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
+            .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
+            .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
+            .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+            .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
+            .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
+            .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
+            .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
+            .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
+            .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
+            .deliverTo(DELIVER_TO)
+            .deliveryOptions(DELIVERY_OPTIONS)
+            .build();
     mockMvc
         .perform(
             get("/order-a-badge/processing")
-                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-processing", formRequest))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
-        .andExpect(model().attribute("formRequest", FORM_REQUEST_PROCESSING));
+        .andExpect(model().attribute("formRequest", formRequest));
   }
 
   @Test
   public void
-      submit_shouldRedirectToCheckOrderPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
+      submit_shouldRedirectToHomePage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
           throws Exception {
     mockMvc
         .perform(
@@ -79,13 +141,12 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/check-order"));
+        .andExpect(redirectedUrl("/"));
   }
 
   @Test
-  public void
-      submit_shouldRedirectToCheckOrderPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
-          throws Exception {
+  public void submit_shouldRedirectToHomePage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
+      throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/processing")
@@ -103,7 +164,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/check-order"));
+        .andExpect(redirectedUrl("/"));
   }
 
   @Test
