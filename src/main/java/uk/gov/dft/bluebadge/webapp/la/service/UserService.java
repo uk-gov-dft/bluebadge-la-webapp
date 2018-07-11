@@ -1,57 +1,25 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import java.util.Collections;
+// Make sure this is the user we want
+
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
 
-@Service
-public class UserService {
+public interface UserService {
 
-  private UserManagementApiClient userManagementApiClient;
+  User findOneById(int id);
 
-  @Autowired
-  public UserService(UserManagementApiClient userManagementApiClient) {
-    this.userManagementApiClient = userManagementApiClient;
-  }
+  List<User> find(int localAuthority, String nameFilter);
 
-  public User findOneById(int id) {
-    return userManagementApiClient.getById(id);
-  }
+  List<User> find(int localAuthority);
 
-  public List<User> find(int localAuthority, String nameFilter) {
-    List<User> usersResponse =
-        this.userManagementApiClient.getUsersForAuthority(localAuthority, nameFilter);
-    if (!usersResponse.isEmpty()) {
-      Collections.sort(usersResponse, new UserComparatorByNameAscendingOrderCaseInsensitive());
-    }
-    return usersResponse;
-  }
+  User create(User user);
 
-  public List<User> find(int localAuthority) {
-    return find(localAuthority, "");
-  }
+  User update(User user);
 
-  public User create(User user) {
-    return userManagementApiClient.createUser(user);
-  }
+  User updatePassword(String uuid, String password, String passwordConfirm);
 
-  public User update(User user) {
-    return userManagementApiClient.updateUser(user);
-  }
+  void delete(Integer id);
 
-  public User updatePassword(String uuid, String password, String passwordConfirm) {
-    return userManagementApiClient.updatePassword(uuid, password, passwordConfirm);
-  }
-
-  public void delete(Integer id) {
-    userManagementApiClient.deleteUser(id);
-  }
-
-  public void requestPasswordReset(Integer id) {
-    userManagementApiClient.requestPasswordReset(id);
-  }
+  void requestPasswordReset(Integer id);
 }

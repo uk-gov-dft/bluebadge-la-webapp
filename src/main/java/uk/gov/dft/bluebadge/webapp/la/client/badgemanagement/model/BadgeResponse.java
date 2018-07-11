@@ -3,33 +3,34 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
-/** Organisation */
+/** BadgeResponse */
 @Validated
-public class Organisation {
-  @JsonProperty("badgeHolderName")
-  private String badgeHolderName = null;
+public class BadgeResponse extends CommonResponse {
+  @JsonProperty("data")
+  private Badge data = null;
 
-  public Organisation badgeHolderName(String badgeHolderName) {
-    this.badgeHolderName = badgeHolderName;
+  public BadgeResponse data(Badge data) {
+    this.data = data;
     return this;
   }
 
   /**
-   * Get badgeHolderName
+   * Get data
    *
-   * @return badgeHolderName
+   * @return data
    */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-  public String getBadgeHolderName() {
-    return badgeHolderName;
+  @ApiModelProperty(value = "")
+  @Valid
+  public Badge getData() {
+    return data;
   }
 
-  public void setBadgeHolderName(String badgeHolderName) {
-    this.badgeHolderName = badgeHolderName;
+  public void setData(Badge data) {
+    this.data = data;
   }
 
   @Override
@@ -40,21 +41,21 @@ public class Organisation {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Organisation organisation = (Organisation) o;
-    return Objects.equals(this.badgeHolderName, organisation.badgeHolderName);
+    BadgeResponse badgeResponse = (BadgeResponse) o;
+    return Objects.equals(this.data, badgeResponse.data) && super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(badgeHolderName);
+    return Objects.hash(data, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Organisation {\n");
-
-    sb.append("    badgeHolderName: ").append(toIndentedString(badgeHolderName)).append("\n");
+    sb.append("class BadgeResponse {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("}");
     return sb.toString();
   }
