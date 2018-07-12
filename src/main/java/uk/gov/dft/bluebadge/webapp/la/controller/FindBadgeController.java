@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 
@@ -42,8 +43,9 @@ public class FindBadgeController {
       @Valid @ModelAttribute("formRequest") FindBadgeFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
-      HttpSession session) {
-    model.addAttribute("errorzzSummary", new ErrorViewModel());
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
+    model.addAttribute("errorSummary", new ErrorViewModel());
 
     session.setAttribute(FORM_REQUEST_SESSION, formRequest);
 
@@ -62,7 +64,7 @@ public class FindBadgeController {
     List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
     results.add(data);
 
-    model.addAttribute("results", results);
+    redirectAttributes.addFlashAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
