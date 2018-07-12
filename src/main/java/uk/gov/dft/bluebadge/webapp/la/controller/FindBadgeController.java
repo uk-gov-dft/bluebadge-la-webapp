@@ -3,7 +3,9 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,35 +18,37 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 @Controller
 public class FindBadgeController {
 
-  public static final String URL_FIND_A_BADGE = "/find-a-badge";
-  public static final String URL_SEARCH_RESULTS = "/find-a-badge/search-results";
+  public static final String URL = "/find-a-badge";
 
-  public static final String TEMPLATE_FIND_A_BADGE = "find-a-badge/index";
-  public static final String TEMPLATE_SEARCH_RESULTS = "find-a-badge/search-results";
+  private static final String TEMPLATE = "find-a-badge/index";
 
-  @GetMapping(URL_FIND_A_BADGE)
-  public String show(@ModelAttribute("formRequest") FindBadgeFormRequest formRequest) {
-    return TEMPLATE_FIND_A_BADGE;
+  private static final String REDIRECT_FIND_BADGE_SEARCH_RESULTS =
+      "redirect:" + FindBadgeSearchResultsController.URL;
+
+  private static final String FORM_REQUEST_SESSION = "formRequest-find-badge";
+
+  @GetMapping(URL)
+  public String show(
+      @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
+    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
+    if (sessionFormRequest != null) {
+      BeanUtils.copyProperties(sessionFormRequest, formRequest);
+    }
+    return TEMPLATE;
   }
 
-  @GetMapping(URL_SEARCH_RESULTS)
-  public String show(Model model) {
-
-    List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
-
-    model.addAttribute("results", results);
-    return TEMPLATE_SEARCH_RESULTS;
-  }
-
-  @PostMapping(URL_FIND_A_BADGE)
+  @PostMapping(URL)
   public String submit(
       @Valid @ModelAttribute("formRequest") FindBadgeFormRequest formRequest,
       BindingResult bindingResult,
-      Model model) {
-    model.addAttribute("errorSummary", new ErrorViewModel());
+      Model model,
+      HttpSession session) {
+    model.addAttribute("errorzzSummary", new ErrorViewModel());
+
+    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
 
     if (bindingResult.hasErrors()) {
-      return TEMPLATE_FIND_A_BADGE;
+      return TEMPLATE;
     }
 
     HashMap<String, String> data = new HashMap<String, String>();
@@ -60,6 +64,6 @@ public class FindBadgeController {
 
     model.addAttribute("results", results);
 
-    return "redirect:" + TEMPLATE_SEARCH_RESULTS;
+    return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
 }
