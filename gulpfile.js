@@ -155,3 +155,5 @@ gulp.task('default', ['sass', 'js-lint', 'js', 'govuk-assets'], () => {
 	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
 	gulp.watch(PATH.sourceAssets.js, ['js']);
 });
+
+gulp.task('gradle_build', ['sass', 'js', 'js-lint', 'govuk-assets']);
