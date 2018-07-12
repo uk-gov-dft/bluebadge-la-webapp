@@ -27,12 +27,14 @@ const BASE_PATH = "./src/main/resources";
 const PATH = {
 	sourceAssets: {
 		sass: `${BASE_PATH}/sass/**/*.scss`,
-		js: `${BASE_PATH}/js/main.js`
+		js: `${BASE_PATH}/js/main.js`,
+		govuk_assets: './node_modules/govuk-frontend/assets/**/*'
 	},
 
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
-		js: `${BASE_PATH}/static/js`
+		js: `${BASE_PATH}/static/js`,
+		assets: `${BASE_PATH}/static/assets`
 	}
 }
 
@@ -78,6 +80,11 @@ const isDev = getEnv() === "development";
 
 gulp.task('clean:css', () => rimraf(PATH.compiledAssets.css, () => { }));
 gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => { }));
+
+gulp.task('assets', () => {
+	gulp.src([PATH.sourceAssets.govuk_assets])
+		.pipe(gulp.dest(PATH.compiledAssets.assets));
+});
 
 
 gulp.task('sass', ['clean:css'], () => {
@@ -143,7 +150,7 @@ gulp.task('js', ['clean:js'], () => {
 });
 
 
-gulp.task('default', ['sass', 'js-lint', 'js'], () => {
+gulp.task('default', ['sass', 'js-lint', 'js', ['assets']], () => {
 	gulp.watch(PATH.sourceAssets.sass, ['sass']);
 	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
 	gulp.watch(PATH.sourceAssets.js, ['js']);

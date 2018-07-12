@@ -6,26 +6,26 @@ files:
 
 rules:
     # Extends
-    extends-before-mixins: 1
-    extends-before-declarations: 1
+    extends-before-mixins: 0
+    extends-before-declarations: 2
     placeholder-in-extend: 0
     
     # Mixins
     mixins-before-declarations: 0
     
     # Line Spacing
-    one-declaration-per-line: 1
-    empty-line-between-blocks: 1
-    single-line-per-selector: 1
+    one-declaration-per-line: 2
+    empty-line-between-blocks: 2
+    single-line-per-selector: 2
     
     # Disallows
     no-attribute-selectors: 0
     no-color-hex: 0
-    no-color-keywords: 0
+    no-color-keywords: 2
     no-color-literals: 0
     no-combinators: 0
     no-css-comments: 1
-    no-debug: 1
+    no-debug: 2
     no-disallowed-properties: 0
     no-duplicate-properties: 1
     no-empty-rulesets: 1
@@ -62,12 +62,12 @@ rules:
     
     # Style Guide
     attribute-quotes: 1
-    bem-depth: 1
+    bem-depth: 2
     border-zero: 1
     brace-style: 1
     clean-import-paths: 1
     empty-args: 1
-    hex-length: 0
+    hex-length: 1
     hex-notation: 0
     
     indentation:
@@ -86,18 +86,18 @@ rules:
     shorthand-values: 1
     url-quotes: 1
     variable-for-property: 1
-    zero-unit: 1
+    zero-unit: 2
     
     # Inner Spacing
-    space-after-comma: 1
-    space-before-colon: 1
-    space-after-colon: 1
-    space-before-brace: 1
+    space-after-comma: 2
+    space-before-colon: 2
+    space-after-colon: 2
+    space-before-brace: 2
     space-before-bang: 1
     space-after-bang: 1
-    space-between-parens: 1
+    space-between-parens: 2
     space-around-operator: 1
     
     # Final Items
-    trailing-semicolon: 1
-    final-newline: 1
+    trailing-semicolon: 2
+    final-newline: 2

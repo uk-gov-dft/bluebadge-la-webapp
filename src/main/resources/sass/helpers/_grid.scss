@@ -4,12 +4,6 @@
 
 .dft-grid-col {
 	width: 100%;
-	
-	// @include govuk-media-query($from: tablet) {
-	// gutters are currently not required. We may need to enable this
-	// and rejig the layouts
-	// padding: 0 $govuk-gutter-half;
-	// }
 
 	&--half,
 	&--two-thirds {
@@ -33,19 +27,19 @@
 
 .dft-width {
 	&-one-quarter {
-		@include govuk-media-query($from: desktop) {
+		@include govuk-media-query($from: wide) {
 			width: 25%;
 		}
 	}
 
 	&-one-half {
-		@include govuk-media-query($from: desktop) {
+		@include govuk-media-query($from: wide) {
 			width: 50%;
 		}
 	}
 
 	&-three-quarters {
-		@include govuk-media-query($from: desktop) {
+		@include govuk-media-query($from: wide) {
 			width: 75%;
 		}
 	}

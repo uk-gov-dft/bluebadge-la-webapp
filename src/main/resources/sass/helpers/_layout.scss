@@ -59,3 +59,18 @@ body {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
+
+.dft-content-container {
+	$this: &;
+	width: 100%;
+
+	@include govuk-media-query($from: wide) {
+		width: 75%;
+	}
+
+	&--full {
+		@include govuk-media-query($from: wide) {
+			width: 100%;
+		}
+	}
+}

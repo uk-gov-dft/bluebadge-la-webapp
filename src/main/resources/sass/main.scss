@@ -1,63 +1,29 @@
-// ---------------------------------------------
-
-// Global Imports / Style Resets
-
-// ---------------------------------------------
-
 @import "reset";
-
-// Enables GDS global styles - Disabled by default.
-// https://github.com/alphagov/govuk-frontend/blob/master/src/core/_global-styles.scss
-
-$govuk-global-styles: true;
-$govuk-show-breakpoints: false;
-$govuk-breakpoints: (
-	mobile:  320px,
-	tablet:  768px,
-	desktop: 1024px,
-	wide: 1200px,
-);
+@import "helpers/variables";
 
 @import "govuk-frontend/all";
 
-
-// ---------------------------------------------
-
-// DFT Specific Helpers & Utilties
-
-// ---------------------------------------------
-
-@import "helpers/variables";
 @import "helpers/grid";
 @import "helpers/layout";
 @import "helpers/btn-link";
 
 
+// ---------------------------------------------
+// GOVUK Pattern Overrides
+
+@import "patterns/govuk-overrides/hint";
+@import "patterns/govuk-overrides/body";
+@import "patterns/govuk-overrides/form";
+@import "patterns/govuk-overrides/list";
+@import "patterns/govuk-overrides/table";
+@import "patterns/govuk-overrides/fieldset";
+@import "patterns/govuk-overrides/form-group";
+@import "patterns/govuk-overrides/error-message";
+
+
 
 // ---------------------------------------------
-
-// GOV UK Pattern Overrides
-
-// ---------------------------------------------
-
-@import "patterns/hint";
-@import "patterns/body";
-@import "patterns/form";
-@import "patterns/list";
-@import "patterns/table";
-@import "patterns/fieldset";
-@import "patterns/form-group";
-@import "patterns/error-message";
-
-
-
-
-
-// -----------------------s----------------------
-
 // DFT Specific Patterns
-
-// ---------------------------------------------
 
 @import "patterns/dft/hr";
 @import "patterns/dft/nav";

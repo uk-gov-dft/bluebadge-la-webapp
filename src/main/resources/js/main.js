@@ -1,3 +1,3 @@
-// import All from '@govuk-frontend/frontend/all';
+import All from 'govuk-frontend/all';
 
-// All.initAll();
+All.initAll();

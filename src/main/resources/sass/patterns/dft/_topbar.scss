@@ -9,6 +9,8 @@
 
 	&__container {
 		@include govuk-clearfix;
+		display: block;
+		clear: both;
 		padding: 22px 15px 17px;
 
 		@include govuk-media-query($from: tablet) {
