@@ -34,7 +34,7 @@ const PATH = {
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
 		js: `${BASE_PATH}/static/js`,
-		assets: `${BASE_PATH}/static/assets`
+		govuk_assets: `${BASE_PATH}/static/assets/govuk`
 	}
 }
 
@@ -81,9 +81,9 @@ const isDev = getEnv() === "development";
 gulp.task('clean:css', () => rimraf(PATH.compiledAssets.css, () => { }));
 gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => { }));
 
-gulp.task('assets', () => {
+gulp.task('govuk-assets', () => {
 	gulp.src([PATH.sourceAssets.govuk_assets])
-		.pipe(gulp.dest(PATH.compiledAssets.assets));
+		.pipe(gulp.dest(PATH.compiledAssets.govuk_assets));
 });
 
 
@@ -141,16 +141,16 @@ gulp.task('js', ['clean:js'], () => {
 	.pipe(buffer())
 	
 	.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
-		.pipe(gulpIf(isDev, rename('main.js')))
+		.pipe(rename('main.js'))
 		.pipe(gulpIf(isProd, uglify()))
-		.pipe(gulpIf(isProd, rename('main.min.js')))
+		// .pipe(gulpIf(isProd, rename('main.min.js')))
 	.pipe(gulpIf(isDev, sourcemaps.write('.')))
 	
 	.pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
 
-gulp.task('default', ['sass', 'js-lint', 'js', 'assets'], () => {
+gulp.task('default', ['sass', 'js-lint', 'js', 'govuk-assets'], () => {
 	gulp.watch(PATH.sourceAssets.sass, ['sass']);
 	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
 	gulp.watch(PATH.sourceAssets.js, ['js']);
