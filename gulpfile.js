@@ -150,7 +150,7 @@ gulp.task('js', ['clean:js'], () => {
 });
 
 
-gulp.task('default', ['sass', 'js-lint', 'js', ['assets']], () => {
+gulp.task('default', ['sass', 'js-lint', 'js', 'assets'], () => {
 	gulp.watch(PATH.sourceAssets.sass, ['sass']);
 	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
 	gulp.watch(PATH.sourceAssets.js, ['js']);
