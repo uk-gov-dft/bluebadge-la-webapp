@@ -10,6 +10,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.assertj.core.util.Lists;
@@ -24,8 +25,10 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
@@ -40,6 +43,13 @@ public class BadgeManagementApiClientTest {
 
   private static final String BASE_ENDPOINT =
       String.format("%s://%s:%d/%s/%s", SCHEME, HOST, PORT, CONTEXT, API);
+
+  private static final String BADGE_NUMBER = "12345";
+  private static final Badge BADGE =
+      new Badge()
+          .badgeNumber(BADGE_NUMBER)
+          .eligibilityCode("PIP")
+          .localAuthorityRef("localAuthorityRef");
 
   @Mock private RestTemplateFactory mockRestTemplateFactory;
 
@@ -100,6 +110,19 @@ public class BadgeManagementApiClientTest {
         .andRespond(withServerError());
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     client.orderBlueBadges(badgeOrderRequest);
+  }
+
+  @Test
+  public void retrieveBadge_shouldRetrieveTheSpecifiedBadge() throws JsonProcessingException {
+    BadgeResponse badgeResponse = new BadgeResponse().data(BADGE);
+
+    String body = objectMapper.writeValueAsString(badgeResponse);
+
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + "/" + BADGE_NUMBER))
+        .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
+    Badge retrievedBadge = client.retrieveBadge(BADGE_NUMBER);
+    assertThat(retrievedBadge).isEqualTo(BADGE);
   }
 
   private ServiceConfiguration buildServiceConfiguration() {

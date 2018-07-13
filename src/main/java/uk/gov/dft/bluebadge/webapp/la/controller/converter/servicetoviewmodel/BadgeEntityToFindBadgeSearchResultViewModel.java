@@ -13,7 +13,7 @@ public class BadgeEntityToFindBadgeSearchResultViewModel
 
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     Assert.notNull(source, "Source cannot be null");
     FindBadgeSearchResultViewModel result =
         FindBadgeSearchResultViewModel.builder()
@@ -24,7 +24,6 @@ public class BadgeEntityToFindBadgeSearchResultViewModel
             .expiryDate(source.getExpiryDate().format(formatter))
             .status(source.getStatusCode())
             .build();
-
     return result;
   }
 }

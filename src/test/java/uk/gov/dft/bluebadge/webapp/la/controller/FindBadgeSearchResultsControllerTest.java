@@ -16,6 +16,17 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
 public class FindBadgeSearchResultsControllerTest {
+  private static final FindBadgeSearchResultViewModel VIEW_MODEL =
+      FindBadgeSearchResultViewModel.builder()
+          .badgeNumber("HAS67SDDS3")
+          .name("Joe BLoggs")
+          .postCode("M12 8N")
+          .localAuthority("Manchester city council")
+          .expiryDate("20/12/2022")
+          .status("Active")
+          .build();
+  private static final List<FindBadgeSearchResultViewModel> RESULTS =
+      Lists.newArrayList(VIEW_MODEL);
 
   private MockMvc mockMvc;
 
@@ -37,21 +48,10 @@ public class FindBadgeSearchResultsControllerTest {
 
   @Test
   public void show_shouldFindBadgeSearchResultsTemplateWithResults() throws Exception {
-    FindBadgeSearchResultViewModel result =
-        FindBadgeSearchResultViewModel.builder()
-            .badgeNumber("HAS67SDDS3")
-            .name("Joe BLoggs")
-            .postCode("M12 8N")
-            .localAuthority("Manchester city council")
-            .expiryDate("20/12/22")
-            .status("Active")
-            .build();
-    List<FindBadgeSearchResultViewModel> results = Lists.newArrayList(result);
-
     mockMvc
-        .perform(get("/find-a-badge/search-results").flashAttr("results", results))
+        .perform(get("/find-a-badge/search-results").flashAttr("results", RESULTS))
         .andExpect(status().isOk())
         .andExpect(view().name("find-a-badge/search-results"))
-        .andExpect(model().attribute("results", results));
+        .andExpect(model().attribute("results", RESULTS));
   }
 }

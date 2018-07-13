@@ -31,7 +31,10 @@ public class BadgeService {
   }
 
   public Optional<Badge> retrieve(String badgeNumber) {
-    Assert.notNull(badgeNumber, "badgeNumber should not be null");
-    return Optional.ofNullable(badgeManagementApiClient.retrieveBadge(badgeNumber));
+    if (badgeNumber == null || badgeNumber.isEmpty()) {
+      return Optional.empty();
+    } else {
+      return Optional.ofNullable(badgeManagementApiClient.retrieveBadge(badgeNumber));
+    }
   }
 }
