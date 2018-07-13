@@ -19,8 +19,9 @@ const resolve = require('rollup-plugin-node-resolve');
 const BASE_PATH = './src/main/resources';
 const PATH = {
 	sourceAssets: {
-		sass: `${BASE_PATH}/sass/**/*.scss`,
-		js: `${BASE_PATH}/js/main.js`,
+		sass: `${BASE_PATH}/assets/sass/**/*.scss`,
+		js: `${BASE_PATH}/assets/js/main.js`,
+		images: `${BASE_PATH}/assets/images`,
 		govuk_assets: './node_modules/govuk-frontend/assets/**/*',
 		html5_shiv: './node_modules/html5shiv/dist/html5shiv.min.js',
 	},
@@ -28,7 +29,8 @@ const PATH = {
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
 		js: `${BASE_PATH}/static/js`,
-		govuk_assets: `${BASE_PATH}/static/assets/govuk`,
+		images: `${BASE_PATH}/static`,
+		govuk_assets: `${BASE_PATH}/static/govuk`,
 	},
 };
 
@@ -39,20 +41,24 @@ const babelConfig = {
 	exclude: 'node_modules/**',
 };
 
-const getEnv = (defaultEnv = 'development') => {
+const getEnv = () => {
 	const params = global.process.argv;
+	let env = 'prod';
 
-	return params.forEach((param) => {
-		if (param.includes('--env')) {
-			const env = param.split('=')[1];
-			return env || defaultEnv;
+	Object.keys(params).forEach((key) => {
+		const param = params[key];
+
+		if (param.includes('-env')) {
+			const [, envValue] = param.split('=');
+			env = envValue;
 		}
-		return defaultEnv;
 	});
+
+	return env;
 };
 
-const isProd = getEnv() === 'production';
-const isDev = getEnv() === 'development';
+const isProd = getEnv() === 'prod';
+const isDev = getEnv() === 'dev';
 
 // Clears CSS directory
 gulp.task('clean:css', () => del.sync([PATH.compiledAssets.css]));
@@ -66,13 +72,27 @@ gulp.task('govuk-assets', () => {
 		.pipe(gulp.dest(PATH.compiledAssets.govuk_assets));
 });
 
+// Copies govuk assets from npm folder inside local assets folder
+gulp.task('images', () => {
+	gulp.src([PATH.sourceAssets.images])
+		.pipe(gulp.dest(PATH.compiledAssets.images));
+});
+
 // Copies HTML5-Shiv from npm folder inside compiled js folder
 gulp.task('html5-shiv', () => {
 	gulp.src([PATH.sourceAssets.html5_shiv])
 		.pipe(uglify())
 		.pipe(rename('html5-shiv.js'))
 		.pipe(gulp.dest(PATH.compiledAssets.js));
-})
+});
+
+// Lints our SASS code based on rules set inside sass-lint.yml file
+gulp.task('sass-lint', () => {
+	gulp.src([PATH.sourceAssets.sass])
+		.pipe(sassLint({ configFile: './.sass-lint.yml' }))
+		.pipe(sassLint.format())
+		.pipe(sassLint.failOnError());
+});
 
 // Compiles SASS code to CSS.
 gulp.task('sass', ['clean:css', 'sass-lint'], () => {
@@ -85,14 +105,6 @@ gulp.task('sass', ['clean:css', 'sass-lint'], () => {
 		.pipe(autoprefixer())
 		.pipe(gulpIf(isDev, sourcemaps.write('./')))
 		.pipe(gulp.dest(PATH.compiledAssets.css));
-});
-
-// Lints our SASS code based on rules set inside sass-lint.yml file
-gulp.task('sass-lint', () => {
-	gulp.src([PATH.sourceAssets.sass])
-		.pipe(sassLint({ configFile: './.sass-lint.yml' }))
-		.pipe(sassLint.format())
-		.pipe(sassLint.failOnError());
 });
 
 // Lints our JS code based on Airbnb JS rules
@@ -124,10 +136,9 @@ gulp.task('js', ['clean:js', 'js-lint', 'html5-shiv'], () => {
 		.pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
-gulp.task('default', ['sass', 'js', 'govuk-assets'], () => {
-	gulp.watch(PATH.sourceAssets.sass, ['sass']);
-	gulp.watch(`${BASE_PATH} /js/**/*.js`, ['js-lint']);
-	gulp.watch(PATH.sourceAssets.js, ['js']);
+gulp.task('default', ['sass', 'js', 'images', 'govuk-assets'], () => {
+	if (isDev) {
+		gulp.watch(PATH.sourceAssets.sass, ['sass']);
+		gulp.watch(PATH.sourceAssets.js, ['js']);
+	}
 });
-
-gulp.task('gradle_build', ['sass', 'js', 'govuk-assets']);

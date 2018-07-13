@@ -6,9 +6,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "dev": "gulp --env=development",
-    "prod": "gulp --env=production",
-    "start": "npm run dev"
+    "dev": "gulp -env=dev",
+    "prod": "gulp -env=prod",
+    "start": "npm run prod"
   },
   "dependencies": {
     "govuk-frontend": "^1.0.0"
