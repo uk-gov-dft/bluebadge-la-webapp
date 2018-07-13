@@ -1,25 +1,28 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
+import java.time.format.DateTimeFormatter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
 @Component
 public class BadgeEntityToFindBadgeSearchResultViewModel
-    implements Converter<String, FindBadgeSearchResultViewModel> {
+    implements Converter<Badge, FindBadgeSearchResultViewModel> {
 
   @Override
-  public FindBadgeSearchResultViewModel convert(String source) {
+  public FindBadgeSearchResultViewModel convert(Badge source) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y");
     Assert.notNull(source, "Source cannot be null");
     FindBadgeSearchResultViewModel result =
         FindBadgeSearchResultViewModel.builder()
-            .badgeNumber("HAS67SDDS3")
-            .name("Joe BLoggs")
-            .postCode("M12 8N")
-            .localAuthority("Manchester city council")
-            .expiryDate("20/12/22")
-            .status("Active")
+            .badgeNumber(source.getBadgeNumber())
+            .name(source.getParty().getPerson().getBadgeHolderName())
+            .postCode(source.getParty().getContact().getPostCode())
+            .localAuthority(source.getLocalAuthorityId().toString())
+            .expiryDate(source.getExpiryDate().format(formatter))
+            .status(source.getStatusCode())
             .build();
 
     return result;

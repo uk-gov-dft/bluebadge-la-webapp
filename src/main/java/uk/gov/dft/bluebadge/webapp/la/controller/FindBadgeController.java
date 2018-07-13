@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeEntityToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Controller
 public class FindBadgeController {
@@ -27,10 +30,13 @@ public class FindBadgeController {
   private static final String REDIRECT_FIND_BADGE_SEARCH_RESULTS =
       "redirect:" + FindBadgeSearchResultsController.URL;
 
+  private BadgeService badgeService;
   private BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel;
 
   @Autowired
-  public FindBadgeController(BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel) {
+  public FindBadgeController(
+      BadgeService badgeService, BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel) {
+    this.badgeService = badgeService;
     this.converterToViewModel = converterToViewModel;
   }
 
@@ -52,10 +58,16 @@ public class FindBadgeController {
       return TEMPLATE;
     }
 
-    FindBadgeSearchResultViewModel result =
-        converterToViewModel.convert(""); // TODO: Pass a BadgeEntity
+    List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
 
-    List<FindBadgeSearchResultViewModel> results = Lists.newArrayList(result);
+    if ("badgeNumber".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
+      Optional<Badge> resultMaybe = badgeService.retrieve(formRequest.getSearchTerm());
+      if (resultMaybe.isPresent()) {
+        FindBadgeSearchResultViewModel viewModel =
+            converterToViewModel.convert(resultMaybe.get()); // TODO: Pass a BadgeEntity
+        results.add(viewModel);
+      }
+    }
 
     redirectAttributes.addFlashAttribute("results", results);
 
