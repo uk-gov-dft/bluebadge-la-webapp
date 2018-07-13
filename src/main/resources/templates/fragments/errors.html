@@ -31,7 +31,6 @@ variable which comes from Thymleaf / Spring integration.
 
     <div th:if="${errorSummary} AND ${errorSummary.description}"
          th:utext="#{${errorSummary.description}}"
-         data-uipath="error-summary-description"
          class="govuk-error-summary__body" />
 
     <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">

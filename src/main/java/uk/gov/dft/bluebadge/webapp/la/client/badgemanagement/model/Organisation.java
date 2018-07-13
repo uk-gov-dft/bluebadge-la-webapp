@@ -3,34 +3,33 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
-/** BadgeResponse */
+/** Organisation */
 @Validated
-public class BadgeResponse extends CommonResponse {
-  @JsonProperty("data")
-  private Badge data = null;
+public class Organisation {
+  @JsonProperty("badgeHolderName")
+  private String badgeHolderName = null;
 
-  public BadgeResponse data(Badge data) {
-    this.data = data;
+  public Organisation badgeHolderName(String badgeHolderName) {
+    this.badgeHolderName = badgeHolderName;
     return this;
   }
 
   /**
-   * Get data
+   * Get badgeHolderName
    *
-   * @return data
+   * @return badgeHolderName
    */
-  @ApiModelProperty(value = "")
-  @Valid
-  public Badge getData() {
-    return data;
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+  public String getBadgeHolderName() {
+    return badgeHolderName;
   }
 
-  public void setData(Badge data) {
-    this.data = data;
+  public void setBadgeHolderName(String badgeHolderName) {
+    this.badgeHolderName = badgeHolderName;
   }
 
   @Override
@@ -41,21 +40,21 @@ public class BadgeResponse extends CommonResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BadgeResponse badgeResponse = (BadgeResponse) o;
-    return Objects.equals(this.data, badgeResponse.data) && super.equals(o);
+    Organisation organisation = (Organisation) o;
+    return Objects.equals(this.badgeHolderName, organisation.badgeHolderName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(data, super.hashCode());
+    return Objects.hash(badgeHolderName);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BadgeResponse {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("class Organisation {\n");
+
+    sb.append("    badgeHolderName: ").append(toIndentedString(badgeHolderName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

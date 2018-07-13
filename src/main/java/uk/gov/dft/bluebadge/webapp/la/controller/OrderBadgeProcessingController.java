@@ -19,9 +19,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 public class OrderBadgeProcessingController {
   public static final String URL = "/order-a-badge/processing";
 
+  public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-processing";
+
   private static final String TEMPLATE = "order-a-badge/processing";
 
-  private static final String REDIRECT_HOME = "redirect:" + HomeController.URL;
+  private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
+      "redirect:" + OrderBadgeCheckOrderController.URL;
 
   @Autowired
   public OrderBadgeProcessingController() {
@@ -32,8 +35,7 @@ public class OrderBadgeProcessingController {
   public String show(
       @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest =
-        session.getAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING);
+    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
@@ -47,11 +49,10 @@ public class OrderBadgeProcessingController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute(
-        OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING, formRequest);
+    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    return REDIRECT_HOME;
+    return REDIRECT_ORDER_A_BADGE_CHECK_ORDER;
   }
 }

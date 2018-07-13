@@ -23,7 +23,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.ReferenceData;
 @Controller
 public class OrderBadgePersonDetailsController {
   public static final String URL = "/order-a-badge/details";
-
+  public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-details";
   private static final String TEMPLATE = "order-a-badge/details";
 
   private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
@@ -44,12 +44,11 @@ public class OrderBadgePersonDetailsController {
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session) {
     if (FORM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
-      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_INDEX);
-      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS);
-      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_PROCESSING);
+      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
+      session.removeAttribute(FORM_REQUEST_SESSION);
+      session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
     } else {
-      Object sessionFormRequest =
-          session.getAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS);
+      Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
       if (sessionFormRequest != null) {
         BeanUtils.copyProperties(sessionFormRequest, formRequest);
       }
@@ -64,7 +63,7 @@ public class OrderBadgePersonDetailsController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute(OrderBadgeIndexController.FORM_REQUEST_ORDER_A_BADGE_DETAILS, formRequest);
+    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
