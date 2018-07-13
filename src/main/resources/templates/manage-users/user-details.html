@@ -37,9 +37,12 @@
 
                 <div class="govuk-details__text">
                     <form th:action="@{/manage-users/request- ***REMOVED***>
-                        <p th:utext="#{userdetail.text.confirm ***REMOVED***></p>
-                        <p th:text="#{userdetail.text.confirmpassword.line2}"></p>
-                        <input data-uipath="reset.localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
+                        <p>
+                            <span th:utext="#{userdetail.text.confirm ***REMOVED***/>
+                            <strong data-uipath="reset.userName" th:utext="*{name} + '?'"/>
+                        </p>
+                        <p th:text="#{userdetail.text.confirmpassword.line2}"/>
+                        <input data-uipath="reset.localAuthoritytopId" type="hidden" th:field="*{localAuthorityId}" th:id="resetPasswordField">
                         <input data-uipath="resetPasswordButton" th:value="#{userdetail.resetPasswordButton}" type="submit" class="govuk-button">
                     </form>
 
@@ -56,9 +59,12 @@
 
                 <div class="govuk-details__text">
                     <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
-                        <p th:utext="#{userdetail.text.confirmdelete.line1} + '<strong data-uipath=&quot;userName&quot;>&nbsp;' + *{name} + '?</strong>'"></p>
+                        <p>
+                            <span th:utext="#{userdetail.text.confirmdelete.line1}" th:remove="tag"/>
+                            <strong data-uipath="reset.userName" th:utext="*{name} + '?'"/>
+                        </p>
                         <p th:text="#{userdetail.text.confirmdelete.line2}"></p>
-                        <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}">
+                        <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}" th:id="removeUserField">
                         <input data-uipath="removeUserButton" th:value="#{userdetail.removeUserButton}" type="submit" class="govuk-button">
                     </form>
 
