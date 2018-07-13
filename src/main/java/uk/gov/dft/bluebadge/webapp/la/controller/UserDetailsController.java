@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;

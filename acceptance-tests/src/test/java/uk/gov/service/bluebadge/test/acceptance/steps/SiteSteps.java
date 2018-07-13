@@ -242,6 +242,12 @@ public class SiteSteps extends AbstractSpringSteps {
     signInPage.findPageElementById(field).sendKeys(text);
   }
 
+
+  @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field by uipath$")
+  public void whenItypeTextForFieldUiPath(String text, String fieldUiPath) throws Throwable {
+    signInPage.findElementWithUiPath(fieldUiPath).sendKeys(text);
+  }
+
   @When("^I enter full name and email address and clicks on create a new user button$")
   public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
 
@@ -258,6 +264,16 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I should see the newly created user is on the users list$")
   public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
     sitePage.getPageContent().contains(System.getProperty("email"));
+  }
+
+  @And("^I should see \"([^\"]*)\" text on the page$")
+  public void iShouldSeeTextOnPage(String content) throws Throwable {
+    assertTrue(sitePage.getPageContent().contains(content));
+  }
+
+  @And("^I should not see \"([^\"]*)\" text on the page$")
+  public void iShouldNotSeeTextOnPage(String content) throws Throwable {
+    assertFalse(sitePage.getPageContent().contains(content));
   }
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
@@ -361,6 +377,8 @@ public class SiteSteps extends AbstractSpringSteps {
       case "Order a badge":
         uipath = "sidebar-nav.order-a-badge";
         break;
+      case "Find a badge":
+        uipath = "sidebar-nav.find-a-badge";
       default:
         break;
     }

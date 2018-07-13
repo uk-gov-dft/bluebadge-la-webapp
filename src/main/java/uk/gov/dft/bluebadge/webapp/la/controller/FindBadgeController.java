@@ -1,11 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.google.common.collect.Lists;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeEntityToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
 @Controller
 public class FindBadgeController {
@@ -26,15 +27,15 @@ public class FindBadgeController {
   private static final String REDIRECT_FIND_BADGE_SEARCH_RESULTS =
       "redirect:" + FindBadgeSearchResultsController.URL;
 
-  private static final String FORM_REQUEST_SESSION = "formRequest-find-badge";
+  private BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel;
+
+  @Autowired
+  public FindBadgeController(BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel) {
+    this.converterToViewModel = converterToViewModel;
+  }
 
   @GetMapping(URL)
-  public String show(
-      @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
-    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
-    if (sessionFormRequest != null) {
-      BeanUtils.copyProperties(sessionFormRequest, formRequest);
-    }
+  public String show(@ModelAttribute("formRequest") FindBadgeFormRequest formRequest) {
     return TEMPLATE;
   }
 
@@ -47,22 +48,14 @@ public class FindBadgeController {
       RedirectAttributes redirectAttributes) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
-
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
 
-    HashMap<String, String> data = new HashMap<String, String>();
-    data.put("badgeNumber", "HAS67SDDS3");
-    data.put("name", "Joe BLoggs");
-    data.put("postCode", "M12 8N");
-    data.put("council", "Manchester city council");
-    data.put("expiry", "12/03/2018");
-    data.put("status", "Active");
+    FindBadgeSearchResultViewModel result =
+        converterToViewModel.convert(""); // TODO: Pass a BadgeEntity
 
-    List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
-    results.add(data);
+    List<FindBadgeSearchResultViewModel> results = Lists.newArrayList(result);
 
     redirectAttributes.addFlashAttribute("results", results);
 

@@ -11,6 +11,5 @@ public class FindBadgeFormRequest {
   @NotBlank(message = "{NotNull.findBadge.findBadgeBy}")
   private String findBadgeBy;
 
-  @NotBlank(message = "{Notnull.findBadge.searchTerm}")
   private String searchTerm;
 }
