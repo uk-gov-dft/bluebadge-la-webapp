@@ -11,15 +11,13 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeIndexFormRequ
 
 @Controller
 public class OrderBadgeIndexController {
-  private static final String URL = "/order-a-badge/";
-  private static final String TEMPLATE = "order-a-badge/index";
-  private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
+  public static final String URL = "/order-a-badge/";
 
-  public static final String FORM_REQUEST_ORDER_A_BADGE_INDEX = "formRequest-order-a-badge-index";
-  public static final String FORM_REQUEST_ORDER_A_BADGE_DETAILS =
-      "formRequest-order-a-badge-details";
-  public static final String FORM_REQUEST_ORDER_A_BADGE_PROCESSING =
-      "formRequest-order-a-badge-processing";
+  public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-index";
+
+  private static final String TEMPLATE = "order-a-badge/index";
+
+  private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
 
   private static final String REDIRECT_ORDER_A_BADGE_PERSON_DETAILS =
       "redirect:" + OrderBadgePersonDetailsController.URL;
@@ -29,7 +27,7 @@ public class OrderBadgeIndexController {
   public String show(
       @ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_ORDER_A_BADGE_INDEX);
+    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
@@ -41,7 +39,7 @@ public class OrderBadgeIndexController {
       @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
       BindingResult bindingResult,
       HttpSession session) {
-    session.setAttribute(FORM_REQUEST_ORDER_A_BADGE_INDEX, formRequest);
+    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
     if (APPLICANT_TYPE_ORGANISATION.equalsIgnoreCase(formRequest.getApplicantType())) {
       return REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS;
     } else {

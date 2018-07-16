@@ -285,35 +285,22 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
-  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) {
-    switch (arg0) {
-      case "invalid email":
-        assertThat(
-            "Validation message expected",
-            signInPage.findElementWithUiPath("username.summary-error").getText(),
-            getMatcherForText(arg1));
-        break;
-      case "invalid password":
-        assertThat(
-            "Validation message expected",
-            signInPage.findElementWithUiPath("error-summary-description").getText(),
-            getMatcherForText(arg1));
-        break;
-      case "invalid name":
-        assertThat(
-            "Validation message expected",
-            signInPage.findElementWithUiPath("name.summary-error").getText(),
-            getMatcherForText(arg1));
-        break;
-      case "invalid email on update details":
-        assertThat(
-            "Validation message expected",
-            signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
-            getMatcherForText(arg1));
-        break;
-      default:
-        fail("Please select a valid test condition");
-        break;
+  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+    if (arg0.equals("invalid email")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid email or password")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("invalid name")) {
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("name.summary-error").getText(),
+          getMatcherForText(arg1));
     }
   }
 
