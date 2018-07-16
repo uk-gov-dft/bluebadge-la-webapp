@@ -74,3 +74,24 @@ body {
 		}
 	}
 }
+
+.dft-width {
+	&-one-quarter {
+		@include govuk-media-query($from: wide) {
+			width: 25%;
+		}
+	}
+
+	&-one-half {
+		@include govuk-media-query($from: wide) {
+			width: 50%;
+		}
+	}
+
+	&-three-quarters {
+		@include govuk-media-query($from: wide) {
+			width: 75%;
+		}
+	}
+}
+

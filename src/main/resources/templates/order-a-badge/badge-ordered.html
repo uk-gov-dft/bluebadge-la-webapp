@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master.html}">
 
 <head>
     <title>Badge ordered - GOV.UK Manage Blue Badges</title>
@@ -8,20 +10,17 @@
 <body>
 
 <main layout:fragment="content">
+    <section class="dft-content-container">
 
-    <div class="dft-grid-row">
-        <div class="dft-grid-col dft-grid-col--two-thirds">
+        <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title" data-uipath="badge.ordered.title">Badge ordered</h1>
 
-            <div class="govuk-panel govuk-panel--confirmation">
-                <h1 class="govuk-panel__title" data-uipath="badge.ordered.title">Badge ordered</h1>
-
-                <div class="govuk-panel__body" data-uipath="badge.ordered.content">
-                    The badge number is<br><strong data-uipath="badge.ordered.num" th:text="${badgeNumber}" />
-                </div>
+            <div class="govuk-panel__body" data-uipath="badge.ordered.content">
+                The badge number is<br><strong data-uipath="badge.ordered.num" th:text="${badgeNumber}"/>
             </div>
-
         </div>
-    </div>
+
+    </section>
 </main>
 
 </body>
