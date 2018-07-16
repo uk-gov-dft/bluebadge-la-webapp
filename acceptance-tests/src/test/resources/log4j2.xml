@@ -10,9 +10,11 @@
     </Appenders>
     <Loggers>
 
-        <Logger name="uk.gov.service.bluebadge" level="info"/>
+        <Logger name="uk.gov.service.bluebadge.test.acceptance.steps" level="debug">
+        <AppenderRef ref="console"/>
+        </Logger>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="console"/>
         </Root>
 

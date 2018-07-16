@@ -158,8 +158,7 @@ public class UserManagementApiClient extends BaseApiClient {
 
   public User updatePassword(String uuid, String password, String passwordConfirm) {
     Assert.notNull(uuid, "updatePassword - uuid must be provided");
-    Assert.notNull( ***REMOVED***);
-    Assert.notNull( ***REMOVED***);
+    // Do NOT assert password not null.  Rely on API to return correct error message.
 
     String uri = serviceConfiguration.getUrlPrefix() + UPDATE_P_ENDPOINT;
     Password passwords = new Password();
