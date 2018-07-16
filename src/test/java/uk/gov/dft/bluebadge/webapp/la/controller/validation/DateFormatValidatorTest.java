@@ -1,11 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.validation;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class DateFormatValidatorTest {
 
@@ -36,5 +35,4 @@ public class DateFormatValidatorTest {
   public void tryBuildDate_ShouldThrowDateTimeException_WhenValueRepresentsANonExistantDay() {
     DateFormatValidatorUtils.tryBuildDate("30/2/2010");
   }
-
 }
