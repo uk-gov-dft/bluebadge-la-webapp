@@ -1,0 +1,12 @@
+.govuk-fieldset {
+	&__legend {
+		margin-bottom: 5px;
+
+		.govuk-heading-s,
+		.govuk-heading-m {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+

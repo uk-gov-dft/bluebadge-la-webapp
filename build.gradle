@@ -167,7 +167,7 @@ bootRun {
     sourceResources sourceSets.main
 }
 
-// build.dependsOn gulp_css
+build.dependsOn gulp_default
 
 compileJava.dependsOn 'googleJavaFormat'
 
