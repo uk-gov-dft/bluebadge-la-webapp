@@ -6,6 +6,9 @@ public class DateFormatValidatorUtils {
   private DateFormatValidatorUtils() {}
 
   public static LocalDate tryBuildDate(String value) {
+    if (value == null) {
+      return null;
+    }
     String[] dateParts = value.split("/");
     if (dateParts != null && dateParts.length == 3) {
       Integer day = Integer.valueOf(dateParts[0]);
