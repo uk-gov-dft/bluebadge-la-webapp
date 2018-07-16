@@ -35,7 +35,7 @@ public class FindBadgeController {
 
   @Autowired
   public FindBadgeController(
-    BadgeService badgeService, BadgeToFindBadgeSearchResultViewModel converterToViewModel) {
+      BadgeService badgeService, BadgeToFindBadgeSearchResultViewModel converterToViewModel) {
     this.badgeService = badgeService;
     this.converterToViewModel = converterToViewModel;
   }

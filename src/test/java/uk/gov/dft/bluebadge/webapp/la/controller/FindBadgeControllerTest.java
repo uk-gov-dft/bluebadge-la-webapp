@@ -37,8 +37,7 @@ public class FindBadgeControllerTest {
 
   @Mock BadgeService badgeServiceMock;
 
-  @Mock
-  BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
+  @Mock BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
 
   private FindBadgeController controller;
 

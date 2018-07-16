@@ -18,7 +18,7 @@ public class UserService {
     this.userManagementApiClient = userManagementApiClient;
   }
 
-  public User findOneById(int id) {
+  public User retrieve(int id) {
     return userManagementApiClient.getById(id);
   }
 

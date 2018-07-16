@@ -72,7 +72,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void orderBlueBadges_shouldReturnBlueBadgeNumber_whenValidInput() throws Exception {
+  public void orderBlueBadges_ShouldReturnBlueBadgeNumber_WhenValidInput() throws Exception {
     List<String> badgeNumbers = Lists.newArrayList("123");
     BadgeNumbersResponse badgeNumbersResponse = new BadgeNumbersResponse().data(badgeNumbers);
     String badgeNumbersResponseBody = objectMapper.writeValueAsString(badgeNumbersResponse);
@@ -86,7 +86,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test(expected = BadRequestException.class)
-  public void orderBlueBadges_shouldThrowBadRequestException_whenInvalidInput() throws Exception {
+  public void orderBlueBadges_ShouldThrowBadRequestException_WhenInvalidInput() throws Exception {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
@@ -100,7 +100,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test(expected = HttpServerErrorException.class)
-  public void orderBlueBadges_shouldThrowException_when500() throws Exception {
+  public void orderBlueBadges_ShouldThrowException_When500() throws Exception {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
@@ -113,7 +113,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void retrieveBadge_shouldRetrieveTheSpecifiedBadge() throws JsonProcessingException {
+  public void retrieveBadge_ShouldRetrieveTheSpecifiedBadge() throws JsonProcessingException {
     BadgeResponse badgeResponse = new BadgeResponse().data(BADGE);
 
     String body = objectMapper.writeValueAsString(badgeResponse);
@@ -123,6 +123,20 @@ public class BadgeManagementApiClientTest {
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
     Badge retrievedBadge = client.retrieveBadge(BADGE_NUMBER);
     assertThat(retrievedBadge).isEqualTo(BADGE);
+  }
+
+  public void retrieveBadge_ShouldThrowException_When404() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+
+    try {
+      mockServer
+          .expect(once(), requestTo(BASE_ENDPOINT + "/" + BADGE_NUMBER))
+          .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+      client.retrieveBadge(BADGE_NUMBER);
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
   }
 
   private ServiceConfiguration buildServiceConfiguration() {

@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -14,13 +15,15 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 
 public class UserServiceTest {
 
-  private static final String EMAIL = "joeblogs@joe.com";
-  private static final String EMAIL_WRONG_FORMAT = "joeblogs";
-  private static final String PASSWORD = "password";
+  private static final int ID = 1;
+  private static final String EMAIL_ADDRESS = "email@email.com";
+  private static final String NAME = "My name";
 
   @Mock private UserManagementApiClient userManagementServiceMock;
 
   private UserService userService;
+
+  private User user;
 
   @Before
   public void setup() {
@@ -29,6 +32,8 @@ public class UserServiceTest {
     MockitoAnnotations.initMocks(this);
 
     userService = new UserService(userManagementServiceMock);
+
+    user = new User().id(ID).emailAddress(EMAIL_ADDRESS).name(NAME);
   }
 
   @Test
@@ -71,5 +76,41 @@ public class UserServiceTest {
     List<User> users = userService.find(LOCAL_AUTHORITY);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
     assertThat(users).isEqualTo(expectedUsers);
+  }
+
+  @Test
+  public void retrieve_ShouldReturnUser() {
+    when(userManagementServiceMock.getById(ID)).thenReturn(user);
+    User userRetrieved = userService.retrieve(ID);
+    assertThat(userRetrieved).isEqualTo(user);
+    verify(userManagementServiceMock).getById(ID);
+  }
+
+  @Test
+  public void create_ShouldCreateAUser() {
+    when(userManagementServiceMock.createUser(user)).thenReturn(user);
+    User userCreated = userService.create(user);
+    assertThat(userCreated).isEqualTo(user);
+    verify(userManagementServiceMock).createUser(user);
+  }
+
+  @Test
+  public void update_ShouldUpdateAUser() {
+    when(userManagementServiceMock.updateUser(user)).thenReturn(user);
+    User userUpdated = userService.update(user);
+    assertThat(userUpdated).isEqualTo(user);
+    verify(userManagementServiceMock).updateUser(user);
+  }
+
+  @Test
+  public void delete_ShouldDeleteAUser() {
+    userService.delete(ID);
+    verify(userManagementServiceMock).deleteUser(ID);
+  }
+
+  @Test
+  public void requestPasswordReset_ShouldDeleteAUser() {
+    userService.requestPasswordReset(ID);
+    verify(userManagementServiceMock).requestPasswordReset(ID);
   }
 }

@@ -13,6 +13,8 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
+import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
 public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
@@ -58,6 +60,14 @@ public class BadgeServiceTest {
   @Test
   public void retrieve_ShouldRetrieveAnEmptyBadge_WhenBadgeNumberIsEmpty() {
     Optional<Badge> badgeMaybe = badgeService.retrieve("");
+    assertThat(badgeMaybe).isEqualTo(Optional.empty());
+  }
+
+  @Test
+  public void retrieve_ShouldRetrieveAnEmptyBadge_WhenThereIsANotFoundException() {
+    when(badgeManagementApiClientMock.retrieveBadge(BADGE_NUMBER))
+        .thenThrow(new NotFoundException(new CommonResponse()));
+    Optional<Badge> badgeMaybe = badgeService.retrieve(BADGE_NUMBER);
     assertThat(badgeMaybe).isEqualTo(Optional.empty());
   }
 }

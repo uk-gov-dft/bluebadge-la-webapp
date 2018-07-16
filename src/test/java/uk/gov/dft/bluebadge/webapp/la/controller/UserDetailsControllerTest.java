@@ -1,10 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersController.URL_MANAGE_USERS;
 
 import com.google.common.collect.Lists;
@@ -99,7 +105,7 @@ public class UserDetailsControllerTest extends ControllerTest {
   public void
       showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
           throws Exception {
-    when(userServiceMock.findOneById(USER_ID)).thenReturn(user);
+    when(userServiceMock.retrieve(USER_ID)).thenReturn(user);
     UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
     formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
     mockMvc
@@ -114,7 +120,7 @@ public class UserDetailsControllerTest extends ControllerTest {
   public void
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
           throws Exception {
-    when(userServiceMock.findOneById(USER_ID)).thenReturn(userWithId);
+    when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
     UserDetailsFormRequest formRequest =
         getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
     mockMvc
@@ -139,7 +145,7 @@ public class UserDetailsControllerTest extends ControllerTest {
   public void
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetailsAndValidationErrors_WhenYouAreSignedInAndThereAreValidationErrors()
           throws Exception {
-    when(userServiceMock.findOneById(USER_ID)).thenReturn(userWithId);
+    when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
 
     ErrorErrors emailAddressError =
         new ErrorErrors().field(EMAIL_ADDRESS_PARAM).message(ERROR_MSG_EMAIL_ADDRESS);

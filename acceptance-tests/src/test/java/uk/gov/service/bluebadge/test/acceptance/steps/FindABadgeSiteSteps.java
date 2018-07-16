@@ -1,11 +1,11 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import cucumber.api.java.en.And;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class FindABadgeSiteSteps {
 

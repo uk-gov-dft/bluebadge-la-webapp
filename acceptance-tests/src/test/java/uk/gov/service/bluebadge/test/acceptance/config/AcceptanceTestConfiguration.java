@@ -96,5 +96,4 @@ public class AcceptanceTestConfiguration {
   public ScenarioContext scenarioContext() {
     return new ScenarioContext();
   }
-
 }

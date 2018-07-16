@@ -1,11 +1,10 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
 
 public class ScenarioContext {
   private static final Logger log = getLogger(ScenarioContext.class);
