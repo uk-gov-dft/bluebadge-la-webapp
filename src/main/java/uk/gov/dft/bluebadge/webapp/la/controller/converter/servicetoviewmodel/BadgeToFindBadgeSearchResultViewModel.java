@@ -8,14 +8,14 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
 @Component
-public class BadgeEntityToFindBadgeSearchResultViewModel
+public class BadgeToFindBadgeSearchResultViewModel
     implements Converter<Badge, FindBadgeSearchResultViewModel> {
 
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     Assert.notNull(source, "Source cannot be null");
-    FindBadgeSearchResultViewModel result =
+    return
         FindBadgeSearchResultViewModel.builder()
             .badgeNumber(source.getBadgeNumber())
             .name(source.getParty().getPerson().getBadgeHolderName())
@@ -24,6 +24,5 @@ public class BadgeEntityToFindBadgeSearchResultViewModel
             .expiryDate(source.getExpiryDate().format(formatter))
             .status(source.getStatusCode())
             .build();
-    return result;
   }
 }

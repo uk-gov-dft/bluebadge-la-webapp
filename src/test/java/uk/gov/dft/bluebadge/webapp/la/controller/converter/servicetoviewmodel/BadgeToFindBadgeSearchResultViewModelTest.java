@@ -12,7 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
-public class BadgeEntityToFindBadgeSearchResultViewModelTest {
+public class BadgeToFindBadgeSearchResultViewModelTest {
 
   private static final String BADGE_NUMBER = "AAAAA1";
   private static final String BADGE_HOLDER_NAME = "MyName";
@@ -34,12 +34,12 @@ public class BadgeEntityToFindBadgeSearchResultViewModelTest {
           .expiryDate(EXPIRY_DATE)
           .statusCode(STATUS);
 
-  BadgeEntityToFindBadgeSearchResultViewModel converter;
+  BadgeToFindBadgeSearchResultViewModel converter;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    converter = new BadgeEntityToFindBadgeSearchResultViewModel();
+    converter = new BadgeToFindBadgeSearchResultViewModel();
   }
 
   @Test

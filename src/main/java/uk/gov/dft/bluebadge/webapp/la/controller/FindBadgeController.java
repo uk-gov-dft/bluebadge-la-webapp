@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeEntityToFindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
@@ -31,11 +31,11 @@ public class FindBadgeController {
       "redirect:" + FindBadgeSearchResultsController.URL;
 
   private BadgeService badgeService;
-  private BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel;
+  private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
 
   @Autowired
   public FindBadgeController(
-      BadgeService badgeService, BadgeEntityToFindBadgeSearchResultViewModel converterToViewModel) {
+    BadgeService badgeService, BadgeToFindBadgeSearchResultViewModel converterToViewModel) {
     this.badgeService = badgeService;
     this.converterToViewModel = converterToViewModel;
   }
