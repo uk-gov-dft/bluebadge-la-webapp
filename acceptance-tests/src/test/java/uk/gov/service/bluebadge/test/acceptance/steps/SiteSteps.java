@@ -12,6 +12,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.util.List;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -25,8 +26,6 @@ import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
-
-import java.util.List;
 
 public class SiteSteps extends AbstractSpringSteps {
 

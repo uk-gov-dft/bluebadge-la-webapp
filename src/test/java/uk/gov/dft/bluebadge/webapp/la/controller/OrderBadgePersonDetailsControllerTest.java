@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControllerTest {
 

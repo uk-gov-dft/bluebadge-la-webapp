@@ -49,6 +49,15 @@ badgemanagementservice:
     requesttimeout: 6000
     contextpath: /uk-gov-dft/badge-management-service/1.0.0
 
+referencedataservice:
+  servicehost:
+    host: localhost
+    port: 8580
+    scheme: http
+    connectiontimeout: 6000
+    requesttimeout: 6000
+    contextpath: /uk-gov-dft/reference-data-service/1.0.0
+
 security:
   oauth2:
     client:
