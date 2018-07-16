@@ -6,7 +6,7 @@ import uk.gov.service.bluebadge.test.acceptance.pages.site.AbstractSitePage;
 
 public class TestContentUrls {
 
-  private final Map<String, String> urlLookup = new HashMap();
+  private final Map<String, String> urlLookup = new HashMap<>();
 
   public TestContentUrls() {
     setup();
@@ -18,6 +18,14 @@ public class TestContentUrls {
       throw new RuntimeException("Unknown pageName: " + pageName);
     }
     return AbstractSitePage.URL + url;
+  }
+
+  public static String lookupUrlUnmapped(String pageName){
+    if(pageName.startsWith("/")){
+      return AbstractSitePage.URL + pageName;
+    }else{
+      return AbstractSitePage.URL + "/" + pageName;
+    }
   }
 
   private void setup() {

@@ -32,6 +32,11 @@ public abstract class AbstractSitePage extends AbstractPage {
     getWebDriver().get(lookupUrl);
   }
 
+  public void openByPageNameUnmapped(final String pageName){
+    String lookupUrl = TestContentUrls.lookupUrlUnmapped(pageName);
+    getWebDriver().get(lookupUrl);
+  }
+
   public void clickOnElement(WebElement element) {
     // scroll to element to prevent errors like "Other element would receive the click"
     new Actions(getWebDriver()).moveToElement(element).moveByOffset(0, 100).perform();
