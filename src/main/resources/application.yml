@@ -3,8 +3,9 @@ bbb:
 
 logging:
   level:
-    uk.gov.dft.bluebadge: DEBUG
-    org.springframework.security: DEBUG
+    root: ${APP_LOGGING_LEVEL:-INFO}
+    sample.mybatis.mapper: WARN
+    uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:-DEBUG}
 
 management:
   server:
