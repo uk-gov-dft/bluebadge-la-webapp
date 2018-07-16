@@ -14,15 +14,25 @@
 
             <h1 class="govuk-heading-l" data-uipath="title">Sign in</h1>
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+                </div>
+            </div>
+
+            <div th:if="${param.logout}">
+                <div class="alert alert-info">
+                    <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+                </div>
+            </div>
 
             <form th:action="@{/sign-in}" th:object="${formRequest}" method="post" novalidate>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input(#{form.label.emailAddress}, 'username', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'username', null, 'username') }"/>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input(#{form.label. ***REMOVED***/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Password', ' ***REMOVED***/>
 
-                <input data-uipath="button" th:value="#{form.btn.signin}" type="submit" class="govuk-button">
+                <input data-uipath="button" value="Sign in" type="submit" class="govuk-button">
 
             </form>
 

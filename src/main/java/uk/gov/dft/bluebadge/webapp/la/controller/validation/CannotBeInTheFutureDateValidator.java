@@ -20,7 +20,7 @@ public class CannotBeInTheFutureDateValidator
       if (date == null) {
         return false;
       }
-      return date.isBefore(LocalDate.now());
+      return !date.isAfter(LocalDate.now());
     } catch (DateTimeException | NumberFormatException ex) {
       return false;
     }

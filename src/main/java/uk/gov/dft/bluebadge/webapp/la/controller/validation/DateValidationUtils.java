@@ -11,7 +11,7 @@ public class DateValidationUtils {
     if (dateShouldBeNull(day, month, year)) {
       return null;
     }
-    return year + "-" + month + "-" + day;
+    return day + "/" + month + "/" + year;
   }
 
   /*

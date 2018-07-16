@@ -24,6 +24,7 @@ public class OrderABadgeSiteSteps {
   @When("^I enter all the mandatory valid personal details to order a badge$")
   public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
     String name = ng.get_full_name();
+    String contactName = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
     String dobDay = String.valueOf(date.getDayOfMonth());
@@ -40,6 +41,8 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
+
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");
   }
