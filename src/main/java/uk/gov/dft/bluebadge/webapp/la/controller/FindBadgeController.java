@@ -58,16 +58,18 @@ public class FindBadgeController {
       return TEMPLATE;
     }
 
+    String searchTerm = formRequest.getSearchTerm();
     List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
 
     if ("badgeNumber".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
-      Optional<Badge> resultMaybe = badgeService.retrieve(formRequest.getSearchTerm());
+      Optional<Badge> resultMaybe = badgeService.retrieve(searchTerm);
       if (resultMaybe.isPresent()) {
         FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(resultMaybe.get());
         results.add(viewModel);
       }
     }
 
+    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
     redirectAttributes.addFlashAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;

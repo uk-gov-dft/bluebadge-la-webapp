@@ -79,12 +79,16 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     UriComponentsBuilder builder = getUriComponentsBuilder(RETRIEVE_BADGE_ENDPOINT);
     builder.pathSegment(badgeNumber);
-
-    ResponseEntity<BadgeResponse> response =
-        restTemplateFactory
-            .getInstance()
-            .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class);
-    return response.getBody().getData();
+    try {
+      ResponseEntity<BadgeResponse> response =
+          restTemplateFactory
+              .getInstance()
+              .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class);
+      return response.getBody().getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 
   /*

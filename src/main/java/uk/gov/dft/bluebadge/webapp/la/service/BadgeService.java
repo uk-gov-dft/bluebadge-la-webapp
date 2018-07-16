@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 
 @Service
 public class BadgeService {
@@ -34,7 +35,11 @@ public class BadgeService {
     if (badgeNumber == null || badgeNumber.isEmpty()) {
       return Optional.empty();
     } else {
-      return Optional.ofNullable(badgeManagementApiClient.retrieveBadge(badgeNumber));
+      try {
+        return Optional.of(badgeManagementApiClient.retrieveBadge(badgeNumber));
+      } catch (NotFoundException ex) {
+        return Optional.empty();
+      }
     }
   }
 }

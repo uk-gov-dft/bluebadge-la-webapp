@@ -15,8 +15,10 @@ public class FindBadgeSearchResultsController {
 
   @GetMapping(URL)
   public String show(Model model) {
+    String searchTerm = (String) model.asMap().get("searchTerm");
     List<FindBadgeSearchResultViewModel> results =
         (List<FindBadgeSearchResultViewModel>) model.asMap().get("results");
+    model.addAttribute("searchTerm", searchTerm);
     model.addAttribute("results", results);
     return TEMPLATE;
   }
