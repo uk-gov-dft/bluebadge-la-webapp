@@ -125,6 +125,7 @@ public class BadgeManagementApiClientTest {
     assertThat(retrievedBadge).isEqualTo(BADGE);
   }
 
+  @Test
   public void retrieveBadge_ShouldThrowException_When404() throws Exception {
     CommonResponse commonResponse = new CommonResponse();
     String body = objectMapper.writeValueAsString(commonResponse);

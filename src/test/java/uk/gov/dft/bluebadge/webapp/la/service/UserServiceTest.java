@@ -18,6 +18,8 @@ public class UserServiceTest {
   private static final int ID = 1;
   private static final String EMAIL_ADDRESS = "email@email.com";
   private static final String NAME = "My name";
+  private static final String UUID = "uuid";
+  private static final String PASSWORD = "lckxjvlkv";
 
   @Mock private UserManagementApiClient userManagementServiceMock;
 
@@ -37,7 +39,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void shouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
+  public void find_ShouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
     final int LOCAL_AUTHORITY = 1;
     User user1 =
         new User()
@@ -79,6 +81,18 @@ public class UserServiceTest {
   }
 
   @Test
+  public void find_ShouldReturnEmptyList_WhenThereAreNoUsers() {
+    final int LOCAL_AUTHORITY = 1;
+    List<User> usersFromClient = Arrays.asList();
+
+    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
+        .thenReturn(usersFromClient);
+    List<User> users = userService.find(LOCAL_AUTHORITY);
+    List<User> expectedUsers = Arrays.asList();
+    assertThat(users).isEqualTo(expectedUsers);
+  }
+
+  @Test
   public void retrieve_ShouldReturnUser() {
     when(userManagementServiceMock.getById(ID)).thenReturn(user);
     User userRetrieved = userService.retrieve(ID);
@@ -112,5 +126,13 @@ public class UserServiceTest {
   public void requestPasswordReset_ShouldDeleteAUser() {
     userService.requestPasswordReset(ID);
     verify(userManagementServiceMock).requestPasswordReset(ID);
+  }
+
+  @Test
+  public void updatePassword_shouldUpdatePassword() {
+    when(userManagementServiceMock.updatePassword(UUID, PASSWORD, PASSWORD)).thenReturn(user);
+    User userUpdated = userService.updatePassword(UUID, PASSWORD, PASSWORD);
+    assertThat(userUpdated).isEqualTo(user);
+    verify(userManagementServiceMock).updatePassword(UUID, PASSWORD, PASSWORD);
   }
 }
