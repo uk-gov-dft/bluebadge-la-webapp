@@ -127,13 +127,13 @@ gulp.task('js', ['clean:js', 'js-lint', 'html5-shiv'], () => {
 			commonJs(),
 		],
 	})
-		.pipe(source(PATH.sourceAssets.js))
-		.pipe(buffer())
-		.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
-		.pipe(rename('main.js'))
-		.pipe(gulpIf(isProd, uglify()))
-		.pipe(gulpIf(isDev, sourcemaps.write('.')))
-		.pipe(gulp.dest(PATH.compiledAssets.js));
+	.pipe(source(PATH.sourceAssets.js))
+	.pipe(buffer())
+	.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
+	.pipe(rename('main.js'))
+	.pipe(gulpIf(isProd, uglify()))
+	.pipe(gulpIf(isDev, sourcemaps.write('.')))
+	.pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
 gulp.task('default', ['sass', 'js', 'images', 'govuk-assets'], () => {
