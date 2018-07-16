@@ -1,10 +1,16 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
 import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
@@ -22,11 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.*;
+import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
+import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
+import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
+import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
+
   protected NameGenerator ng = new NameGenerator();
   protected LocalDateGenerator ldg = new LocalDateGenerator();
   protected PostCodeGenerator pcg = new PostCodeGenerator();
@@ -38,6 +48,8 @@ public class SiteSteps extends AbstractSpringSteps {
   @Autowired private AcceptanceTestProperties acceptanceTestProperties;
 
   @Autowired private TestContentUrls urlLookup;
+
+  @Autowired protected ScenarioContext scenarioContext;
 
   @Given("^I navigate to (?:the )?\"([^\"]+)\" (?:.* )?page$")
   public void givenINavigateToPage(String pageName) throws Throwable {
