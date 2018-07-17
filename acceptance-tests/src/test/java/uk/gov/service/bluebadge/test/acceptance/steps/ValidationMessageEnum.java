@@ -1,9 +1,7 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
 public enum ValidationMessageEnum {
-   ***REMOVED***)
-  ;
-
+   ***REMOVED***);
 
   private final String assertFailedMessage;
   private final String elementUiPath;
