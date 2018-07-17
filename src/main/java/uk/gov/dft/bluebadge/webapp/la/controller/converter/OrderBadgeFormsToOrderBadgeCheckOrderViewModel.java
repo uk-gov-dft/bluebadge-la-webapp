@@ -18,10 +18,10 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     StringBuilder address = new StringBuilder(details.getBuildingAndStreet());
     String line2 = details.getOptionalAddressField();
     if (!StringUtils.isEmpty(line2)) {
-      address.append(",").append(line2);
+      address.append(", ").append(line2);
     }
-    address.append(",").append(details.getTownOrCity());
-    address.append(",").append(details.getPostcode());
+    address.append(", ").append(details.getTownOrCity());
+    address.append(", ").append(details.getPostcode());
 
     String badgeExpiryDate =
         DateValidationUtils.buildDateStringIfValidNullIfInvalid(
@@ -35,7 +35,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
         .gender(details.getGender())
         .nino(details.getNino())
         .address(address.toString())
-        .contactFullName(details.getContactDetailsContactNumber())
+        .contactFullName(details.getContactDetailsName())
         .contactNumber(details.getContactDetailsContactNumber())
         .emailAddress(details.getContactDetailsEmailAddress())
         .eligibility(details.getEligibility())
