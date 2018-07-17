@@ -1,7 +1,7 @@
 blue-badge:
   auth-server:
-    url: http://localhost:8380/bbb_auth
-    client-id: bbb_la_web_app_id
+    url: http://localhost:8380/bb_auth
+    client-id: bb_la_web_app_id
      ***REMOVED***
   usermanagementservice:
     servicehost:
