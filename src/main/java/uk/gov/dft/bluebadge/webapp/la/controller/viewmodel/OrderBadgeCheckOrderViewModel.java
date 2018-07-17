@@ -11,6 +11,7 @@ public class OrderBadgeCheckOrderViewModel {
   private String gender;
   private String nino;
   private String address;
+  private String contactFullName;
   private String contactNumber;
   private String emailAddress;
   private String eligibility;

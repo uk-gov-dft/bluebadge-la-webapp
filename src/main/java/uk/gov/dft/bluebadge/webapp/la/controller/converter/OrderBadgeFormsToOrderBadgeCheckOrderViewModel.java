@@ -35,6 +35,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
         .gender(details.getGender())
         .nino(details.getNino())
         .address(address.toString())
+        .contactFullName(details.getContactDetailsContactNumber())
         .contactNumber(details.getContactDetailsContactNumber())
         .emailAddress(details.getContactDetailsEmailAddress())
         .eligibility(details.getEligibility())

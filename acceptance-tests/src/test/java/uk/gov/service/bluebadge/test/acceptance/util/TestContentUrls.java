@@ -20,10 +20,10 @@ public class TestContentUrls {
     return AbstractSitePage.URL + url;
   }
 
-  public static String lookupUrlUnmapped(String pageName){
-    if(pageName.startsWith("/")){
+  public static String lookupUrlUnmapped(String pageName) {
+    if (pageName.startsWith("/")) {
       return AbstractSitePage.URL + pageName;
-    }else{
+    } else {
       return AbstractSitePage.URL + "/" + pageName;
     }
   }
