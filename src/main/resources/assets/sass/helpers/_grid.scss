@@ -1,0 +1,26 @@
+.dft-grid-row {
+	@include govuk-clearfix;
+}
+
+.dft-grid-col {
+	width: 100%;
+
+	&--half,
+	&--two-thirds {
+		@include govuk-media-query($from: desktop) {
+			float: left;
+		}
+	}
+
+	&--half {
+		@include govuk-media-query($from: desktop) {
+			width: 50%;
+		}
+	}
+
+	&--two-thirds {
+		@include govuk-media-query($from: desktop) {
+			width: 66.67%;
+		}
+	}
+}

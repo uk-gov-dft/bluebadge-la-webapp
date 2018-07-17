@@ -1,7 +1,5 @@
-/* eslint-disable */
-
 const gulp = require('gulp');
-const rimraf = require('rimraf');
+const del = require('del');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
 const rename = require('gulp-rename');
@@ -17,108 +15,107 @@ const autoprefixer = require('gulp-autoprefixer');
 const commonJs = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
 
-/** --------------------------------------------------
 
- * Configs and paths
-
--------------------------------------------------- **/
-
-const BASE_PATH = "./src/main/resources";
+const BASE_PATH = './src/main/resources';
 const PATH = {
 	sourceAssets: {
-		sass: `${BASE_PATH}/sass/**/*.scss`,
-		js: `${BASE_PATH}/js/main.js`
+		sass: `${BASE_PATH}/assets/sass/**/*.scss`,
+		js: `${BASE_PATH}/assets/js/main.js`,
+		images: `${BASE_PATH}/assets/images`,
+		govuk_assets: './node_modules/govuk-frontend/assets/**/*',
+		html5_shiv: './node_modules/html5shiv/dist/html5shiv.min.js',
 	},
 
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
-		js: `${BASE_PATH}/static/js`
-	}
-}
-
-const babelConfig = {
-	presets: [["es2015", { "modules": false }]],
-	plugins: ["external-helpers"],
-	babelrc: false,
-	exclude: 'node_modules/**'
+		js: `${BASE_PATH}/static/js`,
+		images: `${BASE_PATH}/static`,
+		govuk_assets: `${BASE_PATH}/static/govuk`,
+	},
 };
 
-/** --------------------------------------------------
+const babelConfig = {
+	presets: [['es2015', { modules: false }]],
+	plugins: ['external-helpers'],
+	babelrc: false,
+	exclude: 'node_modules/**',
+};
 
- * Utility functions for identifying environment
-
--------------------------------------------------- **/
-
-const getEnv = (default_env = "development") => {
-
+const getEnv = () => {
 	const params = global.process.argv;
+	let env = 'prod';
 
-	for (let param of params) {
+	Object.keys(params).forEach((key) => {
+		const param = params[key];
 
-		if (param.includes("--env")) {
-
-			const env = param.split('=')[1];
-			return env ? env : default_env;
-
+		if (param.includes('-env')) {
+			const [, envValue] = param.split('=');
+			env = envValue;
 		}
-	}
+	});
 
-	return default_env;
-}
+	return env;
+};
 
-const isProd = getEnv() === "production";
-const isDev = getEnv() === "development";
+const isProd = getEnv() === 'prod';
+const isDev = getEnv() === 'dev';
 
+// Clears CSS directory
+gulp.task('clean:css', () => del.sync([PATH.compiledAssets.css]));
 
-/** --------------------------------------------------
+// Clears JS directory
+gulp.task('clean:js', () => del.sync([PATH.compiledAssets.js]));
 
- * Default task
-
--------------------------------------------------- **/
-
-gulp.task('clean:css', () => rimraf(PATH.compiledAssets.css, () => { }));
-gulp.task('clean:js', () => rimraf(PATH.compiledAssets.js, () => { }));
-
-
-gulp.task('sass', ['clean:css'], () => {
-	return gulp.src(PATH.sourceAssets.sass)
-		.pipe(sassLint({
-			configFile: './.sass-lint.yml'
-		 }))
-		.pipe(sassLint.format())
-		.pipe(sassLint.failOnError())
-		 
-		.pipe(gulpIf(isDev, sourcemaps.init()))
-			.pipe(sass({
-				includePaths: ['node_modules'],
-				outputStyle: isProd ? 'compressed' : 'expanded'
-			}).on('error', sass.logError))
-			.pipe(autoprefixer())
-		.pipe(gulpIf(isDev, sourcemaps.write('./')))
-
-		.pipe(gulp.dest(PATH.compiledAssets.css))
+// Copies govuk assets from npm folder inside local assets folder
+gulp.task('govuk-assets', () => {
+	gulp.src([PATH.sourceAssets.govuk_assets])
+		.pipe(gulp.dest(PATH.compiledAssets.govuk_assets));
 });
 
+// Copies govuk assets from npm folder inside local assets folder
+gulp.task('images', () => {
+	gulp.src([PATH.sourceAssets.images])
+		.pipe(gulp.dest(PATH.compiledAssets.images));
+});
 
+// Copies HTML5-Shiv from npm folder inside compiled js folder
+gulp.task('html5-shiv', () => {
+	gulp.src([PATH.sourceAssets.html5_shiv])
+		.pipe(uglify())
+		.pipe(rename('html5-shiv.js'))
+		.pipe(gulp.dest(PATH.compiledAssets.js));
+});
+
+// Lints our SASS code based on rules set inside sass-lint.yml file
+gulp.task('sass-lint', () => {
+	gulp.src([PATH.sourceAssets.sass])
+		.pipe(sassLint({ configFile: './.sass-lint.yml' }))
+		.pipe(sassLint.format())
+		.pipe(sassLint.failOnError());
+});
+
+// Compiles SASS code to CSS.
+gulp.task('sass', ['clean:css', 'sass-lint'], () => {
+	gulp.src(PATH.sourceAssets.sass)
+		.pipe(gulpIf(isDev, sourcemaps.init()))
+		.pipe(sass({
+			includePaths: ['node_modules'],
+			outputStyle: isProd ? 'compressed' : 'expanded',
+		}).on('error', sass.logError))
+		.pipe(autoprefixer())
+		.pipe(gulpIf(isDev, sourcemaps.write('./')))
+		.pipe(gulp.dest(PATH.compiledAssets.css));
+});
+
+// Lints our JS code based on Airbnb JS rules
 gulp.task('js-lint', () => {
-	// ESLint ignores files with "node_modules" paths.
-	// So, it's best to have gulp ignore the directory as well.
-	// Also, Be sure to return the stream from the task;
-	// Otherwise, the task may end before the stream has finished.
-	return gulp.src([BASE_PATH + "/js/**/*.js", '!node_modules/**'])
-		// eslint() attaches the lint output to the "eslint" property
-		// of the file object so it can be used by other modules.
+	gulp.src([`${BASE_PATH}/js/**/*.js`, '!node_modules/**'])
 		.pipe(eslint())
-		// eslint.format() outputs the lint results to the console.
-		// Alternatively use eslint.formatEach() (see Docs).
 		.pipe(eslint.format())
-		// To have the process exit with an error code (1) on
-		// lint error, return the stream and pipe to failAfterError last.
 		.pipe(eslint.failAfterError());
 });
 
-
-gulp.task('js', ['clean:js'], () => {
+gulp.task('js', ['clean:js', 'js-lint', 'html5-shiv'], () => {
 	rollup({
 		format: 'umd',
 		legacy: true,
@@ -127,24 +124,21 @@ gulp.task('js', ['clean:js'], () => {
 		plugins: [
 			resolve(),
 			babel(babelConfig),
-			commonJs()
+			commonJs(),
 		],
 	})
 	.pipe(source(PATH.sourceAssets.js))
 	.pipe(buffer())
-	
 	.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
-		.pipe(gulpIf(isDev, rename('main.js')))
-		.pipe(gulpIf(isProd, uglify()))
-		.pipe(gulpIf(isProd, rename('main.min.js')))
+	.pipe(rename('main.js'))
+	.pipe(gulpIf(isProd, uglify()))
 	.pipe(gulpIf(isDev, sourcemaps.write('.')))
-	
 	.pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
-
-gulp.task('default', ['sass', 'js-lint', 'js'], () => {
-	gulp.watch(PATH.sourceAssets.sass, ['sass']);
-	gulp.watch(BASE_PATH + "/js/**/*.js", ['js-lint']);
-	gulp.watch(PATH.sourceAssets.js, ['js']);
+gulp.task('default', ['sass', 'js', 'images', 'govuk-assets'], () => {
+	if (isDev) {
+		gulp.watch(PATH.sourceAssets.sass, ['sass']);
+		gulp.watch(PATH.sourceAssets.js, ['js']);
+	}
 });
