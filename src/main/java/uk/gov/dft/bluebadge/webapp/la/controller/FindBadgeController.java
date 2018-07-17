@@ -62,9 +62,9 @@ public class FindBadgeController {
     List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
 
     if ("badgeNumber".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
-      Optional<Badge> resultMaybe = badgeService.retrieve(searchTerm);
-      if (resultMaybe.isPresent()) {
-        FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(resultMaybe.get());
+      Optional<Badge> result = badgeService.retrieve(searchTerm);
+      if (result.isPresent()) {
+        FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
         results.add(viewModel);
       }
     }

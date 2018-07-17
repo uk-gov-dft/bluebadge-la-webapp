@@ -11,9 +11,11 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResult
 public class BadgeToFindBadgeSearchResultViewModel
     implements Converter<Badge, FindBadgeSearchResultViewModel> {
 
+  private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
+
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
     Assert.notNull(source, "Source cannot be null");
     return FindBadgeSearchResultViewModel.builder()
         .badgeNumber(source.getBadgeNumber())

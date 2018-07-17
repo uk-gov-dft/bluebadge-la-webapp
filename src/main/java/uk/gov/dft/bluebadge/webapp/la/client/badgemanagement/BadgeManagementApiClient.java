@@ -29,9 +29,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
 
-  private static final String ORDER_BADGES_ENDPOINT = BADGES_BASE_ENDPOINT;
-  private static final String RETRIEVE_BADGE_ENDPOINT = BADGES_BASE_ENDPOINT;
-
   private RestTemplateFactory restTemplateFactory;
   private ServiceConfiguration serviceConfiguration;
 
@@ -47,7 +44,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     HttpEntity<BadgeOrderRequest> request = new HttpEntity<>(badgeOrder);
 
-    UriComponentsBuilder builder = getUriComponentsBuilder(ORDER_BADGES_ENDPOINT);
+    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
 
     try {
       return Objects.requireNonNull(
@@ -77,7 +74,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     HttpEntity entity = new HttpEntity(null, headers);
 
-    UriComponentsBuilder builder = getUriComponentsBuilder(RETRIEVE_BADGE_ENDPOINT);
+    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
     builder.pathSegment(badgeNumber);
     try {
       ResponseEntity<BadgeResponse> response =
