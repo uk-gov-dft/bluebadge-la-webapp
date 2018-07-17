@@ -41,7 +41,6 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
-    sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
 
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");

@@ -57,12 +57,12 @@
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt">Contact full name</dt>
-                    <dd class="dft-data-list__dd" th:text="${data.contactNumber}"/>
+                    <dd class="dft-data-list__dd" th:with="ref=${data.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt">Contact number</dt>
-                    <dd class="dft-data-list__dd" th:text="${data.contactFullName}"/>
+                    <dd class="dft-data-list__dd" th:text="${data.contactNumber}"/>
                 </div>
 
                 <div class="dft-data-list__item">
