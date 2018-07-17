@@ -94,13 +94,19 @@
                       th:data-uipath="'eligibility.error'"
                       th:id="eligibility-hint"
                       th:if="${#fields.hasErrors('eligibility')}"
-                      th:errors="*{eligibility}" />
+                      th:errors="*{eligibility}"></span>
 
                     <div class="govuk-form-group">
                         <label class="govuk-label" for="eligibility" data-uipath="eligibility.label">Select from list</label>
                         <select class="govuk-select" id="eligibility" th:field="*{eligibility}" data-uipath="eligibility">
                             <option value="">Select one</option>
-                            <optgroup label="Automatic">
+
+                            <optgroup th:label="${group.key}" th:each="group: ${eligibilities}">
+                                // description? code fires error. is code sent?
+                                <option th:value="${option.description}" th:each="option: ${group.value}" th:text="${option.description}" />
+                            </optgroup>
+
+                            <!-- <optgroup label="Automatic">
                                 <option value="PIP" >PIP</option>
                                 <option value="DLA" >DLA</option>
                                 <option value="AFRFCS" >Armed Forces Compensation scheme</option>
@@ -114,7 +120,7 @@
                                 <option value="CHILDVEHIC" >Child under 3 who needs to be near a vehicle</option>
                                 <option value="TERMILL" >Terminal illness</option>
                                 <option value="ORG" >Organisation</option>
-                            </optgroup>
+                            </optgroup> -->
 
                             <!--<option th:each="eligibility : ${eligibilities}" th:value="${eligibility.value}" th:text="${eligibility.label}"></option>-->
                         </select>

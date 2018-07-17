@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.service.referencedata;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -34,7 +33,7 @@ public class ReferenceDataService {
       groupedReferenceData =
           referenceDataList
               .stream()
-              .collect(Collectors.toMap(ReferenceData::getGroupShortCode, Arrays::asList));
+              .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
     }
   }
 
