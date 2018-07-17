@@ -1,11 +1,31 @@
-bbb:
-  auth-server-url: http://localhost:8380/bbb_auth
+blue-badge:
+  auth-server:
+    url: http://localhost:8380/bbb_auth
+    client-id: bbb_la_web_app_id
+     ***REMOVED***
+  usermanagementservice:
+    servicehost:
+      host: localhost
+      port: 8180
+      scheme: http
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/user-management-service/1.0.0
+  badgemanagementservice:
+    servicehost:
+      host: localhost
+      port: 8280
+      scheme: http
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/badge-management-service/1.0.0
 
 logging:
   level:
     root: ${APP_LOGGING_LEVEL:-INFO}
     sample.mybatis.mapper: WARN
     uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:-DEBUG}
+    org.springframework.security: DEBUG
 
 management:
   server:
@@ -31,32 +51,14 @@ server:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
 
-usermanagementservice:
-  servicehost:
-    host: localhost
-    port: 8180
-    scheme: http
-    connectiontimeout: 6000
-    requesttimeout: 6000
-    contextpath: /uk-gov-dft/user-management-service/1.0.0
-
-badgemanagementservice:
-  servicehost:
-    host: localhost
-    port: 8280
-    scheme: http
-    connectiontimeout: 6000
-    requesttimeout: 6000
-    contextpath: /uk-gov-dft/badge-management-service/1.0.0
-
 security:
   oauth2:
     client:
-      client-id: bbb_test_web_app_id
+      client-id: ${blue-badge.auth-server.client-id}
        ***REMOVED***
-      access-token-uri: ${bbb.auth-server-url}/oauth/token
-      user-authorization-uri: ${bbb.auth-server-url}/oauth/authorize
+      access-token-uri: ${blue-badge.auth-server.url}/oauth/token
+      user-authorization-uri: ${blue-badge.auth-server.url}/oauth/authorize
       # All scopes approve, else user redirect to auth server to approve the protected resource
       auto-approve-scopes: '.*'
     resource:
-      user-info-uri: ${bbb.auth-server-url}/me
+      user-info-uri: ${blue-badge.auth-server.url}/me
