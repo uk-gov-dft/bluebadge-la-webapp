@@ -23,7 +23,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 @Controller
 public class FindBadgeController {
 
-  public static final String URL = "/find-a-badge";
+  public static final String URL_FIND_BADGE = "/find-a-badge";
 
   private static final String TEMPLATE = "find-a-badge/index";
 
@@ -40,12 +40,12 @@ public class FindBadgeController {
     this.converterToViewModel = converterToViewModel;
   }
 
-  @GetMapping(URL)
+  @GetMapping(URL_FIND_BADGE)
   public String show(@ModelAttribute("formRequest") FindBadgeFormRequest formRequest) {
     return TEMPLATE;
   }
 
-  @PostMapping(URL)
+  @PostMapping(URL_FIND_BADGE)
   public String submit(
       @Valid @ModelAttribute("formRequest") FindBadgeFormRequest formRequest,
       BindingResult bindingResult,
