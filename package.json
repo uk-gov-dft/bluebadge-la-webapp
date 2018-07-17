@@ -6,17 +6,18 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "dev": "gulp --env=development",
-    "prod": "gulp --env=production",
-    "start": "npm run dev"
+    "dev": "gulp -env=dev",
+    "prod": "gulp -env=prod",
+    "start": "npm run prod"
   },
   "dependencies": {
-    "@govuk-frontend/frontend": "0.0.29-alpha"
+    "govuk-frontend": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
+    "del": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -31,6 +32,7 @@
     "gulp-sass-lint": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
+    "html5shiv": "^3.7.3",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "8.3.0",
     "rollup-plugin-node-resolve": "^3.3.0",

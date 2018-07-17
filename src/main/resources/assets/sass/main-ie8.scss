@@ -1,0 +1,7 @@
+// ---------------------------------------------
+// Set legacy IE8 variables to generate IE8 specific stylesheet
+
+$govuk-is-ie8: true;
+$govuk-ie8-breakpoint: wide;
+
+@import "main";

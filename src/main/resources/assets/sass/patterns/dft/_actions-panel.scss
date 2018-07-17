@@ -1,0 +1,24 @@
+.dft-actions-panel {
+	padding: 20px;
+	margin-bottom: 30px;
+	background-color: govuk-colour("grey-4");
+
+	.govuk-button {
+		margin: 0;
+	}
+
+	&__cta-area {
+		@include govuk-media-query(tablet) {
+			margin: 0;
+			float: right;
+		}
+
+		margin-top: 10px;
+	}
+
+	&__content {
+		@include govuk-media-query(tablet) {
+			float: left;
+		}
+	}
+}

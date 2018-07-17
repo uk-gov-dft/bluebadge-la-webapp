@@ -1,0 +1,76 @@
+.dft-topbar {
+	$this: &;
+	color: $dft-white;
+	background-color: govuk-colour("black");
+
+	a {
+		color: $dft-white;
+	}
+
+	&__container {
+		@include govuk-clearfix;
+		display: block;
+		clear: both;
+		padding: 22px 15px 17px;
+
+		@include govuk-media-query($from: tablet) {
+			padding: 20px 15px 15px;
+		}
+
+		@include govuk-media-query($from: desktop) {
+			padding: 20px 30px 15px;
+		}
+	}
+
+	&__proposition {
+		float: left;
+	}
+
+	&__title {
+		@include govuk-font(19, regular);
+		display: none;
+
+		@include govuk-media-query($from: tablet) {
+			display: inline-block;
+		}
+	}
+
+	&__title-link {
+		@include govuk-font(19, bold);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		@include govuk-media-query($from: tablet) {
+			margin-right: 5px;
+		}
+	}
+
+	&__menu {
+		@include govuk-clearfix;
+		@include govuk-font(16, regular);
+		float: right;
+		margin-top: 2px;
+	}
+
+	&__username {
+		display: none;
+		float: left;
+
+		@include govuk-media-query($from: tablet) {
+			display: inline-block;
+		}
+	}
+
+	&__signout {
+		float: left;
+		display: block;
+		margin-left: 5px;
+
+		@include govuk-media-query($from: tablet) {
+			margin-left: 10px;
+		}
+	}
+}
