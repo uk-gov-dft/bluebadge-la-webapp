@@ -35,16 +35,16 @@ public class ReferenceDataApiClient {
   public List<ReferenceData> retrieveReferenceData(RefDataDomainEnum referenceDataDomain) {
     log.debug("Loading reference data.");
 
-    ReferenceDataResponse response =
+      ReferenceDataResponse response =
         restTemplateFactory
-            .getInstance()
-            .getForEntity(
-                referencedataManagementApiConfig
-                    .getUriComponentsBuilder("reference-data", referenceDataDomain.getDomain())
-                    .toUriString(),
-                ReferenceDataResponse.class)
-            .getBody();
+          .getInstance()
+          .getForEntity(
+            referencedataManagementApiConfig
+              .getUriComponentsBuilder("reference-data", referenceDataDomain.getDomain())
+              .toUriString(),
+            ReferenceDataResponse.class)
+          .getBody();
 
-    return response.getData();
+      return response.getData();
   }
 }

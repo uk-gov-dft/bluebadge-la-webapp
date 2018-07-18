@@ -1,17 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +19,18 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
 public class BadgeManagementApiClientTest {
 
   private static final String SCHEME = "http";
@@ -39,9 +40,10 @@ public class BadgeManagementApiClientTest {
   private static final String API = "badges";
 
   private static final String BASE_ENDPOINT =
-      String.format("%s://%s:%d/%s/%s", SCHEME, HOST, PORT, CONTEXT, API);
+    String.format("%s://%s:%d/%s/%s", SCHEME, HOST, PORT, CONTEXT, API);
 
-  @Mock private RestTemplateFactory mockRestTemplateFactory;
+  @Mock
+  private RestTemplateFactory mockRestTemplateFactory;
 
   private BadgeManagementApiClient client;
 
@@ -67,9 +69,9 @@ public class BadgeManagementApiClientTest {
     BadgeNumbersResponse badgeNumbersResponse = new BadgeNumbersResponse().data(badgeNumbers);
     String badgeNumbersResponseBody = objectMapper.writeValueAsString(badgeNumbersResponse);
     mockServer
-        .expect(once(), requestTo(BASE_ENDPOINT))
-        .andExpect(method(HttpMethod.POST))
-        .andRespond(withSuccess(badgeNumbersResponseBody, MediaType.APPLICATION_JSON));
+      .expect(once(), requestTo(BASE_ENDPOINT))
+      .andExpect(method(HttpMethod.POST))
+      .andRespond(withSuccess(badgeNumbersResponseBody, MediaType.APPLICATION_JSON));
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     List<String> result = client.orderBlueBadges(badgeOrderRequest);
     assertThat(result).containsExactlyElementsOf(badgeNumbers);
@@ -80,11 +82,11 @@ public class BadgeManagementApiClientTest {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
-        .expect(once(), requestTo(BASE_ENDPOINT))
-        .andExpect(method(HttpMethod.POST))
-        .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString()))
-        .andRespond(
-            withBadRequest().body(commonResponseBody).contentType(MediaType.APPLICATION_JSON));
+      .expect(once(), requestTo(BASE_ENDPOINT))
+      .andExpect(method(HttpMethod.POST))
+      .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString()))
+      .andRespond(
+        withBadRequest().body(commonResponseBody).contentType(MediaType.APPLICATION_JSON));
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     client.orderBlueBadges(badgeOrderRequest);
   }
@@ -94,10 +96,10 @@ public class BadgeManagementApiClientTest {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
-        .expect(once(), requestTo(BASE_ENDPOINT))
-        .andExpect(method(HttpMethod.POST))
-        .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString()))
-        .andRespond(withServerError());
+      .expect(once(), requestTo(BASE_ENDPOINT))
+      .andExpect(method(HttpMethod.POST))
+      .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString()))
+      .andRespond(withServerError());
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     client.orderBlueBadges(badgeOrderRequest);
   }
