@@ -15,7 +15,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Password;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
@@ -32,7 +31,6 @@ public class UserManagementApiClient extends BaseApiClient {
         "/users?name={name}&authorityId={authorityId}";
     static final String UPDATE_ENDPOINT = "/users/{userId}";
     static final String DELETE_ENDPOINT = "/users/{userId}";
-    static final String UPDATE_P_ENDPOINT = "/user/password/{uuid}";
     static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{userId}/passwordReset";
   }
 
@@ -126,26 +124,5 @@ public class UserManagementApiClient extends BaseApiClient {
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
-  }
-
-  public User updatePassword(String uuid, String password, String passwordConfirm) {
-    Assert.notNull(uuid, "updatePassword - uuid must be provided");
-    // Do NOT assert password not null.  Rely on API to return correct error message.
-
-    String uri = UPDATE_P_ENDPOINT;
-    Password passwords = new Password();
-    passwords.setPassword(password);
-    passwords.setPasswordConfirm(passwordConfirm);
-
-    HttpEntity<Password> requestBody = new HttpEntity<>(passwords);
-
-    try {
-      return Objects.requireNonNull(
-              this.restTemplate.patchForObject(uri, requestBody, UserResponse.class, uuid))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
   }
 }

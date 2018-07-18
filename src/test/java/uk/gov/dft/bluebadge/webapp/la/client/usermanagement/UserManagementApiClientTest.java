@@ -142,22 +142,4 @@ public class UserManagementApiClientTest {
     userManagementApiClient.requestPasswordReset(756);
     mockServer.verify();
   }
-
-  @Test
-  public void updatePassword() throws Exception {
-    String uuid = "test_uuid";
-    UserResponse userResponse = new UserResponse();
-    User data = new User();
-    data.setId(555);
-    userResponse.setData(data);
-    mockServer
-        .expect(once(), requestTo(TEST_URI + "/user/password/" + uuid))
-        .andExpect(method(HttpMethod.PATCH))
-        .andExpect(jsonPath(" ***REMOVED***)))
-        .andExpect(jsonPath(" ***REMOVED***)))
-        .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
-
-    userManagementApiClient.updatePassword(uuid, "pass1", "pass2");
-    mockServer.verify();
-  }
 }

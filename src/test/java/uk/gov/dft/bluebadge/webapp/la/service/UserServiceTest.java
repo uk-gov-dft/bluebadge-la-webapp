@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 
@@ -19,6 +20,7 @@ public class UserServiceTest {
   private static final String PASSWORD = "password";
 
   @Mock private UserManagementApiClient userManagementServiceMock;
+  @Mock private SetPasswordApiClient setPasswordApiClientMock;
 
   private UserService userService;
 
@@ -28,7 +30,7 @@ public class UserServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    userService = new UserService(userManagementServiceMock);
+    userService = new UserService(userManagementServiceMock, setPasswordApiClientMock);
   }
 
   @Test
