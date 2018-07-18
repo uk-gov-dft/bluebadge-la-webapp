@@ -8,6 +8,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 @Slf4j
 @Service
@@ -31,7 +32,7 @@ public class ReferenceDataApiClient {
    *
    * @return List of reference data items.
    */
-  public List<ReferenceData> retrieveReferenceData() {
+  public List<ReferenceData> retrieveReferenceData(RefDataDomainEnum referenceDataDomain) {
     log.debug("Loading reference data.");
 
     ReferenceDataResponse response =
@@ -39,7 +40,7 @@ public class ReferenceDataApiClient {
             .getInstance()
             .getForEntity(
                 referencedataManagementApiConfig
-                    .getUriComponentsBuilder("reference-data", REFERENCE_DATA_DOMAIN_BADGE)
+                    .getUriComponentsBuilder("reference-data", referenceDataDomain.getDomain())
                     .toUriString(),
                 ReferenceDataResponse.class)
             .getBody();

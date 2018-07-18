@@ -12,8 +12,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 @Service
 public class ReferenceDataService {
 
-  public static final String REFERENCE_DATA_ELIGIBILIT = "ELIGIBILIT";
-  public static final String REFERENCE_DATA_GENDER = "GENDER";
   private Map<String, List<ReferenceData>> groupedReferenceData = null;
   private final ReferenceDataApiClient referenceDataApiClient;
   private AtomicBoolean isLoaded = new AtomicBoolean();
@@ -29,7 +27,8 @@ public class ReferenceDataService {
    */
   private void init() {
     if (!isLoaded.getAndSet(true)) {
-      List<ReferenceData> referenceDataList = referenceDataApiClient.retrieveReferenceData();
+      List<ReferenceData> referenceDataList =
+          referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
       groupedReferenceData =
           referenceDataList
               .stream()
@@ -39,11 +38,11 @@ public class ReferenceDataService {
 
   public List<ReferenceData> retrieveEligilities() {
     if (!isLoaded.get()) init();
-    return groupedReferenceData.get(REFERENCE_DATA_ELIGIBILIT);
+    return groupedReferenceData.get(RefDataGroupEnum.ELIGIBILITY.getGroupKey());
   }
 
   public List<ReferenceData> retrieveGender() {
     if (!isLoaded.get()) init();
-    return groupedReferenceData.get(REFERENCE_DATA_GENDER);
+    return groupedReferenceData.get(RefDataGroupEnum.GENDER.getGroupKey());
   }
 }
