@@ -10,69 +10,62 @@
 
 <main layout:fragment="content">
 
-    <div class="dft-grid-row">
-        <div class="dft-grid-col dft-grid-col--two-thirds">
+    <section class="dft-content-container--full">
+        <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
 
-            <div class="dft-group-heading">
-                <!--<p class="dft-sub-heading" data-uipath="step">Step 2</p>-->
-                <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
+        <div class="dft-width-two-thirds">
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
+        </div>
+
+        <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
+
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Gender', 'gender', null, ${genderOptions}) }"/>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
             </div>
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
-        </div>
-    </div>
+            <hr class="dft-hr dft-hr--small">
 
-    <div class="dft-grid-row">
-        <div class="dft-grid-col">
-            <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
-
+            <fieldset class="govuk-fieldset fieldset-with-inputs">
+                <legend>
+                    <h2 class="govuk-heading-m" data-uipath="addressTitle">Address</h2>
+                </legend>
                 <div class="dft-width-one-half">
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
-
-                    <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Gender', 'gender', null, ${genderOptions}) }"/>
-
-                    <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Building and street', 'buildingAndStreet', null, 'text') }"/>
+                    <div class="dft-u-label--visually-hidden"
+                         th:insert="~{ fragments/form-elements :: govuk-input('Address line 2', 'optionalAddressField', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Town or city', 'townOrCity', null, 'text') }"/>
                 </div>
 
-                <hr class="dft-hr dft-hr--small">
-
-                <fieldset class="govuk-fieldset fieldset-with-inputs">
-                    <legend>
-                        <h2 class="govuk-heading-m" data-uipath="addressTitle">Address</h2>
-                    </legend>
-                    <div class="dft-width-one-half">
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Building and street', 'buildingAndStreet', null, 'text') }"/>
-                        <div class="dft-u-label--visually-hidden" th:insert="~{ fragments/form-elements :: govuk-input('Address line 2', 'optionalAddressField', null, 'text') }"/>
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Town or city', 'townOrCity', null, 'text') }"/>
-                    </div>
-
-                    <div class="dft-width-one-quarter">
-                        <div th:replace="~{ fragments/form-elements :: govuk-input('Postcode', 'postcode', null, 'text') }"/>
-                    </div>
-                </fieldset>
-
-                <hr class="dft-hr dft-hr--small">
-                <h2 class="govuk-heading-m" data-uipath="contactTitle">Contact details</h2>
-
-                <div class="dft-width-one-half">
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name (optional)', 'contactDetailsName', 'This should be the name of the main point of contact', 'text') }"/>
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Contact number', 'contactDetailsContactNumber', null, 'text') }"/>
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
+                <div class="dft-width-one-quarter">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Postcode', 'postcode', null, 'text') }"/>
                 </div>
+            </fieldset>
 
-                <hr class="dft-hr dft-hr--small">
-                <h2 class="govuk-heading-m" data-uipath="eligibilityTitle">Eligibility</h2>
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="contactTitle">Contact details</h2>
 
-                <div class="dft-width-one-half">
-                    <div th:replace="~{ fragments/govuk-select :: govuk-select('Select from list', 'eligibility', null, ${eligibilityOptions}) }"/>
-                </div>
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name (optional)', 'contactDetailsName', 'This should be the name of the main point of contact', 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Contact number', 'contactDetailsContactNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
+            </div>
 
-                <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="eligibilityTitle">Eligibility</h2>
 
-            </form>
-        </div>
-    </div>
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/govuk-select :: govuk-select('Select from list', 'eligibility', null, ${eligibilityOptions}) }"/>
+            </div>
+
+            <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+
+        </form>
+    </section>
 </main>
 
 </body>
