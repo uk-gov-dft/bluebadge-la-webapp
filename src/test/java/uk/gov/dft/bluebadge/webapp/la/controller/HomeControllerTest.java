@@ -14,6 +14,8 @@ public class HomeControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
+
+  @SuppressWarnings("squid:S2068")
   private static final String PASSWORD = "password";
 
   private MockMvc mockMvc;
