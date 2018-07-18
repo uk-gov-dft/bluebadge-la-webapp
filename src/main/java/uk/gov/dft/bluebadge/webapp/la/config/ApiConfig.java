@@ -19,4 +19,10 @@ public class ApiConfig {
   public ServiceConfiguration userManagementApiConfig() {
     return new ServiceConfiguration();
   }
+
+  @ConfigurationProperties("referencedataservice.servicehost")
+  @Bean
+  public ServiceConfiguration referencedataManagementApiConfig() {
+    return new ServiceConfiguration();
+  }
 }

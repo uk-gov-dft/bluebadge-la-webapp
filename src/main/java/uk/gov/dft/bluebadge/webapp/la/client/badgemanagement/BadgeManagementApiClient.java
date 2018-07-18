@@ -22,13 +22,13 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private static final String ORDER_BADGES_ENDPOINT = "/" + BADGES_BASE_ENDPOINT;
 
   private RestTemplateFactory restTemplateFactory;
-  private ServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration badgeManagementApiConfig;
 
   @Autowired
   public BadgeManagementApiClient(
       RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
     this.restTemplateFactory = restTemplateFactory;
-    this.serviceConfiguration = badgeManagementApiConfig;
+    this.badgeManagementApiConfig = badgeManagementApiConfig;
   }
 
   public List<String> orderBlueBadges(BadgeOrderRequest badgeOrder) {
@@ -41,7 +41,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
               restTemplateFactory
                   .getInstance()
                   .postForObject(
-                      serviceConfiguration.getUrlPrefix() + ORDER_BADGES_ENDPOINT,
+                      badgeManagementApiConfig.getUrlPrefix() + ORDER_BADGES_ENDPOINT,
                       request,
                       BadgeNumbersResponse.class))
           .getData();

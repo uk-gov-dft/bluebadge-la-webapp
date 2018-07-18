@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 
@@ -13,14 +14,15 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 public class ReferenceDataApiClient {
 
   public static final String REFERENCE_DATA_DOMAIN_BADGE = "BADGE";
-  private final ReferenceDataServiceConfiguration messageServiceConfiguration;
+
+  private final ServiceConfiguration referencedataManagementApiConfig;
   private final RestTemplateFactory restTemplateFactory;
 
   @Autowired
   public ReferenceDataApiClient(
-      ReferenceDataServiceConfiguration serviceConfiguration,
+      ServiceConfiguration referencedataManagementApiConfig,
       RestTemplateFactory restTemplateFactory) {
-    this.messageServiceConfiguration = serviceConfiguration;
+    this.referencedataManagementApiConfig = referencedataManagementApiConfig;
     this.restTemplateFactory = restTemplateFactory;
   }
 
@@ -36,7 +38,7 @@ public class ReferenceDataApiClient {
         restTemplateFactory
             .getInstance()
             .getForEntity(
-                messageServiceConfiguration
+                referencedataManagementApiConfig
                     .getUriComponentsBuilder("reference-data", REFERENCE_DATA_DOMAIN_BADGE)
                     .toUriString(),
                 ReferenceDataResponse.class)

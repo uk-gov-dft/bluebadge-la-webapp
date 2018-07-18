@@ -27,4 +27,13 @@ public class ServiceConfiguration {
         .build()
         .toUriString();
   }
+
+  public UriComponentsBuilder getUriComponentsBuilder(String... pathSegments) {
+    return UriComponentsBuilder.newInstance()
+        .scheme(scheme)
+        .host(host)
+        .port(port)
+        .path(contextpath)
+        .pathSegment(pathSegments);
+  }
 }
