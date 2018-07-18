@@ -1,13 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.groovy.util.ListHashMap;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,28 +73,20 @@ public class OrderBadgePersonDetailsController {
     return REDIRECT_ORDER_A_BADGE_PROCESSING;
   }
 
-  @ModelAttribute("eligibilities")
+  @ModelAttribute("genderOptions")
+  public List<ReferenceData> genderOptions() {
+    return referenceDataService.retrieveGender();
+  }
+
+  @ModelAttribute("eligibilityOptions")
   public Map<String, List<ReferenceData>> eligibilities() {
-    List<ReferenceData> eligilities = referenceDataService.retrieveEligilities();
-    Map<String, List<ReferenceData>> newElg = new ListHashMap<>();
-    List<ReferenceData> auto = new ArrayList<ReferenceData>();
-    List<ReferenceData> fur = new ArrayList<ReferenceData>();
-
-    eligilities.forEach(
-        e -> {
-          if (e.getSubgroupShortCode().equals("ELIG_AUTO")) {
-            auto.add(e);
-          } else {
-            fur.add(e);
-          }
-        });
-
-    newElg.put("Further", fur);
-    newElg.put("Automatic", auto);
-
-    return newElg;
-
-    /*return referenceDataService.retrieveEligilities().stream()
-    .collect(Collectors.groupingBy(ReferenceData::getSubgroupShortCode));*/
+    return new TreeMap<>(
+        referenceDataService
+            .retrieveEligilities()
+            .stream()
+            .collect(
+                Collectors.groupingBy(
+                    ref ->
+                        "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
   }
 }

@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.3"
     }
 }
 
