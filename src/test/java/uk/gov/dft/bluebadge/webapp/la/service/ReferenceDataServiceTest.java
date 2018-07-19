@@ -1,6 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import com.google.common.collect.Lists;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,15 +15,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
 public class ReferenceDataServiceTest {
 
-  @Mock
-  private ReferenceDataApiClient referenceDataManagementApiClientMock;
+  @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
 
   private ReferenceDataService referenceDataService;
 
@@ -41,9 +39,10 @@ public class ReferenceDataServiceTest {
     referenceData2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 2);
     referenceData3 = buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3);
     referenceData4 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
-    referenceData = Lists.newArrayList(referenceData1, referenceData2, referenceData3, referenceData4);
-    when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE)).thenReturn(referenceData);
-
+    referenceData =
+        Lists.newArrayList(referenceData1, referenceData2, referenceData3, referenceData4);
+    when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
+        .thenReturn(referenceData);
   }
 
   @Test
@@ -58,9 +57,14 @@ public class ReferenceDataServiceTest {
     assertThat(gender).containsExactlyInAnyOrder(referenceData2, referenceData4);
   }
 
-
   private ReferenceData buildReferenceData(String groupShortCode, int i) {
-    return new ReferenceData().description("description" + 1).displayOrder(i).groupDescription("groupDescription" + i).groupShortCode(groupShortCode)
-      .shortCode("shortCode" + i).subgroupDescription("subGroupDescription" + i).subgroupShortCode("subGroupShortCode" + i);
+    return new ReferenceData()
+        .description("description" + 1)
+        .displayOrder(i)
+        .groupDescription("groupDescription" + i)
+        .groupShortCode(groupShortCode)
+        .shortCode("shortCode" + i)
+        .subgroupDescription("subGroupDescription" + i)
+        .subgroupShortCode("subGroupShortCode" + i);
   }
 }

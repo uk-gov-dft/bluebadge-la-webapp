@@ -94,10 +94,10 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
 
     return UriComponentsBuilder.newInstance()
-        .host(serviceConfiguration.getHost())
-        .scheme(serviceConfiguration.getScheme())
-        .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextpath())
+        .host(badgeManagementApiConfig.getHost())
+        .scheme(badgeManagementApiConfig.getScheme())
+        .port(badgeManagementApiConfig.getPort())
+        .path(badgeManagementApiConfig.getContextpath())
         .pathSegment(apiEndpoint);
   }
 }
