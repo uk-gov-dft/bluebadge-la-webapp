@@ -27,7 +27,7 @@ Feature: Dft BlueBadge LA Manage User
     When I can click on the "Create a new user" button
     When I type " " for "name" field
     And I type "test@dft.gov.uk" for "emailAddress" field
-    And I can click on the "Create user" button on manage user page
+    And I can click "createUserButton" button
     Then I should see the validation message for "invalid name" as "Enter a valid name"
 
   Scenario: Verify Find user by email address

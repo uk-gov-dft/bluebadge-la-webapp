@@ -74,7 +74,6 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String BADGE_EXPIRY_DATE_MONTH_FIELD = "badgeExpiryDateMonth";
   protected static final String BADGE_EXPIRY_DATE_YEAR_FIELD = "badgeExpiryDateYear";
   protected static final String BADGE_EXPIRY_DATE_VALID_FIELD = "badgeExpiryDateValid";
-
   protected static final String DELIVER_TO_FIELD = "deliverTo";
   protected static final String DELIVERY_OPTIONS_FIELD = "deliveryOptions";
 

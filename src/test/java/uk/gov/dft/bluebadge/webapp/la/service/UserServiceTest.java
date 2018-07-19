@@ -19,6 +19,8 @@ public class UserServiceTest {
   private static final String EMAIL_ADDRESS = "email@email.com";
   private static final String NAME = "My name";
   private static final String UUID = "uuid";
+
+  @SuppressWarnings("squid:S2068")
   private static final String PASSWORD = "lckxjvlkv";
 
   @Mock private UserManagementApiClient userManagementServiceMock;
