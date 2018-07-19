@@ -20,6 +20,20 @@ public abstract class BaseDateValidatorTest {
   }
 
   @Test
+  public void isValid_shouldReturnTrue_WhenValueIsNull() {
+    String value = null;
+    Boolean result = validator.isValid(value, context);
+    assertTrue(value + " should be valid (true)", result);
+  }
+
+  @Test
+  public void isValid_shouldReturnTrue_WhenValueIsIncomplete() {
+    String value = "null/1/2000";
+    Boolean result = validator.isValid(value, context);
+    assertFalse(value + " should be invalid (false)", result);
+  }
+
+  @Test
   public void isValid_shouldReturnFalse_WhenWrongDayOfFebruary() {
     String value = "29/2/1900";
     Boolean result = validator.isValid(value, context);

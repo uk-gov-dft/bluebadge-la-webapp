@@ -18,7 +18,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.CreateANewUserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 

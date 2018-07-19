@@ -1,7 +1,10 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import java.time.LocalDate;
 import org.openqa.selenium.support.ui.Select;
@@ -20,6 +23,8 @@ public class OrderABadgeSiteSteps {
   protected PostCodeGenerator pcg = new PostCodeGenerator();
 
   @Autowired protected SitePage sitePage;
+
+  @Autowired protected ScenarioContext scenarioContext;
 
   @When("^I enter all the mandatory valid personal details to order a badge$")
   public void iEnterAllTheValidPersonalDetailsToOrderABadge() throws Throwable {
@@ -60,5 +65,14 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("badgeExpiryDateValid.year.field").sendKeys("2028");
     sitePage.findPageElementById("badgeHolder").click();
     sitePage.findPageElementById("standard").click();
+  }
+
+  @And("^I should see a badge number on badge ordered page$")
+  public void iShouldSeeABadgeNumberOnBadgeOrderedPage() {
+    String badgeNumber = sitePage.findElementWithUiPath("badge.ordered.num").getText();
+    assertNotNull(badgeNumber);
+    assertNotEquals("", badgeNumber);
+    log.debug("Badge number of the badge ordered is: [()]", badgeNumber);
+    scenarioContext.setContext("badgeNumber", badgeNumber);
   }
 }
