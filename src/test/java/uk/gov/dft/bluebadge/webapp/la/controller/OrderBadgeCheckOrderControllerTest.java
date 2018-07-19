@@ -71,6 +71,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
             .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
             .eligibility(ELIGIBILITY)
             .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+            .contactFullName(CONTACT_DETAILS_NAME)
             .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
             .dob(VIEW_MODEL_DOB)
             .fullName(NAME)

@@ -29,7 +29,6 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   private MockMvc mockMvc;
 
   @Mock private ReferenceDataService referenceDataServiceMock;
-  @Mock private SecurityUtils securityUtilsMock;
 
   private OrderBadgePersonDetailsController controller;
 
