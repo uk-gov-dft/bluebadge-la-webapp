@@ -79,24 +79,24 @@
 
             <div class="govuk-date-input" th:id="${date}">
 
-                <div class="govuk-date-input__item govuk-date-input__item--day" th:if="${day}">
+                <div class="govuk-date-input__item">
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.day.label'" th:attr="for=${day}">Day</label>
-                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.day.field'" th:field="*{__${day}__}" type="text" pattern="[0-9]*">
+                        <input class="govuk-input govuk-date-input__item" th:data-uipath="${date} + '.day.field'" th:field="*{__${day}__}" type="text" pattern="[0-9]*">
                     </div>
                 </div>
 
-                <div class="govuk-date-input__item govuk-date-input__item--month" th:if="${month}">
+                <div class="govuk-date-input__item" th:if="${month}">
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.month.label'" th:attr="for=${month}">Month</label>
-                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.month.field'"  th:field="*{__${month}__}" type="text" pattern="[0-9]*">
+                        <input class="govuk-input govuk-date-input__item" th:data-uipath="${date} + '.month.field'"  th:field="*{__${month}__}" type="text" pattern="[0-9]*">
                     </div>
                 </div>
 
-                <div class="govuk-date-input__item govuk-date-input__item--year" th:if="${year}">
+                <div class="govuk-date-input__item" th:if="${year}">
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" th:data-uipath="${date} + '.year.label'" th:attr="for=${year}">Year</label>
-                        <input class="govuk-input govuk-date-input__input" th:data-uipath="${date} + '.year.field'" th:field="*{__${year}__}" type="text" pattern="[0-9]*">
+                        <input class="govuk-input govuk-date-input__item--year" th:data-uipath="${date} + '.year.field'" th:field="*{__${year}__}" type="text" pattern="[0-9]*">
                     </div>
                 </div>
 
