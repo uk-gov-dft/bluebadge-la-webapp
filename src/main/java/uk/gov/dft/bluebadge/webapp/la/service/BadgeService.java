@@ -1,11 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 
 @Service
 public class BadgeService {
@@ -26,5 +29,17 @@ public class BadgeService {
     Assert.notEmpty(badgeNumbers, "badgeNumbers should not be empty");
 
     return badgeNumbers.get(0);
+  }
+
+  public Optional<Badge> retrieve(String badgeNumber) {
+    if (badgeNumber == null || badgeNumber.isEmpty()) {
+      return Optional.empty();
+    } else {
+      try {
+        return Optional.of(badgeManagementApiClient.retrieveBadge(badgeNumber));
+      } catch (NotFoundException ex) {
+        return Optional.empty();
+      }
+    }
   }
 }

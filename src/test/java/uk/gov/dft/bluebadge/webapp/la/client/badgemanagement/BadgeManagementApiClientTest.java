@@ -1,5 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -13,8 +24,10 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
@@ -42,8 +55,14 @@ public class BadgeManagementApiClientTest {
   private static final String BASE_ENDPOINT =
     String.format("%s://%s:%d/%s/%s", SCHEME, HOST, PORT, CONTEXT, API);
 
-  @Mock
-  private RestTemplateFactory mockRestTemplateFactory;
+  private static final String BADGE_NUMBER = "12345";
+  private static final Badge BADGE =
+      new Badge()
+          .badgeNumber(BADGE_NUMBER)
+          .eligibilityCode("PIP")
+          .localAuthorityRef("localAuthorityRef");
+
+  @Mock private RestTemplateFactory mockRestTemplateFactory;
 
   private BadgeManagementApiClient client;
 
@@ -64,7 +83,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void orderBlueBadges_shouldReturnBlueBadgeNumber_whenValidInput() throws Exception {
+  public void orderBlueBadges_ShouldReturnBlueBadgeNumber_WhenValidInput() throws Exception {
     List<String> badgeNumbers = Lists.newArrayList("123");
     BadgeNumbersResponse badgeNumbersResponse = new BadgeNumbersResponse().data(badgeNumbers);
     String badgeNumbersResponseBody = objectMapper.writeValueAsString(badgeNumbersResponse);
@@ -78,7 +97,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test(expected = BadRequestException.class)
-  public void orderBlueBadges_shouldThrowBadRequestException_whenInvalidInput() throws Exception {
+  public void orderBlueBadges_ShouldThrowBadRequestException_WhenInvalidInput() throws Exception {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
@@ -92,7 +111,7 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test(expected = HttpServerErrorException.class)
-  public void orderBlueBadges_shouldThrowException_when500() throws Exception {
+  public void orderBlueBadges_ShouldThrowException_When500() throws Exception {
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
     mockServer
@@ -102,6 +121,34 @@ public class BadgeManagementApiClientTest {
       .andRespond(withServerError());
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     client.orderBlueBadges(badgeOrderRequest);
+  }
+
+  @Test
+  public void retrieveBadge_ShouldRetrieveTheSpecifiedBadge() throws JsonProcessingException {
+    BadgeResponse badgeResponse = new BadgeResponse().data(BADGE);
+
+    String body = objectMapper.writeValueAsString(badgeResponse);
+
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + "/" + BADGE_NUMBER))
+        .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
+    Badge retrievedBadge = client.retrieveBadge(BADGE_NUMBER);
+    assertThat(retrievedBadge).isEqualTo(BADGE);
+  }
+
+  @Test
+  public void retrieveBadge_ShouldThrowException_When404() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+
+    try {
+      mockServer
+          .expect(once(), requestTo(BASE_ENDPOINT + "/" + BADGE_NUMBER))
+          .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+      client.retrieveBadge(BADGE_NUMBER);
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
   }
 
   private ServiceConfiguration buildServiceConfiguration() {

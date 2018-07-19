@@ -52,6 +52,7 @@ Feature: Dft BlueBadge LA Order a Badge
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
     Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
+    And I should see a badge number on badge ordered page
 
   Scenario: Clicking back buttons should go back to the previous step with the form prepopulated with the previous data
     Given I navigate to the "home" page
