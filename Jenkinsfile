@@ -18,7 +18,7 @@ node {
 
     stage ('Gradle build') {
         try {
-            sh 'npm install && gulp'
+            sh 'source /etc/profile && npm install -g gulp && npm install && gulp'
             sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
         }
         finally {
