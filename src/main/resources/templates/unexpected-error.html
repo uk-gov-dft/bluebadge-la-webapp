@@ -9,9 +9,9 @@
 <body>
 
     <div layout:fragment="content">
-    There was an error. Please try again later.
-        <span th:text="'Message: ' + ${errorMessage}"></span>
-
+        <p>There was an error. Please try again later.</p>
+        <p th:text="'Message: ' + ${errorMessage}"></p>
+        <p th:text="'Exception Message: ' + ${exceptionMessage}"></p>
     </div>
 
 

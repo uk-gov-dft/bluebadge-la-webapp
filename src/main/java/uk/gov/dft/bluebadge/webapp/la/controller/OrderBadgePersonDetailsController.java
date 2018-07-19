@@ -26,7 +26,7 @@ public class OrderBadgePersonDetailsController {
   public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-details";
   private static final String TEMPLATE = "order-a-badge/details";
 
-  private static final String REDIRECT_ORDER_A_BADGE_PROCESSING =
+  private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
   private static final String FORM_ACTION_RESET = "reset";
@@ -67,7 +67,7 @@ public class OrderBadgePersonDetailsController {
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
-    return REDIRECT_ORDER_A_BADGE_PROCESSING;
+    return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 
   @ModelAttribute("eligibilities")
