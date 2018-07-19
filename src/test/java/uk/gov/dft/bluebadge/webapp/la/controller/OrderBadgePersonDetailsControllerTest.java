@@ -50,6 +50,16 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   }
 
   @Test
+  public void show_shouldDisplayOrderABadgePersonDetailsTemplate_AndPopulateEligibiltiesAndGenderFieldsFromReferenceDataService() throws Exception {
+    mockMvc
+            .perform(get("/order-a-badge/details"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("order-a-badge/details"))
+            .andExpect(model().attribute("eligibilityOptions", null))
+            .andExpect(model().attribute("genderOptions", null));
+  }
+
+  @Test
   public void
       show_shouldDisplayOrderABadgeDetailsTemplateWithValuesCommingFromSession_WhenTheFormWasSavedToSessionBefore()
           throws Exception {
