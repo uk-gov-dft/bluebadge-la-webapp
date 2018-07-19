@@ -11,7 +11,7 @@
     "start": "npm run prod"
   },
   "dependencies": {
-    "govuk-frontend": "^1.0.0"
+    "govuk-frontend": "1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
