@@ -19,11 +19,13 @@
 
          <input th:id="${name} + '.' + ${option.shortCode}"
                 class="govuk-radios__input"
+                th:data-uipath="${name} + '.option.' + ${option.shortCode}"
                 type="radio"
                 th:value="${option.shortCode}"
                 th:field="*{__${name}__}"/>
 
          <label class="govuk-label govuk-radios__label"
+                th:data-uipath="${name} + '.label.' + ${option.shortCode}"
                 th:for="${name} + '.' + ${option.shortCode}"
                 th:text="${option.description}"></label>
       </div>
