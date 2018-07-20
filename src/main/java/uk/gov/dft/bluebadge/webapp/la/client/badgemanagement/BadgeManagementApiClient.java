@@ -16,10 +16,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.*;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
@@ -85,6 +82,31 @@ public class BadgeManagementApiClient extends BaseApiClient {
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
+    return null;
+  }
+
+  public List<BadgeSummary> findBadgeBy(String attr, String value) {
+    log.debug("retrieveBadge with " + attr, value);
+    Assert.notNull(attr, "Attribute supplied must be not null");
+    Assert.notNull(value, "Value supplied must be not null");
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    HttpEntity entity = new HttpEntity(null, headers);
+
+    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
+    builder.queryParam(attr, value);
+
+    try {
+      ResponseEntity<BadgesResponse> response =
+          restTemplateFactory
+              .getInstance()
+              .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgesResponse.class);
+      return response.getBody().getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+
     return null;
   }
 

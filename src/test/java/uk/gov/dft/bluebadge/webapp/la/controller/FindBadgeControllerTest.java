@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
@@ -38,6 +39,7 @@ public class FindBadgeControllerTest {
   @Mock BadgeService badgeServiceMock;
 
   @Mock BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
+  @Mock BadgeSummaryToFindBadgeSearchResultViewModel badgeSummartyconverterToViewModelMock;
 
   private FindBadgeController controller;
 
@@ -47,7 +49,7 @@ public class FindBadgeControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new FindBadgeController(badgeServiceMock, converterToViewModelMock);
+    controller = new FindBadgeController(badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

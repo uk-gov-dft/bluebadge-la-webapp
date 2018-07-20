@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -32,12 +35,16 @@ public class FindBadgeController {
 
   private BadgeService badgeService;
   private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
+  private BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModelConvertor;
 
   @Autowired
   public FindBadgeController(
-      BadgeService badgeService, BadgeToFindBadgeSearchResultViewModel converterToViewModel) {
+      BadgeService badgeService,
+      BadgeToFindBadgeSearchResultViewModel converterToViewModel,
+      BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModel) {
     this.badgeService = badgeService;
     this.converterToViewModel = converterToViewModel;
+    this.badgeSummaryToViewModelConvertor = badgeSummaryToViewModel;
   }
 
   @GetMapping(URL_FIND_BADGE)
@@ -67,6 +74,13 @@ public class FindBadgeController {
         FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
         results.add(viewModel);
       }
+    }
+
+    if ("postcode".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
+      List<BadgeSummary> result = badgeService.findBadgesByPostcode(searchTerm);
+      results.addAll(result.stream().map(r -> {
+          return badgeSummaryToViewModelConvertor.convert(r);
+      }).collect(Collectors.toList()));
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);

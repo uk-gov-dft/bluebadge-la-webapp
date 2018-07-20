@@ -22,8 +22,6 @@ public class OrderABadgeSiteSteps {
   protected LocalDateGenerator ldg = new LocalDateGenerator();
   protected PostCodeGenerator pcg = new PostCodeGenerator();
 
-
-
   @Autowired protected SitePage sitePage;
 
   @Autowired protected ScenarioContext scenarioContext;
@@ -56,7 +54,7 @@ public class OrderABadgeSiteSteps {
   @When("^I enter all valid personal details to order a badge$")
   public void iEnterAllValidPersonalDetailsToOrderABadge() throws Throwable {
     String name = ng.get_full_name();
-    String contactName = "Contact "+ name;
+    String contactName = "Contact " + name;
     LocalDate date = ldg.get_local_date();
     String email = ng.get_email(name);
 
@@ -106,7 +104,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
     sitePage.findPageElementById("online").click();
     sitePage.findElementWithUiPath("badgeStartDate.day.field").sendKeys("1");
-    sitePage.findElementWithUiPath("localAuthorityReferenceNumber.field").sendKeys("Manchester City Council");
+    sitePage
+        .findElementWithUiPath("localAuthorityReferenceNumber.field")
+        .sendKeys("Manchester City Council");
     sitePage.findElementWithUiPath("badgeStartDate.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeStartDate.year.field").sendKeys("2025");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");
