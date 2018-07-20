@@ -77,6 +77,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
     builder.pathSegment(badgeNumber);
     try {
+      log.info("retrieveBadge {}", builder.toUriString());
       ResponseEntity<BadgeResponse> response =
           restTemplateFactory
               .getInstance()
