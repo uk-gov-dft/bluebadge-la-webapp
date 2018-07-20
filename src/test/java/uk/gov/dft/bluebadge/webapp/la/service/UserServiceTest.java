@@ -40,7 +40,6 @@ public class UserServiceTest {
     userService = new UserService(userManagementServiceMock, setPasswordApiClientMock);
 
     user = new User().id(ID).emailAddress(EMAIL_ADDRESS).name(NAME);
-
   }
 
   @Test
