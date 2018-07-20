@@ -11,6 +11,7 @@ import uk.gov.service.bluebadge.test.acceptance.pages.PageHelper;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.ManageUsersPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.steps.ScenarioContext;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
 import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverServiceProvider;
@@ -89,5 +90,10 @@ public class AcceptanceTestConfiguration {
   public ManageUsersPage manageUsersPage(
       final WebDriverProvider webDriverProvider, PageHelper helper) {
     return new ManageUsersPage(webDriverProvider, helper);
+  }
+
+  @Bean
+  public ScenarioContext scenarioContext() {
+    return new ScenarioContext();
   }
 }

@@ -22,7 +22,7 @@ public class UserService {
     this.setPasswordApiClient = setPasswordApiClient;
   }
 
-  public User findOneById(int id) {
+  public User retrieve(int id) {
     return userManagementApiClient.getById(id);
   }
 
