@@ -19,7 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
   classes = LocalAuthorityApplication.class,
   properties = {"management.server.port=19991"}
 )
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "dev"})
 public abstract class MockMVCWithSecurityTests {
   public static final String VALID_USERNAME_1 = "abc@dft.gov.uk";
   public static final String USERNAME_1_PASSWORD = "password";

@@ -24,6 +24,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired OAuth2ClientContext oauth2ClientContext;
 
   @Bean
+  @Primary
   OAuth2RestTemplate restTemplate(ResourceOwnerPasswordResourceDetails resourceDetails) {
     return new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
   }

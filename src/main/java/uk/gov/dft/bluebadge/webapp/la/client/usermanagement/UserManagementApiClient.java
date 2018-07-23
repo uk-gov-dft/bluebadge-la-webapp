@@ -5,17 +5,16 @@ import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagemen
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Password;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
@@ -32,18 +31,15 @@ public class UserManagementApiClient extends BaseApiClient {
         "/users?name={name}&authorityId={authorityId}";
     static final String UPDATE_ENDPOINT = "/users/{userId}";
     static final String DELETE_ENDPOINT = "/users/{userId}";
-    static final String UPDATE_P_ENDPOINT = "/user/password/{uuid}";
     static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{userId}/passwordReset";
   }
 
-  private RestTemplateFactory restTemplateFactory;
-  private ServiceConfiguration serviceConfiguration;
+  private RestTemplate restTemplate;
 
   @Autowired
   public UserManagementApiClient(
-      ServiceConfiguration userManagementApiConfig, RestTemplateFactory restTemplateFactory) {
-    this.serviceConfiguration = userManagementApiConfig;
-    this.restTemplateFactory = restTemplateFactory;
+      @Qualifier("userManagementRestTemplate") RestTemplate userManagementRestTemplate) {
+    this.restTemplate = userManagementRestTemplate;
   }
 
   /**
@@ -57,13 +53,8 @@ public class UserManagementApiClient extends BaseApiClient {
     Assert.notNull(authorityId, "getUsersForAuthority - Local Authority Id must be provided");
 
     ResponseEntity<UsersResponse> userListResponse =
-        restTemplateFactory
-            .getInstance()
-            .getForEntity(
-                serviceConfiguration.getUrlPrefix() + GET_USERS_FOR_AUTHORITY_ENDPOINT,
-                UsersResponse.class,
-                nameFilter,
-                authorityId);
+        restTemplate.getForEntity(
+            GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityId);
     return Objects.requireNonNull(userListResponse.getBody()).getData();
   }
 
@@ -72,13 +63,7 @@ public class UserManagementApiClient extends BaseApiClient {
 
     try {
       return Objects.requireNonNull(
-              restTemplateFactory
-                  .getInstance()
-                  .getForEntity(
-                      serviceConfiguration.getUrlPrefix() + GET_BY_ID_ENDPOINT,
-                      UserResponse.class,
-                      userId)
-                  .getBody())
+              restTemplate.getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId).getBody())
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -93,12 +78,7 @@ public class UserManagementApiClient extends BaseApiClient {
 
     try {
       return Objects.requireNonNull(
-              restTemplateFactory
-                  .getInstance()
-                  .postForObject(
-                      serviceConfiguration.getUrlPrefix() + CREATE_ENDPOINT,
-                      request,
-                      UserResponse.class))
+              restTemplate.postForObject(CREATE_ENDPOINT, request, UserResponse.class))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -111,15 +91,11 @@ public class UserManagementApiClient extends BaseApiClient {
 
     HttpEntity<User> request = new HttpEntity<>(user);
 
-    String uri =
-        UriComponentsBuilder.fromUriString(serviceConfiguration.getUrlPrefix() + UPDATE_ENDPOINT)
-            .build()
-            .toUriString();
+    String uri = UriComponentsBuilder.fromUriString(UPDATE_ENDPOINT).build().toUriString();
 
     try {
       return Objects.requireNonNull(
-              restTemplateFactory
-                  .getInstance()
+              restTemplate
                   .exchange(uri, HttpMethod.PUT, request, UserResponse.class, user.getId())
                   .getBody())
           .getData();
@@ -132,12 +108,9 @@ public class UserManagementApiClient extends BaseApiClient {
   public void deleteUser(Integer userId) {
     Assert.notNull(userId, "deleteUser - userId must be set");
 
-    String uri =
-        UriComponentsBuilder.fromUriString(serviceConfiguration.getUrlPrefix() + DELETE_ENDPOINT)
-            .build()
-            .toUriString();
+    String uri = UriComponentsBuilder.fromUriString(DELETE_ENDPOINT).build().toUriString();
     try {
-      restTemplateFactory.getInstance().delete(uri, userId);
+      restTemplate.delete(uri, userId);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
@@ -147,35 +120,9 @@ public class UserManagementApiClient extends BaseApiClient {
     Assert.notNull(id, "requestPasswordReset - id must not be null");
 
     try {
-      restTemplateFactory
-          .getInstance()
-          .getForEntity(
-              serviceConfiguration.getUrlPrefix() + REQUEST_RESET_EMAIL_ENDPOINT, String.class, id);
+      restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, id);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
-  }
-
-  public User updatePassword(String uuid, String password, String passwordConfirm) {
-    Assert.notNull(uuid, "updatePassword - uuid must be provided");
-    // Do NOT assert password not null.  Rely on API to return correct error message.
-
-    String uri = serviceConfiguration.getUrlPrefix() + UPDATE_P_ENDPOINT;
-    Password passwords = new Password();
-    passwords.setPassword(password);
-    passwords.setPasswordConfirm(passwordConfirm);
-
-    HttpEntity<Password> requestBody = new HttpEntity<>(passwords);
-
-    try {
-      return Objects.requireNonNull(
-              this.restTemplateFactory
-                  .getInstance()
-                  .patchForObject(uri, requestBody, UserResponse.class, uuid))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
   }
 }
