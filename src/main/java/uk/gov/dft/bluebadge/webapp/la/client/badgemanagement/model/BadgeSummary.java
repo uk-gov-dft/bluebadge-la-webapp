@@ -2,17 +2,14 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
+import java.time.LocalDate;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
 
-/**
- * BadgeSummary
- */
+/** BadgeSummary */
 @Validated
 public class BadgeSummary {
   @JsonProperty("badgeNumber")
@@ -144,7 +141,7 @@ public class BadgeSummary {
   @ApiModelProperty(example = "NY186548E", value = "The badge holder's National Insurance number.")
   @Pattern(
     regexp =
-      "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$"
+        "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$"
   )
   public String getNino() {
     return nino;
@@ -269,30 +266,30 @@ public class BadgeSummary {
     }
     BadgeSummary badgeSummary = (BadgeSummary) o;
     return Objects.equals(this.badgeNumber, badgeSummary.badgeNumber)
-      && Objects.equals(this.partyTypeCode, badgeSummary.partyTypeCode)
-      && Objects.equals(this.partyTypeDescription, badgeSummary.partyTypeDescription)
-      && Objects.equals(this.name, badgeSummary.name)
-      && Objects.equals(this.nino, badgeSummary.nino)
-      && Objects.equals(this.localAuthorityCode, badgeSummary.localAuthorityCode)
-      && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
-      && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
-      && Objects.equals(this.statusCode, badgeSummary.statusCode)
-      && Objects.equals(this.statusDescription, badgeSummary.statusDescription);
+        && Objects.equals(this.partyTypeCode, badgeSummary.partyTypeCode)
+        && Objects.equals(this.partyTypeDescription, badgeSummary.partyTypeDescription)
+        && Objects.equals(this.name, badgeSummary.name)
+        && Objects.equals(this.nino, badgeSummary.nino)
+        && Objects.equals(this.localAuthorityCode, badgeSummary.localAuthorityCode)
+        && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
+        && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
+        && Objects.equals(this.statusCode, badgeSummary.statusCode)
+        && Objects.equals(this.statusDescription, badgeSummary.statusDescription);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      badgeNumber,
-      partyTypeCode,
-      partyTypeDescription,
-      name,
-      nino,
-      localAuthorityCode,
-      localAuthorityName,
-      expiryDate,
-      statusCode,
-      statusDescription);
+        badgeNumber,
+        partyTypeCode,
+        partyTypeDescription,
+        name,
+        nino,
+        localAuthorityCode,
+        localAuthorityName,
+        expiryDate,
+        statusCode,
+        statusDescription);
   }
 
   @Override
@@ -303,8 +300,8 @@ public class BadgeSummary {
     sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
     sb.append("    partyTypeCode: ").append(toIndentedString(partyTypeCode)).append("\n");
     sb.append("    partyTypeDescription: ")
-      .append(toIndentedString(partyTypeDescription))
-      .append("\n");
+        .append(toIndentedString(partyTypeDescription))
+        .append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    localAuthorityCode: ").append(toIndentedString(localAuthorityCode)).append("\n");

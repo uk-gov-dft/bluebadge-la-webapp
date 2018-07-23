@@ -4,12 +4,12 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 
 @Component
-public class BadgeSummaryToFindBadgeSearchResultViewModel implements Converter<BadgeSummary, FindBadgeSearchResultViewModel> {
+public class BadgeSummaryToFindBadgeSearchResultViewModel
+    implements Converter<BadgeSummary, FindBadgeSearchResultViewModel> {
 
   private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
 
@@ -18,13 +18,13 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel implements Converter<B
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
     Assert.notNull(source, "Source cannot be null");
     return FindBadgeSearchResultViewModel.builder()
-            .badgeNumber(source.getBadgeNumber())
-            .name(source.getName())
-            // no postcode, hard coded value entered for now
-            .postCode("M191LZ")
-            .localAuthority(source.getLocalAuthorityCode().toString())
-            .expiryDate(source.getExpiryDate().format(formatter))
-            .status(source.getStatusDescription())
-            .build();
+        .badgeNumber(source.getBadgeNumber())
+        .name(source.getName())
+        // no postcode, hard coded value entered for now
+        .postCode("M191LZ")
+        .localAuthority(source.getLocalAuthorityCode().toString())
+        .expiryDate(source.getExpiryDate().format(formatter))
+        .status(source.getStatusDescription())
+        .build();
   }
 }

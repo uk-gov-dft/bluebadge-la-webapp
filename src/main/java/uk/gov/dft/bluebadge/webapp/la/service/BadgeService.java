@@ -1,9 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
-
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -52,9 +51,9 @@ public class BadgeService {
     }
 
     try {
-        return badgeManagementApiClient.findBadgeBy("postCode", postcode);
+      return badgeManagementApiClient.findBadgeBy("postCode", postcode);
     } catch (NotFoundException ex) {
-        return Lists.newArrayList();
+      return Lists.newArrayList();
     }
   }
 }

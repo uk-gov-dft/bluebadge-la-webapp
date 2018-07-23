@@ -78,9 +78,14 @@ public class FindBadgeController {
 
     if ("postcode".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
       List<BadgeSummary> result = badgeService.findBadgesByPostcode(searchTerm);
-      results.addAll(result.stream().map(r -> {
-          return badgeSummaryToViewModelConvertor.convert(r);
-      }).collect(Collectors.toList()));
+      results.addAll(
+          result
+              .stream()
+              .map(
+                  r -> {
+                    return badgeSummaryToViewModelConvertor.convert(r);
+                  })
+              .collect(Collectors.toList()));
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);

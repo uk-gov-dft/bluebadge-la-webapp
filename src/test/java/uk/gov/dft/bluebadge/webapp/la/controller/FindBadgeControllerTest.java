@@ -49,7 +49,9 @@ public class FindBadgeControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new FindBadgeController(badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
+    controller =
+        new FindBadgeController(
+            badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
