@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,14 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
 @Slf4j
 @Service
@@ -29,14 +29,12 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
 
-  private RestTemplateFactory restTemplateFactory;
-  private ServiceConfiguration serviceConfiguration;
+  private final RestTemplate restTemplate;
 
   @Autowired
   public BadgeManagementApiClient(
-      RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
-    this.restTemplateFactory = restTemplateFactory;
-    this.serviceConfiguration = badgeManagementApiConfig;
+      @Qualifier("badgeManagementRestTemplate") RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 
   public List<String> orderBlueBadges(BadgeOrderRequest badgeOrder) {
@@ -44,13 +42,9 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     HttpEntity<BadgeOrderRequest> request = new HttpEntity<>(badgeOrder);
 
-    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
-
     try {
       return Objects.requireNonNull(
-              restTemplateFactory
-                  .getInstance()
-                  .postForObject(builder.toUriString(), request, BadgeNumbersResponse.class))
+              restTemplate.postForObject(BADGES_BASE_ENDPOINT, request, BadgeNumbersResponse.class))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -79,9 +73,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     try {
       log.info("retrieveBadge {}", builder.toUriString());
       ResponseEntity<BadgeResponse> response =
-          restTemplateFactory
-              .getInstance()
-              .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class);
+          restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, BadgeResponse.class);
       return response.getBody().getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -93,12 +85,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
   Creates a builder for a given apiEndpoint using standard configuration
    */
   private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
-
-    return UriComponentsBuilder.newInstance()
-        .host(serviceConfiguration.getHost())
-        .scheme(serviceConfiguration.getScheme())
-        .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextpath())
-        .pathSegment(apiEndpoint);
+    return UriComponentsBuilder.fromPath(apiEndpoint);
   }
 }
