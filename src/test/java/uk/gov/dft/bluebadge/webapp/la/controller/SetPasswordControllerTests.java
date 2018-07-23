@@ -29,32 +29,4 @@ public class SetPasswordControllerTests extends MockMVCWithSecurityTests {
         .andExpect(view().name("set***REMOVED***"));
   }
 
-  @Test
-  @Ignore // Needs wiremock to mock out the auth server request
-  public void givenNoAuth_whenPostSetPasswordRequest_thenSuccess() throws Exception {
-    String passwordUuid = UUID.randomUUID().toString();
-
-    mockServer
-        .expect(method(HttpMethod.PATCH))
-        .andExpect(
-            requestTo(
-                "http://localhost:8180/test-usermanagementservice/user/password/" + passwordUuid))
-        .andRespond(
-            withSuccess(
-                "{\"apiVersion\":null,\"context\":null,\"id\":null,"
-                    + "\"method\":null,\"errors\":null,\"data\":{\"totalItems"
-                    + "\":2,\"users\":[{\"id\":1,\"name\":\"Bob\","
-                    + "\"emailAddress\":\"blah@blah.com\",\"localAuthorityId\":2}"
-                    + ",{\"id\":3,\"name\":\"Bob2\",\"emailAddress\":"
-                    + "\"blah2@blah.com\",\"localAuthorityId\":2}]}}",
-                MediaType.APPLICATION_JSON));
-
-    mockMvc
-        .perform(
-            post("/set***REMOVED***/{uuid}", passwordUuid)
-                .param(" ***REMOVED***)
-                .param(" ***REMOVED***)
-                .with(csrf()))
-        .andExpect(redirectedUrl("/"));
-  }
 }
