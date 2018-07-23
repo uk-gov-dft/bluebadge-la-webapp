@@ -37,6 +37,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
         .address(address.toString())
         .contactFullName(details.getContactDetailsName())
         .contactNumber(details.getContactDetailsContactNumber())
+        .secondaryContactNumber(details.getContactDetailsSecondaryContactNumber())
         .emailAddress(details.getContactDetailsEmailAddress())
         .eligibility(details.getEligibility())
         .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())

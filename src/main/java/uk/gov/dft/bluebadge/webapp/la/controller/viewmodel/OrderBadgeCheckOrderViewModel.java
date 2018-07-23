@@ -13,6 +13,7 @@ public class OrderBadgeCheckOrderViewModel {
   private String address;
   private String contactFullName;
   private String contactNumber;
+  private String secondaryContactNumber;
   private String emailAddress;
   private String eligibility;
   private String photo;

@@ -66,6 +66,11 @@
                 </div>
 
                 <div class="dft-data-list__item">
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.secondaryContactNumber}"/>
+                    <dd class="dft-data-list__dd" th:text="${data.secondaryContactNumber}"/>
+                </div>
+
+                <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.emailAddress}"/>
                     <dd class="dft-data-list__dd" th:with="ref=${data.emailAddress}"
                         th:text="${ref} ? ${ref} : ${noValue}"/>

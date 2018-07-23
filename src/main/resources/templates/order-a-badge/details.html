@@ -81,7 +81,8 @@
 
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Full name (optional)', 'contactDetailsName', 'This should be the name of the main point of contact', 'text') }"/>
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Contact number', 'contactDetailsContactNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Primary contact number', 'contactDetailsContactNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Secondary contact number', 'contactDetailsSecondaryContactNumber', null, 'text') }"/>
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
             </div>
 
