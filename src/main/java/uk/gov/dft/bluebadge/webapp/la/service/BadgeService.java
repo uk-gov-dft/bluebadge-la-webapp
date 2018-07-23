@@ -45,13 +45,16 @@ public class BadgeService {
     }
   }
 
-  public List<BadgeSummary> findBadgesByPostcode(String postcode) {
-    if (postcode == null || postcode.isEmpty()) {
+  public List<BadgeSummary> findBadgesByAttribute(String attribute, String value) {
+    Assert.notNull(attribute, "attribute should not be null");
+    Assert.notNull(value, "value should not be null");
+
+    if (value == null || value.isEmpty()) {
       return Lists.newArrayList();
     }
 
     try {
-      return badgeManagementApiClient.findBadgeBy("postCode", postcode);
+      return badgeManagementApiClient.findBadgeBy(attribute, value);
     } catch (NotFoundException ex) {
       return Lists.newArrayList();
     }

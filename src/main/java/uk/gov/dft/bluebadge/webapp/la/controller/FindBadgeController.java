@@ -37,6 +37,9 @@ public class FindBadgeController {
   private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
   private BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModelConvertor;
 
+  private static final String FIND_BADGE_BY_POSTCODE = "postCode";
+  private static final String FIND_BADGE_BY_NAME = "name";
+
   @Autowired
   public FindBadgeController(
       BadgeService badgeService,
@@ -65,10 +68,11 @@ public class FindBadgeController {
       return TEMPLATE;
     }
 
+    String findBadgeBy = formRequest.getFindBadgeBy();
     String searchTerm = formRequest.getSearchTerm();
     List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
 
-    if ("badgeNumber".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
+    if ("badgeNumber".equalsIgnoreCase(findBadgeBy)) {
       Optional<Badge> result = badgeService.retrieve(searchTerm);
       if (result.isPresent()) {
         FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
@@ -76,16 +80,25 @@ public class FindBadgeController {
       }
     }
 
-    if ("postcode".equalsIgnoreCase(formRequest.getFindBadgeBy())) {
-      List<BadgeSummary> result = badgeService.findBadgesByPostcode(searchTerm);
-      results.addAll(
-          result
-              .stream()
-              .map(
-                  r -> {
-                    return badgeSummaryToViewModelConvertor.convert(r);
-                  })
-              .collect(Collectors.toList()));
+    if (FIND_BADGE_BY_POSTCODE.equalsIgnoreCase(findBadgeBy) && searchTerm != null) {
+
+      searchTerm = searchTerm.replaceAll("\\s+", "");
+
+      List<BadgeSummary> result =
+          badgeService.findBadgesByAttribute(FIND_BADGE_BY_POSTCODE, searchTerm);
+
+      if (!result.isEmpty()) {
+        List<FindBadgeSearchResultViewModel> ViewModelResults =
+            result
+                .stream()
+                .map(
+                    badge -> {
+                      return badgeSummaryToViewModelConvertor.convert(badge);
+                    })
+                .collect(Collectors.toList());
+
+        results.addAll(ViewModelResults);
+      }
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);

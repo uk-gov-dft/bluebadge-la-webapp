@@ -86,9 +86,9 @@ public class BadgeManagementApiClient extends BaseApiClient {
     return null;
   }
 
-  public List<BadgeSummary> findBadgeBy(String attr, String value) {
-    log.debug("retrieveBadge with " + attr, value);
-    Assert.notNull(attr, "Attribute supplied must be not null");
+  public List<BadgeSummary> findBadgeBy(String attribute, String value) {
+    log.debug("retrieveBadge with " + attribute, value);
+    Assert.notNull(attribute, "Attribute supplied must be not null");
     Assert.notNull(value, "Value supplied must be not null");
 
     HttpHeaders headers = new HttpHeaders();
@@ -96,7 +96,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     HttpEntity entity = new HttpEntity(null, headers);
 
     UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
-    builder.queryParam(attr, value);
+    builder.queryParam(attribute, value);
 
     try {
       ResponseEntity<BadgesResponse> response =
