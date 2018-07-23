@@ -1,6 +1,6 @@
 blue-badge:
   auth-server:
-    url: http://authorisation-service:8380/bb_auth
+    url: http://authorisation-service:8080/bb_auth
   usermanagementservice:
     servicehost:
       host: usermanagement-service
