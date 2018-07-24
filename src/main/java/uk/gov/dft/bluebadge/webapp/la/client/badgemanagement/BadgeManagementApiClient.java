@@ -27,13 +27,13 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private static final String BADGES_BASE_ENDPOINT = "badges";
 
   private RestTemplateFactory restTemplateFactory;
-  private ServiceConfiguration serviceConfiguration;
+  private ServiceConfiguration badgeManagementApiConfig;
 
   @Autowired
   public BadgeManagementApiClient(
       RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
     this.restTemplateFactory = restTemplateFactory;
-    this.serviceConfiguration = badgeManagementApiConfig;
+    this.badgeManagementApiConfig = badgeManagementApiConfig;
   }
 
   public List<String> orderBlueBadges(BadgeOrderRequest badgeOrder) {
@@ -117,10 +117,10 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
 
     return UriComponentsBuilder.newInstance()
-        .host(serviceConfiguration.getHost())
-        .scheme(serviceConfiguration.getScheme())
-        .port(serviceConfiguration.getPort())
-        .path(serviceConfiguration.getContextpath())
+        .host(badgeManagementApiConfig.getHost())
+        .scheme(badgeManagementApiConfig.getScheme())
+        .port(badgeManagementApiConfig.getPort())
+        .path(badgeManagementApiConfig.getContextpath())
         .pathSegment(apiEndpoint);
   }
 }

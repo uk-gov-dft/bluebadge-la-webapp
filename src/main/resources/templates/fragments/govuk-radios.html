@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+   /* ------------------------------------------------------------------------------
+
+   * Radios
+
+   @label       - String: Label for form input field
+   @name        - String: Name for the form input field. This same name is used
+                  for id and attaching label to the input field.
+   @hint        - String:
+   @options     - (List | TreeMap| Map)<ReferenceData>: List of radio options
+
+   -------------------------------------------------------------------------------- */
+
+   <div th:fragment="radios-options(layout)" th:class="${layout} == 'inline' ? 'govuk-radios govuk-radios--inline' : 'govuk-radios'">
+      <div class="govuk-radios__item" th:each="option : ${options}" th:data-uipath="${name} + '.radio-options'">
+
+         <input th:id="${name} + '.' + ${option.shortCode}"
+                class="govuk-radios__input"
+                th:data-uipath="${name} + '.option.' + ${option.shortCode}"
+                type="radio"
+                th:value="${option.shortCode}"
+                th:field="*{__${name}__}"/>
+
+         <label class="govuk-label govuk-radios__label"
+                th:data-uipath="${name} + '.label.' + ${option.shortCode}"
+                th:for="${name} + '.' + ${option.shortCode}"
+                th:text="${option.description}"></label>
+      </div>
+   </div>
+
+
+   <div  th:fragment="govuk-radios-stacked(label, name, hint, options)"
+         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+      <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
+
+         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" th:if="${label}">
+            <h2 class="govuk-heading-s" th:data-uipath="${name} + '.label'" th:text="${label}"></h2>
+         </legend>
+
+         <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}" />
+
+         <span class="govuk-error-message"
+               th:data-uipath="${name} + '.error'"
+               th:if="${#fields.hasErrors(name)}"
+               th:errors="*{__${name}__}"></span>
+
+         <div th:replace="~{ :: radios-options('stacked') }"></div>
+
+      </fieldset>
+
+   </div>
+
+   <div  th:fragment="govuk-radios-inline(label, name, hint, options)"
+         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"
+         th:with="headingTag=${heading}">
+
+      <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
+
+         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" th:if="${label}">
+            <h2 class="govuk-heading-s" th:data-uipath="${name} + '.label'" th:text="${label}"></h2>
+         </legend>
+
+         <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}" />
+
+         <span class="govuk-error-message"
+               th:data-uipath="${name} + '.error'"
+               th:if="${#fields.hasErrors(name)}"
+               th:errors="*{__${name}__}"></span>
+
+         <div th:replace="~{ :: radios-options('inline') }"></div>
+
+      </fieldset>
+
+   </div>
+
+</body>
+</html>
