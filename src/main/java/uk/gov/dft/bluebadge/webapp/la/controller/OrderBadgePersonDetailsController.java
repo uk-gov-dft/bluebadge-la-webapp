@@ -1,6 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
-import uk.gov.dft.bluebadge.webapp.la.service.model.referencedata.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
@@ -70,8 +73,20 @@ public class OrderBadgePersonDetailsController {
     return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 
-  @ModelAttribute("eligibilities")
-  public List<ReferenceData> eligibilities() {
-    return referenceDataService.retrieveEligilities();
+  @ModelAttribute("genderOptions")
+  public List<ReferenceData> genderOptions() {
+    return referenceDataService.retrieveGender();
+  }
+
+  @ModelAttribute("eligibilityOptions")
+  public Map<String, List<ReferenceData>> eligibilities() {
+    return new TreeMap<>(
+        referenceDataService
+            .retrieveEligilities()
+            .stream()
+            .collect(
+                Collectors.groupingBy(
+                    ref ->
+                        "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
   }
 }

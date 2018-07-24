@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+/* ------------------------------------------------------------------------------
+
+* Radios
+
+@label - String: Label for form input field
+@name - String: Name for the form input field. This same name is used
+for id and attaching label to the input field.
+@hint - String: Hint
+@options - List of radio options
+
+-------------------------------------------------------------------------------- */
+
+
+
+<div  th:fragment="govuk-select(label, name, hint, options)"
+      th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+    <label class="govuk-label"
+        th:attr="for=${name}"
+        th:utext="${label}"
+        th:data-uipath="${name} + '.label'"></label>
+
+    <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}"></span>
+
+    <span class="govuk-error-message"
+        th:data-uipath="${name} + '.error'"
+        th:if="${#fields.hasErrors(name)}"
+        th:errors="*{__${name}__}"></span>
+
+    <select class="govuk-select" th:field="*{__${name}__}" th:data-uipath="${name} + '.field'">
+        <option value="">Select one</option>
+
+        <div th:each="group: ${options}" th:remove="tag" th:if="${options.class.name} == 'java.util.TreeMap'">
+
+            <optgroup th:attr="label=${group.key}">
+                <option th:each="option: ${group.value}"
+                        th:value="${option.shortCode}"
+                        th:text="${option.description}"></option>
+            </optgroup>
+
+        </div>
+
+        <div th:remove="tag" th:if="${options.class.name} == 'java.util.List'">
+            <option th:each="option: ${options}"
+                    th:value="${option.shortCode}"
+                    th:text="${option.description}"></option>
+        </div>
+
+    </select>
+
+</div>
+
+</body>
+</html>

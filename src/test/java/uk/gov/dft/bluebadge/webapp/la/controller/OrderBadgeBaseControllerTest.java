@@ -6,7 +6,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public abstract class OrderBadgeBaseControllerTest {
 
