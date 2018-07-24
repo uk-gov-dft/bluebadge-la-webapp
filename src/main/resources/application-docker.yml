@@ -7,3 +7,6 @@ blue-badge:
   badgemanagementservice:
     servicehost:
       host: badgemanagement-service
+  referencedataservice:
+    servicehost:
+      host: referencedata-service

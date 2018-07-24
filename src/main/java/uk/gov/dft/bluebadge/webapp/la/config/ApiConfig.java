@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
@@ -24,15 +26,24 @@ public class ApiConfig {
     return new ClientCredentialsResourceDetails();
   }
 
+  @Validated
   @ConfigurationProperties("blue-badge.badgemanagementservice.servicehost")
   @Bean
   public ServiceConfiguration badgeManagementApiConfig() {
     return new ServiceConfiguration();
   }
 
+  @Validated
   @ConfigurationProperties("blue-badge.usermanagementservice.servicehost")
   @Bean
   public ServiceConfiguration userManagementApiConfig() {
+    return new ServiceConfiguration();
+  }
+
+  @Validated
+  @ConfigurationProperties("blue-badge.referencedataservice.servicehost")
+  @Bean
+  public ServiceConfiguration referencedataManagementApiConfig() {
     return new ServiceConfiguration();
   }
 
