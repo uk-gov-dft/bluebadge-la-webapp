@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
@@ -69,5 +70,24 @@ public class BadgeServiceTest {
         .thenThrow(new NotFoundException(new CommonResponse()));
     Optional<Badge> badgeMaybe = badgeService.retrieve(BADGE_NUMBER);
     assertThat(badgeMaybe).isEqualTo(Optional.empty());
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAListOfBadges_WhenValidPostCodeIsProvided() {
+    BadgeSummary b1 = new BadgeSummary();
+    BadgeSummary b2 = new BadgeSummary();
+    List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
+
+    when(badgeManagementApiClientMock.findBadgeBy("postCode", "L131PA")).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgesByAttribute("postCode", "L131PA");
+    assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
+    List<BadgeSummary> emptyList = Lists.newArrayList();
+    when(badgeManagementApiClientMock.findBadgeBy("postCode", "L131PA")).thenReturn(emptyList);
+    List<BadgeSummary> badges = badgeService.findBadgesByAttribute("postCode", "L131PA");
+    assertThat(badges.equals(emptyList));
   }
 }

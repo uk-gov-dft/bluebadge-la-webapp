@@ -3,9 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -25,10 +23,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.*;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
@@ -135,6 +130,37 @@ public class BadgeManagementApiClientTest {
           .expect(once(), requestTo(BASE_ENDPOINT + "/" + BADGE_NUMBER))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
       client.retrieveBadge(BADGE_NUMBER);
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
+  }
+
+  @Test
+  public void findABadgeByPostcode_ShouldRetrieveAListOfBadges() throws JsonProcessingException {
+    BadgeSummary b1 = new BadgeSummary();
+    BadgeSummary b2 = new BadgeSummary();
+    List<BadgeSummary> badges = Lists.newArrayList(b1, b2);
+    BadgesResponse badgeResponse = new BadgesResponse().data(badges);
+
+    String body = objectMapper.writeValueAsString(badgeResponse);
+
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=L329PA"))
+        .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
+
+    List<BadgeSummary> retrievedBadges = client.findBadgeBy("postCode", "L329PA");
+    assertThat(retrievedBadges).isEqualTo(badges);
+  }
+
+  @Test
+  public void findABadgeByPostCode_ShouldThrowException_When400() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+
+    try {
+      mockServer
+          .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=L329PA"))
+          .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
