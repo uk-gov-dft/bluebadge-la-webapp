@@ -29,6 +29,21 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private RestTemplateFactory restTemplateFactory;
   private ServiceConfiguration badgeManagementApiConfig;
 
+  public enum FindBadgeAttribute {
+    POSTCODE("postCode"),
+    NAME("name");
+
+    private String description;
+
+    FindBadgeAttribute(String description) {
+      this.description = description;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+  }
+
   @Autowired
   public BadgeManagementApiClient(
       RestTemplateFactory restTemplateFactory, ServiceConfiguration badgeManagementApiConfig) {
@@ -86,7 +101,13 @@ public class BadgeManagementApiClient extends BaseApiClient {
     return null;
   }
 
-  public List<BadgeSummary> findBadgeBy(String attribute, String value) {
+  public List<BadgeSummary> findBadgeByPostCode(String postcode) {
+    Assert.notNull(postcode, "Post code supplied must be not null");
+
+    return findBadgeBy(FindBadgeAttribute.POSTCODE, postcode);
+  }
+
+  private List<BadgeSummary> findBadgeBy(FindBadgeAttribute attribute, String value) {
     log.debug("retrieveBadge with " + attribute, value);
     Assert.notNull(attribute, "Attribute supplied must be not null");
     Assert.notNull(value, "Value supplied must be not null");
@@ -96,7 +117,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     HttpEntity entity = new HttpEntity(null, headers);
 
     UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
-    builder.queryParam(attribute, value);
+    builder.queryParam(attribute.getDescription(), value);
 
     try {
       ResponseEntity<BadgesResponse> response =

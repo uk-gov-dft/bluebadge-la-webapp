@@ -148,7 +148,7 @@ public class BadgeManagementApiClientTest {
         .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=L329PA"))
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
 
-    List<BadgeSummary> retrievedBadges = client.findBadgeBy("postCode", "L329PA");
+    List<BadgeSummary> retrievedBadges = client.findBadgeByPostCode("L329PA");
     assertThat(retrievedBadges).isEqualTo(badges);
   }
 

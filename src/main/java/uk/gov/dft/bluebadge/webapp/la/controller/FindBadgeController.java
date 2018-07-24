@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
@@ -36,9 +37,6 @@ public class FindBadgeController {
   private BadgeService badgeService;
   private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
   private BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModelConvertor;
-
-  private static final String FIND_BADGE_BY_POSTCODE = "postCode";
-  private static final String FIND_BADGE_BY_NAME = "name";
 
   @Autowired
   public FindBadgeController(
@@ -80,12 +78,14 @@ public class FindBadgeController {
       }
     }
 
-    if (FIND_BADGE_BY_POSTCODE.equalsIgnoreCase(findBadgeBy) && searchTerm != null) {
+    if (BadgeManagementApiClient.FindBadgeAttribute.POSTCODE
+            .getDescription()
+            .equalsIgnoreCase(findBadgeBy)
+        && searchTerm != null) {
 
       searchTerm = searchTerm.replaceAll("\\s+", "");
 
-      List<BadgeSummary> result =
-          badgeService.findBadgesByAttribute(FIND_BADGE_BY_POSTCODE, searchTerm);
+      List<BadgeSummary> result = badgeService.findBadgeByPostcode(searchTerm);
 
       if (!result.isEmpty()) {
         results.addAll(

@@ -78,16 +78,16 @@ public class BadgeServiceTest {
     BadgeSummary b2 = new BadgeSummary();
     List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
 
-    when(badgeManagementApiClientMock.findBadgeBy("postCode", "L131PA")).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgesByAttribute("postCode", "L131PA");
+    when(badgeManagementApiClientMock.findBadgeByPostCode("L131PA")).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode("L131PA");
     assertThat(returnedBadges).isEqualTo(badgesList);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
     List<BadgeSummary> emptyList = Lists.newArrayList();
-    when(badgeManagementApiClientMock.findBadgeBy("postCode", "L131PA")).thenReturn(emptyList);
-    List<BadgeSummary> badges = badgeService.findBadgesByAttribute("postCode", "L131PA");
+    when(badgeManagementApiClientMock.findBadgeByPostCode("L131PA")).thenReturn(emptyList);
+    List<BadgeSummary> badges = badgeService.findBadgeByPostcode("L131PA");
     assertThat(badges.equals(emptyList));
   }
 }

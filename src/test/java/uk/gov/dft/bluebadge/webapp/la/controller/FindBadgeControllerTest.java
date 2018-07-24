@@ -117,7 +117,7 @@ public class FindBadgeControllerTest {
     List<FindBadgeSearchResultViewModel> expectedResults =
         Lists.newArrayList(viewModel, viewModelTwo);
 
-    when(badgeServiceMock.findBadgesByAttribute(FIND_BY_POSTCODE, POSTCODE)).thenReturn(data);
+    when(badgeServiceMock.findBadgeByPostcode(POSTCODE)).thenReturn(data);
     when(badgeSummartyconverterToViewModelMock.convert(badgeOne)).thenReturn(viewModel);
     when(badgeSummartyconverterToViewModelMock.convert(badgeTwo)).thenReturn(viewModelTwo);
 
