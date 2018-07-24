@@ -56,8 +56,7 @@ public class UserManagementApiClientTest {
   @Test
   public void getById() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User();
-    data.setName("Bob");
+    User data = new User().name("Bob");
     userResponse.setData(data);
     mockServer
         .expect(once(), requestTo(TEST_URI + "/users/22"))
@@ -74,8 +73,7 @@ public class UserManagementApiClientTest {
   @Test
   public void createUser() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User();
-    data.setId(555);
+    User data = new User().id(555);
     userResponse.setData(data);
     mockServer
         .expect(once(), requestTo(TEST_URI + "/users"))
@@ -84,9 +82,7 @@ public class UserManagementApiClientTest {
         .andExpect(jsonPath("name", equalTo("Jane")))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    User userToCreate = new User();
-    userToCreate.setEmailAddress("Jane@bbb.com");
-    userToCreate.setName("Jane");
+    User userToCreate = new User().emailAddress("Jane@bbb.com").name("Jane");
 
     User result = userManagementApiClient.createUser(userToCreate);
     assertThat(result).isNotNull();
@@ -98,8 +94,7 @@ public class UserManagementApiClientTest {
   @Test
   public void updateUser() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User();
-    data.setId(555);
+    User data = new User().id(555);
     userResponse.setData(data);
     mockServer
         .expect(once(), requestTo(TEST_URI + "/users/789"))
@@ -108,10 +103,7 @@ public class UserManagementApiClientTest {
         .andExpect(jsonPath("name", equalTo("Dave")))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    User userToUpdate = new User();
-    userToUpdate.setEmailAddress("dave@bbb.com");
-    userToUpdate.setName("Dave");
-    userToUpdate.setId(789);
+    User userToUpdate = new User().emailAddress("dave@bbb.com").name("Dave").id(789);
     User result = userManagementApiClient.updateUser(userToUpdate);
 
     assertThat(result).isNotNull();

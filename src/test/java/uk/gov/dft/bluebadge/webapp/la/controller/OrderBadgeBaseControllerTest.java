@@ -2,9 +2,9 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 

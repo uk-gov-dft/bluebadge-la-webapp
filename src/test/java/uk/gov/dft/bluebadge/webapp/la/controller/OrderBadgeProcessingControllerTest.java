@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 
 public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
 

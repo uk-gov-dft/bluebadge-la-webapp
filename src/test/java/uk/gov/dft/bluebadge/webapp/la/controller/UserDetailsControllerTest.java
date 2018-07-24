@@ -41,7 +41,7 @@ public class UserDetailsControllerTest extends ControllerTest {
   private static final String NAME_ERROR = "updated11";
 
   private static final int ROLE_ID = 1;
-  private static final int LOCAL_AUTHORITY = 1;
+  private static final int LOCAL_AUTHORITY_ID = 1;
   private static final int USER_ID = 1;
   private static final String NAME_PARAM = "name";
   private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
@@ -78,19 +78,19 @@ public class UserDetailsControllerTest extends ControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY_ID);
     user =
         new User()
             .emailAddress(EMAIL_ADDRESS)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .roleId(ROLE_ID);
     userWithId =
         new User()
             .id(USER_ID)
             .emailAddress(EMAIL_ADDRESS)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .roleId(ROLE_ID);
   }
 
@@ -137,7 +137,7 @@ public class UserDetailsControllerTest extends ControllerTest {
             .name(NAME_UPDATED)
             .emailAddress(EMAIL_ADDRESS_UPDATED)
             .roleId(ROLE_ID)
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY_ID);
     verify(userServiceMock, times(1)).update(user);
   }
 
@@ -159,7 +159,8 @@ public class UserDetailsControllerTest extends ControllerTest {
             .name(NAME_ERROR)
             .emailAddress(EMAIL_ADDRESS_ERROR)
             .roleId(ROLE_ID)
-            .localAuthorityId(LOCAL_AUTHORITY);
+            .localAuthorityId(LOCAL_AUTHORITY_ID);
+
     when(userServiceMock.update(any())).thenThrow(new BadRequestException(userResponseUpdate));
 
     UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
@@ -188,7 +189,7 @@ public class UserDetailsControllerTest extends ControllerTest {
     mockMvc
         .perform(
             delete(URL_USER_DETAILS + USER_ID)
-                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY)))
+                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY_ID)))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
     verify(userServiceMock, times(1)).delete(USER_ID);
@@ -200,7 +201,7 @@ public class UserDetailsControllerTest extends ControllerTest {
     mockMvc
         .perform(
             post(URL_REQUEST_PASSWORD_RESET + USER_ID)
-                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY)))
+                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY_ID)))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
     verify(userServiceMock, times(1)).requestPasswordReset(USER_ID);

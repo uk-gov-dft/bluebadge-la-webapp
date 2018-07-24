@@ -120,7 +120,9 @@ tasks.withType(Pmd) {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
+    compile group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.1.0-SNAPSHOT'
+
+    compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
