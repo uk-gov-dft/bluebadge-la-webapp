@@ -129,7 +129,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
 
-    return null;
+    return Lists.newArrayList();
   }
 
   /*

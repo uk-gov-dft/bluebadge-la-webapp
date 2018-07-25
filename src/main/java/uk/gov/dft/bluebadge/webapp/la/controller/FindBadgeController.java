@@ -91,10 +91,7 @@ public class FindBadgeController {
         results.addAll(
             result
                 .stream()
-                .map(
-                    badge -> {
-                      return badgeSummaryToViewModelConvertor.convert(badge);
-                    })
+                .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
                 .collect(Collectors.toList()));
       }
     }

@@ -88,6 +88,6 @@ public class BadgeServiceTest {
     List<BadgeSummary> emptyList = Lists.newArrayList();
     when(badgeManagementApiClientMock.findBadgeByPostCode("L131PA")).thenReturn(emptyList);
     List<BadgeSummary> badges = badgeService.findBadgeByPostcode("L131PA");
-    assertThat(badges.equals(emptyList));
+    assertThat(badges).isEqualTo(emptyList);
   }
 }
