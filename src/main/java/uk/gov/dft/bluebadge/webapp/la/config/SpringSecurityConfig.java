@@ -21,7 +21,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired OAuth2ClientContext oauth2ClientContext;
+  private OAuth2ClientContext oauth2ClientContext;
+
+  @Autowired
+  public SpringSecurityConfig(OAuth2ClientContext oauth2ClientContext) {
+    this.oauth2ClientContext = oauth2ClientContext;
+  }
 
   @Bean
   @Primary
@@ -44,26 +49,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
-        .authorizeRequests()
-        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
-        .permitAll()
-        .anyRequest()
-        .fullyAuthenticated()
-        .and()
-        .formLogin()
-        .loginPage("/sign-in")
-        .permitAll()
-        .defaultSuccessUrl("/", true)
-        .and()
-        .logout()
-        .logoutUrl("/sign-out");
+      .authorizeRequests()
+      .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
+      .permitAll()
+      .anyRequest()
+      .fullyAuthenticated()
+      .and()
+      .formLogin()
+      .loginPage("/sign-in")
+      .permitAll()
+      .defaultSuccessUrl("/", true)
+      .and()
+      .logout()
+      .logoutUrl("/sign-out");
   }
 
   @Bean
   UserInfoTokenServices userInfoTokenServices(
-      ResourceServerProperties authServerProps, OAuth2RestOperations restTemplate) {
+    ResourceServerProperties authServerProps, OAuth2RestOperations restTemplate) {
     UserInfoTokenServices services =
-        new UserInfoTokenServices(authServerProps.getUserInfoUri(), authServerProps.getClientId());
+      new UserInfoTokenServices(authServerProps.getUserInfoUri(), authServerProps.getClientId());
     services.setTokenType(authServerProps.getTokenType());
     services.setRestTemplate(restTemplate);
     return services;

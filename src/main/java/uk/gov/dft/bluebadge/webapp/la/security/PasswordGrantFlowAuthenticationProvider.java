@@ -49,7 +49,7 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
   }
 
   @Override
-  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+  public Authentication authenticate(Authentication authentication) {
 
     String username = (String) authentication.getPrincipal();
     log.debug("Attempting to authenticate username:{}", username);
