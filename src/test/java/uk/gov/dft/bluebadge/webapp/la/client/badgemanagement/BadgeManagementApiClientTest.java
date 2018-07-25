@@ -45,6 +45,7 @@ public class BadgeManagementApiClientTest {
           .badgeNumber(BADGE_NUMBER)
           .eligibilityCode("PIP")
           .localAuthorityRef("localAuthorityRef");
+  private static final String POST_CODE = "L329PA";
 
   @Mock private RestTemplateFactory mockRestTemplateFactory;
 
@@ -145,10 +146,10 @@ public class BadgeManagementApiClientTest {
     String body = objectMapper.writeValueAsString(badgeResponse);
 
     mockServer
-        .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=L329PA"))
+        .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=" + POST_CODE))
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
 
-    List<BadgeSummary> retrievedBadges = client.findBadgeByPostCode("L329PA");
+    List<BadgeSummary> retrievedBadges = client.findBadgeByPostCode(POST_CODE);
     assertThat(retrievedBadges).isEqualTo(badges);
   }
 
@@ -159,7 +160,7 @@ public class BadgeManagementApiClientTest {
 
     try {
       mockServer
-          .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=L329PA"))
+          .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=" + POST_CODE))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);

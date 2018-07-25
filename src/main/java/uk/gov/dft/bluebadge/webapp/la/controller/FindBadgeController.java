@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
@@ -70,35 +69,41 @@ public class FindBadgeController {
     String searchTerm = formRequest.getSearchTerm();
     List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
 
-    if ("badgeNumber".equalsIgnoreCase(findBadgeBy)) {
-      Optional<Badge> result = badgeService.retrieve(searchTerm);
-      if (result.isPresent()) {
-        FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
-        results.add(viewModel);
-      }
-    }
-
-    if (BadgeManagementApiClient.FindBadgeAttribute.POSTCODE
-            .getDescription()
-            .equalsIgnoreCase(findBadgeBy)
-        && searchTerm != null) {
-
-      searchTerm = searchTerm.replaceAll("\\s+", "");
-
-      List<BadgeSummary> result = badgeService.findBadgeByPostcode(searchTerm);
-
-      if (!result.isEmpty()) {
-        results.addAll(
-            result
-                .stream()
-                .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
-                .collect(Collectors.toList()));
-      }
+    switch (findBadgeBy) {
+      case "badgeNumber":
+        results.add(findBadgeByNumber(searchTerm));
+        break;
+      case "postcode":
+        results.addAll(findBadgeByPostCode(searchTerm));
+        break;
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
     redirectAttributes.addFlashAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
+  }
+
+  private FindBadgeSearchResultViewModel findBadgeByNumber(String searchTerm) {
+    Optional<Badge> result = badgeService.retrieve(searchTerm);
+
+    if (result.isPresent()) {
+      FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
+      return viewModel;
+    }
+    return null;
+  }
+
+  private List<FindBadgeSearchResultViewModel> findBadgeByPostCode(String searchTerm) {
+    if (searchTerm != null) {
+      searchTerm = searchTerm.replaceAll("\\s+", "");
+      List<BadgeSummary> result = badgeService.findBadgeByPostcode(searchTerm);
+      return result
+          .stream()
+          .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
+          .collect(Collectors.toList());
+    }
+
+    return Lists.newArrayList();
   }
 }

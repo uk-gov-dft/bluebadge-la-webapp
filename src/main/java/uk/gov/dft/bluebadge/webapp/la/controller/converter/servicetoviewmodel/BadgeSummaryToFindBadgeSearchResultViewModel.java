@@ -20,8 +20,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
     return FindBadgeSearchResultViewModel.builder()
         .badgeNumber(source.getBadgeNumber())
         .name(source.getName())
-        // no postcode, hard coded value entered for now
-        .postCode("M191LZ")
+        .postCode(source.getPostCode())
         .localAuthority(source.getLocalAuthorityCode().toString())
         .expiryDate(source.getExpiryDate().format(formatter))
         .status(source.getStatusDescription())

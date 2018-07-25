@@ -110,16 +110,16 @@ public class FindBadgeControllerTest {
 
     BadgeSummary badgeOne = new BadgeSummary();
     BadgeSummary badgeTwo = new BadgeSummary();
-    List<BadgeSummary> data = Lists.newArrayList(badgeOne, badgeTwo);
+    List<BadgeSummary> badges = Lists.newArrayList(badgeOne, badgeTwo);
 
-    FindBadgeSearchResultViewModel viewModel = FindBadgeSearchResultViewModel.builder().build();
-    FindBadgeSearchResultViewModel viewModelTwo = FindBadgeSearchResultViewModel.builder().build();
+    FindBadgeSearchResultViewModel viewModel1 = FindBadgeSearchResultViewModel.builder().build();
+    FindBadgeSearchResultViewModel viewModel2 = FindBadgeSearchResultViewModel.builder().build();
     List<FindBadgeSearchResultViewModel> expectedResults =
-        Lists.newArrayList(viewModel, viewModelTwo);
+        Lists.newArrayList(viewModel1, viewModel2);
 
-    when(badgeServiceMock.findBadgeByPostcode(POSTCODE)).thenReturn(data);
-    when(badgeSummartyconverterToViewModelMock.convert(badgeOne)).thenReturn(viewModel);
-    when(badgeSummartyconverterToViewModelMock.convert(badgeTwo)).thenReturn(viewModelTwo);
+    when(badgeServiceMock.findBadgeByPostcode(POSTCODE)).thenReturn(badges);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeOne)).thenReturn(viewModel1);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeTwo)).thenReturn(viewModel2);
 
     mockMvc
         .perform(

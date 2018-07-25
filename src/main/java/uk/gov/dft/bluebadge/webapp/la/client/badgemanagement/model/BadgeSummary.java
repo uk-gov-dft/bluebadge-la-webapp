@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import org.springframework.validation.annotation.Validated;
 
 /** BadgeSummary */
@@ -29,6 +28,9 @@ public class BadgeSummary {
 
   @JsonProperty("localAuthorityCode")
   private Integer localAuthorityCode = null;
+
+  @JsonProperty("postCode")
+  private String postCode = null;
 
   @JsonProperty("localAuthorityName")
   private String localAuthorityName = null;
@@ -170,6 +172,26 @@ public class BadgeSummary {
     this.localAuthorityCode = localAuthorityCode;
   }
 
+  public BadgeSummary postCode(String postCode) {
+    this.postCode = postCode;
+    return this;
+  }
+
+  /**
+   * Get postCode
+   *
+   * @return postCode
+   */
+  @ApiModelProperty(example = "SK6 8GH", value = "")
+  @Pattern(regexp = "^[A-Za-z]{1,2}[0-9][0-9A-Za-z]?\\s?[0-9][A-Za-z]{2}$")
+  public String getPostCode() {
+    return postCode;
+  }
+
+  public void setPostCode(String postCode) {
+    this.postCode = postCode;
+  }
+
   public BadgeSummary localAuthorityName(String localAuthorityName) {
     this.localAuthorityName = localAuthorityName;
     return this;
@@ -257,7 +279,7 @@ public class BadgeSummary {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -271,6 +293,7 @@ public class BadgeSummary {
         && Objects.equals(this.name, badgeSummary.name)
         && Objects.equals(this.nino, badgeSummary.nino)
         && Objects.equals(this.localAuthorityCode, badgeSummary.localAuthorityCode)
+        && Objects.equals(this.postCode, badgeSummary.postCode)
         && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
         && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
         && Objects.equals(this.statusCode, badgeSummary.statusCode)
@@ -286,6 +309,7 @@ public class BadgeSummary {
         name,
         nino,
         localAuthorityCode,
+        postCode,
         localAuthorityName,
         expiryDate,
         statusCode,
@@ -305,6 +329,7 @@ public class BadgeSummary {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    localAuthorityCode: ").append(toIndentedString(localAuthorityCode)).append("\n");
+    sb.append("    postCode: ").append(toIndentedString(postCode)).append("\n");
     sb.append("    localAuthorityName: ").append(toIndentedString(localAuthorityName)).append("\n");
     sb.append("    expiryDate: ").append(toIndentedString(expiryDate)).append("\n");
     sb.append("    statusCode: ").append(toIndentedString(statusCode)).append("\n");
@@ -316,7 +341,7 @@ public class BadgeSummary {
   /**
    * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

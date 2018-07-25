@@ -25,6 +25,7 @@ public class BadgeServiceTest {
   @Mock private BadgeManagementApiClient badgeManagementApiClientMock;
 
   private BadgeService badgeService;
+  private static final String POST_CODE = "L131PA";
 
   @Before
   public void setup() {
@@ -78,16 +79,16 @@ public class BadgeServiceTest {
     BadgeSummary b2 = new BadgeSummary();
     List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
 
-    when(badgeManagementApiClientMock.findBadgeByPostCode("L131PA")).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode("L131PA");
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode(POST_CODE);
     assertThat(returnedBadges).isEqualTo(badgesList);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
     List<BadgeSummary> emptyList = Lists.newArrayList();
-    when(badgeManagementApiClientMock.findBadgeByPostCode("L131PA")).thenReturn(emptyList);
-    List<BadgeSummary> badges = badgeService.findBadgeByPostcode("L131PA");
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(emptyList);
+    List<BadgeSummary> badges = badgeService.findBadgeByPostcode(POST_CODE);
     assertThat(badges).isEqualTo(emptyList);
   }
 }
