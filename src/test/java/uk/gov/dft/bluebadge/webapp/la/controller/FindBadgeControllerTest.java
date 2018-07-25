@@ -31,7 +31,7 @@ public class FindBadgeControllerTest {
 
   private final String BADGE_NUMBER = "AAAAA1";
   private final String FIND_BY_POSTCODE = "postCode";
-  private final String POSTCODE = "";
+  private final String POSTCODE = "L129PZ";
   private final Badge BADGE =
       new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
   private final FindBadgeSearchResultViewModel VIEW_MODEL =
