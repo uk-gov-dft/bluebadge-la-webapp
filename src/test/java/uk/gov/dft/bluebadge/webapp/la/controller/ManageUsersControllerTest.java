@@ -101,9 +101,8 @@ public class ManageUsersControllerTest {
   }
 
   @Test
-  public void
-      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFromTheLocalAuthorityOfTheUserSignedIn_WhenSearchParamIsEmptyAndThereAreUsers()
-          throws Exception {
+  public void showManageUsers_shouldDisplayUsersFromCurrentUserLocalAuthority_WhenSearchIsEmpty()
+      throws Exception {
     mockMvc
         .perform(get("/manage-users"))
         .andExpect(status().isOk())
@@ -116,7 +115,7 @@ public class ManageUsersControllerTest {
 
   @Test
   public void
-      showManageUsers_shouldDisplayManagerUsersTemplateWithUsersFilteredBySearchTermAndFromTheLocalAuthorityOfTheUserSignedIn_WhenSearchParamIsNonEmptyAndThereAreUsers()
+      showManageUsers_shouldDisplayUsersFilteredFromCurrentUserLocalAuthority_WhenSearchIsNonEmpty()
           throws Exception {
     List<User> users = Lists.newArrayList(userJane);
     when(userServiceMock.find(userSignedIn.getLocalAuthority().getId(), NAME_JANE))
@@ -133,9 +132,8 @@ public class ManageUsersControllerTest {
   }
 
   @Test
-  public void
-      showManageUsers_shouldDisplayManagerUsersTemplateWithNoUsers_WhenSearchParamIsNonEmptyAndThereNoAreUsers()
-          throws Exception {
+  public void showManageUsers_shouldDisplayNoUsers_WhenSearchIsNonEmptyAndThereNoAreUsers()
+      throws Exception {
     List<User> users = Lists.newArrayList();
     when(userServiceMock.find(userSignedIn.getLocalAuthority().getId(), NAME_NOT_FOUND))
         .thenReturn(users);
