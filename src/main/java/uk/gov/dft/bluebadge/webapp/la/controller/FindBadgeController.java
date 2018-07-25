@@ -71,7 +71,8 @@ public class FindBadgeController {
 
     switch (findBadgeBy) {
       case "badgeNumber":
-        results.add(findBadgeByNumber(searchTerm));
+        FindBadgeSearchResultViewModel badge = findBadgeByNumber(searchTerm);
+        if (badge != null) results.add(badge);
         break;
       case "postcode":
         results.addAll(findBadgeByPostCode(searchTerm));
@@ -91,6 +92,7 @@ public class FindBadgeController {
       FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
       return viewModel;
     }
+
     return null;
   }
 
