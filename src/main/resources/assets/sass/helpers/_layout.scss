@@ -61,7 +61,6 @@ body {
 }
 
 .dft-content-container {
-	$this: &;
 	width: 100%;
 
 	@include govuk-media-query($from: wide) {
@@ -91,6 +90,12 @@ body {
 	&-three-quarters {
 		@include govuk-media-query($from: wide) {
 			width: 75%;
+		}
+	}
+
+	&-two-thirds {
+		@include govuk-media-query($from: wide) {
+			width: 66.66%;
 		}
 	}
 }
