@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
@@ -26,9 +29,12 @@ public class OrderBadgeProcessingController {
   private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
       "redirect:" + OrderBadgeCheckOrderController.URL;
 
+  private ReferenceDataService referenceDataService;
+
   @Autowired
-  public OrderBadgeProcessingController() {
+  public OrderBadgeProcessingController(ReferenceDataService referenceDataService) {
     super();
+    this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL)
@@ -54,5 +60,20 @@ public class OrderBadgeProcessingController {
       return TEMPLATE;
     }
     return REDIRECT_ORDER_A_BADGE_CHECK_ORDER;
+  }
+
+  @ModelAttribute("appSourceOptions")
+  public List<ReferenceData> appSourceOptions() {
+    return referenceDataService.retrieveAppSource();
+  }
+
+  @ModelAttribute("deliverToOptions")
+  public List<ReferenceData> deliverToOptions() {
+    return referenceDataService.retrieveDeliverTo();
+  }
+
+  @ModelAttribute("deliveryOptions")
+  public List<ReferenceData> deliveryOptions() {
+    return referenceDataService.retrieveDeliveryOptions();
   }
 }

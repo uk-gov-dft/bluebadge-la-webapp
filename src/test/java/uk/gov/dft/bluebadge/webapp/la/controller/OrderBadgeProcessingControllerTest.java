@@ -15,12 +15,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
 
   private MockMvc mockMvc;
 
   @Mock private SecurityUtils securityUtilsMock;
+  @Mock private ReferenceDataService referenceDataServiceMock;
 
   private OrderBadgeProcessingController controller;
 
@@ -30,7 +32,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderBadgeProcessingController();
+    controller = new OrderBadgeProcessingController(referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
