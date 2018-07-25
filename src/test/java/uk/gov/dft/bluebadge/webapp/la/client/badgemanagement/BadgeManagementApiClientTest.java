@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -16,8 +15,6 @@ import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -25,13 +22,11 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
-
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
 public class BadgeManagementApiClientTest {
@@ -53,7 +48,6 @@ public class BadgeManagementApiClientTest {
 
   @Before
   public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();

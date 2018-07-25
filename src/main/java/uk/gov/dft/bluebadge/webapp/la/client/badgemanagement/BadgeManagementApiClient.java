@@ -68,8 +68,8 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     HttpEntity entity = new HttpEntity(null, headers);
 
-    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
-    builder.pathSegment(badgeNumber);
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT, badgeNumber);
     try {
       log.info("retrieveBadge {}", builder.toUriString());
       ResponseEntity<BadgeResponse> response =
@@ -79,12 +79,5 @@ public class BadgeManagementApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
     return null;
-  }
-
-  /*
-  Creates a builder for a given apiEndpoint using standard configuration
-   */
-  private UriComponentsBuilder getUriComponentsBuilder(String apiEndpoint) {
-    return UriComponentsBuilder.fromPath(apiEndpoint);
   }
 }

@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +42,7 @@ public class ApiConfig {
   @Validated
   @ConfigurationProperties("blue-badge.referencedataservice.servicehost")
   @Bean
-  public ServiceConfiguration referencedataManagementApiConfig() {
+  public ServiceConfiguration referenceDataManagementApiConfig() {
     return new ServiceConfiguration();
   }
 
@@ -57,8 +56,15 @@ public class ApiConfig {
   @Bean("badgeManagementRestTemplate")
   OAuth2RestTemplate badgeManagementRestTemplate(
       ResourceOwnerPasswordResourceDetails resourceDetails,
-      ServiceConfiguration userManagementApiConfig) {
-    return createOAuthRestTemplate(resourceDetails, userManagementApiConfig);
+      ServiceConfiguration badgeManagementApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, badgeManagementApiConfig);
+  }
+
+  @Bean("referenceDataRestTemplate")
+  OAuth2RestTemplate referenceDataRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails,
+      ServiceConfiguration referenceDataManagementApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, referenceDataManagementApiConfig);
   }
 
   private OAuth2RestTemplate createOAuthRestTemplate(
