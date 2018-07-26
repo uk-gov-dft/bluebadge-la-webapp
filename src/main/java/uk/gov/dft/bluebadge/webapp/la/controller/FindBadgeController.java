@@ -77,6 +77,9 @@ public class FindBadgeController {
       case "postcode":
         results.addAll(findBadgeByPostCode(searchTerm));
         break;
+      default:
+        results.add(null);
+        break;
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
@@ -89,8 +92,7 @@ public class FindBadgeController {
     Optional<Badge> result = badgeService.retrieve(searchTerm);
 
     if (result.isPresent()) {
-      FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
-      return viewModel;
+      return converterToViewModel.convert(result.get());
     }
 
     return null;
