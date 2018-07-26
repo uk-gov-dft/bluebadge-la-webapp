@@ -36,6 +36,7 @@ public class OrderABadgeSiteSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("gender.option.MALE").click();
@@ -62,6 +63,7 @@ public class OrderABadgeSiteSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("gender.option.MALE").click();
