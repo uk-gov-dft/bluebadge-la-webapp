@@ -21,4 +21,11 @@ public class FindABadgeSiteSteps {
     log.debug("Badge number to be typed: [()]", badgeNumber);
     sitePage.findElementWithUiPath("searchTerm.field").sendKeys(badgeNumber);
   }
+
+  @And("^I type the post code of the applicant who previously ordered a badge$")
+  public void iTypeThePostCodeOfTheApplicantWhoPreviouslyOrderedABadge() {
+    String postCode = (String) scenarioContext.getContext("postcode");
+    log.debug("Post code to be typed: [()]", postCode);
+    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(postCode);
+  }
 }

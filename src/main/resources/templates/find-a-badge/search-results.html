@@ -19,7 +19,7 @@
 
             <h1 class="govuk-heading-l" data-uipath="title">Find a badge</h1>
 
-            <p th:if="${results.size()} == 0">No results found for badge number <strong th:text="${searchTerm}"></strong></p>
+            <p th:if="${results.size()} == 0">No results found for <strong th:text="${searchTerm}"></strong></p>
 
             <table class="govuk-table" th:if="${results.size()} != 0">
                 <thead class="govuk-table__head">

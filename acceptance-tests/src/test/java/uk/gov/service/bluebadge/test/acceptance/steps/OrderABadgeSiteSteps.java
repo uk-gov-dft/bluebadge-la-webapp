@@ -22,8 +22,6 @@ public class OrderABadgeSiteSteps {
   protected LocalDateGenerator ldg = new LocalDateGenerator();
   protected PostCodeGenerator pcg = new PostCodeGenerator();
 
-
-
   @Autowired protected SitePage sitePage;
 
   @Autowired protected ScenarioContext scenarioContext;
@@ -38,9 +36,10 @@ public class OrderABadgeSiteSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
-    sitePage.findPageElementById("male").click();
+    sitePage.findElementWithUiPath("gender.option.MALE").click();
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);
     sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
@@ -56,7 +55,7 @@ public class OrderABadgeSiteSteps {
   @When("^I enter all valid personal details to order a badge$")
   public void iEnterAllValidPersonalDetailsToOrderABadge() throws Throwable {
     String name = ng.get_full_name();
-    String contactName = "Contact "+ name;
+    String contactName = "Contact " + name;
     LocalDate date = ldg.get_local_date();
     String email = ng.get_email(name);
 
@@ -64,9 +63,10 @@ public class OrderABadgeSiteSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
-    sitePage.findPageElementById("male").click();
+    sitePage.findElementWithUiPath("gender.option.MALE").click();
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);
     sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
@@ -77,6 +77,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage
+        .findElementWithUiPath("contactDetailsSecondaryContactNumber.field")
+        .sendKeys("0161 763 8309");
     sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
 
     Select select = new Select(sitePage.findPageElementById("eligibility"));
@@ -106,7 +109,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
     sitePage.findPageElementById("online").click();
     sitePage.findElementWithUiPath("badgeStartDate.day.field").sendKeys("1");
-    sitePage.findElementWithUiPath("localAuthorityReferenceNumber.field").sendKeys("Manchester City Council");
+    sitePage
+        .findElementWithUiPath("localAuthorityReferenceNumber.field")
+        .sendKeys("Manchester City Council");
     sitePage.findElementWithUiPath("badgeStartDate.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeStartDate.year.field").sendKeys("2025");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");

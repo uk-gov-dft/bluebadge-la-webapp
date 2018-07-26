@@ -6,7 +6,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.ReferenceDataService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public abstract class OrderBadgeBaseControllerTest {
 
@@ -21,6 +21,8 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String POSTCODE_FIED = "postcode";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER_FIELD =
       "contactDetailsContactNumber";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD =
+      "contactDetailsSecondaryContactNumber";
   protected static final String ELIGIBILITY_FIELD = "eligibility";
   protected static final String NINO_FIELD = "nino";
   protected static final String OPTIONAL_ADDRESS_FIELD_FIELD = "optionalAddressField";
@@ -40,6 +42,7 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String POSTCODE = "TF8 6GF";
   protected static final String CONTACT_DETAILS_NAME = "Contact details name";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "01615567808";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   protected static final String ELIGIBILITY = "PIP";
   protected static final String GENDER = "male";
@@ -55,6 +58,7 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String POSTCODE_WRONG = "TF8 ";
   protected static final String CONTACT_DETAILS_NAME_WRONG = "   mu name 2";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER_WRONG = "07700900";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_WRONG = "345345345";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS_WRONG = "joeblogscom";
   protected static final String ELIGIBILITY_WRONG = "";
 
@@ -114,6 +118,7 @@ public abstract class OrderBadgeBaseControllerTest {
       OrderBadgePersonDetailsFormRequest.builder()
           .buildingAndStreet(BUILDING_AND_STREET)
           .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+          .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
           .contactDetailsName(CONTACT_DETAILS_NAME)
           .dobDay(Integer.valueOf(DOB_DAY))
           .dobMonth(Integer.valueOf(DOB_MONTH))

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 
@@ -24,6 +25,7 @@ public class UserServiceTest {
   private static final String PASSWORD = "lckxjvlkv";
 
   @Mock private UserManagementApiClient userManagementServiceMock;
+  @Mock private SetPasswordApiClient setPasswordApiClientMock;
 
   private UserService userService;
 
@@ -35,7 +37,7 @@ public class UserServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    userService = new UserService(userManagementServiceMock);
+    userService = new UserService(userManagementServiceMock, setPasswordApiClientMock);
 
     user = new User().id(ID).emailAddress(EMAIL_ADDRESS).name(NAME);
   }
@@ -132,9 +134,9 @@ public class UserServiceTest {
 
   @Test
   public void updatePassword_shouldUpdatePassword() {
-    when(userManagementServiceMock.updatePassword(UUID, PASSWORD, PASSWORD)).thenReturn(user);
+    when(setPasswordApiClientMock.updatePassword(UUID, PASSWORD, PASSWORD)).thenReturn(user);
     User userUpdated = userService.updatePassword(UUID, PASSWORD, PASSWORD);
     assertThat(userUpdated).isEqualTo(user);
-    verify(userManagementServiceMock).updatePassword(UUID, PASSWORD, PASSWORD);
+    verify(setPasswordApiClientMock).updatePassword(UUID, PASSWORD, PASSWORD);
   }
 }

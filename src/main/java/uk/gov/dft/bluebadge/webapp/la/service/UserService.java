@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOrderCaseInsensitive;
@@ -12,10 +13,13 @@ import uk.gov.dft.bluebadge.webapp.la.comparator.UserComparatorByNameAscendingOr
 public class UserService {
 
   private UserManagementApiClient userManagementApiClient;
+  private SetPasswordApiClient setPasswordApiClient;
 
   @Autowired
-  public UserService(UserManagementApiClient userManagementApiClient) {
+  public UserService(
+      UserManagementApiClient userManagementApiClient, SetPasswordApiClient setPasswordApiClient) {
     this.userManagementApiClient = userManagementApiClient;
+    this.setPasswordApiClient = setPasswordApiClient;
   }
 
   public User retrieve(int id) {
@@ -44,7 +48,7 @@ public class UserService {
   }
 
   public User updatePassword(String uuid, String password, String passwordConfirm) {
-    return userManagementApiClient.updatePassword(uuid, password, passwordConfirm);
+    return setPasswordApiClient.updatePassword(uuid, password, passwordConfirm);
   }
 
   public void delete(Integer id) {
