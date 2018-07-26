@@ -74,7 +74,8 @@ public class BadgesResponse extends CommonResponse {
   /**
    * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
-  private String toIndentedString(Object o) {
+  @Override
+  protected String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

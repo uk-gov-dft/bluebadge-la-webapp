@@ -1,21 +1,26 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ConsistentDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
-public class OrderBadgePersonDetailsFormRequest {
+@Builder
+public class OrderBadgePersonDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotNull.user.name}")
   @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
   @Size(max = 100)
   private String name;
+
+  @NotBlank(message = "{NotNull.badge.gender}")
+  private String gender;
 
   private Integer dobDay;
 
@@ -26,13 +31,9 @@ public class OrderBadgePersonDetailsFormRequest {
   private String dob;
 
   @NotBlank(message = "{NotNull.badge.dob}")
-  @ConsistentDate(message = "{Pattern.badge.dob}")
+  @CannotBeInTheFutureDate(message = "{Pattern.badge.dob}")
   public String getDob() {
-    if (dobDay == null && dobMonth == null && dobYear == null) {
-      return null;
-    }
-
-    return LocalDate.of(dobYear, dobMonth, dobDay).format(DateTimeFormatter.ISO_LOCAL_DATE);
+    return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
@@ -62,6 +63,12 @@ public class OrderBadgePersonDetailsFormRequest {
     message = "{Pattern.badge.contactDetailsContactNumber}"
   )
   private String contactDetailsContactNumber;
+
+  @Pattern(
+    regexp = ValidationPatterns.PHONE_NUMBER,
+    message = "{Pattern.badge.contactDetailsSecondaryContactNumber}"
+  )
+  private String contactDetailsSecondaryContactNumber;
 
   @Pattern(regexp = ValidationPatterns.EMAIL, message = "{NotNull.user.emailAddress}")
   private String contactDetailsEmailAddress;

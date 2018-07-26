@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.UserDetailsFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
@@ -46,7 +46,7 @@ public class UserDetailsController {
       @PathVariable(PARAM_ID) int id,
       @ModelAttribute(MODEL_FORM_REQUEST) final UserDetailsFormRequest formRequest,
       Model model) {
-    User user = userService.findOneById(id);
+    User user = userService.retrieve(id);
     formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
@@ -61,7 +61,7 @@ public class UserDetailsController {
       BindingResult bindingResult,
       Model model) {
     try {
-      User user = combine(formRequest, userService.findOneById(id));
+      User user = combine(formRequest, userService.retrieve(id));
       userService.update(user);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (BadRequestException e) {

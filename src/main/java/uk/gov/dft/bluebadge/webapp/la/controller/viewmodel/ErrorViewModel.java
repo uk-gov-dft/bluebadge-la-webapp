@@ -8,11 +8,16 @@ public class ErrorViewModel {
   private static final String DEFAULT_TITLE = "error.form.summary.title";
   private static final String DEFAULT_DESCRIPTION = "empty";
 
-  private String title;
-  private String description;
+  private String title = DEFAULT_TITLE;
+  private String description = DEFAULT_DESCRIPTION;
 
   public ErrorViewModel() {
     title = DEFAULT_TITLE;
+    description = DEFAULT_DESCRIPTION;
+  }
+
+  public ErrorViewModel(String title) {
+    setTitle(title);
     description = DEFAULT_DESCRIPTION;
   }
 

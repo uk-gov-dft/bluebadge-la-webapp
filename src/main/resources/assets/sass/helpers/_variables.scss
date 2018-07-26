@@ -1,0 +1,21 @@
+// ---------------------------------------------
+// GOVUK overrides
+
+$govuk-global-styles: true;
+$govuk-show-breakpoints: false;
+$govuk-assets-path: "../govuk/";
+$govuk-breakpoints: (
+	mobile:  320px,
+	tablet:  768px,
+	desktop: 1024px,
+	wide: 1200px,
+);
+
+
+
+// ---------------------------------------------
+// DFT Specific Colors
+
+$dft-blue: #1754B9;
+$dft-white: #fff;
+$dft-blue-dark: darken($dft-blue, 15%);

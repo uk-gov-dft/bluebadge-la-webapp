@@ -13,8 +13,8 @@ public class SnapshotHelper {
   public static void takeSnapShot(WebDriver webdriver) throws Exception {
 
     final LocalDateTime now = LocalDateTime.now();
-    String nowFormatter = now.format(DateTimeFormatter.ISO_DATE_TIME);
-    final String fileWithPath = "./screenshot/screenshot" + nowFormatter + ".jpg";
+    String nowFormatted = now.format(DateTimeFormatter.ISO_DATE_TIME);
+    final String fileWithPath = "./screenshot/screenshot" + nowFormatted + ".jpg";
 
     //Convert web driver object to TakeScreenshot
 

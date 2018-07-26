@@ -18,16 +18,22 @@
 						data-uipath="dft-nav-menu"
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
-									
+
 					<a data-uipath="sidebar-nav.order-a-badge"
-					   th:attr="href=${currentPage == 'order-a-badge'} ? '' : '/order-a-badge/'"
+					   href="/order-a-badge/details?action=reset"
 					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}">
 						Order a badge
 						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.order-a-badge.badge" aria-label="has 8 records in total">8</span> -->
 					</a>
 
+					<a data-uipath="sidebar-nav.find-a-badge"
+					   th:attr="href=${currentPage == 'find-a-badge'} ? '' : '/find-a-badge/'"
+					   th:class="${currentPage == 'find-a-badge'} ? ${activeClass} : ${menuItemClass}">
+						Find a badge
+					</a>
+
 					<a data-uipath="sidebar-nav.manage-users"
-						th:attr="href=${currentPage == 'manage-users'} ? '' : '/manage-users'"
+						href="/manage-users"
 						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}">
 						Manage users
 						<!-- <span class="dft-badge dft-badge--nav" data-uipath="sidebar-nav.manage-users.badge" aria-label="has 8 records in total">8</span> -->

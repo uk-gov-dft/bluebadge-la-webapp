@@ -24,6 +24,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired OAuth2ClientContext oauth2ClientContext;
 
   @Bean
+  @Primary
   OAuth2RestTemplate restTemplate(ResourceOwnerPasswordResourceDetails resourceDetails) {
     return new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
   }
@@ -44,7 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
         .authorizeRequests()
-        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**")
+        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
         .anyRequest()
         .fullyAuthenticated()

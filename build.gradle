@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.3"
     }
 }
 
@@ -47,11 +47,11 @@ def getTheVersion() {
             gitBranch = 'SNAPSHOT'
         }
         if (gitBranch == 'master') {
-            versionSuffix = '' 
+            versionSuffix = ''
         } else {
             versionSuffix = '-' + gitBranch
         }
-        
+
     }
     return version + versionSuffix
 }
@@ -167,7 +167,7 @@ bootRun {
     sourceResources sourceSets.main
 }
 
-// build.dependsOn gulp_css
+build.dependsOn gulp_default
 
 compileJava.dependsOn 'googleJavaFormat'
 
