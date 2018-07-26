@@ -171,6 +171,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
                 .param(POSTCODE_FIED, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/processing"));
@@ -193,6 +196,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
                 .param(POSTCODE_FIED, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY)
                 .param(NINO_FIELD, NINO)
                 .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
@@ -243,6 +249,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
                 .param(POSTCODE_FIED, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_WRONG)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY)
                 .param(NINO_FIELD, NINO_WRONG)
                 .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
@@ -257,8 +266,12 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
+                    "formRequest", CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD, "Pattern"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-        .andExpect(model().errorCount(3));
+        .andExpect(model().errorCount(4));
   }
 
   public void submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong() throws Exception {
@@ -274,6 +287,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_WRONG)
                 .param(POSTCODE_FIED, POSTCODE_WRONG)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_WRONG)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_WRONG)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY_WRONG)
                 .param(NINO_FIELD, NINO_WRONG)
                 .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
@@ -291,6 +307,10 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(

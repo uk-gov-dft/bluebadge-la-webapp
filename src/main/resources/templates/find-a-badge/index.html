@@ -35,6 +35,13 @@
                                     <label class="govuk-label govuk-radios__label" for="badgeNumber" data-uipath="badgeNumber.label">Badge
                                         number</label>
                                 </div>
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="postcode"
+                                           name="findBadgeBy"
+                                           type="radio" value="postcode" data-aria-controls="postcode" data-uipath="postcode.radio">
+                                    <label class="govuk-label govuk-radios__label" for="postcode" data-uipath="postcode.label">Postcode</label>
+                                </div>
                             </div>
                         </fieldset>
                     </div>

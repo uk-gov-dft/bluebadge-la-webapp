@@ -57,6 +57,13 @@ def getTheVersion() {
 }
 
 
+task outputComputedVersion {
+    def computedVersion = new File('VERSION-computed')
+    computedVersion.delete()
+    computedVersion.write(getTheVersion())
+}
+
+
 group = 'uk.gov.dft.bluebadge.webapp.la'
 version = getTheVersion()
 sourceCompatibility = 1.8
@@ -170,6 +177,8 @@ bootRun {
 }
 
 build.dependsOn gulp_default
+build.finalizedBy(outputComputedVersion)
 
 compileJava.dependsOn 'googleJavaFormat'
+
 

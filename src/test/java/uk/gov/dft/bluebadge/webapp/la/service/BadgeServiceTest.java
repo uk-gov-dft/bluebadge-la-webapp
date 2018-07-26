@@ -14,6 +14,7 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 
 public class BadgeServiceTest {
@@ -24,6 +25,7 @@ public class BadgeServiceTest {
   @Mock private BadgeManagementApiClient badgeManagementApiClientMock;
 
   private BadgeService badgeService;
+  private static final String POST_CODE = "L131PA";
 
   @Before
   public void setup() {
@@ -69,5 +71,24 @@ public class BadgeServiceTest {
         .thenThrow(new NotFoundException(new CommonResponse()));
     Optional<Badge> badgeMaybe = badgeService.retrieve(BADGE_NUMBER);
     assertThat(badgeMaybe).isEqualTo(Optional.empty());
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAListOfBadges_WhenValidPostCodeIsProvided() {
+    BadgeSummary b1 = new BadgeSummary();
+    BadgeSummary b2 = new BadgeSummary();
+    List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
+
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode(POST_CODE);
+    assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
+    List<BadgeSummary> emptyList = Lists.newArrayList();
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(emptyList);
+    List<BadgeSummary> badges = badgeService.findBadgeByPostcode(POST_CODE);
+    assertThat(badges).isEqualTo(emptyList);
   }
 }

@@ -20,6 +20,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
@@ -31,6 +33,21 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private RestTemplateFactory restTemplateFactory;
   private ServiceConfiguration badgeManagementApiConfig;
+
+  public enum FindBadgeAttribute {
+    POSTCODE("postCode"),
+    NAME("name");
+
+    private String description;
+
+    FindBadgeAttribute(String description) {
+      this.description = description;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+  }
 
   @Autowired
   public BadgeManagementApiClient(
@@ -87,6 +104,37 @@ public class BadgeManagementApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
     return null;
+  }
+
+  public List<BadgeSummary> findBadgeByPostCode(String postcode) {
+    Assert.notNull(postcode, "Post code supplied must be not null");
+
+    return findBadgeBy(FindBadgeAttribute.POSTCODE, postcode);
+  }
+
+  private List<BadgeSummary> findBadgeBy(FindBadgeAttribute attribute, String value) {
+    log.debug("retrieveBadge with " + attribute, value);
+    Assert.notNull(attribute, "Attribute supplied must be not null");
+    Assert.notNull(value, "Value supplied must be not null");
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    HttpEntity entity = new HttpEntity(null, headers);
+
+    UriComponentsBuilder builder = getUriComponentsBuilder(BADGES_BASE_ENDPOINT);
+    builder.queryParam(attribute.getDescription(), value);
+
+    try {
+      ResponseEntity<BadgesResponse> response =
+          restTemplateFactory
+              .getInstance()
+              .exchange(builder.toUriString(), HttpMethod.GET, entity, BadgesResponse.class);
+      return response.getBody().getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+
+    return Lists.newArrayList();
   }
 
   /*
