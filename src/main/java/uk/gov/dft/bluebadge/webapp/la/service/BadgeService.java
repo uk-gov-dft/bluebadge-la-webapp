@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -36,15 +37,18 @@ public class BadgeService {
   }
 
   public Optional<Badge> retrieve(String badgeNumber) {
-    if (badgeNumber == null || badgeNumber.isEmpty()) {
+
+    if (StringUtils.isEmpty(badgeNumber)) {
       return Optional.empty();
-    } else {
-      try {
-        return Optional.of(badgeManagementApiClient.retrieveBadge(badgeNumber));
-      } catch (NotFoundException ex) {
-        return Optional.empty();
-      }
     }
+
+    try {
+      return Optional.of(badgeManagementApiClient.retrieveBadge(badgeNumber));
+    } catch (NotFoundException ex) {
+      log.debug("Badge number:{} could not be found!", badgeNumber);
+      return Optional.empty();
+    }
+
   }
 
   public List<BadgeSummary> findBadgeByPostcode(String postcode) {

@@ -28,18 +28,18 @@ public class OrderBadgeProcessingController {
 
   private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
       "redirect:" + OrderBadgeCheckOrderController.URL;
+  public static final String FORM_REQUEST = "formRequest";
 
   private ReferenceDataService referenceDataService;
 
   @Autowired
   public OrderBadgeProcessingController(ReferenceDataService referenceDataService) {
-    super();
     this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+      @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
     if (sessionFormRequest != null) {
@@ -50,7 +50,7 @@ public class OrderBadgeProcessingController {
 
   @PostMapping(URL)
   public String submit(
-      @Valid @ModelAttribute("formRequest") OrderBadgeProcessingFormRequest formRequest,
+      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {

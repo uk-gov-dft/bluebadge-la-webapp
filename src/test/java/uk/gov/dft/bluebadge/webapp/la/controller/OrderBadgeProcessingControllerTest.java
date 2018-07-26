@@ -18,14 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private SecurityUtils securityUtilsMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
 
   private OrderBadgeProcessingController controller;
