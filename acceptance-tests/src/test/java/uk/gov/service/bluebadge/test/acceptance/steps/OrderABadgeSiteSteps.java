@@ -75,6 +75,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage
+        .findElementWithUiPath("contactDetailsSecondaryContactNumber.field")
+        .sendKeys("0161 763 8309");
     sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
 
     Select select = new Select(sitePage.findPageElementById("eligibility"));

@@ -64,6 +64,12 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
   )
   private String contactDetailsContactNumber;
 
+  @Pattern(
+    regexp = ValidationPatterns.PHONE_NUMBER,
+    message = "{Pattern.badge.contactDetailsSecondaryContactNumber}"
+  )
+  private String contactDetailsSecondaryContactNumber;
+
   @Pattern(regexp = ValidationPatterns.EMAIL, message = "{NotNull.user.emailAddress}")
   private String contactDetailsEmailAddress;
 

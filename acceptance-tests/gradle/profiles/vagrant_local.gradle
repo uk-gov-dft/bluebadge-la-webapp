@@ -1,0 +1,15 @@
+task acceptanceTest(type:Test, dependsOn: functionalTestClasses){
+
+    outputs.upToDateWhen { false }
+    check.dependsOn it
+
+    classpath = project.sourceSets.functionalTest.runtimeClasspath
+    mustRunAfter test // We don't want to run functional tests if unit tests don't pass
+    testClassesDir = file(project.sourceSets.functionalTest.output.classesDir)
+    reports.junitXml.destination = "$buildDir/test-results/functional"
+    reports.html.destination = "$buildDir/reports/tests/functional"
+    systemProperty 'baseUrl', 'http://192.168.56.45:8080'
+
+    systemProperties System.getProperties()
+}
+
