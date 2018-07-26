@@ -49,26 +49,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
-      .authorizeRequests()
-      .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
-      .permitAll()
-      .anyRequest()
-      .fullyAuthenticated()
-      .and()
-      .formLogin()
-      .loginPage("/sign-in")
-      .permitAll()
-      .defaultSuccessUrl("/", true)
-      .and()
-      .logout()
-      .logoutUrl("/sign-out");
+        .authorizeRequests()
+        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
+        .permitAll()
+        .anyRequest()
+        .fullyAuthenticated()
+        .and()
+        .formLogin()
+        .loginPage("/sign-in")
+        .permitAll()
+        .defaultSuccessUrl("/", true)
+        .and()
+        .logout()
+        .logoutUrl("/sign-out");
   }
 
   @Bean
   UserInfoTokenServices userInfoTokenServices(
-    ResourceServerProperties authServerProps, OAuth2RestOperations restTemplate) {
+      ResourceServerProperties authServerProps, OAuth2RestOperations restTemplate) {
     UserInfoTokenServices services =
-      new UserInfoTokenServices(authServerProps.getUserInfoUri(), authServerProps.getClientId());
+        new UserInfoTokenServices(authServerProps.getUserInfoUri(), authServerProps.getClientId());
     services.setTokenType(authServerProps.getTokenType());
     services.setRestTemplate(restTemplate);
     return services;
