@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils.buildReferenceData;
 
 import com.google.common.collect.Lists;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -42,17 +44,6 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   private List<ReferenceData> referenceDataEligibilityList;
   private List<ReferenceData> referenceDataGenderList;
 
-  private ReferenceData buildReferenceData(String groupShortCode, int i) {
-    return new ReferenceData()
-        .description("description" + 1)
-        .displayOrder(i)
-        .groupDescription("groupDescription" + i)
-        .groupShortCode(groupShortCode)
-        .shortCode("shortCode" + i)
-        .subgroupDescription("subGroupDescription" + i)
-        .subgroupShortCode("subGroupShortCode" + i);
-  }
-
   @Before
   public void setup() {
 
@@ -74,22 +65,22 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
 
     // Mock Data
     referenceData1 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
             .subgroupShortCode("ELIG_AUTO");
     referenceData2 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2)
             .subgroupShortCode("ELIG_AUTO");
     referenceData3 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3)
             .subgroupShortCode("ELIG_AUTO");
     referenceData4 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4)
             .subgroupShortCode("ELIG_FURTH");
     referenceData5 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5)
             .subgroupShortCode("ELIG_FURTH");
     referenceData6 =
-        buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6)
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6)
             .subgroupShortCode("ELIG_FURTH");
 
     referenceDataEligibilityList =

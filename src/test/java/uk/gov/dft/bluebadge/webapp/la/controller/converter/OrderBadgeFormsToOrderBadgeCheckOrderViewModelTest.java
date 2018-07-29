@@ -1,12 +1,19 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
 
@@ -23,14 +30,17 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
   protected static final String CONTACT_DETAILS_NAME = "Contact details name";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
-  protected static final String ELIGIBILITY = "PIP";
+  protected static final String ELIGIBILITY = "pip";
+  protected static final String ELIGIBILITY_SHORTCODE = "PIP";
   protected static final String GENDER = "male";
+  protected static final String GENDER_SHORTCODE = "MALE";
 
   // processing
   protected static final String APPLICATION_DATE_DAY = "2";
   protected static final String APPLICATION_DATE_MONTH = "7";
   protected static final String APPLICATION_DATE_YEAR = "2018";
   protected static final String APPLICATION_CHANNEL = "paper";
+  protected static final String APPLICATION_CHANNEL_SHORTCODE = "PAPER";
   protected static final String LOCAL_AUTHORITY_REFERENCE_NUMBER = "AA110";
   protected static final String BADGE_START_DATE_DAY = "7";
   protected static final String BADGE_START_DATE_MONTH = "8";
@@ -39,7 +49,9 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
   protected static final String BADGE_EXPIRY_DATE_MONTH = "8";
   protected static final String BADGE_EXPIRY_DATE_YEAR = "2021";
   protected static final String DELIVER_TO = "badgeHolder";
+  protected static final String DELIVER_TO_SHORTCODE = "HOLDER";
   protected static final String DELIVERY_OPTIONS = "fast";
+  protected static final String DELIVERY_OPTIONS_SHORTCODE = "FAST";
 
   // view model
   protected static final String DOB_VIEW_MODEL = DOB_DAY + "/" + DOB_MONTH + "/" + DOB_YEAR;
@@ -61,9 +73,9 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
           .dobDay(Integer.valueOf(DOB_DAY))
           .dobMonth(Integer.valueOf(DOB_MONTH))
           .dobYear(Integer.valueOf(DOB_YEAR))
-          .eligibility(ELIGIBILITY)
+          .eligibility(ELIGIBILITY_SHORTCODE)
           .name(NAME)
-          .gender(GENDER)
+          .gender(GENDER_SHORTCODE)
           .nino(NINO)
           .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
           .postcode(POSTCODE)
@@ -72,7 +84,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()
-          .applicationChannel(APPLICATION_CHANNEL)
+          .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
           .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
           .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
@@ -83,8 +95,8 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
           .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
           .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
           .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-          .deliverTo(DELIVER_TO)
-          .deliveryOptions(DELIVERY_OPTIONS)
+          .deliverTo(DELIVER_TO_SHORTCODE)
+          .deliveryOptions(DELIVERY_OPTIONS_SHORTCODE)
           .build();
 
   protected static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
@@ -107,11 +119,68 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
           .deliveryOptions(DELIVERY_OPTIONS)
           .build();
 
+  // ReferenceData
+  private ReferenceData referenceData1;
+  private ReferenceData referenceData2;
+  private ReferenceData referenceData3;
+  private ReferenceData referenceData4;
+  private ReferenceData referenceData5;
+
+  @Mock ReferenceDataService referenceDataServiceMock;
+
   private OrderBadgeFormsToOrderBadgeCheckOrderViewModel converter;
 
   @Before
   public void setUp() {
-    converter = new OrderBadgeFormsToOrderBadgeCheckOrderViewModel();
+
+    // Process mock annotations
+    MockitoAnnotations.initMocks(this);
+
+    referenceData1 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
+            .shortCode(ELIGIBILITY_SHORTCODE)
+            .description(ELIGIBILITY);
+    referenceData2 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 2)
+            .shortCode(GENDER_SHORTCODE)
+            .description(GENDER);
+    referenceData3 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 3)
+            .shortCode(APPLICATION_CHANNEL_SHORTCODE)
+            .description(APPLICATION_CHANNEL);
+    referenceData4 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 4)
+            .shortCode(DELIVER_TO_SHORTCODE)
+            .description(DELIVER_TO);
+    referenceData5 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 5)
+            .shortCode(DELIVERY_OPTIONS_SHORTCODE)
+            .description(DELIVERY_OPTIONS);
+    // TODO: Me faltaria que los datos fueran mas especificos para poder verificar
+
+    when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORTCODE))
+        .thenReturn(ELIGIBILITY);
+    when(referenceDataServiceMock.retrieveGenderDisplayValue(GENDER_SHORTCODE)).thenReturn(GENDER);
+    when(referenceDataServiceMock.retrieveApplicationChannelDisplayValue(
+            APPLICATION_CHANNEL_SHORTCODE))
+        .thenReturn(APPLICATION_CHANNEL);
+    when(referenceDataServiceMock.retrieveDeliverToDisplayValue(DELIVER_TO_SHORTCODE))
+        .thenReturn(DELIVER_TO);
+    when(referenceDataServiceMock.retrieveDeliveryOptionsDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
+        .thenReturn(DELIVERY_OPTIONS);
+
+    /*
+    when(referenceDataServiceMock.retrieveEligilities())
+      .thenReturn(Lists.newArrayList(referenceData1));
+    when(referenceDataServiceMock.retrieveGender()).thenReturn(Lists.newArrayList(referenceData2));
+    when(referenceDataServiceMock.retrieveApplicationChannel())
+      .thenReturn(Lists.newArrayList(referenceData3));
+    when(referenceDataServiceMock.retrieveDeliverTo())
+      .thenReturn(Lists.newArrayList(referenceData4));
+    when(referenceDataServiceMock.retrieveDeliveryOptions())
+      .thenReturn(Lists.newArrayList(referenceData5));*/
+
+    converter = new OrderBadgeFormsToOrderBadgeCheckOrderViewModel(referenceDataServiceMock);
   }
 
   @Test
@@ -121,8 +190,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
     OrderBadgeProcessingFormRequest processing = OrderBadgeProcessingFormRequest.builder().build();
     OrderBadgeCheckOrderViewModel viewModel =
         converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING);
-    OrderBadgeCheckOrderViewModel expectecViewModel =
-        OrderBadgeCheckOrderViewModel.builder().build();
     assertThat(viewModel).isEqualTo(VIEW_MODEL);
   }
 }
