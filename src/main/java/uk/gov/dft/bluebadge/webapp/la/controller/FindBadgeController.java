@@ -89,8 +89,7 @@ public class FindBadgeController {
     Optional<Badge> result = badgeService.retrieve(searchTerm);
 
     if (result.isPresent()) {
-      FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
-      return viewModel;
+      return converterToViewModel.convert(result.get());
     }
 
     return null;
