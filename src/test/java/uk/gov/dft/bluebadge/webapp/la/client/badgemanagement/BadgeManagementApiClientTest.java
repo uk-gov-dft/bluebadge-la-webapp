@@ -2,7 +2,9 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -24,6 +26,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
@@ -132,7 +136,7 @@ public class BadgeManagementApiClientTest {
     String body = objectMapper.writeValueAsString(badgeResponse);
 
     mockServer
-        .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=" + POST_CODE))
+        .expect(once(), requestTo(BADGES_ENDPOINT + "?postCode=" + POST_CODE))
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
 
     List<BadgeSummary> retrievedBadges = client.findBadgeByPostCode(POST_CODE);
@@ -146,7 +150,7 @@ public class BadgeManagementApiClientTest {
 
     try {
       mockServer
-          .expect(once(), requestTo(BASE_ENDPOINT + "?postCode=" + POST_CODE))
+          .expect(once(), requestTo(BADGES_ENDPOINT + "?postCode=" + POST_CODE))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
