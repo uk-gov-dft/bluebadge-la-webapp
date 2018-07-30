@@ -33,42 +33,7 @@
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/form-elements :: govuk-date('Application date', 'For example, 31 3 1980', 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
 
-                <div class="govuk-form-group" id="applicationChannel">
-                    <fieldset class="govuk-fieldset">
-
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h3 class="govuk-heading-s">Application channel</h3>
-                        </legend>
-
-                        <div class="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{applicationChannel}" id="online"
-                                       name="applicationChannel" type="radio" value="ONLINE"
-                                       data-aria-controls="online">
-                                <label class="govuk-label govuk-radios__label" for="online">Online</label>
-                            </div>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{applicationChannel}" id="paper"
-                                       name="applicationChannel" type="radio" value="PAPER" data-aria-controls="paper">
-                                <label class="govuk-label govuk-radios__label" for="paper">Paper</label>
-                            </div>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{applicationChannel}" id="phone"
-                                       name="applicationChannel" type="radio" value="PHONE" data-aria-controls="phone">
-                                <label class="govuk-label govuk-radios__label" for="phone">Phone</label>
-                            </div>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{applicationChannel}" id="inPerson"
-                                       name="applicationChannel" type="radio" value="INPERSON"
-                                       data-aria-controls="inPerson">
-                                <label class="govuk-label govuk-radios__label" for="inPerson">In person</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Application channel', 'applicationChannel', null, ${appSourceOptions}) }"/>
             </div>
 
             <hr class="dft-hr govuk-!-margin-bottom-6">
@@ -87,54 +52,10 @@
 
             <div class="dft-width-one-half">
 
-                <!--<div th:replace="~{ fragments/radios :: govuk-radios('Something', 'deliverTo', deliverToOptions) }"/>-->
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Deliver To', 'deliverTo', null, ${deliverToOptions}) }"/>
 
-                <div class="govuk-form-group" id="deliverTo">
-                    <fieldset class="govuk-fieldset">
 
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h3 class="govuk-heading-s">Deliver to</h3>
-                        </legend>
-
-                        <div class="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{deliverTo}" id="badgeHolder"
-                                       name="deliverTo" type="radio" value="HOME" data-aria-controls="badgeHolder">
-                                <label class="govuk-label govuk-radios__label" for="badgeHolder">Badge holder</label>
-                            </div>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{deliverTo}" id="council" name="deliverTo"
-                                       type="radio" value="COUNCIL" data-aria-controls="council">
-                                <label class="govuk-label govuk-radios__label" for="council">Council</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <div class="govuk-form-group" id="deliveryOptions">
-                    <fieldset class="govuk-fieldset">
-
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h3 class="govuk-heading-s">Delivery options</h3>
-                        </legend>
-
-                        <div class="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{deliveryOptions}" id="standard"
-                                       name="deliveryOptions" type="radio" value="STAND" data-aria-controls="standard">
-                                <label class="govuk-label govuk-radios__label" for="standard">Standard delivery</label>
-                            </div>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{deliveryOptions}" id="fast"
-                                       name="deliveryOptions" type="radio" value="FAST" data-aria-controls="fast">
-                                <label class="govuk-label govuk-radios__label" for="fast">Fast track (more
-                                    expensive)</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Delivery options', 'deliveryOptions', null, ${deliveryOptions}) }"/>
 
             </div>
 

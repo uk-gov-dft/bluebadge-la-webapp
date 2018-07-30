@@ -52,52 +52,79 @@ public class ReferenceDataService {
   }
 
   public List<ReferenceData> retrieveEligilities() {
+    if (!isLoaded.get()) {
+      init();
+    }
     return retrieveReferenceData(RefDataGroupEnum.ELIGIBILITY);
   }
 
   public List<ReferenceData> retrieveGender() {
+    if (!isLoaded.get()) {
+      init();
+    }
     return retrieveReferenceData(RefDataGroupEnum.GENDER);
   }
 
   public List<ReferenceData> retrieveApplicationChannel() {
+    if (!isLoaded.get()) {
+      init();
+    }
     return retrieveReferenceData(RefDataGroupEnum.APP_SOURCE);
   }
 
   public List<ReferenceData> retrieveDeliverTo() {
+    if (!isLoaded.get()) {
+      init();
+    }
     return retrieveReferenceData(RefDataGroupEnum.DELIVER_TO);
   }
 
   public List<ReferenceData> retrieveDeliveryOptions() {
+    if (!isLoaded.get()) {
+      init();
+    }
     return retrieveReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS);
   }
 
   private List<ReferenceData> retrieveReferenceData(RefDataGroupEnum referenceDataGroup) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataList.get(referenceDataGroup.getGroupKey());
   }
 
   public String retrieveEligibilityDisplayValue(String key) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataMap.get(RefDataGroupEnum.ELIGIBILITY.getGroupKey()).get(key);
   }
 
   public String retrieveGenderDisplayValue(String key) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataMap.get(RefDataGroupEnum.GENDER.getGroupKey()).get(key);
   }
 
   public String retrieveApplicationChannelDisplayValue(String key) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataMap.get(RefDataGroupEnum.APP_SOURCE.getGroupKey()).get(key);
   }
 
   public String retrieveDeliverToDisplayValue(String key) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataMap.get(RefDataGroupEnum.DELIVER_TO.getGroupKey()).get(key);
   }
 
   public String retrieveDeliveryOptionsDisplayValue(String key) {
-    if (!isLoaded.get()) init();
+    if (!isLoaded.get()) {
+      init();
+    }
     return groupedReferenceDataMap.get(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey()).get(key);
   }
 }
