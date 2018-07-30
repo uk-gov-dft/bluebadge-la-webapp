@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
@@ -28,6 +30,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 public class FindBadgeControllerTest {
 
   private final String BADGE_NUMBER = "AAAAA1";
+  private final String FIND_BY_POSTCODE = "postCode";
+  private final String POSTCODE = "L129PZ";
   private final Badge BADGE =
       new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
   private final FindBadgeSearchResultViewModel VIEW_MODEL =
@@ -38,6 +42,7 @@ public class FindBadgeControllerTest {
   @Mock BadgeService badgeServiceMock;
 
   @Mock BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
+  @Mock BadgeSummaryToFindBadgeSearchResultViewModel badgeSummartyconverterToViewModelMock;
 
   private FindBadgeController controller;
 
@@ -47,7 +52,9 @@ public class FindBadgeControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new FindBadgeController(badgeServiceMock, converterToViewModelMock);
+    controller =
+        new FindBadgeController(
+            badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -94,5 +101,32 @@ public class FindBadgeControllerTest {
         .andExpect(redirectedUrl("/find-a-badge/search-results"))
         .andExpect(flash().attribute("results", expectedResults))
         .andExpect(flash().attribute("searchTerm", BADGE_NUMBER));
+  }
+
+  @Test
+  public void
+      submit_shouldRedirectToSearchResultsWithResultsPopulated_WhenFormSearchingUsingPostCode()
+          throws Exception {
+
+    BadgeSummary badgeOne = new BadgeSummary();
+    BadgeSummary badgeTwo = new BadgeSummary();
+    List<BadgeSummary> badges = Lists.newArrayList(badgeOne, badgeTwo);
+
+    FindBadgeSearchResultViewModel viewModel1 = FindBadgeSearchResultViewModel.builder().build();
+    FindBadgeSearchResultViewModel viewModel2 = FindBadgeSearchResultViewModel.builder().build();
+    List<FindBadgeSearchResultViewModel> expectedResults =
+        Lists.newArrayList(viewModel1, viewModel2);
+
+    when(badgeServiceMock.findBadgeByPostcode(POSTCODE)).thenReturn(badges);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeOne)).thenReturn(viewModel1);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeTwo)).thenReturn(viewModel2);
+
+    mockMvc
+        .perform(
+            post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", POSTCODE))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", POSTCODE));
   }
 }

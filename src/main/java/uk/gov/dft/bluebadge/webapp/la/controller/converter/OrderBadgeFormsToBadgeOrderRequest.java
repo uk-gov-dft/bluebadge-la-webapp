@@ -39,6 +39,7 @@ public class OrderBadgeFormsToBadgeOrderRequest {
             .postCode(details.getPostcode())
             .fullName(details.getContactDetailsName())
             .primaryPhoneNumber(details.getContactDetailsContactNumber())
+            .secondaryPhoneNumber(details.getContactDetailsSecondaryContactNumber())
             .emailAddress(details.getContactDetailsEmailAddress());
 
     Party party = new Party().typeCode(PARTY_TYPE_PERSON).person(person).contact(contact);

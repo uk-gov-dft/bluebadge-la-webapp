@@ -1,16 +1,20 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 
 @Service
+@Slf4j
 public class BadgeService {
 
   private BadgeManagementApiClient badgeManagementApiClient;
@@ -41,5 +45,13 @@ public class BadgeService {
         return Optional.empty();
       }
     }
+  }
+
+  public List<BadgeSummary> findBadgeByPostcode(String postcode) {
+
+    if (postcode == null || postcode.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return badgeManagementApiClient.findBadgeByPostCode(postcode);
   }
 }
