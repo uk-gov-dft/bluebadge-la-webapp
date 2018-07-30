@@ -47,6 +47,7 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
     return authentication.equals(UsernamePasswordAuthenticationToken.class);
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   @Override
   public Authentication authenticate(Authentication authentication) {
 

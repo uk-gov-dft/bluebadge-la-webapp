@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -7,22 +8,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private SecurityUtils securityUtilsMock;
+  @Mock private ReferenceDataService referenceDataServiceMock;
 
   private OrderBadgeProcessingController controller;
+  private ReferenceData ref1 = new ReferenceData();
+  private ReferenceData ref2 = new ReferenceData();
+  private ReferenceData ref3 = new ReferenceData();
 
   @Before
   public void setup() {
@@ -30,7 +37,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderBadgeProcessingController();
+    controller = new OrderBadgeProcessingController(referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -43,6 +50,43 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     mockMvc
         .perform(get("/order-a-badge/processing"))
         .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/processing"));
+  }
+
+  @Test
+  public void show_ShouldPopulateAppSourceAttributeFromReferenceDataService() throws Exception {
+    List<ReferenceData> appSourceOptions = Lists.newArrayList(ref1, ref2, ref3);
+    when(referenceDataServiceMock.retrieveAppSource()).thenReturn(appSourceOptions);
+
+    mockMvc
+        .perform(get("/order-a-badge/processing"))
+        .andExpect(status().isOk())
+        .andExpect(model().attribute("appSourceOptions", appSourceOptions))
+        .andExpect(view().name("order-a-badge/processing"));
+  }
+
+  @Test
+  public void show_ShouldPopulateDeliverToAttributeFromReferenceDataService() throws Exception {
+    List<ReferenceData> deliverToOptions = Lists.newArrayList(ref1, ref2, ref3);
+    when(referenceDataServiceMock.retrieveDeliverTo()).thenReturn(deliverToOptions);
+
+    mockMvc
+        .perform(get("/order-a-badge/processing"))
+        .andExpect(status().isOk())
+        .andExpect(model().attribute("deliverToOptions", deliverToOptions))
+        .andExpect(view().name("order-a-badge/processing"));
+  }
+
+  @Test
+  public void show_ShouldPopulateDeliveryOptionsAttributeFromReferenceDataService()
+      throws Exception {
+    List<ReferenceData> deliverOptions = Lists.newArrayList(ref1, ref2, ref3);
+    when(referenceDataServiceMock.retrieveDeliveryOptions()).thenReturn(deliverOptions);
+
+    mockMvc
+        .perform(get("/order-a-badge/processing"))
+        .andExpect(status().isOk())
+        .andExpect(model().attribute("deliveryOptions", deliverOptions))
         .andExpect(view().name("order-a-badge/processing"));
   }
 

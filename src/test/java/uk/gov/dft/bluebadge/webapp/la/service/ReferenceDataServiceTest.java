@@ -25,6 +25,12 @@ public class ReferenceDataServiceTest {
   private ReferenceData referenceData2;
   private ReferenceData referenceData3;
   private ReferenceData referenceData4;
+  private ReferenceData referenceData5;
+  private ReferenceData referenceData6;
+  private ReferenceData referenceData7;
+  private ReferenceData referenceData8;
+  private ReferenceData referenceData9;
+  private ReferenceData referenceData10;
   private List<ReferenceData> referenceData;
 
   @Before
@@ -39,8 +45,25 @@ public class ReferenceDataServiceTest {
     referenceData2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 2);
     referenceData3 = buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3);
     referenceData4 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
+    referenceData5 = buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 5);
+    referenceData6 = buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 6);
+    referenceData7 = buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 7);
+    referenceData8 = buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 8);
+    referenceData9 = buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 9);
+    referenceData10 = buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10);
+
     referenceData =
-        Lists.newArrayList(referenceData1, referenceData2, referenceData3, referenceData4);
+        Lists.newArrayList(
+            referenceData1,
+            referenceData2,
+            referenceData3,
+            referenceData4,
+            referenceData5,
+            referenceData6,
+            referenceData7,
+            referenceData8,
+            referenceData9,
+            referenceData10);
     when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
         .thenReturn(referenceData);
   }
@@ -55,6 +78,24 @@ public class ReferenceDataServiceTest {
   public void retrieveGender_ShouldReturnGender() {
     List<ReferenceData> gender = referenceDataService.retrieveGender();
     assertThat(gender).containsExactlyInAnyOrder(referenceData2, referenceData4);
+  }
+
+  @Test
+  public void retrieveAppSource_ShouldReturnAppSource() {
+    List<ReferenceData> appSource = referenceDataService.retrieveAppSource();
+    assertThat(appSource).containsExactlyInAnyOrder(referenceData5, referenceData6);
+  }
+
+  @Test
+  public void retrieveDeliverTo_ShouldReturnDeliverTo() {
+    List<ReferenceData> deliverTo = referenceDataService.retrieveDeliverTo();
+    assertThat(deliverTo).containsExactlyInAnyOrder(referenceData7, referenceData8);
+  }
+
+  @Test
+  public void retrieveDeliveryOptions_ShouldReturnDeliveryOptions() {
+    List<ReferenceData> deliveryOptions = referenceDataService.retrieveDeliveryOptions();
+    assertThat(deliveryOptions).containsExactlyInAnyOrder(referenceData9, referenceData10);
   }
 
   private ReferenceData buildReferenceData(String groupShortCode, int i) {
