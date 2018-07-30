@@ -13,7 +13,7 @@ Feature: Dft BlueBadge LA Sign In Page
     And I can click Sign in button
     Then I should see the page titled "GOV.UK Manage Blue Badges"
     And I should see LA name as "Manchester City Council"
-    And I should see username as "Sampath"
+    And I should see username as "Bruce Wayne"
     And I should see signout link
 
   Scenario: Verify Sign in with an invalid email address

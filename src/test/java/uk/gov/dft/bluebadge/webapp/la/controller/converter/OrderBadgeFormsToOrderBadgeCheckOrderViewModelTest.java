@@ -156,7 +156,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 5)
             .shortCode(DELIVERY_OPTIONS_SHORTCODE)
             .description(DELIVERY_OPTIONS);
-    // TODO: Me faltaria que los datos fueran mas especificos para poder verificar
 
     when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORTCODE))
         .thenReturn(ELIGIBILITY);
@@ -168,17 +167,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
         .thenReturn(DELIVER_TO);
     when(referenceDataServiceMock.retrieveDeliveryOptionsDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
         .thenReturn(DELIVERY_OPTIONS);
-
-    /*
-    when(referenceDataServiceMock.retrieveEligilities())
-      .thenReturn(Lists.newArrayList(referenceData1));
-    when(referenceDataServiceMock.retrieveGender()).thenReturn(Lists.newArrayList(referenceData2));
-    when(referenceDataServiceMock.retrieveApplicationChannel())
-      .thenReturn(Lists.newArrayList(referenceData3));
-    when(referenceDataServiceMock.retrieveDeliverTo())
-      .thenReturn(Lists.newArrayList(referenceData4));
-    when(referenceDataServiceMock.retrieveDeliveryOptions())
-      .thenReturn(Lists.newArrayList(referenceData5));*/
 
     converter = new OrderBadgeFormsToOrderBadgeCheckOrderViewModel(referenceDataServiceMock);
   }
