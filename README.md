@@ -166,8 +166,18 @@ gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="
 ```
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
-## Run app inside Vagrant
-Assumming Virtual Box/ Vagrant/ Virtual has been installed and everything is properly configured.
+# How to deploy to QA enviroment
+How to Deploy to QA environment
+
+iterm2 - Go to valtech-dft-workspace project 
+vagrant ssh
+ssh ec2-user@35.178.130.16
+cd dev-env
+change the env.sh
+./rebuild.sh
+
+## Run app inside a virtual computer
+Assuming Virtual Box/ Vagrant/ Virtual has been installed and everything is properly configured.
 
 $ = terminal prompt
 $Vagrant = vagrant prompt
@@ -190,11 +200,11 @@ $Vagrant ./rubild
 BROWSER: http://dft.local:8080/sign-in
 ```
 
-
-To run Acceptance Test
-From mac
+To run Acceptance Test against virtual computer, from terminal prompt (host computer):
+```
 $ cd la-webapp/acceptance-tests
-gradle acceptanceTest -PbuildProfile=vagrant -Dheadless=false
+$ gradle acceptanceTest -PbuildProfile=vagrant -Dheadless=false
+```
 
 ## TOOLING
 
