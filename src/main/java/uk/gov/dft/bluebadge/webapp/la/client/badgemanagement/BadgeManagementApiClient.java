@@ -1,14 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import com.google.common.collect.Lists;
-
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
@@ -60,7 +58,8 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     try {
       return Objects.requireNonNull(
-              restTemplate.postForObject(builder.toUriString(), request, BadgeNumbersResponse.class))
+              restTemplate.postForObject(
+                  builder.toUriString(), request, BadgeNumbersResponse.class))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
