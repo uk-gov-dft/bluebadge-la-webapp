@@ -32,8 +32,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
 
 public class BadgeManagementApiClientTest {
-  public static final String TEST_URI = "http://justtesting:8787/test/";
-  private static final String BADGES_ENDPOINT = TEST_URI + "badges";
+  public static final String TEST_URI = "http://justtesting:8787/test";
+  private static final String BADGES_ENDPOINT = TEST_URI + "/badges";
 
   private static final String BADGE_NUMBER = "12345";
   private static final Badge BADGE =

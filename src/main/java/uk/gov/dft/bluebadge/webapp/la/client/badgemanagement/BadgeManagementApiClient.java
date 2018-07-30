@@ -55,10 +55,12 @@ public class BadgeManagementApiClient extends BaseApiClient {
     Assert.notNull(badgeOrder, "orderBlueBadges - badgeOrder must be set");
 
     HttpEntity<BadgeOrderRequest> request = new HttpEntity<>(badgeOrder);
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
 
     try {
       return Objects.requireNonNull(
-              restTemplate.postForObject(BADGES_BASE_ENDPOINT, request, BadgeNumbersResponse.class))
+              restTemplate.postForObject(builder.toUriString(), request, BadgeNumbersResponse.class))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
