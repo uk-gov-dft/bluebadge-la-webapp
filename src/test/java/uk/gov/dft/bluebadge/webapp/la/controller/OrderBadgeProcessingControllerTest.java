@@ -56,7 +56,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   @Test
   public void show_ShouldPopulateAppSourceAttributeFromReferenceDataService() throws Exception {
     List<ReferenceData> appSourceOptions = Lists.newArrayList(ref1, ref2, ref3);
-    when(referenceDataServiceMock.retrieveAppSource()).thenReturn(appSourceOptions);
+    when(referenceDataServiceMock.retrieveApplicationChannel()).thenReturn(appSourceOptions);
 
     mockMvc
         .perform(get("/order-a-badge/processing"))

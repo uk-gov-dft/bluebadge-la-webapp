@@ -48,7 +48,6 @@ public class BadgeService {
       log.debug("Badge number:{} could not be found!", badgeNumber);
       return Optional.empty();
     }
-
   }
 
   public List<BadgeSummary> findBadgeByPostcode(String postcode) {

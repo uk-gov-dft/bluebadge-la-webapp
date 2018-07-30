@@ -64,7 +64,7 @@ public class OrderBadgeProcessingController {
 
   @ModelAttribute("appSourceOptions")
   public List<ReferenceData> appSourceOptions() {
-    return referenceDataService.retrieveAppSource();
+    return referenceDataService.retrieveApplicationChannel();
   }
 
   @ModelAttribute("deliverToOptions")
