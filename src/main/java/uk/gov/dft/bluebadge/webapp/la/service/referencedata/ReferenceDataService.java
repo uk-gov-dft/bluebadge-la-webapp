@@ -45,4 +45,19 @@ public class ReferenceDataService {
     if (!isLoaded.get()) init();
     return groupedReferenceData.get(RefDataGroupEnum.GENDER.getGroupKey());
   }
+
+  public List<ReferenceData> retrieveAppSource() {
+    if (!isLoaded.get()) init();
+    return groupedReferenceData.get(RefDataGroupEnum.APP_SOURCE.getGroupKey());
+  }
+
+  public List<ReferenceData> retrieveDeliverTo() {
+    if (!isLoaded.get()) init();
+    return groupedReferenceData.get(RefDataGroupEnum.DELIVER_TO.getGroupKey());
+  }
+
+  public List<ReferenceData> retrieveDeliveryOptions() {
+    if (!isLoaded.get()) init();
+    return groupedReferenceData.get(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey());
+  }
 }

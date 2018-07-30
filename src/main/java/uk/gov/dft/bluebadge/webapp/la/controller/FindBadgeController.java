@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
+@Slf4j
 @Controller
 public class FindBadgeController {
 
@@ -77,6 +80,10 @@ public class FindBadgeController {
       case "postcode":
         results.addAll(findBadgeByPostCode(searchTerm));
         break;
+      default:
+        log.error("Attempting to find a badge by:{}", findBadgeBy);
+        results.add(null);
+        break;
     }
 
     redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
@@ -89,8 +96,7 @@ public class FindBadgeController {
     Optional<Badge> result = badgeService.retrieve(searchTerm);
 
     if (result.isPresent()) {
-      FindBadgeSearchResultViewModel viewModel = converterToViewModel.convert(result.get());
-      return viewModel;
+      return converterToViewModel.convert(result.get());
     }
 
     return null;
