@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.thymeleaf.util.StringUtils;
@@ -7,9 +8,17 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Component
 public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
+
+  private ReferenceDataService referenceDataService;
+
+  @Autowired
+  public OrderBadgeFormsToOrderBadgeCheckOrderViewModel(ReferenceDataService referenceDataService) {
+    this.referenceDataService = referenceDataService;
+  }
 
   public OrderBadgeCheckOrderViewModel convert(
       OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
@@ -29,24 +38,35 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
             processing.getBadgeExpiryDateMonth(),
             processing.getBadgeExpiryDateYear());
 
+    String eligibilityDisplayText =
+        referenceDataService.retrieveEligibilityDisplayValue(details.getEligibility());
+    String genderDisplayText = referenceDataService.retrieveGenderDisplayValue(details.getGender());
+    String applicationChannelDisplayText =
+        referenceDataService.retrieveApplicationChannelDisplayValue(
+            processing.getApplicationChannel());
+    String deliverToDisplayText =
+        referenceDataService.retrieveDeliverToDisplayValue(processing.getDeliverTo());
+    String deliveryOptionsDisplayText =
+        referenceDataService.retrieveDeliveryOptionsDisplayValue(processing.getDeliveryOptions());
+
     return OrderBadgeCheckOrderViewModel.builder()
         .fullName(details.getName())
         .dob(details.getDob())
-        .gender(details.getGender())
+        .gender(genderDisplayText)
         .nino(details.getNino())
         .address(address.toString())
         .contactFullName(details.getContactDetailsName())
         .contactNumber(details.getContactDetailsContactNumber())
         .secondaryContactNumber(details.getContactDetailsSecondaryContactNumber())
         .emailAddress(details.getContactDetailsEmailAddress())
-        .eligibility(details.getEligibility())
+        .eligibility(eligibilityDisplayText)
         .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())
         .badgeStartDate(processing.getBadgeStartDate())
         .badgeExpiryDate(badgeExpiryDate)
         .applicationDate(processing.getApplicationDate())
-        .applicationChannel(processing.getApplicationChannel())
-        .deliverTo(processing.getDeliverTo())
-        .deliveryOptions(processing.getDeliveryOptions())
+        .applicationChannel(applicationChannelDisplayText)
+        .deliverTo(deliverToDisplayText)
+        .deliveryOptions(deliveryOptionsDisplayText)
         .build();
   }
 }

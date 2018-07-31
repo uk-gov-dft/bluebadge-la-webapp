@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 public class ReferenceDataApiClientTest {
@@ -42,9 +43,9 @@ public class ReferenceDataApiClientTest {
   @Test
   public void retrieveReferenceDataWithADomain_shouldReturnReferenceDataForThatDomain()
       throws Exception {
-    ReferenceData referenceData1 = buildReferenceData(1);
-    ReferenceData referenceData2 = buildReferenceData(2);
-    ReferenceData referenceData3 = buildReferenceData(3);
+    ReferenceData referenceData1 = ReferenceDataUtils.buildReferenceData("groupShortCode", 1);
+    ReferenceData referenceData2 = ReferenceDataUtils.buildReferenceData("groupShortCode", 2);
+    ReferenceData referenceData3 = ReferenceDataUtils.buildReferenceData("groupShortCode", 3);
     List<ReferenceData> referenceDataList =
         Lists.newArrayList(referenceData1, referenceData2, referenceData3);
     ReferenceDataResponse response = new ReferenceDataResponse().data(referenceDataList);
@@ -57,16 +58,5 @@ public class ReferenceDataApiClientTest {
 
     List<ReferenceData> result = client.retrieveReferenceData(RefDataDomainEnum.BADGE);
     assertThat(result).isEqualTo(referenceDataList);
-  }
-
-  private ReferenceData buildReferenceData(int i) {
-    return new ReferenceData()
-        .description("description" + 1)
-        .displayOrder(i)
-        .groupDescription("groupDescription" + i)
-        .groupShortCode("groupShortCode" + i)
-        .shortCode("shortCode" + i)
-        .subgroupDescription("subGroupDescription" + i)
-        .subgroupShortCode("subGroupShortCode" + i);
   }
 }

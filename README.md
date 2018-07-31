@@ -166,6 +166,45 @@ gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="
 ```
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
+# How to deploy to QA enviroment
+How to Deploy to QA environment
+
+iterm2 - Go to valtech-dft-workspace project 
+vagrant ssh
+ssh ec2-user@35.178.130.16
+cd dev-env
+change the env.sh
+./rebuild.sh
+
+## Run app inside a virtual computer
+Assuming Virtual Box/ Vagrant/ Virtual has been installed and everything is properly configured.
+
+$ = terminal prompt
+$Vagrant = vagrant prompt
+$Vim = vim context
+BROWSER = do inside your favourite browser
+
+```
+$ vagrant up
+$ vagrant ssh 
+$Vagrant docker-compose ps
+$Vagrant cd /home/vagrant/valtech-dft-workspace/solution/dev-env
+$Vagrant vi ./env.sh
+BROWSER: Go to artifactory with a browser to the appropriave project, i.e.: https://artifactory.does.not.exist/artifactory/webapp/#/artifacts/browse/tree/General/gradle-dev-local/uk/gov/dft/bluebadge/webapp/la/la-webapp/0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page/la-webapp-0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page.jar
+BROWSER: Copy the version to the clipboard (0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page)
+$VIM copy the version in vim for each project
+$VIM :wq!
+$Vagrant source ./env.sh
+$Vagrant ./rubild
+(Wait a few seconds)
+BROWSER: http://dft.local:8080/sign-in
+```
+
+To run Acceptance Test against virtual computer, from terminal prompt (host computer):
+```
+$ cd la-webapp/acceptance-tests
+$ gradle acceptanceTest -PbuildProfile=vagrant -Dheadless=false
+```
 
 ## TOOLING
 
