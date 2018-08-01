@@ -127,7 +127,9 @@ tasks.withType(Pmd) {
 }
 
 dependencies {
-    compile group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.3.0-SNAPSHOT'
+    compile('uk.gov.dft.bluebadge:bluebadge-common:0.3.0-SNAPSHOT') {
+        exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
+    }
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
