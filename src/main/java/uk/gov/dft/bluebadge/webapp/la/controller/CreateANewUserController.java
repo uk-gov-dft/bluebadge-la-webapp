@@ -9,12 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Controller
@@ -55,12 +55,11 @@ public class CreateANewUserController {
       Model model) {
     try {
       log.debug("Creating new user");
-      User signedInUser = securityUtils.getCurrentUserDetails();
-      User user =
-          createANewUserRequest2User
-              .convert(formRequest)
-              .localAuthorityId(signedInUser.getLocalAuthorityId())
-              .roleId(signedInUser.getRoleId());
+      uk.gov.dft.bluebadge.common.security.model.User signedInUser =
+          securityUtils.getCurrentUserDetails();
+      User user = createANewUserRequest2User.convert(formRequest);
+      user.setLocalAuthorityId(signedInUser.getLocalAuthority().getId());
+      user.setRoleId(signedInUser.getRoleId());
       log.debug("Creating user for email {}", user.getEmailAddress());
       userService.create(user);
       return REDIRECT_URL_MANAGE_USERS;

@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 /** Password */
 @Validated
 public class Password {
+  @SuppressWarnings("squid:S2068")
   @JsonProperty("password")
   private String password = null;
 

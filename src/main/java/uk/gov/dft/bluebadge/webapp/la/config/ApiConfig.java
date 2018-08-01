@@ -17,7 +17,12 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 @Configuration
 public class ApiConfig {
 
-  @Autowired OAuth2ClientContext oauth2ClientContext;
+  private OAuth2ClientContext oauth2ClientContext;
+
+  @Autowired
+  public ApiConfig(OAuth2ClientContext oauth2ClientContext) {
+    this.oauth2ClientContext = oauth2ClientContext;
+  }
 
   @ConfigurationProperties("security.oauth2.client")
   @Bean

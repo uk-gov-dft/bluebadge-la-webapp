@@ -17,7 +17,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.thdialect.LocalAuthorityDialect
 @Configuration
 public class TemplateEngineAndResolverConfig {
 
-  @Autowired private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
+
+  @Autowired
+  public TemplateEngineAndResolverConfig(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
   @Bean
   public SpringResourceTemplateResolver templateResolver() {

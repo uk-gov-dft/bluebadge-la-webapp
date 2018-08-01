@@ -21,7 +21,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired OAuth2ClientContext oauth2ClientContext;
+  private OAuth2ClientContext oauth2ClientContext;
+
+  @Autowired
+  public SpringSecurityConfig(OAuth2ClientContext oauth2ClientContext) {
+    this.oauth2ClientContext = oauth2ClientContext;
+  }
 
   @Bean
   @Primary
