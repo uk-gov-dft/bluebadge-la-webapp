@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -12,31 +11,20 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
-import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 public class ReferenceDataApiClientTest {
+  public static final String TEST_URI = "http://justtesting:8787/test/";
 
-  private static final String SCHEME = "http";
-  private static final String HOST = "localhost";
-  private static final Integer PORT = 1111;
-  private static final String CONTEXT = "context";
-  private static final String API = "reference-data";
-
-  private static final String BASE_ENDPOINT =
-      String.format("%s://%s:%d/%s/%s", SCHEME, HOST, PORT, CONTEXT, API);
-
-  @Mock private RestTemplateFactory mockRestTemplateFactory;
+  private static final String BASE_ENDPOINT = TEST_URI + "reference-data";
 
   private ReferenceDataApiClient client;
 
@@ -46,14 +34,10 @@ public class ReferenceDataApiClientTest {
 
   @Before
   public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
+    restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
-    when(mockRestTemplateFactory.getInstance()).thenReturn(restTemplate);
-
-    ServiceConfiguration serviceConfiguration = buildServiceConfiguration();
-
-    client = new ReferenceDataApiClient(serviceConfiguration, mockRestTemplateFactory);
+    client = new ReferenceDataApiClient(restTemplate);
   }
 
   @Test
@@ -74,14 +58,5 @@ public class ReferenceDataApiClientTest {
 
     List<ReferenceData> result = client.retrieveReferenceData(RefDataDomainEnum.BADGE);
     assertThat(result).isEqualTo(referenceDataList);
-  }
-
-  private ServiceConfiguration buildServiceConfiguration() {
-    ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
-    serviceConfiguration.setScheme(SCHEME);
-    serviceConfiguration.setHost(HOST);
-    serviceConfiguration.setPort(PORT);
-    serviceConfiguration.setContextpath(CONTEXT);
-    return serviceConfiguration;
   }
 }
