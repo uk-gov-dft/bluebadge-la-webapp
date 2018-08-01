@@ -42,7 +42,7 @@ public class ApiConfig {
   @Validated
   @ConfigurationProperties("blue-badge.referencedataservice.servicehost")
   @Bean
-  public ServiceConfiguration referencedataManagementApiConfig() {
+  public ServiceConfiguration referenceDataManagementApiConfig() {
     return new ServiceConfiguration();
   }
 
@@ -50,13 +50,32 @@ public class ApiConfig {
   OAuth2RestTemplate userManagementRestTemplate(
       ResourceOwnerPasswordResourceDetails resourceDetails,
       ServiceConfiguration userManagementApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, userManagementApiConfig);
+  }
+
+  @Bean("badgeManagementRestTemplate")
+  OAuth2RestTemplate badgeManagementRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails,
+      ServiceConfiguration badgeManagementApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, badgeManagementApiConfig);
+  }
+
+  @Bean("referenceDataRestTemplate")
+  OAuth2RestTemplate referenceDataRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails,
+      ServiceConfiguration referenceDataManagementApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, referenceDataManagementApiConfig);
+  }
+
+  private OAuth2RestTemplate createOAuthRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails, ServiceConfiguration apiConfig) {
     OAuth2RestTemplate oAuth2RestTemplate =
         new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
     HttpComponentsClientHttpRequestFactory requestFactory =
         new HttpComponentsClientHttpRequestFactory();
     oAuth2RestTemplate.setRequestFactory(requestFactory);
     oAuth2RestTemplate.setUriTemplateHandler(
-        new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
+        new DefaultUriBuilderFactory(apiConfig.getUrlPrefix()));
     return oAuth2RestTemplate;
   }
 
