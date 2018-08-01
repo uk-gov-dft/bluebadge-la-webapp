@@ -127,7 +127,7 @@ tasks.withType(Pmd) {
 }
 
 dependencies {
-    compile group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.1.0-SNAPSHOT'
+    compile group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.3.0-SNAPSHOT'
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
