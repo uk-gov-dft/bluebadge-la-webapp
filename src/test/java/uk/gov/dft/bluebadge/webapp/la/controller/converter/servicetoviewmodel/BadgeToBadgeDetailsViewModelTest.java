@@ -22,7 +22,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String BADGE_NUMBER = "AAAAA1";
   private static final String BADGE_HOLDER_NAME = "MyName";
   private static final String BUILDING_AND_STREET = "building and street";
-
+  private static final String CONTACT_FULL_NAME = "Contact full name";
   private static final String CONTACT_NUMBER = "0777777777";
   private static final LocalDate DOB = LocalDate.of(1930, 1, 1);
   private static final String ELIGIBILITY = "PIP";
@@ -72,6 +72,7 @@ public class BadgeToBadgeDetailsViewModelTest {
                           .genderCode(GENDER))
                   .contact(
                       new Contact()
+                          .fullName(CONTACT_FULL_NAME)
                           .buildingStreet(BUILDING_AND_STREET)
                           .townCity(TOWN_CITY)
                           .postCode(POSTCODE)
@@ -89,6 +90,7 @@ public class BadgeToBadgeDetailsViewModelTest {
           .badgeNumber(BADGE_NUMBER)
           .badgeExpiryDate(EXPIRY_DATE_VIEW_MODEL)
           .badgeStartDate(START_DATE_VIEW_MODEL)
+          .contactFullName(CONTACT_FULL_NAME)
           .contactNumber(CONTACT_NUMBER)
           .dob(DOB_VIEW_MODEL)
           .eligibility(ELIGIBILITY_VIEW_MODEL)

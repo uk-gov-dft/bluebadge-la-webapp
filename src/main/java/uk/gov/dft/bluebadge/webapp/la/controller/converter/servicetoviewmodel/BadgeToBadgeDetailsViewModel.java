@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -47,6 +48,9 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         referenceDataService.retrieveGenderDisplayValue(
             source.getParty().getPerson().getGenderCode());
 
+    Contact contact = source.getParty().getContact();
+    Person person = source.getParty().getPerson();
+
     return BadgeDetailsViewModel.builder()
         .badgeNumber(source.getBadgeNumber())
         .address(address)
@@ -54,16 +58,17 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .applicationDate(applicationDate)
         .badgeStartDate(startDate)
         .badgeExpiryDate(expiryDate)
-        .contactNumber(source.getParty().getContact().getPrimaryPhoneNumber())
-        .emailAddress(source.getParty().getContact().getEmailAddress())
-        .secondaryContactNumber(source.getParty().getContact().getSecondaryPhoneNumber())
+        .contactFullName(contact.getFullName())
+        .contactNumber(contact.getPrimaryPhoneNumber())
+        .emailAddress(contact.getEmailAddress())
+        .secondaryContactNumber(contact.getSecondaryPhoneNumber())
         .dob(dob)
         .eligibility(eligibilityDisplayText)
         .gender(genderDisplayText)
-        .fullName(source.getParty().getPerson().getBadgeHolderName())
+        .fullName(person.getBadgeHolderName())
         .issuedBy(localAuthority)
         .localAuthorityReference(source.getLocalAuthorityRef())
-        .nino(source.getParty().getPerson().getNino())
+        .nino(person.getNino())
         .photoUrl(source.getImageLink())
         .status(statusDisplayText)
         .build();
