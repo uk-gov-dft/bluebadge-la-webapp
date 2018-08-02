@@ -116,7 +116,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     response.setData(Lists.newArrayList());
 
     try {
-      response = restTemplate.getForObject(builder.toUriString(), BadgesResponse.class);
+      response = restTemplate.getForObject(builder.build().toUriString(), BadgesResponse.class);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

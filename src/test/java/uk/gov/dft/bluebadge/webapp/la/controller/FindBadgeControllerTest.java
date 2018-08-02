@@ -33,9 +33,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 public class FindBadgeControllerTest {
 
   public static final String NAME = "jason";
-    public static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
-    public static final String INVALID_BADGE_NUMBER = "12345678";
-    private final String BADGE_NUMBER = "AAAAA1";
+  public static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
+  public static final String INVALID_BADGE_NUMBER = "12345678";
+  private final String BADGE_NUMBER = "AAAAA1";
   private final String FIND_BY_POSTCODE = "postCode";
   private final String POSTCODE = "L129PZ";
   private final Badge BADGE =
@@ -126,22 +126,20 @@ public class FindBadgeControllerTest {
         .andExpect(flash().attribute("searchTerm", INVALID_BADGE_NUMBER));
   }
 
-    @Test
-    public void submit_shouldRedirectToSearchResults_whenInvalidSearchTermIsPassed() throws Exception {
-        List<FindBadgeSearchResultViewModel> expectedResults = Lists.newArrayList();
+  @Test
+  public void submit_shouldRedirectToSearchResults_whenInvalidSearchTermIsPassed()
+      throws Exception {
+    List<FindBadgeSearchResultViewModel> expectedResults = Lists.newArrayList();
 
-        mockMvc
-                .perform(
-                        post("/find-a-badge")
-                                .param("findBadgeBy", "postcode")
-                                .param("searchTerm", ""))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/find-a-badge/search-results"))
-                .andExpect(flash().attribute("results", expectedResults))
-                .andExpect(flash().attribute("searchTerm", ""));
+    mockMvc
+        .perform(post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", ""))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", ""));
 
-        verify(badgeServiceMock, times(0)).retrieve(any());
-    }
+    verify(badgeServiceMock, times(0)).retrieve(any());
+  }
 
   @Test
   public void submit_shouldRedirectToSearchResults_whenFindABadgeByOptionIsInvalid()
@@ -151,7 +149,9 @@ public class FindBadgeControllerTest {
 
     mockMvc
         .perform(
-            post("/find-a-badge").param("findBadgeBy", INVALID_SEARCH_BADGE_BY_OPTION).param("searchTerm", "12345678"))
+            post("/find-a-badge")
+                .param("findBadgeBy", INVALID_SEARCH_BADGE_BY_OPTION)
+                .param("searchTerm", "12345678"))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/find-a-badge/search-results"))
         .andExpect(flash().attribute("results", expectedResults))
