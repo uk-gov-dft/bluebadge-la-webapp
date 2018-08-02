@@ -21,6 +21,7 @@ public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
   private static final List<String> BADGE_NUMBERS_FOR_PERSON = Lists.newArrayList(BADGE_NUMBER);
   private static final Badge BADGE = new Badge().badgeNumber(BADGE_NUMBER);
+  public static final String NAME = "jason";
 
   @Mock private BadgeManagementApiClient badgeManagementApiClientMock;
 
@@ -85,10 +86,47 @@ public class BadgeServiceTest {
   }
 
   @Test
+  public void findABadge_ShouldRetrieveAListOfBadges_WhenNoPostcodeIsProvided() {
+    List<BadgeSummary> badgesList = Lists.newArrayList();
+
+    when(badgeManagementApiClientMock.findBadgeByPostCode(null)).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode(null);
+    assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
   public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
     List<BadgeSummary> emptyList = Lists.newArrayList();
     when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(emptyList);
     List<BadgeSummary> badges = badgeService.findBadgeByPostcode(POST_CODE);
     assertThat(badges).isEqualTo(emptyList);
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAListOfBadges_ForAParticularUser() {
+    BadgeSummary b1 = new BadgeSummary();
+    BadgeSummary b2 = new BadgeSummary();
+    List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
+
+    when(badgeManagementApiClientMock.findBadgeByName(NAME)).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(NAME);
+    assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAnEmptyList_WhenUserNameDoesNotExists() {
+    List<BadgeSummary> emptyList = Lists.newArrayList();
+    when(badgeManagementApiClientMock.findBadgeByName(NAME)).thenReturn(emptyList);
+    List<BadgeSummary> badges = badgeService.findBadgeByName(NAME);
+    assertThat(badges).isEqualTo(emptyList);
+  }
+
+  @Test
+  public void findABadge_ShouldRetrieveAListOfBadges_WhenNoUserNameIsProvided() {
+    List<BadgeSummary> badgesList = Lists.newArrayList();
+
+    when(badgeManagementApiClientMock.findBadgeByName(null)).thenReturn(badgesList);
+    List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(null);
+    assertThat(returnedBadges).isEqualTo(badgesList);
   }
 }

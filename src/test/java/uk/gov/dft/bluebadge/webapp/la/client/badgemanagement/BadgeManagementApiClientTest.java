@@ -15,6 +15,7 @@ import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -42,12 +43,15 @@ public class BadgeManagementApiClientTest {
           .eligibilityCode("PIP")
           .localAuthorityRef("localAuthorityRef");
   private static final String POST_CODE = "L329PA";
+  private static final String NAME = "jason";
 
   private BadgeManagementApiClient client;
 
   private MockRestServiceServer mockServer;
 
   private ObjectMapper objectMapper = new ObjectMapper();
+
+  @Mock RestTemplate mockTemplate;
 
   @Before
   public void setUp() throws Exception {
@@ -152,6 +156,38 @@ public class BadgeManagementApiClientTest {
       mockServer
           .expect(once(), requestTo(BADGES_ENDPOINT + "?postCode=" + POST_CODE))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
+  }
+
+  @Test
+  public void findABadgeByName_ShouldRetrieveAListOfBadges() throws JsonProcessingException {
+    BadgeSummary b1 = new BadgeSummary();
+    List<BadgeSummary> badges = Lists.newArrayList(b1);
+    BadgesResponse badgeResponse = new BadgesResponse().data(badges);
+
+    String body = objectMapper.writeValueAsString(badgeResponse);
+
+    mockServer
+        .expect(once(), requestTo(BADGES_ENDPOINT + "?name=" + NAME))
+        .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
+
+    List<BadgeSummary> retrievedBadges = client.findBadgeByName(NAME);
+    assertThat(retrievedBadges).isEqualTo(badges);
+  }
+
+  @Test
+  public void findABadgeByName_ShouldThrowException_When400() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+
+    try {
+      mockServer
+          .expect(once(), requestTo(BADGES_ENDPOINT + "?name=" + NAME))
+          .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+
+      client.findBadgeByName(NAME);
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
