@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{managebadges.badgedetails.html.title} + badge.badgeNumber + #{common.title.suffix}"></title>
+</head>
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="@{/find-a-badge}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+           th:text="#{common.button.back}"/>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
+
+        <p th:text="${badge.nino}"/>
+        <p th:text="${badge.fullName}"/>
+        <p th:text="${badge.dob}"/>
+        <p th:text="${badge.address}"/>
+        <p th:text="${badge.contactNumber}"/>
+        <p th:text="${badge.eligibility}"/>
+
+        <p th:text="${badge.status}"/>
+        <p th:text="${badge.badgeNumber}"/>
+        <p th:text="${badge.issuedBy}"/>
+        <p th:text="${badge.badgeStartDate}"/>
+        <p th:text="${badge.badgeExpiryDate}"/>
+        <p th:text="${badge.localAuthorityReference}"/>
+        <p th:text="${badge.applicationDate}"/>
+        <p th:text="${badge.applicationChannel}"/>
+
+    </section>
+</main>
+
+</body>
+
+</html>

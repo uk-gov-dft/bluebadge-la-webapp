@@ -21,8 +21,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToBadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgeFormsToBadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 
 public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseControllerTest {

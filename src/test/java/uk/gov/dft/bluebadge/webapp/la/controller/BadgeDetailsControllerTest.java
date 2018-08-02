@@ -1,36 +1,26 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersController.URL_MANAGE_USERS;
 
-import com.google.common.collect.Lists;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.common.api.model.Error;
-import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.UserService;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToBadgeDetailsViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
-public class UserDetailsControllerTest extends BaseControllerTest {
+public class BadgeDetailsControllerTest extends BaseControllerTest {
+  private static final String BADGE_NUMBER = "KKKKJ9";
 
   private static final String EMAIL_ADDRESS = "joeblogs@joe.com";
   private static final String EMAIL_ADDRESS_UPDATED = "updated@joe.com";
@@ -46,17 +36,18 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String NAME_PARAM = "name";
   private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
   private static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityId";
-  private static final String MODEL_FORM_REQUEST = "formRequest";
   private static final String MODEL_ID = "id";
 
   private static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
   private static final String ERROR_MSG_NAME = "error in name";
 
-  @Mock private UserService userServiceMock;
+  @Mock private BadgeService badgeServiceMock;
+  @Mock private BadgeToBadgeDetailsViewModel badgeToBadgeDetailsViewModelMock;
 
   // Test Data
   private User userSignedIn;
-  private User user;
+  private Badge badge;
+  private BadgeDetailsViewModel badgeViewModel;
   private User userWithId;
 
   @Before
@@ -65,14 +56,17 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    UserDetailsController controller =
-        new UserDetailsController(userServiceMock, new UserDetailsFormRequestToUser());
+    BadgeDetailsController controller =
+        new BadgeDetailsController(badgeServiceMock, badgeToBadgeDetailsViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
 
+    badge = new Badge();
+    badgeViewModel = BadgeDetailsViewModel.builder().build();
+    /*
     userSignedIn =
         new User()
             .name("Joe")
@@ -91,16 +85,27 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .emailAddress(EMAIL_ADDRESS)
             .name(NAME)
             .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+            .roleId(ROLE_ID);*/
   }
-
+  /*
   private UserDetailsFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
     UserDetailsFormRequest userDetailsFormRequest = new UserDetailsFormRequest();
     userDetailsFormRequest.setEmailAddress(emailAddress);
     userDetailsFormRequest.setName(name);
     return userDetailsFormRequest;
-  }
+  }*/
 
+  @Test
+  public void show_shouldDisplayBadgeDetails_WhenBadgeExists() throws Exception {
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
+    when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
+    mockMvc
+        .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
+        .andExpect(status().isOk())
+        .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
+        .andExpect(model().attribute("badge", badgeViewModel));
+  }
+  /*
   @Test
   public void
       showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
@@ -205,5 +210,5 @@ public class UserDetailsControllerTest extends BaseControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
     verify(userServiceMock, times(1)).requestPasswordReset(USER_ID);
-  }
+  }*/
 }

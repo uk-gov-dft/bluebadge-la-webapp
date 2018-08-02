@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;

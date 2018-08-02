@@ -34,12 +34,12 @@
                 </thead>
                 <tbody class="govuk-table__body">
                 <tr class="govuk-table__row" th:each="badge : ${results}">
-                    <td class="govuk-table__cell" th:text="${badge.badgeNumber}">
-                    <td class="govuk-table__cell" th:text="${badge.name}">
-                    <td class="govuk-table__cell" th:text="${badge.postCode}">
-                    <td class="govuk-table__cell" th:text="${badge.localAuthority}">
-                    <td class="govuk-table__cell" th:text="${badge.expiryDate}">
-                    <td class="govuk-table__cell" th:text="${badge.status}">
+                    <td class="govuk-table__cell"> <a th:href="@{/manage-badges/__${badge.badgeNumber}__}"><p th:text="${badge.badgeNumber}"/></a></td>
+                    <td class="govuk-table__cell" th:text="${badge.name}"/>
+                    <td class="govuk-table__cell" th:text="${badge.postCode}"/>
+                    <td class="govuk-table__cell" th:text="${badge.localAuthority}"/>
+                    <td class="govuk-table__cell" th:text="${badge.expiryDate}"/>
+                    <td class="govuk-table__cell" th:text="${badge.status}"/>
                 </tr>
                 </tbody>
             </table>

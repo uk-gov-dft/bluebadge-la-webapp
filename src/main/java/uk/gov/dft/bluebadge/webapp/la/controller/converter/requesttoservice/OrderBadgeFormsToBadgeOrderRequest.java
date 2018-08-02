@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice;
 
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;

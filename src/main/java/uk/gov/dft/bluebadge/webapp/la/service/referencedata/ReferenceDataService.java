@@ -52,41 +52,30 @@ public class ReferenceDataService {
   }
 
   public List<ReferenceData> retrieveEligilities() {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return retrieveReferenceData(RefDataGroupEnum.ELIGIBILITY);
+    return retrieveReferenceDataList(RefDataGroupEnum.ELIGIBILITY);
   }
 
   public List<ReferenceData> retrieveGender() {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return retrieveReferenceData(RefDataGroupEnum.GENDER);
+    return retrieveReferenceDataList(RefDataGroupEnum.GENDER);
   }
 
   public List<ReferenceData> retrieveApplicationChannel() {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return retrieveReferenceData(RefDataGroupEnum.APP_SOURCE);
+    return retrieveReferenceDataList(RefDataGroupEnum.APP_SOURCE);
   }
 
   public List<ReferenceData> retrieveDeliverTo() {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return retrieveReferenceData(RefDataGroupEnum.DELIVER_TO);
+    return retrieveReferenceDataList(RefDataGroupEnum.DELIVER_TO);
   }
 
   public List<ReferenceData> retrieveDeliveryOptions() {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return retrieveReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS);
+    return retrieveReferenceDataList(RefDataGroupEnum.DELIVERY_OPTIONS);
   }
 
-  private List<ReferenceData> retrieveReferenceData(RefDataGroupEnum referenceDataGroup) {
+  public List<ReferenceData> retrieveStatus() {
+    return retrieveReferenceDataList(RefDataGroupEnum.STATUS);
+  }
+
+  private List<ReferenceData> retrieveReferenceDataList(RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }
@@ -94,37 +83,33 @@ public class ReferenceDataService {
   }
 
   public String retrieveEligibilityDisplayValue(String key) {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return groupedReferenceDataMap.get(RefDataGroupEnum.ELIGIBILITY.getGroupKey()).get(key);
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.ELIGIBILITY, key);
   }
 
   public String retrieveGenderDisplayValue(String key) {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return groupedReferenceDataMap.get(RefDataGroupEnum.GENDER.getGroupKey()).get(key);
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);
   }
 
   public String retrieveApplicationChannelDisplayValue(String key) {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return groupedReferenceDataMap.get(RefDataGroupEnum.APP_SOURCE.getGroupKey()).get(key);
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.APP_SOURCE, key);
   }
 
   public String retrieveDeliverToDisplayValue(String key) {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return groupedReferenceDataMap.get(RefDataGroupEnum.DELIVER_TO.getGroupKey()).get(key);
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVER_TO, key);
   }
 
   public String retrieveDeliveryOptionsDisplayValue(String key) {
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVERY_OPTIONS, key);
+  }
+
+  public String retrieveStatusDisplayValue(String key) {
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.STATUS, key);
+  }
+
+  private String retrieveReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
     if (!isLoaded.get()) {
       init();
     }
-    return groupedReferenceDataMap.get(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey()).get(key);
+    return groupedReferenceDataMap.get(group.getGroupKey()).get(key);
   }
 }

@@ -18,26 +18,31 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 
 public class ReferenceDataServiceTest {
 
-  public static final String ELIGIBILITY_1_SHORTCODE = "eligibilityShortCode1";
-  public static final String GENDER_1_SHORTCODE = "MALE";
-  public static final String ELIGIBILITY_2_SHORTCODE = "eligibilityShortCode2";
-  public static final String GENDER_2_SHORTCODE = "FEMALE";
-  public static final String APPLICATION_CHANNEL_1_SHORTCODE = "APPLICATION_CHANNEL1";
-  public static final String APPLICATION_CHANNEL_2_SHORTCODE = "APPLICATION_CHANNEL2";
-  public static final String DELIVER_TO_1_SHORTCODE = "DELIVER_TO1";
-  public static final String DELIVER_TO_2_SHORTCODE = "DELIVER_TO2";
-  public static final String DELIVERY_OPTIONS_1_SHORTCODE = "DELIVERY_OPTIONS1";
-  public static final String DELIVERY_OPTIONS_2_SHORTCODE = "DELIVERY_OPTIONS2";
-  public static final String ELIGIBILITY_1 = "eligibilityValue1";
-  public static final String GENDER_1 = "male";
-  public static final String ELIGIBILITY_2 = "eligibilityValue2";
-  public static final String GENDER_2 = "female";
-  public static final String APPLICATION_CHANNEL_1 = "application channel 1";
-  public static final String APPLICATION_CHANNEL_2 = "application channel 2";
-  public static final String DELIVER_TO_1 = "deliver to 1";
-  public static final String DELIVER_TO_2 = "deliver to 2";
-  public static final String DELIVERY_OPTIONS_1 = "delivery options 1";
-  public static final String DELIVERY_OPTIONS_2 = "delivery options 2";
+  private static final String ELIGIBILITY_1_SHORTCODE = "eligibilityShortCode1";
+  private static final String GENDER_1_SHORTCODE = "MALE";
+  private static final String ELIGIBILITY_2_SHORTCODE = "eligibilityShortCode2";
+  private static final String GENDER_2_SHORTCODE = "FEMALE";
+  private static final String APPLICATION_CHANNEL_1_SHORTCODE = "APPLICATION_CHANNEL1";
+  private static final String APPLICATION_CHANNEL_2_SHORTCODE = "APPLICATION_CHANNEL2";
+  private static final String DELIVER_TO_1_SHORTCODE = "DELIVER_TO1";
+  private static final String DELIVER_TO_2_SHORTCODE = "DELIVER_TO2";
+  private static final String DELIVERY_OPTIONS_1_SHORTCODE = "DELIVERY_OPTIONS1";
+  private static final String DELIVERY_OPTIONS_2_SHORTCODE = "DELIVERY_OPTIONS2";
+  private static final String ELIGIBILITY_1 = "eligibilityValue1";
+  private static final String GENDER_1 = "male";
+  private static final String ELIGIBILITY_2 = "eligibilityValue2";
+  private static final String GENDER_2 = "female";
+  private static final String APPLICATION_CHANNEL_1 = "application channel 1";
+  private static final String APPLICATION_CHANNEL_2 = "application channel 2";
+  private static final String DELIVER_TO_1 = "deliver to 1";
+  private static final String DELIVER_TO_2 = "deliver to 2";
+  private static final String DELIVERY_OPTIONS_1 = "delivery options 1";
+  private static final String DELIVERY_OPTIONS_2 = "delivery options 2";
+  private static final String STATUS_1_SHORTCODE = "status 1 short code";
+  private static final String STATUS_2_SHORTCODE = "status 2 short code";
+  private static final String STATUS_1 = "status 1";
+  private static final String STATUS_2 = "status 2";
+
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
 
   private ReferenceDataService referenceDataService;
@@ -52,6 +57,8 @@ public class ReferenceDataServiceTest {
   private ReferenceData referenceData8;
   private ReferenceData referenceData9;
   private ReferenceData referenceData10;
+  private ReferenceData referenceData11;
+  private ReferenceData referenceData12;
 
   private List<ReferenceData> referenceData;
 
@@ -103,6 +110,14 @@ public class ReferenceDataServiceTest {
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10)
             .shortCode(DELIVERY_OPTIONS_2_SHORTCODE)
             .description(DELIVERY_OPTIONS_2);
+    referenceData11 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 11)
+            .shortCode(STATUS_1_SHORTCODE)
+            .description(STATUS_1);
+    referenceData12 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 12)
+            .shortCode(STATUS_2_SHORTCODE)
+            .description(STATUS_2);
     referenceData =
         Lists.newArrayList(
             referenceData1,
@@ -114,7 +129,9 @@ public class ReferenceDataServiceTest {
             referenceData7,
             referenceData8,
             referenceData9,
-            referenceData10);
+            referenceData10,
+            referenceData11,
+            referenceData12);
     when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
         .thenReturn(referenceData);
   }
@@ -150,6 +167,12 @@ public class ReferenceDataServiceTest {
   }
 
   @Test
+  public void retrieveStatus_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveStatus();
+    assertThat(statuses).containsExactlyInAnyOrder(referenceData11, referenceData12);
+  }
+
+  @Test
   public void retrieveEligibilityDisplayValue_ShouldWork() {
     assertThat(referenceDataService.retrieveEligibilityDisplayValue(ELIGIBILITY_1_SHORTCODE))
         .isEqualTo(ELIGIBILITY_1);
@@ -180,5 +203,11 @@ public class ReferenceDataServiceTest {
     assertThat(
             referenceDataService.retrieveDeliveryOptionsDisplayValue(DELIVERY_OPTIONS_1_SHORTCODE))
         .isEqualTo(DELIVERY_OPTIONS_1);
+  }
+
+  @Test
+  public void retrieveStatusDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveStatusDisplayValue(STATUS_1_SHORTCODE))
+        .isEqualTo(STATUS_1);
   }
 }

@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
