@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 
 /** BadgesResponse */
 @Validated
@@ -74,7 +74,6 @@ public class BadgesResponse extends CommonResponse {
   /**
    * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
-  @Override
   protected String toIndentedString(Object o) {
     if (o == null) {
       return "null";

@@ -1,9 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.google.common.collect.Lists;
 import org.junit.Before;
@@ -12,14 +17,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.Error;
+import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class CreateANewUserControllerTest {
@@ -29,7 +35,7 @@ public class CreateANewUserControllerTest {
   private static final String NAME = "joeblogs@joe.com";
   private static final String NAME_WRONG_FORMAT = "111";
   private static final int ROLE_ID = 1;
-  private static final int LOCAL_AUTHORITY = 1;
+  private static final int LOCAL_AUTHORITY_ID = 1;
   public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
   public static final String ERROR_IN_NAME = "error in name";
 
@@ -41,7 +47,7 @@ public class CreateANewUserControllerTest {
   private CreateANewUserController controller;
 
   // Test Data
-  private User userDataSignedIn;
+  private uk.gov.dft.bluebadge.common.security.model.User userDataSignedIn;
   private User user;
 
   @Before
@@ -60,17 +66,22 @@ public class CreateANewUserControllerTest {
             .build();
 
     userDataSignedIn =
-        new User()
+        uk.gov.dft.bluebadge.common.security.model.User.builder()
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY)
-            .roleId(ROLE_ID);
+            .localAuthority(LocalAuthority.builder().id(LOCAL_AUTHORITY_ID).build())
+            .roleId(ROLE_ID)
+            .build();
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
     user =
-        new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
+        new User()
+            .emailAddress(EMAIL)
+            .name(NAME)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
+            .roleId(ROLE_ID);
   }
 
   @Test
@@ -87,7 +98,11 @@ public class CreateANewUserControllerTest {
       createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
-        new User().emailAddress(EMAIL).name(NAME).localAuthorityId(LOCAL_AUTHORITY).roleId(ROLE_ID);
+        new User()
+            .emailAddress(EMAIL)
+            .name(NAME)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
+            .roleId(ROLE_ID);
 
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
