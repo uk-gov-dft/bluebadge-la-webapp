@@ -3,7 +3,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,8 +122,6 @@ public class FindBadgeControllerTest {
         .perform(
             post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", POSTCODE))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", POSTCODE));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
   }
 }

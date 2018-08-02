@@ -31,7 +31,7 @@ public class BadgeDetailsSiteSteps {
             .findElement(By.cssSelector("tr.govuk-table__row td.govuk-table__cell:first-child a"));
     String href = badgeDetailsLink.getAttribute("href");
     String[] linkParts = href.split("/");
-    String badgeNumber = linkParts[linkParts.length-1];
+    String badgeNumber = linkParts[linkParts.length - 1];
     scenarioContext.setContext("badgeNumber", badgeNumber);
     log.debug("save to scenario context badgeNumber", badgeNumber);
     badgeDetailsLink.click();

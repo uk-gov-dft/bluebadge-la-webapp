@@ -35,7 +35,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String expiryDate = source.getExpiryDate().format(dateFormatter);
     String startDate = source.getStartDate().format(dateFormatter);
     String dob = source.getParty().getPerson().getDob().format(dateFormatter);
-    String localAuthority = source.getLocalAuthorityId().toString();
+    String localAuthority = source.getLocalAuthorityShortCode();
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveApplicationChannelDisplayValue(

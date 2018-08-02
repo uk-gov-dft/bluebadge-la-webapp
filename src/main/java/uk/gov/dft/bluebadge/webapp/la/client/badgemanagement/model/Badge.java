@@ -21,6 +21,9 @@ public class Badge {
   @JsonProperty("localAuthorityId")
   private Integer localAuthorityId = null;
 
+  @JsonProperty("localAuthorityShortCode")
+  private String localAuthorityShortCode = null;
+
   @JsonProperty("localAuthorityRef")
   private String localAuthorityRef = null;
 
@@ -108,6 +111,25 @@ public class Badge {
 
   public void setLocalAuthorityId(Integer localAuthorityId) {
     this.localAuthorityId = localAuthorityId;
+  }
+
+  public Badge localAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
+    return this;
+  }
+
+  /**
+   * Shortcode of local authority.
+   *
+   * @return localAuthorityShortCode
+   */
+  @ApiModelProperty(example = "BIRM", value = "Short code of local authority.")
+  public String getLocalAuthorityShortCode() {
+    return localAuthorityShortCode;
+  }
+
+  public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
   }
 
   public Badge localAuthorityRef(String localAuthorityRef) {
@@ -343,6 +365,7 @@ public class Badge {
     return Objects.equals(this.badgeNumber, badge.badgeNumber)
         && Objects.equals(this.party, badge.party)
         && Objects.equals(this.localAuthorityId, badge.localAuthorityId)
+        && Objects.equals(this.localAuthorityShortCode, badge.localAuthorityShortCode)
         && Objects.equals(this.localAuthorityRef, badge.localAuthorityRef)
         && Objects.equals(this.applicationDate, badge.applicationDate)
         && Objects.equals(this.applicationChannelCode, badge.applicationChannelCode)
@@ -361,6 +384,7 @@ public class Badge {
         badgeNumber,
         party,
         localAuthorityId,
+        localAuthorityShortCode,
         localAuthorityRef,
         applicationDate,
         applicationChannelCode,
@@ -381,6 +405,9 @@ public class Badge {
     sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
     sb.append("    party: ").append(toIndentedString(party)).append("\n");
     sb.append("    localAuthorityId: ").append(toIndentedString(localAuthorityId)).append("\n");
+    sb.append("    localAuthorityShortCode: ")
+        .append(toIndentedString(localAuthorityShortCode))
+        .append("\n");
     sb.append("    localAuthorityRef: ").append(toIndentedString(localAuthorityRef)).append("\n");
     sb.append("    applicationDate: ").append(toIndentedString(applicationDate)).append("\n");
     sb.append("    applicationChannelCode: ")

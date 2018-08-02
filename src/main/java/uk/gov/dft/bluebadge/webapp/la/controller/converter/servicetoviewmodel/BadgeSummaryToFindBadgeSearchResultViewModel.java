@@ -21,7 +21,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
         .badgeNumber(source.getBadgeNumber())
         .name(source.getName())
         .postCode(source.getPostCode())
-        .localAuthority(source.getLocalAuthorityCode().toString())
+        .localAuthority(source.getLocalAuthorityShortCode())
         .expiryDate(source.getExpiryDate().format(formatter))
         .status(source.getStatusDescription())
         .build();

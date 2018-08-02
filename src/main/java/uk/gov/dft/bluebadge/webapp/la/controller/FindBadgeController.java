@@ -93,9 +93,6 @@ public class FindBadgeController {
     session.setAttribute("searchTerm", searchTerm);
     session.setAttribute("results", results);
 
-    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
-    redirectAttributes.addFlashAttribute("results", results);
-
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
 

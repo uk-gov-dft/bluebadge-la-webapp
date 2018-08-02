@@ -37,7 +37,6 @@ public class BadgeService {
   }
 
   public Optional<Badge> retrieve(String badgeNumber) {
-
     if (StringUtils.isEmpty(badgeNumber)) {
       return Optional.empty();
     }
@@ -51,8 +50,7 @@ public class BadgeService {
   }
 
   public List<BadgeSummary> findBadgeByPostcode(String postcode) {
-
-    if (postcode == null || postcode.isEmpty()) {
+    if (StringUtils.isEmpty(postcode)) {
       return Lists.newArrayList();
     }
     return badgeManagementApiClient.findBadgeByPostCode(postcode);

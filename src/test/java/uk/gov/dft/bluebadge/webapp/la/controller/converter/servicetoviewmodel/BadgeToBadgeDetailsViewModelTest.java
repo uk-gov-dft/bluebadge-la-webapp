@@ -48,7 +48,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String ELIGIBILITY_VIEW_MODEL = "pip";
   private static final String EXPIRY_DATE_VIEW_MODEL = "09/07/99";
   private static final String GENDER_VIEW_MODEL = "male";
-  private static final String LOCAL_AUTHORITY_VIEW_MODEL = "2";
+  private static final String LOCAL_AUTHORITY_VIEW_MODEL = null;
   private static final String START_DATE_VIEW_MODEL = "09/07/96";
   private static final String STATUS_VIEW_MODEL = "New";
 

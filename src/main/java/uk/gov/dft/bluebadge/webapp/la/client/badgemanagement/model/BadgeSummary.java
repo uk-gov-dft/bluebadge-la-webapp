@@ -29,6 +29,9 @@ public class BadgeSummary {
   @JsonProperty("localAuthorityCode")
   private Integer localAuthorityCode = null;
 
+  @JsonProperty("localAuthorityShortCode")
+  private String localAuthorityShortCode = null;
+
   @JsonProperty("postCode")
   private String postCode = null;
 
@@ -172,6 +175,25 @@ public class BadgeSummary {
     this.localAuthorityCode = localAuthorityCode;
   }
 
+  public BadgeSummary localAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
+    return this;
+  }
+
+  /**
+   * The short code for the local authority.
+   *
+   * @return localAuthorityShortCode
+   */
+  @ApiModelProperty(example = "BIRM", value = "The short code for the local authority.")
+  public String getLocalAuthorityShortCode() {
+    return localAuthorityShortCode;
+  }
+
+  public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
+  }
+
   public BadgeSummary postCode(String postCode) {
     this.postCode = postCode;
     return this;
@@ -293,6 +315,7 @@ public class BadgeSummary {
         && Objects.equals(this.name, badgeSummary.name)
         && Objects.equals(this.nino, badgeSummary.nino)
         && Objects.equals(this.localAuthorityCode, badgeSummary.localAuthorityCode)
+        && Objects.equals(this.localAuthorityShortCode, badgeSummary.localAuthorityShortCode)
         && Objects.equals(this.postCode, badgeSummary.postCode)
         && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
         && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
@@ -329,6 +352,9 @@ public class BadgeSummary {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    localAuthorityCode: ").append(toIndentedString(localAuthorityCode)).append("\n");
+    sb.append("    localAuthorityShortCode: ")
+        .append(toIndentedString(localAuthorityShortCode))
+        .append("\n");
     sb.append("    postCode: ").append(toIndentedString(postCode)).append("\n");
     sb.append("    localAuthorityName: ").append(toIndentedString(localAuthorityName)).append("\n");
     sb.append("    expiryDate: ").append(toIndentedString(expiryDate)).append("\n");
