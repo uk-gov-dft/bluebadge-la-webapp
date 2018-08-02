@@ -34,10 +34,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String expiryDate = source.getExpiryDate().format(dateFormatter);
     String startDate = source.getStartDate().format(dateFormatter);
     String dob = source.getParty().getPerson().getDob().format(dateFormatter);
-    String localAuthority =
-        source
-            .getLocalAuthorityId()
-            .toString(); // TODO Add a new field in the API to offer the la short code
+    String localAuthority = source.getLocalAuthorityId().toString();
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveApplicationChannelDisplayValue(
@@ -46,21 +43,27 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         referenceDataService.retrieveEligibilityDisplayValue(source.getEligibilityCode());
     String statusDisplayText =
         referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
+    String genderDisplayText =
+        referenceDataService.retrieveGenderDisplayValue(
+            source.getParty().getPerson().getGenderCode());
 
     return BadgeDetailsViewModel.builder()
+        .badgeNumber(source.getBadgeNumber())
         .address(address)
         .applicationChannel(applicationChannelDisplayText)
         .applicationDate(applicationDate)
-        .badgeExpiryDate(expiryDate)
         .badgeStartDate(startDate)
+        .badgeExpiryDate(expiryDate)
         .contactNumber(source.getParty().getContact().getPrimaryPhoneNumber())
-        .badgeNumber(source.getBadgeNumber())
+        .secondaryContactNumber(source.getParty().getContact().getSecondaryPhoneNumber())
         .dob(dob)
         .eligibility(eligibilityDisplayText)
+        .gender(genderDisplayText)
         .fullName(source.getParty().getPerson().getBadgeHolderName())
         .issuedBy(localAuthority)
         .localAuthorityReference(source.getLocalAuthorityRef())
         .nino(source.getParty().getPerson().getNino())
+        .photoUrl(source.getImageLink())
         .status(statusDisplayText)
         .build();
   }

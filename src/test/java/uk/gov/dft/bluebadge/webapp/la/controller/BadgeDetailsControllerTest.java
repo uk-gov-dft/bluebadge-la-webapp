@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -12,9 +15,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
+import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToBadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
@@ -43,12 +47,13 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
 
   @Mock private BadgeService badgeServiceMock;
   @Mock private BadgeToBadgeDetailsViewModel badgeToBadgeDetailsViewModelMock;
+  @Mock private Model modelMock;
+
+  private BadgeDetailsController controller;
 
   // Test Data
-  private User userSignedIn;
   private Badge badge;
   private BadgeDetailsViewModel badgeViewModel;
-  private User userWithId;
 
   @Before
   public void setup() {
@@ -56,8 +61,7 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    BadgeDetailsController controller =
-        new BadgeDetailsController(badgeServiceMock, badgeToBadgeDetailsViewModelMock);
+    controller = new BadgeDetailsController(badgeServiceMock, badgeToBadgeDetailsViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -66,34 +70,7 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
 
     badge = new Badge();
     badgeViewModel = BadgeDetailsViewModel.builder().build();
-    /*
-    userSignedIn =
-        new User()
-            .name("Joe")
-            .id(1)
-            .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY_ID);
-    user =
-        new User()
-            .emailAddress(EMAIL_ADDRESS)
-            .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
-    userWithId =
-        new User()
-            .id(USER_ID)
-            .emailAddress(EMAIL_ADDRESS)
-            .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);*/
   }
-  /*
-  private UserDetailsFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
-    UserDetailsFormRequest userDetailsFormRequest = new UserDetailsFormRequest();
-    userDetailsFormRequest.setEmailAddress(emailAddress);
-    userDetailsFormRequest.setName(name);
-    return userDetailsFormRequest;
-  }*/
 
   @Test
   public void show_shouldDisplayBadgeDetails_WhenBadgeExists() throws Exception {
@@ -105,110 +82,13 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
         .andExpect(model().attribute("badge", badgeViewModel));
   }
-  /*
-  @Test
-  public void
-      showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
-          throws Exception {
-    when(userServiceMock.retrieve(USER_ID)).thenReturn(user);
-    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
-    formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
-    mockMvc
-        .perform(get(URL_USER_DETAILS + USER_ID).sessionAttr("user", userSignedIn))
-        .andExpect(status().isOk())
-        .andExpect(view().name(TEMPLATE_USER_DETAILS))
-        .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest))
-        .andExpect(model().attribute(MODEL_ID, USER_ID));
+
+  @Test(expected = NotFoundException.class)
+  public void show_shouldThrowNotFoundException_WhenBadgeDoesNotExist() throws Exception {
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.empty());
+
+    controller.show(BADGE_NUMBER, modelMock);
+
+    verify(badgeToBadgeDetailsViewModelMock, times(0)).convert(any());
   }
-
-  @Test
-  public void
-      updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
-          throws Exception {
-    when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    UserDetailsFormRequest formRequest =
-        getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
-    mockMvc
-        .perform(
-            post(URL_USER_DETAILS + USER_ID)
-                .param(NAME_PARAM, NAME_UPDATED)
-                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_UPDATED))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/manage-users"))
-        .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest));
-    User user =
-        new User()
-            .id(USER_ID)
-            .name(NAME_UPDATED)
-            .emailAddress(EMAIL_ADDRESS_UPDATED)
-            .roleId(ROLE_ID)
-            .localAuthorityId(LOCAL_AUTHORITY_ID);
-    verify(userServiceMock, times(1)).update(user);
-  }
-
-  @Test
-  public void
-      updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetailsAndValidationErrors_WhenYouAreSignedInAndThereAreValidationErrors()
-          throws Exception {
-    when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-
-    ErrorErrors emailAddressError =
-        new ErrorErrors().field(EMAIL_ADDRESS_PARAM).message(ERROR_MSG_EMAIL_ADDRESS);
-    ErrorErrors nameError = new ErrorErrors().field(NAME_PARAM).message(ERROR_MSG_NAME);
-    CommonResponse userResponseUpdate = new UserResponse();
-    userResponseUpdate.setError(
-        new Error().errors(Lists.newArrayList(emailAddressError, nameError)));
-    user =
-        new User()
-            .id(USER_ID)
-            .name(NAME_ERROR)
-            .emailAddress(EMAIL_ADDRESS_ERROR)
-            .roleId(ROLE_ID)
-            .localAuthorityId(LOCAL_AUTHORITY_ID);
-
-    when(userServiceMock.update(any())).thenThrow(new BadRequestException(userResponseUpdate));
-
-    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
-
-    mockMvc
-        .perform(
-            post(URL_USER_DETAILS + USER_ID)
-                .param(NAME_PARAM, NAME_ERROR)
-                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_ERROR))
-        .andExpect(status().isOk())
-        .andExpect(view().name(TEMPLATE_USER_DETAILS))
-        .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest))
-        .andExpect(model().errorCount(2))
-        .andExpect(
-            model()
-                .attributeHasFieldErrorCode(
-                    MODEL_FORM_REQUEST, "emailAddress", ERROR_MSG_EMAIL_ADDRESS))
-        .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, "name", ERROR_MSG_NAME));
-
-    verify(userServiceMock, times(1)).update(user);
-  }
-
-  @Test
-  public void deleteUser_shouldRedirectToManageUsers_WhenYouAreSignedInAndThereAreNoErrors()
-      throws Exception {
-    mockMvc
-        .perform(
-            delete(URL_USER_DETAILS + USER_ID)
-                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY_ID)))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl(URL_MANAGE_USERS));
-    verify(userServiceMock, times(1)).delete(USER_ID);
-  }
-
-  @Test
-  public void requestPasswordReset_shouldRedirectToManageUsers_WhenThereAreNoErrors()
-      throws Exception {
-    mockMvc
-        .perform(
-            post(URL_REQUEST_PASSWORD_RESET + USER_ID)
-                .param(LOCAL_AUTHORITY_ID_PARAM, String.valueOf(LOCAL_AUTHORITY_ID)))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl(URL_MANAGE_USERS));
-    verify(userServiceMock, times(1)).requestPasswordReset(USER_ID);
-  }*/
 }

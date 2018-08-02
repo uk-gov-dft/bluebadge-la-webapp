@@ -11,7 +11,10 @@ public class BadgeDetailsViewModel {
   private String dob;
   private String address;
   private String contactNumber;
+  private String secondaryContactNumber;
+  private String gender;
   private String eligibility;
+  private String photoUrl;
 
   private String status;
   private String badgeNumber;

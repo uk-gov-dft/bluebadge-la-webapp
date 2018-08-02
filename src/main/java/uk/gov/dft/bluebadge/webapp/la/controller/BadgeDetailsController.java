@@ -42,7 +42,7 @@ public class BadgeDetailsController {
       model.addAttribute("badge", viewModel);
       return TEMPLATE;
     } else {
-      throw new NotFoundException(new CommonResponse()); // TODO: ask BA what to do
+      throw new NotFoundException(new CommonResponse());
     }
   }
 }
