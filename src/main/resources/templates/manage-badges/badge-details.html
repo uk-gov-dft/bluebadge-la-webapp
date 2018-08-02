@@ -9,20 +9,21 @@
 
 <body>
 
-<div layout:fragment="headline">
-    <div class="dft-headline-wrapper">
-        <a th:href="@{/find-a-badge/search-results}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
-           th:text="#{common.button.back}"/>
+    <div layout:fragment="headline">
+        <div class="dft-headline-wrapper">
+            <a th:href="@{/find-a-badge/search-results}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+               th:text="#{common.button.back}"/>
+        </div>
     </div>
 
     <main layout:fragment="content">
 
         <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
 
-            <div class="dft-group-heading">
-                <p class="dft-sub-heading" th:text="'XYZ123'"></p>
-                <h1 class="govuk-heading-l" data-uipath="title" th:text="#{viewBadge.html.title}"></h1>
-            </div>
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span class="govuk-caption-l" th:text="${badge.badgeNumber}"></span>
+                <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
+            </h1>
 
             <article class="dft-check-answers">
 
