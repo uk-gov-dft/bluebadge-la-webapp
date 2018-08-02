@@ -26,6 +26,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String CONTACT_NUMBER = "0777777777";
   private static final LocalDate DOB = LocalDate.of(1930, 1, 1);
   private static final String ELIGIBILITY = "PIP";
+  private static final String EMAIL_ADDRESS = "aa@aa.com";
   private static final LocalDate EXPIRY_DATE = LocalDate.of(2099, 7, 9);
   private static final String GENDER = "MALE";
   private static final String IMAGE_LINK = "http://localhost/image";
@@ -76,7 +77,8 @@ public class BadgeToBadgeDetailsViewModelTest {
                           .postCode(POSTCODE)
                           .line2(LINE2)
                           .primaryPhoneNumber(CONTACT_NUMBER)
-                          .secondaryPhoneNumber(SECONDARY_CONTACT_NUMBER)))
+                          .secondaryPhoneNumber(SECONDARY_CONTACT_NUMBER)
+                          .emailAddress(EMAIL_ADDRESS)))
           .startDate(START_DATE)
           .statusCode(STATUS);
 
@@ -90,6 +92,7 @@ public class BadgeToBadgeDetailsViewModelTest {
           .contactNumber(CONTACT_NUMBER)
           .dob(DOB_VIEW_MODEL)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .emailAddress(EMAIL_ADDRESS)
           .fullName(BADGE_HOLDER_NAME)
           .gender(GENDER_VIEW_MODEL)
           .issuedBy(LOCAL_AUTHORITY_VIEW_MODEL)

@@ -98,9 +98,7 @@ public class FindBadgeControllerTest {
                 .param("findBadgeBy", "badgeNumber")
                 .param("searchTerm", BADGE_NUMBER))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", BADGE_NUMBER));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
   }
 
   @Test
