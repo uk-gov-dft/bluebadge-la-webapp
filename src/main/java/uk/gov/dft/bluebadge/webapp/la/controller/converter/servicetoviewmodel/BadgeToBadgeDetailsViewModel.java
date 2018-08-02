@@ -55,6 +55,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .badgeStartDate(startDate)
         .badgeExpiryDate(expiryDate)
         .contactNumber(source.getParty().getContact().getPrimaryPhoneNumber())
+        .emailAddress(source.getParty().getContact().getEmailAddress())
         .secondaryContactNumber(source.getParty().getContact().getSecondaryPhoneNumber())
         .dob(dob)
         .eligibility(eligibilityDisplayText)
