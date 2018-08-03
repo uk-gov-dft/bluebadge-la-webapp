@@ -32,6 +32,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
   private static final LocalDate SERVICE_MODEL_DOB = LocalDate.now().plusDays(1);
   private static final int SERVICE_MODEL_NUMBER_OF_BADGES = 1;
   private static final int LOCAL_AUTHORITY_ID = 2;
+  private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
   private static final LocalDate SERVICE_MODEL_EXPIRY_DATE = LocalDate.now().plusDays(2);
   private static final LocalDate SERVICE_MODEL_START_DATE = LocalDate.now().plusDays(1);
 
@@ -115,10 +116,11 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
             .startDate(SERVICE_MODEL_START_DATE)
             .expiryDate(SERVICE_MODEL_EXPIRY_DATE)
             .localAuthorityId(LOCAL_AUTHORITY_ID)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .localAuthorityRef(LOCAL_AUTHORITY_REFERENCE_NUMBER)
             .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES)
             .party(party);
-    when(converterToServiceModelMock.convert(any(), any(), any())).thenReturn(badgeOrderRequest);
+    when(converterToServiceModelMock.convert(any(), any())).thenReturn(badgeOrderRequest);
     mockMvc
         .perform(
             post("/order-a-badge/check-order")

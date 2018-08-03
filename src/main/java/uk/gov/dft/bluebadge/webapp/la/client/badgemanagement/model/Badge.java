@@ -94,6 +94,7 @@ public class Badge {
     this.party = party;
   }
 
+  @Deprecated
   public Badge localAuthorityId(Integer localAuthorityId) {
     this.localAuthorityId = localAuthorityId;
     return this;
@@ -104,11 +105,13 @@ public class Badge {
    *
    * @return localAuthorityId
    */
+  @Deprecated
   @ApiModelProperty(example = "123", value = "Id of local authority.")
   public Integer getLocalAuthorityId() {
     return localAuthorityId;
   }
 
+  @Deprecated
   public void setLocalAuthorityId(Integer localAuthorityId) {
     this.localAuthorityId = localAuthorityId;
   }
@@ -119,7 +122,7 @@ public class Badge {
   }
 
   /**
-   * Shortcode of local authority.
+   * Short code of local authority.
    *
    * @return localAuthorityShortCode
    */

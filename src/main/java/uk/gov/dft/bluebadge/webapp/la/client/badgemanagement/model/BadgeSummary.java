@@ -26,6 +26,7 @@ public class BadgeSummary {
   @JsonProperty("nino")
   private String nino = null;
 
+  @Deprecated
   @JsonProperty("localAuthorityCode")
   private Integer localAuthorityCode = null;
 
@@ -156,6 +157,7 @@ public class BadgeSummary {
     this.nino = nino;
   }
 
+  @Deprecated
   public BadgeSummary localAuthorityCode(Integer localAuthorityCode) {
     this.localAuthorityCode = localAuthorityCode;
     return this;
@@ -166,11 +168,13 @@ public class BadgeSummary {
    *
    * @return localAuthorityCode
    */
+  @Deprecated
   @ApiModelProperty(example = "211", value = "The code for the local authority.")
   public Integer getLocalAuthorityCode() {
     return localAuthorityCode;
   }
 
+  @Deprecated
   public void setLocalAuthorityCode(Integer localAuthorityCode) {
     this.localAuthorityCode = localAuthorityCode;
   }

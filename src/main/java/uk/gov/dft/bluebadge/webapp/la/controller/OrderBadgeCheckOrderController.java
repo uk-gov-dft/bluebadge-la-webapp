@@ -63,7 +63,7 @@ public class OrderBadgeCheckOrderController {
         (OrderBadgeProcessingFormRequest)
             session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
     BadgeOrderRequest badgeOrderRequest =
-        converterToServiceModel.convert(detailsForm, processingForm, 2);
+        converterToServiceModel.convert(detailsForm, processingForm);
 
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
     redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);
