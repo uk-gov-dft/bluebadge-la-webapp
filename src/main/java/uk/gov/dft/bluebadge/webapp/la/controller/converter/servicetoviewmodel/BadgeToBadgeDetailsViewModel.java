@@ -35,18 +35,20 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String expiryDate = source.getExpiryDate().format(dateFormatter);
     String startDate = source.getStartDate().format(dateFormatter);
     String dob = source.getParty().getPerson().getDob().format(dateFormatter);
-    String localAuthority = source.getLocalAuthorityShortCode();
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveApplicationChannelDisplayValue(
             source.getApplicationChannelCode());
     String eligibilityDisplayText =
         referenceDataService.retrieveEligibilityDisplayValue(source.getEligibilityCode());
-    String statusDisplayText =
-        referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
     String genderDisplayText =
         referenceDataService.retrieveGenderDisplayValue(
             source.getParty().getPerson().getGenderCode());
+    String localAuthorityDisplayText =
+        referenceDataService.retrieveLocalAuthorityDisplayValue(
+            source.getLocalAuthorityShortCode());
+    String statusDisplayText =
+        referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
 
     Contact contact = source.getParty().getContact();
     Person person = source.getParty().getPerson();
@@ -66,7 +68,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .eligibility(eligibilityDisplayText)
         .gender(genderDisplayText)
         .fullName(person.getBadgeHolderName())
-        .issuedBy(localAuthority)
+        .issuedBy(localAuthorityDisplayText)
         .localAuthorityReference(source.getLocalAuthorityRef())
         .nino(person.getNino())
         .photoUrl(source.getImageLink())

@@ -8,20 +8,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class BadgeToFindBadgeSearchResultViewModelTest {
+public class BadgeSummaryToFindBadgeSearchResultViewModelTest {
 
   private static final String BADGE_NUMBER = "AAAAA1";
   private static final String BADGE_HOLDER_NAME = "MyName";
   private static final LocalDate EXPIRY_DATE = LocalDate.of(2099, 7, 9);
-  private static final String LOCAL_AUTHORITY = "BLACK";
-
+  private static final String LOCAL_AUTHORITY = "BLACKPOOL";
   private static final String POSTCODE = "AAA AAA";
   private static final String STATUS = "NEW";
 
@@ -29,15 +25,13 @@ public class BadgeToFindBadgeSearchResultViewModelTest {
   private static final String LOCAL_AUTHORITY_VIEW_MODEL = "Blackpool";
   private static final String STATUS_VIEW_MODEL = "new";
 
-  private static final Badge BADGE =
-      new Badge()
+  private static final BadgeSummary BADGE_SUMMARY =
+      new BadgeSummary()
           .badgeNumber(BADGE_NUMBER)
-          .party(
-              new Party()
-                  .person(new Person().badgeHolderName(BADGE_HOLDER_NAME))
-                  .contact(new Contact().postCode(POSTCODE)))
-          .localAuthorityShortCode(LOCAL_AUTHORITY)
           .expiryDate(EXPIRY_DATE)
+          .localAuthorityShortCode(LOCAL_AUTHORITY)
+          .name(BADGE_HOLDER_NAME)
+          .postCode(POSTCODE)
           .statusCode(STATUS);
 
   private static final FindBadgeSearchResultViewModel VIEW_MODEL =
@@ -52,20 +46,20 @@ public class BadgeToFindBadgeSearchResultViewModelTest {
 
   @Mock ReferenceDataService referenceDataServiceMock;
 
-  BadgeToFindBadgeSearchResultViewModel converter;
+  BadgeSummaryToFindBadgeSearchResultViewModel converter;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    converter = new BadgeToFindBadgeSearchResultViewModel(referenceDataServiceMock);
     when(referenceDataServiceMock.retrieveStatusDisplayValue(STATUS)).thenReturn(STATUS_VIEW_MODEL);
     when(referenceDataServiceMock.retrieveLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
         .thenReturn(LOCAL_AUTHORITY_VIEW_MODEL);
+    converter = new BadgeSummaryToFindBadgeSearchResultViewModel(referenceDataServiceMock);
   }
 
   @Test
   public void convert_shouldConvertAServiceModelToAViewModel() {
-    FindBadgeSearchResultViewModel viewModel = converter.convert(BADGE);
+    FindBadgeSearchResultViewModel viewModel = converter.convert(BADGE_SUMMARY);
     assertThat(viewModel).isEqualTo(VIEW_MODEL);
   }
 }

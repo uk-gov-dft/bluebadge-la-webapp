@@ -28,11 +28,14 @@ public class BadgeToFindBadgeSearchResultViewModel
     Assert.notNull(source, "Source cannot be null");
     String statusDisplayText =
         referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
+    String localAuthorityDisplayText =
+        referenceDataService.retrieveLocalAuthorityDisplayValue(
+            source.getLocalAuthorityShortCode());
     return FindBadgeSearchResultViewModel.builder()
         .badgeNumber(source.getBadgeNumber())
         .name(source.getParty().getPerson().getBadgeHolderName())
         .postCode(source.getParty().getContact().getPostCode())
-        .localAuthority(source.getLocalAuthorityShortCode())
+        .localAuthority(localAuthorityDisplayText)
         .expiryDate(source.getExpiryDate().format(formatter))
         .status(statusDisplayText)
         .build();
