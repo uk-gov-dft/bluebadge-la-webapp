@@ -15,14 +15,17 @@ public class FindBadgeSearchResultsController {
 
   private static final String TEMPLATE = "find-a-badge/search-results";
 
+  private static final String MODEL_SEARCH_TERM = "searchTerm";
+  private static final String MODEL_RESULTS = "results";
+
   @GetMapping(URL)
   public String show(Model model, HttpSession session) {
-    String searchTerm = (String) session.getAttribute("searchTerm");
+    String searchTerm = (String) session.getAttribute(MODEL_SEARCH_TERM);
     List<FindBadgeSearchResultViewModel> results =
-        (List<FindBadgeSearchResultViewModel>) session.getAttribute("results");
+        (List<FindBadgeSearchResultViewModel>) session.getAttribute(MODEL_RESULTS);
 
-    model.addAttribute("searchTerm", (searchTerm == null ? "" : searchTerm));
-    model.addAttribute("results", (results == null ? Lists.newArrayList() : results));
+    model.addAttribute(MODEL_SEARCH_TERM, (searchTerm == null ? "" : searchTerm));
+    model.addAttribute(MODEL_RESULTS, (results == null ? Lists.newArrayList() : results));
     return TEMPLATE;
   }
 }

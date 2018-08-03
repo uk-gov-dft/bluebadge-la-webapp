@@ -16,6 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetailsViewModel> {
 
   private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
+  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
 
   private ReferenceDataService referenceDataService;
 
@@ -27,8 +28,6 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
   @Override
   public BadgeDetailsViewModel convert(Badge source) {
     Assert.notNull(source, "Source cannot be null");
-
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
 
     String address = toAddress(source);
     String applicationDate = source.getApplicationDate().format(dateFormatter);

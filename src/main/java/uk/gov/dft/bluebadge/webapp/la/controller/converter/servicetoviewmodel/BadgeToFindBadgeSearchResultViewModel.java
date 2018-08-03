@@ -14,6 +14,7 @@ public class BadgeToFindBadgeSearchResultViewModel
     implements Converter<Badge, FindBadgeSearchResultViewModel> {
 
   private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
+  private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
 
   private ReferenceDataService referenceDataService;
 
@@ -24,7 +25,6 @@ public class BadgeToFindBadgeSearchResultViewModel
 
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
     Assert.notNull(source, "Source cannot be null");
     String statusDisplayText =
         referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
