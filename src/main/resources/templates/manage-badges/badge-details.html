@@ -20,10 +20,16 @@
 
         <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
 
-            <h1 class="govuk-heading-l" data-uipath="title">
-                <span class="govuk-caption-l" th:text="${badge.badgeNumber}"></span>
-                <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
-            </h1>
+            <header class="dft-content-heading dft-content-heading--with-cta">
+                <h1 class="govuk-heading-l" data-uipath="title">
+                    <span class="govuk-caption-m" th:text="${badge.badgeNumber}"></span>
+                    <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
+                </h1>
+
+                <div class="cta">
+                    <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19">Cancel badge</a>
+                </div>
+            </header>
 
             <article class="dft-check-answers">
 

@@ -8,7 +8,8 @@ public enum RefDataGroupEnum {
   STATUS("STATUS"),
   DELIVER_TO("DELIVER"),
   DELIVERY_OPTIONS("DELOP"),
-  GENDER("GENDER");
+  GENDER("GENDER"),
+  CANCEL("CANCEL");
 
   public String getGroupKey() {
     return groupKey;

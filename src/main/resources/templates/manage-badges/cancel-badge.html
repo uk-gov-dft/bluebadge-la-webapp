@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{managebadges.badgedetails.html.title} + #{common.title.suffix}"></title>
+</head>
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="'/manage-badges/'+${badgeNumber}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+           th:text="#{common.button.back}"/>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container" th:with="noValue=#{value.not.provided}">
+
+        <h1 class="govuk-heading-l" data-uipath="title">
+            <span class="govuk-caption-m" th:text="${badgeNumber}"></span> Cancel badge
+        </h1>
+
+        <div class="dft-width-two-thirds">
+            <!--<div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>-->
+        </div>
+
+        <form th:action="@{/cancel-badge}" th:object="${formRequest}" method="post" novalidate>
+
+            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
+
+            <input value="Cancel badge" type="submit" data-uipath="cancel" class="govuk-button">
+
+        </form>
+
+    </section>
+
+</main>
+</body>
+
+</html>

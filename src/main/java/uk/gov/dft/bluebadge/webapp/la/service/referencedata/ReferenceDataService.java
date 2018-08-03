@@ -16,6 +16,9 @@ public class ReferenceDataService {
   private Map<String, List<ReferenceData>> groupedReferenceDataList = null;
   private Map<String, Map<String, String>> groupedReferenceDataMap = null;
 
+  private Map<String, List<ReferenceData>> groupedAppReferenceDataList = null;
+  private Map<String, Map<String, String>> groupedAppReferenceDataMap = null;
+
   private final ReferenceDataApiClient referenceDataApiClient;
   private AtomicBoolean isLoaded = new AtomicBoolean();
 
@@ -30,15 +33,14 @@ public class ReferenceDataService {
    */
   private void init() {
     if (!isLoaded.getAndSet(true)) {
+
       List<ReferenceData> referenceDataList =
           referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
       groupedReferenceDataList =
           referenceDataList
               .stream()
               .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
-
       groupedReferenceDataMap = new HashMap<>();
-
       groupedReferenceDataList.forEach(
           (key, value) ->
               groupedReferenceDataMap.put(
@@ -48,7 +50,32 @@ public class ReferenceDataService {
                       .collect(
                           Collectors.toMap(
                               ReferenceData::getShortCode, ReferenceData::getDescription))));
+
+      List<ReferenceData> appDomainReferenceDataList =
+          referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.APP);
+      groupedAppReferenceDataList =
+          appDomainReferenceDataList
+              .stream()
+              .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
+      groupedAppReferenceDataMap = new HashMap<>();
+      groupedAppReferenceDataList.forEach(
+          (key, value) ->
+              groupedAppReferenceDataMap.put(
+                  key,
+                  value
+                      .stream()
+                      .collect(
+                          Collectors.toMap(
+                              ReferenceData::getShortCode, ReferenceData::getDescription))));
     }
+  }
+
+  public List<ReferenceData> retrieveCancellations() {
+    if (!isLoaded.get()) {
+      init();
+    }
+
+    return groupedAppReferenceDataList.get(RefDataGroupEnum.CANCEL.getGroupKey());
   }
 
   public List<ReferenceData> retrieveEligilities() {
