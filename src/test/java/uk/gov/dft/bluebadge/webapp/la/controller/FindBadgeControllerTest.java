@@ -118,9 +118,7 @@ public class FindBadgeControllerTest {
                 .param("findBadgeBy", "badgeNumber")
                 .param("searchTerm", INVALID_BADGE_NUMBER))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", INVALID_BADGE_NUMBER));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
   }
 
   @Test
@@ -131,9 +129,7 @@ public class FindBadgeControllerTest {
     mockMvc
         .perform(post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", ""))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", ""));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
 
     verify(badgeServiceMock, times(0)).retrieve(any());
   }
@@ -150,9 +146,7 @@ public class FindBadgeControllerTest {
                 .param("findBadgeBy", INVALID_SEARCH_BADGE_BY_OPTION)
                 .param("searchTerm", "12345678"))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", INVALID_BADGE_NUMBER));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
 
     verify(badgeServiceMock, times(0)).retrieve(any());
   }
@@ -202,8 +196,6 @@ public class FindBadgeControllerTest {
     mockMvc
         .perform(post("/find-a-badge").param("findBadgeBy", "name").param("searchTerm", NAME))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/find-a-badge/search-results"))
-        .andExpect(flash().attribute("results", expectedResults))
-        .andExpect(flash().attribute("searchTerm", NAME));
+        .andExpect(redirectedUrl("/find-a-badge/search-results"));
   }
 }

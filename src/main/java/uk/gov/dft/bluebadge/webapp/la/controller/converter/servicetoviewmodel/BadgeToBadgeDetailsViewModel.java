@@ -1,11 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
 import java.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
@@ -53,25 +53,25 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     Person person = source.getParty().getPerson();
 
     return BadgeDetailsViewModel.builder()
-        .badgeNumber(source.getBadgeNumber())
-        .address(address)
-        .applicationChannel(applicationChannelDisplayText)
-        .applicationDate(applicationDate)
-        .badgeStartDate(startDate)
+        .badgeNumber(StringUtils.trimToNull(source.getBadgeNumber()))
+        .address(StringUtils.trimToNull(address))
+        .applicationChannel(StringUtils.trimToNull(applicationChannelDisplayText))
+        .applicationDate(StringUtils.trimToNull(applicationDate))
+        .badgeStartDate(StringUtils.trimToNull(startDate))
         .badgeExpiryDate(expiryDate)
-        .contactFullName(contact.getFullName())
-        .contactNumber(contact.getPrimaryPhoneNumber())
-        .emailAddress(contact.getEmailAddress())
-        .secondaryContactNumber(contact.getSecondaryPhoneNumber())
+        .contactFullName(StringUtils.trimToNull(contact.getFullName()))
+        .contactNumber(StringUtils.trimToNull(contact.getPrimaryPhoneNumber()))
+        .emailAddress(StringUtils.trimToNull(contact.getEmailAddress()))
+        .secondaryContactNumber(StringUtils.trimToNull(contact.getSecondaryPhoneNumber()))
         .dob(dob)
-        .eligibility(eligibilityDisplayText)
-        .gender(genderDisplayText)
-        .fullName(person.getBadgeHolderName())
-        .issuedBy(localAuthorityDisplayText)
-        .localAuthorityReference(source.getLocalAuthorityRef())
-        .nino(person.getNino())
-        .photoUrl(source.getImageLink())
-        .status(statusDisplayText)
+        .eligibility(StringUtils.trimToNull(eligibilityDisplayText))
+        .gender(StringUtils.trimToNull(genderDisplayText))
+        .fullName(StringUtils.trimToNull(person.getBadgeHolderName()))
+        .issuedBy(StringUtils.trimToNull(localAuthorityDisplayText))
+        .localAuthorityReference(StringUtils.trimToNull(source.getLocalAuthorityRef()))
+        .nino(StringUtils.trimToNull(person.getNino()))
+        .photoUrl(StringUtils.trimToNull(source.getImageLink()))
+        .status(StringUtils.trimToNull(statusDisplayText))
         .build();
   }
 

@@ -18,9 +18,6 @@ public class Badge {
   @JsonProperty("party")
   private Party party = null;
 
-  @JsonProperty("localAuthorityId")
-  private Integer localAuthorityId = null;
-
   @JsonProperty("localAuthorityShortCode")
   private String localAuthorityShortCode = null;
 
@@ -94,28 +91,6 @@ public class Badge {
     this.party = party;
   }
 
-  @Deprecated
-  public Badge localAuthorityId(Integer localAuthorityId) {
-    this.localAuthorityId = localAuthorityId;
-    return this;
-  }
-
-  /**
-   * Id of local authority.
-   *
-   * @return localAuthorityId
-   */
-  @Deprecated
-  @ApiModelProperty(example = "123", value = "Id of local authority.")
-  public Integer getLocalAuthorityId() {
-    return localAuthorityId;
-  }
-
-  @Deprecated
-  public void setLocalAuthorityId(Integer localAuthorityId) {
-    this.localAuthorityId = localAuthorityId;
-  }
-
   public Badge localAuthorityShortCode(String localAuthorityShortCode) {
     this.localAuthorityShortCode = localAuthorityShortCode;
     return this;
@@ -127,6 +102,7 @@ public class Badge {
    * @return localAuthorityShortCode
    */
   @ApiModelProperty(example = "BIRM", value = "Short code of local authority.")
+  @Pattern(regexp = "^[A-Z]+$")
   public String getLocalAuthorityShortCode() {
     return localAuthorityShortCode;
   }
@@ -367,7 +343,6 @@ public class Badge {
     Badge badge = (Badge) o;
     return Objects.equals(this.badgeNumber, badge.badgeNumber)
         && Objects.equals(this.party, badge.party)
-        && Objects.equals(this.localAuthorityId, badge.localAuthorityId)
         && Objects.equals(this.localAuthorityShortCode, badge.localAuthorityShortCode)
         && Objects.equals(this.localAuthorityRef, badge.localAuthorityRef)
         && Objects.equals(this.applicationDate, badge.applicationDate)
@@ -386,7 +361,6 @@ public class Badge {
     return Objects.hash(
         badgeNumber,
         party,
-        localAuthorityId,
         localAuthorityShortCode,
         localAuthorityRef,
         applicationDate,
@@ -407,7 +381,6 @@ public class Badge {
 
     sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
     sb.append("    party: ").append(toIndentedString(party)).append("\n");
-    sb.append("    localAuthorityId: ").append(toIndentedString(localAuthorityId)).append("\n");
     sb.append("    localAuthorityShortCode: ")
         .append(toIndentedString(localAuthorityShortCode))
         .append("\n");
