@@ -96,3 +96,42 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
+
+  Scenario: Verify Find a badge by name
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
+    When I enter all the mandatory valid personal details to order a badge
+    And I can click "continue" button
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I enter all the mandatory valid processing details to order a badge
+    And I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "orderBadge.button" button
+    Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
+    And I should see a badge number on badge ordered page
+    When I can click on the "Find a badge" link on left navigation
+    Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
+    When I select option "name.radio"
+    And I type the name of the applicant who previously ordered a badge
+    And I can click "button" button
+    Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
+    And I should not see "No results found for " text on the page
+    When I can click "back-link" button
+    Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
+
+  Scenario: Verify Find a badge by name for a non existing badge and present the results
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    And I can click on the "Find a badge" link on left navigation
+    Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
+    When I select option "name.radio"
+    And I type "json" for "searchTerm.field" field by uipath
+    And I can click "button" button
+    Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
+    And I should see "No results found for " text on the page

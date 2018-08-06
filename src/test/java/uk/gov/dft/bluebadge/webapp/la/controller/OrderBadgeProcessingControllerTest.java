@@ -56,7 +56,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   @Test
   public void show_ShouldPopulateAppSourceAttributeFromReferenceDataService() throws Exception {
     List<ReferenceData> appSourceOptions = Lists.newArrayList(ref1, ref2, ref3);
-    when(referenceDataServiceMock.retrieveApplicationChannel()).thenReturn(appSourceOptions);
+    when(referenceDataServiceMock.retrieveApplicationChannels()).thenReturn(appSourceOptions);
 
     mockMvc
         .perform(get("/order-a-badge/processing"))
@@ -68,7 +68,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   @Test
   public void show_ShouldPopulateDeliverToAttributeFromReferenceDataService() throws Exception {
     List<ReferenceData> deliverToOptions = Lists.newArrayList(ref1, ref2, ref3);
-    when(referenceDataServiceMock.retrieveDeliverTo()).thenReturn(deliverToOptions);
+    when(referenceDataServiceMock.retrieveDeliverTos()).thenReturn(deliverToOptions);
 
     mockMvc
         .perform(get("/order-a-badge/processing"))

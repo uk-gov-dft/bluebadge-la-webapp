@@ -31,7 +31,8 @@ public class ReferenceDataService {
   private void init() {
     if (!isLoaded.getAndSet(true)) {
 
-      List<ReferenceData> referenceDataList = referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
+      List<ReferenceData> referenceDataList =
+          referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
 
       groupedReferenceDataList =
           referenceDataList
@@ -53,22 +54,22 @@ public class ReferenceDataService {
   }
 
   public List<ReferenceData> retrieveCancellations() {
-      return retrieveReferenceDataList(RefDataGroupEnum.CANCEL);
+    return retrieveReferenceDataList(RefDataGroupEnum.CANCEL);
   }
 
   public List<ReferenceData> retrieveEligilities() {
     return retrieveReferenceDataList(RefDataGroupEnum.ELIGIBILITY);
   }
 
-  public List<ReferenceData> retrieveGender() {
+  public List<ReferenceData> retrieveGenders() {
     return retrieveReferenceDataList(RefDataGroupEnum.GENDER);
   }
 
-  public List<ReferenceData> retrieveApplicationChannel() {
+  public List<ReferenceData> retrieveApplicationChannels() {
     return retrieveReferenceDataList(RefDataGroupEnum.APP_SOURCE);
   }
 
-  public List<ReferenceData> retrieveDeliverTo() {
+  public List<ReferenceData> retrieveDeliverTos() {
     return retrieveReferenceDataList(RefDataGroupEnum.DELIVER_TO);
   }
 
@@ -76,8 +77,12 @@ public class ReferenceDataService {
     return retrieveReferenceDataList(RefDataGroupEnum.DELIVERY_OPTIONS);
   }
 
-  public List<ReferenceData> retrieveStatus() {
+  public List<ReferenceData> retrieveStatuses() {
     return retrieveReferenceDataList(RefDataGroupEnum.STATUS);
+  }
+
+  public List<ReferenceData> retrieveLocalAuthorities() {
+    return retrieveReferenceDataList(RefDataGroupEnum.LA);
   }
 
   private List<ReferenceData> retrieveReferenceDataList(RefDataGroupEnum referenceDataGroup) {
@@ -103,12 +108,16 @@ public class ReferenceDataService {
     return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVER_TO, key);
   }
 
-  public String retrieveDeliveryOptionsDisplayValue(String key) {
+  public String retrieveDeliveryOptionDisplayValue(String key) {
     return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVERY_OPTIONS, key);
   }
 
   public String retrieveStatusDisplayValue(String key) {
     return retrieveReferenceDataDisplayValue(RefDataGroupEnum.STATUS, key);
+  }
+
+  public String retrieveLocalAuthorityDisplayValue(String key) {
+    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
   }
 
   private String retrieveReferenceDataDisplayValue(RefDataGroupEnum group, String key) {

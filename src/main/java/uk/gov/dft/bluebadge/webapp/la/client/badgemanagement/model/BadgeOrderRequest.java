@@ -17,8 +17,12 @@ public class BadgeOrderRequest {
   @JsonProperty("party")
   private Party party = null;
 
+  @Deprecated
   @JsonProperty("localAuthorityId")
   private Integer localAuthorityId = null;
+
+  @JsonProperty("localAuthorityShortCode")
+  private String localAuthorityShortCode = null;
 
   @JsonProperty("localAuthorityRef")
   private String localAuthorityRef = null;
@@ -71,6 +75,7 @@ public class BadgeOrderRequest {
     this.party = party;
   }
 
+  @Deprecated
   public BadgeOrderRequest localAuthorityId(Integer localAuthorityId) {
     this.localAuthorityId = localAuthorityId;
     return this;
@@ -81,14 +86,34 @@ public class BadgeOrderRequest {
    *
    * @return localAuthorityId
    */
+  @Deprecated
   @ApiModelProperty(example = "187", required = true, value = "Id of local authority.")
-  @NotNull
   public Integer getLocalAuthorityId() {
     return localAuthorityId;
   }
 
+  @Deprecated
   public void setLocalAuthorityId(Integer localAuthorityId) {
     this.localAuthorityId = localAuthorityId;
+  }
+
+  public BadgeOrderRequest localAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
+    return this;
+  }
+
+  /**
+   * Short code of local authority.
+   *
+   * @return localAuthorityShortCode
+   */
+  @ApiModelProperty(example = "ABERD", required = true, value = "Short code of local authority.")
+  public String getLocalAuthorityShortCode() {
+    return localAuthorityShortCode;
+  }
+
+  public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
   }
 
   public BadgeOrderRequest localAuthorityRef(String localAuthorityRef) {
@@ -337,6 +362,7 @@ public class BadgeOrderRequest {
     BadgeOrderRequest badgeOrderRequest = (BadgeOrderRequest) o;
     return Objects.equals(this.party, badgeOrderRequest.party)
         && Objects.equals(this.localAuthorityId, badgeOrderRequest.localAuthorityId)
+        && Objects.equals(this.localAuthorityShortCode, badgeOrderRequest.localAuthorityShortCode)
         && Objects.equals(this.localAuthorityRef, badgeOrderRequest.localAuthorityRef)
         && Objects.equals(this.applicationDate, badgeOrderRequest.applicationDate)
         && Objects.equals(this.applicationChannelCode, badgeOrderRequest.applicationChannelCode)
@@ -354,6 +380,7 @@ public class BadgeOrderRequest {
     return Objects.hash(
         party,
         localAuthorityId,
+        localAuthorityShortCode,
         localAuthorityRef,
         applicationDate,
         applicationChannelCode,
@@ -373,6 +400,9 @@ public class BadgeOrderRequest {
 
     sb.append("    party: ").append(toIndentedString(party)).append("\n");
     sb.append("    localAuthorityId: ").append(toIndentedString(localAuthorityId)).append("\n");
+    sb.append("    localAuthorityShortCode: ")
+        .append(toIndentedString(localAuthorityShortCode))
+        .append("\n");
     sb.append("    localAuthorityRef: ").append(toIndentedString(localAuthorityRef)).append("\n");
     sb.append("    applicationDate: ").append(toIndentedString(applicationDate)).append("\n");
     sb.append("    applicationChannelCode: ")

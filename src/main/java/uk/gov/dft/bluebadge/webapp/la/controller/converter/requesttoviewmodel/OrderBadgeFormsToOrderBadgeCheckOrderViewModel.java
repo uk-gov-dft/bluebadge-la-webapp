@@ -47,7 +47,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     String deliverToDisplayText =
         referenceDataService.retrieveDeliverToDisplayValue(processing.getDeliverTo());
     String deliveryOptionsDisplayText =
-        referenceDataService.retrieveDeliveryOptionsDisplayValue(processing.getDeliveryOptions());
+        referenceDataService.retrieveDeliveryOptionDisplayValue(processing.getDeliveryOptions());
 
     return OrderBadgeCheckOrderViewModel.builder()
         .fullName(details.getName())

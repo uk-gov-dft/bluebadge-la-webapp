@@ -31,7 +31,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String GENDER = "MALE";
   private static final String IMAGE_LINK = "http://localhost/image";
   private static final String LINE2 = "address line 2";
-  private static final int LOCAL_AUTHORITY_ID = 2;
+  private static final String LOCAL_AUTHORITY = "BARNS";
   private static final String LOCAL_AUTHORITY_REF = "localAuthorityRef";
   private static final String NINO = "AAAA1SJ";
   private static final String POSTCODE = "postcode";
@@ -48,7 +48,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String ELIGIBILITY_VIEW_MODEL = "pip";
   private static final String EXPIRY_DATE_VIEW_MODEL = "09/07/99";
   private static final String GENDER_VIEW_MODEL = "male";
-  private static final String LOCAL_AUTHORITY_VIEW_MODEL = "2";
+  private static final String LOCAL_AUTHORITY_VIEW_MODEL = "Barnsley MBC";
   private static final String START_DATE_VIEW_MODEL = "09/07/96";
   private static final String STATUS_VIEW_MODEL = "New";
 
@@ -60,7 +60,7 @@ public class BadgeToBadgeDetailsViewModelTest {
           .badgeNumber(BADGE_NUMBER)
           .eligibilityCode(ELIGIBILITY)
           .expiryDate(EXPIRY_DATE)
-          .localAuthorityId(LOCAL_AUTHORITY_ID)
+          .localAuthorityShortCode(LOCAL_AUTHORITY)
           .localAuthorityRef(LOCAL_AUTHORITY_REF)
           .party(
               new Party()
@@ -115,9 +115,11 @@ public class BadgeToBadgeDetailsViewModelTest {
     MockitoAnnotations.initMocks(this);
     when(referenceDataServiceMock.retrieveApplicationChannelDisplayValue(APPLICATION_CHANNEL))
         .thenReturn(APPLICATION_CHANNEL_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveGenderDisplayValue(GENDER)).thenReturn(GENDER_VIEW_MODEL);
     when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
+    when(referenceDataServiceMock.retrieveGenderDisplayValue(GENDER)).thenReturn(GENDER_VIEW_MODEL);
+    when(referenceDataServiceMock.retrieveLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
+        .thenReturn(LOCAL_AUTHORITY_VIEW_MODEL);
     when(referenceDataServiceMock.retrieveStatusDisplayValue(STATUS)).thenReturn(STATUS_VIEW_MODEL);
     converter = new BadgeToBadgeDetailsViewModel(referenceDataServiceMock);
   }

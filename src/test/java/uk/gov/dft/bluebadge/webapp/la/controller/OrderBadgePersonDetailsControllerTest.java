@@ -97,7 +97,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     referenceDataGenderList = Lists.newArrayList(referenceData3, referenceData4);
 
     when(referenceDataServiceMock.retrieveEligilities()).thenReturn(referenceDataEligibilityList);
-    when(referenceDataServiceMock.retrieveGender()).thenReturn(referenceDataGenderList);
+    when(referenceDataServiceMock.retrieveGenders()).thenReturn(referenceDataGenderList);
 
     // Expected Result Shape
     TreeMap<String, List<ReferenceData>> eligibilityMap =

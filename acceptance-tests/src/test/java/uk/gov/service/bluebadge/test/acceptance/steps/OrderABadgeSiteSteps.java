@@ -29,13 +29,13 @@ public class OrderABadgeSiteSteps {
   @When("^I enter all the mandatory valid personal details to order a badge$")
   public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge() throws Throwable {
     String name = ng.get_full_name();
-    String contactName = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
     String dobDay = String.valueOf(date.getDayOfMonth());
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("name", name);
     scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
@@ -63,6 +63,7 @@ public class OrderABadgeSiteSteps {
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
+    scenarioContext.setContext("name", name);
     scenarioContext.setContext("postcode", postcode);
 
     sitePage.findPageElementById("name").sendKeys(name);

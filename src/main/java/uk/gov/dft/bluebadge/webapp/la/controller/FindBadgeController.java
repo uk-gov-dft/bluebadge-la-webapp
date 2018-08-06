@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
@@ -84,17 +85,16 @@ public class FindBadgeController {
       case "postcode":
         results.addAll(findBadgeByPostCode(searchTerm));
         break;
+      case "name":
+        results.addAll(findBadgesByName(searchTerm));
+        break;
       default:
         log.error("Attempting to find a badge by:{}", findBadgeBy);
-        results.add(null);
         break;
     }
 
     session.setAttribute("searchTerm", searchTerm);
     session.setAttribute("results", results);
-
-    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
-    redirectAttributes.addFlashAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
@@ -110,15 +110,26 @@ public class FindBadgeController {
   }
 
   private List<FindBadgeSearchResultViewModel> findBadgeByPostCode(String searchTerm) {
-    if (searchTerm != null) {
+
+    if (!StringUtils.isEmpty(searchTerm)) {
       searchTerm = searchTerm.replaceAll("\\s+", "");
       List<BadgeSummary> result = badgeService.findBadgeByPostcode(searchTerm);
-      return result
-          .stream()
-          .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
-          .collect(Collectors.toList());
+      return convertBadgeSummaryToViewModel(result);
     }
 
     return Lists.newArrayList();
+  }
+
+  private List<FindBadgeSearchResultViewModel> findBadgesByName(String searchTerm) {
+    List<BadgeSummary> result = badgeService.findBadgeByName(searchTerm);
+    return convertBadgeSummaryToViewModel(result);
+  }
+
+  private List<FindBadgeSearchResultViewModel> convertBadgeSummaryToViewModel(
+      List<BadgeSummary> badgeSummary) {
+    return badgeSummary
+        .stream()
+        .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
+        .collect(Collectors.toList());
   }
 }
