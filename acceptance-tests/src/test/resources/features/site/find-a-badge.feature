@@ -123,7 +123,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
-  Scenario: Verify Find a badge by post code for a non existing badge and present the results
+  Scenario: Verify Find a badge by name for a non existing badge and present the results
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
