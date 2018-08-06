@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master.html}">
+
+<head>
+    <title>Badge Cancelled - GOV.UK Manage Blue Badges</title>
+</head>
+
+<body>
+
+<main layout:fragment="content">
+    <section class="dft-content-container--full">
+
+        <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title" data-uipath="badge.ordered.title">Badge Cancelled</h1>
+
+            <div class="govuk-panel__body" data-uipath="badge.cancelled.content">
+                The badge number is<br><strong data-uipath="badge.cancelled.num" th:text="${badgeNumber}"/>
+            </div>
+        </div>
+
+        <br/>
+
+        <h2 class="govuk-heading-m">What happens next</h2>
+        <p class="govuk-body">will receive confirmation that the badge has been cancelled and the badge will need to be destroyed.</p>
+
+    </section>
+</main>
+
+</body>
+
+</html>

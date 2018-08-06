@@ -25,10 +25,10 @@
         </h1>
 
         <div class="dft-width-two-thirds">
-            <!--<div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>-->
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/cancel-badge}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/manage-badges/cancel-badge/}+${badgeNumber}" th:object="${formRequest}" method="post" novalidate>
 
             <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
 

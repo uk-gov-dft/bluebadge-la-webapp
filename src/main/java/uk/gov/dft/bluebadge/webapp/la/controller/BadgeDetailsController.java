@@ -37,7 +37,11 @@ public class BadgeDetailsController {
   @GetMapping(URL)
   public String show(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     Optional<Badge> badge = badgeService.retrieve(badgeNumber);
+
     if (badge.isPresent()) {
+      Boolean isBadgeActive = "ISSUED".equals(badge.get().getStatusCode());
+      model.addAttribute("isBadgeActive", isBadgeActive);
+
       BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badge.get());
       model.addAttribute("badge", viewModel);
       return TEMPLATE;

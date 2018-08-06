@@ -26,7 +26,7 @@
                     <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
                 </h1>
 
-                <div class="cta">
+                <div class="cta" th:if="${isBadgeActive}">
                     <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19">Cancel badge</a>
                 </div>
             </header>

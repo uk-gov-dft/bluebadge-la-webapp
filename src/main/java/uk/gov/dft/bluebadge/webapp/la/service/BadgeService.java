@@ -13,6 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 
 @Service
 @Slf4j
@@ -56,5 +57,9 @@ public class BadgeService {
       return Lists.newArrayList();
     }
     return badgeManagementApiClient.findBadgeByPostCode(postcode);
+  }
+
+  public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {
+    badgeManagementApiClient.cancelBadge(badgeNumber, reason.toString());
   }
 }
