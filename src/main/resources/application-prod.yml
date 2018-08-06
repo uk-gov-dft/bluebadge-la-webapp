@@ -1,16 +1,3 @@
-java -Dserver.port=${bb_port} \
-    -Dmanagement.server.port=${bb_health} \
-    -Dblue-badge.auth-server.url=https://authorisation-service.prod.does.not.exist/bb_auth \
-  -Dblue-badge.usermanagementservice.servicehost.port=443  \
-  -Dblue-badge.usermanagementservice.servicehost.host=usermanagement-service.prod.does.not.exist \
-  -Dblue-badge.usermanagementservice.servicehost.scheme=https \
-  -Dblue-badge.badgemanagementservice.servicehost.port=443 \
-  -Dblue-badge.badgemanagementservice.servicehost.host=badge-service.prod.does.not.exist \
-  -Dblue-badge.badgemanagementservice.servicehost.scheme=https \
-  -Dblue-badge.referencedataservice.servicehost.port=443 \
-  -Dblue-badge.referencedataservice.servicehost.host=reference-service.prod.does.not.exist \
-  -Dblue-badge.referencedataservice.servicehost.scheme=https
-
 blue-badge:
   auth-server:
     url: https://authorisation-service.prod.does.not.exist/bb_auth
