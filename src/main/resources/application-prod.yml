@@ -1,0 +1,85 @@
+java -Dserver.port=${bb_port} \
+    -Dmanagement.server.port=${bb_health} \
+    -Dblue-badge.auth-server.url=https://authorisation-service.prod.does.not.exist/bb_auth \
+  -Dblue-badge.usermanagementservice.servicehost.port=443  \
+  -Dblue-badge.usermanagementservice.servicehost.host=usermanagement-service.prod.does.not.exist \
+  -Dblue-badge.usermanagementservice.servicehost.scheme=https \
+  -Dblue-badge.badgemanagementservice.servicehost.port=443 \
+  -Dblue-badge.badgemanagementservice.servicehost.host=badge-service.prod.does.not.exist \
+  -Dblue-badge.badgemanagementservice.servicehost.scheme=https \
+  -Dblue-badge.referencedataservice.servicehost.port=443 \
+  -Dblue-badge.referencedataservice.servicehost.host=reference-service.prod.does.not.exist \
+  -Dblue-badge.referencedataservice.servicehost.scheme=https
+
+blue-badge:
+  auth-server:
+    url: https://authorisation-service.prod.does.not.exist/bb_auth
+    client-id: bb_la_web_app_id
+     ***REMOVED***
+  usermanagementservice:
+    servicehost:
+      host: usermanagement-service.prod.does.not.exist
+      port: 443
+      scheme: https
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/user-management-service/1.0.0
+  badgemanagementservice:
+    servicehost:
+      host: badge-service.prod.does.not.exist
+      port: 443
+      scheme: https
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/badge-management-service/1.0.0
+  referencedataservice:
+    servicehost:
+      host: reference-service.prod.does.not.exist
+      port: 443
+      scheme: https
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/reference-data-service/1.0.0
+
+logging:
+  level:
+    root: ${APP_LOGGING_LEVEL:-INFO}
+    sample.mybatis.mapper: WARN
+    uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:-DEBUG}
+    org.springframework.security: DEBUG
+
+management:
+  server:
+    port: 8081
+    servlet:
+      context-path: /manage
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  devtools:
+    restart:
+      additional-exclude: sass/**,js/**
+      poll-interval: 10
+      quiet-period: 5
+      # include: static/css/**,static/js/**
+
+server:
+  port: 8080
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+
+security:
+  oauth2:
+    client:
+      client-id: ${blue-badge.auth-server.client-id}
+       ***REMOVED***
+      access-token-uri: ${blue-badge.auth-server.url}/oauth/token
+      user-authorization-uri: ${blue-badge.auth-server.url}/oauth/authorize
+      # All scopes approve, else user redirect to auth server to approve the protected resource
+      auto-approve-scopes: '.*'
+    resource:
+      user-info-uri: ${blue-badge.auth-server.url}/me
