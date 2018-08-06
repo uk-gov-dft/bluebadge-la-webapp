@@ -1,11 +1,11 @@
 blue-badge:
   auth-server:
-    url: https://authorisation-service.dev.does.not.exist/bb_auth
+    url: https://authorisation-service.${bb_env}.does.not.exist/bb_auth
     client-id: bb_la_web_app_id
      ***REMOVED***
   usermanagementservice:
     servicehost:
-      host: usermanagement-service.dev.does.not.exist
+      host: usermanagement-service.${bb_env}.does.not.exist
       port: 443
       scheme: https
       connectiontimeout: 6000
@@ -13,7 +13,7 @@ blue-badge:
       contextpath: /uk-gov-dft/user-management-service/1.0.0
   badgemanagementservice:
     servicehost:
-      host: badge-service.dev.does.not.exist
+      host: badge-service.${bb_env}.does.not.exist
       port: 443
       scheme: https
       connectiontimeout: 6000
@@ -21,7 +21,7 @@ blue-badge:
       contextpath: /uk-gov-dft/badge-management-service/1.0.0
   referencedataservice:
     servicehost:
-      host: reference-service.dev.does.not.exist
+      host: reference-service.${bb_env}.does.not.exist
       port: 443
       scheme: https
       connectiontimeout: 6000
@@ -37,7 +37,7 @@ logging:
 
 management:
   server:
-    port: 8081
+    port: ${bb_health:-8081}
     servlet:
       context-path: /manage
   endpoints:
@@ -46,7 +46,7 @@ management:
         include: '*'
 
 spring:
-  devtools:
+  ${bb_env}tools:
     restart:
       additional-exclude: sass/**,js/**
       poll-interval: 10
@@ -54,7 +54,7 @@ spring:
       # include: static/css/**,static/js/**
 
 server:
-  port: 8080
+  port: ${bb_port:-8080}
   tomcat:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
