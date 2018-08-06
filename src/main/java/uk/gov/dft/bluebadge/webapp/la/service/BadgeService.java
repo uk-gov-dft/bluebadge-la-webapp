@@ -52,9 +52,18 @@ public class BadgeService {
 
   public List<BadgeSummary> findBadgeByPostcode(String postcode) {
 
-    if (postcode == null || postcode.isEmpty()) {
+    if (StringUtils.isEmpty(postcode)) {
       return Lists.newArrayList();
     }
     return badgeManagementApiClient.findBadgeByPostCode(postcode);
+  }
+
+  public List<BadgeSummary> findBadgeByName(String name) {
+
+    if (StringUtils.isEmpty(name)) {
+      return Lists.newArrayList();
+    }
+
+    return badgeManagementApiClient.findBadgeByName(name);
   }
 }
