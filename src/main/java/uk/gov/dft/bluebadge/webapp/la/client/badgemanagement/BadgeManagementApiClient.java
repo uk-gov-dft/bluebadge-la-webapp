@@ -92,28 +92,35 @@ public class BadgeManagementApiClient extends BaseApiClient {
   }
 
   public List<BadgeSummary> findBadgeByPostCode(String postcode) {
-    Assert.notNull(postcode, "Post code supplied must be not null");
+    Assert.notNull(postcode, "Post code supplied must not be null");
 
     return findBadgeBy(FindBadgeAttribute.POSTCODE, postcode);
   }
 
+  public List<BadgeSummary> findBadgeByName(String name) {
+    Assert.notNull(name, "Name supplied must not be null");
+
+    return findBadgeBy(FindBadgeAttribute.NAME, name);
+  }
+
   private List<BadgeSummary> findBadgeBy(FindBadgeAttribute attribute, String value) {
     log.debug("retrieveBadge with " + attribute, value);
-    Assert.notNull(attribute, "Attribute supplied must be not null");
+    Assert.notNull(attribute, "Attribute supplied must not be null");
     Assert.notNull(value, "Value supplied must be not null");
 
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
     builder.queryParam(attribute.getDescription(), value);
 
+    BadgesResponse response = new BadgesResponse();
+    response.setData(Lists.newArrayList());
+
     try {
-      BadgesResponse response =
-          restTemplate.getForObject(builder.toUriString(), BadgesResponse.class);
-      return response.getData();
+      response = restTemplate.getForObject(builder.build().toUriString(), BadgesResponse.class);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
 
-    return Lists.newArrayList();
+    return response.getData();
   }
 }

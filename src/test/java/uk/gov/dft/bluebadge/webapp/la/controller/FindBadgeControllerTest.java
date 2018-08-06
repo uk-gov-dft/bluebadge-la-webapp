@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,6 +31,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 public class FindBadgeControllerTest {
 
+  public static final String NAME = "jason";
+  public static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
+  public static final String INVALID_BADGE_NUMBER = "12345678";
   private final String BADGE_NUMBER = "AAAAA1";
   private final String FIND_BY_POSTCODE = "postCode";
   private final String POSTCODE = "L129PZ";
@@ -101,6 +107,57 @@ public class FindBadgeControllerTest {
   }
 
   @Test
+  public void submit_shouldRedirectToSearchResults_whenNoResultsAreFoundForBadgeNumber()
+      throws Exception {
+    when(badgeServiceMock.retrieve("12345678")).thenReturn(Optional.empty());
+    List<FindBadgeSearchResultViewModel> expectedResults = Lists.newArrayList();
+
+    mockMvc
+        .perform(
+            post("/find-a-badge")
+                .param("findBadgeBy", "badgeNumber")
+                .param("searchTerm", INVALID_BADGE_NUMBER))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", INVALID_BADGE_NUMBER));
+  }
+
+  @Test
+  public void submit_shouldRedirectToSearchResults_whenInvalidSearchTermIsPassed()
+      throws Exception {
+    List<FindBadgeSearchResultViewModel> expectedResults = Lists.newArrayList();
+
+    mockMvc
+        .perform(post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", ""))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", ""));
+
+    verify(badgeServiceMock, times(0)).retrieve(any());
+  }
+
+  @Test
+  public void submit_shouldRedirectToSearchResults_whenFindABadgeByOptionIsInvalid()
+      throws Exception {
+
+    List<FindBadgeSearchResultViewModel> expectedResults = Lists.newArrayList();
+
+    mockMvc
+        .perform(
+            post("/find-a-badge")
+                .param("findBadgeBy", INVALID_SEARCH_BADGE_BY_OPTION)
+                .param("searchTerm", "12345678"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", INVALID_BADGE_NUMBER));
+
+    verify(badgeServiceMock, times(0)).retrieve(any());
+  }
+
+  @Test
   public void
       submit_shouldRedirectToSearchResultsWithResultsPopulated_WhenFormSearchingUsingPostCode()
           throws Exception {
@@ -123,5 +180,30 @@ public class FindBadgeControllerTest {
             post("/find-a-badge").param("findBadgeBy", "postcode").param("searchTerm", POSTCODE))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/find-a-badge/search-results"));
+  }
+
+  @Test
+  public void submit_shouldRedirectToSearchResultsWithResultsPopulated_WhenFormSearchingUsingName()
+      throws Exception {
+
+    BadgeSummary badgeOne = new BadgeSummary();
+    BadgeSummary badgeTwo = new BadgeSummary();
+    List<BadgeSummary> badges = Lists.newArrayList(badgeOne, badgeTwo);
+
+    FindBadgeSearchResultViewModel viewModel1 = FindBadgeSearchResultViewModel.builder().build();
+    FindBadgeSearchResultViewModel viewModel2 = FindBadgeSearchResultViewModel.builder().build();
+    List<FindBadgeSearchResultViewModel> expectedResults =
+        Lists.newArrayList(viewModel1, viewModel2);
+
+    when(badgeServiceMock.findBadgeByName(NAME)).thenReturn(badges);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeOne)).thenReturn(viewModel1);
+    when(badgeSummartyconverterToViewModelMock.convert(badgeTwo)).thenReturn(viewModel2);
+
+    mockMvc
+        .perform(post("/find-a-badge").param("findBadgeBy", "name").param("searchTerm", NAME))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/find-a-badge/search-results"))
+        .andExpect(flash().attribute("results", expectedResults))
+        .andExpect(flash().attribute("searchTerm", NAME));
   }
 }
