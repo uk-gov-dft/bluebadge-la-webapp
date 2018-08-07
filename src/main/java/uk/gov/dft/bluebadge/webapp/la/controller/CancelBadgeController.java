@@ -72,9 +72,9 @@ public class CancelBadgeController {
   }
 
   @GetMapping(URL_BADGE_CANCELLED)
-  public String show_badgeCancelled(
+  public String showBadgeCancelled(
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
-    model.addAttribute("badgeNumber", badgeNumber);
+    model.addAttribute(PARAM_BADGE_NUMBER, badgeNumber);
     return TEMPLATE_BADGE_CANCELLED;
   }
 }
