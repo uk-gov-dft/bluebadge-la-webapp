@@ -92,5 +92,5 @@ Feature: Dft BlueBadge LA Cancel a Badge
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
     When  I click on the badge number of the first result
-    Then  I should see the cancel badge page without the "Cancel badge" link button
+    Then  I should see the badge details page without the "Cancel badge" link button
 

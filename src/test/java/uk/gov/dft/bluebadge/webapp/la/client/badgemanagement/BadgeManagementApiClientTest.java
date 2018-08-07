@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -24,7 +23,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.test.web.client.response.DefaultResponseCreator;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -222,9 +220,8 @@ public class BadgeManagementApiClientTest {
 
     client = new BadgeManagementApiClient(mockTemplate);
     when(mockTemplate.exchange(any(), any(), any(), eq(CommonResponse.class), eq(BADGE_NUMBER)))
-            .thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT));
+        .thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT));
 
     client.cancelBadge(BADGE_NUMBER, CANCEL_REASON_CODE);
   }
-
 }
