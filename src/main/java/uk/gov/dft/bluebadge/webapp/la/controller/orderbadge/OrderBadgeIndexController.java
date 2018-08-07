@@ -20,12 +20,14 @@ public class OrderBadgeIndexController {
   private static final String REDIRECT_ORDER_A_BADGE_PERSON_DETAILS =
       "redirect:" + OrderBadgePersonDetailsController.URL;
   // TODO: Incomplete REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS
-  private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS = "redirect:/";
+  private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS =
+      "redirect:/order-a-badge/organisation/details";
 
   private static final String PARAM_ACTION_RESET = "reset";
 
   public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-index";
 
+  private static final String APPLICANT_TYPE_PERSON = "person";
   private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
 
   @GetMapping(URL)

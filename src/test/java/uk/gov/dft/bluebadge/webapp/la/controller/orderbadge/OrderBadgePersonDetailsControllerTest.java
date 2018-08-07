@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
@@ -128,21 +127,6 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_DETAILS));
-  }
-
-  @Test
-  public void
-      show_shouldDisplayOrderABadgeDetailsTemplateWithoutValuesCommingFromSession_WhenTheFormWasSavedToSessionBeforeButRequestParamActionEqualsReset()
-          throws Exception {
-    OrderBadgePersonDetailsFormRequest expectedFormRequest =
-        OrderBadgePersonDetailsFormRequest.builder().build();
-    mockMvc
-        .perform(
-            get("/order-a-badge/person/details?action=reset")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS))
-        .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/person/details"))
-        .andExpect(model().attribute("formRequest", expectedFormRequest));
   }
 
   @Test
