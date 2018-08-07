@@ -26,25 +26,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 public class BadgeDetailsControllerTest extends BaseControllerTest {
   private static final String BADGE_NUMBER = "KKKKJ9";
 
-  private static final String EMAIL_ADDRESS = "joeblogs@joe.com";
-  private static final String EMAIL_ADDRESS_UPDATED = "updated@joe.com";
-  private static final String EMAIL_ADDRESS_ERROR = "updated joe.com";
-
-  private static final String NAME = "joeblogs";
-  private static final String NAME_UPDATED = "updated";
-  private static final String NAME_ERROR = "updated11";
-
-  private static final int ROLE_ID = 1;
-  private static final int LOCAL_AUTHORITY_ID = 1;
-  private static final int USER_ID = 1;
-  private static final String NAME_PARAM = "name";
-  private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
-  private static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityId";
-  private static final String MODEL_ID = "id";
-
-  private static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
-  private static final String ERROR_MSG_NAME = "error in name";
-
   @Mock private BadgeService badgeServiceMock;
   @Mock private BadgeToBadgeDetailsViewModel badgeToBadgeDetailsViewModelMock;
   @Mock private Model modelMock;
