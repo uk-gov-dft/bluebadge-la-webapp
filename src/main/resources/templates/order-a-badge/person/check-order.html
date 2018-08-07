@@ -11,7 +11,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/processing}" aria-label="go back" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+        <a th:href="@{/order-a-badge/person/processing}" aria-label="go back" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title" th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
                 <a class="dft-check-answers__cta" aria-label="change personal details"
-                   data-uipath="personalDetails.change" th:href="@{/order-a-badge/details}" th:text="#{common.button.change}"/>
+                   data-uipath="personalDetails.change" th:href="@{/order-a-badge/person/details}" th:text="#{common.button.change}"/>
             </div>
 
             <dl class="dft-data-list" data-uipath="personalDetails.answers">
@@ -94,7 +94,7 @@
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title" th:text="#{orderbadge.checkorder.processing.title}"></h2>
                 <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change"
-                   th:href="@{/order-a-badge/processing}" th:text="#{common.button.change}"/>
+                   th:href="@{/order-a-badge/person/processing}" th:text="#{common.button.change}"/>
             </div>
 
             <dl class="dft-data-list" data-uipath="processing.answers">
@@ -136,7 +136,7 @@
             </dl>
         </article>
 
-        <form th:action="@{/order-a-badge/check-order}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/person/check-order}" method="post" novalidate>
             <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="orderBadge.button" class="govuk-button">
         </form>
 

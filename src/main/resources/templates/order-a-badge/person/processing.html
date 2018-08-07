@@ -11,7 +11,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/details}" aria-label="go back" data-uipath="back-link"
+        <a th:href="@{/order-a-badge/person/details}" aria-label="go back" data-uipath="back-link"
            class="govuk-back-link">Back</a>
     </div>
 </div>
@@ -26,7 +26,7 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/order-a-badge/processing}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/person/processing}" th:object="${formRequest}" method="post" novalidate>
 
             <h2 class="govuk-heading-m">Application details</h2>
 

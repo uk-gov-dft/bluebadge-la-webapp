@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -110,9 +110,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     eligibilityMap.put("Further", furtherList);
 
     mockMvc
-        .perform(get("/order-a-badge/details"))
+        .perform(get("/order-a-badge/person/details"))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("eligibilityOptions", eligibilityMap))
         .andExpect(model().attribute("genderOptions", referenceDataGenderList));
   }
@@ -123,10 +123,10 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            get("/order-a-badge/details")
+            get("/order-a-badge/person/details")
                 .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_DETAILS));
   }
 
@@ -138,10 +138,10 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         OrderBadgePersonDetailsFormRequest.builder().build();
     mockMvc
         .perform(
-            get("/order-a-badge/details?action=reset")
+            get("/order-a-badge/person/details?action=reset")
                 .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("formRequest", expectedFormRequest));
   }
 
@@ -151,7 +151,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            post("/order-a-badge/person/details")
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -167,7 +167,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/person/processing"));
   }
 
   @Test
@@ -176,7 +176,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            post("/order-a-badge/person/details")
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -196,16 +196,16 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/person/processing"));
   }
 
   @Test
   public void submit_shouldRedirectToDetailsPageAndDisplayErrors_WhenNoFieldsAreSet()
       throws Exception {
     mockMvc
-        .perform(post("/order-a-badge/details"))
+        .perform(post("/order-a-badge/person/details"))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", GENDER_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))
@@ -229,7 +229,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            post("/order-a-badge/person/details")
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -249,7 +249,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
         .andExpect(
             model()
@@ -268,7 +268,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   public void submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong() throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            post("/order-a-badge/person/details")
                 .param(NAME_FIELD, NAME_WRONG)
                 .param(DOB_DAY_FIELD, DOB_DAY_WRONG)
                 .param(DOB_MONTH_FIELD, DOB_MONTH_WRONG)
@@ -287,8 +287,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME_WRONG)
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/details"))
-        .andExpect(view().name("order-a-badge/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
+        .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", GENDER_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "NotBlank"))

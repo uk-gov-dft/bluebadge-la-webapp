@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -20,11 +20,11 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Slf4j
 @Controller
 public class OrderBadgeProcessingController {
-  public static final String URL = "/order-a-badge/processing";
+  public static final String URL = "/order-a-badge/person/processing";
 
   public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-processing";
 
-  private static final String TEMPLATE = "order-a-badge/processing";
+  private static final String TEMPLATE = "order-a-badge/person/processing";
 
   private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
       "redirect:" + OrderBadgeCheckOrderController.URL;

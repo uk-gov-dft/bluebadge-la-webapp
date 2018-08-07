@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;

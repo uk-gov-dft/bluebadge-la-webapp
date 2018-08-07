@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -82,11 +82,11 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
 
     mockMvc
         .perform(
-            get("/order-a-badge/check-order")
+            get("/order-a-badge/person/check-order")
                 .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS)
                 .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/check-order"))
+        .andExpect(view().name("order-a-badge/person/check-order"))
         .andExpect(model().attribute("data", orderBadgeCheckOrderViewModel));
   }
 
@@ -121,7 +121,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
     when(converterToServiceModelMock.convert(any(), any(), any())).thenReturn(badgeOrderRequest);
     mockMvc
         .perform(
-            post("/order-a-badge/check-order")
+            post("/order-a-badge/person/check-order")
                 .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS)
                 .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
         .andExpect(status().isFound())

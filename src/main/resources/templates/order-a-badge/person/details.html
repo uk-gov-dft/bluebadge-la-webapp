@@ -17,7 +17,7 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/person/details}" th:object="${formRequest}" method="post" novalidate>
 
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>

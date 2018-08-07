@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 @Slf4j
 @Controller
 public class OrderBadgeCheckOrderController {
-  public static final String URL = "/order-a-badge/check-order";
+  public static final String URL = "/order-a-badge/person/check-order";
 
-  public static final String TEMPLATE = "order-a-badge/check-order";
+  public static final String TEMPLATE = "order-a-badge/person/check-order";
 
   public static final String REDIRECT_BADGE_ORDERED =
       "redirect:" + OrderBadgeBadgeOrderedController.URL;

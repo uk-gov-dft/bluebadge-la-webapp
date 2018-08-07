@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;

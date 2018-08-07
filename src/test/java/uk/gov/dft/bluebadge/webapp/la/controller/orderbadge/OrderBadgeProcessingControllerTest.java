@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,9 +48,9 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   @Test
   public void show_shouldDisplayOrderABadgeProcessingTemplate() throws Exception {
     mockMvc
-        .perform(get("/order-a-badge/processing"))
+        .perform(get("/order-a-badge/person/processing"))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"));
+        .andExpect(view().name("order-a-badge/person/processing"));
   }
 
   @Test
@@ -59,10 +59,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     when(referenceDataServiceMock.retrieveApplicationChannel()).thenReturn(appSourceOptions);
 
     mockMvc
-        .perform(get("/order-a-badge/processing"))
+        .perform(get("/order-a-badge/person/processing"))
         .andExpect(status().isOk())
         .andExpect(model().attribute("appSourceOptions", appSourceOptions))
-        .andExpect(view().name("order-a-badge/processing"));
+        .andExpect(view().name("order-a-badge/person/processing"));
   }
 
   @Test
@@ -71,10 +71,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     when(referenceDataServiceMock.retrieveDeliverTo()).thenReturn(deliverToOptions);
 
     mockMvc
-        .perform(get("/order-a-badge/processing"))
+        .perform(get("/order-a-badge/person/processing"))
         .andExpect(status().isOk())
         .andExpect(model().attribute("deliverToOptions", deliverToOptions))
-        .andExpect(view().name("order-a-badge/processing"));
+        .andExpect(view().name("order-a-badge/person/processing"));
   }
 
   @Test
@@ -84,10 +84,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     when(referenceDataServiceMock.retrieveDeliveryOptions()).thenReturn(deliverOptions);
 
     mockMvc
-        .perform(get("/order-a-badge/processing"))
+        .perform(get("/order-a-badge/person/processing"))
         .andExpect(status().isOk())
         .andExpect(model().attribute("deliveryOptions", deliverOptions))
-        .andExpect(view().name("order-a-badge/processing"));
+        .andExpect(view().name("order-a-badge/person/processing"));
   }
 
   @Test
@@ -96,10 +96,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            get("/order-a-badge/processing")
+            get("/order-a-badge/person/processing")
                 .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_PROCESSING));
   }
 
@@ -109,7 +109,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -123,7 +123,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/check-order"));
+        .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
   }
 
   @Test
@@ -132,7 +132,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -147,16 +147,16 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/check-order"));
+        .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
   }
 
   @Test
   public void submit_shouldRedirectToProcessingPageAndDisplayErrors_WhenNoFieldsAreSet()
       throws Exception {
     mockMvc
-        .perform(post("/order-a-badge/processing"))
+        .perform(post("/order-a-badge/person/processing"))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", APPLICATION_DATE_FIELD, "NotBlank"))
         .andExpect(
@@ -179,7 +179,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
       throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY_WRONG)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH_WRONG)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR_WRONG)
@@ -218,7 +218,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, "32")
                 .param(APPLICATION_DATE_MONTH_FIELD, "13")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2017")
@@ -233,7 +233,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -246,7 +246,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, "1")
                 .param(APPLICATION_DATE_MONTH_FIELD, "12")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2100")
@@ -261,7 +261,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -274,7 +274,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -289,7 +289,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -302,7 +302,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -317,7 +317,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -330,7 +330,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -345,7 +345,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -358,7 +358,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -373,7 +373,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -386,7 +386,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/processing")
+            post("/order-a-badge/person/processing")
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -401,7 +401,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/processing"))
+        .andExpect(view().name("order-a-badge/person/processing"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
