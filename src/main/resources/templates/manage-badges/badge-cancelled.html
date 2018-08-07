@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/master.html}">
 
 <head>
-    <title>Badge Cancelled - GOV.UK Manage Blue Badges</title>
+    <title th:text="#{badgeCancelled.html.title} + ' ' + ${badgeNumber} + ' ' + #{common.title.suffix}"></title>
 </head>
 
 <body>

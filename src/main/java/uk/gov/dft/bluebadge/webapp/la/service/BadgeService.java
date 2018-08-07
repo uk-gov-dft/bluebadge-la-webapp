@@ -64,6 +64,8 @@ public class BadgeService {
   }
 
   public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {
-    badgeManagementApiClient.cancelBadge(badgeNumber, reason.toString());
+    Assert.notNull(badgeNumber, "Badge number should not be null");
+    Assert.notNull(reason, "cancellation reason should not be null");
+    badgeManagementApiClient.cancelBadge(badgeNumber, reason.getValue());
   }
 }

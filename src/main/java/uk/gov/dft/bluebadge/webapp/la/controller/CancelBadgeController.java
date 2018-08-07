@@ -41,8 +41,7 @@ public class CancelBadgeController {
   public String show(
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
       @ModelAttribute(FORM_REQUEST) final CancelBadgeFormRequest formRequest,
-      Model model
-      ) {
+      Model model) {
     populateCancellationReferenceData(model);
     return TEMPLATE_CANCEL_BADGE;
   }
@@ -74,8 +73,8 @@ public class CancelBadgeController {
 
   @GetMapping(URL_BADGE_CANCELLED)
   public String show_badgeCancelled(
-      @ModelAttribute(PARAM_BADGE_NUMBER) @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber) {
-
+      @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
+    model.addAttribute("badgeNumber", badgeNumber);
     return TEMPLATE_BADGE_CANCELLED;
   }
 }

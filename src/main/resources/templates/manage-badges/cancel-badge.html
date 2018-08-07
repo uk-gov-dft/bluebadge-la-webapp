@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="#{managebadges.badgedetails.html.title} + #{common.title.suffix}"></title>
+    <title th:text="#{cancelBadge.html.title} + ' ' + ${badgeNumber} + ' ' + #{common.title.suffix}"></title>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 
             <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
 
-            <input value="Cancel badge" type="submit" data-uipath="cancel" class="govuk-button">
+            <input value="Cancel badge" type="submit" data-uipath="cancel.badge.button" class="govuk-button">
 
         </form>
 

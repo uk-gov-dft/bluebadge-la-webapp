@@ -124,7 +124,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   public void cancelBadge(String badgeNumber, String reason) {
     Assert.notNull(badgeNumber, "cancel badge, badge number not provided");
-    Assert.notNull(reason, "reason for cancellation is not provided!");
+    Assert.notNull(reason, "reason for cancellation is not provided");
 
     String uri = UriComponentsBuilder.fromUriString(CANCEL_ENDPOINT).build().toUriString();
 
