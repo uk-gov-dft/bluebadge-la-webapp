@@ -2,9 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -24,12 +22,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.*;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 
 public class BadgeManagementApiClientTest {
@@ -44,6 +37,7 @@ public class BadgeManagementApiClientTest {
           .localAuthorityRef("localAuthorityRef");
   private static final String POST_CODE = "L329PA";
   private static final String NAME = "jason";
+  public static final String CANCEL_REASON_CODE = "REVOKE";
 
   private BadgeManagementApiClient client;
 
@@ -191,5 +185,26 @@ public class BadgeManagementApiClientTest {
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
+  }
+
+  @Test
+  public void cancellingABadge_ShouldChangeStatusOfABadgeToCancelled() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String response = objectMapper.writeValueAsString(commonResponse);
+
+    BadgeCancelRequest badgeCancelRequest = new BadgeCancelRequest();
+    badgeCancelRequest.setBadgeNumber(BADGE_NUMBER);
+    badgeCancelRequest.setCancelReasonCode(CANCEL_REASON_CODE);
+    String requestBody = objectMapper.writeValueAsString(badgeCancelRequest);
+
+    String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/cancellations";
+
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.POST))
+        .andExpect(content().json(requestBody))
+        .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+    client.cancelBadge(BADGE_NUMBER, CANCEL_REASON_CODE);
   }
 }

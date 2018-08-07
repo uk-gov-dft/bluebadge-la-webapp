@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.client.HttpClientErrorException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CancelBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -62,14 +61,10 @@ public class CancelBadgeController {
       return TEMPLATE_CANCEL_BADGE;
     }
 
-    try {
-      String reason = formRequest.getReason();
-      badgeService.cancelBadge(badgeNumber, RefDataCancellationEnum.valueOf(reason));
-    } catch (HttpClientErrorException c) {
+    String reason = formRequest.getReason();
+    badgeService.cancelBadge(badgeNumber, RefDataCancellationEnum.valueOf(reason));
 
-    }
-
-    return "redirect:" + URL_BADGE_CANCELLED;
+    return "redirect: /manage-badges/badge-cancelled/"+badgeNumber;
   }
 
   private void populateCancellationReferenceData(Model model) {
