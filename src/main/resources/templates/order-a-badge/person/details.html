@@ -8,10 +8,20 @@
 </head>
 <body>
 
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="@{/order-a-badge/}" aria-label="go back" data-uipath="back-link"
+           class="govuk-back-link">Back</a>
+    </div>
+</div>
+
 <main layout:fragment="content">
 
     <section class="dft-content-container--full">
-        <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
+        <div class="dft-group-heading">
+            <p class="dft-sub-heading" data-uipath="step">Step 2</p>
+            <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
+        </div>
 
         <div class="dft-width-two-thirds">
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>

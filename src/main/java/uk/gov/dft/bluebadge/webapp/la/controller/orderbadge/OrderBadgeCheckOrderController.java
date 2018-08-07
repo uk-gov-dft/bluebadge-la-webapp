@@ -44,10 +44,10 @@ public class OrderBadgeCheckOrderController {
   public String show(Model model, HttpSession session) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
-            session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
+            session.getAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
-            session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
+            session.getAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
     model.addAttribute("data", data);
@@ -58,19 +58,19 @@ public class OrderBadgeCheckOrderController {
   public String submit(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
-            session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
+            session.getAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
-            session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
+            session.getAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm, 2);
 
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
     redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);
 
-    session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
-    session.removeAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
-    session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
+    session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
+    session.removeAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
+    session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     return REDIRECT_BADGE_ORDERED;
   }
 }

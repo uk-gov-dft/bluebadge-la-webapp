@@ -19,8 +19,10 @@
 <main layout:fragment="content">
 
     <section class="dft-content-container--full">
-
-        <h1 class="govuk-heading-l" data-uipath="title">Processing</h1>
+        <div class="dft-group-heading">
+            <p class="dft-sub-heading" data-uipath="step">Step 3</p>
+            <h1 class="govuk-heading-l" data-uipath="title">Processing</h1>
+        </div>
 
         <div class="dft-width-two-thirds">
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>

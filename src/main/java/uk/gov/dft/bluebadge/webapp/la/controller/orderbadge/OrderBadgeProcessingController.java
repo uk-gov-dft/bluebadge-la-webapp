@@ -22,7 +22,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class OrderBadgeProcessingController {
   public static final String URL = "/order-a-badge/person/processing";
 
-  public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-processing";
+  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
 
   private static final String TEMPLATE = "order-a-badge/person/processing";
 
@@ -41,7 +41,7 @@ public class OrderBadgeProcessingController {
   public String show(
       @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
+    Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
@@ -55,7 +55,7 @@ public class OrderBadgeProcessingController {
       Model model,
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
+    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
