@@ -1,14 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.google.common.collect.Lists;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -22,10 +14,24 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
+import java.util.List;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 public class CancelBadgeControllerTest {
 
-  @Mock private BadgeService badgeServiceMock;
-  @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock
+  private BadgeService badgeServiceMock;
+  @Mock
+  private ReferenceDataService referenceDataServiceMock;
 
   private MockMvc mockMvc;
   private CancelBadgeController controller;
@@ -44,9 +50,9 @@ public class CancelBadgeControllerTest {
     controller = new CancelBadgeController(referenceDataServiceMock, badgeServiceMock);
 
     mockMvc =
-        MockMvcBuilders.standaloneSetup(controller)
-            .setViewResolvers(new StandaloneMvcTestViewResolver())
-            .build();
+      MockMvcBuilders.standaloneSetup(controller)
+        .setViewResolvers(new StandaloneMvcTestViewResolver())
+        .build();
   }
 
   @Test
@@ -61,26 +67,23 @@ public class CancelBadgeControllerTest {
     when(referenceDataServiceMock.retrieveCancellations()).thenReturn(reasonOptions);
 
     mockMvc
-        .perform(get(URL_CANCEL_BADGE))
-        .andExpect(status().isOk())
-        .andExpect(view().name(TEMPLATE_CANCEL_BADGE))
-        .andExpect(model().attribute("formRequest", formRequest))
-        .andExpect(model().attribute("reasonOptions", reasonOptions));
+      .perform(get(URL_CANCEL_BADGE))
+      .andExpect(status().isOk())
+      .andExpect(view().name(TEMPLATE_CANCEL_BADGE))
+      .andExpect(model().attribute("formRequest", formRequest))
+      .andExpect(model().attribute("reasonOptions", reasonOptions));
   }
 
   @Test
   public void submit_shouldTriggerContextValidation_whenNoReasonIsSelected() throws Exception {
     CancelBadgeFormRequest formRequest = CancelBadgeFormRequest.builder().build();
 
-    // formRequest.setReason(RefDataCancellationEnum.REVOKE.toString());
+    formRequest.setReason(RefDataCancellationEnum.REVOKE.toString());
 
     mockMvc
-        .perform(post(URL_CANCEL_BADGE).param("reason", RefDataCancellationEnum.REVOKE.getValue()))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl(URL_BADGE_CANCELLED))
-        .andExpect(view().name("redirect:" + TEMPLATE_BADGE_CANCELLED));
-    //.andExpect(model().attribute("badgeNumber", BADGE_NUMBER))
-    //.andExpect(model().attribute("formRequest", formRequest));
+      .perform(post(URL_CANCEL_BADGE).param("reason", RefDataCancellationEnum.REVOKE.getValue()))
+      .andExpect(status().isFound())
+      .andExpect(redirectedUrl(URL_BADGE_CANCELLED));
 
     verify(badgeServiceMock, times(1)).cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
   }

@@ -24,6 +24,7 @@ public class CancelBadgeController {
 
   private static final String URL_BADGE_CANCELLED = "/manage-badges/badge-cancelled/{badgeNumber}";
   private static final String TEMPLATE_BADGE_CANCELLED = "/manage-badges/badge-cancelled";
+  private static final String REDIRECT_URL_BADGE_CANCELLED = "redirect:" + URL_BADGE_CANCELLED;
 
   private static final String PARAM_BADGE_NUMBER = "badgeNumber";
   public static final String FORM_REQUEST = "formRequest";
@@ -39,20 +40,19 @@ public class CancelBadgeController {
   @GetMapping(URL_CANCEL_BADGE)
   public String show(
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
-      Model model,
-      @ModelAttribute(FORM_REQUEST) final CancelBadgeFormRequest formRequest) {
-
+      @ModelAttribute(FORM_REQUEST) final CancelBadgeFormRequest formRequest,
+      Model model
+      ) {
     populateCancellationReferenceData(model);
-
     return TEMPLATE_CANCEL_BADGE;
   }
 
   @PostMapping(URL_CANCEL_BADGE)
   public String submit(
-      Model model,
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
       @Valid @ModelAttribute(FORM_REQUEST) final CancelBadgeFormRequest formRequest,
-      BindingResult bindingResult) {
+      BindingResult bindingResult,
+      Model model) {
 
     model.addAttribute("errorSummary", new ErrorViewModel());
 
@@ -61,10 +61,10 @@ public class CancelBadgeController {
       return TEMPLATE_CANCEL_BADGE;
     }
 
-    String reason = formRequest.getReason();
-    badgeService.cancelBadge(badgeNumber, RefDataCancellationEnum.valueOf(reason));
+    RefDataCancellationEnum reason = RefDataCancellationEnum.valueOf(formRequest.getReason());
+    badgeService.cancelBadge(badgeNumber, reason);
 
-    return "redirect: /manage-badges/badge-cancelled/"+badgeNumber;
+    return REDIRECT_URL_BADGE_CANCELLED;
   }
 
   private void populateCancellationReferenceData(Model model) {
