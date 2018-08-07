@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title>Personal Details - GOV.UK Manage Blue Badges</title>
+    <title th:text="#{orderbadge.details.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
 <body>
 

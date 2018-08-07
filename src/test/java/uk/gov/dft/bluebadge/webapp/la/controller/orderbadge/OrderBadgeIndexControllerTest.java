@@ -97,4 +97,15 @@ public class OrderBadgeIndexControllerTest extends OrderBadgeBaseControllerTest 
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(URL_ORDER_A_BADGE_ORGANISATION_DETAILS));
   }
+
+  @Test
+  public void submit_ShouldReturnTemplateWithErrors_WhenApplicationTypeIsMissing()
+      throws Exception {
+    mockMvc
+        .perform(post("/order-a-badge/"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/index"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "applicantType", "NotBlank"))
+        .andExpect(model().errorCount(1));
+  }
 }

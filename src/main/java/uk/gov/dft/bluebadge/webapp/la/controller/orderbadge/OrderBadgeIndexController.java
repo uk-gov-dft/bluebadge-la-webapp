@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -50,10 +51,15 @@ public class OrderBadgeIndexController {
 
   @PostMapping(URL)
   public String submit(
-      @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
+      @Valid @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
       BindingResult bindingResult,
       HttpSession session) {
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+
+    if (bindingResult.hasErrors()) {
+      return TEMPLATE;
+    }
+
     if (APPLICANT_TYPE_ORGANISATION.equalsIgnoreCase(formRequest.getApplicantType())) {
       return REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS;
     } else {
