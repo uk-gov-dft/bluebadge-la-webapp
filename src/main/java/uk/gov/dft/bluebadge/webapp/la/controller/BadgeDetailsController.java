@@ -39,6 +39,7 @@ public class BadgeDetailsController {
     Optional<Badge> badge = badgeService.retrieve(badgeNumber);
     if (badge.isPresent()) {
       BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badge.get());
+      model.addAttribute("partyTypeCode", badge.get().getParty().getTypeCode());
       model.addAttribute("badge", viewModel);
       return TEMPLATE;
     } else {
