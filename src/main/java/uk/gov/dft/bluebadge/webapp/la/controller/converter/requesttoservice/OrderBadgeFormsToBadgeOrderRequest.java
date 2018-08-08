@@ -1,8 +1,11 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice;
 
 import java.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
@@ -15,14 +18,21 @@ public class OrderBadgeFormsToBadgeOrderRequest {
 
   private static final String PARTY_TYPE_PERSON = "PERSON";
 
+  private final SecurityUtils securityUtils;
+
+  @Autowired
+  public OrderBadgeFormsToBadgeOrderRequest(SecurityUtils securityUtils) {
+    this.securityUtils = securityUtils;
+  }
+
   public BadgeOrderRequest convert(
-      OrderBadgePersonDetailsFormRequest details,
-      OrderBadgeProcessingFormRequest processing,
-      Integer localAuthority) {
+      OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
 
     LocalDate dob = LocalDate.of(details.getDobYear(), details.getDobMonth(), details.getDobDay());
+
+    LocalAuthority localAuthority = securityUtils.getCurrentLocalAuthority();
 
     Person person =
         new Person()
@@ -70,6 +80,6 @@ public class OrderBadgeFormsToBadgeOrderRequest {
         .expiryDate(expiryDate)
         .deliverToCode(processing.getDeliverTo())
         .deliveryOptionCode(processing.getDeliveryOptions())
-        .localAuthorityId(localAuthority);
+        .localAuthorityShortCode(localAuthority.getShortCode());
   }
 }

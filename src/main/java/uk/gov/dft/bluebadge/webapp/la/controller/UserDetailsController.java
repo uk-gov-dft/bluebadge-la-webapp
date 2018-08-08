@@ -25,13 +25,13 @@ import java.util.UUID;
 public class UserDetailsController {
 
   private static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
-  private static final String URL_USER_DETAILS = "/manage-users/user-details/{id}";
+  private static final String URL_USER_DETAILS = "/manage-users/user-details/{uuid}";
   private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
-  private static final String PARAM_ID = "id";
+  private static final String PARAM_ID = "uuid";
   private static final String MODEL_FORM_REQUEST = "formRequest";
-  private static final String MODEL_ID = "id";
-  private static final String URL_REQUEST_RESET_EMAIL = "/manage-users/request***REMOVED***-reset/{id}";
+  private static final String MODEL_ID = "uuid";
+  private static final String URL_REQUEST_RESET_EMAIL = "/manage-users/request***REMOVED***-reset/{uuid}";
   private UserService userService;
 
   private UserDetailsFormRequestToUser userDetailsFormRequestToUser;

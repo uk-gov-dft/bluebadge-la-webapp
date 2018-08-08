@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,8 +18,8 @@ public class BadgeOrderRequest {
   @JsonProperty("party")
   private Party party = null;
 
-  @JsonProperty("localAuthorityId")
-  private Integer localAuthorityId = null;
+  @JsonProperty("localAuthorityShortCode")
+  private String localAuthorityShortCode = null;
 
   @JsonProperty("localAuthorityRef")
   private String localAuthorityRef = null;
@@ -71,24 +72,24 @@ public class BadgeOrderRequest {
     this.party = party;
   }
 
-  public BadgeOrderRequest localAuthorityId(Integer localAuthorityId) {
-    this.localAuthorityId = localAuthorityId;
+  public BadgeOrderRequest localAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
     return this;
   }
 
   /**
-   * Id of local authority.
+   * Short code of local authority.
    *
-   * @return localAuthorityId
+   * @return localAuthorityShortCode
    */
-  @ApiModelProperty(example = "187", required = true, value = "Id of local authority.")
-  @NotNull
-  public Integer getLocalAuthorityId() {
-    return localAuthorityId;
+  @Pattern(regexp = "^[A-Z]+$")
+  @ApiModelProperty(example = "ABERD", required = true, value = "Short code of local authority.")
+  public String getLocalAuthorityShortCode() {
+    return localAuthorityShortCode;
   }
 
-  public void setLocalAuthorityId(Integer localAuthorityId) {
-    this.localAuthorityId = localAuthorityId;
+  public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
   }
 
   public BadgeOrderRequest localAuthorityRef(String localAuthorityRef) {
@@ -336,7 +337,7 @@ public class BadgeOrderRequest {
     }
     BadgeOrderRequest badgeOrderRequest = (BadgeOrderRequest) o;
     return Objects.equals(this.party, badgeOrderRequest.party)
-        && Objects.equals(this.localAuthorityId, badgeOrderRequest.localAuthorityId)
+        && Objects.equals(this.localAuthorityShortCode, badgeOrderRequest.localAuthorityShortCode)
         && Objects.equals(this.localAuthorityRef, badgeOrderRequest.localAuthorityRef)
         && Objects.equals(this.applicationDate, badgeOrderRequest.applicationDate)
         && Objects.equals(this.applicationChannelCode, badgeOrderRequest.applicationChannelCode)
@@ -353,7 +354,7 @@ public class BadgeOrderRequest {
   public int hashCode() {
     return Objects.hash(
         party,
-        localAuthorityId,
+        localAuthorityShortCode,
         localAuthorityRef,
         applicationDate,
         applicationChannelCode,
@@ -372,7 +373,9 @@ public class BadgeOrderRequest {
     sb.append("class BadgeOrderRequest {\n");
 
     sb.append("    party: ").append(toIndentedString(party)).append("\n");
-    sb.append("    localAuthorityId: ").append(toIndentedString(localAuthorityId)).append("\n");
+    sb.append("    localAuthorityShortCode: ")
+        .append(toIndentedString(localAuthorityShortCode))
+        .append("\n");
     sb.append("    localAuthorityRef: ").append(toIndentedString(localAuthorityRef)).append("\n");
     sb.append("    applicationDate: ").append(toIndentedString(applicationDate)).append("\n");
     sb.append("    applicationChannelCode: ")

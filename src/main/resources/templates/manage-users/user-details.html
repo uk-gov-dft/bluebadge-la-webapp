@@ -58,13 +58,13 @@
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" th:method="delete">
+                    <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" th:method="delete">
                         <p>
                             <span th:utext="#{userdetail.text.confirmdelete.line1}" th:remove="tag"/>
                             <strong data-uipath="reset.userName" th:utext="*{name} + '?'"/>
                         </p>
                         <p th:text="#{userdetail.text.confirmdelete.line2}"></p>
-                        <input data-uipath="localAuthorityId" type="hidden" th:field="*{localAuthorityId}" th:id="removeUserField">
+                        <input data-uipath="localAuthorityShortCode" type="hidden" th:field="*{localAuthorityShortCode}" th:id="removeUserField">
                         <input data-uipath="removeUserButton" th:value="#{userdetail.removeUserButton}" type="submit" class="govuk-button">
                     </form>
 

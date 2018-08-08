@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{managebadges.badgedetails.html.title} + ${badge.badgeNumber} + ' ' + #{common.title.suffix}"></title>
+</head>
+
+<body>
+
+    <div layout:fragment="headline">
+        <div class="dft-headline-wrapper">
+            <a th:href="@{/find-a-badge/search-results}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+               th:text="#{common.button.back}"/>
+        </div>
+    </div>
+
+    <main layout:fragment="content">
+
+        <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
+
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span class="govuk-caption-l" th:text="${badge.badgeNumber}"></span>
+                <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
+            </h1>
+
+            <article class="dft-check-answers">
+
+                <div class="dft-check-answers__heading">
+                    <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title"
+                        th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
+                </div>
+
+                <dl class="dft-data-list" data-uipath="personalDetails.answers">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.fullName}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.fullName}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.gender}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.gender}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.dob}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.dob}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.nino}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${badge.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.address}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.address}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactFullName}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${badge.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactNumber}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.contactNumber}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.secondaryContactNumber}"/>
+                        <dd class="dft-data-list__dd"  th:with="ref=${badge.secondaryContactNumber}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.emailAddress}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${badge.emailAddress}"
+                            th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.eligibility}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.eligibility}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt">Photo</dt>
+                        <dd class="dft-data-list__dd">
+                            <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
+                        </dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="dft-check-answers">
+                <div class="dft-check-answers__heading">
+                    <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="badgeDetails.title"
+                        th:text="#{managebadges.badgedetails.html.title}"></h2>
+                </div>
+
+                <dl class="dft-data-list" data-uipath="badgeDetails.answers">
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.status}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.status}" />
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.badgeNumber}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.badgeNumber}" />
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.issuedBy}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.issuedBy}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.badgeStartDate}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.badgeStartDate}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.badgeExpiryDate}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.badgeExpiryDate}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.localAuthorityReference}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${badge.localAuthorityReference}"
+                            th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationDate}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.applicationDate}"/>
+                    </div>
+
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationChannel}"/>
+                        <dd class="dft-data-list__dd" th:text="${badge.applicationChannel}"/>
+                    </div>
+                </dl>
+            </article>
+
+        </section>
+    </main>
+</body>
+
+</html>
