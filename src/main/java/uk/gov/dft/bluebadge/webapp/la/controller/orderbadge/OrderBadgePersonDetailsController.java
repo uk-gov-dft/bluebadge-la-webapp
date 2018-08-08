@@ -30,8 +30,6 @@ public class OrderBadgePersonDetailsController {
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
-  //private static final String FORM_ACTION_RESET = "reset";
-
   private ReferenceDataService referenceDataService;
 
   @Autowired
@@ -41,19 +39,12 @@ public class OrderBadgePersonDetailsController {
 
   @GetMapping(URL)
   public String show(
-      //@RequestParam(name = "action", required = false) String action,
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session) {
-    /*if (FORM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
-      session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
-      session.removeAttribute(SESSION_FORM_REQUEST);
-      session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
-    } else {*/
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
-    //}
     return TEMPLATE;
   }
 
