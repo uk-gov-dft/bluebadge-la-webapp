@@ -115,7 +115,6 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
             .eligibilityCode(ELIGIBILITY)
             .startDate(SERVICE_MODEL_START_DATE)
             .expiryDate(SERVICE_MODEL_EXPIRY_DATE)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .localAuthorityRef(LOCAL_AUTHORITY_REFERENCE_NUMBER)
             .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES)
