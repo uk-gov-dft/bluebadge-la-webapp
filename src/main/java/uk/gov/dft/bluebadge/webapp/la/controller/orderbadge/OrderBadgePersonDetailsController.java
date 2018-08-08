@@ -73,7 +73,7 @@ public class OrderBadgePersonDetailsController {
 
   @ModelAttribute("genderOptions")
   public List<ReferenceData> genderOptions() {
-    return referenceDataService.retrieveGender();
+    return referenceDataService.retrieveGenders();
   }
 
   @ModelAttribute("eligibilityOptions")

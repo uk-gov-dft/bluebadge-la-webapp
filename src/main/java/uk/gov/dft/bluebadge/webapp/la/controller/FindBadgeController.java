@@ -51,7 +51,12 @@ public class FindBadgeController {
   }
 
   @GetMapping(URL_FIND_BADGE)
-  public String show(@ModelAttribute("formRequest") FindBadgeFormRequest formRequest) {
+  public String show(
+      @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
+    // Reset previous search results
+    session.removeAttribute("searchTerm");
+    session.removeAttribute("results");
+
     return TEMPLATE;
   }
 
@@ -88,8 +93,8 @@ public class FindBadgeController {
         break;
     }
 
-    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
-    redirectAttributes.addFlashAttribute("results", results);
+    session.setAttribute("searchTerm", searchTerm);
+    session.setAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }

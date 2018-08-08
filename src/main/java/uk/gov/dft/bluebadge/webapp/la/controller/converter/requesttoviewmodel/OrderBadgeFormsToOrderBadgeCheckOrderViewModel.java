@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
     String deliverToDisplayText =
         referenceDataService.retrieveDeliverToDisplayValue(processing.getDeliverTo());
     String deliveryOptionsDisplayText =
-        referenceDataService.retrieveDeliveryOptionsDisplayValue(processing.getDeliveryOptions());
+        referenceDataService.retrieveDeliveryOptionDisplayValue(processing.getDeliveryOptions());
 
     return OrderBadgeCheckOrderViewModel.builder()
         .fullName(details.getName())

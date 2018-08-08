@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToBadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgeFormsToBadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
@@ -63,7 +63,7 @@ public class OrderBadgeCheckOrderController {
         (OrderBadgeProcessingFormRequest)
             session.getAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     BadgeOrderRequest badgeOrderRequest =
-        converterToServiceModel.convert(detailsForm, processingForm, 2);
+        converterToServiceModel.convert(detailsForm, processingForm);
 
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
     redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);

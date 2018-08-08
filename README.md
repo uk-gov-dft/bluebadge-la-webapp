@@ -9,8 +9,8 @@ brew install gradle
 git clone git@github.com:uk-gov-dft/la-webapp.git
 cd la-webapp
 gradle wrapper
-gradle build
-gradle bootRun
+./gradlew build
+./gradlew bootRun
 ```
 It will show 80% complete but it is ready to be tested in the browser
 
@@ -35,9 +35,9 @@ cd usermanagement-service
 git pull
 git checkout whateverbranch
 cd model
-gradle install
+./gradlew install
 cd ../client
-gradle install
+./gradlew install
 ```
 
 
@@ -139,7 +139,7 @@ without having to restart the application. To do so, make sure to have the appli
 standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute (from project folder ..../la-webapp):
 
 ```
-gradle acceptanceTest -PbuildProfile=local
+./gradlew acceptanceTest -PbuildProfile=local
 ```
 
 -PbuildProfile is the profile for environment that you want to run tests against{Eg, local,dev,qa,prepod,prod}
@@ -148,7 +148,7 @@ gradle acceptanceTest -PbuildProfile=local
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false
 ```
 
 If you need to run only speficied features, then add a tag to feature file & specify that in run command as below, execute:
@@ -156,13 +156,13 @@ If you need to run only speficied features, then add a tag to feature file & spe
 Run a single feature
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
 
 Run multiple features
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
 ```
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
@@ -231,7 +231,7 @@ $Vagrant journalctl -f|grep ERROR
 To run Acceptance Test against virtual computer, from terminal prompt (host computer):
 ```
 $ cd la-webapp/acceptance-tests
-$ gradle acceptanceTest -PbuildProfile=vagrant -Dheadless=false
+$ ./gradlew acceptanceTest -PbuildProfile=vagrant -Dheadless=false
 ```
 
 ## TOOLING
