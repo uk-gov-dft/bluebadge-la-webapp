@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,10 +18,13 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 
 public class UserServiceTest {
 
-  private static final int ID = 1;
   private static final String EMAIL_ADDRESS = "email@email.com";
   private static final String NAME = "My name";
-  private static final String UUID = "uuid";
+  private static final UUID USER_UUID_1 = java.util.UUID.randomUUID();
+  private static final UUID USER_UUID_2 = java.util.UUID.randomUUID();
+  private static final UUID USER_UUID_3 = java.util.UUID.randomUUID();
+  private static final UUID USER_UUID_4 = java.util.UUID.randomUUID();
+  private static final UUID USER_UUID_5 = java.util.UUID.randomUUID();
 
   @SuppressWarnings("squid:S2068")
   private static final String PASSWORD = "lckxjvlkv";
@@ -39,42 +44,41 @@ public class UserServiceTest {
 
     userService = new UserService(userManagementServiceMock, setPasswordApiClientMock);
 
-    user = new User().id(ID).emailAddress(EMAIL_ADDRESS).name(NAME);
+    user = User.builder().uuid(USER_UUID_1).emailAddress(EMAIL_ADDRESS).name(NAME).build();
   }
 
   @Test
   public void find_ShouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
-    final int LOCAL_AUTHORITY_ID = 1;
+    final String LOCAL_AUTHORITY_ID = "BIRM";
     User user1 =
-        new User()
-            .id(1)
+        User.builder()
+            .uuid(USER_UUID_1)
             .name("z")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-1@email.com");
-    User user2 =
-        new User()
-            .id(2)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
+            .emailAddress("name-1@email.com")
+      .build();
+    User user2 = User.builder()
+            .uuid(USER_UUID_2)
             .name("c")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-2@email.com");
-    User user3 =
-        new User()
-            .id(3)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
+            .emailAddress("name-2@email.com")
+      .build();
+    User user3 = User.builder()
+            .uuid(USER_UUID_3)
             .name("a")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-3@email.com");
-    User user4 =
-        new User()
-            .id(4)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
+            .emailAddress("name-3@email.com").build();
+    User user4 =  User.builder()
+            .uuid(USER_UUID_4)
             .name("m")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-4@email.com");
-    User user5 =
-        new User()
-            .id(5)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
+            .emailAddress("name-4@email.com").build();
+    User user5 = User.builder()
+            .uuid(USER_UUID_5)
             .name("h")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-5@email.com");
+            .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
+            .emailAddress("name-5@email.com")
+      .build();
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
 
     when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY_ID, ""))
@@ -86,7 +90,7 @@ public class UserServiceTest {
 
   @Test
   public void find_ShouldReturnEmptyList_WhenThereAreNoUsers() {
-    final int LOCAL_AUTHORITY = 1;
+    final String LOCAL_AUTHORITY = "BIRM";
     List<User> usersFromClient = Arrays.asList();
 
     when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
@@ -98,10 +102,10 @@ public class UserServiceTest {
 
   @Test
   public void retrieve_ShouldReturnUser() {
-    when(userManagementServiceMock.getById(ID)).thenReturn(user);
-    User userRetrieved = userService.retrieve(ID);
+    when(userManagementServiceMock.getByUuid(USER_UUID_1)).thenReturn(user);
+    User userRetrieved = userService.retrieve(USER_UUID_1);
     assertThat(userRetrieved).isEqualTo(user);
-    verify(userManagementServiceMock).getById(ID);
+    verify(userManagementServiceMock).getByUuid(USER_UUID_1);
   }
 
   @Test
@@ -122,21 +126,21 @@ public class UserServiceTest {
 
   @Test
   public void delete_ShouldDeleteAUser() {
-    userService.delete(ID);
-    verify(userManagementServiceMock).deleteUser(ID);
+    userService.delete(USER_UUID_1);
+    verify(userManagementServiceMock).deleteUser(USER_UUID_1);
   }
 
   @Test
   public void requestPasswordReset_ShouldDeleteAUser() {
-    userService.requestPasswordReset(ID);
-    verify(userManagementServiceMock).requestPasswordReset(ID);
+    userService.requestPasswordReset(USER_UUID_1);
+    verify(userManagementServiceMock).requestPasswordReset(USER_UUID_1);
   }
 
   @Test
   public void updatePassword_shouldUpdatePassword() {
-    when(setPasswordApiClientMock.updatePassword(UUID, PASSWORD, PASSWORD)).thenReturn(user);
-    User userUpdated = userService.updatePassword(UUID, PASSWORD, PASSWORD);
+    when(setPasswordApiClientMock.updatePassword(USER_UUID_1, PASSWORD, PASSWORD)).thenReturn(user);
+    User userUpdated = userService.updatePassword(USER_UUID_1, PASSWORD, PASSWORD);
     assertThat(userUpdated).isEqualTo(user);
-    verify(setPasswordApiClientMock).updatePassword(UUID, PASSWORD, PASSWORD);
+    verify(setPasswordApiClientMock).updatePassword(USER_UUID_1, PASSWORD, PASSWORD);
   }
 }

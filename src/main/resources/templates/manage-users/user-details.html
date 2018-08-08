@@ -21,7 +21,7 @@
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--half">
 
-            <form th:action="@{/manage-users/user-details/{id}(id=${id})}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/manage-users/user-details/{id}(id=${uuid})}" th:object="${formRequest}" method="post" novalidate>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.name}, 'name', null, 'text') }"></div>
 
@@ -42,7 +42,7 @@
                             <strong data-uipath="reset.userName" th:utext="*{name} + '?'"/>
                         </p>
                         <p th:text="#{userdetail.text.confirmpassword.line2}"/>
-                        <input data-uipath="reset.localAuthoritytopId" type="hidden" th:field="*{localAuthorityId}" th:id="resetPasswordField">
+                        <input data-uipath="reset.localAuthorityShortCode" type="hidden" th:field="*{localAuthorityShortCode}" th:id="resetPasswordField">
                         <input data-uipath="resetPasswordButton" th:value="#{userdetail.resetPasswordButton}" type="submit" class="govuk-button">
                     </form>
 

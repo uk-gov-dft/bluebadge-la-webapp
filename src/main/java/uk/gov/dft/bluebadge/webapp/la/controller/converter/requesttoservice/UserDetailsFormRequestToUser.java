@@ -10,8 +10,11 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 public class UserDetailsFormRequestToUser implements Converter<UserDetailsFormRequest, User> {
 
   @Override
-  public User convert(UserDetailsFormRequest source) {
-    Assert.notNull(source, "Source cannot be null");
-    return new User().name(source.getName()).emailAddress(source.getEmailAddress());
+  public User convert(UserDetailsFormRequest formRequest) {
+    Assert.notNull(formRequest, "Source cannot be null");
+    return User.builder()
+      .name(formRequest.getName())
+      .emailAddress(formRequest.getEmailAddress())
+      .build();
   }
 }

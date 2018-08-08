@@ -4,6 +4,8 @@ import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagemen
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -28,7 +30,7 @@ public class UserManagementApiClient extends BaseApiClient {
     static final String GET_BY_ID_ENDPOINT = "/users/{userId}";
     static final String CREATE_ENDPOINT = "/users";
     static final String GET_USERS_FOR_AUTHORITY_ENDPOINT =
-        "/users?name={name}&authorityId={authorityId}";
+        "/users?name={name}&authorityShortCode={authorityShortCode}";
     static final String UPDATE_ENDPOINT = "/users/{userId}";
     static final String DELETE_ENDPOINT = "/users/{userId}";
     static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{userId}/passwordReset";
@@ -45,25 +47,25 @@ public class UserManagementApiClient extends BaseApiClient {
   /**
    * Retrieve a list of users for a Local Authority wrapped in a UsersResponse.
    *
-   * @param authorityId The Local Authority to retrieve for.
+   * @param authorityShortCode The Local Authority to retrieve for.
    * @return UsersResponse containing list of Users.
    */
-  public List<User> getUsersForAuthority(Integer authorityId, String nameFilter) {
+  public List<User> getUsersForAuthority(String authorityShortCode, String nameFilter) {
 
-    Assert.notNull(authorityId, "getUsersForAuthority - Local Authority Id must be provided");
+    Assert.notNull(authorityShortCode, "getUsersForAuthority - Local Authority Id must be provided");
 
     ResponseEntity<UsersResponse> userListResponse =
         restTemplate.getForEntity(
-            GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityId);
+            GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityShortCode);
     return Objects.requireNonNull(userListResponse.getBody()).getData();
   }
 
-  public User getById(Integer userId) {
-    Assert.notNull(userId, "userId must be provided for getById");
+  public User getByUuid(UUID userId) {
+    Assert.notNull(userId, "userId must be provided for getByUuid");
 
     try {
       return Objects.requireNonNull(
-              restTemplate.getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId).getBody())
+              restTemplate.getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId.toString()).getBody())
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -96,7 +98,7 @@ public class UserManagementApiClient extends BaseApiClient {
     try {
       return Objects.requireNonNull(
               restTemplate
-                  .exchange(uri, HttpMethod.PUT, request, UserResponse.class, user.getId())
+                  .exchange(uri, HttpMethod.PUT, request, UserResponse.class, user.getUuid().toString())
                   .getBody())
           .getData();
     } catch (HttpClientErrorException c) {
@@ -105,22 +107,22 @@ public class UserManagementApiClient extends BaseApiClient {
     return null;
   }
 
-  public void deleteUser(Integer userId) {
+  public void deleteUser(UUID userId) {
     Assert.notNull(userId, "deleteUser - userId must be set");
 
     String uri = UriComponentsBuilder.fromUriString(DELETE_ENDPOINT).build().toUriString();
     try {
-      restTemplate.delete(uri, userId);
+      restTemplate.delete(uri, userId.toString());
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
   }
 
-  public void requestPasswordReset(Integer id) {
-    Assert.notNull(id, "requestPasswordReset - id must not be null");
+  public void requestPasswordReset(UUID uuid) {
+    Assert.notNull(uuid, "requestPasswordReset - id must not be null");
 
     try {
-      restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, id);
+      restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, uuid);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

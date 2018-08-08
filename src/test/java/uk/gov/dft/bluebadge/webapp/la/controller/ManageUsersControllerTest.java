@@ -1,13 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,17 +13,35 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 public class ManageUsersControllerTest {
 
   private MockMvc mockMvc;
 
-  @Mock private UserService userServiceMock;
-  @Mock private SecurityUtils securityUtilsMock;
+  @Mock
+  private UserService userServiceMock;
+  @Mock
+  private SecurityUtils securityUtilsMock;
 
   private ManageUsersController controller;
 
   // Test Data
-  final int LOCAL_AUTHORITY_ID = 1;
+  final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
+  final UUID USER_UUID_1 = UUID.randomUUID();
+  final UUID USER_UUID_2 = UUID.randomUUID();
+  final UUID USER_UUID_3 = UUID.randomUUID();
   final String NAME_JANE = "Jane";
   final String NAME_NOT_FOUND = "NotFound";
   final Integer ROLE_ID = 1;
@@ -51,100 +62,100 @@ public class ManageUsersControllerTest {
     controller = new ManageUsersController(userServiceMock, securityUtilsMock);
 
     this.mockMvc =
-        MockMvcBuilders.standaloneSetup(controller)
-            .setViewResolvers(new StandaloneMvcTestViewResolver())
-            .build();
+      MockMvcBuilders.standaloneSetup(controller)
+        .setViewResolvers(new StandaloneMvcTestViewResolver())
+        .build();
 
     userSignedIn =
-        uk.gov.dft.bluebadge.common.security.model.User.builder()
-            .name("Joe")
-            .id(1)
-            .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().id(LOCAL_AUTHORITY_ID).build())
-            .roleId(ROLE_ID)
-            .build();
+      uk.gov.dft.bluebadge.common.security.model.User.builder()
+        .name("Joe")
+        .id(1)
+        .emailAddress("joe.blogs@email.com")
+        .localAuthority(LocalAuthority.builder().shortCode(LOCAL_AUTHORITY_SHORT_CODE).build())
+        .roleId(ROLE_ID)
+        .build();
 
     userDataSignedIn =
-        uk.gov.dft.bluebadge.common.security.model.User.builder()
-            .name("Joe")
-            .id(1)
-            .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().id(LOCAL_AUTHORITY_ID).build())
-            .build();
+      uk.gov.dft.bluebadge.common.security.model.User.builder()
+        .name("Joe")
+        .id(1)
+        .emailAddress("joe.blogs@email.com")
+        .localAuthority(LocalAuthority.builder().shortCode(LOCAL_AUTHORITY_SHORT_CODE).build())
+        .build();
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
-    userJane =
-        new User()
-            .name(NAME_JANE)
-            .id(2)
-            .emailAddress("jane.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY_ID);
-    user2 =
-        new User()
-            .name("Joe")
-            .id(1)
-            .emailAddress("joe.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+    userJane = User.builder()
+      .name(NAME_JANE)
+      .uuid(USER_UUID_1)
+      .emailAddress("jane.blogs@email.com")
+      .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+      .build();
+    user2 = User.builder()
+      .name("Joe")
+      .uuid(USER_UUID_2)
+      .emailAddress("joe.blogs@email.com")
+      .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+      .roleId(ROLE_ID)
+      .build();
 
-    user3 =
-        new User()
-            .name("Fred")
-            .id(3)
-            .emailAddress("jfred.blogs@email.com")
-            .localAuthorityId(LOCAL_AUTHORITY_ID);
+    user3 = User.builder()
+      .name("Fred")
+      .uuid(USER_UUID_3)
+      .emailAddress("jfred.blogs@email.com")
+      .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+      .build();
 
     allUsers = Arrays.asList(user2, userJane, user3);
     List<User> users = new ArrayList<>(allUsers);
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getId())).thenReturn(users);
+    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode())).thenReturn(users);
   }
 
   @Test
   public void showManageUsers_shouldDisplayUsersFromCurrentUserLocalAuthority_WhenSearchIsEmpty()
-      throws Exception {
+    throws Exception {
     mockMvc
-        .perform(get("/manage-users"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users"))
-        .andExpect(model().attribute("search", ""))
-        .andExpect(model().attribute("users", allUsers))
-        .andExpect(model().attribute("allUsersSize", 3));
-    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_ID);
+      .perform(get("/manage-users"))
+      .andExpect(status().isOk())
+      .andExpect(view().name("manage-users"))
+      .andExpect(model().attribute("search", ""))
+      .andExpect(model().attribute("users", allUsers))
+      .andExpect(model().attribute("allUsersSize", 3));
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_SHORT_CODE);
   }
 
   @Test
   public void
-      showManageUsers_shouldDisplayUsersFilteredFromCurrentUserLocalAuthority_WhenSearchIsNonEmpty()
-          throws Exception {
+  showManageUsers_shouldDisplayUsersFilteredFromCurrentUserLocalAuthority_WhenSearchIsNonEmpty()
+    throws Exception {
     List<User> users = Lists.newArrayList(userJane);
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getId(), NAME_JANE))
-        .thenReturn(users);
+    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode(), NAME_JANE))
+      .thenReturn(users);
     mockMvc
-        .perform(get("/manage-users").param("search", NAME_JANE))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users"))
-        .andExpect(model().attribute("search", NAME_JANE))
-        .andExpect(model().attribute("users", users))
-        .andExpect(model().attribute("allUsersSize", 3))
-        .andExpect(model().attribute("searchCount", 1));
-    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_ID);
+      .perform(get("/manage-users").param("search", NAME_JANE))
+      .andExpect(status().isOk())
+      .andExpect(view().name("manage-users"))
+      .andExpect(model().attribute("search", NAME_JANE))
+      .andExpect(model().attribute("users", users))
+      .andExpect(model().attribute("allUsersSize", 3))
+      .andExpect(model().attribute("searchCount", 1));
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_SHORT_CODE);
   }
 
   @Test
   public void showManageUsers_shouldDisplayNoUsers_WhenSearchIsNonEmptyAndThereNoAreUsers()
-      throws Exception {
+    throws Exception {
     List<User> users = Lists.newArrayList();
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getId(), NAME_NOT_FOUND))
-        .thenReturn(users);
+    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode(), NAME_NOT_FOUND))
+      .thenReturn(users);
     mockMvc
-        .perform(get("/manage-users").param("search", NAME_NOT_FOUND))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users"))
-        .andExpect(model().attribute("search", NAME_NOT_FOUND))
-        .andExpect(model().attribute("users", users))
-        .andExpect(model().attribute("allUsersSize", 3))
-        .andExpect(model().attribute("searchCount", 0));
-    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_ID);
+      .perform(get("/manage-users").param("search", NAME_NOT_FOUND))
+      .andExpect(status().isOk())
+      .andExpect(view().name("manage-users"))
+      .andExpect(model().attribute("search", NAME_NOT_FOUND))
+      .andExpect(model().attribute("users", users))
+      .andExpect(model().attribute("allUsersSize", 3))
+      .andExpect(model().attribute("searchCount", 0));
+    verify(userServiceMock, times(1)).find(LOCAL_AUTHORITY_SHORT_CODE);
   }
 }

@@ -18,6 +18,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
+import java.util.UUID;
+
 @Controller
 @Slf4j
 public class UserDetailsController {
@@ -43,25 +45,25 @@ public class UserDetailsController {
 
   @GetMapping(URL_USER_DETAILS)
   public String showUserDetails(
-      @PathVariable(PARAM_ID) int id,
+      @PathVariable(PARAM_ID) UUID uuid,
       @ModelAttribute(MODEL_FORM_REQUEST) final UserDetailsFormRequest formRequest,
       Model model) {
-    User user = userService.retrieve(id);
-    formRequest.setLocalAuthorityId(user.getLocalAuthorityId());
+    User user = userService.retrieve(uuid);
+    formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
-    model.addAttribute(MODEL_ID, id);
+    model.addAttribute(MODEL_ID, uuid);
     return TEMPLATE_USER_DETAILS;
   }
 
   @PostMapping(URL_USER_DETAILS)
   public String updateUserDetails(
-      @PathVariable(PARAM_ID) int id,
+      @PathVariable(PARAM_ID) UUID uuid,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
     try {
-      User user = combine(formRequest, userService.retrieve(id));
+      User user = combine(formRequest, userService.retrieve(uuid));
       userService.update(user);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (BadRequestException e) {
@@ -72,37 +74,37 @@ public class UserDetailsController {
 
   @DeleteMapping(URL_USER_DETAILS)
   public String deleteUser(
-      @PathVariable(PARAM_ID) int id,
+      @PathVariable(PARAM_ID) UUID uuid,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
       Model model) {
     try {
-      userService.delete(id);
+      userService.delete(uuid);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (Exception ex) {
       TemplateModelUtils.addCustomError(
           "error.deleteUser.generalError.title",
           "error.deleteUser.generalError.description",
           model);
-      model.addAttribute(MODEL_ID, id);
+      model.addAttribute(MODEL_ID, uuid);
       return TEMPLATE_USER_DETAILS;
     }
   }
 
   private User combine(final UserDetailsFormRequest formRequest, final User userData) {
     User user = userDetailsFormRequestToUser.convert(formRequest);
-    user.setId(userData.getId());
-    user.setLocalAuthorityId(userData.getLocalAuthorityId());
+    user.setUuid(userData.getUuid());
+    user.setLocalAuthorityShortCode(userData.getLocalAuthorityShortCode());
     user.setRoleId(userData.getRoleId());
     return user;
   }
 
   @PostMapping(URL_REQUEST_RESET_EMAIL)
   public String requestPasswordReset(
-      @PathVariable(PARAM_ID) int id,
+      @PathVariable(PARAM_ID) UUID uuid,
       @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
       Model model) {
 
-    userService.requestPasswordReset(id);
+    userService.requestPasswordReset(uuid);
     return REDIRECT_URL_MANAGE_USERS;
   }
 }

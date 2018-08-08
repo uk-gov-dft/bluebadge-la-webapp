@@ -18,9 +18,13 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 
+import java.util.UUID;
+
 public class SetPasswordApiClientTest {
 
   public static final String TEST_URI = "http://justtesting:9999/test";
+  private static final UUID USER_UUID = UUID.randomUUID();
+
   SetPasswordApiClient setPasswordApiClient;
 
   private MockRestServiceServer mockServer;
@@ -36,12 +40,12 @@ public class SetPasswordApiClientTest {
 
   @Test
   public void updatePassword() throws Exception {
-    String uuid = "test_uuid";
+    UUID uuid = UUID.randomUUID();
     UserResponse userResponse = new UserResponse();
-    User data = new User().id(555);
-    userResponse.setData(data);
+    User user = User.builder().uuid(USER_UUID).build();
+    userResponse.setData(user);
     mockServer
-        .expect(once(), requestTo(TEST_URI + "/user/password/" + uuid))
+        .expect(once(), requestTo(TEST_URI + "/user/password/" + uuid.toString()))
         .andExpect(method(HttpMethod.PATCH))
         .andExpect(jsonPath(" ***REMOVED***)))
         .andExpect(jsonPath(" ***REMOVED***)))
