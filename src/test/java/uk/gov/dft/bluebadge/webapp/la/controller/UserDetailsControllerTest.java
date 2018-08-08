@@ -48,7 +48,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
   private static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityShortCode";
   private static final String MODEL_FORM_REQUEST = "formRequest";
-  private static final String MODEL_ID = "id";
+  private static final String MODEL_ID = "uuid";
 
   private static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
   private static final String ERROR_MSG_NAME = "error in name";
