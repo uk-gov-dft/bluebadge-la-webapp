@@ -8,6 +8,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePe
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
+import java.time.LocalDate;
+
 public abstract class OrderBadgeBaseControllerTest {
 
   // details
@@ -88,10 +90,10 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String LOCAL_AUTHORITY_REFERENCE_NUMBER = "AA110";
   protected static final String BADGE_START_DATE_DAY = "7";
   protected static final String BADGE_START_DATE_MONTH = "8";
-  protected static final String BADGE_START_DATE_YEAR = "2018";
+  protected static final String BADGE_START_DATE_YEAR = Integer.toString(LocalDate.now().plusYears(1).getYear());
   protected static final String BADGE_EXPIRY_DATE_DAY = "7";
   protected static final String BADGE_EXPIRY_DATE_MONTH = "8";
-  protected static final String BADGE_EXPIRY_DATE_YEAR = "2021";
+  protected static final String BADGE_EXPIRY_DATE_YEAR = Integer.toString(LocalDate.now().plusYears(2).getYear());
   protected static final String DELIVER_TO = "badgeHolder";
   protected static final String DELIVERY_OPTIONS = "fast";
 
