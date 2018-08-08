@@ -97,10 +97,11 @@ public class OrderBadgePersonProcessingControllerTest extends OrderBadgeBaseCont
     mockMvc
         .perform(
             get("/order-a-badge/person/processing")
-                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
+                .sessionAttr(
+                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/processing"))
-        .andExpect(model().attribute("formRequest", FORM_REQUEST_PROCESSING));
+        .andExpect(model().attribute("formRequest", FORM_REQUEST_PERSON_PROCESSING));
   }
 
   @Test

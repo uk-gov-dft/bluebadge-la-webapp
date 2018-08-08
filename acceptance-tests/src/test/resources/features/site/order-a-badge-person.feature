@@ -1,5 +1,5 @@
-@OrderABadge
-Feature: Dft BlueBadge LA Order a Badge
+@OrderABadgePerson
+Feature: Dft BlueBadge LA Order a Badge (Person)
 
   As a Blue Badge team member
   I want to add a badge record without placing an order
@@ -84,7 +84,7 @@ Feature: Dft BlueBadge LA Order a Badge
     Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And I should see a badge number on badge ordered page
 
-  Scenario: Clicking back buttons should go back to the previous step with the form prepopulated with the previous data
+  Scenario: Clicking back buttons should go back to the previous step with the form prepopulated with the previous data (person)
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -109,7 +109,7 @@ Feature: Dft BlueBadge LA Order a Badge
     When I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
 
-  Scenario: Clicking change details from check-order page should redirect you to details page with data prepopulated
+  Scenario: Clicking change details from check-order page should redirect you to details page with data prepopulated (person)
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***

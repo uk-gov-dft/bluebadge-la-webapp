@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
-public class OrderBadgePersonDetailsController {
+public class OrderBadgePersonDetailsController
+    extends OrderBadgeBaseDetailsController<OrderBadgePersonDetailsFormRequest> {
   public static final String URL = "/order-a-badge/person/details";
 
   private static final String TEMPLATE = "order-a-badge/person/details";
@@ -30,9 +29,7 @@ public class OrderBadgePersonDetailsController {
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgePersonProcessingController.URL;
 
-  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
-
-  private ReferenceDataService referenceDataService;
+  protected ReferenceDataService referenceDataService;
 
   @Autowired
   public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
@@ -43,11 +40,7 @@ public class OrderBadgePersonDetailsController {
   public String show(
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session) {
-    Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
-    if (sessionFormRequest != null) {
-      BeanUtils.copyProperties(sessionFormRequest, formRequest);
-    }
-    return TEMPLATE;
+    return super.show(formRequest, session);
   }
 
   @PostMapping(URL)
@@ -56,12 +49,7 @@ public class OrderBadgePersonDetailsController {
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-    model.addAttribute("errorSummary", new ErrorViewModel());
-    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
-    if (bindingResult.hasErrors()) {
-      return TEMPLATE;
-    }
-    return REDIRECT_ORDER_BADGE_PROCESSING;
+    return super.submit(formRequest, bindingResult, model, session);
   }
 
   @ModelAttribute("genderOptions")
@@ -79,5 +67,15 @@ public class OrderBadgePersonDetailsController {
                 Collectors.groupingBy(
                     ref ->
                         "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
+  }
+
+  @Override
+  protected String getTemplate() {
+    return TEMPLATE;
+  }
+
+  @Override
+  protected String getProcessingRedirectUrl() {
+    return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 }

@@ -84,8 +84,9 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     mockMvc
         .perform(
             get("/order-a-badge/person/check-order")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS)
-                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(
+                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/check-order"))
         .andExpect(model().attribute("data", orderBadgeCheckOrderViewModel));
@@ -123,8 +124,9 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     mockMvc
         .perform(
             post("/order-a-badge/person/check-order")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_DETAILS)
-                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(
+                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
     verify(badgeServiceMock).orderABadgeForAPerson(badgeOrderRequest);

@@ -4,7 +4,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="#{orderbadge.person.details.html.title} + ' ' + #{common.title.suffix}"></title>
+    <title th:text="#{orderbadge.organisation.details.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
 <body>
 
@@ -20,22 +20,17 @@
     <section class="dft-content-container--full">
         <div class="dft-group-heading">
             <p class="dft-sub-heading" data-uipath="step">Step 2</p>
-            <h1 class="govuk-heading-l" data-uipath="title">Personal details</h1>
+            <h1 class="govuk-heading-l" data-uipath="title">Organisation details</h1>
         </div>
 
         <div class="dft-width-two-thirds">
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/order-a-badge/person/details}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/organisation/details}" th:object="${formRequest}" method="post" novalidate>
 
             <div class="dft-width-one-half">
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
-
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Gender', 'gender', null, ${genderOptions}) }"/>
-
-                <div th:replace="~{ fragments/form-elements :: govuk-date('Date of birth', 'For example, 31 3 1980', 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
-                <div th:replace="~{ fragments/form-elements :: govuk-input('National insurance number (optional)', 'nino', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input('Organisation name', 'name', null, 'text') }"/>
             </div>
 
             <hr class="dft-hr dft-hr--small">
@@ -64,13 +59,6 @@
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Primary contact number', 'contactDetailsContactNumber', null, 'text') }"/>
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Secondary contact number (optional)', 'contactDetailsSecondaryContactNumber', null, 'text') }"/>
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Email address (optional)', 'contactDetailsEmailAddress', null, 'email') }"/>
-            </div>
-
-            <hr class="dft-hr dft-hr--small">
-            <h2 class="govuk-heading-m" data-uipath="eligibilityTitle">Eligibility</h2>
-
-            <div class="dft-width-one-half">
-                <div th:replace="~{ fragments/govuk-select :: govuk-select('Select from list', 'eligibility', null, ${eligibilityOptions}) }"/>
             </div>
 
             <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">

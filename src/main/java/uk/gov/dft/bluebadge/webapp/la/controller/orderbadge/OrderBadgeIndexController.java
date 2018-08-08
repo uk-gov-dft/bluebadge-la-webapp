@@ -22,7 +22,7 @@ public class OrderBadgeIndexController {
       "redirect:" + OrderBadgePersonDetailsController.URL;
   // TODO: Incomplete REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS
   private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS =
-      "redirect:/order-a-badge/organisation/details";
+      "redirect:" + OrderBadgeOrganisationDetailsController.URL;
 
   private static final String PARAM_ACTION_RESET = "reset";
 

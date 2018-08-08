@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
@@ -117,7 +118,7 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String VIEW_MODEL_DOB = "1/1/1990";
   protected static final String VIEW_MODEL_ADDRESS = "An address, a place, a postcode";
 
-  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_DETAILS =
+  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
       OrderBadgePersonDetailsFormRequest.builder()
           .buildingAndStreet(BUILDING_AND_STREET)
           .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
@@ -134,7 +135,20 @@ public abstract class OrderBadgeBaseControllerTest {
           .townOrCity(TOWN_OR_CITY)
           .build();
 
-  protected static final OrderBadgePersonProcessingFormRequest FORM_REQUEST_PROCESSING =
+  protected static final OrderBadgeOrganisationDetailsFormRequest
+      FORM_REQUEST_ORGANISATION_DETAILS =
+          OrderBadgeOrganisationDetailsFormRequest.builder()
+              .buildingAndStreet(BUILDING_AND_STREET)
+              .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+              .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+              .contactDetailsName(CONTACT_DETAILS_NAME)
+              .name(NAME)
+              .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+              .postcode(POSTCODE)
+              .townOrCity(TOWN_OR_CITY)
+              .build();
+
+  protected static final OrderBadgePersonProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
       OrderBadgePersonProcessingFormRequest.builder()
           .applicationChannel(APPLICATION_CHANNEL)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))

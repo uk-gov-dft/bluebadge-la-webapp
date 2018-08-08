@@ -52,6 +52,23 @@ public class OrderABadgeSiteSteps {
     select.selectByVisibleText("PIP");
   }
 
+  @When("^I enter all the mandatory valid organisation details to order a badge$")
+  public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge() throws Throwable {
+    String name = ng.get_full_name();
+    String contactName = "Contact " + name;
+
+    String postcode = pcg.get_postcode();
+    scenarioContext.setContext("name", name);
+    scenarioContext.setContext("postcode", postcode);
+
+    sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
+    sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
+    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+  }
+
   @When("^I enter all valid personal details to order a badge$")
   public void iEnterAllValidPersonalDetailsToOrderABadge() throws Throwable {
     String name = ng.get_full_name();
@@ -85,6 +102,29 @@ public class OrderABadgeSiteSteps {
 
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");
+  }
+
+  @When("^I enter all valid organisation details to order a badge$")
+  public void iEnterAllValidOrganisationDetailsToOrderABadge() throws Throwable {
+    String name = ng.get_full_name();
+    String contactName = "Contact " + name;
+    String email = ng.get_email(name);
+
+    String postcode = pcg.get_postcode();
+    scenarioContext.setContext("name", name);
+    scenarioContext.setContext("postcode", postcode);
+
+    sitePage.findPageElementById("name").sendKeys(name);
+    sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
+    sitePage.findElementWithUiPath("optionalAddressField.field").sendKeys("second line of address");
+    sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
+    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage
+        .findElementWithUiPath("contactDetailsSecondaryContactNumber.field")
+        .sendKeys("0161 763 8309");
+    sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
   }
 
   @When("^I enter all the mandatory valid processing details to order a badge$")
