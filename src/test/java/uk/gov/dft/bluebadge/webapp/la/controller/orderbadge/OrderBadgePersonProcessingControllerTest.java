@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -104,7 +103,6 @@ public class OrderBadgePersonProcessingControllerTest extends OrderBadgeBaseCont
         .andExpect(model().attribute("formRequest", FORM_REQUEST_PROCESSING));
   }
 
-  @Ignore
   @Test
   public void
       submit_shouldRedirectToCheckOrderPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrors()
@@ -128,7 +126,6 @@ public class OrderBadgePersonProcessingControllerTest extends OrderBadgeBaseCont
         .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
   }
 
-  @Ignore
   @Test
   public void
       submit_shouldRedirectToCheckOrderPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
