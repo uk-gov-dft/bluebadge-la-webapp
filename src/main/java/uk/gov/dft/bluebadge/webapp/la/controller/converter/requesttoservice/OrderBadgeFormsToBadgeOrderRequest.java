@@ -10,8 +10,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
 
 @Component
 public class OrderBadgeFormsToBadgeOrderRequest {
@@ -26,7 +26,8 @@ public class OrderBadgeFormsToBadgeOrderRequest {
   }
 
   public BadgeOrderRequest convert(
-      OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
+      OrderBadgePersonDetailsFormRequest details,
+      OrderBadgePersonProcessingFormRequest processing) {
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
 

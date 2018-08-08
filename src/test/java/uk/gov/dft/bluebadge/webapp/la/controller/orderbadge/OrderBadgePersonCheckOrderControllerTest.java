@@ -25,7 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.Orde
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 
-public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
 
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
   private static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.now();
@@ -36,7 +36,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
   private static final LocalDate SERVICE_MODEL_EXPIRY_DATE = LocalDate.now().plusDays(2);
   private static final LocalDate SERVICE_MODEL_START_DATE = LocalDate.now().plusDays(1);
 
-  private OrderBadgeCheckOrderController controller;
+  private OrderBadgePersonCheckOrderController controller;
 
   @Mock private OrderBadgeFormsToBadgeOrderRequest converterToServiceModelMock;
   @Mock private OrderBadgeFormsToOrderBadgeCheckOrderViewModel converterToViewModelMock;
@@ -48,7 +48,7 @@ public class OrderBadgeCheckOrderControllerTest extends OrderBadgeBaseController
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new OrderBadgeCheckOrderController(
+        new OrderBadgePersonCheckOrderController(
             badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
 
     this.mockMvc =

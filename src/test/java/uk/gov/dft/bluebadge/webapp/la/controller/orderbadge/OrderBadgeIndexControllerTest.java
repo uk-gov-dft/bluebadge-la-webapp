@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
 public class OrderBadgeIndexControllerTest extends OrderBadgeBaseControllerTest {
   private static final String URL_ORDER_A_BADGE_PERSON_DETAILS = "/order-a-badge/person/details";

@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.request;
+package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;

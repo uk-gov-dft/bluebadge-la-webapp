@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
 @Controller
 public class OrderBadgeIndexController {
@@ -39,7 +39,7 @@ public class OrderBadgeIndexController {
     if (PARAM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
       session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
       session.removeAttribute(SESSION_FORM_REQUEST);
-      session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
+      session.removeAttribute(OrderBadgePersonProcessingController.SESSION_FORM_REQUEST);
     } else {
       Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
       if (sessionFormRequest != null) {

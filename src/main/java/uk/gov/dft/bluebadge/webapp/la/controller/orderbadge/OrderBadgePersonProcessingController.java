@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
-public class OrderBadgeProcessingController {
+public class OrderBadgePersonProcessingController {
   public static final String URL = "/order-a-badge/person/processing";
 
   public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
@@ -27,19 +27,19 @@ public class OrderBadgeProcessingController {
   private static final String TEMPLATE = "order-a-badge/person/processing";
 
   private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
-      "redirect:" + OrderBadgeCheckOrderController.URL;
+      "redirect:" + OrderBadgePersonCheckOrderController.URL;
   public static final String FORM_REQUEST = "formRequest";
 
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public OrderBadgeProcessingController(ReferenceDataService referenceDataService) {
+  public OrderBadgePersonProcessingController(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL)
   public String show(
-      @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+      @ModelAttribute(FORM_REQUEST) OrderBadgePersonProcessingFormRequest formRequest,
       HttpSession session) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
@@ -50,7 +50,7 @@ public class OrderBadgeProcessingController {
 
   @PostMapping(URL)
   public String submit(
-      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgePersonProcessingFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -24,11 +24,13 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Controller
 public class OrderBadgePersonDetailsController {
   public static final String URL = "/order-a-badge/person/details";
-  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
+
   private static final String TEMPLATE = "order-a-badge/person/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL;
+      "redirect:" + OrderBadgePersonProcessingController.URL;
+
+  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
 
   private ReferenceDataService referenceDataService;
 

@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.request;
+package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
 import java.io.Serializable;
 import java.time.DateTimeException;
@@ -13,7 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 
 @Data
 @Builder
-public class OrderBadgeProcessingFormRequest implements Serializable {
+public class OrderBadgePersonProcessingFormRequest implements Serializable {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
   private Integer applicationDateYear;
