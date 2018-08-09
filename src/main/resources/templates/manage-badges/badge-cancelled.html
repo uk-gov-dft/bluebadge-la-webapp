@@ -13,18 +13,19 @@
     <section class="dft-content-container--full">
 
         <div class="govuk-panel govuk-panel--confirmation">
-            <h1 class="govuk-panel__title" data-uipath="badge.ordered.title">Badge Cancelled</h1>
+            <h1 class="govuk-panel__title" data-uipath="badge.ordered.title" th:text="#{badgeCancelled.html.title}"></h1>
 
             <div class="govuk-panel__body" data-uipath="badge.cancelled.content">
-                The badge number is<br><strong data-uipath="badge.cancelled.num" th:text="${badgeNumber}"/>
+                <span th:text="#{badgeCancelled.badgeNumber.intro}" th:remove="tag"></span>
+                <br>
+                <strong data-uipath="badge.cancelled.num" th:text="${badgeNumber}"></strong>
             </div>
         </div>
 
         <br/>
 
-        <h2 class="govuk-heading-m">What happens next</h2>
-        <p class="govuk-body">will receive confirmation that the badge has been cancelled and the badge will need to be destroyed.</p>
-
+        <h2 class="govuk-heading-m" th:text="#{badgeCancelled.nextSteps.title}"></h2>
+        <p class="govuk-body" th:text="#{badgeCancelled.nextSteps.text}"></p>
     </section>
 </main>
 

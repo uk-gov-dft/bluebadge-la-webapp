@@ -21,7 +21,8 @@
     <section class="dft-content-container" th:with="noValue=#{value.not.provided}">
 
         <h1 class="govuk-heading-l" data-uipath="title">
-            <span class="govuk-caption-m" th:text="${badgeNumber}"></span> Cancel badge
+            <span class="govuk-caption-m" th:text="${badgeNumber}"></span>
+            <span th:text="#{cancelBadge.html.title}" th:remove="tag"></span>
         </h1>
 
         <div class="dft-width-two-thirds">
@@ -32,7 +33,7 @@
 
             <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
 
-            <input value="Cancel badge" type="submit" data-uipath="cancel.badge.button" class="govuk-button">
+            <input th:value="#{cancelBadge.button.label}" type="submit" data-uipath="cancel.badge.button" class="govuk-button">
 
         </form>
 

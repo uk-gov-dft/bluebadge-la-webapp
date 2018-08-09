@@ -27,7 +27,7 @@ public class CancelBadgeController {
   private static final String REDIRECT_URL_BADGE_CANCELLED = "redirect:" + URL_BADGE_CANCELLED;
 
   private static final String PARAM_BADGE_NUMBER = "badgeNumber";
-  public static final String FORM_REQUEST = "formRequest";
+  private static final String FORM_REQUEST = "formRequest";
 
   private ReferenceDataService referenceDataService;
   private BadgeService badgeService;
@@ -39,8 +39,9 @@ public class CancelBadgeController {
 
   @GetMapping(URL_CANCEL_BADGE)
   public String show(
-      @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
-      @ModelAttribute(FORM_REQUEST) final CancelBadgeFormRequest formRequest,
+      @SuppressWarnings("unused") @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
+      @SuppressWarnings("unused") @ModelAttribute(FORM_REQUEST)
+          final CancelBadgeFormRequest formRequest,
       Model model) {
     populateCancellationReferenceData(model);
     return TEMPLATE_CANCEL_BADGE;

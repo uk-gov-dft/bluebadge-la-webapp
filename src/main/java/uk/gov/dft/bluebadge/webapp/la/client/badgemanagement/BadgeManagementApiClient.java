@@ -7,14 +7,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.*;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
 @Slf4j
@@ -135,7 +140,8 @@ public class BadgeManagementApiClient extends BaseApiClient {
     HttpEntity<BadgeCancelRequest> httpRequest = new HttpEntity<>(badgeCancelRequest);
 
     try {
-      restTemplate.exchange(uri, HttpMethod.POST, httpRequest, CommonResponse.class, badgeNumber);
+      //restTemplate.exchange(uri, HttpMethod.POST, httpRequest, CommonResponse.class, badgeNumber);
+      restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

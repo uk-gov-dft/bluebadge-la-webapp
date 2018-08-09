@@ -28,11 +28,17 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.*;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 
 public class BadgeManagementApiClientTest {
-  public static final String TEST_URI = "http://justtesting:8787/test";
+  private static final String TEST_URI = "http://justtesting:8787/test";
   private static final String BADGES_ENDPOINT = TEST_URI + "/badges";
 
   private static final String BADGE_NUMBER = "12345";
@@ -43,7 +49,7 @@ public class BadgeManagementApiClientTest {
           .localAuthorityRef("localAuthorityRef");
   private static final String POST_CODE = "L329PA";
   private static final String NAME = "jason";
-  public static final String CANCEL_REASON_CODE = "REVOKE";
+  private static final String CANCEL_REASON_CODE = "REVOKE";
 
   private BadgeManagementApiClient client;
 
@@ -54,7 +60,7 @@ public class BadgeManagementApiClientTest {
   @Mock RestTemplate mockTemplate;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
@@ -219,7 +225,7 @@ public class BadgeManagementApiClientTest {
   public void cancellingBadge_ShouldThrowException_whenNoRequestBodyIsPassed() {
 
     client = new BadgeManagementApiClient(mockTemplate);
-    when(mockTemplate.exchange(any(), any(), any(), eq(CommonResponse.class), eq(BADGE_NUMBER)))
+    when(mockTemplate.postForEntity(any(), any(), eq(CommonResponse.class), eq(BADGE_NUMBER)))
         .thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT));
 
     client.cancelBadge(BADGE_NUMBER, CANCEL_REASON_CODE);
