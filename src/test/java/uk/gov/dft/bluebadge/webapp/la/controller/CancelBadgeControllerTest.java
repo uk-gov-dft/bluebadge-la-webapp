@@ -1,18 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import com.google.common.collect.Lists;
-import java.util.List;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,6 +14,16 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 public class CancelBadgeControllerTest {
 
   @Mock private BadgeService badgeServiceMock;
@@ -36,10 +34,10 @@ public class CancelBadgeControllerTest {
 
   private final String BADGE_NUMBER = "AAAAA1";
   private static final String URL_CANCEL_BADGE = "/manage-badges/cancel-badge/AAAAA1";
-  private static final String TEMPLATE_CANCEL_BADGE = "/manage-badges/cancel-badge";
+  private static final String TEMPLATE_CANCEL_BADGE = "manage-badges/cancel-badge";
 
   private static final String URL_BADGE_CANCELLED = "/manage-badges/badge-cancelled/AAAAA1";
-  private static final String TEMPLATE_BADGE_CANCELLED = "/manage-badges/badge-cancelled";
+  private static final String TEMPLATE_BADGE_CANCELLED = "manage-badges/badge-cancelled";
 
   @Before
   public void setup() {

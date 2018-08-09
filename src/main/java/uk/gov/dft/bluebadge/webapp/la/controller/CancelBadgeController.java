@@ -20,10 +20,10 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class CancelBadgeController {
 
   private static final String URL_CANCEL_BADGE = "/manage-badges/cancel-badge/{badgeNumber}";
-  private static final String TEMPLATE_CANCEL_BADGE = "/manage-badges/cancel-badge";
+  private static final String TEMPLATE_CANCEL_BADGE = "manage-badges/cancel-badge";
 
   private static final String URL_BADGE_CANCELLED = "/manage-badges/badge-cancelled/{badgeNumber}";
-  private static final String TEMPLATE_BADGE_CANCELLED = "/manage-badges/badge-cancelled";
+  private static final String TEMPLATE_BADGE_CANCELLED = "manage-badges/badge-cancelled";
   private static final String REDIRECT_URL_BADGE_CANCELLED = "redirect:" + URL_BADGE_CANCELLED;
 
   private static final String PARAM_BADGE_NUMBER = "badgeNumber";
