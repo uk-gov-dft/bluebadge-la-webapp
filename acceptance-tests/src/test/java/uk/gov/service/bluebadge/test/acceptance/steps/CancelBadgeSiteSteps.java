@@ -1,6 +1,7 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -64,7 +65,7 @@ public class CancelBadgeSiteSteps {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
     String pageTitle = "Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges";
 
-    //assertThat(sitePage.findElementWithText("Cancel badge"), is(null));
+    assertEquals(sitePage.findElementWithText("Cancel badge"), null);
     assertThat("I should see page titled.", sitePage.getDocumentTitle(), is(pageTitle));
   }
 }
