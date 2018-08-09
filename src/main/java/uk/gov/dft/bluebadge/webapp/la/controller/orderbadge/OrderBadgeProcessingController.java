@@ -32,8 +32,6 @@ public class OrderBadgeProcessingController {
       "redirect:" + OrderBadgePersonCheckOrderController.URL;
   private static final String FORM_REQUEST = "formRequest";
 
-  private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
-
   private ReferenceDataService referenceDataService;
 
   @Autowired

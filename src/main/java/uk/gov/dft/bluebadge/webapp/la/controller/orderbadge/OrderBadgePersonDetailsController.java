@@ -37,7 +37,7 @@ public class OrderBadgePersonDetailsController
   }
 
   @GetMapping(URL)
-  public String show(
+  public String showPersonDetails(
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
       Model model) {
@@ -45,7 +45,7 @@ public class OrderBadgePersonDetailsController
   }
 
   @PostMapping(URL)
-  public String submit(
+  public String submitPersonDetails(
       @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,

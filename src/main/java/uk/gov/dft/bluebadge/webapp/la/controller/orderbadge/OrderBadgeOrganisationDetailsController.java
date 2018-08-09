@@ -29,7 +29,7 @@ public class OrderBadgeOrganisationDetailsController
   }
 
   @GetMapping(URL)
-  public String show(
+  public String showOrganisationDetails(
       @ModelAttribute("formRequest") OrderBadgeOrganisationDetailsFormRequest formRequest,
       HttpSession session,
       Model model) {
@@ -37,7 +37,7 @@ public class OrderBadgeOrganisationDetailsController
   }
 
   @PostMapping(URL)
-  public String submit(
+  public String submitOrganisationDetails(
       @Valid @ModelAttribute("formRequest")
           final OrderBadgeOrganisationDetailsFormRequest formRequest,
       BindingResult bindingResult,

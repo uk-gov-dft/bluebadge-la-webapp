@@ -173,6 +173,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
 
   @Test
   public void convert_ShouldConvert() {
-    assertThat(converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING)).isEqualTo(VIEW_MODEL);
+    assertThat(converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING))
+        .isEqualTo(VIEW_MODEL);
   }
 }
