@@ -11,10 +11,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.Error;
+import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.ErrorErrors;
 
 public class ErrorHandlingUtilsTest {
 

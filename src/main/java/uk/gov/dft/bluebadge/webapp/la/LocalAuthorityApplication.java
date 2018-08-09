@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableSwagger2
-@ComponentScan(basePackages = {"uk.gov.dft.bluebadge.webapp.la.*"})
+@ComponentScan(basePackages = {"uk.gov.dft.bluebadge"})
 public class LocalAuthorityApplication {
 
   public static void main(String[] args) {

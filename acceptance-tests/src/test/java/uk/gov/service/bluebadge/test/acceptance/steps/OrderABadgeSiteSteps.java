@@ -91,15 +91,15 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("applicationDate.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("applicationDate.month.field").sendKeys("6");
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
-    sitePage.findPageElementById("online").click();
+    sitePage.findElementWithUiPath("applicationChannel.option.PAPER").click();
     sitePage.findElementWithUiPath("badgeStartDate.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("badgeStartDate.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeStartDate.year.field").sendKeys("2025");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.year.field").sendKeys("2028");
-    sitePage.findPageElementById("badgeHolder").click();
-    sitePage.findPageElementById("standard").click();
+    sitePage.findElementWithUiPath("deliverTo.option.HOME").click();
+    sitePage.findElementWithUiPath("deliveryOptions.option.STAND").click();
   }
 
   @When("^I enter all valid processing details to order a badge$")
@@ -107,7 +107,7 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("applicationDate.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("applicationDate.month.field").sendKeys("6");
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
-    sitePage.findPageElementById("online").click();
+    sitePage.findElementWithUiPath("applicationChannel.option.PAPER").click();
     sitePage.findElementWithUiPath("badgeStartDate.day.field").sendKeys("1");
     sitePage
         .findElementWithUiPath("localAuthorityReferenceNumber.field")
@@ -117,8 +117,8 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.year.field").sendKeys("2028");
-    sitePage.findPageElementById("badgeHolder").click();
-    sitePage.findPageElementById("standard").click();
+    sitePage.findElementWithUiPath("deliverTo.option.HOME").click();
+    sitePage.findElementWithUiPath("deliveryOptions.option.STAND").click();
   }
 
   @And("^I should see a badge number on badge ordered page$")

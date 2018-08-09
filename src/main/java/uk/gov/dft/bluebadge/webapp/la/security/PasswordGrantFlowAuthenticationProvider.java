@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.client.token.AccessTokenRequest;
@@ -48,8 +47,9 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
     return authentication.equals(UsernamePasswordAuthenticationToken.class);
   }
 
+  @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
   @Override
-  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+  public Authentication authenticate(Authentication authentication) {
 
     String username = (String) authentication.getPrincipal();
     log.debug("Attempting to authenticate username:{}", username);

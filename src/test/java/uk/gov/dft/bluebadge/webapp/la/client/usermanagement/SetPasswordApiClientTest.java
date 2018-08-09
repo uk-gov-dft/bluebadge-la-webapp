@@ -38,8 +38,7 @@ public class SetPasswordApiClientTest {
   public void updatePassword() throws Exception {
     String uuid = "test_uuid";
     UserResponse userResponse = new UserResponse();
-    User data = new User();
-    data.setId(555);
+    User data = new User().id(555);
     userResponse.setData(data);
     mockServer
         .expect(once(), requestTo(TEST_URI + "/user/password/" + uuid))

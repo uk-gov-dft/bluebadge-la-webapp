@@ -44,42 +44,42 @@ public class UserServiceTest {
 
   @Test
   public void find_ShouldReturnUsersInAlphabeticalAscendingOrder_WhenThereAreUsers() {
-    final int LOCAL_AUTHORITY = 1;
+    final int LOCAL_AUTHORITY_ID = 1;
     User user1 =
         new User()
             .id(1)
             .name("z")
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .emailAddress("name-1@email.com");
     User user2 =
         new User()
             .id(2)
             .name("c")
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .emailAddress("name-2@email.com");
     User user3 =
         new User()
             .id(3)
             .name("a")
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .emailAddress("name-3@email.com");
     User user4 =
         new User()
             .id(4)
             .name("m")
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .emailAddress("name-4@email.com");
     User user5 =
         new User()
             .id(5)
             .name("h")
-            .localAuthorityId(LOCAL_AUTHORITY)
+            .localAuthorityId(LOCAL_AUTHORITY_ID)
             .emailAddress("name-5@email.com");
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
 
-    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
+    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY_ID, ""))
         .thenReturn(usersFromClient);
-    List<User> users = userService.find(LOCAL_AUTHORITY);
+    List<User> users = userService.find(LOCAL_AUTHORITY_ID);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
     assertThat(users).isEqualTo(expectedUsers);
   }

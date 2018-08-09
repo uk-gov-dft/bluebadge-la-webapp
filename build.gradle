@@ -57,6 +57,13 @@ def getTheVersion() {
 }
 
 
+task outputComputedVersion {
+    def computedVersion = new File('VERSION-computed')
+    computedVersion.delete()
+    computedVersion.write(getTheVersion())
+}
+
+
 group = 'uk.gov.dft.bluebadge.webapp.la'
 version = getTheVersion()
 sourceCompatibility = 1.8
@@ -120,7 +127,11 @@ tasks.withType(Pmd) {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
+    compile('uk.gov.dft.bluebadge:bluebadge-common:0.3.0-SNAPSHOT') {
+        exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
+    }
+
+    compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
@@ -168,6 +179,8 @@ bootRun {
 }
 
 build.dependsOn gulp_default
+build.finalizedBy(outputComputedVersion)
 
 compileJava.dependsOn 'googleJavaFormat'
+
 

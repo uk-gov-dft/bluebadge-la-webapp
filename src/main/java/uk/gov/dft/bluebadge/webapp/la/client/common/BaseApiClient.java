@@ -5,7 +5,7 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
-import uk.gov.dft.bluebadge.webapp.la.client.common.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 
 @Slf4j
 public abstract class BaseApiClient {
@@ -25,7 +25,7 @@ public abstract class BaseApiClient {
       }
     } catch (IOException e) {
       log.error("Could not parse 400 response", e);
-      throw new ServiceException("Could not parse 400 response", e);
+      throw new ServiceException("Could not parse 400 response." + e.getMessage(), clientEx);
     }
   }
 }
