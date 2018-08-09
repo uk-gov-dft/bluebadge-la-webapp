@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master.html}">
 
 <head>
     <title>Badge search results - GOV.UK Manage Blue Badges</title>
@@ -14,14 +15,14 @@
 </div>
 
 <main layout:fragment="content">
-    <div class="dft-grid-row">
-        <div class="dft-grid-col">
 
-            <h1 class="govuk-heading-l" data-uipath="title">Find a badge</h1>
+    <section class="dft-content-container--full">
 
-            <p th:if="${results.size()} == 0">No results found for <strong th:text="${searchTerm}"></strong></p>
+        <h1 class="govuk-heading-l" data-uipath="title">Find a badge</h1>
 
-            <table class="govuk-table" th:if="${results.size()} != 0">
+            <p th:if="${results.size() == 0}">No results found for <strong th:text="${searchTerm}"></strong></p>
+
+            <table class="govuk-table" th:if="${results.size()} > 0">
                 <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="col">Badge number</th>
@@ -32,9 +33,11 @@
                     <th class="govuk-table__header" scope="col">Status</th>
                 </tr>
                 </thead>
-                <tbody class="govuk-table__body">
+                <tbody class="govuk-table__body" data-uipath="table.body">
                 <tr class="govuk-table__row" th:each="badge : ${results}">
-                    <td class="govuk-table__cell" th:text="${badge.badgeNumber}">
+                    <td class="govuk-table__cell">
+                        <a th:href="@{/manage-badges/__${badge.badgeNumber}__}" th:text="${badge.badgeNumber}"></a>
+                    </td>
                     <td class="govuk-table__cell" th:text="${badge.name}">
                     <td class="govuk-table__cell" th:text="${badge.postCode}">
                     <td class="govuk-table__cell" th:text="${badge.localAuthority}">
@@ -44,8 +47,7 @@
                 </tbody>
             </table>
 
-        </div>
-    </div>
+    </section>
 </main>
 
 </body>

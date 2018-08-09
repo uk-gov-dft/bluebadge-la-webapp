@@ -30,7 +30,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.User
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-public class UserDetailsControllerTest extends ControllerTest {
+public class UserDetailsControllerTest extends BaseControllerTest {
 
   private static final String EMAIL_ADDRESS = "joeblogs@joe.com";
   private static final String EMAIL_ADDRESS_UPDATED = "updated@joe.com";

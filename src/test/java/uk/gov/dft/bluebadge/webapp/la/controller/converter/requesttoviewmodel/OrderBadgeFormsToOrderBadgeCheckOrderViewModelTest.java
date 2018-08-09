@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -165,7 +165,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
         .thenReturn(APPLICATION_CHANNEL);
     when(referenceDataServiceMock.retrieveDeliverToDisplayValue(DELIVER_TO_SHORTCODE))
         .thenReturn(DELIVER_TO);
-    when(referenceDataServiceMock.retrieveDeliveryOptionsDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
+    when(referenceDataServiceMock.retrieveDeliveryOptionDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
         .thenReturn(DELIVERY_OPTIONS);
 
     converter = new OrderBadgeFormsToOrderBadgeCheckOrderViewModel(referenceDataServiceMock);

@@ -26,8 +26,8 @@ public class BadgeSummary {
   @JsonProperty("nino")
   private String nino = null;
 
-  @JsonProperty("localAuthorityCode")
-  private Integer localAuthorityCode = null;
+  @JsonProperty("localAuthorityShortCode")
+  private String localAuthorityShortCode = null;
 
   @JsonProperty("postCode")
   private String postCode = null;
@@ -153,23 +153,24 @@ public class BadgeSummary {
     this.nino = nino;
   }
 
-  public BadgeSummary localAuthorityCode(Integer localAuthorityCode) {
-    this.localAuthorityCode = localAuthorityCode;
+  public BadgeSummary localAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
     return this;
   }
 
   /**
-   * The code for the local authority.
+   * The short code for the local authority.
    *
-   * @return localAuthorityCode
+   * @return localAuthorityShortCode
    */
-  @ApiModelProperty(example = "211", value = "The code for the local authority.")
-  public Integer getLocalAuthorityCode() {
-    return localAuthorityCode;
+  @Pattern(regexp = "^[A-Z]+$")
+  @ApiModelProperty(example = "BIRM", value = "The short code for the local authority.")
+  public String getLocalAuthorityShortCode() {
+    return localAuthorityShortCode;
   }
 
-  public void setLocalAuthorityCode(Integer localAuthorityCode) {
-    this.localAuthorityCode = localAuthorityCode;
+  public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
+    this.localAuthorityShortCode = localAuthorityShortCode;
   }
 
   public BadgeSummary postCode(String postCode) {
@@ -292,7 +293,7 @@ public class BadgeSummary {
         && Objects.equals(this.partyTypeDescription, badgeSummary.partyTypeDescription)
         && Objects.equals(this.name, badgeSummary.name)
         && Objects.equals(this.nino, badgeSummary.nino)
-        && Objects.equals(this.localAuthorityCode, badgeSummary.localAuthorityCode)
+        && Objects.equals(this.localAuthorityShortCode, badgeSummary.localAuthorityShortCode)
         && Objects.equals(this.postCode, badgeSummary.postCode)
         && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
         && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
@@ -308,7 +309,6 @@ public class BadgeSummary {
         partyTypeDescription,
         name,
         nino,
-        localAuthorityCode,
         postCode,
         localAuthorityName,
         expiryDate,
@@ -328,7 +328,9 @@ public class BadgeSummary {
         .append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
-    sb.append("    localAuthorityCode: ").append(toIndentedString(localAuthorityCode)).append("\n");
+    sb.append("    localAuthorityShortCode: ")
+        .append(toIndentedString(localAuthorityShortCode))
+        .append("\n");
     sb.append("    postCode: ").append(toIndentedString(postCode)).append("\n");
     sb.append("    localAuthorityName: ").append(toIndentedString(localAuthorityName)).append("\n");
     sb.append("    expiryDate: ").append(toIndentedString(expiryDate)).append("\n");

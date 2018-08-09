@@ -18,42 +18,55 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 
 public class ReferenceDataServiceTest {
 
-  public static final String ELIGIBILITY_1_SHORTCODE = "eligibilityShortCode1";
-  public static final String GENDER_1_SHORTCODE = "MALE";
-  public static final String ELIGIBILITY_2_SHORTCODE = "eligibilityShortCode2";
-  public static final String GENDER_2_SHORTCODE = "FEMALE";
-  public static final String APPLICATION_CHANNEL_1_SHORTCODE = "APPLICATION_CHANNEL1";
-  public static final String APPLICATION_CHANNEL_2_SHORTCODE = "APPLICATION_CHANNEL2";
-  public static final String DELIVER_TO_1_SHORTCODE = "DELIVER_TO1";
-  public static final String DELIVER_TO_2_SHORTCODE = "DELIVER_TO2";
-  public static final String DELIVERY_OPTIONS_1_SHORTCODE = "DELIVERY_OPTIONS1";
-  public static final String DELIVERY_OPTIONS_2_SHORTCODE = "DELIVERY_OPTIONS2";
-  public static final String ELIGIBILITY_1 = "eligibilityValue1";
-  public static final String GENDER_1 = "male";
-  public static final String ELIGIBILITY_2 = "eligibilityValue2";
-  public static final String GENDER_2 = "female";
-  public static final String APPLICATION_CHANNEL_1 = "application channel 1";
-  public static final String APPLICATION_CHANNEL_2 = "application channel 2";
-  public static final String DELIVER_TO_1 = "deliver to 1";
-  public static final String DELIVER_TO_2 = "deliver to 2";
-  public static final String DELIVERY_OPTIONS_1 = "delivery options 1";
-  public static final String DELIVERY_OPTIONS_2 = "delivery options 2";
+  private static final String ELIGIBILITY_1_SHORTCODE = "eligibilityShortCode1";
+  private static final String ELIGIBILITY_2_SHORTCODE = "eligibilityShortCode2";
+  private static final String ELIGIBILITY_1 = "eligibilityValue1";
+  private static final String ELIGIBILITY_2 = "eligibilityValue2";
+  private static final String GENDER_1_SHORTCODE = "MALE";
+  private static final String GENDER_2_SHORTCODE = "FEMALE";
+  private static final String GENDER_1 = "male";
+  private static final String GENDER_2 = "female";
+  private static final String APPLICATION_CHANNEL_1_SHORTCODE = "APPLICATION_CHANNEL1";
+  private static final String APPLICATION_CHANNEL_2_SHORTCODE = "APPLICATION_CHANNEL2";
+  private static final String APPLICATION_CHANNEL_1 = "application channel 1";
+  private static final String APPLICATION_CHANNEL_2 = "application channel 2";
+  private static final String DELIVER_TO_1_SHORTCODE = "DELIVER_TO1";
+  private static final String DELIVER_TO_2_SHORTCODE = "DELIVER_TO2";
+  private static final String DELIVER_TO_1 = "deliver to 1";
+  private static final String DELIVER_TO_2 = "deliver to 2";
+  private static final String DELIVERY_OPTIONS_1_SHORTCODE = "DELIVERY_OPTIONS1";
+  private static final String DELIVERY_OPTIONS_2_SHORTCODE = "DELIVERY_OPTIONS2";
+  private static final String DELIVERY_OPTIONS_1 = "delivery options 1";
+  private static final String DELIVERY_OPTIONS_2 = "delivery options 2";
+  private static final String STATUS_1_SHORTCODE = "status 1 short code";
+  private static final String STATUS_2_SHORTCODE = "status 2 short code";
+  private static final String STATUS_1 = "status 1";
+  private static final String STATUS_2 = "status 2";
+  private static final String LA_1_SHORTCODE = "ABERD";
+  private static final String LA_2_SHORTCODE = "BARNS";
+  private static final String LA_1 = "Aberdeenshire Council";
+  private static final String LA_2 = "Barnsley MBC";
+
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
 
   private ReferenceDataService referenceDataService;
 
-  private ReferenceData referenceData1;
-  private ReferenceData referenceData2;
-  private ReferenceData referenceData3;
-  private ReferenceData referenceData4;
-  private ReferenceData referenceData5;
-  private ReferenceData referenceData6;
-  private ReferenceData referenceData7;
-  private ReferenceData referenceData8;
-  private ReferenceData referenceData9;
-  private ReferenceData referenceData10;
+  private ReferenceData referenceDataEligibility1;
+  private ReferenceData referenceDataEligibility2;
+  private ReferenceData referenceDataGender1;
+  private ReferenceData referenceDataGender2;
+  private ReferenceData referenceDataApplicationChannel1;
+  private ReferenceData referenceDataApplicationChannel2;
+  private ReferenceData referenceDataDeliverTo1;
+  private ReferenceData referenceDataDeliverTo2;
+  private ReferenceData referenceDataDeliveryOptions1;
+  private ReferenceData referenceDataDeliveryOptions2;
+  private ReferenceData referenceDataStatus1;
+  private ReferenceData referenceDataStatus2;
+  private ReferenceData referenceDataLocalAuthority1;
+  private ReferenceData referenceDataLocalAuthority2;
 
-  private List<ReferenceData> referenceData;
+  private List<ReferenceData> referenceDataList;
 
   @Before
   public void setup() {
@@ -63,90 +76,128 @@ public class ReferenceDataServiceTest {
 
     referenceDataService = new ReferenceDataService(referenceDataManagementApiClientMock);
 
-    referenceData1 =
+    referenceDataEligibility1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
             .shortCode(ELIGIBILITY_1_SHORTCODE)
             .description(ELIGIBILITY_1);
-    referenceData2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 2)
-            .shortCode(GENDER_1_SHORTCODE)
-            .description(GENDER_1);
-    referenceData3 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3)
+    referenceDataEligibility2 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2)
             .shortCode(ELIGIBILITY_2_SHORTCODE)
             .description(ELIGIBILITY_2);
-    referenceData4 =
+    referenceDataGender1 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3)
+            .shortCode(GENDER_1_SHORTCODE)
+            .description(GENDER_1);
+    referenceDataGender2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4)
             .shortCode(GENDER_2_SHORTCODE)
             .description(GENDER_2);
-    referenceData5 =
+    referenceDataApplicationChannel1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 5)
             .shortCode(APPLICATION_CHANNEL_1_SHORTCODE)
             .description(APPLICATION_CHANNEL_1);
-    referenceData6 =
+    referenceDataApplicationChannel2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 6)
             .shortCode(APPLICATION_CHANNEL_2_SHORTCODE)
             .description(APPLICATION_CHANNEL_2);
-    referenceData7 =
+    referenceDataDeliverTo1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 7)
             .shortCode(DELIVER_TO_1_SHORTCODE)
             .description(DELIVER_TO_1);
-    referenceData8 =
+    referenceDataDeliverTo2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 8)
             .shortCode(DELIVER_TO_2_SHORTCODE)
             .description(DELIVER_TO_2);
-    referenceData9 =
+    referenceDataDeliveryOptions1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 9)
             .shortCode(DELIVERY_OPTIONS_1_SHORTCODE)
             .description(DELIVERY_OPTIONS_1);
-    referenceData10 =
+    referenceDataDeliveryOptions2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10)
             .shortCode(DELIVERY_OPTIONS_2_SHORTCODE)
             .description(DELIVERY_OPTIONS_2);
-    referenceData =
+    referenceDataStatus1 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 11)
+            .shortCode(STATUS_1_SHORTCODE)
+            .description(STATUS_1);
+    referenceDataStatus2 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 12)
+            .shortCode(STATUS_2_SHORTCODE)
+            .description(STATUS_2);
+    referenceDataLocalAuthority1 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 13)
+            .shortCode(LA_1_SHORTCODE)
+            .description(LA_1);
+    referenceDataLocalAuthority2 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 14)
+            .shortCode(LA_2_SHORTCODE)
+            .description(LA_2);
+    referenceDataList =
         Lists.newArrayList(
-            referenceData1,
-            referenceData2,
-            referenceData3,
-            referenceData4,
-            referenceData5,
-            referenceData6,
-            referenceData7,
-            referenceData8,
-            referenceData9,
-            referenceData10);
+            referenceDataEligibility1,
+            referenceDataEligibility2,
+            referenceDataGender1,
+            referenceDataGender2,
+            referenceDataApplicationChannel1,
+            referenceDataApplicationChannel2,
+            referenceDataDeliverTo1,
+            referenceDataDeliverTo2,
+            referenceDataDeliveryOptions1,
+            referenceDataDeliveryOptions2,
+            referenceDataStatus1,
+            referenceDataStatus2,
+            referenceDataLocalAuthority1,
+            referenceDataLocalAuthority2);
     when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
-        .thenReturn(referenceData);
+        .thenReturn(referenceDataList);
   }
 
   @Test
   public void retrieveEligibilities_ShouldReturnEligibilities() {
     List<ReferenceData> eligibilities = referenceDataService.retrieveEligilities();
-    assertThat(eligibilities).containsExactlyInAnyOrder(referenceData1, referenceData3);
+    assertThat(eligibilities)
+        .containsExactlyInAnyOrder(referenceDataEligibility1, referenceDataEligibility2);
   }
 
   @Test
-  public void retrieveGender_ShouldReturnGender() {
-    List<ReferenceData> gender = referenceDataService.retrieveGender();
-    assertThat(gender).containsExactlyInAnyOrder(referenceData2, referenceData4);
+  public void retrieveGenders_ShouldReturnGender() {
+    List<ReferenceData> gender = referenceDataService.retrieveGenders();
+    assertThat(gender).containsExactlyInAnyOrder(referenceDataGender1, referenceDataGender2);
   }
 
   @Test
-  public void retrieveApplicationChannel_ShouldReturnApplicationChannels() {
-    List<ReferenceData> applicationChannels = referenceDataService.retrieveApplicationChannel();
-    assertThat(applicationChannels).containsExactlyInAnyOrder(referenceData5, referenceData6);
+  public void retrieveApplicationChannels_ShouldReturnApplicationChannels() {
+    List<ReferenceData> applicationChannels = referenceDataService.retrieveApplicationChannels();
+    assertThat(applicationChannels)
+        .containsExactlyInAnyOrder(
+            referenceDataApplicationChannel1, referenceDataApplicationChannel2);
   }
 
   @Test
-  public void retrieveDeliverTo_ShouldReturnDeliverTos() {
-    List<ReferenceData> deliverTos = referenceDataService.retrieveDeliverTo();
-    assertThat(deliverTos).containsExactlyInAnyOrder(referenceData7, referenceData8);
+  public void retrieveDeliverTos_ShouldReturnDeliverTos() {
+    List<ReferenceData> deliverTos = referenceDataService.retrieveDeliverTos();
+    assertThat(deliverTos)
+        .containsExactlyInAnyOrder(referenceDataDeliverTo1, referenceDataDeliverTo2);
   }
 
   @Test
-  public void retrieveDeliveryOption_ShouldReturnDeliveryOptions() {
+  public void retrieveDeliveryOptions_ShouldReturnDeliveryOptions() {
     List<ReferenceData> deliveryOptions = referenceDataService.retrieveDeliveryOptions();
-    assertThat(deliveryOptions).containsExactlyInAnyOrder(referenceData9, referenceData10);
+    assertThat(deliveryOptions)
+        .containsExactlyInAnyOrder(referenceDataDeliveryOptions1, referenceDataDeliveryOptions2);
+  }
+
+  @Test
+  public void retrieveStatuses_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveStatuses();
+    assertThat(statuses).containsExactlyInAnyOrder(referenceDataStatus1, referenceDataStatus2);
+  }
+
+  @Test
+  public void retrieveLocalAuthorities_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveLocalAuthorities();
+    assertThat(statuses)
+        .containsExactlyInAnyOrder(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
   }
 
   @Test
@@ -178,7 +229,19 @@ public class ReferenceDataServiceTest {
   @Test
   public void retrieveDeliveryOptionsDisplayValue_ShouldWork() {
     assertThat(
-            referenceDataService.retrieveDeliveryOptionsDisplayValue(DELIVERY_OPTIONS_1_SHORTCODE))
+            referenceDataService.retrieveDeliveryOptionDisplayValue(DELIVERY_OPTIONS_1_SHORTCODE))
         .isEqualTo(DELIVERY_OPTIONS_1);
+  }
+
+  @Test
+  public void retrieveStatusDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveStatusDisplayValue(STATUS_1_SHORTCODE))
+        .isEqualTo(STATUS_1);
+  }
+
+  @Test
+  public void retrieveLocalAuthorityDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveLocalAuthorityDisplayValue(LA_1_SHORTCODE))
+        .isEqualTo(LA_1);
   }
 }

@@ -25,6 +25,8 @@ public class FindBadgeSearchResultsControllerTest {
           .expiryDate("20/12/2022")
           .status("Active")
           .build();
+  private static final String SEARCH_TERM = "a";
+
   private static final List<FindBadgeSearchResultViewModel> RESULTS =
       Lists.newArrayList(VIEW_MODEL);
 
@@ -49,9 +51,13 @@ public class FindBadgeSearchResultsControllerTest {
   @Test
   public void show_shouldFindBadgeSearchResultsTemplateWithResults() throws Exception {
     mockMvc
-        .perform(get("/find-a-badge/search-results").flashAttr("results", RESULTS))
+        .perform(
+            get("/find-a-badge/search-results")
+                .sessionAttr("results", RESULTS)
+                .sessionAttr("searchTerm", SEARCH_TERM))
         .andExpect(status().isOk())
         .andExpect(view().name("find-a-badge/search-results"))
+        .andExpect(model().attribute("searchTerm", SEARCH_TERM))
         .andExpect(model().attribute("results", RESULTS));
   }
 }
