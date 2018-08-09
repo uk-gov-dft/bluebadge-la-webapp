@@ -5,7 +5,6 @@ import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagemen
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -52,7 +51,8 @@ public class UserManagementApiClient extends BaseApiClient {
    */
   public List<User> getUsersForAuthority(String authorityShortCode, String nameFilter) {
 
-    Assert.notNull(authorityShortCode, "getUsersForAuthority - Local Authority Id must be provided");
+    Assert.notNull(
+        authorityShortCode, "getUsersForAuthority - Local Authority Id must be provided");
 
     ResponseEntity<UsersResponse> userListResponse =
         restTemplate.getForEntity(
@@ -65,7 +65,9 @@ public class UserManagementApiClient extends BaseApiClient {
 
     try {
       return Objects.requireNonNull(
-              restTemplate.getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId.toString()).getBody())
+              restTemplate
+                  .getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId.toString())
+                  .getBody())
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
@@ -98,7 +100,8 @@ public class UserManagementApiClient extends BaseApiClient {
     try {
       return Objects.requireNonNull(
               restTemplate
-                  .exchange(uri, HttpMethod.PUT, request, UserResponse.class, user.getUuid().toString())
+                  .exchange(
+                      uri, HttpMethod.PUT, request, UserResponse.class, user.getUuid().toString())
                   .getBody())
           .getData();
     } catch (HttpClientErrorException c) {

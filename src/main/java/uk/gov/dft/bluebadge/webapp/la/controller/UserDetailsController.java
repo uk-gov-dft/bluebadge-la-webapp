@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-import java.util.UUID;
-
 @Controller
 @Slf4j
 public class UserDetailsController {
@@ -31,7 +30,8 @@ public class UserDetailsController {
   private static final String PARAM_ID = "uuid";
   private static final String MODEL_FORM_REQUEST = "formRequest";
   private static final String MODEL_ID = "uuid";
-  private static final String URL_REQUEST_RESET_EMAIL = "/manage-users/request***REMOVED***-reset/{uuid}";
+  private static final String URL_REQUEST_RESET_EMAIL =
+      "/manage-users/request***REMOVED***-reset/{uuid}";
   private UserService userService;
 
   private UserDetailsFormRequestToUser userDetailsFormRequestToUser;

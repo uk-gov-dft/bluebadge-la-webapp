@@ -13,8 +13,8 @@ public class UserDetailsFormRequestToUser implements Converter<UserDetailsFormRe
   public User convert(UserDetailsFormRequest formRequest) {
     Assert.notNull(formRequest, "Source cannot be null");
     return User.builder()
-      .name(formRequest.getName())
-      .emailAddress(formRequest.getEmailAddress())
-      .build();
+        .name(formRequest.getName())
+        .emailAddress(formRequest.getEmailAddress())
+        .build();
   }
 }

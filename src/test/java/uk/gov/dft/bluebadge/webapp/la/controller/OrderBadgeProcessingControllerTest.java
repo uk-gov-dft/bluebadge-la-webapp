@@ -127,7 +127,9 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   }
 
   @Test
-  public void submit_shouldRedirectToCheckOrderPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors() throws Exception {
+  public void
+      submit_shouldRedirectToCheckOrderPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
+          throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/processing")

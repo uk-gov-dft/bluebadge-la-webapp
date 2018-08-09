@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersController.URL_MANAGE_USERS;
 
 import com.google.common.collect.Lists;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,7 +30,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
-import java.util.UUID;
 
 public class UserDetailsControllerTest extends BaseControllerTest {
 
@@ -74,19 +74,22 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
 
-    userSignedIn = User.builder()
+    userSignedIn =
+        User.builder()
             .name("Joe")
             .uuid(USER_ID)
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
-    user =User.builder()
+    user =
+        User.builder()
             .emailAddress(EMAIL_ADDRESS)
             .name(NAME)
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .roleId(ROLE_ID)
             .build();
-    userWithId = User.builder()
+    userWithId =
+        User.builder()
             .uuid(USER_ID)
             .emailAddress(EMAIL_ADDRESS)
             .name(NAME)
@@ -132,7 +135,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/manage-users"))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest));
-    User user = User.builder()
+    User user =
+        User.builder()
             .uuid(USER_ID)
             .name(NAME_UPDATED)
             .emailAddress(EMAIL_ADDRESS_UPDATED)
@@ -154,7 +158,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     CommonResponse userResponseUpdate = new UserResponse();
     userResponseUpdate.setError(
         new Error().errors(Lists.newArrayList(emailAddressError, nameError)));
-    user = User.builder()
+    user =
+        User.builder()
             .uuid(USER_ID)
             .name(NAME_ERROR)
             .emailAddress(EMAIL_ADDRESS_ERROR)

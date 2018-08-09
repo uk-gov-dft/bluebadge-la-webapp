@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
 import java.util.Objects;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;

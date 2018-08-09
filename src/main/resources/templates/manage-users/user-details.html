@@ -21,7 +21,7 @@
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--half">
 
-            <form th:action="@{/manage-users/user-details/{id}(id=${uuid})}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.name}, 'name', null, 'text') }"></div>
 
@@ -47,7 +47,7 @@
                     </form>
 
                     <p class="govuk-body">
-                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotResetPasswordButton" th:text="#{userdetail.doNotResetPasswordButton}"></a>
+                        <a th:href="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" data-uipath="doNotResetPasswordButton" th:text="#{userdetail.doNotResetPasswordButton}"></a>
                     </p>
                 </div>
             </details>
@@ -69,7 +69,7 @@
                     </form>
 
                     <p class="govuk-body">
-                        <a th:href="@{/manage-users/user-details/{id}(id=${id})}" data-uipath="doNotRemoveUserButton" th:text="#{userdetail.doNotRemoveUserButton}"></a>
+                        <a th:href="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveUserButton" th:text="#{userdetail.doNotRemoveUserButton}"></a>
                     </p>
                 </div>
             </details>

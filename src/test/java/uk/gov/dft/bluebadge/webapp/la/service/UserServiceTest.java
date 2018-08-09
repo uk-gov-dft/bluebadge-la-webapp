@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -56,29 +55,35 @@ public class UserServiceTest {
             .name("z")
             .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
             .emailAddress("name-1@email.com")
-      .build();
-    User user2 = User.builder()
+            .build();
+    User user2 =
+        User.builder()
             .uuid(USER_UUID_2)
             .name("c")
             .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
             .emailAddress("name-2@email.com")
-      .build();
-    User user3 = User.builder()
+            .build();
+    User user3 =
+        User.builder()
             .uuid(USER_UUID_3)
             .name("a")
             .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-3@email.com").build();
-    User user4 =  User.builder()
+            .emailAddress("name-3@email.com")
+            .build();
+    User user4 =
+        User.builder()
             .uuid(USER_UUID_4)
             .name("m")
             .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
-            .emailAddress("name-4@email.com").build();
-    User user5 = User.builder()
+            .emailAddress("name-4@email.com")
+            .build();
+    User user5 =
+        User.builder()
             .uuid(USER_UUID_5)
             .name("h")
             .localAuthorityShortCode(LOCAL_AUTHORITY_ID)
             .emailAddress("name-5@email.com")
-      .build();
+            .build();
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
 
     when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY_ID, ""))

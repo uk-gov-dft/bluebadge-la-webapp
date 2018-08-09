@@ -2,12 +2,10 @@ package uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import lombok.Builder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -116,9 +114,9 @@ public class User {
     this.roleName = roleName;
   }
 
-
   /**
    * UUID of the User. Used instead of a primary key.
+   *
    * @return
    */
   @NotNull
@@ -132,6 +130,7 @@ public class User {
 
   /**
    * loaclAuthjorityShortCode that the User belongs to.
+   *
    * @return
    */
   @NotNull
@@ -143,9 +142,6 @@ public class User {
   public void setLocalAuthorityShortCode(String localAuthorityShortCode) {
     this.localAuthorityShortCode = localAuthorityShortCode;
   }
-
-
-
 
   @Override
   public boolean equals(Object o) {
@@ -160,37 +156,37 @@ public class User {
     User user = (User) o;
 
     return new EqualsBuilder()
-      .append(uuid, user.uuid)
-      .append(name, user.name)
-      .append(emailAddress, user.emailAddress)
-      .append(localAuthorityShortCode, user.localAuthorityShortCode)
-      .append(roleId, user.roleId)
-      .append(roleName, user.roleName)
-      .isEquals();
+        .append(uuid, user.uuid)
+        .append(name, user.name)
+        .append(emailAddress, user.emailAddress)
+        .append(localAuthorityShortCode, user.localAuthorityShortCode)
+        .append(roleId, user.roleId)
+        .append(roleName, user.roleName)
+        .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
-      .append(uuid)
-      .append(name)
-      .append(emailAddress)
-      .append(localAuthorityShortCode)
-      .append(roleId)
-      .append(roleName)
-      .toHashCode();
+        .append(uuid)
+        .append(name)
+        .append(emailAddress)
+        .append(localAuthorityShortCode)
+        .append(roleId)
+        .append(roleName)
+        .toHashCode();
   }
 
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-      .append("uuid", uuid)
-      .append("name", name)
-      .append("emailAddress", emailAddress)
-      .append("localAuthorityShortCode", localAuthorityShortCode)
-      .append("roleId", roleId)
-      .append("roleName", roleName)
-      .toString();
+        .append("uuid", uuid)
+        .append("name", name)
+        .append("emailAddress", emailAddress)
+        .append("localAuthorityShortCode", localAuthorityShortCode)
+        .append("roleId", roleId)
+        .append("roleName", roleName)
+        .toString();
   }
 
   // Method compatibility with lombok
@@ -206,8 +202,7 @@ public class User {
     private Integer roleId = null;
     private String roleName = null;
 
-    private Builder() {
-    }
+    private Builder() {}
 
     public static Builder builder() {
       return new Builder();
