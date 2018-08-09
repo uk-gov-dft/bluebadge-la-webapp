@@ -140,7 +140,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
     HttpEntity<BadgeCancelRequest> httpRequest = new HttpEntity<>(badgeCancelRequest);
 
     try {
-      //restTemplate.exchange(uri, HttpMethod.POST, httpRequest, CommonResponse.class, badgeNumber);
       restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
