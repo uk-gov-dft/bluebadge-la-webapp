@@ -13,7 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 
 @Data
 @Builder
-public class OrderBadgePersonProcessingFormRequest implements Serializable {
+public class OrderBadgeProcessingFormRequest implements Serializable {
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
   private Integer applicationDateYear;
@@ -91,4 +91,7 @@ public class OrderBadgePersonProcessingFormRequest implements Serializable {
 
   @NotBlank(message = "{NotNull.badge.deliveryOptions}")
   private String deliveryOptions;
+
+  @NotBlank(message = "{NotNull.badge.numberOfBadges}")
+  private String numberOfBadges;
 }

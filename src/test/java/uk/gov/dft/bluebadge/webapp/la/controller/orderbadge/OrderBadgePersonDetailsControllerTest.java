@@ -95,8 +95,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     when(referenceDataServiceMock.retrieveGenders()).thenReturn(referenceDataGenderList);
 
     // Expected Result Shape
-    TreeMap<String, List<ReferenceData>> eligibilityMap =
-        new TreeMap<String, List<ReferenceData>>();
+    TreeMap<String, List<ReferenceData>> eligibilityMap = new TreeMap<>();
     List<ReferenceData> automaticList =
         Lists.newArrayList(rdEligibility1, rdEligibility2, rdEligibility3);
     List<ReferenceData> furtherList =
@@ -105,7 +104,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     eligibilityMap.put("Further", furtherList);
 
     mockMvc
-        .perform(get("/order-a-badge/person/details"))
+        .perform(
+            get("/order-a-badge/person/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("eligibilityOptions", eligibilityMap))
@@ -119,7 +120,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     mockMvc
         .perform(
             get("/order-a-badge/person/details")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_PERSON_DETAILS));

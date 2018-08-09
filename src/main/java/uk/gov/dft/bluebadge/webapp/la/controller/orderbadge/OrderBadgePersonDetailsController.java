@@ -27,9 +27,9 @@ public class OrderBadgePersonDetailsController
   private static final String TEMPLATE = "order-a-badge/person/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgePersonProcessingController.URL;
+      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
 
-  protected ReferenceDataService referenceDataService;
+  private ReferenceDataService referenceDataService;
 
   @Autowired
   public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
@@ -39,8 +39,9 @@ public class OrderBadgePersonDetailsController
   @GetMapping(URL)
   public String show(
       @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
-      HttpSession session) {
-    return super.show(formRequest, session);
+      HttpSession session,
+      Model model) {
+    return super.show(formRequest, session, model);
   }
 
   @PostMapping(URL)

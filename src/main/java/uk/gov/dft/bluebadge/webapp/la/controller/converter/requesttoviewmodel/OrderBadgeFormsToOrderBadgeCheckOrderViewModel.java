@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
@@ -21,8 +21,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
   }
 
   public OrderBadgeCheckOrderViewModel convert(
-      OrderBadgePersonDetailsFormRequest details,
-      OrderBadgePersonProcessingFormRequest processing) {
+      OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
     StringBuilder address = new StringBuilder(details.getBuildingAndStreet());

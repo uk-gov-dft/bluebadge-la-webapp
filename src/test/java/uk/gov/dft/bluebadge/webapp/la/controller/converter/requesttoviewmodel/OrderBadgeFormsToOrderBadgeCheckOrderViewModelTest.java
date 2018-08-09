@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
@@ -82,8 +82,8 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
           .townOrCity(TOWN_OR_CITY)
           .build();
 
-  protected static final OrderBadgePersonProcessingFormRequest FORM_REQUEST_PROCESSING =
-      OrderBadgePersonProcessingFormRequest.builder()
+  protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PROCESSING =
+      OrderBadgeProcessingFormRequest.builder()
           .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
           .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
@@ -173,12 +173,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
 
   @Test
   public void convert_ShouldConvert() {
-    OrderBadgePersonDetailsFormRequest details =
-        OrderBadgePersonDetailsFormRequest.builder().build();
-    OrderBadgePersonProcessingFormRequest processing =
-        OrderBadgePersonProcessingFormRequest.builder().build();
-    OrderBadgeCheckOrderViewModel viewModel =
-        converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING);
-    assertThat(viewModel).isEqualTo(VIEW_MODEL);
+    assertThat(converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING)).isEqualTo(VIEW_MODEL);
   }
 }

@@ -6,23 +6,31 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeBaseDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 
 @Slf4j
 public abstract class OrderBadgeBaseDetailsController<
-    FORM_REQUEST extends OrderBadgeBaseDetailsFormRequest> {
-  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
+    FORMREQUEST extends OrderBadgeBaseDetailsFormRequest> {
+  static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
 
-  public String show(FORM_REQUEST formRequest, HttpSession session) {
+  public String show(FORMREQUEST formRequest, HttpSession session, Model model) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
+
+    OrderBadgeIndexFormRequest sessionFormRequestOrderBadgeIndex =
+        (OrderBadgeIndexFormRequest)
+            session.getAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
+    String applicantType = sessionFormRequestOrderBadgeIndex.getApplicantType();
+    model.addAttribute("applicantType", applicantType);
+
     return getTemplate();
   }
 
   public String submit(
-      final FORM_REQUEST formRequest,
+      final FORMREQUEST formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {

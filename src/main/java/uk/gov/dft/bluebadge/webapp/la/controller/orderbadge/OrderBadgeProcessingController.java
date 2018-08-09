@@ -13,44 +13,54 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
-public class OrderBadgePersonProcessingController {
-  public static final String URL = "/order-a-badge/person/processing";
+public class OrderBadgeProcessingController {
+  static final String URL_PERSON_PROCESSING = "/order-a-badge/person/processing";
+  static final String URL_ORGANISATION_PROCESSING = "/order-a-badge/organisation/processing";
 
-  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
+  static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
 
-  private static final String TEMPLATE = "order-a-badge/person/processing";
+  private static final String TEMPLATE = "order-a-badge/processing";
 
   private static final String REDIRECT_ORDER_A_BADGE_CHECK_ORDER =
       "redirect:" + OrderBadgePersonCheckOrderController.URL;
-  public static final String FORM_REQUEST = "formRequest";
+  private static final String FORM_REQUEST = "formRequest";
+
+  private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
 
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public OrderBadgePersonProcessingController(ReferenceDataService referenceDataService) {
+  public OrderBadgeProcessingController(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
-  @GetMapping(URL)
+  @GetMapping(path = {URL_PERSON_PROCESSING, URL_ORGANISATION_PROCESSING})
   public String show(
-      @ModelAttribute(FORM_REQUEST) OrderBadgePersonProcessingFormRequest formRequest,
-      HttpSession session) {
+      @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+      HttpSession session,
+      Model model) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
+    OrderBadgeIndexFormRequest sessionFormRequestOrderBadgeIndex =
+        (OrderBadgeIndexFormRequest)
+            session.getAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
+    String applicantType = sessionFormRequestOrderBadgeIndex.getApplicantType();
+    model.addAttribute("applicantType", applicantType);
     return TEMPLATE;
   }
 
-  @PostMapping(URL)
+  @PostMapping(path = {URL_PERSON_PROCESSING, URL_ORGANISATION_PROCESSING})
   public String submit(
-      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgePersonProcessingFormRequest formRequest,
+      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {

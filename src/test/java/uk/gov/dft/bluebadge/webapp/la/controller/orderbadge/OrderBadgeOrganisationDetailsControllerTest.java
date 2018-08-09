@@ -36,7 +36,9 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
   @Test
   public void show_shouldDisplayOrderABadgeOrganisationDetailsTemplate() throws Exception {
     mockMvc
-        .perform(get("/order-a-badge/organisation/details"))
+        .perform(
+            get("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"));
   }
@@ -48,8 +50,8 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
     mockMvc
         .perform(
             get("/order-a-badge/organisation/details")
-                .sessionAttr(
-                    "formRequest-order-a-badge-details", FORM_REQUEST_ORGANISATION_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_ORGANISATION_DETAILS))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_ORGANISATION_DETAILS));

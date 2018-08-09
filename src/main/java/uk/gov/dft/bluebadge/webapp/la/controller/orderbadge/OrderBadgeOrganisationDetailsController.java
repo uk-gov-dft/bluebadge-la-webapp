@@ -20,10 +20,8 @@ public class OrderBadgeOrganisationDetailsController
 
   private static final String TEMPLATE = "order-a-badge/organisation/details";
 
-  // TODO
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:"
-          + "/order-a-badge/organisation/processing"; //+ OrderBadgeOrganisationProcessingController.URL;
+      "redirect:" + OrderBadgeProcessingController.URL_ORGANISATION_PROCESSING;
 
   @Autowired
   public OrderBadgeOrganisationDetailsController() {
@@ -33,8 +31,9 @@ public class OrderBadgeOrganisationDetailsController
   @GetMapping(URL)
   public String show(
       @ModelAttribute("formRequest") OrderBadgeOrganisationDetailsFormRequest formRequest,
-      HttpSession session) {
-    return super.show(formRequest, session);
+      HttpSession session,
+      Model model) {
+    return super.show(formRequest, session, model);
   }
 
   @PostMapping(URL)

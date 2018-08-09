@@ -28,7 +28,7 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/order-a-badge/person/processing}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:object="${formRequest}" method="post" novalidate>
 
             <h2 class="govuk-heading-m">Application details</h2>
 
@@ -40,9 +40,14 @@
 
             <hr class="dft-hr govuk-!-margin-bottom-6">
 
-            <h2 class="govuk-heading-m" data-uipath="badgeDetailsTitle">Badge details</h2>
+            <h2 class="govuk-heading-m" data-uipath="badgeDetailsTitle">Badge details...</h2>
 
             <div class="dft-width-one-half">
+                <span th:if="${applicantType == 'organisation'}">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('NumberOfBadges', 'numberOfBadges', null, 'text') }"/>
+                </span>
+                <input th:if="${applicantType == 'person'}" type="hidden" id="numberOfBadges" name="numberOfBadges" th:attr="value = '1'"/>
+
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Local authority reference number (optional)', 'localAuthorityReferenceNumber', null, 'text') }"/>
                 <div th:replace="~{ fragments/form-elements :: govuk-date('Badge start date', null, 'badgeStartDateDay', 'badgeStartDateMonth', 'badgeStartDateYear', 'badgeStartDate') }"/>
                 <div th:replace="~{ fragments/form-elements :: govuk-date('Badge expiry date', null, 'badgeExpiryDateDay', 'badgeExpiryDateMonth', 'badgeExpiryDateYear', 'badgeExpiryDateValid') }"/>

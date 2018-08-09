@@ -20,7 +20,6 @@ public class OrderBadgeIndexController {
 
   private static final String REDIRECT_ORDER_A_BADGE_PERSON_DETAILS =
       "redirect:" + OrderBadgePersonDetailsController.URL;
-  // TODO: Incomplete REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS
   private static final String REDIRECT_ORDER_A_BADGE_ORGANISATION_DETAILS =
       "redirect:" + OrderBadgeOrganisationDetailsController.URL;
 
@@ -34,12 +33,12 @@ public class OrderBadgeIndexController {
   @GetMapping(URL)
   public String show(
       @RequestParam(name = "action", required = false) String action,
-      @ModelAttribute("formRequest") final OrderBadgeIndexFormRequest formRequest,
+      @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
       HttpSession session) {
     if (PARAM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
       session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
       session.removeAttribute(SESSION_FORM_REQUEST);
-      session.removeAttribute(OrderBadgePersonProcessingController.SESSION_FORM_REQUEST);
+      session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     } else {
       Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
       if (sessionFormRequest != null) {

@@ -12,7 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgeFormsToBadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgeFormsToOrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
@@ -23,7 +23,7 @@ public class OrderBadgePersonCheckOrderController {
 
   private static final String TEMPLATE = "order-a-badge/person/check-order";
 
-  public static final String REDIRECT_BADGE_ORDERED =
+  private static final String REDIRECT_BADGE_ORDERED =
       "redirect:" + OrderBadgeBadgeOrderedController.URL;
 
   private BadgeService badgeService;
@@ -45,9 +45,9 @@ public class OrderBadgePersonCheckOrderController {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
-    OrderBadgePersonProcessingFormRequest processingForm =
-        (OrderBadgePersonProcessingFormRequest)
-            session.getAttribute(OrderBadgePersonProcessingController.SESSION_FORM_REQUEST);
+    OrderBadgeProcessingFormRequest processingForm =
+        (OrderBadgeProcessingFormRequest)
+            session.getAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
     model.addAttribute("data", data);
@@ -59,9 +59,9 @@ public class OrderBadgePersonCheckOrderController {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
-    OrderBadgePersonProcessingFormRequest processingForm =
-        (OrderBadgePersonProcessingFormRequest)
-            session.getAttribute(OrderBadgePersonProcessingController.SESSION_FORM_REQUEST);
+    OrderBadgeProcessingFormRequest processingForm =
+        (OrderBadgeProcessingFormRequest)
+            session.getAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm);
 
@@ -70,7 +70,7 @@ public class OrderBadgePersonCheckOrderController {
 
     session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
     session.removeAttribute(OrderBadgePersonDetailsController.SESSION_FORM_REQUEST);
-    session.removeAttribute(OrderBadgePersonProcessingController.SESSION_FORM_REQUEST);
+    session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
     return REDIRECT_BADGE_ORDERED;
   }
 }

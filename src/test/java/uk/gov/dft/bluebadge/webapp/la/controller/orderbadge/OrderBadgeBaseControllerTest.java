@@ -4,13 +4,17 @@ import java.time.LocalDate;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public abstract class OrderBadgeBaseControllerTest {
+
+  protected static final String SESSION_FORM_REQUEST_INDEX = "formRequest-order-a-badge-index";
+  protected static final String SESSION_FORM_REQUEST_DETAILS = "formRequest-order-a-badge-details";
 
   // details
   protected static final String NAME_FIELD = "name";
@@ -82,6 +86,7 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String BADGE_EXPIRY_DATE_VALID_FIELD = "badgeExpiryDateValid";
   protected static final String DELIVER_TO_FIELD = "deliverTo";
   protected static final String DELIVERY_OPTIONS_FIELD = "deliveryOptions";
+  protected static final String NUMBER_OF_BADGES_FIELD = "numberOfBadges";
 
   protected static final String APPLICATION_DATE_DAY = "2";
   protected static final String APPLICATION_DATE_MONTH = "7";
@@ -98,6 +103,7 @@ public abstract class OrderBadgeBaseControllerTest {
       Integer.toString(LocalDate.now().plusYears(2).getYear());
   protected static final String DELIVER_TO = "badgeHolder";
   protected static final String DELIVERY_OPTIONS = "fast";
+  protected static final String NUMBER_OF_BADGES = "1";
 
   protected static final String APPLICATION_DATE_DAY_WRONG = "32";
   protected static final String APPLICATION_DATE_MONTH_WRONG = "13";
@@ -117,6 +123,12 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String VIEW_MODEL_BADGE_EXPIRY_DATE = "1/10/2047";
   protected static final String VIEW_MODEL_DOB = "1/1/1990";
   protected static final String VIEW_MODEL_ADDRESS = "An address, a place, a postcode";
+
+  protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX_PERSON =
+      OrderBadgeIndexFormRequest.builder().applicantType("person").build();
+
+  protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX_ORGANISATION =
+      OrderBadgeIndexFormRequest.builder().applicantType("organisation").build();
 
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
       OrderBadgePersonDetailsFormRequest.builder()
@@ -148,8 +160,8 @@ public abstract class OrderBadgeBaseControllerTest {
               .townOrCity(TOWN_OR_CITY)
               .build();
 
-  protected static final OrderBadgePersonProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
-      OrderBadgePersonProcessingFormRequest.builder()
+  protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
+      OrderBadgeProcessingFormRequest.builder()
           .applicationChannel(APPLICATION_CHANNEL)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
           .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
