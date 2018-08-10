@@ -64,6 +64,7 @@ public class BadgeToBadgeDetailsViewModelTest {
           .localAuthorityRef(LOCAL_AUTHORITY_REF)
           .party(
               new Party()
+                  .typeCode("PERSON")
                   .person(
                       new Person()
                           .badgeHolderName(BADGE_HOLDER_NAME)
