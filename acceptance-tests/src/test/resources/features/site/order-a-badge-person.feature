@@ -57,7 +57,7 @@ Feature: Dft BlueBadge LA Order a Badge (Person)
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
@@ -77,7 +77,7 @@ Feature: Dft BlueBadge LA Order a Badge (Person)
     When I enter all valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all valid processing details to order a badge
+    When I enter all valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
@@ -97,7 +97,7 @@ Feature: Dft BlueBadge LA Order a Badge (Person)
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     When I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "back-link" button
@@ -122,10 +122,10 @@ Feature: Dft BlueBadge LA Order a Badge (Person)
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-    When I can click "personalDetails.change" button
+    When I can click "details.change" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"

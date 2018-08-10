@@ -1,21 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
+public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModelTest {
 
   // details
   protected static final String NAME = "My Name";
@@ -29,6 +24,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
   protected static final String POSTCODE = "TF8 6GF";
   protected static final String CONTACT_DETAILS_NAME = "Contact details name";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "07700900099";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   protected static final String ELIGIBILITY = "pip";
   protected static final String ELIGIBILITY_SHORTCODE = "PIP";
@@ -52,6 +48,8 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
   protected static final String DELIVER_TO_SHORTCODE = "HOLDER";
   protected static final String DELIVERY_OPTIONS = "fast";
   protected static final String DELIVERY_OPTIONS_SHORTCODE = "FAST";
+  protected static final String NUMBER_OF_BADGES_PERSON = "1";
+  protected static final String NUMBER_OF_BADGES_ORGANISATION = "3";
 
   // view model
   protected static final String DOB_VIEW_MODEL = DOB_DAY + "/" + DOB_MONTH + "/" + DOB_YEAR;
@@ -63,24 +61,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
       BADGE_EXPIRY_DATE_DAY + "/" + BADGE_EXPIRY_DATE_MONTH + "/" + BADGE_EXPIRY_DATE_YEAR;
   protected static final String APPLICATION_DATE =
       APPLICATION_DATE_DAY + "/" + APPLICATION_DATE_MONTH + "/" + APPLICATION_DATE_YEAR;
-
-  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_DETAILS =
-      OrderBadgePersonDetailsFormRequest.builder()
-          .buildingAndStreet(BUILDING_AND_STREET)
-          .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .contactDetailsName(CONTACT_DETAILS_NAME)
-          .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-          .dobDay(Integer.valueOf(DOB_DAY))
-          .dobMonth(Integer.valueOf(DOB_MONTH))
-          .dobYear(Integer.valueOf(DOB_YEAR))
-          .eligibility(ELIGIBILITY_SHORTCODE)
-          .name(NAME)
-          .gender(GENDER_SHORTCODE)
-          .nino(NINO)
-          .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
-          .postcode(POSTCODE)
-          .townOrCity(TOWN_OR_CITY)
-          .build();
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()
@@ -99,26 +79,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
           .deliveryOptions(DELIVERY_OPTIONS_SHORTCODE)
           .build();
 
-  protected static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
-      OrderBadgeCheckOrderViewModel.builder()
-          .fullName(NAME)
-          .dob(DOB_VIEW_MODEL)
-          .gender(GENDER)
-          .nino(NINO)
-          .address(ADDRESS)
-          .contactFullName(CONTACT_DETAILS_NAME)
-          .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-          .eligibility(ELIGIBILITY)
-          .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-          .badgeStartDate(BADGE_START_DATE)
-          .badgeExpiryDate(BADGE_EXPIRY_DATE)
-          .applicationDate(APPLICATION_DATE)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .deliverTo(DELIVER_TO)
-          .deliveryOptions(DELIVERY_OPTIONS)
-          .build();
-
   // ReferenceData
   private ReferenceData referenceData1;
   private ReferenceData referenceData2;
@@ -128,9 +88,6 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
 
   @Mock ReferenceDataService referenceDataServiceMock;
 
-  private OrderBadgeFormsToOrderBadgeCheckOrderViewModel converter;
-
-  @Before
   public void setUp() {
 
     // Process mock annotations
@@ -167,13 +124,5 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModelTest {
         .thenReturn(DELIVER_TO);
     when(referenceDataServiceMock.retrieveDeliveryOptionDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
         .thenReturn(DELIVERY_OPTIONS);
-
-    converter = new OrderBadgeFormsToOrderBadgeCheckOrderViewModel(referenceDataServiceMock);
-  }
-
-  @Test
-  public void convert_ShouldConvert() {
-    assertThat(converter.convert(FORM_REQUEST_DETAILS, FORM_REQUEST_PROCESSING))
-        .isEqualTo(VIEW_MODEL);
   }
 }

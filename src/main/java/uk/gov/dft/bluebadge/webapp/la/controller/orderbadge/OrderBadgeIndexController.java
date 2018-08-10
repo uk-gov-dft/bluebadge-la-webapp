@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
 @Controller
-public class OrderBadgeIndexController {
+public class OrderBadgeIndexController extends OrderBadgeBaseController {
   public static final String URL = "/order-a-badge/";
 
   private static final String TEMPLATE = "order-a-badge/index";
@@ -36,9 +36,7 @@ public class OrderBadgeIndexController {
       @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
       HttpSession session) {
     if (PARAM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
-      session.removeAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
-      session.removeAttribute(SESSION_FORM_REQUEST);
-      session.removeAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST);
+      super.finishSession(session);
     } else {
       Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
       if (sessionFormRequest != null) {
@@ -53,6 +51,15 @@ public class OrderBadgeIndexController {
       @Valid @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
       BindingResult bindingResult,
       HttpSession session) {
+    OrderBadgeIndexFormRequest sessionFormRequest =
+        (OrderBadgeIndexFormRequest) session.getAttribute(SESSION_FORM_REQUEST);
+    // If there was a running session and you change the applicant type, the session is wiped out
+    if (sessionFormRequest != null
+        && !sessionFormRequest
+            .getApplicantType()
+            .equalsIgnoreCase(formRequest.getApplicantType())) {
+      super.finishSession(session);
+    }
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
 
     if (bindingResult.hasErrors()) {

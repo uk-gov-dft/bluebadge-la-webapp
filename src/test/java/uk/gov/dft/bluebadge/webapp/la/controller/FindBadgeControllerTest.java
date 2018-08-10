@@ -31,15 +31,15 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 public class FindBadgeControllerTest {
 
-  public static final String NAME = "jason";
-  public static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
-  public static final String INVALID_BADGE_NUMBER = "12345678";
-  private final String BADGE_NUMBER = "AAAAA1";
-  private final String FIND_BY_POSTCODE = "postCode";
-  private final String POSTCODE = "L129PZ";
-  private final Badge BADGE =
+  private static final String NAME = "jason";
+  private static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
+  private static final String INVALID_BADGE_NUMBER = "12345678";
+  private static final String BADGE_NUMBER = "AAAAA1";
+  private static final String FIND_BY_POSTCODE = "postCode";
+  private static final String POSTCODE = "L129PZ";
+  private static final Badge BADGE =
       new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
-  private final FindBadgeSearchResultViewModel VIEW_MODEL =
+  private static final FindBadgeSearchResultViewModel VIEW_MODEL =
       FindBadgeSearchResultViewModel.builder().badgeNumber(BADGE_NUMBER).build();
 
   private MockMvc mockMvc;

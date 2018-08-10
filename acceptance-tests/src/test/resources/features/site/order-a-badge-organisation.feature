@@ -47,13 +47,13 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     When I enter all the mandatory valid organisation details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for organisations
     And I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#    When I can click "orderBadge.button" button
-#    Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
-#    And I should see a badge number on badge ordered page
-#
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "orderBadge.button" button
+    Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
+    And I should see a badge number on badge ordered page
+
   Scenario: Verify Submit organisation details with all fields set and Processing with all fields set and continue to check order a page and ordered a badge
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -67,13 +67,13 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     When I enter all valid organisation details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all valid processing details to order a badge
+    When I enter all valid processing details to order a badge for organisation
     And I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#    When I can click "orderBadge.button" button
-#    Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
-#    And I should see a badge number on badge ordered page
-#
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "orderBadge.button" button
+    Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
+    And I should see a badge number on badge ordered page
+
   Scenario: Clicking back buttons should go back to the previous step with the form prepopulated with the previous data (Organisation)
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -87,18 +87,23 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     When I enter all the mandatory valid organisation details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for organisations
     When I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#    When I can click "back-link" button
-#    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-#    When I can click "back-link" button
-#    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
-#    When I can click "continue" button
-#    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-#    When I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "back-link" button
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I can click "back-link" button
+    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
+    When I can click "back-link" button
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "organisation"
+    When I can click "continue" button
+    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
+    When I can click "continue" button
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+
   Scenario: Clicking change details from check-order page should redirect you to details page with data prepopulated (Organisation)
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -112,16 +117,16 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     When I enter all the mandatory valid organisation details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for organisations
     And I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#    When I can click "personalDetails.change" button
-#    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
-#    When I can click "continue" button
-#    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-#    When I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
-#    When I can click "processing.change" button
-#    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-#    When I can click "continue" button
-#    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "details.change" button
+    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
+    When I can click "continue" button
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+    When I can click "processing.change" button
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    When I can click "continue" button
+    Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"

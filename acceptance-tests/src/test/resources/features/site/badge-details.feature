@@ -18,7 +18,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button

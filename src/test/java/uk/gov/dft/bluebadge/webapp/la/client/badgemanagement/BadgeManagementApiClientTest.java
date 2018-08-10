@@ -91,15 +91,12 @@ public class BadgeManagementApiClientTest {
 
   @Test(expected = HttpServerErrorException.class)
   public void orderBlueBadges_ShouldThrowException_When500() throws Exception {
-    String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
-
     mockServer
         .expect(once(), requestTo(BADGES_ENDPOINT))
         .andExpect(method(HttpMethod.POST))
         .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.toString()))
         .andRespond(withServerError());
-    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
-    client.orderBlueBadges(badgeOrderRequest);
+    client.orderBlueBadges(new BadgeOrderRequest());
   }
 
   @Test

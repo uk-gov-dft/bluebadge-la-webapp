@@ -127,8 +127,8 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
   }
 
-  @When("^I enter all the mandatory valid processing details to order a badge$")
-  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadge() throws Throwable {
+  @When("^I enter all the mandatory valid processing details to order a badge for person$")
+  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson() throws Throwable {
     sitePage.findElementWithUiPath("applicationDate.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("applicationDate.month.field").sendKeys("6");
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
@@ -143,23 +143,25 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("deliveryOptions.option.STAND").click();
   }
 
-  @When("^I enter all valid processing details to order a badge$")
-  public void iEnterAllValidProcessingDetailsToOrderABadge() throws Throwable {
-    sitePage.findElementWithUiPath("applicationDate.day.field").sendKeys("1");
-    sitePage.findElementWithUiPath("applicationDate.month.field").sendKeys("6");
-    sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
-    sitePage.findElementWithUiPath("applicationChannel.option.PAPER").click();
-    sitePage.findElementWithUiPath("badgeStartDate.day.field").sendKeys("1");
+  @When("^I enter all the mandatory valid processing details to order a badge for organisation$")
+  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForOrganisations()
+      throws Throwable {
+    iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
+    sitePage.findElementWithUiPath("numberOfBadges.field").sendKeys("3");
+  }
+
+  @When("^I enter all valid processing details to order a badge for person$")
+  public void iEnterAllValidProcessingDetailsToOrderABadgeForPerson() throws Throwable {
+    iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
     sitePage
         .findElementWithUiPath("localAuthorityReferenceNumber.field")
         .sendKeys("Manchester City Council");
-    sitePage.findElementWithUiPath("badgeStartDate.month.field").sendKeys("5");
-    sitePage.findElementWithUiPath("badgeStartDate.year.field").sendKeys("2025");
-    sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");
-    sitePage.findElementWithUiPath("badgeExpiryDateValid.month.field").sendKeys("5");
-    sitePage.findElementWithUiPath("badgeExpiryDateValid.year.field").sendKeys("2028");
-    sitePage.findElementWithUiPath("deliverTo.option.HOME").click();
-    sitePage.findElementWithUiPath("deliveryOptions.option.STAND").click();
+  }
+
+  @When("^I enter all valid processing details to order a badge for organisation")
+  public void iEnterAllValidProcessingDetailsToOrderABadgeForOrganisation() throws Throwable {
+    iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
+    sitePage.findElementWithUiPath("numberOfBadges.field").sendKeys("3");
   }
 
   @And("^I should see a badge number on badge ordered page$")

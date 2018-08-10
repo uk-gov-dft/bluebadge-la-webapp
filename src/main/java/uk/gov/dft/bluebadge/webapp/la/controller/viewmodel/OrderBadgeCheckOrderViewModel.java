@@ -17,6 +17,7 @@ public class OrderBadgeCheckOrderViewModel {
   private String emailAddress;
   private String eligibility;
   private String photo;
+  private String numberOfBadges;
   private String localAuthorityReference;
   private String badgeStartDate;
   private String badgeExpiryDate;

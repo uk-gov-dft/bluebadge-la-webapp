@@ -16,7 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 @Service
 public class SetPasswordApiClient extends BaseApiClient {
 
-  class Endpoints {
+  static class Endpoints {
     private Endpoints() {}
 
     static final String UPDATE_P_ENDPOINT = "/user/password/{uuid}";

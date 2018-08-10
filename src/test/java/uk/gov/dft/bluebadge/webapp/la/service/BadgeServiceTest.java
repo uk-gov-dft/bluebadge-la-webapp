@@ -38,12 +38,11 @@ public class BadgeServiceTest {
   }
 
   @Test
-  public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
-    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
-    BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
-    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+  public void orderBadge_shouldOrderBadgesAndReturnBadgeNumber() {
+    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest().numberOfBadges(1);
+    when(badgeManagementApiClientMock.orderBlueBadges(badgeOrderRequest))
         .thenReturn(BADGE_NUMBERS_FOR_PERSON);
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
+    String badgeNumber = badgeService.orderABadge(badgeOrderRequest);
     assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
   }
 

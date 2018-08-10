@@ -103,7 +103,8 @@ public abstract class OrderBadgeBaseControllerTest {
       Integer.toString(LocalDate.now().plusYears(2).getYear());
   protected static final String DELIVER_TO = "badgeHolder";
   protected static final String DELIVERY_OPTIONS = "fast";
-  protected static final String NUMBER_OF_BADGES = "1";
+  protected static final String NUMBER_OF_BADGES_PERSON = "1";
+  protected static final String NUMBER_OF_BADGES_ORGANISATION = "3";
 
   protected static final String APPLICATION_DATE_DAY_WRONG = "32";
   protected static final String APPLICATION_DATE_MONTH_WRONG = "13";
@@ -175,6 +176,25 @@ public abstract class OrderBadgeBaseControllerTest {
           .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
           .deliverTo(DELIVER_TO)
           .deliveryOptions(DELIVERY_OPTIONS)
+          .numberOfBadges(NUMBER_OF_BADGES_PERSON)
+          .build();
+
+  protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_ORGANISATION_PROCESSING =
+      OrderBadgeProcessingFormRequest.builder()
+          .applicationChannel(APPLICATION_CHANNEL)
+          .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
+          .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
+          .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
+          .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+          .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
+          .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
+          .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
+          .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
+          .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
+          .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
+          .deliverTo(DELIVER_TO)
+          .deliveryOptions(DELIVERY_OPTIONS)
+          .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
           .build();
 
   protected MockMvc mockMvc;
