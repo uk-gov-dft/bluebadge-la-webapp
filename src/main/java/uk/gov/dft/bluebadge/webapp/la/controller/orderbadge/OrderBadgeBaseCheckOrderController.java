@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
@@ -14,8 +13,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
-@Controller
-public abstract class OrderBadgeBaseCheckOrderController<
+@SuppressWarnings("squid:S00119Type")
+abstract class OrderBadgeBaseCheckOrderController<
         DetailsFormRequest extends OrderBadgeBaseDetailsFormRequest,
         ConverterToServiceModel extends OrderBadgeBaseFormsToBadgeOrderRequest,
         ConverterToViewModel extends OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel>
@@ -30,7 +29,7 @@ public abstract class OrderBadgeBaseCheckOrderController<
   private ConverterToServiceModel converterToServiceModel;
   private ConverterToViewModel converterToViewModel;
 
-  public OrderBadgeBaseCheckOrderController(
+  OrderBadgeBaseCheckOrderController(
       BadgeService badgeService,
       ConverterToServiceModel converterToServiceModel,
       ConverterToViewModel converterToViewModel) {
@@ -53,7 +52,7 @@ public abstract class OrderBadgeBaseCheckOrderController<
     return TEMPLATE;
   }
 
-  public String submit(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+  public String submit(HttpSession session, RedirectAttributes redirectAttributes) {
     DetailsFormRequest detailsForm =
         (DetailsFormRequest)
             session.getAttribute(OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST);

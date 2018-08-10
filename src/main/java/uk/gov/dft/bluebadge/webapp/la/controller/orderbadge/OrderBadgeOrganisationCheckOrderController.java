@@ -19,7 +19,7 @@ public class OrderBadgeOrganisationCheckOrderController
     extends OrderBadgeBaseCheckOrderController<
         OrderBadgeOrganisationDetailsFormRequest, OrderBadgeOrganisationFormsToBadgeOrderRequest,
         OrderBadgeOrganisationFormsToOrderBadgeCheckOrderViewModel> {
-  static final String URL = "/order-a-badge/organisation/check-order";
+  private static final String URL = "/order-a-badge/organisation/check-order";
 
   @Autowired
   public OrderBadgeOrganisationCheckOrderController(
@@ -37,6 +37,6 @@ public class OrderBadgeOrganisationCheckOrderController
   @PostMapping(URL)
   public String submitCheckOrderOrganisation(
       Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-    return super.submit(model, session, redirectAttributes);
+    return super.submit(session, redirectAttributes);
   }
 }

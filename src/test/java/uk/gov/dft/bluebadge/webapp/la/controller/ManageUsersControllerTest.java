@@ -30,10 +30,10 @@ public class ManageUsersControllerTest {
   private ManageUsersController controller;
 
   // Test Data
-  final int LOCAL_AUTHORITY_ID = 1;
-  final String NAME_JANE = "Jane";
-  final String NAME_NOT_FOUND = "NotFound";
-  final Integer ROLE_ID = 1;
+  private final static int LOCAL_AUTHORITY_ID = 1;
+  private final static String NAME_JANE = "Jane";
+  private final static String NAME_NOT_FOUND = "NotFound";
+  private final static Integer ROLE_ID = 1;
 
   private uk.gov.dft.bluebadge.common.security.model.User userDataSignedIn;
   private uk.gov.dft.bluebadge.common.security.model.User userSignedIn;

@@ -1,8 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
-import java.util.List;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -39,34 +39,27 @@ public class OrderBadgeProcessingController {
     this.referenceDataService = referenceDataService;
   }
 
-  //@GetMapping(path = {URL_PERSON_PROCESSING, URL_ORGANISATION_PROCESSING})
-
   @GetMapping(path = {"/order-a-badge/{applicantType:person|organisation}/processing"})
   public String show(
-      @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
-      HttpSession session,
-      Model model,
-      @PathVariable("applicantType") String applicantType) {
+    @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+    HttpSession session,
+    Model model,
+    @PathVariable("applicantType") String applicantType) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
-    OrderBadgeIndexFormRequest sessionFormRequestOrderBadgeIndex =
-        (OrderBadgeIndexFormRequest)
-            session.getAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST);
-    //String applicantType = sessionFormRequestOrderBadgeIndex.getApplicantType();
     model.addAttribute("applicantType", applicantType);
     return TEMPLATE;
   }
 
-  //  @PostMapping(path = {URL_PERSON_PROCESSING, URL_ORGANISATION_PROCESSING})
   @PostMapping(path = {"/order-a-badge/{applicantType:person|organisation}/processing"})
   public String submit(
-      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session,
-      @PathVariable("applicantType") String applicantType) {
+    @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+    BindingResult bindingResult,
+    Model model,
+    HttpSession session,
+    @PathVariable("applicantType") String applicantType) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
     if (bindingResult.hasErrors()) {
