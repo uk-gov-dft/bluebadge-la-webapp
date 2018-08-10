@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToBadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
@@ -80,10 +79,10 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
     when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
     when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
     mockMvc
-            .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
-            .andExpect(status().isOk())
-            .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
-            .andExpect(model().attribute("badge", badgeViewModel));
+        .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
+        .andExpect(status().isOk())
+        .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
+        .andExpect(model().attribute("badge", badgeViewModel));
   }
 
   @Test(expected = NotFoundException.class)

@@ -1,9 +1,12 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
@@ -45,5 +48,23 @@ public class BadgeDetailsSiteSteps {
         "I should see page titled.",
         sitePage.getDocumentTitle(),
         is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
+  }
+
+  @And("^I should see correct details for organisation or person$")
+  public void iShouldSeeCorrectDetailsForOrganisationOrPerson() throws Throwable {
+    WebElement orgTitle = sitePage.findElementWithText("Organisation details");
+    WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
+
+    // Waiting for Miguel's story to finish first
+    // check scenario context for type of application
+    // and then make assertion accordingly
+
+    /*if(scenarioContext.getContext("typeCode") === "PERSON") {
+      assertNotNull(personalTitle);
+      assertEquals(orgTitle, null);
+    } else {
+      assertNotNull(orgTitle);
+      assertEquals(personalTitle, null);
+    }*/
   }
 }
