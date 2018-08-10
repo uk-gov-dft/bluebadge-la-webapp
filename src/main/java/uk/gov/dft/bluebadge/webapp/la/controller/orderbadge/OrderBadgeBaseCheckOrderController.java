@@ -13,7 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
-@SuppressWarnings("squid:S00119Type")
+@SuppressWarnings("squid:S00119")
 abstract class OrderBadgeBaseCheckOrderController<
         DetailsFormRequest extends OrderBadgeBaseDetailsFormRequest,
         ConverterToServiceModel extends OrderBadgeBaseFormsToBadgeOrderRequest,

@@ -27,7 +27,6 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
 
   public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-index";
 
-  private static final String APPLICANT_TYPE_PERSON = "person";
   private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
 
   @GetMapping(URL)

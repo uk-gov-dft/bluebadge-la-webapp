@@ -5,7 +5,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePr
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-@SuppressWarnings("squid:S00119Type")
+
+@SuppressWarnings("squid:S00119")
 public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel<
     DetailsFormRequest extends OrderBadgeBaseDetailsFormRequest> {
 

@@ -10,11 +10,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIn
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 
 @Slf4j
+@SuppressWarnings("squid:S00119")
 public abstract class OrderBadgeBaseDetailsController<
-    FORMREQUEST extends OrderBadgeBaseDetailsFormRequest> {
+    FormRequest extends OrderBadgeBaseDetailsFormRequest> {
   static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
 
-  public String show(FORMREQUEST formRequest, HttpSession session, Model model) {
+  public String show(FormRequest formRequest, HttpSession session, Model model) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
@@ -30,7 +31,7 @@ public abstract class OrderBadgeBaseDetailsController<
   }
 
   public String submit(
-      final FORMREQUEST formRequest,
+      final FormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {

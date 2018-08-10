@@ -7,6 +7,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeBaseDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 
+@SuppressWarnings("squid:S00119")
 public abstract class OrderBadgeBaseFormsToBadgeOrderRequest<
     DetailsFormRequest extends OrderBadgeBaseDetailsFormRequest> {
 
