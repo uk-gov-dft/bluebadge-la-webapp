@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -62,8 +63,9 @@ abstract class OrderBadgeBaseCheckOrderController<
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm);
 
-    String badgeNumber = badgeService.orderABadge(badgeOrderRequest);
-    redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);
+    List<String> badgeNumber = badgeService.orderABadge(badgeOrderRequest);
+    // TODO
+    redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber.get(0));
 
     super.finishSession(session);
     return REDIRECT_BADGE_ORDERED;

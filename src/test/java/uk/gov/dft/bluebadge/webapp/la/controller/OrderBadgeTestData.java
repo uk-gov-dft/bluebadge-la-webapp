@@ -1,11 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import com.google.common.collect.Lists;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Organisation;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
@@ -146,6 +150,20 @@ public class OrderBadgeTestData {
           .townOrCity(TOWN_OR_CITY)
           .build();
 
+  protected static final OrderBadgeOrganisationDetailsFormRequest
+      FORM_REQUEST_ORGANISATION_DETAILS =
+          OrderBadgeOrganisationDetailsFormRequest.builder()
+              .buildingAndStreet(BUILDING_AND_STREET)
+              .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+              .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+              .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+              .contactDetailsName(CONTACT_DETAILS_NAME)
+              .name(NAME)
+              .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+              .postcode(POSTCODE)
+              .townOrCity(TOWN_OR_CITY)
+              .build();
+
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()
           .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
@@ -164,11 +182,30 @@ public class OrderBadgeTestData {
           .numberOfBadges(NUMBER_OF_BADGES_PERSON)
           .build();
 
+  protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_ORGANISATION_PROCESSING =
+      OrderBadgeProcessingFormRequest.builder()
+          .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
+          .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
+          .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
+          .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
+          .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+          .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
+          .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
+          .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
+          .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
+          .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
+          .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
+          .deliverTo(DELIVER_TO_SHORTCODE)
+          .deliveryOptions(DELIVERY_OPTIONS_SHORTCODE)
+          .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
+          .build();
+
   protected static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.of(2018, 7, 2);
   protected static final String SERVICE_MODEL_APPLICATION_CHANNEL = "PAPER";
   protected static final String SERVICE_MODEL_DELIVER_TO = DELIVER_TO_SHORTCODE;
 
   protected static final String BADGE_NUMBER = "MyBadgeNumber123";
+  protected static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
   protected static final LocalDate SERVICE_MODEL_DOB = LocalDate.of(1980, 3, 15);
   protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_ORGANISATION =
       Integer.parseInt(NUMBER_OF_BADGES_ORGANISATION);
@@ -200,9 +237,9 @@ public class OrderBadgeTestData {
   protected static final BadgeOrderRequest BADGE_ORDER_REQUEST_ORGANISATION =
       new BadgeOrderRequest()
           .applicationDate(SERVICE_MODEL_APPLICATION_DATE)
-          .applicationChannelCode(APPLICATION_CHANNEL)
-          .deliverToCode(DELIVER_TO)
-          .deliveryOptionCode(DELIVERY_OPTIONS)
+          .applicationChannelCode(SERVICE_MODEL_APPLICATION_CHANNEL)
+          .deliverToCode(SERVICE_MODEL_DELIVER_TO)
+          .deliveryOptionCode(DELIVERY_OPTIONS_SHORTCODE)
           .startDate(SERVICE_MODEL_START_DATE)
           .expiryDate(SERVICE_MODEL_EXPIRY_DATE)
           .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
@@ -241,13 +278,16 @@ public class OrderBadgeTestData {
           .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES_PERSON)
           .party(PARTY_PERSON);
 
-  protected static final String VIEW_MODEL_APPLICATION_DATE = "1/7/2018";
-  protected static final String VIEW_MODEL_BADGE_START_DATE = "1/10/2045";
-  protected static final String VIEW_MODEL_BADGE_EXPIRY_DATE = "1/10/2047";
+  protected static final String VIEW_MODEL_APPLICATION_DATE = "2/7/2018";
+  protected static final String VIEW_MODEL_BADGE_START_DATE =
+      "7/8/" + LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("yyyy"));
+  protected static final String VIEW_MODEL_BADGE_EXPIRY_DATE =
+      "7/8/" + LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("yyyy"));
   protected static final String VIEW_MODEL_DOB = "1/1/1990";
-  protected static final String VIEW_MODEL_ADDRESS = "An address, a place, a postcode";
+  protected static final String VIEW_MODEL_ADDRESS =
+      "Building and street, Optional address field, Town or city, TF8 6GF";
 
-  protected static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
+  protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
       OrderBadgeCheckOrderViewModel.builder()
           .deliveryOptions(DELIVERY_OPTIONS)
           .applicationChannel(APPLICATION_CHANNEL)
@@ -260,9 +300,27 @@ public class OrderBadgeTestData {
           .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
           .contactFullName(CONTACT_DETAILS_NAME)
           .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .secondaryContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+          .secondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
           .fullName(NAME)
           .address(VIEW_MODEL_ADDRESS)
           .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
           .build();
+
+  /*protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
+  OrderBadgeCheckOrderViewModel.builder()
+    .fullName(NAME)
+    .address(ADDRESS)
+    .contactFullName(CONTACT_DETAILS_NAME)
+    .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+    .secondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+    .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+    .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+    .badgeStartDate(BADGE_START_DATE)
+    .badgeExpiryDate(BADGE_EXPIRY_DATE)
+    .applicationDate(APPLICATION_DATE)
+    .applicationChannel(APPLICATION_CHANNEL)
+    .deliverTo(DELIVER_TO)
+    .deliveryOptions(DELIVERY_OPTIONS)
+    .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
+    .build();*/
 }

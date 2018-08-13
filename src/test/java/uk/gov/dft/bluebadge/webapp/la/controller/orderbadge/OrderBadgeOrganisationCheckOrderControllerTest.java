@@ -45,7 +45,8 @@ public class OrderBadgeOrganisationCheckOrderControllerTest extends OrderBadgeBa
   @Test
   public void show_shouldDisplayCheckOrderTemplateWithDataPopulated() throws Exception {
 
-    when(converterToViewModelMock.convert(any(), any())).thenReturn(VIEW_MODEL);
+    when(converterToViewModelMock.convert(any(), any()))
+        .thenReturn(CHECK_ORDER_ORGANISATION_VIEW_MODEL);
 
     mockMvc
         .perform(
@@ -55,12 +56,12 @@ public class OrderBadgeOrganisationCheckOrderControllerTest extends OrderBadgeBa
                     "formRequest-order-a-badge-processing", FORM_REQUEST_ORGANISATION_PROCESSING))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/check-order"))
-        .andExpect(model().attribute("data", VIEW_MODEL));
+        .andExpect(model().attribute("data", CHECK_ORDER_ORGANISATION_VIEW_MODEL));
   }
 
   @Test
   public void submit_shouldRedirectToHomePageAndCreateABadge() throws Exception {
-    when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBER);
+    when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
 
     when(converterToServiceModelMock.convert(any(), any()))
         .thenReturn(BADGE_ORDER_REQUEST_ORGANISATION);

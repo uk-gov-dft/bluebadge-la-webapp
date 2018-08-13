@@ -10,7 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.google.common.collect.Lists;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -24,6 +26,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
 
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
+  private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
   private static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.now();
   private static final LocalDate SERVICE_MODEL_DOB = LocalDate.now().plusDays(1);
   private static final int SERVICE_MODEL_NUMBER_OF_BADGES =
@@ -92,7 +95,7 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
 
   @Test
   public void submit_shouldRedirectToHomePageAndCreateABadge() throws Exception {
-    when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBER);
+    when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
     when(converterToServiceModelMock.convert(any(), any())).thenReturn(BADGE_ORDER_REQUEST_PERSON);
     mockMvc
         .perform(
