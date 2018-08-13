@@ -52,8 +52,8 @@ public class UserService {
     return setPasswordApiClient.updatePassword(uuid, password, passwordConfirm);
   }
 
-  public void delete(UUID id) {
-    userManagementApiClient.deleteUser(id);
+  public void delete(UUID uuid) {
+    userManagementApiClient.deleteUser(uuid);
   }
 
   public void requestPasswordReset(UUID uuid) {

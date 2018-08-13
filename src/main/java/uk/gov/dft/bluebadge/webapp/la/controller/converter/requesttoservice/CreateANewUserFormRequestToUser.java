@@ -11,7 +11,7 @@ public class CreateANewUserFormRequestToUser implements Converter<CreateANewUser
 
   @Override
   public User convert(CreateANewUserFormRequest formRequest) {
-    Assert.notNull(formRequest, "Source cannot be null");
+    Assert.notNull(formRequest, "formRequest cannot be null");
     return User.builder()
         .name(formRequest.getName())
         .emailAddress(formRequest.getEmailAddress())

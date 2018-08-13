@@ -26,13 +26,13 @@ public class UserManagementApiClient extends BaseApiClient {
   class Endpoints {
     private Endpoints() {}
 
-    static final String GET_BY_ID_ENDPOINT = "/users/{userId}";
+    static final String GET_BY_ID_ENDPOINT = "/users/{uuid}";
     static final String CREATE_ENDPOINT = "/users";
     static final String GET_USERS_FOR_AUTHORITY_ENDPOINT =
         "/users?name={name}&authorityShortCode={authorityShortCode}";
-    static final String UPDATE_ENDPOINT = "/users/{userId}";
-    static final String DELETE_ENDPOINT = "/users/{userId}";
-    static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{userId}/passwordReset";
+    static final String UPDATE_ENDPOINT = "/users/{uuid}";
+    static final String DELETE_ENDPOINT = "/users/{uuid}";
+    static final String REQUEST_RESET_EMAIL_ENDPOINT = "/users/{uuid}/passwordReset";
   }
 
   private RestTemplate restTemplate;
@@ -52,7 +52,7 @@ public class UserManagementApiClient extends BaseApiClient {
   public List<User> getUsersForAuthority(String authorityShortCode, String nameFilter) {
 
     Assert.notNull(
-        authorityShortCode, "getUsersForAuthority - Local Authority Id must be provided");
+        authorityShortCode, "getUsersForAuthority - Local Authority short code must be provided");
 
     ResponseEntity<UsersResponse> userListResponse =
         restTemplate.getForEntity(
@@ -60,13 +60,13 @@ public class UserManagementApiClient extends BaseApiClient {
     return Objects.requireNonNull(userListResponse.getBody()).getData();
   }
 
-  public User getByUuid(UUID userId) {
-    Assert.notNull(userId, "userId must be provided for getByUuid");
+  public User getByUuid(UUID uuid) {
+    Assert.notNull(uuid, "uuid must be provided for getByUuid");
 
     try {
       return Objects.requireNonNull(
               restTemplate
-                  .getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, userId.toString())
+                  .getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, uuid.toString())
                   .getBody())
           .getData();
     } catch (HttpClientErrorException c) {
@@ -110,19 +110,19 @@ public class UserManagementApiClient extends BaseApiClient {
     return null;
   }
 
-  public void deleteUser(UUID userId) {
-    Assert.notNull(userId, "deleteUser - userId must be set");
+  public void deleteUser(UUID uuid) {
+    Assert.notNull(uuid, "deleteUser - uuid must be set");
 
     String uri = UriComponentsBuilder.fromUriString(DELETE_ENDPOINT).build().toUriString();
     try {
-      restTemplate.delete(uri, userId.toString());
+      restTemplate.delete(uri, uuid.toString());
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
   }
 
   public void requestPasswordReset(UUID uuid) {
-    Assert.notNull(uuid, "requestPasswordReset - id must not be null");
+    Assert.notNull(uuid, "requestPasswordReset - uuid must not be null");
 
     try {
       restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, uuid);
