@@ -15,7 +15,6 @@
 
             <div class="govuk-panel govuk-panel--confirmation">
                 <h1 class="govuk-panel__title" data-uipath="badge.ordered.title">Badge ordered</h1>
-
                 <div th:unless="${severalBadges}" class="govuk-panel__body" data-uipath="badge.ordered.content">
                     The badge number is<br><strong data-uipath="badge.ordered.num" th:text="${badgeNumbers.get(0)}"/>
                 </div>
@@ -23,13 +22,10 @@
 
             </div>
             <div th:if="${severalBadges}" class="govuk-panel__body" data-uipath="badge.ordered.content">
-                The badge numbers are
-                <br>
-                <strong>
-                <ul>
+                <p class="govuk-body">The badge numbers are:</p>
+                <ul class="govuk-list govuk-list--bullet">
                     <li th:each="badgeNumber: ${badgeNumbers}" th:text="${badgeNumber}" data-uipath="badge.ordered.num"></li>
                 </ul>
-                </strong>
             </div>
         </div>
     </section>

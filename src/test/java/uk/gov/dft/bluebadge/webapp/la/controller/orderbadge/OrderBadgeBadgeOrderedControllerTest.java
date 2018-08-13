@@ -34,9 +34,9 @@ public class OrderBadgeBadgeOrderedControllerTest extends OrderBadgeBaseControll
   @Test
   public void show_shouldDisplayBadgeOrderedTemplateWithBadgeNumber() throws Exception {
     mockMvc
-        .perform(get("/order-a-badge/person/badge-ordered").flashAttr("badgeNumber", BADGE_NUMBER))
+        .perform(get("/order-a-badge/badge-ordered").flashAttr("badgeNumber", BADGE_NUMBER))
         .andExpect(status().isOk())
-        .andExpect(view().name("order-a-badge/person/badge-ordered"))
+        .andExpect(view().name("order-a-badge/badge-ordered"))
         .andExpect(model().attribute("badgeNumber", BADGE_NUMBER));
   }
 }

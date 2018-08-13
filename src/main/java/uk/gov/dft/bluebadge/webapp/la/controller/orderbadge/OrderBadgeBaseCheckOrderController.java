@@ -53,8 +53,7 @@ abstract class OrderBadgeBaseCheckOrderController<
     return TEMPLATE;
   }
 
-  public String submit(
-      HttpSession session, RedirectAttributes redirectAttributes) {
+  public String submit(HttpSession session, RedirectAttributes redirectAttributes) {
     DetailsFormRequest detailsForm =
         (DetailsFormRequest)
             session.getAttribute(OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST);
