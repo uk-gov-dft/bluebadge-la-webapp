@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
@@ -50,7 +51,12 @@ public class OrderBadgePersonDetailsController
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
-    return super.submit(formRequest, bindingResult, model, session);
+    model.addAttribute("errorSummary", new ErrorViewModel());
+    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+    if (bindingResult.hasErrors()) {
+      return getTemplate();
+    }
+    return getProcessingRedirectUrl();
   }
 
   @ModelAttribute("genderOptions")

@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -41,10 +40,10 @@ public class OrderBadgeProcessingController {
 
   @GetMapping(path = {"/order-a-badge/{applicantType:person|organisation}/processing"})
   public String show(
-    @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
-    HttpSession session,
-    Model model,
-    @PathVariable("applicantType") String applicantType) {
+      @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+      HttpSession session,
+      Model model,
+      @PathVariable("applicantType") String applicantType) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
@@ -55,11 +54,11 @@ public class OrderBadgeProcessingController {
 
   @PostMapping(path = {"/order-a-badge/{applicantType:person|organisation}/processing"})
   public String submit(
-    @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
-    BindingResult bindingResult,
-    Model model,
-    HttpSession session,
-    @PathVariable("applicantType") String applicantType) {
+      @Valid @ModelAttribute(FORM_REQUEST) OrderBadgeProcessingFormRequest formRequest,
+      BindingResult bindingResult,
+      Model model,
+      HttpSession session,
+      @PathVariable("applicantType") String applicantType) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
     if (bindingResult.hasErrors()) {

@@ -17,10 +17,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgePersonFormsToBadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
@@ -35,6 +31,27 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
   private static final LocalDate SERVICE_MODEL_EXPIRY_DATE = LocalDate.now().plusDays(2);
   private static final LocalDate SERVICE_MODEL_START_DATE = LocalDate.now().plusDays(1);
+
+  static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
+      OrderBadgeCheckOrderViewModel.builder()
+          .gender(GENDER)
+          .deliveryOptions(DELIVERY_OPTIONS)
+          .applicationChannel(APPLICATION_CHANNEL)
+          .applicationDate(VIEW_MODEL_APPLICATION_DATE)
+          .applicationChannel(APPLICATION_CHANNEL)
+          .deliverTo(DELIVER_TO)
+          .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
+          .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
+          .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
+          .eligibility(ELIGIBILITY)
+          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+          .contactFullName(CONTACT_DETAILS_NAME)
+          .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+          .dob(VIEW_MODEL_DOB)
+          .fullName(NAME)
+          .address(VIEW_MODEL_ADDRESS)
+          .nino(NINO)
+          .build();
 
   private OrderBadgeBaseController controller;
 
@@ -59,27 +76,8 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
 
   @Test
   public void show_shouldDisplayCheckOrderTemplateWithDataPopulated() throws Exception {
-    OrderBadgeCheckOrderViewModel orderBadgeCheckOrderViewModel =
-        OrderBadgeCheckOrderViewModel.builder()
-            .gender(GENDER)
-            .deliveryOptions(DELIVERY_OPTIONS)
-            .applicationChannel(APPLICATION_CHANNEL)
-            .applicationDate(VIEW_MODEL_APPLICATION_DATE)
-            .applicationChannel(APPLICATION_CHANNEL)
-            .deliverTo(DELIVER_TO)
-            .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
-            .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
-            .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-            .eligibility(ELIGIBILITY)
-            .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-            .contactFullName(CONTACT_DETAILS_NAME)
-            .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-            .dob(VIEW_MODEL_DOB)
-            .fullName(NAME)
-            .address(VIEW_MODEL_ADDRESS)
-            .nino(NINO)
-            .build();
-    when(converterToViewModelMock.convert(any(), any())).thenReturn(orderBadgeCheckOrderViewModel);
+
+    when(converterToViewModelMock.convert(any(), any())).thenReturn(VIEW_MODEL);
 
     mockMvc
         .perform(
@@ -89,38 +87,13 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
                     "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/check-order"))
-        .andExpect(model().attribute("data", orderBadgeCheckOrderViewModel));
+        .andExpect(model().attribute("data", VIEW_MODEL));
   }
 
   @Test
   public void submit_shouldRedirectToHomePageAndCreateABadge() throws Exception {
     when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBER);
-    Contact contact =
-        new Contact()
-            .buildingStreet(BUILDING_AND_STREET)
-            .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-            .fullName(CONTACT_DETAILS_NAME)
-            .line2(OPTIONAL_ADDRESS_FIELD)
-            .postCode(POSTCODE)
-            .townCity(TOWN_OR_CITY)
-            .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
-    Person person =
-        new Person().genderCode(GENDER).badgeHolderName(NAME).dob(SERVICE_MODEL_DOB).nino(NINO);
-    Party party = new Party().contact(contact).person(person).typeCode("PERSON").organisation(null);
-    BadgeOrderRequest badgeOrderRequest =
-        new BadgeOrderRequest()
-            .applicationDate(SERVICE_MODEL_APPLICATION_DATE)
-            .applicationChannelCode(APPLICATION_CHANNEL)
-            .deliverToCode(DELIVER_TO)
-            .deliveryOptionCode(DELIVERY_OPTIONS)
-            .eligibilityCode(ELIGIBILITY)
-            .startDate(SERVICE_MODEL_START_DATE)
-            .expiryDate(SERVICE_MODEL_EXPIRY_DATE)
-            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
-            .localAuthorityRef(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-            .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES)
-            .party(party);
-    when(converterToServiceModelMock.convert(any(), any())).thenReturn(badgeOrderRequest);
+    when(converterToServiceModelMock.convert(any(), any())).thenReturn(BADGE_ORDER_REQUEST_PERSON);
     mockMvc
         .perform(
             post("/order-a-badge/person/check-order")
@@ -129,6 +102,6 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
                     "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
-    verify(badgeServiceMock).orderABadge(badgeOrderRequest);
+    verify(badgeServiceMock).orderABadge(BADGE_ORDER_REQUEST_PERSON);
   }
 }

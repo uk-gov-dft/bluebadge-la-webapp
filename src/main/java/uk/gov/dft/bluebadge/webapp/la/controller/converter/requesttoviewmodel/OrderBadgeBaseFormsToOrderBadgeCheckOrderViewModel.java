@@ -18,7 +18,7 @@ public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel<
   }
 
   public abstract OrderBadgeCheckOrderViewModel convert(
-    DetailsFormRequest details, OrderBadgeProcessingFormRequest processing);
+      DetailsFormRequest details, OrderBadgeProcessingFormRequest processing);
 
   protected OrderBadgeCheckOrderViewModel.OrderBadgeCheckOrderViewModelBuilder buildProcessing(
       OrderBadgeCheckOrderViewModel.OrderBadgeCheckOrderViewModelBuilder builder,
