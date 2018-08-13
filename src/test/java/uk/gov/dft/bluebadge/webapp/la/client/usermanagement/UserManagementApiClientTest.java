@@ -11,6 +11,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,11 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 public class UserManagementApiClientTest {
 
   public static final String TEST_URI = "http://justtesting:9999/test";
+  private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
+  private static final UUID USER_UUID = UUID.randomUUID();
+  private static final UUID USER_UUID_2 = UUID.randomUUID();
+  private static final UUID USER_UUID_DELETE = UUID.randomUUID();
+
   UserManagementApiClient userManagementApiClient;
 
   private MockRestServiceServer mockServer;
@@ -45,25 +51,27 @@ public class UserManagementApiClientTest {
         .expect(once(), requestTo(startsWith(TEST_URI + "/users")))
         .andExpect(method(HttpMethod.GET))
         .andExpect(queryParam("name", "bob"))
-        .andExpect(queryParam("authorityId", "2"))
+        .andExpect(queryParam("authorityShortCode", LOCAL_AUTHORITY_SHORT_CODE))
         .andRespond(withSuccess(om.writeValueAsString(usersResponse), MediaType.APPLICATION_JSON));
 
-    userManagementApiClient.getUsersForAuthority(2, "bob");
+    userManagementApiClient.getUsersForAuthority(LOCAL_AUTHORITY_SHORT_CODE, "bob");
 
     mockServer.verify();
   }
 
   @Test
-  public void getById() throws Exception {
+  public void getByUuid() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User().name("Bob");
+
+    User data = User.builder().name("Bob").build();
+
     userResponse.setData(data);
     mockServer
-        .expect(once(), requestTo(TEST_URI + "/users/22"))
+        .expect(once(), requestTo(TEST_URI + String.format("/users/%s", USER_UUID.toString())))
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    User user = userManagementApiClient.getById(22);
+    User user = userManagementApiClient.getByUuid(USER_UUID);
 
     assertThat(user).isNotNull();
     assertThat(user.getName()).isEqualTo("Bob");
@@ -73,8 +81,8 @@ public class UserManagementApiClientTest {
   @Test
   public void createUser() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User().id(555);
-    userResponse.setData(data);
+    User responseUser = User.builder().uuid(USER_UUID).build();
+    userResponse.setData(responseUser);
     mockServer
         .expect(once(), requestTo(TEST_URI + "/users"))
         .andExpect(method(HttpMethod.POST))
@@ -82,44 +90,45 @@ public class UserManagementApiClientTest {
         .andExpect(jsonPath("name", equalTo("Jane")))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    User userToCreate = new User().emailAddress("Jane@bbb.com").name("Jane");
+    User userToCreate = User.builder().emailAddress("Jane@bbb.com").name("Jane").build();
 
     User result = userManagementApiClient.createUser(userToCreate);
     assertThat(result).isNotNull();
     assertThat(result).isNotSameAs(userToCreate);
-    assertThat(result.getId()).isEqualTo(555);
+    assertThat(result.getUuid()).isEqualTo(USER_UUID);
     mockServer.verify();
   }
 
   @Test
   public void updateUser() throws Exception {
     UserResponse userResponse = new UserResponse();
-    User data = new User().id(555);
-    userResponse.setData(data);
+    User responseData = User.builder().uuid(USER_UUID).build();
+    userResponse.setData(responseData);
     mockServer
-        .expect(once(), requestTo(TEST_URI + "/users/789"))
+        .expect(once(), requestTo(TEST_URI + "/users/" + USER_UUID_2.toString()))
         .andExpect(method(HttpMethod.PUT))
         .andExpect(jsonPath("emailAddress", equalTo("dave@bbb.com")))
         .andExpect(jsonPath("name", equalTo("Dave")))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    User userToUpdate = new User().emailAddress("dave@bbb.com").name("Dave").id(789);
+    User userToUpdate =
+        User.builder().emailAddress("dave@bbb.com").name("Dave").uuid(USER_UUID_2).build();
     User result = userManagementApiClient.updateUser(userToUpdate);
 
     assertThat(result).isNotNull();
     assertThat(result).isNotSameAs(userToUpdate);
-    assertThat(result.getId()).isEqualTo(555);
+    assertThat(result.getUuid()).isEqualTo(USER_UUID);
     mockServer.verify();
   }
 
   @Test
   public void deleteUser() throws Exception {
     mockServer
-        .expect(once(), requestTo(TEST_URI + "/users/456"))
+        .expect(once(), requestTo(TEST_URI + "/users/" + USER_UUID_DELETE.toString()))
         .andExpect(method(HttpMethod.DELETE))
         .andRespond(withSuccess());
 
-    userManagementApiClient.deleteUser(456);
+    userManagementApiClient.deleteUser(USER_UUID_DELETE);
 
     mockServer.verify();
   }
@@ -127,11 +136,14 @@ public class UserManagementApiClientTest {
   @Test
   public void requestPasswordReset() throws Exception {
     mockServer
-        .expect(once(), requestTo(TEST_URI + "/users/756/passwordReset"))
+        .expect(
+            once(),
+            requestTo(
+                TEST_URI + String.format("/users/%s/passwordReset", USER_UUID_DELETE.toString())))
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess());
 
-    userManagementApiClient.requestPasswordReset(756);
+    userManagementApiClient.requestPasswordReset(USER_UUID_DELETE);
     mockServer.verify();
   }
 }
