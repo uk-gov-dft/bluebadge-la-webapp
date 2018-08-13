@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
 @Controller
@@ -70,5 +73,13 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
     } else {
       return REDIRECT_ORDER_A_BADGE_PERSON_DETAILS;
     }
+  }
+
+  @ModelAttribute("applicantTypeOptions")
+  public List<ReferenceData> applicantTypeOptions() {
+    ReferenceData person = new ReferenceData().description("A person").shortCode("person");
+    ReferenceData organisation =
+        new ReferenceData().description("An organisation").shortCode("organisation");
+    return Lists.newArrayList(person, organisation);
   }
 }

@@ -12,7 +12,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I click on element "continue" button
@@ -25,7 +25,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid organisation details to order a badge
@@ -41,7 +41,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid organisation details to order a badge
@@ -61,7 +61,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I enter all valid organisation details to order a badge
@@ -81,7 +81,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid organisation details to order a badge
@@ -96,7 +96,6 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I can click "back-link" button
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
     When I can click "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I can click "continue" button
@@ -111,7 +110,7 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I can click Sign in button
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "organisation"
+    When I select option "applicantType.option.organisation"
     And I click on element "continue" button
     Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid organisation details to order a badge

@@ -25,32 +25,7 @@
 			<div class="dft-grid-col">
 				<form th:action="@{/order-a-badge/}" th:object="${formRequest}" method="post" novalidate>
 
-					<div class="govuk-form-group">
-						<fieldset class="govuk-fieldset">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--m" data-uipath="badgeFor.legend">
-								Who is the badge for?
-							</legend>
-
-							<div class="govuk-radios" data-module="radios">
-								<div class="govuk-radios__item">
-									<input class="govuk-radios__input" id="person" name="applicantType" type="radio" value="person" data-aria-controls="person" data-uipath="person">
-									<label class="govuk-label govuk-radios__label" for="person" data-uipath="badgeFor.radioLabel.person">
-										A person
-									</label>
-								</div>
-
-
-								<div class="govuk-radios__item">
-									<input class="govuk-radios__input" id="organisation" name="applicantType" type="radio" value="organisation" data-aria-controls="organisation" data-uipath="organisation">
-									<label class="govuk-label govuk-radios__label" for="organisation" data-uipath="badgeFor.radioLabel.organisation">
-										An Organisation
-									</label>
-								</div>
-							</div>
-
-						</fieldset>
-					</div>
-
+					<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Who is the badge for?', 'applicantType', null, ${applicantTypeOptions}) }"/>
 					<input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
 
 				</form>

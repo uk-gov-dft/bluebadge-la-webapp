@@ -31,7 +31,7 @@ public class OrderABadgeSiteSteps {
     String name = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
-     String dobDay = String.valueOf(date.getDayOfMonth());
+    String dobDay = String.valueOf(date.getDayOfMonth());
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
