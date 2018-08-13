@@ -11,8 +11,8 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/person/details}" aria-label="go back" data-uipath="back-link"
-           class="govuk-back-link">Back</a>
+        <a th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" aria-label="go back" data-uipath="back-link"
+           class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
 

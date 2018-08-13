@@ -31,7 +31,7 @@ public class OrderABadgeSiteSteps {
     String name = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
-    String dobDay = String.valueOf(date.getDayOfMonth());
+     String dobDay = String.valueOf(date.getDayOfMonth());
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
     String postcode = pcg.get_postcode();
@@ -164,7 +164,8 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("numberOfBadges.field").sendKeys("3");
   }
 
-  @And("^I should see a badge number on badge ordered page$")
+  @And(
+      "^I should see a badge number on badge ordered page$|^I should see badge numbers on badge ordered page$")
   public void iShouldSeeABadgeNumberOnBadgeOrderedPage() {
     String badgeNumber = sitePage.findElementWithUiPath("badge.ordered.num").getText();
     assertNotNull(badgeNumber);
