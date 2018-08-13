@@ -325,6 +325,12 @@ public class SiteSteps extends AbstractSpringSteps {
         .contains(System.getProperty("email")));
   }
 
+  @When("^I search for newly create user using full name$")
+  public void iSearchForNewlyCreateUserUsingFullName() throws Throwable {
+    sitePage.findPageElementById("search").sendKeys(System.getProperty("fullname"));
+    sitePage.findElementWithUiPath("search.button").click();
+  }
+
   @And("^I can click on the \"([^\"]*)\" button on manage user page$")
   public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
     sitePage.findElementWithUiPath("createUserButton").click();
