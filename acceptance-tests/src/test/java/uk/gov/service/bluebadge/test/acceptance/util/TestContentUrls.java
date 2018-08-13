@@ -35,6 +35,8 @@ public class TestContentUrls {
     add("order-a-badge", "/order-a-badge/");
     add("order-a-badge/person/details", "/order-a-badge/person/details");
     add("order-a-badge/person/processing", "/order-a-badge/person/processing");
+    add("order-a-badge/organisation/details", "/order-a-badge/organisation/details");
+    add("order-a-badge/organisation/processing", "/order-a-badge/organisation/processing");
   }
 
   private void add(String pageName, String url) {

@@ -30,12 +30,9 @@ public class BadgeDetailsSiteSteps {
             .findElementWithUiPath("table.body")
             .findElement(By.cssSelector("tr.govuk-table__row td.govuk-table__cell:first-child a"));
     String href = badgeDetailsLink.getAttribute("href");
-    System.err.print("-----------------------");
-    System.err.println("href=" + href);
     String[] linkParts = href.split("/");
     String badgeNumber = linkParts[linkParts.length - 1];
     scenarioContext.setContext("badgeNumber", badgeNumber);
-    System.err.println("badgeNumber" + badgeNumber);
     log.debug("save to scenario context badgeNumber", badgeNumber);
     badgeDetailsLink.click();
   }
