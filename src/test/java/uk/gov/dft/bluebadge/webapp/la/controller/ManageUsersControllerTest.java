@@ -38,7 +38,8 @@ public class ManageUsersControllerTest {
   final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   final UUID USER_UUID_1 = UUID.randomUUID();
   final UUID USER_UUID_2 = UUID.randomUUID();
-  final UUID USER_UUID_3 = UUID.randomUUID();  private static final String NAME_JANE = "Jane";
+  final UUID USER_UUID_3 = UUID.randomUUID();
+  private static final String NAME_JANE = "Jane";
   private static final String NAME_NOT_FOUND = "NotFound";
   private static final Integer ROLE_ID = 1;
 
