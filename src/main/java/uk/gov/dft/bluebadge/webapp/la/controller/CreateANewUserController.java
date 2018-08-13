@@ -58,7 +58,7 @@ public class CreateANewUserController {
       uk.gov.dft.bluebadge.common.security.model.User signedInUser =
           securityUtils.getCurrentUserDetails();
       User user = createANewUserRequest2User.convert(formRequest);
-      user.setLocalAuthorityId(signedInUser.getLocalAuthority().getId());
+      user.setLocalAuthorityShortCode(signedInUser.getLocalAuthority().getShortCode());
       user.setRoleId(signedInUser.getRoleId());
       log.debug("Creating user for email {}", user.getEmailAddress());
       userService.create(user);

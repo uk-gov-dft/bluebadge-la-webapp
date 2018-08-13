@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
@@ -22,21 +23,21 @@ public class UserService {
     this.setPasswordApiClient = setPasswordApiClient;
   }
 
-  public User retrieve(int id) {
-    return userManagementApiClient.getById(id);
+  public User retrieve(UUID uuid) {
+    return userManagementApiClient.getByUuid(uuid);
   }
 
-  public List<User> find(int localAuthority, String nameFilter) {
+  public List<User> find(String localAuthorityShortCode, String nameFilter) {
     List<User> usersResponse =
-        this.userManagementApiClient.getUsersForAuthority(localAuthority, nameFilter);
+        this.userManagementApiClient.getUsersForAuthority(localAuthorityShortCode, nameFilter);
     if (!usersResponse.isEmpty()) {
       Collections.sort(usersResponse, new UserComparatorByNameAscendingOrderCaseInsensitive());
     }
     return usersResponse;
   }
 
-  public List<User> find(int localAuthority) {
-    return find(localAuthority, "");
+  public List<User> find(String localAuthorityShortCode) {
+    return find(localAuthorityShortCode, "");
   }
 
   public User create(User user) {
@@ -47,15 +48,15 @@ public class UserService {
     return userManagementApiClient.updateUser(user);
   }
 
-  public User updatePassword(String uuid, String password, String passwordConfirm) {
+  public User updatePassword(UUID uuid, String password, String passwordConfirm) {
     return setPasswordApiClient.updatePassword(uuid, password, passwordConfirm);
   }
 
-  public void delete(Integer id) {
-    userManagementApiClient.deleteUser(id);
+  public void delete(UUID uuid) {
+    userManagementApiClient.deleteUser(uuid);
   }
 
-  public void requestPasswordReset(Integer id) {
-    userManagementApiClient.requestPasswordReset(id);
+  public void requestPasswordReset(UUID uuid) {
+    userManagementApiClient.requestPasswordReset(uuid);
   }
 }

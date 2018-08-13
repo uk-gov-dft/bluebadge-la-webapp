@@ -35,7 +35,7 @@ public class CreateANewUserControllerTest {
   private static final String NAME = "joeblogs@joe.com";
   private static final String NAME_WRONG_FORMAT = "111";
   private static final int ROLE_ID = 1;
-  private static final int LOCAL_AUTHORITY_ID = 1;
+  private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
   public static final String ERROR_IN_NAME = "error in name";
 
@@ -70,18 +70,19 @@ public class CreateANewUserControllerTest {
             .name("Joe")
             .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().id(LOCAL_AUTHORITY_ID).build())
+            .localAuthority(LocalAuthority.builder().shortCode(LOCAL_AUTHORITY_SHORT_CODE).build())
             .roleId(ROLE_ID)
             .build();
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
     user =
-        new User()
+        User.builder()
             .emailAddress(EMAIL)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_ID)
+            .build();
   }
 
   @Test
@@ -98,11 +99,12 @@ public class CreateANewUserControllerTest {
       createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
-        new User()
+        User.builder()
             .emailAddress(EMAIL)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_ID)
+            .build();
 
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc

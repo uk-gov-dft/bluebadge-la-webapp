@@ -48,9 +48,14 @@ Feature: Dft BlueBadge LA Manage User
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     And I can click on the "Manage users" link on left navigation
-    When I click on the first name link from users table
+    When I can click on the "Create a new user" button
+    And I enter full name and email address and clicks on create a new user button
+    And I should see the newly created user is on the users list
+    When I search for newly create user using email address
+    And I click on the first name link from users table
     Then I should see the title "User details"
     When I change email address and clicks on update button
+    And I search for newly create user using full name
     Then I should see the relevant email address has updated
 
   Scenario: Verify update user details with invalid email address
