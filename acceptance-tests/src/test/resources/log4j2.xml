@@ -12,7 +12,7 @@
 
         <Logger name="uk.gov.service.bluebadge" level="info"/>
 
-        <Root level="info">
+        <Root level="error">
             <AppenderRef ref="console"/>
         </Root>
 
