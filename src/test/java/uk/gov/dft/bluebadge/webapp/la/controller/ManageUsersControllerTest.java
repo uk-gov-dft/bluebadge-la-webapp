@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -65,19 +64,14 @@ public class ManageUsersControllerTest {
 
     userSignedIn =
         uk.gov.dft.bluebadge.common.security.model.User.builder()
-            .name("Joe")
-            .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().shortCode(LOCAL_AUTHORITY_SHORT_CODE).build())
-            .roleId(ROLE_ID)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
     userDataSignedIn =
         uk.gov.dft.bluebadge.common.security.model.User.builder()
-            .name("Joe")
-            .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().shortCode(LOCAL_AUTHORITY_SHORT_CODE).build())
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
@@ -108,7 +102,7 @@ public class ManageUsersControllerTest {
 
     allUsers = Arrays.asList(user2, userJane, user3);
     List<User> users = new ArrayList<>(allUsers);
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode())).thenReturn(users);
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityShortCode())).thenReturn(users);
   }
 
   @Test
@@ -129,7 +123,7 @@ public class ManageUsersControllerTest {
       showManageUsers_shouldDisplayUsersFilteredFromCurrentUserLocalAuthority_WhenSearchIsNonEmpty()
           throws Exception {
     List<User> users = Lists.newArrayList(userJane);
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode(), NAME_JANE))
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityShortCode(), NAME_JANE))
         .thenReturn(users);
     mockMvc
         .perform(get("/manage-users").param("search", NAME_JANE))
@@ -146,7 +140,7 @@ public class ManageUsersControllerTest {
   public void showManageUsers_shouldDisplayNoUsers_WhenSearchIsNonEmptyAndThereNoAreUsers()
       throws Exception {
     List<User> users = Lists.newArrayList();
-    when(userServiceMock.find(userSignedIn.getLocalAuthority().getShortCode(), NAME_NOT_FOUND))
+    when(userServiceMock.find(userSignedIn.getLocalAuthorityShortCode(), NAME_NOT_FOUND))
         .thenReturn(users);
     mockMvc
         .perform(get("/manage-users").param("search", NAME_NOT_FOUND))

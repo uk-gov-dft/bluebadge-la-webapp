@@ -28,6 +28,7 @@ public class CreateANewUserController {
 
   private static final String REDIRECT_URL_MANAGE_USERS =
       "redirect:" + ManageUsersController.URL_MANAGE_USERS;
+  private static final Integer TODO_HARDCODED_CREATE_USER_ROLE_ID = 2;
 
   private final UserService userService;
   private final CreateANewUserFormRequestToUser createANewUserRequest2User;
@@ -58,8 +59,8 @@ public class CreateANewUserController {
       uk.gov.dft.bluebadge.common.security.model.User signedInUser =
           securityUtils.getCurrentUserDetails();
       User user = createANewUserRequest2User.convert(formRequest);
-      user.setLocalAuthorityShortCode(signedInUser.getLocalAuthority().getShortCode());
-      user.setRoleId(signedInUser.getRoleId());
+      user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
+      user.setRoleId(TODO_HARDCODED_CREATE_USER_ROLE_ID);
       log.debug("Creating user for email {}", user.getEmailAddress());
       userService.create(user);
       return REDIRECT_URL_MANAGE_USERS;
