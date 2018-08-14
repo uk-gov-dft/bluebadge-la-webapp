@@ -33,7 +33,6 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
   private static final String APPLICANT_TYPE_ORGANISATION = "organisation";
   private static final String APPLICANT_TYPE_PERSON = "person";
 
-
   @GetMapping(URL)
   public String show(
       @RequestParam(name = "action", required = false) String action,
@@ -79,7 +78,8 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
 
   @ModelAttribute("applicantTypeOptions")
   public List<ReferenceData> applicantTypeOptions() {
-    ReferenceData person = new ReferenceData().description("A person").shortCode(APPLICANT_TYPE_PERSON);
+    ReferenceData person =
+        new ReferenceData().description("A person").shortCode(APPLICANT_TYPE_PERSON);
     ReferenceData organisation =
         new ReferenceData().description("An organisation").shortCode(APPLICANT_TYPE_ORGANISATION);
     return Lists.newArrayList(person, organisation);

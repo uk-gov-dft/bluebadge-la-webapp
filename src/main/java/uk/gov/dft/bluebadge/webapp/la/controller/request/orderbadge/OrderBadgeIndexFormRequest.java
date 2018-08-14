@@ -1,10 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
 
 @Data
 @Builder
