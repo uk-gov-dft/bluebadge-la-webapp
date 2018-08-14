@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class OrderBadgeIndexFormRequest implements OrderBadgeBaseDetailsFormRequest {
+public class OrderBadgeIndexFormRequest {
   @NotBlank(message = "{NotNull.badge.applicantType}")
   private String applicantType;
 }
