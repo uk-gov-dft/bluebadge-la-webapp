@@ -43,6 +43,7 @@ public class BadgeDetailsController {
       model.addAttribute("isBadgeActive", isBadgeActive);
 
       BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badge.get());
+      model.addAttribute("partyTypeCode", badge.get().getParty().getTypeCode());
       model.addAttribute("badge", viewModel);
       return TEMPLATE;
     } else {

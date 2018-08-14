@@ -18,10 +18,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToBadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.BadgePartyTypeEnum;
 
 public class BadgeDetailsControllerTest extends BaseControllerTest {
   private static final String BADGE_NUMBER = "KKKKJ9";
@@ -54,7 +56,26 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
   }
 
   @Test
-  public void show_shouldDisplayBadgeDetails_WhenBadgeExists() throws Exception {
+  public void show_shouldDisplayBadgeDetailsForPerson_WhenBadgeExists() throws Exception {
+    Party party = new Party();
+    party.setTypeCode(BadgePartyTypeEnum.PERSON.getCode());
+    badge.setParty(party);
+
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
+    when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
+    mockMvc
+        .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
+        .andExpect(status().isOk())
+        .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
+        .andExpect(model().attribute("badge", badgeViewModel));
+  }
+
+  @Test
+  public void show_shouldDisplayBadgeDetailsForOrganisation_WhenBadgeExists() throws Exception {
+    Party party = new Party();
+    party.setTypeCode(BadgePartyTypeEnum.ORGANISATION.getCode());
+    badge.setParty(party);
+
     when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
     when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
     mockMvc
