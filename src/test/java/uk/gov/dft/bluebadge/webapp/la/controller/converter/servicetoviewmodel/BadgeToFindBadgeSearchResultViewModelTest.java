@@ -34,6 +34,7 @@ public class BadgeToFindBadgeSearchResultViewModelTest {
           .badgeNumber(BADGE_NUMBER)
           .party(
               new Party()
+                  .typeCode("PERSON")
                   .person(new Person().badgeHolderName(BADGE_HOLDER_NAME))
                   .contact(new Contact().postCode(POSTCODE)))
           .localAuthorityShortCode(LOCAL_AUTHORITY)

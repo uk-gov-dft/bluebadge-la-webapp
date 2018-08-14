@@ -46,4 +46,22 @@ public class BadgeDetailsSiteSteps {
         sitePage.getDocumentTitle(),
         is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
   }
+
+  @And("^I should see correct details for organisation or person$")
+  public void iShouldSeeCorrectDetailsForOrganisationOrPerson() throws Throwable {
+    WebElement orgTitle = sitePage.findElementWithText("Organisation details");
+    WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
+
+    // Waiting for Miguel's story to finish first
+    // check scenario context for type of application
+    // and then make assertion accordingly
+
+    /*if(scenarioContext.getContext("typeCode") === "PERSON") {
+      assertNotNull(personalTitle);
+      assertEquals(orgTitle, null);
+    } else {
+      assertNotNull(orgTitle);
+      assertEquals(personalTitle, null);
+    }*/
+  }
 }

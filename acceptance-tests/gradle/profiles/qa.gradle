@@ -8,7 +8,7 @@ task acceptanceTest(type:Test, dependsOn: functionalTestClasses){
     testClassesDir = file(project.sourceSets.functionalTest.output.classesDir)
     reports.junitXml.destination = "$buildDir/test-results/functional"
     reports.html.destination = "$buildDir/reports/tests/functional"
-    systemProperty 'baseUrl', 'http://qa.bluebadge.dft.gov.uk'
+    systemProperty 'baseUrl', 'https://la-webapp.qa.does.not.exist/'
 
     systemProperties System.getProperties()
 }

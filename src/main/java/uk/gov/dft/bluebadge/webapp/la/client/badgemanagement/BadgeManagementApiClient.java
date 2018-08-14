@@ -12,7 +12,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
@@ -25,6 +27,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
+  public static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
 
   private final RestTemplate restTemplate;
 
@@ -122,5 +125,24 @@ public class BadgeManagementApiClient extends BaseApiClient {
     }
 
     return response.getData();
+  }
+
+  public void cancelBadge(String badgeNumber, String reason) {
+    Assert.notNull(badgeNumber, "cancel badge, badge number not provided");
+    Assert.notNull(reason, "reason for cancellation is not provided");
+
+    String uri = UriComponentsBuilder.fromUriString(CANCEL_ENDPOINT).build().toUriString();
+
+    BadgeCancelRequest badgeCancelRequest = new BadgeCancelRequest();
+    badgeCancelRequest.setBadgeNumber(badgeNumber);
+    badgeCancelRequest.setCancelReasonCode(reason);
+
+    HttpEntity<BadgeCancelRequest> httpRequest = new HttpEntity<>(badgeCancelRequest);
+
+    try {
+      restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
   }
 }

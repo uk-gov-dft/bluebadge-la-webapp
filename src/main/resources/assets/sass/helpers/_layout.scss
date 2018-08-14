@@ -9,6 +9,7 @@ body {
 		width: 100%;
 		height: 100%;
 		display: table;
+		table-layout: fixed;
 
 		.dft-width-container {
 			@include govuk-media-query($from: desktop) {
@@ -16,6 +17,7 @@ body {
 				padding-left: 50px;
 				padding-right: 50px;
 				display: table-cell;
+				word-wrap: break-word;
 			}
 		}
 
