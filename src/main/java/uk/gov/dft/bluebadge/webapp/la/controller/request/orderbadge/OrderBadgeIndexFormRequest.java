@@ -4,9 +4,11 @@ import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @Builder
-public class OrderBadgeIndexFormRequest {
+public class OrderBadgeIndexFormRequest implements Serializable {
   @NotBlank(message = "{NotNull.badge.applicantType}")
   private String applicantType;
 }
