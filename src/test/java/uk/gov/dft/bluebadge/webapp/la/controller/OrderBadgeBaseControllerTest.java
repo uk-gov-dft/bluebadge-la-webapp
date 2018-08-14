@@ -9,8 +9,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFor
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-import java.time.LocalDate;
-
 public abstract class OrderBadgeBaseControllerTest {
 
   // details

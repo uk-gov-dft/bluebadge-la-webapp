@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.BadgePartyTypeEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Component
@@ -31,9 +32,22 @@ public class BadgeToFindBadgeSearchResultViewModel
     String localAuthorityDisplayText =
         referenceDataService.retrieveLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
-    return FindBadgeSearchResultViewModel.builder()
+
+    String partyTypeCode = source.getParty().getTypeCode();
+
+    FindBadgeSearchResultViewModel.FindBadgeSearchResultViewModelBuilder viewModel =
+        FindBadgeSearchResultViewModel.builder();
+
+    if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
+      viewModel.name(source.getParty().getPerson().getBadgeHolderName());
+    }
+
+    if (partyTypeCode.equals(BadgePartyTypeEnum.ORGANISATION.getCode())) {
+      viewModel.name(source.getParty().getOrganisation().getBadgeHolderName());
+    }
+
+    return viewModel
         .badgeNumber(source.getBadgeNumber())
-        .name(source.getParty().getPerson().getBadgeHolderName())
         .postCode(source.getParty().getContact().getPostCode())
         .localAuthority(localAuthorityDisplayText)
         .expiryDate(source.getExpiryDate().format(formatter))
