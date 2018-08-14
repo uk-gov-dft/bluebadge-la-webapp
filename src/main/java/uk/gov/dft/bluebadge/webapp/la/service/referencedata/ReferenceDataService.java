@@ -30,8 +30,10 @@ public class ReferenceDataService {
    */
   private void init() {
     if (!isLoaded.getAndSet(true)) {
+
       List<ReferenceData> referenceDataList =
           referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
+
       groupedReferenceDataList =
           referenceDataList
               .stream()
@@ -49,6 +51,10 @@ public class ReferenceDataService {
                           Collectors.toMap(
                               ReferenceData::getShortCode, ReferenceData::getDescription))));
     }
+  }
+
+  public List<ReferenceData> retrieveCancellations() {
+    return retrieveReferenceDataList(RefDataGroupEnum.CANCEL);
   }
 
   public List<ReferenceData> retrieveEligilities() {

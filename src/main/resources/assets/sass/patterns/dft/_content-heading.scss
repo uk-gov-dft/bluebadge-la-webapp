@@ -1,0 +1,16 @@
+.dft-content-heading {
+	&--with-cta {
+		@include govuk-clearfix;
+
+		.govuk-heading-s,
+		.govuk-heading-m,
+		.govuk-heading-l,
+		.govuk-heading-xl {
+			display: inline-block;
+		}
+
+		.cta {
+			float: right;
+		}
+	}
+}

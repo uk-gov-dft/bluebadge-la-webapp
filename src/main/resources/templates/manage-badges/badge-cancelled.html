@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master.html}">
+
+<head>
+    <title th:text="#{badgeCancelled.html.title} + ' ' + ${badgeNumber} + ' ' + #{common.title.suffix}"></title>
+</head>
+
+<body>
+
+<main layout:fragment="content">
+    <section class="dft-content-container--full">
+
+        <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title" data-uipath="badge.ordered.title" th:text="#{badgeCancelled.html.title}"></h1>
+
+            <div class="govuk-panel__body" data-uipath="badge.cancelled.content">
+                <span th:text="#{badgeCancelled.badgeNumber.intro}" th:remove="tag"></span>
+                <br>
+                <strong data-uipath="badge.cancelled.num" th:text="${badgeNumber}"></strong>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+
+</html>

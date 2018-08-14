@@ -1,5 +1,5 @@
 @BadgeDetails
-Feature: Dft BlueBadge LA Find a Badge
+Feature: Dft BlueBadge LA View Badge Details
 
   As a Blue Badge team member
   I want to be able to view badges details

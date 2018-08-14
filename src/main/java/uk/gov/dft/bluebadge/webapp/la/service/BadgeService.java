@@ -13,6 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 
 @Service
 @Slf4j
@@ -60,5 +61,11 @@ public class BadgeService {
       return Lists.newArrayList();
     }
     return badgeManagementApiClient.findBadgeByName(name);
+  }
+
+  public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {
+    Assert.notNull(badgeNumber, "Badge number should not be null");
+    Assert.notNull(reason, "cancellation reason should not be null");
+    badgeManagementApiClient.cancelBadge(badgeNumber, reason.getValue());
   }
 }
