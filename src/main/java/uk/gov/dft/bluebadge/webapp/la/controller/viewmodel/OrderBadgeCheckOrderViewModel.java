@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.awt.*;
 import lombok.Builder;
 import lombok.Data;
 

@@ -17,7 +17,7 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/details}" th:object="${formRequest}" method="post" enctype="multipart/form-data" novalidate>
 
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
@@ -61,6 +61,27 @@
 
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/govuk-select :: govuk-select('Select from list', 'eligibility', null, ${eligibilityOptions}) }"/>
+            </div>
+
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="photoTitle">Upload photo (optional)</h2>
+
+            <div class="dft-width-one-half">
+                <p class="govuk-body">Photos should:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>be either JPEG, PNG or GIF format</li>
+                    <li>not be bigger than 10MB</li>
+                </ul>
+
+                <div th:class="${#fields.hasErrors('photo')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+                    <span class="govuk-error-message"
+                          th:if="${#fields.hasErrors('photo')}" th:errors="${formRequest.photo}"></span>
+
+                    <label class="govuk-label" for="photo">Upload a file</label>
+                    <p class="govuk-body" th:if="${photos}">You have already uploaded a photo</p>
+                    <input type="file" class="govuk-file-upload" th:field="${formRequest.photo}" id="photo">
+                </div>
             </div>
 
             <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">

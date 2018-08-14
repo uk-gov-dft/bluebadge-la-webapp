@@ -22,6 +22,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
 
   public OrderBadgeCheckOrderViewModel convert(
       OrderBadgePersonDetailsFormRequest details, OrderBadgeProcessingFormRequest processing) {
+
     Assert.notNull(details, "details cannot be null");
     Assert.notNull(processing, "processing cannot be null");
     StringBuilder address = new StringBuilder(details.getBuildingAndStreet());

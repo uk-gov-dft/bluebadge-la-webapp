@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
@@ -35,6 +36,8 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
   public String getDob() {
     return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
+
+  private MultipartFile photo;
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
   private String nino;
