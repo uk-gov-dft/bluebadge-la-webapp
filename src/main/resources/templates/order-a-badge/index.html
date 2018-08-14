@@ -12,11 +12,10 @@
 		<div class="dft-grid-row">
 			<div class="dft-grid-col dft-grid-col--two-thirds">
 
-				<div class="dft-group-heading">
-					<p class="dft-sub-heading" data-uipath="step">Step 1</p>
-					<h1 class="govuk-heading-l" data-uipath="title">Order a badge</h1>
-				</div>
-
+				<h1 class="govuk-heading-l" data-uipath="title">
+					<span class="govuk-caption-m" th:text="#{common.text.step} + ' 1'"></span>
+					<span th:remove="tag" th:text="#{orderbadge.index.title.h1}"></span>
+				</h1>
 				<div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 			</div>
 		</div>
@@ -25,8 +24,8 @@
 			<div class="dft-grid-col">
 				<form th:action="@{/order-a-badge/}" th:object="${formRequest}" method="post" novalidate>
 
-					<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Who is the badge for?', 'applicantType', null, ${applicantTypeOptions}) }"/>
-					<input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+					<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.index.h2.applicantType}, 'applicantType', null, ${applicantTypeOptions}) }"/>
+					<input th:value="#{common.button.continue}" type="submit" data-uipath="continue" class="govuk-button">
 
 				</form>
 			</div>

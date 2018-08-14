@@ -11,7 +11,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" aria-label="go back" data-uipath="back-link"
+        <a th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link"
            class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
@@ -19,10 +19,10 @@
 <main layout:fragment="content">
 
     <section class="dft-content-container--full">
-        <div class="dft-group-heading">
-            <p class="dft-sub-heading" data-uipath="step">Step 3</p>
-            <h1 class="govuk-heading-l" data-uipath="title">Processing</h1>
-        </div>
+        <h1 class="govuk-heading-l" data-uipath="title">
+            <span class="govuk-caption-m" th:text="#{common.text.step} + ' 3'"></span>
+            <span th:remove="tag" th:text="#{orderbadge.processing.title.h1}"></span>
+        </h1>
 
         <div class="dft-width-two-thirds">
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
@@ -30,43 +30,38 @@
 
         <form th:action="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:object="${formRequest}" method="post" novalidate>
 
-            <h2 class="govuk-heading-m">Application details</h2>
+            <h2 class="govuk-heading-m" th:text="#{orderbadge.processing.h2.applicationDetails}"/>
 
             <div class="dft-width-one-half" th:with="isPerson=${applicantType=='person'}">
-                <div th:replace="~{ fragments/form-elements :: govuk-date('Application date', (${isPerson} ? 'For example, 31 3 1980' : ''), 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
-
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Application channel', 'applicationChannel', null, ${appSourceOptions}) }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-date(#{orderbadge.processing.label.applicationDate}, #{orderbadge.processing.hint.applicationDate}, 'applicationDateDay', 'applicationDateMonth', 'applicationDateYear', 'applicationDate') }"/>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.processing.label.applicationChannel}, 'applicationChannel', null, ${appSourceOptions}) }"/>
             </div>
 
             <hr class="dft-hr govuk-!-margin-bottom-6">
 
-            <h2 class="govuk-heading-m" data-uipath="badgeDetailsTitle">Badge details</h2>
+            <h2 class="govuk-heading-m" data-uipath="badgeDetailsTitle" th:text="#{orderbadge.processing.h2.badgeDetails}"/>
 
             <div class="dft-width-one-half">
                 <span th:if="${applicantType == 'organisation'}">
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Number of badges', 'numberOfBadges', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{orderbadge.processing.label.numberOfBages}, 'numberOfBadges', null, 'text') }"/>
                 </span>
                 <input th:if="${applicantType == 'person'}" type="hidden" id="numberOfBadges" name="numberOfBadges" th:attr="value = '1'"/>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Local authority reference number (optional)', 'localAuthorityReferenceNumber', null, 'text') }"/>
-                <div th:replace="~{ fragments/form-elements :: govuk-date('Badge start date', null, 'badgeStartDateDay', 'badgeStartDateMonth', 'badgeStartDateYear', 'badgeStartDate') }"/>
-                <div th:replace="~{ fragments/form-elements :: govuk-date('Badge expiry date', null, 'badgeExpiryDateDay', 'badgeExpiryDateMonth', 'badgeExpiryDateYear', 'badgeExpiryDateValid') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{orderbadge.processing.label.localReferenceNumberOptional}, 'localAuthorityReferenceNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-date(#{orderbadge.processing.label.badgeStartDate}, null, 'badgeStartDateDay', 'badgeStartDateMonth', 'badgeStartDateYear', 'badgeStartDate') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-date(#{orderbadge.processing.label.badgeExpiryDate}, null, 'badgeExpiryDateDay', 'badgeExpiryDateMonth', 'badgeExpiryDateYear', 'badgeExpiryDateValid') }"/>
             </div>
 
             <hr class="dft-hr govuk-!-margin-bottom-6">
 
-            <h2 class="govuk-heading-m" data-uipath="deliveryInfoTitle">Delivery information</h2>
+            <h2 class="govuk-heading-m" data-uipath="deliveryInfoTitle" th:text="#{orderbadge.processing.h2.deliveryInformation}"/>
 
             <div class="dft-width-one-half">
-
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Deliver to', 'deliverTo', null, ${deliverToOptions}) }"/>
-
-
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Delivery options', 'deliveryOptions', null, ${deliveryOptions}) }"/>
-
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.processing.label.deliverTo}, 'deliverTo', null, ${deliverToOptions}) }"/>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"/>
             </div>
 
-            <input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+            <input th:value="#{common.button.continue}" type="submit" data-uipath="continue" class="govuk-button">
         </form>
 
     </section>

@@ -11,7 +11,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" aria-label="go back" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+        <a th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
 
@@ -19,13 +19,13 @@
 
     <section class="dft-content-container--full" th:with="noValue=#{value.not.provided},isPerson=${applicantType=='person'},isOrganisation=${applicantType=='organisation'}">
 
-        <h1 class="govuk-heading-l" data-uipath="title" th:text="#{orderbadge.checkorder.title}"></h1>
+        <h1 class="govuk-heading-l" data-uipath="title" th:text="#{orderbadge.checkorder.title}"/>
 
         <article class="dft-check-answers" >
             <div class="dft-check-answers__heading">
                 <h2 th:if="${isPerson}" class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title" th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
                 <h2 th:if="${isOrganisation}" class="govuk-heading-m dft-check-answers__title" data-uipath="organisationDetails.title" th:text="#{orderbadge.checkorder.organisationDetails.title}"></h2>
-                <a class="dft-check-answers__cta" th:aria-label="${'change ' + applicantType +  ' details'}"
+                <a class="dft-check-answers__cta" th:aria-label="${isPerson} ? #{orderbadge.processing.arialabel.changePersonDetails} : #{orderbadge.processing.arialabel.changeOrganisationDetails}"
                    data-uipath="details.change" th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
             </div>
 
@@ -96,7 +96,7 @@
         <article class="dft-check-answers">
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title" th:text="#{orderbadge.checkorder.processing.title}"></h2>
-                <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change"
+                <a class="dft-check-answers__cta" th:aria-label="#{orderbadge.processing.arialabel.changeProcessingDetails}" data-uipath="processing.change"
                    th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
             </div>
 
