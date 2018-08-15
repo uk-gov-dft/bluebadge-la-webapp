@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -232,7 +233,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+                MockMvcRequestBuilders.multipart("/order-a-badge/details")
+                        .file(pdfMultipartIcorrectMock)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -265,7 +267,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-        .andExpect(model().errorCount(4));
+            .andExpect(model().attributeHasFieldErrors("formRequest", PHOTO_FIELD))
+        .andExpect(model().errorCount(5));
   }
 
   public void submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong() throws Exception {
