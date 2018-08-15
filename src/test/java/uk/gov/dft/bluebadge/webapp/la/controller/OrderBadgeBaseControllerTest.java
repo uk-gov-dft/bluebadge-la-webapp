@@ -1,8 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
@@ -30,6 +33,7 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String CONTACT_DETAILS_NAME_FIELD = "contactDetailsName";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS_FIELD = "contactDetailsEmailAddress";
   protected static final String GENDER_FIELD = "gender";
+  protected static final String PHOTO_FIELD = "photo";
 
   protected static final String NAME = "My Name";
   protected static final String DOB_DAY = "15";
@@ -156,4 +160,7 @@ public abstract class OrderBadgeBaseControllerTest {
   @Mock protected SecurityUtils securityUtilsMock;
   @Mock protected ReferenceDataService referenceDataServiceMock;
   @Mock protected BadgeService badgeServiceMock;
+
+  MockMultipartFile photoMultipartMock = new MockMultipartFile("photo", "file.jpg", "mage/jpeg", "photoData".getBytes());
+  MockMultipartFile pdfMultipartIcorrectMock = new MockMultipartFile("photo", "file.pdf", "application/pdf", "pdfData".getBytes());
 }
