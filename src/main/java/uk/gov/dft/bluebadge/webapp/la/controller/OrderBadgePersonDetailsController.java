@@ -2,11 +2,9 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
@@ -38,21 +37,27 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class OrderBadgePersonDetailsController {
   public static final String URL = "/order-a-badge/details";
   public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-details";
-  private static final String TEMPLATE = "order-a-badge/details";
+    private static final String TEMPLATE = "order-a-badge/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
   private static final String FORM_ACTION_RESET = "reset";
+  public static final String PHOTO_SESSION_KEY = "photos";
+    public static final int THUMB_IMAGE_HEIGHT = 300;
 
-  private String[] allowedFileTypes =
+    private String[] allowedFileTypes =
       new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
 
   private ReferenceDataService referenceDataService;
 
+  private ImageProcessingService imageProcessingService;
+
   @Autowired
-  public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
+  public OrderBadgePersonDetailsController(
+      ReferenceDataService referenceDataService, ImageProcessingService imageProcessing) {
     this.referenceDataService = referenceDataService;
+    this.imageProcessingService = imageProcessing;
   }
 
   @GetMapping(URL)
@@ -65,12 +70,12 @@ public class OrderBadgePersonDetailsController {
       session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
       session.removeAttribute(FORM_REQUEST_SESSION);
       session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
-      session.removeAttribute("photos");
+      session.removeAttribute(PHOTO_SESSION_KEY);
     } else {
       Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
       if (sessionFormRequest != null) {
         BeanUtils.copyProperties(sessionFormRequest, formRequest);
-        model.addAttribute("photos", session.getAttribute("photos"));
+        model.addAttribute(PHOTO_SESSION_KEY, session.getAttribute(PHOTO_SESSION_KEY));
       }
     }
     return TEMPLATE;
@@ -92,27 +97,9 @@ public class OrderBadgePersonDetailsController {
       bindingResult.addError(new FieldError("photo", "photo", "Select a valid photo"));
     }
 
-    if(isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-        Map<String, String> photos = new HashMap<>();
-
-        try {
-
-            InputStream stream = formRequest.getPhoto().getInputStream();
-            BufferedImage buffer = ImageIO.read(stream);
-
-            String photoBase64 = convertImageBufferToBase64(buffer);
-            photos.put("photo", photoBase64);
-
-            // generate thumb image
-            Dimension dimension = calculateWidthBasedOnHeight(buffer.getWidth(), buffer.getHeight(), 300);
-            BufferedImage thumbBuffer = reSizeImage(buffer, dimension);
-            String thumbBase64 = convertImageBufferToBase64(thumbBuffer);
-            photos.put("thumb", "data:" + formRequest.getPhoto().getContentType() + ";base64, " + thumbBase64);
-
-            session.setAttribute("photos", photos);
-        } catch (IOException e) {
-            log.error("Failed to process user image", e);
-        }
+    if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+      Map<String, String> photos = processImage(formRequest.getPhoto());
+      session.setAttribute(PHOTO_SESSION_KEY, photos);
     }
 
     session.setAttribute(FORM_REQUEST_SESSION, formRequest);
@@ -123,38 +110,29 @@ public class OrderBadgePersonDetailsController {
     return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 
-  private BufferedImage reSizeImage(BufferedImage buffer, Dimension dimension) {
+  private Map<String, String> processImage(MultipartFile photo) {
+    Map<String, String> photos = new HashMap<>();
 
-      BufferedImage outputBuffer = new BufferedImage(dimension.width, dimension.height, BufferedImage.SCALE_SMOOTH);
+    try {
 
-      Graphics2D g2d = outputBuffer.createGraphics();
-      g2d.drawImage(buffer, 0, 0, dimension.width, dimension.height, null);
-      g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      g2d.dispose();
+      InputStream stream = photo.getInputStream();
+      BufferedImage buffer = ImageIO.read(stream);
 
-      return outputBuffer;
-  }
+      String photoBase64 = imageProcessingService.convertImageBufferToBase64(buffer);
+      photos.put("photo", photoBase64);
 
-  private String convertImageBufferToBase64(BufferedImage buffer) {
+      // generate thumb image
+      Dimension dimension =
+          imageProcessingService.calculateWidthBasedOnHeight(
+              buffer.getWidth(), buffer.getHeight(), THUMB_IMAGE_HEIGHT);
+      BufferedImage thumbBuffer = imageProcessingService.reSizeImage(buffer, dimension);
+      String thumbBase64 = imageProcessingService.convertImageBufferToBase64(thumbBuffer);
+      photos.put("thumb", "data:" + photo.getContentType() + ";base64, " + thumbBase64);
+    } catch (IOException e) {
+      log.error("Failed to process user image", e);
+    }
 
-      String base64String = null;
-
-      try {
-          ByteArrayOutputStream os = new ByteArrayOutputStream();
-          ImageIO.write(buffer, "JPG", os);
-          base64String = Base64.getEncoder().encodeToString(os.toByteArray());
-      } catch (IOException e) {
-          log.error("Failed to convert image to base64", e);
-      }
-
-      return base64String;
-  }
-
-  private Dimension calculateWidthBasedOnHeight(double width, double height, int newHeight) {
-    double ratio = height / width;
-    int newWidth = (int) (newHeight / ratio);
-    return new Dimension(newWidth, newHeight);
+    return photos;
   }
 
   @ModelAttribute("genderOptions")

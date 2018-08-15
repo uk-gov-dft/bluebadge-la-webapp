@@ -22,6 +22,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
+import uk.gov.dft.bluebadge.webapp.la.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -30,6 +31,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   private MockMvc mockMvc;
 
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private ImageProcessingService imageProcessingService;
 
   private OrderBadgePersonDetailsController controller;
 
@@ -50,7 +52,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderBadgePersonDetailsController(referenceDataServiceMock);
+    controller =
+        new OrderBadgePersonDetailsController(referenceDataServiceMock, imageProcessingService);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

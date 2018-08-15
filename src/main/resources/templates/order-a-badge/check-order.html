@@ -82,9 +82,10 @@
                 </div>
 
                 <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt">Photo</dt>
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
                     <dd class="dft-data-list__dd">
-                        <img th:src="${data.photo}" alt="" />
+                        <img th:if="${photoThumb}" th:src="${photoThumb}" th:alt="'Photo of ' + ${data.fullName}" />
+                        <span th:unless="${photoThumb}" th:text="${noValue}"></span>
                     </dd>
                 </div>
             </dl>

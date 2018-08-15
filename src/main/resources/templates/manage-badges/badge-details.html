@@ -85,9 +85,10 @@
                     </div>
 
                     <div class="dft-data-list__item">
-                        <dt class="dft-data-list__dt">Photo</dt>
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
                         <dd class="dft-data-list__dd">
-                            <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
+                            <img th:if="${badge.photoUrl}" th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
+                            <span th:unless="${badge.photoUrl}" th:text="${noValue}"></span>
                         </dd>
                     </div>
                 </dl>

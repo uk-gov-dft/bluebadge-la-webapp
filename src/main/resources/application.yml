@@ -46,6 +46,14 @@ management:
         include: '*'
 
 spring:
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB
   devtools:
     restart:
       additional-exclude: sass/**,js/**
