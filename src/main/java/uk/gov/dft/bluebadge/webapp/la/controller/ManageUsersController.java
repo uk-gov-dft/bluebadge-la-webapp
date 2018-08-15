@@ -37,14 +37,14 @@ public class ManageUsersController {
   public String manageUsers(@ModelAttribute final ManageUsersFormRequest formRequest, Model model) {
     uk.gov.dft.bluebadge.common.security.model.User user = securityUtils.getCurrentUserDetails();
     log.debug("Showing manage users page.");
-    List<User> allUsers = userService.find(user.getLocalAuthority().getShortCode());
+    List<User> allUsers = userService.find(user.getLocalAuthorityShortCode());
     List<User> users = Lists.newArrayList();
 
     String trimmedSearch = StringUtils.trimToEmpty(formRequest.getSearch());
     if (StringUtils.isEmpty(trimmedSearch)) {
       users.addAll(allUsers);
     } else {
-      users.addAll(userService.find(user.getLocalAuthority().getShortCode(), trimmedSearch));
+      users.addAll(userService.find(user.getLocalAuthorityShortCode(), trimmedSearch));
     }
 
     model.addAttribute("search", trimmedSearch);
