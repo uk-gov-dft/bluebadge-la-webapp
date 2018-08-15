@@ -58,6 +58,7 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
         (OrderBadgeIndexFormRequest) session.getAttribute(SESSION_FORM_REQUEST);
     // If there was a running session and you change the applicant type, the session is wiped out
     if (sessionFormRequest != null
+        && sessionFormRequest.getApplicantType() != null
         && !sessionFormRequest
             .getApplicantType()
             .equalsIgnoreCase(formRequest.getApplicantType())) {
