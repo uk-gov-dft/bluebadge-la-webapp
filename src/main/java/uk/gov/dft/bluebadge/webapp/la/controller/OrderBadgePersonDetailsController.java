@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,17 +35,17 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class OrderBadgePersonDetailsController {
   public static final String URL = "/order-a-badge/details";
   public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-details";
-    private static final String TEMPLATE = "order-a-badge/details";
+  private static final String TEMPLATE = "order-a-badge/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL;
 
   private static final String FORM_ACTION_RESET = "reset";
   public static final String PHOTO_SESSION_KEY = "photos";
-    public static final int THUMB_IMAGE_HEIGHT = 300;
-
-    private String[] allowedFileTypes =
-      new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
+  public static final int THUMB_IMAGE_HEIGHT = 300;
+  /*
+  private String[] allowedFileTypes =
+    new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};*/
 
   private ReferenceDataService referenceDataService;
 
@@ -89,18 +87,20 @@ public class OrderBadgePersonDetailsController {
       HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    Boolean isFileTypeCorrect =
-        Arrays.asList(allowedFileTypes)
-            .contains(formRequest.getPhoto().getContentType().toLowerCase());
-
-    if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-      bindingResult.addError(new FieldError("photo", "photo", "Select a valid photo"));
-    }
-
-    if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-      Map<String, String> photos = processImage(formRequest.getPhoto());
-      session.setAttribute(PHOTO_SESSION_KEY, photos);
-    }
+    /*
+        Boolean isFileTypeCorrect =
+            Arrays.asList(allowedFileTypes)
+                .contains(formRequest.getPhoto().getContentType().toLowerCase());
+    */
+    /*
+        if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+          bindingResult.addError(new FieldError("photo", "photo", "Select a valid photo"));
+        }
+    */
+    //  if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+    Map<String, String> photos = processImage(formRequest.getPhoto());
+    session.setAttribute(PHOTO_SESSION_KEY, photos);
+    //}
 
     session.setAttribute(FORM_REQUEST_SESSION, formRequest);
 

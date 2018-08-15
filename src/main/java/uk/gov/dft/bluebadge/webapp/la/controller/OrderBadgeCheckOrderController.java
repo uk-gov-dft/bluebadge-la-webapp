@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +27,11 @@ public class OrderBadgeCheckOrderController {
 
   public static final String REDIRECT_BADGE_ORDERED =
       "redirect:" + OrderBadgeBadgeOrderedController.URL;
-    public static final String PHOTO_SESSION_KEY = "photos";
-    public static final String THUMB_SESSION_KEY = "thumb";
-    public static final String ORIGINAL_PHOTO_KEY = "photo";
+  public static final String PHOTO_SESSION_KEY = "photos";
+  public static final String THUMB_SESSION_KEY = "thumb";
+  public static final String ORIGINAL_PHOTO_KEY = "photo";
 
-    private BadgeService badgeService;
+  private BadgeService badgeService;
   private OrderBadgeFormsToBadgeOrderRequest converterToServiceModel;
   private OrderBadgeFormsToOrderBadgeCheckOrderViewModel converterToViewModel;
 
@@ -58,11 +57,12 @@ public class OrderBadgeCheckOrderController {
 
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
-    HashMap<String, String> photos = (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
+    HashMap<String, String> photos =
+        (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
 
-    if(photos != null) {
-        data.setPhoto(photos.get(THUMB_SESSION_KEY));
-        model.addAttribute("photoThumb", photos.get(THUMB_SESSION_KEY));
+    if (photos != null) {
+      data.setPhoto(photos.get(THUMB_SESSION_KEY));
+      model.addAttribute("photoThumb", photos.get(THUMB_SESSION_KEY));
     }
 
     model.addAttribute("data", data);
@@ -80,11 +80,12 @@ public class OrderBadgeCheckOrderController {
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm);
 
-      HashMap<String, String> photos = (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
+    HashMap<String, String> photos =
+        (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
 
-      if(photos != null) {
-          badgeOrderRequest.setImageFile(photos.get(ORIGINAL_PHOTO_KEY));
-      }
+    if (photos != null) {
+      badgeOrderRequest.setImageFile(photos.get(ORIGINAL_PHOTO_KEY));
+    }
 
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
     redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);

@@ -9,6 +9,8 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.PhotoSize;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.PhotoType;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
@@ -37,6 +39,7 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
     return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
+  @PhotoType @PhotoSize
   private MultipartFile photo;
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
