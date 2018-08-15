@@ -233,8 +233,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-                MockMvcRequestBuilders.multipart("/order-a-badge/details")
-                        .file(pdfMultipartIcorrectMock)
+            MockMvcRequestBuilders.multipart("/order-a-badge/details")
+                .file(pdfMultipartIcorrectMock)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -267,7 +267,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-            .andExpect(model().attributeHasFieldErrors("formRequest", PHOTO_FIELD))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
         .andExpect(model().errorCount(5));
   }
 

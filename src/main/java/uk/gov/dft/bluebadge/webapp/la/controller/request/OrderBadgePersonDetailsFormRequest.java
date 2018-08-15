@@ -1,17 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.PhotoSize;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.PhotoType;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -39,7 +38,6 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
     return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
-  @PhotoType @PhotoSize
   private MultipartFile photo;
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")

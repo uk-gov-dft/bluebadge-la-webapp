@@ -1,17 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +19,20 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Controller
 public class OrderBadgePersonDetailsController {
@@ -38,14 +41,14 @@ public class OrderBadgePersonDetailsController {
   private static final String TEMPLATE = "order-a-badge/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL;
+    "redirect:" + OrderBadgeProcessingController.URL;
 
   private static final String FORM_ACTION_RESET = "reset";
   public static final String PHOTO_SESSION_KEY = "photos";
   public static final int THUMB_IMAGE_HEIGHT = 300;
-  /*
+
   private String[] allowedFileTypes =
-    new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};*/
+    new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
 
   private ReferenceDataService referenceDataService;
 
@@ -53,17 +56,17 @@ public class OrderBadgePersonDetailsController {
 
   @Autowired
   public OrderBadgePersonDetailsController(
-      ReferenceDataService referenceDataService, ImageProcessingService imageProcessing) {
+    ReferenceDataService referenceDataService, ImageProcessingService imageProcessing) {
     this.referenceDataService = referenceDataService;
     this.imageProcessingService = imageProcessing;
   }
 
   @GetMapping(URL)
   public String show(
-      @RequestParam(name = "action", required = false) String action,
-      @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
-      Model model,
-      HttpSession session) {
+    @RequestParam(name = "action", required = false) String action,
+    @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
+    Model model,
+    HttpSession session) {
     if (FORM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
       session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
       session.removeAttribute(FORM_REQUEST_SESSION);
@@ -81,26 +84,24 @@ public class OrderBadgePersonDetailsController {
 
   @PostMapping(URL)
   public String submit(
-      @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
+    @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
+    BindingResult bindingResult,
+    Model model,
+    HttpSession session) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    /*
-        Boolean isFileTypeCorrect =
-            Arrays.asList(allowedFileTypes)
-                .contains(formRequest.getPhoto().getContentType().toLowerCase());
-    */
-    /*
-        if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-          bindingResult.addError(new FieldError("photo", "photo", "Select a valid photo"));
-        }
-    */
-    //  if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-    Map<String, String> photos = processImage(formRequest.getPhoto());
-    session.setAttribute(PHOTO_SESSION_KEY, photos);
-    //}
+    Boolean isFileTypeCorrect =
+      Arrays.asList(allowedFileTypes)
+        .contains(formRequest.getPhoto().getContentType().toLowerCase());
+
+    if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+      bindingResult.rejectValue("photo", "NotValid.badge.photo","Select a valid photo");
+    }
+
+    if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+      Map<String, String> photos = processImage(formRequest.getPhoto());
+      session.setAttribute(PHOTO_SESSION_KEY, photos);
+    }
 
     session.setAttribute(FORM_REQUEST_SESSION, formRequest);
 
@@ -123,8 +124,8 @@ public class OrderBadgePersonDetailsController {
 
       // generate thumb image
       Dimension dimension =
-          imageProcessingService.calculateWidthBasedOnHeight(
-              buffer.getWidth(), buffer.getHeight(), THUMB_IMAGE_HEIGHT);
+        imageProcessingService.calculateWidthBasedOnHeight(
+          buffer.getWidth(), buffer.getHeight(), THUMB_IMAGE_HEIGHT);
       BufferedImage thumbBuffer = imageProcessingService.reSizeImage(buffer, dimension);
       String thumbBase64 = imageProcessingService.convertImageBufferToBase64(thumbBuffer);
       photos.put("thumb", "data:" + photo.getContentType() + ";base64, " + thumbBase64);
@@ -143,12 +144,12 @@ public class OrderBadgePersonDetailsController {
   @ModelAttribute("eligibilityOptions")
   public Map<String, List<ReferenceData>> eligibilities() {
     return new TreeMap<>(
-        referenceDataService
-            .retrieveEligilities()
-            .stream()
-            .collect(
-                Collectors.groupingBy(
-                    ref ->
-                        "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
+      referenceDataService
+        .retrieveEligilities()
+        .stream()
+        .collect(
+          Collectors.groupingBy(
+            ref ->
+              "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
   }
 }

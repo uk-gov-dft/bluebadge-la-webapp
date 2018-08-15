@@ -1,11 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.io.InputStream;
 import java.time.LocalDate;
 import org.mockito.Mock;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
@@ -161,6 +159,8 @@ public abstract class OrderBadgeBaseControllerTest {
   @Mock protected ReferenceDataService referenceDataServiceMock;
   @Mock protected BadgeService badgeServiceMock;
 
-  MockMultipartFile photoMultipartMock = new MockMultipartFile("photo", "file.jpg", "mage/jpeg", "photoData".getBytes());
-  MockMultipartFile pdfMultipartIcorrectMock = new MockMultipartFile("photo", "file.pdf", "application/pdf", "pdfData".getBytes());
+  MockMultipartFile photoMultipartMock =
+      new MockMultipartFile("photo", "file.jpg", "mage/jpeg", "photoData".getBytes());
+  MockMultipartFile pdfMultipartIcorrectMock =
+      new MockMultipartFile("photo", "file.pdf", "application/pdf", "pdfData".getBytes());
 }
