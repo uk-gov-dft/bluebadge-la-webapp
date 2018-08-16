@@ -37,7 +37,7 @@ public class OrderBadgePersonDetailsFormRequest implements Serializable {
     return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
-  private MultipartFile photo;
+  private transient MultipartFile photo;
 
   @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
   private String nino;
