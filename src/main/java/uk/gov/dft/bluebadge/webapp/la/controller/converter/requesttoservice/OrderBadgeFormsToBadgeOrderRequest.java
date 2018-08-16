@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
@@ -31,8 +30,6 @@ public class OrderBadgeFormsToBadgeOrderRequest {
     Assert.notNull(processing, "processing cannot be null");
 
     LocalDate dob = LocalDate.of(details.getDobYear(), details.getDobMonth(), details.getDobDay());
-
-    LocalAuthority localAuthority = securityUtils.getCurrentLocalAuthority();
 
     Person person =
         new Person()
@@ -80,6 +77,6 @@ public class OrderBadgeFormsToBadgeOrderRequest {
         .expiryDate(expiryDate)
         .deliverToCode(processing.getDeliverTo())
         .deliveryOptionCode(processing.getDeliveryOptions())
-        .localAuthorityShortCode(localAuthority.getShortCode());
+        .localAuthorityShortCode(securityUtils.getCurrentLocalAuthorityShortCode());
   }
 }

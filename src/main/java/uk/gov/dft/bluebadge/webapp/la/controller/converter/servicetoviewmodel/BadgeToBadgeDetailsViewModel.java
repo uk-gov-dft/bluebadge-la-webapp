@@ -10,6 +10,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.BadgePartyTypeEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Component
@@ -33,16 +34,12 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String applicationDate = source.getApplicationDate().format(dateFormatter);
     String expiryDate = source.getExpiryDate().format(dateFormatter);
     String startDate = source.getStartDate().format(dateFormatter);
-    String dob = source.getParty().getPerson().getDob().format(dateFormatter);
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveApplicationChannelDisplayValue(
             source.getApplicationChannelCode());
     String eligibilityDisplayText =
         referenceDataService.retrieveEligibilityDisplayValue(source.getEligibilityCode());
-    String genderDisplayText =
-        referenceDataService.retrieveGenderDisplayValue(
-            source.getParty().getPerson().getGenderCode());
     String localAuthorityDisplayText =
         referenceDataService.retrieveLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
@@ -50,9 +47,30 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
 
     Contact contact = source.getParty().getContact();
-    Person person = source.getParty().getPerson();
 
-    return BadgeDetailsViewModel.builder()
+    BadgeDetailsViewModel.BadgeDetailsViewModelBuilder badgeView = BadgeDetailsViewModel.builder();
+    String partyTypeCode = source.getParty().getTypeCode();
+
+    if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
+      Person person = source.getParty().getPerson();
+      String dob = source.getParty().getPerson().getDob().format(dateFormatter);
+      String genderDisplayText =
+          referenceDataService.retrieveGenderDisplayValue(
+              source.getParty().getPerson().getGenderCode());
+      badgeView
+          .dob(dob)
+          .fullName(StringUtils.trimToNull(person.getBadgeHolderName()))
+          .gender(StringUtils.trimToNull(genderDisplayText))
+          .nino(StringUtils.trimToNull(person.getNino()))
+          .photoUrl(StringUtils.trimToNull(source.getImageLink()))
+          .eligibility(StringUtils.trimToNull(eligibilityDisplayText));
+    }
+
+    if (partyTypeCode.equals(BadgePartyTypeEnum.ORGANISATION.getCode())) {
+      badgeView.fullName(source.getParty().getOrganisation().getBadgeHolderName());
+    }
+
+    return badgeView
         .badgeNumber(StringUtils.trimToNull(source.getBadgeNumber()))
         .address(StringUtils.trimToNull(address))
         .applicationChannel(StringUtils.trimToNull(applicationChannelDisplayText))
@@ -63,14 +81,8 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .contactNumber(StringUtils.trimToNull(contact.getPrimaryPhoneNumber()))
         .emailAddress(StringUtils.trimToNull(contact.getEmailAddress()))
         .secondaryContactNumber(StringUtils.trimToNull(contact.getSecondaryPhoneNumber()))
-        .dob(dob)
-        .eligibility(StringUtils.trimToNull(eligibilityDisplayText))
-        .gender(StringUtils.trimToNull(genderDisplayText))
-        .fullName(StringUtils.trimToNull(person.getBadgeHolderName()))
         .issuedBy(StringUtils.trimToNull(localAuthorityDisplayText))
         .localAuthorityReference(StringUtils.trimToNull(source.getLocalAuthorityRef()))
-        .nino(StringUtils.trimToNull(person.getNino()))
-        .photoUrl(StringUtils.trimToNull(source.getImageLink()))
         .status(StringUtils.trimToNull(statusDisplayText))
         .build();
   }

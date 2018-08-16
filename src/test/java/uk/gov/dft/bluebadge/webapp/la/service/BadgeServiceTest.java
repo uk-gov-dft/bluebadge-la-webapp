@@ -1,7 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.google.common.collect.Lists;
 import java.util.List;
@@ -10,12 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.client.HttpClientErrorException;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 
 public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
@@ -128,5 +130,29 @@ public class BadgeServiceTest {
     when(badgeManagementApiClientMock.findBadgeByName(null)).thenReturn(badgesList);
     List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(null);
     assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
+  public void cancelABadge_shouldNotThrowException() {
+    doNothing()
+        .when(badgeManagementApiClientMock)
+        .cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE.getValue());
+    badgeService.cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void cancelABadge_byPassingNullAsReason_shouldThrowIllegalArgumentException() {
+    doThrow(HttpClientErrorException.class)
+        .when(badgeManagementApiClientMock)
+        .cancelBadge(any(), any());
+    badgeService.cancelBadge(BADGE_NUMBER, null);
+  }
+
+  @Test(expected = HttpClientErrorException.class)
+  public void cancelABadge_byPassingNullAsReason_shouldThrowHttpClientErrorException() {
+    doThrow(HttpClientErrorException.class)
+        .when(badgeManagementApiClientMock)
+        .cancelBadge(any(), any());
+    badgeService.cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
   }
 }

@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public class SetPasswordController {
   @PostMapping(URL_SET)
   public String setPassword(
       @Valid @ModelAttribute("formRequest") final SetPasswordFormRequest formRequest,
-      @PathVariable("uuid") String uuid,
+      @PathVariable("uuid") UUID uuid,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
