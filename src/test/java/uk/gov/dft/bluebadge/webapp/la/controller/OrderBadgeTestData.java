@@ -305,22 +305,4 @@ public class OrderBadgeTestData {
           .address(VIEW_MODEL_ADDRESS)
           .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
           .build();
-
-  /*protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
-  OrderBadgeCheckOrderViewModel.builder()
-    .fullName(NAME)
-    .address(ADDRESS)
-    .contactFullName(CONTACT_DETAILS_NAME)
-    .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-    .secondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-    .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-    .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-    .badgeStartDate(BADGE_START_DATE)
-    .badgeExpiryDate(BADGE_EXPIRY_DATE)
-    .applicationDate(APPLICATION_DATE)
-    .applicationChannel(APPLICATION_CHANNEL)
-    .deliverTo(DELIVER_TO)
-    .deliveryOptions(DELIVERY_OPTIONS)
-    .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
-    .build();*/
 }

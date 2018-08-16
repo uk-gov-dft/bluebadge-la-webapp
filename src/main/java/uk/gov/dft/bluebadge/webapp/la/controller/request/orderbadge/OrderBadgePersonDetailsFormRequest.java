@@ -15,7 +15,7 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
   private Integer numberOfBadges;
 
   @NotBlank(message = "{NotNull.user.name}")
-  @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
   @Size(max = 100)
   private String name;
 
@@ -40,10 +40,13 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
   private String nino;
 
   @NotBlank(message = "{NotNull.badge.buildingAndStreet}")
+  @Size(max = 100, min = 1, message = "{Size.badge.buildingAndStreet}")
   private String buildingAndStreet;
 
+  @Size(max = 100, message = "{Size.badge.optionalAddressField}")
   private String optionalAddressField;
 
+  @Size(max = 100, min = 1, message = "{Size.badge.townOrCity}")
   @NotBlank(message = "{NotNull.badge.townOrCity}")
   private String townOrCity;
 
@@ -54,7 +57,7 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
   )
   private String postcode;
 
-  @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
   private String contactDetailsName;
 
   @NotBlank(message = "{NotNull.badge.contactDetailsContactNumber}")

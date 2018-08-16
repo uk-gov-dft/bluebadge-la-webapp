@@ -11,15 +11,17 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 @Builder
 public class OrderBadgeOrganisationDetailsFormRequest implements OrderBadgeBaseDetailsFormRequest {
   @NotBlank(message = "{NotNull.user.name}")
-  @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
   @Size(max = 100)
   private String name;
 
   @NotBlank(message = "{NotNull.badge.buildingAndStreet}")
+  @Size(min = 1, max = 100, message = "{Size.badge.buildingAndStreet}")
   private String buildingAndStreet;
 
+  @Size(max = 100, message = "{Size.badge.optionalAddressField}")
   private String optionalAddressField;
 
+  @Size(min = 1, max = 100, message = "{Size.badge.townOrCity}")
   @NotBlank(message = "{NotNull.badge.townOrCity}")
   private String townOrCity;
 
@@ -31,7 +33,7 @@ public class OrderBadgeOrganisationDetailsFormRequest implements OrderBadgeBaseD
   private String postcode;
 
   @NotBlank(message = "{NotNull.user.name}")
-  @Pattern(regexp = ValidationPatterns.NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
   private String contactDetailsName;
 
   @NotBlank(message = "{NotNull.badge.contactDetailsContactNumber}")
