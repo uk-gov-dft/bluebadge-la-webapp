@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -101,9 +102,9 @@ public class OrderBadgePersonDetailsController {
         if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
 
             try {
-                Map<String, String> photos = processImage(formRequest.getPhoto());
+                HashMap<String, String> photos = processImage(formRequest.getPhoto());
                 session.setAttribute(PHOTO_SESSION_KEY, photos);
-            } catch (Exception e) {
+            } catch (IOException | NullPointerException e) {
                 bindingResult.rejectValue(PHOTO_FIELD_KEY, "NotValid.badge.photo", "Select a valid photo");
             }
         }
@@ -116,28 +117,23 @@ public class OrderBadgePersonDetailsController {
         return REDIRECT_ORDER_BADGE_PROCESSING;
     }
 
-    private Map<String, String> processImage(MultipartFile photo) throws Exception {
-        Map<String, String> photos = new HashMap<>();
+    private HashMap<String, String> processImage(MultipartFile photo) throws IOException {
+        HashMap<String, String> photos = new HashMap<>();
 
-        try {
+        InputStream stream = photo.getInputStream();
+        BufferedImage buffer = ImageIO.read(stream);
 
-            InputStream stream = photo.getInputStream();
-            BufferedImage buffer = ImageIO.read(stream);
+        String photoBase64 = imageProcessingService.convertImageBufferToBase64(buffer);
+        photos.put(PHOTO_FIELD_KEY, photoBase64);
 
-            String photoBase64 = imageProcessingService.convertImageBufferToBase64(buffer);
-            photos.put(PHOTO_FIELD_KEY, photoBase64);
+        // generate thumb image
+        Dimension dimension =
+                imageProcessingService.calculateWidthBasedOnHeight(
+                        buffer.getWidth(), buffer.getHeight(), THUMB_IMAGE_HEIGHT);
+        BufferedImage thumbBuffer = imageProcessingService.reSizeImage(buffer, dimension);
+        String thumbBase64 = imageProcessingService.convertImageBufferToBase64(thumbBuffer);
+        photos.put("thumb", "data:" + photo.getContentType() + ";base64, " + thumbBase64);
 
-            // generate thumb image
-            Dimension dimension =
-                    imageProcessingService.calculateWidthBasedOnHeight(
-                            buffer.getWidth(), buffer.getHeight(), THUMB_IMAGE_HEIGHT);
-            BufferedImage thumbBuffer = imageProcessingService.reSizeImage(buffer, dimension);
-            String thumbBase64 = imageProcessingService.convertImageBufferToBase64(thumbBuffer);
-            photos.put("thumb", "data:" + photo.getContentType() + ";base64, " + thumbBase64);
-        } catch (Exception exception) {
-            log.error("Failed to process user image", exception);
-            throw exception;
-        }
 
         return photos;
     }

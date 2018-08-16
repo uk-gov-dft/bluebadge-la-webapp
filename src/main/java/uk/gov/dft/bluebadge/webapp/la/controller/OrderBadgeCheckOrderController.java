@@ -80,8 +80,7 @@ public class OrderBadgeCheckOrderController {
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm);
 
-    HashMap<String, String> photos =
-        (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
+    HashMap<String, String> photos = (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
 
     if (photos != null) {
       badgeOrderRequest.setImageFile(photos.get(ORIGINAL_PHOTO_KEY));
