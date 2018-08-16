@@ -51,7 +51,8 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   protected static final String ELIGIBILITY = "PIP";
   protected static final String GENDER = "male";
-  protected static final MockMultipartFile EMPTY_PHOTO = new MockMultipartFile("photo", "", "", "".getBytes());
+  protected static final MockMultipartFile EMPTY_PHOTO =
+      new MockMultipartFile("photo", "", "", "".getBytes());
 
   protected static final String NAME_WRONG = "  My Na me 2";
   protected static final String DOB_DAY_WRONG = "32";
@@ -70,8 +71,8 @@ public abstract class OrderBadgeBaseControllerTest {
   protected static final MockMultipartFile PHOTO_WRONG =
       new MockMultipartFile("photo", "file.pdf", "application/pdf", "pdfData".getBytes());
 
-    protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
-            new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
+  protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
+      new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
 
   // processing
   protected static final String APPLICATION_DATE_DAY_FIELD = "applicationDateDay";
@@ -163,10 +164,10 @@ public abstract class OrderBadgeBaseControllerTest {
 
   protected MockMvc mockMvc;
 
-  public MockMultipartFile PHOTO() throws Exception{
-      File file = new File(System.getProperty("user.dir") + "/src/test/resources/icon-test.jpg");
-      FileInputStream stream = new FileInputStream(file);
-      return new MockMultipartFile("photo", "", "image/jpeg", stream);
+  public MockMultipartFile PHOTO() throws Exception {
+    File file = new File(System.getProperty("user.dir") + "/src/test/resources/icon-test.jpg");
+    FileInputStream stream = new FileInputStream(file);
+    return new MockMultipartFile("photo", "", "image/jpeg", stream);
   }
 
   @Mock protected SecurityUtils securityUtilsMock;

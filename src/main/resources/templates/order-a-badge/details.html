@@ -80,7 +80,7 @@
 
                     <label class="govuk-label" th:attr="for=photo">Upload a file</label>
                     <p class="govuk-body" th:if="${photos}">You have already uploaded a photo</p>
-                    <input type="file" class="govuk-file-upload" th:field="*{photo}">
+                    <input type="file" data-uipath="photo.field" class="govuk-file-upload" th:field="*{photo}">
                 </div>
             </div>
 
