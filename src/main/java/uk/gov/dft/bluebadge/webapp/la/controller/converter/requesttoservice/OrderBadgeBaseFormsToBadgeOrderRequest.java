@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice;
 
 import java.time.LocalDate;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeBaseDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
@@ -22,7 +21,6 @@ public abstract class OrderBadgeBaseFormsToBadgeOrderRequest<
 
   protected BadgeOrderRequest buildProcessing(
       BadgeOrderRequest badgeOrderRequest, OrderBadgeProcessingFormRequest processing) {
-    LocalAuthority localAuthority = securityUtils.getCurrentLocalAuthority();
 
     LocalDate applicationDate =
         LocalDate.of(
@@ -48,7 +46,7 @@ public abstract class OrderBadgeBaseFormsToBadgeOrderRequest<
         .expiryDate(expiryDate)
         .deliverToCode(processing.getDeliverTo())
         .deliveryOptionCode(processing.getDeliveryOptions())
-        .localAuthorityShortCode(localAuthority.getShortCode())
+        .localAuthorityShortCode(securityUtils.getCurrentLocalAuthorityShortCode())
         .numberOfBadges(Integer.valueOf(processing.getNumberOfBadges()));
   }
 }

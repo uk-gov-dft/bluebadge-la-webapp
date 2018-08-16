@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData;
 
@@ -21,9 +20,8 @@ public class OrderBadgePersonFormsToBadgeOrderRequestTest extends OrderBadgeTest
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    LocalAuthority localAuthority =
-        LocalAuthority.builder().id(-1).shortCode(LOCAL_AUTHORITY_SHORT_CODE).build();
-    when(securityUtilsMock.getCurrentLocalAuthority()).thenReturn(localAuthority);
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
+        .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
     converter = new OrderBadgePersonFormsToBadgeOrderRequest(securityUtilsMock);
   }
 
