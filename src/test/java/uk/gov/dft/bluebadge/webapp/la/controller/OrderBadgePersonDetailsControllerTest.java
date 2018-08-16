@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -10,12 +11,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils.buildReferenceData;
 
 import com.google.common.collect.Lists;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.TreeMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -155,7 +159,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            multipart("/order-a-badge/details")
+                .file(EMPTY_PHOTO)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -175,12 +180,45 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   }
 
   @Test
+  public void submit_shouldThrowContextValidation_WhenImageFileHasWrongContent() throws Exception{
+    mockMvc
+            .perform(
+                    multipart("/order-a-badge/details")
+                            .file(PHOTO_CONTENT_WRONG)
+                            .param(NAME_FIELD, NAME)
+                            .param(GENDER_FIELD, GENDER)
+                            .param(DOB_DAY_FIELD, DOB_DAY)
+                            .param(DOB_MONTH_FIELD, DOB_MONTH)
+                            .param(DOB_YEAR_FIELD, DOB_YEAR)
+                            .param(DOB_FIELD, DOB)
+                            .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                            .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                            .param(POSTCODE_FIED, POSTCODE)
+                            .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                            .param(
+                                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+                            .param(ELIGIBILITY_FIELD, ELIGIBILITY)
+                            .param(NINO_FIELD, NINO)
+                            .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
+                            .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
+                            .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
+            .andExpect(status().isOk())
+            .andExpect(view().name("order-a-badge/details"))
+            .andExpect(
+                    model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
+            .andExpect(model().errorCount(1));
+  }
+
+  @Test
   public void
       submit_shouldRedirectToProcessingPage_WhenAllFieldsAreSetAndThereAreNoValidationErrors()
           throws Exception {
+
     mockMvc
         .perform(
-            post("/order-a-badge/details")
+            multipart("/order-a-badge/details")
+                .file(PHOTO())
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -206,8 +244,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   @Test
   public void submit_shouldRedirectToDetailsPageAndDisplayErrors_WhenNoFieldsAreSet()
       throws Exception {
+
     mockMvc
-        .perform(post("/order-a-badge/details"))
+        .perform(multipart("/order-a-badge/details").file(EMPTY_PHOTO))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
@@ -234,7 +273,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     mockMvc
         .perform(
             MockMvcRequestBuilders.multipart("/order-a-badge/details")
-                .file(pdfMultipartIcorrectMock)
+                .file(PHOTO_WRONG)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -267,7 +306,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
         .andExpect(model().errorCount(5));
   }
 
