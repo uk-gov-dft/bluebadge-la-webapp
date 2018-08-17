@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.security;
 
 import java.util.Collections;
 import java.util.Set;
-import org.springframework.beans.BeansException;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -28,7 +28,7 @@ public class UserDetailsTokenService
   }
 
   @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+  public void setApplicationContext(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
 
