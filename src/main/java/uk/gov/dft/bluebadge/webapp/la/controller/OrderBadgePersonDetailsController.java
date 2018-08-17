@@ -1,11 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.dft.bluebadge.common.service.ImageProcessingService;
+import uk.gov.dft.bluebadge.common.service.ImageProcessingUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -53,13 +51,9 @@ public class OrderBadgePersonDetailsController {
 
   private ReferenceDataService referenceDataService;
 
-  private ImageProcessingService imageProcessingService;
-
   @Autowired
-  public OrderBadgePersonDetailsController(
-      ReferenceDataService referenceDataService, ImageProcessingService imageProcessing) {
+  public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
-    this.imageProcessingService = imageProcessing;
   }
 
   @GetMapping(URL)
@@ -117,17 +111,6 @@ public class OrderBadgePersonDetailsController {
     return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 
-  public String convertImageBufferToBase64(BufferedImage buffer) throws IOException {
-
-    String base64String = null;
-
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    ImageIO.write(buffer, "JPG", os);
-    base64String = Base64.getEncoder().encodeToString(os.toByteArray());
-
-    return base64String;
-  }
-
   private HashMap<String, String> processImage(MultipartFile photo) throws IOException {
     HashMap<String, String> photos = new HashMap<>();
 
@@ -138,15 +121,18 @@ public class OrderBadgePersonDetailsController {
       throw new IllegalArgumentException("Invalid image.");
     }
 
-    String photoBase64 = convertImageBufferToBase64(buffer);
+    String photoBase64 = ImageProcessingUtils.getBase64FromBufferedImage(buffer);
     photos.put(PHOTO_FIELD_KEY, photoBase64);
 
     InputStream input =
-        imageProcessingService.getInputStreamForSizedBufferedImage(buffer, THUMB_IMAGE_HEIGHT);
+        ImageProcessingUtils.getInputStreamForSizedBufferedImage(buffer, THUMB_IMAGE_HEIGHT);
     BufferedImage thumb = ImageIO.read(input);
     photos.put(
         "thumb",
-        "data:" + photo.getContentType() + ";base64, " + convertImageBufferToBase64(thumb));
+        "data:"
+            + photo.getContentType()
+            + ";base64, "
+            + ImageProcessingUtils.getBase64FromBufferedImage(thumb));
 
     return photos;
   }

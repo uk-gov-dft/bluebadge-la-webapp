@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.dft.bluebadge.common.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
@@ -53,9 +52,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller =
-        new OrderBadgePersonDetailsController(
-            referenceDataServiceMock, new ImageProcessingService());
+    controller = new OrderBadgePersonDetailsController(referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

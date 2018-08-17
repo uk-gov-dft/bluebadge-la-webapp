@@ -69,6 +69,7 @@ version = getTheVersion()
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
     jcenter()
     maven {
@@ -126,7 +127,7 @@ tasks.withType(Pmd) {
 }
 
 dependencies {
-    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.4.1-SNAPSHOT', changing: true ){
+    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.4.2-SNAPSHOT', changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
 
