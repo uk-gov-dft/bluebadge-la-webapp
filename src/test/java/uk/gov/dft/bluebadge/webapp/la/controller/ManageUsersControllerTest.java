@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.security.BBPrincipal;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.util.TestBBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -64,15 +65,13 @@ public class ManageUsersControllerTest {
             .build();
 
     userSignedIn =
-        BBPrincipal.builder()
-            .clientId("fake_client")
+        TestBBPrincipal.user()
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
     userDataSignedIn =
-        BBPrincipal.builder()
-            .clientId("fake_client")
+        TestBBPrincipal.user()
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
