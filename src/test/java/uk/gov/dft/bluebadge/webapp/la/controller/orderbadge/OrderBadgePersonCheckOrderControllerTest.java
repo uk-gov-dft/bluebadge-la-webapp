@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.google.common.collect.Lists;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +26,6 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
 
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
   private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
-  private static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.now();
-  private static final LocalDate SERVICE_MODEL_DOB = LocalDate.now().plusDays(1);
-  private static final int SERVICE_MODEL_NUMBER_OF_BADGES = NUMBER_OF_BADGES_PERSON;
-  private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
-  private static final LocalDate SERVICE_MODEL_EXPIRY_DATE = LocalDate.now().plusDays(2);
-  private static final LocalDate SERVICE_MODEL_START_DATE = LocalDate.now().plusDays(1);
 
   static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
       OrderBadgeCheckOrderViewModel.builder()

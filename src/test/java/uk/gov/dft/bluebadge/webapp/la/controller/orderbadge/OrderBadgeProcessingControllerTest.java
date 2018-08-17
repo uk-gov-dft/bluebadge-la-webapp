@@ -197,7 +197,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", DELIVERY_OPTIONS_FIELD, "NotBlank"))
         .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", NUMBER_OF_BADGES_FIELD, "NotNull"))
+            model().attributeHasFieldErrorCode("formRequest", NUMBER_OF_BADGES_FIELD, "NotBlank"))
         .andExpect(model().errorCount(7));
   }
 

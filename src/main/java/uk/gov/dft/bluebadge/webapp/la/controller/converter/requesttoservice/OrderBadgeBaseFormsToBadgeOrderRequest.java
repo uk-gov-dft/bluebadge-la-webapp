@@ -47,6 +47,6 @@ public abstract class OrderBadgeBaseFormsToBadgeOrderRequest<
         .deliverToCode(processing.getDeliverTo())
         .deliveryOptionCode(processing.getDeliveryOptions())
         .localAuthorityShortCode(securityUtils.getCurrentLocalAuthorityShortCode())
-        .numberOfBadges(processing.getNumberOfBadges());
+        .numberOfBadges(Integer.valueOf(processing.getNumberOfBadges()));
   }
 }

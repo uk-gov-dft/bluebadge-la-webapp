@@ -115,8 +115,8 @@ public class OrderBadgeTestData {
   protected static final String DELIVER_TO_SHORTCODE = "HOME";
   protected static final String DELIVERY_OPTIONS = "fast";
   protected static final String DELIVERY_OPTIONS_SHORTCODE = "FAST";
-  protected static final Integer NUMBER_OF_BADGES_PERSON = 1;
-  protected static final Integer NUMBER_OF_BADGES_ORGANISATION = 3;
+  protected static final String NUMBER_OF_BADGES_PERSON = "1";
+  protected static final String NUMBER_OF_BADGES_ORGANISATION = "3";
 
   protected static final String APPLICATION_DATE_DAY_WRONG = "32";
   protected static final String APPLICATION_DATE_MONTH_WRONG = "13";
@@ -208,13 +208,16 @@ public class OrderBadgeTestData {
   protected static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
   protected static final LocalDate SERVICE_MODEL_DOB = LocalDate.of(1980, 3, 15);
   protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_ORGANISATION =
-      NUMBER_OF_BADGES_ORGANISATION;
-  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_PERSON = NUMBER_OF_BADGES_PERSON;
+      Integer.valueOf(NUMBER_OF_BADGES_ORGANISATION);
+  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_PERSON =
+      Integer.valueOf(NUMBER_OF_BADGES_PERSON);
   protected static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
   protected static final LocalDate SERVICE_MODEL_START_DATE =
       LocalDate.of(LocalDate.now().getYear(), 8, 7).plusYears(1);
   protected static final LocalDate SERVICE_MODEL_EXPIRY_DATE =
       LocalDate.of(LocalDate.now().getYear(), 8, 7).plusYears(2);
+  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES =
+      Integer.valueOf(NUMBER_OF_BADGES_PERSON);
 
   static final Contact contactOrganisation =
       new Contact()
