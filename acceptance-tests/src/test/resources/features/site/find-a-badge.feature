@@ -24,7 +24,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "orderBadge.button" button
     Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And I should see a badge number on badge ordered page
-    When I can click on the "Find a badge" link on left navigation
+    When I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
     And I type the badge number of the badge previously ordered
@@ -40,7 +40,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I can click on the "Find a badge" link on left navigation
+    And I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
     And I type "BADGENOTTOBEFOUND" for "searchTerm.field" field by uipath
@@ -55,7 +55,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I can click on the "Find a badge" link on left navigation
+    And I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I type "AAAAA1" for "searchTerm.field" field by uipath
     And I can click "button" button
@@ -80,7 +80,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "orderBadge.button" button
     Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And I should see a badge number on badge ordered page
-    When I can click on the "Find a badge" link on left navigation
+    When I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
     And I type the post code of the applicant who previously ordered a badge
@@ -95,7 +95,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I can click on the "Find a badge" link on left navigation
+    And I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
     And I type "1AB C23" for "searchTerm.field" field by uipath
@@ -122,7 +122,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "orderBadge.button" button
     Then I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And I should see a badge number on badge ordered page
-    When I can click on the "Find a badge" link on left navigation
+    When I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
     And I type the name of the applicant who previously ordered a badge
@@ -137,7 +137,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    And I can click on the "Find a badge" link on left navigation
+    And I can click on the "Manage badges" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
     And I type "json" for "searchTerm.field" field by uipath

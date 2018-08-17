@@ -23,7 +23,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I can click "orderBadge.button" button
     Then  I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And   I should see a badge number on badge ordered page
-    When  I can click on the "Find a badge" link on left navigation
+    When  I can click on the "Manage badges" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
@@ -34,7 +34,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select the "reason.option.REVOKE" option
     And   I can click "cancel.badge.button" button
     Then  I should see the badge cancelled page
-    Then  I can click on the "Find a badge" link on left navigation
+    Then  I can click on the "Manage badges" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
@@ -61,7 +61,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I can click "orderBadge.button" button
     Then  I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And   I should see a badge number on badge ordered page
-    When  I can click on the "Find a badge" link on left navigation
+    When  I can click on the "Manage badges" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge

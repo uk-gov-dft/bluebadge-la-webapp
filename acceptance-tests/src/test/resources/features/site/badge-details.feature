@@ -24,7 +24,7 @@ Feature: Dft BlueBadge LA View Badge Details
     When  I can click "orderBadge.button" button
     Then  I should see the page titled "Badge ordered - GOV.UK Manage Blue Badges"
     And   I should see a badge number on badge ordered page
-    When  I can click on the "Find a badge" link on left navigation
+    When  I can click on the "Manage badges" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "postcode.radio"
     And   I type the post code of the applicant who previously ordered a badge

@@ -28,8 +28,12 @@ public abstract class AbstractSitePage extends AbstractPage {
   }
 
   public void openByPageName(final String pageName) {
-    String lookupUrl = urlLookup.lookupUrl(pageName);
-    getWebDriver().get(lookupUrl);
+    try {
+      String lookupUrl = urlLookup.lookupUrl(pageName);
+      getWebDriver().get(lookupUrl);
+    } catch (Exception ex) {
+      openByPageNameUnmapped(pageName);
+    }
   }
 
   public void openByPageNameUnmapped(final String pageName) {
