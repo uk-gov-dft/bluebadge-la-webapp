@@ -33,12 +33,6 @@
 
             <div th:if="${partyTypeCode  == 'PERSON'}" th:remove="tag">
                 <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt">Photo</dt>
-                    <dd class="dft-data-list__dd">
-                        <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
-                    </dd>
-                </div>
             </div>
 
             <div th:if="${partyTypeCode == 'ORG'}" th:remove="tag">

@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.time.LocalDate;
 import org.mockito.Mock;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -8,10 +11,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetails
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.time.LocalDate;
 
 public abstract class OrderBadgeBaseControllerTest {
 

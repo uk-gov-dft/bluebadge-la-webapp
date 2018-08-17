@@ -20,11 +20,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.ImageProcessingService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -33,7 +33,6 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
   private MockMvc mockMvc;
 
   @Mock private ReferenceDataService referenceDataServiceMock;
-  @Mock private ImageProcessingService imageProcessingService;
 
   private OrderBadgePersonDetailsController controller;
 
@@ -55,7 +54,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new OrderBadgePersonDetailsController(referenceDataServiceMock, imageProcessingService);
+        new OrderBadgePersonDetailsController(
+            referenceDataServiceMock, new ImageProcessingService());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
