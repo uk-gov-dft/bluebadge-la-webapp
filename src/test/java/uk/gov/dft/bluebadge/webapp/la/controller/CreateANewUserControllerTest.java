@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
+import uk.gov.dft.bluebadge.common.security.BBPrincipal;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
@@ -46,7 +47,7 @@ public class CreateANewUserControllerTest {
   private CreateANewUserController controller;
 
   // Test Data
-  private uk.gov.dft.bluebadge.common.security.model.User userDataSignedIn;
+  private BBPrincipal userDataSignedIn;
   private User user;
 
   @Before
@@ -65,12 +66,13 @@ public class CreateANewUserControllerTest {
             .build();
 
     userDataSignedIn =
-        uk.gov.dft.bluebadge.common.security.model.User.builder()
+        BBPrincipal.builder()
+            .clientId("fake_client")
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
-    when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
+    when(securityUtilsMock.getCurrentAuth()).thenReturn(userDataSignedIn);
 
     user =
         User.builder()

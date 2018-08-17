@@ -125,8 +125,17 @@ tasks.withType(Pmd) {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        // don't cache changing modules at all
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
 dependencies {
-    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.4.1-SNAPSHOT', changing: true ){
+    ext.commonVersion = '0.4.2-feature_BBB-779-JWT-lawebapp-SNAPSHOT'
+
+    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
 

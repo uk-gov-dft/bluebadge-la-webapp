@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.common.security.BBPrincipal;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -56,8 +57,7 @@ public class CreateANewUserController {
       Model model) {
     try {
       log.debug("Creating new user");
-      uk.gov.dft.bluebadge.common.security.model.User signedInUser =
-          securityUtils.getCurrentUserDetails();
+      BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = createANewUserRequest2User.convert(formRequest);
       user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
       user.setRoleId(TODO_HARDCODED_CREATE_USER_ROLE_ID);
