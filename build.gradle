@@ -169,7 +169,9 @@ dependencies {
     testCompile('org.springframework.security:spring-security-test')
     testCompile("org.assertj:assertj-core:3.9.1")
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
-    testCompile group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", classifier: 'tests', changing: true
+    testCompile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", classifier: 'tests',  changing: true ){
+        exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
+    }
     testCompileOnly ('org.projectlombok:lombok:1.16.22')
 }
 
