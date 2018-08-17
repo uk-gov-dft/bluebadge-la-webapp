@@ -61,13 +61,13 @@
             <dd class="dft-data-list__dd" th:text="${badge.eligibility}"/>
         </div>
 
-        <!--<div class="dft-data-list__item">
+        <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
             <dd class="dft-data-list__dd">
-                <img th:if="${badge.imageLink}" th:src="${badge.imageLink}" th:alt="'Photo of ' + ${badge.fullName}" />
-                <span th:unless="${badge.imageLink}" th:text="${noValue}"></span>
+                <img th:if="${badge.photoUrl}" th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
+                <span th:unless="${badge.photoUrl}" th:text="${noValue}"></span>
             </dd>
-        </div>-->
+        </div>
     </dl>
 </article>
 

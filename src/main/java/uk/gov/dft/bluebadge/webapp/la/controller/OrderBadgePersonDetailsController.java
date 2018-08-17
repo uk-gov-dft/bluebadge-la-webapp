@@ -41,10 +41,11 @@ public class OrderBadgePersonDetailsController {
       "redirect:" + OrderBadgeProcessingController.URL;
 
   private static final String FORM_ACTION_RESET = "reset";
-  public static final String PHOTO_SESSION_KEY = "photos";
   public static final int THUMB_IMAGE_HEIGHT = 300;
   public static final String FORM_REQUEST = "formRequest";
-  public static final String PHOTO_FIELD_KEY = "photo";
+  public static final String PHOTO_SESSION_KEY = "photos";
+  public static final String ORIGINAL_PHOTO_KEY = "photo";
+  public static final String THUMB_PHOTO_KEY = "thumb";
 
   private String[] allowedFileTypes =
       new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
@@ -90,7 +91,7 @@ public class OrderBadgePersonDetailsController {
             .contains(formRequest.getPhoto().getContentType().toLowerCase());
 
     if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-      bindingResult.rejectValue(PHOTO_FIELD_KEY, "NotValid.badge.photo", "Select a valid photo");
+      bindingResult.rejectValue(ORIGINAL_PHOTO_KEY, "NotValid.badge.photo", "Select a valid photo");
     }
 
     if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
@@ -99,7 +100,8 @@ public class OrderBadgePersonDetailsController {
         HashMap<String, String> photos = processImage(formRequest.getPhoto());
         session.setAttribute(PHOTO_SESSION_KEY, photos);
       } catch (IOException | IllegalArgumentException e) {
-        bindingResult.rejectValue(PHOTO_FIELD_KEY, "NotValid.badge.photo", "Select a valid photo");
+        bindingResult.rejectValue(
+            ORIGINAL_PHOTO_KEY, "NotValid.badge.photo", "Select a valid photo");
       }
     }
 
@@ -122,13 +124,13 @@ public class OrderBadgePersonDetailsController {
     }
 
     String photoBase64 = ImageProcessingUtils.getBase64FromBufferedImage(buffer);
-    photos.put(PHOTO_FIELD_KEY, photoBase64);
+    photos.put(ORIGINAL_PHOTO_KEY, photoBase64);
 
     InputStream input =
         ImageProcessingUtils.getInputStreamForSizedBufferedImage(buffer, THUMB_IMAGE_HEIGHT);
     BufferedImage thumb = ImageIO.read(input);
     photos.put(
-        "thumb",
+        THUMB_PHOTO_KEY,
         "data:"
             + photo.getContentType()
             + ";base64, "

@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.awt.*;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +26,6 @@ public class OrderBadgeCheckOrderController {
 
   public static final String REDIRECT_BADGE_ORDERED =
       "redirect:" + OrderBadgeBadgeOrderedController.URL;
-  public static final String PHOTO_SESSION_KEY = "photos";
-  public static final String THUMB_SESSION_KEY = "thumb";
-  public static final String ORIGINAL_PHOTO_KEY = "photo";
 
   private BadgeService badgeService;
   private OrderBadgeFormsToBadgeOrderRequest converterToServiceModel;
@@ -58,11 +54,13 @@ public class OrderBadgeCheckOrderController {
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
     HashMap<String, String> photos =
-        (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
+        (HashMap<String, String>)
+            session.getAttribute(OrderBadgePersonDetailsController.PHOTO_SESSION_KEY);
 
     if (photos != null) {
-      data.setPhoto(photos.get(THUMB_SESSION_KEY));
-      model.addAttribute("photoThumb", photos.get(THUMB_SESSION_KEY));
+      String thumb = photos.get(OrderBadgePersonDetailsController.THUMB_PHOTO_KEY);
+      data.setPhoto(thumb);
+      model.addAttribute("photoThumb", thumb);
     }
 
     model.addAttribute("data", data);
@@ -70,7 +68,7 @@ public class OrderBadgeCheckOrderController {
   }
 
   @PostMapping(URL)
-  public String submit(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+  public String submit(HttpSession session, RedirectAttributes redirectAttributes) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
@@ -81,10 +79,12 @@ public class OrderBadgeCheckOrderController {
         converterToServiceModel.convert(detailsForm, processingForm);
 
     HashMap<String, String> photos =
-        (HashMap<String, String>) session.getAttribute(PHOTO_SESSION_KEY);
+        (HashMap<String, String>)
+            session.getAttribute(OrderBadgePersonDetailsController.PHOTO_SESSION_KEY);
 
     if (photos != null) {
-      badgeOrderRequest.setImageFile(photos.get(ORIGINAL_PHOTO_KEY));
+      badgeOrderRequest.setImageFile(
+          photos.get(OrderBadgePersonDetailsController.ORIGINAL_PHOTO_KEY));
     }
 
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
