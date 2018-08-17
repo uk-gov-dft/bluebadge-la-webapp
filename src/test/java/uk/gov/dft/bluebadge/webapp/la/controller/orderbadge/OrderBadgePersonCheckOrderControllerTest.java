@@ -29,8 +29,7 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
   private static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.now();
   private static final LocalDate SERVICE_MODEL_DOB = LocalDate.now().plusDays(1);
-  private static final int SERVICE_MODEL_NUMBER_OF_BADGES =
-      Integer.parseInt(NUMBER_OF_BADGES_PERSON);
+  private static final int SERVICE_MODEL_NUMBER_OF_BADGES = NUMBER_OF_BADGES_PERSON;
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
   private static final LocalDate SERVICE_MODEL_EXPIRY_DATE = LocalDate.now().plusDays(2);
   private static final LocalDate SERVICE_MODEL_START_DATE = LocalDate.now().plusDays(1);

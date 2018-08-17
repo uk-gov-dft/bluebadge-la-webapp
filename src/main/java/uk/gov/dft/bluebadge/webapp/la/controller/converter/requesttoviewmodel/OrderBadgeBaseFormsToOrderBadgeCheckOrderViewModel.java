@@ -37,7 +37,7 @@ public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel<
         referenceDataService.retrieveDeliveryOptionDisplayValue(processing.getDeliveryOptions());
 
     return builder
-        .numberOfBadges(processing.getNumberOfBadges())
+        .numberOfBadges(String.valueOf(processing.getNumberOfBadges()))
         .localAuthorityReference(processing.getLocalAuthorityReferenceNumber())
         .badgeStartDate(processing.getBadgeStartDate())
         .badgeExpiryDate(badgeExpiryDate)

@@ -5,13 +5,12 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInThePastDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
 @Builder
@@ -94,7 +93,6 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
   @NotBlank(message = "{NotNull.badge.deliveryOptions}")
   private String deliveryOptions;
 
-  @NotBlank(message = "{NotNull.badge.numberOfBadges}")
-  @Pattern(regexp = ValidationPatterns.NUMBER_OF_BADGES, message = "{Pattern.badge.numberOfBadges}")
-  private String numberOfBadges;
+  @NotNull(message = "{NotNull.badge.numberOfBadges}")
+  private Integer numberOfBadges;
 }
