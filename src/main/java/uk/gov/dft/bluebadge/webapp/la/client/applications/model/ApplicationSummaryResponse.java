@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.client.application.model;
+package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
