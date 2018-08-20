@@ -13,7 +13,7 @@ public class ValidationPatterns {
 
   public static final String NINO_CASE_INSENSITIVE = "(?i)" + NINO;
 
-  public static final String NUMBER_OF_BADGES = "^[0-9]+$";
+  public static final String NUMBER_OF_BADGES = "^[1-9][0-9]*$";
 
   public static final String PHONE_NUMBER =
       "^(((\\+44\\s?\\d{4}|\\(?0\\d{4}\\)?)\\s?\\d{3}\\s?\\d{3})|"

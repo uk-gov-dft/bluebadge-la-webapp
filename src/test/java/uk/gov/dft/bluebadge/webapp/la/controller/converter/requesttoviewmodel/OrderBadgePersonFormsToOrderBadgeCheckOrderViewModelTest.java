@@ -27,7 +27,7 @@ public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModelTest
           .applicationChannel(APPLICATION_CHANNEL)
           .deliverTo(DELIVER_TO)
           .deliveryOptions(DELIVERY_OPTIONS)
-          .numberOfBadges(NUMBER_OF_BADGES_PERSON)
+          .numberOfBadges(NUMBER_OF_BADGES_PERSON_VIEW_MODEL)
           .build();
 
   private OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel converter;

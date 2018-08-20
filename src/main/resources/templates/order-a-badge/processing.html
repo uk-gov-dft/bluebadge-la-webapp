@@ -43,7 +43,7 @@
 
             <div class="dft-width-one-half">
                 <span th:if="${applicantType == 'organisation'}">
-                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{orderbadge.processing.label.numberOfBages}, 'numberOfBadges', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{orderbadge.processing.label.numberOfBages}, 'numberOfBadges', null, 'number') }"/>
                 </span>
                 <input th:if="${applicantType == 'person'}" type="hidden" id="numberOfBadges" name="numberOfBadges" th:attr="value = '1'"/>
 

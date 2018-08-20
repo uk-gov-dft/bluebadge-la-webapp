@@ -139,7 +139,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
   }
@@ -166,7 +166,8 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
+        //.param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
   }
@@ -218,7 +219,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_DAY_FIELD, BADGE_EXPIRY_DATE_DAY_WRONG)
                 .param(BADGE_EXPIRY_DATE_MONTH_FIELD, BADGE_EXPIRY_DATE_MONTH_WRONG)
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR_WRONG)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -264,7 +265,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -295,7 +296,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -326,7 +327,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -357,7 +358,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -388,7 +389,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, "2019")
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -419,7 +420,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, "2018")
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -450,7 +451,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, "2022")
                 .param(DELIVER_TO_FIELD, DELIVER_TO)
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
-                .param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
+                .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
