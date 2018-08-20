@@ -55,6 +55,7 @@ public class OrderBadgeFormsToOrderBadgeCheckOrderViewModel {
         .dob(details.getDob())
         .gender(genderDisplayText)
         .nino(details.getNino())
+        .photo(details.getThumbBase64())
         .address(address.toString())
         .contactFullName(details.getContactDetailsName())
         .contactNumber(details.getContactDetailsContactNumber())

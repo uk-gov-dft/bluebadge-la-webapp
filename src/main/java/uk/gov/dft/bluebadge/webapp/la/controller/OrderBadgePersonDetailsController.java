@@ -1,10 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -43,9 +43,6 @@ public class OrderBadgePersonDetailsController {
   private static final String FORM_ACTION_RESET = "reset";
   public static final int THUMB_IMAGE_HEIGHT = 300;
   public static final String FORM_REQUEST = "formRequest";
-  public static final String PHOTO_SESSION_KEY = "photos";
-  public static final String ORIGINAL_PHOTO_KEY = "photo";
-  public static final String THUMB_PHOTO_KEY = "thumb";
 
   private String[] allowedFileTypes =
       new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
@@ -67,12 +64,10 @@ public class OrderBadgePersonDetailsController {
       session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
       session.removeAttribute(FORM_REQUEST_SESSION);
       session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
-      session.removeAttribute(PHOTO_SESSION_KEY);
     } else {
       Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
       if (sessionFormRequest != null) {
         BeanUtils.copyProperties(sessionFormRequest, formRequest);
-        model.addAttribute(PHOTO_SESSION_KEY, session.getAttribute(PHOTO_SESSION_KEY));
       }
     }
     return TEMPLATE;
@@ -91,17 +86,14 @@ public class OrderBadgePersonDetailsController {
             .contains(formRequest.getPhoto().getContentType().toLowerCase());
 
     if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-      bindingResult.rejectValue(ORIGINAL_PHOTO_KEY, "NotValid.badge.photo", "Select a valid photo");
+      bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
     if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
-
       try {
-        HashMap<String, String> photos = processImage(formRequest.getPhoto());
-        session.setAttribute(PHOTO_SESSION_KEY, photos);
+        processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
-        bindingResult.rejectValue(
-            ORIGINAL_PHOTO_KEY, "NotValid.badge.photo", "Select a valid photo");
+        bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
       }
     }
 
@@ -113,30 +105,34 @@ public class OrderBadgePersonDetailsController {
     return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 
-  private HashMap<String, String> processImage(MultipartFile photo) throws IOException {
-    HashMap<String, String> photos = new HashMap<>();
+  private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
 
+    MultipartFile photo = formRequest.getPhoto();
     InputStream stream = photo.getInputStream();
-    BufferedImage buffer = ImageIO.read(stream);
+    BufferedImage imageBuffer = ImageIO.read(stream);
 
-    if (buffer == null) {
+    if (imageBuffer == null) {
       throw new IllegalArgumentException("Invalid image.");
     }
 
-    String photoBase64 = ImageProcessingUtils.getBase64FromBufferedImage(buffer);
-    photos.put(ORIGINAL_PHOTO_KEY, photoBase64);
+    byte[] imageInByte;
+    ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+    ImageIO.write(imageBuffer, "JPG", byteArrayStream);
+    byteArrayStream.flush();
+    imageInByte = byteArrayStream.toByteArray();
+    byteArrayStream.close();
 
     InputStream input =
-        ImageProcessingUtils.getInputStreamForSizedBufferedImage(buffer, THUMB_IMAGE_HEIGHT);
+        ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
     BufferedImage thumb = ImageIO.read(input);
-    photos.put(
-        THUMB_PHOTO_KEY,
+    String thumbBase64 =
         "data:"
-            + photo.getContentType()
+            + formRequest.getPhoto().getContentType()
             + ";base64, "
-            + ImageProcessingUtils.getBase64FromBufferedImage(thumb));
+            + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
 
-    return photos;
+    formRequest.setThumbBase64(thumbBase64);
+    formRequest.setByteImage(imageInByte);
   }
 
   @ModelAttribute("genderOptions")

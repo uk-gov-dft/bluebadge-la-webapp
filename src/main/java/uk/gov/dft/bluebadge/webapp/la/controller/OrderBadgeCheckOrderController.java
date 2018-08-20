@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.util.HashMap;
+import java.io.IOException;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,41 +53,22 @@ public class OrderBadgeCheckOrderController {
 
     OrderBadgeCheckOrderViewModel data = converterToViewModel.convert(detailsForm, processingForm);
 
-    HashMap<String, String> photos =
-        (HashMap<String, String>)
-            session.getAttribute(OrderBadgePersonDetailsController.PHOTO_SESSION_KEY);
-
-    if (photos != null) {
-      String thumb = photos.get(OrderBadgePersonDetailsController.THUMB_PHOTO_KEY);
-      data.setPhoto(thumb);
-      model.addAttribute("photoThumb", thumb);
-    }
-
     model.addAttribute("data", data);
     return TEMPLATE;
   }
 
   @PostMapping(URL)
-  public String submit(HttpSession session, RedirectAttributes redirectAttributes) {
+  public String submit(HttpSession session, RedirectAttributes redirectAttributes) throws IOException {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute(OrderBadgePersonDetailsController.FORM_REQUEST_SESSION);
     OrderBadgeProcessingFormRequest processingForm =
         (OrderBadgeProcessingFormRequest)
             session.getAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
-    BadgeOrderRequest badgeOrderRequest =
-        converterToServiceModel.convert(detailsForm, processingForm);
 
-    HashMap<String, String> photos =
-        (HashMap<String, String>)
-            session.getAttribute(OrderBadgePersonDetailsController.PHOTO_SESSION_KEY);
+    BadgeOrderRequest badgeOrderRequest = converterToServiceModel.convert(detailsForm, processingForm);
 
-    if (photos != null) {
-      badgeOrderRequest.setImageFile(
-          photos.get(OrderBadgePersonDetailsController.ORIGINAL_PHOTO_KEY));
-    }
-
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
+    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest, detailsForm.getByteImage());
     redirectAttributes.addFlashAttribute("badgeNumber", badgeNumber);
 
     session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.google.common.collect.Lists;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
@@ -46,6 +48,18 @@ public class BadgeServiceTest {
     when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
         .thenReturn(BADGE_NUMBERS_FOR_PERSON);
     String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
+    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
+  }
+
+  @Test
+  public void orderBadgeForAPersonWithImageUploaded_shouldOrderOneBadgeAndReturnBadgeNumber() throws IOException {
+    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
+    BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
+    expectedBadgeOrderRequest.setImageFile("someBase64");
+    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+            .thenReturn(BADGE_NUMBERS_FOR_PERSON);
+    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest, "someBytes".getBytes());
+    //verify(badgeService, times(1)).orderABadgeForAPerson(badgeOrderRequest);
     assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
   }
 
