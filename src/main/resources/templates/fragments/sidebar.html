@@ -19,6 +19,12 @@
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
 
+					<a data-uipath="sidebar-nav.new-applications"
+					   href="/new-applications"
+					   th:class="${currentPage == 'new-applications'} ? ${activeClass} : ${menuItemClass}">
+						New applications
+					</a>
+
 					<a data-uipath="sidebar-nav.order-a-badge"
 					   href="/order-a-badge/?action=reset"
 					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}">
