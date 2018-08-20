@@ -47,7 +47,7 @@ public class SignInController {
   }
 
   @Data
-  private class SignInForm {
+  private static class SignInForm {
     private String username;
     private String password;
   }

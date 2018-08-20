@@ -1,13 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.utils;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 
-public class ErrorComparator implements Comparator<ErrorErrors> {
+public class ErrorComparator implements Comparator<ErrorErrors>, Serializable {
 
-  List<String> errorListOrder;
+  private List<String> errorListOrder;
 
   public ErrorComparator(List<String> errorListOrder) {
 
