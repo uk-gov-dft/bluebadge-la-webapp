@@ -24,18 +24,20 @@ public class UserDetailsTokenServiceTest {
     userDetailsTokenService = new UserDetailsTokenService();
     userDetailsTokenService.setApplicationContext(mockAppContext);
 
-    when(mockAppContext.getBean(UserManagementApiClient.class)).thenReturn(mockUserManagementApiClient);
+    when(mockAppContext.getBean(UserManagementApiClient.class))
+        .thenReturn(mockUserManagementApiClient);
     when(mockAppContext.getBean(ReferenceDataService.class)).thenReturn(mockReferenceDataService);
     userDetailsTokenService.afterPropertiesSet();
   }
 
   @Test
-  public void whenLoadUser_thenPrincipalReturned(){
-    User user = User.builder()
-        .emailAddress("a@a.com")
-        .localAuthorityShortCode("ABC")
-        .roleName("testRole")
-        .build();
+  public void whenLoadUser_thenPrincipalReturned() {
+    User user =
+        User.builder()
+            .emailAddress("a@a.com")
+            .localAuthorityShortCode("ABC")
+            .roleName("testRole")
+            .build();
     when(mockUserManagementApiClient.currentUserDetails()).thenReturn(user);
     when(mockReferenceDataService.retrieveLocalAuthorityDisplayValue("ABC")).thenReturn("LA Name");
 

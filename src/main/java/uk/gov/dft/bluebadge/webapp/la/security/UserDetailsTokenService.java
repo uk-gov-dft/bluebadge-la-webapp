@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.security;
 
 import java.util.Collections;
 import java.util.Set;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
