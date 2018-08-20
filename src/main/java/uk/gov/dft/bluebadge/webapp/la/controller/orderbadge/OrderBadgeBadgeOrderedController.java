@@ -1,5 +1,6 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,8 @@ public class OrderBadgeBadgeOrderedController {
 
   @GetMapping(URL)
   public String show(Model model) {
-    String badgeNumber = (String) model.asMap().get("badgeNumber");
-    model.addAttribute("badgeNumber", badgeNumber);
+    List<String> badgeNumbers = (List<String>) model.asMap().get("badgeNumbers");
+    model.addAttribute("badgeNumbers", badgeNumbers);
     return TEMPLATE;
   }
 }

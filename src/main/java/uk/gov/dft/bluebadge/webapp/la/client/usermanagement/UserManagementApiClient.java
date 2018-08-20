@@ -23,7 +23,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 @Service
 public class UserManagementApiClient extends BaseApiClient {
 
-  class Endpoints {
+  static class Endpoints {
     private Endpoints() {}
 
     static final String GET_BY_ID_ENDPOINT = "/users/{uuid}";

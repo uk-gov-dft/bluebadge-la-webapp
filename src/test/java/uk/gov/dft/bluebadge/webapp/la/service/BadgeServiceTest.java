@@ -40,13 +40,12 @@ public class BadgeServiceTest {
   }
 
   @Test
-  public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
-    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
-    BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
-    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+  public void orderBadge_shouldOrderBadgesAndReturnBadgeNumbers() {
+    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest().numberOfBadges(1);
+    when(badgeManagementApiClientMock.orderBlueBadges(badgeOrderRequest))
         .thenReturn(BADGE_NUMBERS_FOR_PERSON);
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
-    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
+    List<String> badgeNumbers = badgeService.orderABadge(badgeOrderRequest);
+    assertThat(badgeNumbers).isEqualTo(BADGE_NUMBERS_FOR_PERSON);
   }
 
   @Test

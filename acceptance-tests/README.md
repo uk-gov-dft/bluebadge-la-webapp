@@ -15,9 +15,9 @@ Start all the services & applications
 cd usermanagement-service
 git checkout whateverbranch
 git pull
-gradle install
-gradle build
-gradle bootRun
+./gradlew install
+./gradlew build
+./gradlew bootRun
 ```
 
 #### Start authorisation service
@@ -25,8 +25,8 @@ gradle bootRun
 cd authorisation-service
 git checkout whateverbranch
 git pull
-gradle build
-gradle bootRun
+./gradlew build
+./gradlew bootRun
 ```
 
 #### Start message service
@@ -34,21 +34,21 @@ gradle bootRun
 cd message-service
 git checkout whateverbranch
 git pull
-gradle build
-gradle bootRun
+./gradlew build
+./gradlew bootRun
 ```
 
 #### Start la-webapp
 ```
-gradle build
-gradle bootRun
+./gradlew build
+./gradlew bootRun
 ```
 
 ## Run the all acceptance tests
 
 ```
 cd acceptance-tests
-gradle acceptanceTest -PbuildProfile=local
+./gradlew acceptanceTest -PbuildProfile=local
 ```
 
 -PbuildProfile is the profile for environment that you want to run tests against{Eg, local,dev,qa,prepod,prod}
@@ -64,7 +64,7 @@ Go to acceptance-tests folder & run (run_local.sh) shell script
 To specify your operating system; By default it will use as 'mac'
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dos=mac
+./gradlew acceptanceTest -PbuildProfile=local -Dos=mac
 ```
 os parameter values can be 'mac' or 'linux' or 'windows'
 
@@ -72,7 +72,7 @@ os parameter values can be 'mac' or 'linux' or 'windows'
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false
 ```
 
 If you need to run only specified features, then add a tag to feature file & specify that in run command as below, execute:
@@ -80,13 +80,13 @@ If you need to run only specified features, then add a tag to feature file & spe
 Run a single feature
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
 
 Run multiple features
 
 ```
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
+./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
 ```
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
