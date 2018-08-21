@@ -27,7 +27,9 @@
 
                 <tbody class="govuk-table__body" data-uipath="table.body">
                 <tr class="govuk-table__row" th:each="app : ${applications}">
-                    <td class="govuk-table__cell" th:utext="${app.name}"/>
+                    <td class="govuk-table__cell">
+                        <a href="#" th:utext="${app.name}"></a>
+                    </td>
                     <td class="govuk-table__cell" th:utext="${app.nino}"/>
                     <td class="govuk-table__cell" th:utext="${app.eligibility}" />
                     <td class="govuk-table__cell" th:utext="${app.submittedDate}" />
@@ -35,7 +37,7 @@
                 </tbody>
             </table>
 
-            <p th:if="${applications == null || applications.size() == 0}" th:text="${newapplications.message.noResultsFound}"/>
+            <p class="govuk-body" th:if="${applications == null || applications.size() == 0}" th:text="${newapplications.message.noResultsFound}"/>
 
         </section>
     </div>
