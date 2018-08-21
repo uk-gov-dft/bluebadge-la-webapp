@@ -64,13 +64,13 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     try {
-        response =
+      /*        response =
       restTemplate.getForObject(
-          builder.build().toUriString(), ApplicationSummaryResponse.class);
+          builder.build().toUriString(), ApplicationSummaryResponse.class);*/
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
-/*
+
     ApplicationSummary as1 =
         new ApplicationSummary()
             .applicationId("1")
@@ -79,7 +79,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name1")
             .nino("AA0000A1")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(LocalDateTime.now());
+            .submissionDate(LocalDateTime.now().minusDays(3));
     ApplicationSummary as2 =
         new ApplicationSummary()
             .applicationId("2")
@@ -88,7 +88,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name2")
             .nino("AA0000A2")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(LocalDateTime.now());
+            .submissionDate(LocalDateTime.now().minusDays(2));
     ApplicationSummary as3 =
         new ApplicationSummary()
             .applicationId("3")
@@ -97,9 +97,9 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name3")
             .nino("AA0000A3")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(LocalDateTime.now());
+            .submissionDate(LocalDateTime.now().minusDays(4));
     List<ApplicationSummary> data = Lists.newArrayList(as1, as2, as3);
-    response.data(data);*/
+    response.data(data);
     return response.getData();
   }
 }
