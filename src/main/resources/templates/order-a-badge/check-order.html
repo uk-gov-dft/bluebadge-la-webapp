@@ -11,51 +11,54 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/processing}" aria-label="go back" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+        <a th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
 
 <main layout:fragment="content">
 
-    <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
+    <section class="dft-content-container--full" th:with="noValue=#{value.not.provided},isPerson=${applicantType=='person'},isOrganisation=${applicantType=='organisation'}">
 
-        <h1 class="govuk-heading-l" data-uipath="title" th:text="#{orderbadge.checkorder.title}"></h1>
+        <h1 class="govuk-heading-l" data-uipath="title" th:text="#{orderbadge.checkorder.title}"/>
 
-        <article class="dft-check-answers">
-
+        <article class="dft-check-answers" >
             <div class="dft-check-answers__heading">
-                <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title" th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
-                <a class="dft-check-answers__cta" aria-label="change personal details"
-                   data-uipath="personalDetails.change" th:href="@{/order-a-badge/details}" th:text="#{common.button.change}"/>
+                <h2 th:if="${isPerson}" class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title" th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
+                <h2 th:if="${isOrganisation}" class="govuk-heading-m dft-check-answers__title" data-uipath="organisationDetails.title" th:text="#{orderbadge.checkorder.organisationDetails.title}"></h2>
+                <a class="dft-check-answers__cta" th:aria-label="${isPerson} ? #{orderbadge.processing.arialabel.changePersonDetails} : #{orderbadge.processing.arialabel.changeOrganisationDetails}"
+                   data-uipath="details.change" th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
             </div>
 
-            <dl class="dft-data-list" data-uipath="personalDetails.answers">
+            <dl class="dft-data-list" data-uipath="details.answers">
                 <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.fullName}"/>
+                    <dt th:if="${isPerson}" class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.fullName}"/>
+                    <dt th:if="${isOrganisation}" class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.organisationName}"/>
                     <dd class="dft-data-list__dd" th:text="${data.fullName}"/>
                 </div>
 
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.gender}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.gender}"/>
-                </div>
+                <span th:if="${isPerson}" th:remove="tag">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.gender}"/>
+                        <dd class="dft-data-list__dd" th:text="${data.gender}"/>
+                    </div>
 
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.dob}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.dob}"/>
-                </div>
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.dob}"/>
+                        <dd class="dft-data-list__dd" th:text="${data.dob}"/>
+                    </div>
 
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.nino}"/>
-                    <dd class="dft-data-list__dd" th:with="ref=${data.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
-                </div>
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.nino}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${data.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+                </span>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.address}"/>
                     <dd class="dft-data-list__dd" th:text="${data.address}"/>
                 </div>
 
-                <div class="dft-data-list__item">
+                <div th:if="${isOrganisation}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactFullName}"/>
                     <dd class="dft-data-list__dd" th:with="ref=${data.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
@@ -76,7 +79,7 @@
                         th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
-                <div class="dft-data-list__item">
+                <div th:if="${isPerson}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.eligibility}"/>
                     <dd class="dft-data-list__dd" th:text="${data.eligibility}"/>
                 </div>
@@ -94,11 +97,16 @@
         <article class="dft-check-answers">
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title" th:text="#{orderbadge.checkorder.processing.title}"></h2>
-                <a class="dft-check-answers__cta" aria-label="change processing details" data-uipath="processing.change"
-                   th:href="@{/order-a-badge/processing}" th:text="#{common.button.change}"/>
+                <a class="dft-check-answers__cta" th:aria-label="#{orderbadge.processing.arialabel.changeProcessingDetails}" data-uipath="processing.change"
+                   th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
             </div>
 
             <dl class="dft-data-list" data-uipath="processing.answers">
+                <div class="dft-data-list__item" th:if="${isOrganisation}">
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.numberOfBadges}"/>
+                    <dd class="dft-data-list__dd" th:text="${data.numberOfBadges}"/>
+                </div>
+
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.localAuthorityReference}"/>
                     <dd class="dft-data-list__dd" th:with="ref=${data.localAuthorityReference}"
@@ -137,7 +145,7 @@
             </dl>
         </article>
 
-        <form th:action="@{/order-a-badge/check-order}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/{applicantType}/check-order(applicantType=${applicantType})}" method="post" novalidate>
             <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="orderBadge.button" class="govuk-button">
         </form>
 

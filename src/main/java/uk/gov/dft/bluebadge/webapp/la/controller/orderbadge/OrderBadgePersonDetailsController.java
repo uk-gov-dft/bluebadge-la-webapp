@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -13,8 +13,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,23 +20,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.service.ImageProcessingUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
-public class OrderBadgePersonDetailsController {
-  public static final String URL = "/order-a-badge/details";
-  public static final String FORM_REQUEST_SESSION = "formRequest-order-a-badge-details";
-  private static final String TEMPLATE = "order-a-badge/details";
+public class OrderBadgePersonDetailsController
+    extends OrderBadgeBaseDetailsController<OrderBadgePersonDetailsFormRequest> {
+  public static final String URL = "/order-a-badge/person/details";
+
+  private static final String TEMPLATE = "order-a-badge/person/details";
 
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL;
+      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
 
   private static final String FORM_ACTION_RESET = "reset";
   public static final int THUMB_IMAGE_HEIGHT = 300;
@@ -55,27 +53,16 @@ public class OrderBadgePersonDetailsController {
   }
 
   @GetMapping(URL)
-  public String show(
-      @RequestParam(name = "action", required = false) String action,
-      @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
-      Model model,
-      HttpSession session) {
-    if (FORM_ACTION_RESET.equalsIgnoreCase(StringUtils.trimToEmpty(action))) {
-      session.removeAttribute(OrderBadgeIndexController.FORM_REQUEST_SESSION);
-      session.removeAttribute(FORM_REQUEST_SESSION);
-      session.removeAttribute(OrderBadgeProcessingController.FORM_REQUEST_SESSION);
-    } else {
-      Object sessionFormRequest = session.getAttribute(FORM_REQUEST_SESSION);
-      if (sessionFormRequest != null) {
-        BeanUtils.copyProperties(sessionFormRequest, formRequest);
-      }
-    }
-    return TEMPLATE;
+  public String showPersonDetails(
+      @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
+      HttpSession session,
+      Model model) {
+    return super.show(formRequest, session, model);
   }
 
   @PostMapping(URL)
-  public String submit(
-      @Valid @ModelAttribute(FORM_REQUEST) final OrderBadgePersonDetailsFormRequest formRequest,
+  public String submitPersonDetails(
+      @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
@@ -97,12 +84,12 @@ public class OrderBadgePersonDetailsController {
       }
     }
 
-    session.setAttribute(FORM_REQUEST_SESSION, formRequest);
+    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
 
     if (bindingResult.hasErrors()) {
-      return TEMPLATE;
+      return getTemplate();
     }
-    return REDIRECT_ORDER_BADGE_PROCESSING;
+    return getProcessingRedirectUrl();
   }
 
   private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
@@ -150,5 +137,15 @@ public class OrderBadgePersonDetailsController {
                 Collectors.groupingBy(
                     ref ->
                         "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
+  }
+
+  @Override
+  protected String getTemplate() {
+    return TEMPLATE;
+  }
+
+  @Override
+  protected String getProcessingRedirectUrl() {
+    return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 }

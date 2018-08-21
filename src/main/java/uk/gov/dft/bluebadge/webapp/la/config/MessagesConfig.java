@@ -16,7 +16,7 @@ public class MessagesConfig {
   public MessageSource messageSource() {
     final ReloadableResourceBundleMessageSource messageSource =
         new ReloadableResourceBundleMessageSource();
-    messageSource.setBasename("classpath:messages");
+    messageSource.setBasenames("classpath:messages", "classpath:order-a-badge-messages");
     messageSource.setFallbackToSystemLocale(false);
     messageSource.setCacheSeconds(0);
     return messageSource;

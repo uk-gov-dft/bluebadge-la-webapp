@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master.html}">
 
 <head>
-	<title>Order a badge - GOV.UK Manage Blue Badges</title>
+	<title th:text="#{orderbadge.index.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
 
 <body>
@@ -12,11 +12,10 @@
 		<div class="dft-grid-row">
 			<div class="dft-grid-col dft-grid-col--two-thirds">
 
-				<div class="dft-group-heading">
-					<p class="dft-sub-heading" data-uipath="step">Step 1</p>
-					<h1 class="govuk-heading-l" data-uipath="title">Order a badge</h1>
-				</div>
-
+				<h1 class="govuk-heading-l" data-uipath="title">
+					<span class="govuk-caption-m" th:text="#{common.text.step} + ' 1'"></span>
+					<span th:remove="tag" th:text="#{orderbadge.index.title.h1}"></span>
+				</h1>
 				<div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
 			</div>
 		</div>
@@ -25,33 +24,8 @@
 			<div class="dft-grid-col">
 				<form th:action="@{/order-a-badge/}" th:object="${formRequest}" method="post" novalidate>
 
-					<div class="govuk-form-group">
-						<fieldset class="govuk-fieldset">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--m" data-uipath="badgeFor.legend">
-								Who is the badge for?
-							</legend>
-
-							<div class="govuk-radios" data-module="radios">
-								<div class="govuk-radios__item">
-									<input class="govuk-radios__input" id="person" name="applicantType" type="radio" value="person" data-aria-controls="person" data-uipath="person">
-									<label class="govuk-label govuk-radios__label" for="person" data-uipath="badgeFor.radioLabel.person">
-										A person
-									</label>
-								</div>
-
-
-								<div class="govuk-radios__item">
-									<input class="govuk-radios__input" id="organisation" name="applicantType" type="radio" value="organisation" data-aria-controls="organisation" data-uipath="organisation">
-									<label class="govuk-label govuk-radios__label" for="organisation" data-uipath="badgeFor.radioLabel.organisation">
-										An Organisation
-									</label>
-								</div>
-							</div>
-
-						</fieldset>
-					</div>
-
-					<input value="Continue" type="submit" data-uipath="continue" class="govuk-button">
+					<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.index.h2.applicantType}, 'applicantType', null, ${applicantTypeOptions}) }"/>
+					<input th:value="#{common.button.continue}" type="submit" data-uipath="continue" class="govuk-button">
 
 				</form>
 			</div>

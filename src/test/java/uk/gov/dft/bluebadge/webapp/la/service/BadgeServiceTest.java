@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -42,25 +41,26 @@ public class BadgeServiceTest {
   }
 
   @Test
-  public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
-    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
-    BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
-    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+  public void orderBadge_shouldOrderBadgesAndReturnBadgeNumbers() {
+    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest().numberOfBadges(1);
+    when(badgeManagementApiClientMock.orderBlueBadges(badgeOrderRequest))
         .thenReturn(BADGE_NUMBERS_FOR_PERSON);
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
-    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
+    List<String> badgeNumbers = badgeService.orderABadge(badgeOrderRequest);
+    assertThat(badgeNumbers).isEqualTo(BADGE_NUMBERS_FOR_PERSON);
   }
 
   @Test
-  public void orderBadgeForAPersonWithImageUploaded_shouldOrderOneBadgeAndReturnBadgeNumber() throws IOException {
+  public void orderBadgeForAPersonWithImageUploaded_shouldOrderOneBadgeAndReturnBadgeNumber()
+      throws IOException {
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
     BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
     expectedBadgeOrderRequest.setImageFile("someBase64");
     when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
-            .thenReturn(BADGE_NUMBERS_FOR_PERSON);
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest, "someBytes".getBytes());
+        .thenReturn(BADGE_NUMBERS_FOR_PERSON);
+    List<String> badgeNumbers =
+        badgeService.orderABadgeForAPerson(badgeOrderRequest, "someBytes".getBytes());
     //verify(badgeService, times(1)).orderABadgeForAPerson(badgeOrderRequest);
-    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
+    assertThat(badgeNumbers).isEqualTo(BADGE_NUMBERS_FOR_PERSON);
   }
 
   @Test
