@@ -40,9 +40,9 @@ public class ManageUsersControllerTest {
   final UUID USER_UUID_1 = UUID.randomUUID();
   final UUID USER_UUID_2 = UUID.randomUUID();
   final UUID USER_UUID_3 = UUID.randomUUID();
-  final String NAME_JANE = "Jane";
-  final String NAME_NOT_FOUND = "NotFound";
-  final Integer ROLE_ID = 1;
+  private static final String NAME_JANE = "Jane";
+  private static final String NAME_NOT_FOUND = "NotFound";
+  private static final Integer ROLE_ID = 1;
 
   private BBPrincipal userDataSignedIn;
   private BBPrincipal userSignedIn;

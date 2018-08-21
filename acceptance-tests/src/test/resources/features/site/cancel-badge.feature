@@ -10,11 +10,14 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I type username "abc@dft.gov.uk" and  ***REMOVED***
     And   I can click Sign in button
     And   I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.person"
+    And I click on element "continue" button
     Then  I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When  I enter all the mandatory valid personal details to order a badge
     And   I can click "continue" button
     Then  I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When  I enter all the mandatory valid processing details to order a badge
+    When  I enter all the mandatory valid processing details to order a badge for person
     And   I can click "continue" button
     Then  I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When  I can click "orderBadge.button" button
@@ -45,11 +48,14 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I type username "abc@dft.gov.uk" and  ***REMOVED***
     And   I can click Sign in button
     And   I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.person"
+    And I click on element "continue" button
     Then  I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When  I enter all the mandatory valid personal details to order a badge
     And   I can click "continue" button
     Then  I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When  I enter all the mandatory valid processing details to order a badge
+    When  I enter all the mandatory valid processing details to order a badge for person
     And   I can click "continue" button
     Then  I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When  I can click "orderBadge.button" button
