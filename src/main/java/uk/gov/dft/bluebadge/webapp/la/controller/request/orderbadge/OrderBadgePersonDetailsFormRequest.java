@@ -31,6 +31,12 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
 
   private String dob;
 
+  private transient MultipartFile photo;
+
+  private String thumbBase64;
+
+  private byte[] byteImage;
+
   @NotBlank(message = "{NotNull.badge.dob}")
   @CannotBeInTheFutureDate(message = "{Pattern.badge.dob}")
   public String getDob() {
@@ -79,10 +85,4 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
 
   @NotBlank(message = "{NotNull.badge.eligibility}")
   private String eligibility;
-
-  private transient MultipartFile photo;
-
-  private String thumbBase64;
-
-  private byte[] byteImage;
 }

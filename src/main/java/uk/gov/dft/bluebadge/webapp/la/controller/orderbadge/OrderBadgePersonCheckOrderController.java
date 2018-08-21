@@ -49,8 +49,15 @@ public class OrderBadgePersonCheckOrderController
     BadgeOrderRequest badgeOrderRequest =
         converterToServiceModel.convert(detailsForm, processingForm);
 
-    List<String> badgeNumbers =
-        badgeService.orderABadgeForAPerson(badgeOrderRequest, detailsForm.getByteImage());
+    List<String> badgeNumbers;
+
+    if (detailsForm.getByteImage() == null) {
+      badgeNumbers = badgeService.orderABadge(badgeOrderRequest);
+    } else {
+      badgeNumbers =
+          badgeService.orderABadgeForAPerson(badgeOrderRequest, detailsForm.getByteImage());
+    }
+
     redirectAttributes.addFlashAttribute("badgeNumbers", badgeNumbers);
 
     super.finishSession(session);
