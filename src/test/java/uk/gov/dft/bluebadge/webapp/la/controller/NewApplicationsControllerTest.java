@@ -1,6 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import com.google.common.collect.Lists;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -13,25 +19,13 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.Ap
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 public class NewApplicationsControllerTest extends ApplicationTestData {
 
   private MockMvc mockMvc;
 
-  @Mock
-  private ApplicationService applicationServiceMock;
+  @Mock private ApplicationService applicationServiceMock;
 
-  @Mock
-  private ApplicationSummaryToApplicationViewModel converterMock;
+  @Mock private ApplicationSummaryToApplicationViewModel converterMock;
 
   private NewApplicationsController controller;
 
@@ -42,34 +36,26 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
     controller = new NewApplicationsController(applicationServiceMock, converterMock);
 
     this.mockMvc =
-      MockMvcBuilders.standaloneSetup(controller)
-        .setViewResolvers(new StandaloneMvcTestViewResolver())
-        .build();
+        MockMvcBuilders.standaloneSetup(controller)
+            .setViewResolvers(new StandaloneMvcTestViewResolver())
+            .build();
 
     when(converterMock.convert(APPLICATION_SUMMARY_1)).thenReturn(APPLICATION_VIEW_MODEL_1);
   }
 
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
-    when(applicationServiceMock.find(Optional.empty(), Optional.empty(),
-      Optional.empty(), Optional.empty(), Optional.of(ApplicationTypeCodeField.NEW))).thenReturn(ApplicationTestData.APPLICATION_SUMMARIES_ONE_ITEM);
+    when(applicationServiceMock.find(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(ApplicationTypeCodeField.NEW)))
+        .thenReturn(ApplicationTestData.APPLICATION_SUMMARIES_ONE_ITEM);
     mockMvc
-      .perform(get("/new-applications"))
-      .andExpect(status().isOk())
-      .andExpect(view().name("new-applications"))
-      .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
+        .perform(get("/new-applications"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("new-applications"))
+        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
   }
-
-  @Test
-  public void show_shouldDisplayNoResultsFound_whenThereAreNoApplications() throws Exception {
-    when(applicationServiceMock.find(Optional.empty(), Optional.empty(),
-      Optional.empty(), Optional.empty(), Optional.of(ApplicationTypeCodeField.NEW))).thenReturn(Lists.newArrayList());
-    mockMvc
-      .perform(get("/new-applications"))
-      .andExpect(status().isOk())
-      .andExpect(view().name("new-applications"))
-      .andExpect(model().attribute("applications", Lists.newArrayList()))
-      .andExpect(content().string(contains("No results found")));
-  }
-
 }

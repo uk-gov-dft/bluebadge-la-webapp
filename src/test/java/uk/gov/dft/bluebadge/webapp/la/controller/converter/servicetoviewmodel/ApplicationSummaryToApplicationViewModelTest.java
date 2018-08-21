@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -8,13 +11,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
 public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTestData {
 
-  @Mock
-  ReferenceDataService referenceDataServiceMock;
+  @Mock ReferenceDataService referenceDataServiceMock;
 
   ApplicationSummaryToApplicationViewModel converter;
 
@@ -22,7 +21,8 @@ public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTes
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
     converter = new ApplicationSummaryToApplicationViewModel(referenceDataServiceMock);
-    when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORT_CODE)).thenReturn(ELIGIBILITY_VIEW_MODEL);
+    when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORT_CODE))
+        .thenReturn(ELIGIBILITY_VIEW_MODEL);
   }
 
   @Test

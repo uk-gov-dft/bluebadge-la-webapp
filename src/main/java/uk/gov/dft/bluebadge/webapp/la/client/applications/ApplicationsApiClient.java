@@ -67,14 +67,35 @@ public class ApplicationsApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
     /*
-        ApplicationSummary as1 = new ApplicationSummary().applicationId("1").applicationTypeCode(ApplicationTypeCodeField.NEW).eligibilityCode(EligibilityCodeField.BLIND)
-          .name("name1").nino("AA0000A1").partyTypeCode(PartyTypeCodeField.PERSON).submissionDate(OffsetDateTime.now());
-        ApplicationSummary as2 = new ApplicationSummary().applicationId("2").applicationTypeCode(ApplicationTypeCodeField.NEW).eligibilityCode(EligibilityCodeField.ARMS)
-          .name("name2").nino("AA0000A2").partyTypeCode(PartyTypeCodeField.PERSON).submissionDate(OffsetDateTime.now());
-        ApplicationSummary as3 = new ApplicationSummary().applicationId("3").applicationTypeCode(ApplicationTypeCodeField.NEW).eligibilityCode(EligibilityCodeField.CHILDBULK)
-          .name("name3").nino("AA0000A3").partyTypeCode(PartyTypeCodeField.PERSON).submissionDate(OffsetDateTime.now());
-        List<ApplicationSummary> data = Lists.newArrayList(as1, as2, as3);
-    */
+    ApplicationSummary as1 =
+        new ApplicationSummary()
+            .applicationId("1")
+            .applicationTypeCode(ApplicationTypeCodeField.NEW)
+            .eligibilityCode(EligibilityCodeField.BLIND)
+            .name("name1")
+            .nino("AA0000A1")
+            .partyTypeCode(PartyTypeCodeField.PERSON)
+            .submissionDate(OffsetDateTime.now());
+    ApplicationSummary as2 =
+        new ApplicationSummary()
+            .applicationId("2")
+            .applicationTypeCode(ApplicationTypeCodeField.NEW)
+            .eligibilityCode(EligibilityCodeField.ARMS)
+            .name("name2")
+            .nino("AA0000A2")
+            .partyTypeCode(PartyTypeCodeField.PERSON)
+            .submissionDate(OffsetDateTime.now());
+    ApplicationSummary as3 =
+        new ApplicationSummary()
+            .applicationId("3")
+            .applicationTypeCode(ApplicationTypeCodeField.NEW)
+            .eligibilityCode(EligibilityCodeField.CHILDBULK)
+            .name("name3")
+            .nino("AA0000A3")
+            .partyTypeCode(PartyTypeCodeField.PERSON)
+            .submissionDate(OffsetDateTime.now());
+    List<ApplicationSummary> data = Lists.newArrayList(as1, as2, as3);
+    response.data(data);*/
     return response.getData();
   }
 }

@@ -1,9 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import com.google.common.collect.Lists;
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
@@ -21,10 +19,13 @@ public class ApplicationTestData {
   protected static final String ELIGIBILITY_VIEW_MODEL = "DLA";
   protected static final String NAME = "name";
   protected static final String NINO = "nino";
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE = LocalDateTime.of(2018, 6, 20, 10, 10).atOffset(ZoneOffset.MIN);
+  protected static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
+      LocalDateTime.of(2018, 6, 20, 10, 10).atOffset(ZoneOffset.UTC);
+  protected static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
+  protected static final java.time.OffsetDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
 
   // Application View Model fields
-  protected static final String SUBMISSION_DATE_VIEW_MODEL = "20/06/18 10:10";
+  protected static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 10:10";
 
   // Application Summary objects
   protected static final ApplicationSummary APPLICATION_SUMMARY_1 =
@@ -35,7 +36,7 @@ public class ApplicationTestData {
           .name(NAME)
           .nino(NINO)
           .partyTypeCode(PartyTypeCodeField.PERSON)
-          .submissionDate(SUBMISSION_DATE);
+          .submissionDate(SUBMISSION_DATE_1);
   protected static final ApplicationSummary APPLICATION_SUMMARY_2 =
       new ApplicationSummary()
           .applicationId("2")
@@ -44,7 +45,7 @@ public class ApplicationTestData {
           .name("name2")
           .nino("AA0000A2")
           .partyTypeCode(PartyTypeCodeField.PERSON)
-          .submissionDate(OffsetDateTime.now(Clock.systemUTC()).plusNanos(1));
+          .submissionDate(SUBMISSION_DATE_2);
   protected static final ApplicationSummary APPLICATION_SUMMARY_3 =
       new ApplicationSummary()
           .applicationId("3")
@@ -53,8 +54,9 @@ public class ApplicationTestData {
           .name("name3")
           .nino("AA0000A3")
           .partyTypeCode(PartyTypeCodeField.PERSON)
-          .submissionDate(OffsetDateTime.now(Clock.systemUTC()).plusNanos(2));
-  protected static final List<ApplicationSummary> APPLICATION_SUMMARIES_ONE_ITEM = Lists.newArrayList(APPLICATION_SUMMARY_1);
+          .submissionDate(SUBMISSION_DATE_3);
+  protected static final List<ApplicationSummary> APPLICATION_SUMMARIES_ONE_ITEM =
+      Lists.newArrayList(APPLICATION_SUMMARY_1);
   protected static final List<ApplicationSummary> UNORDERED_APPLICATION_SUMMARIES =
       Lists.newArrayList(APPLICATION_SUMMARY_1, APPLICATION_SUMMARY_2, APPLICATION_SUMMARY_3);
   protected static final List<ApplicationSummary> ORDERED_APPLICATION_SUMMARIES =
@@ -63,7 +65,13 @@ public class ApplicationTestData {
       UNORDERED_APPLICATION_SUMMARIES;
 
   // Application View Model Objects
-  protected static final ApplicationViewModel APPLICATION_VIEW_MODEL_1 = ApplicationViewModel.builder().name(NAME).nino(NINO).eligibility(ELIGIBILITY_VIEW_MODEL).submittedDate(SUBMISSION_DATE_VIEW_MODEL).build();
-  protected static final List<ApplicationViewModel> APPLICATION_VIEW_MODELS_ONE_ITEM = Lists.newArrayList(APPLICATION_VIEW_MODEL_1);
-
+  protected static final ApplicationViewModel APPLICATION_VIEW_MODEL_1 =
+      ApplicationViewModel.builder()
+          .name(NAME)
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
+          .build();
+  protected static final List<ApplicationViewModel> APPLICATION_VIEW_MODELS_ONE_ITEM =
+      Lists.newArrayList(APPLICATION_VIEW_MODEL_1);
 }
