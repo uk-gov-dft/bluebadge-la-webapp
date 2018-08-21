@@ -309,8 +309,7 @@ public class OrderBadgeTestData {
           .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES_PERSON)
           .party(PARTY_PERSON);
 
-  protected static final BadgeOrderRequest BADGE_ORDER_REQUEST_PERSON_WITH_IMAGE =
-      BADGE_ORDER_REQUEST_PERSON; //.imageFile(IMAGE_BASE64);
+  protected static final BadgeOrderRequest BADGE_ORDER_REQUEST_PERSON_WITH_IMAGE = BADGE_ORDER_REQUEST_PERSON;
 
   protected static final String VIEW_MODEL_APPLICATION_DATE = "2/7/2018";
   protected static final String VIEW_MODEL_BADGE_START_DATE =

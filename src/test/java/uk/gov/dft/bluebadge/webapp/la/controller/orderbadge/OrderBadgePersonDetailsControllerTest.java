@@ -123,10 +123,10 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             get("/order-a-badge/person/details")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
-        .andExpect(model().attribute("formRequest", FORM_REQUEST_PERSON_DETAILS));
+        .andExpect(model().attribute("formRequest", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE));
   }
 
   @Test

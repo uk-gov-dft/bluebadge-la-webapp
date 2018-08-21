@@ -38,7 +38,6 @@ public class OrderBadgePersonDetailsController
   private static final String REDIRECT_ORDER_BADGE_PROCESSING =
       "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
 
-  private static final String FORM_ACTION_RESET = "reset";
   public static final int THUMB_IMAGE_HEIGHT = 300;
   public static final String FORM_REQUEST = "formRequest";
 
@@ -54,7 +53,7 @@ public class OrderBadgePersonDetailsController
 
   @GetMapping(URL)
   public String showPersonDetails(
-      @ModelAttribute("formRequest") OrderBadgePersonDetailsFormRequest formRequest,
+      @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
       Model model) {
     return super.show(formRequest, session, model);
@@ -62,7 +61,7 @@ public class OrderBadgePersonDetailsController
 
   @PostMapping(URL)
   public String submitPersonDetails(
-      @Valid @ModelAttribute("formRequest") final OrderBadgePersonDetailsFormRequest formRequest,
+      @Valid @ModelAttribute(FORM_REQUEST) final OrderBadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
