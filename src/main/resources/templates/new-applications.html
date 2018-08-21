@@ -7,10 +7,39 @@
     <title th:text="#{newapplications.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
 <body>
+    <div layout:fragment="content">
+        <section class="dft-content-container--full">
 
-<div layout:fragment="content">
-</div>
+            <h1 class="govuk-heading-l" data-uipath="title">Manage users
+                <span class="dft-badge dft-badge--heading" th:utext="${applications.size()}" />
+            </h1>
 
+            <table class="govuk-table" th:if="${applications != null && applications.size() > 0}">
+                <thead class="govuk-table__head" data-uipath="table.head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="col">Name</th>
+                    <th class="govuk-table__header" scope="col">Nino</th>
+                    <th class="govuk-table__header" scope="col">Eligibility</th>
+                    <th class="govuk-table__header" scope="col">Submitted date</th>
+                </tr>
+                </thead>
+
+                <tbody class="govuk-table__body" data-uipath="table.body">
+                <tr class="govuk-table__row" th:each="app : ${applications}">
+                    <td class="govuk-table__cell" th:utext="${app.name}"/>
+                    <td class="govuk-table__cell" th:utext="${app.nino}"/>
+                    <td class="govuk-table__cell" th:utext="${app.eligibility}" />
+                    <td class="govuk-table__cell" th:utext="${app.submittedDate}" />
+                </tr>
+                </tbody>
+            </table>
+
+            <p th:if="${applications == null || applications.size() == 0}">
+                No results found
+            </p>
+
+        </section>
+    </div>
 </body>
 </html>
 
