@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import com.google.common.collect.Lists;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
@@ -19,10 +18,10 @@ public class ApplicationTestData {
   protected static final String ELIGIBILITY_VIEW_MODEL = "DLA";
   protected static final String NAME = "name";
   protected static final String NINO = "nino";
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
-      LocalDateTime.of(2018, 6, 20, 10, 10).atOffset(ZoneOffset.UTC);
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
+  protected static final java.time.LocalDateTime SUBMISSION_DATE_1 =
+      LocalDateTime.of(2018, 6, 20, 10, 10);
+  protected static final java.time.LocalDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
+  protected static final java.time.LocalDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
 
   // Application View Model fields
   protected static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 10:10";

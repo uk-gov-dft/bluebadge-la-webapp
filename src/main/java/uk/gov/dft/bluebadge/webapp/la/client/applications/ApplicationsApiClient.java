@@ -1,6 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
+import com.google.common.collect.Lists;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
 @Slf4j
@@ -60,13 +64,13 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     try {
-      response =
-          restTemplate.getForObject(
-              builder.build().toUriString(), ApplicationSummaryResponse.class);
+        response =
+      restTemplate.getForObject(
+          builder.build().toUriString(), ApplicationSummaryResponse.class);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
-    /*
+/*
     ApplicationSummary as1 =
         new ApplicationSummary()
             .applicationId("1")
@@ -75,7 +79,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name1")
             .nino("AA0000A1")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(OffsetDateTime.now());
+            .submissionDate(LocalDateTime.now());
     ApplicationSummary as2 =
         new ApplicationSummary()
             .applicationId("2")
@@ -84,7 +88,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name2")
             .nino("AA0000A2")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(OffsetDateTime.now());
+            .submissionDate(LocalDateTime.now());
     ApplicationSummary as3 =
         new ApplicationSummary()
             .applicationId("3")
@@ -93,7 +97,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             .name("name3")
             .nino("AA0000A3")
             .partyTypeCode(PartyTypeCodeField.PERSON)
-            .submissionDate(OffsetDateTime.now());
+            .submissionDate(LocalDateTime.now());
     List<ApplicationSummary> data = Lists.newArrayList(as1, as2, as3);
     response.data(data);*/
     return response.getData();

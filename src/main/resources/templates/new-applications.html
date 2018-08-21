@@ -10,17 +10,17 @@
     <div layout:fragment="content">
         <section class="dft-content-container--full">
 
-            <h1 class="govuk-heading-l" data-uipath="title">Manage users
+            <h1 class="govuk-heading-l" data-uipath="title" th:text="#{newapplications.title.h1}">
                 <span class="dft-badge dft-badge--heading" th:utext="${applications.size()}" />
             </h1>
 
             <table class="govuk-table" th:if="${applications != null && applications.size() > 0}">
                 <thead class="govuk-table__head" data-uipath="table.head">
                 <tr class="govuk-table__row">
-                    <th class="govuk-table__header" scope="col">Name</th>
-                    <th class="govuk-table__header" scope="col">NI number</th>
-                    <th class="govuk-table__header" scope="col">Eligibility</th>
-                    <th class="govuk-table__header" scope="col">Submitted date</th>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.name.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.nino.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.eligibility.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.submittedDate.label}"/>
                 </tr>
                 </thead>
 
@@ -34,9 +34,7 @@
                 </tbody>
             </table>
 
-            <p th:if="${applications == null || applications.size() == 0}">
-                No results found
-            </p>
+            <p th:if="${applications == null || applications.size() == 0}" th:text="${newapplications.message.noResultsFound}"/>
 
         </section>
     </div>
