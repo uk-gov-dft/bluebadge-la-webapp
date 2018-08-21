@@ -10,7 +10,8 @@
     <div layout:fragment="content">
         <section class="dft-content-container--full">
 
-            <h1 class="govuk-heading-l" data-uipath="title" th:text="#{newapplications.title.h1}">
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span th:text="#{newapplications.title.h1}" />
                 <span class="dft-badge dft-badge--heading" th:utext="${applications.size()}" />
             </h1>
 
