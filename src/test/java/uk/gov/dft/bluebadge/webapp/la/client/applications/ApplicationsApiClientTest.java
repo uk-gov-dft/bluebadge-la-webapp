@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.client.ExpectedCount.once;
@@ -11,7 +10,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
@@ -38,12 +37,10 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   private static final String FIND_PARAM_NAME = "name";
   private static final String FIND_PARAM_POSTCODE = "M1";
   private static final String FIND_PARAM_POSTCODE_WRONG = "WRONG";
-  private static final LocalDate FIND_PARAM_FROM = LocalDate.now().minusDays(7);
-  private static final LocalDate FIND_PARAM_TO = LocalDate.now().minusDays(2);
-  private static final String FIND_PARAM_FROM_API =
-      LocalDate.now().minusDays(7).format(ISO_LOCAL_DATE);
-  private static final String FIND_PARAM_TO_API =
-      LocalDate.now().minusDays(2).format(ISO_LOCAL_DATE);
+  private static final LocalDateTime FIND_PARAM_FROM = LocalDateTime.of(2018, 4, 20, 10, 37);
+  private static final LocalDateTime FIND_PARAM_TO = LocalDateTime.of(2018, 4, 27, 11, 42);
+  private static final String FIND_PARAM_FROM_API = "2018-04-20T10:37";
+  private static final String FIND_PARAM_TO_API = "2018-04-27T11:42";
 
   private ApplicationsApiClient client;
 

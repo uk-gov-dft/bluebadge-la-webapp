@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,10 +15,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSumma
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,28 +30,28 @@ public class ApplicationsApiClient extends BaseApiClient {
   }
 
   public List<ApplicationSummary> find(
-    Optional<String> name,
-    Optional<String> postcode,
-    Optional<LocalDate> from,
-    Optional<LocalDate> to,
-    Optional<ApplicationTypeCodeField> applicationTypeCode) {
+      Optional<String> name,
+      Optional<String> postcode,
+      Optional<LocalDateTime> from,
+      Optional<LocalDateTime> to,
+      Optional<ApplicationTypeCodeField> applicationTypeCode) {
     log.debug(
-      "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",
-      name,
-      postcode,
-      from,
-      to,
-      applicationTypeCode);
+        "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",
+        name,
+        postcode,
+        from,
+        to,
+        applicationTypeCode);
     Assert.isTrue(
-      name.isPresent()
-        || postcode.isPresent()
-        || from.isPresent()
-        || to.isPresent()
-        || applicationTypeCode.isPresent(),
-      "Either name or postcode or from or to or applicationTypeCode should be non empty");
+        name.isPresent()
+            || postcode.isPresent()
+            || from.isPresent()
+            || to.isPresent()
+            || applicationTypeCode.isPresent(),
+        "Either name or postcode or from or to or applicationTypeCode should be non empty");
 
     UriComponentsBuilder builder =
-      UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT);
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT);
     name.ifPresent(value -> builder.queryParam("name", value));
     postcode.ifPresent(value -> builder.queryParam("postcode", value));
     from.ifPresent(value -> builder.queryParam("from", value));
@@ -62,8 +61,8 @@ public class ApplicationsApiClient extends BaseApiClient {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     try {
       response =
-        restTemplate.getForObject(
-          builder.build().toUriString(), ApplicationSummaryResponse.class);
+          restTemplate.getForObject(
+              builder.build().toUriString(), ApplicationSummaryResponse.class);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

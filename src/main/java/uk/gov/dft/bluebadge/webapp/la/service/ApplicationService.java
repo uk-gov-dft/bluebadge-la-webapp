@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +26,8 @@ public class ApplicationService {
   public List<ApplicationSummary> find(
       Optional<String> name,
       Optional<String> postcode,
-      Optional<LocalDate> from,
-      Optional<LocalDate> to,
+      Optional<LocalDateTime> from,
+      Optional<LocalDateTime> to,
       Optional<ApplicationTypeCodeField> applicationTypeCode) {
     log.debug(
         "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",

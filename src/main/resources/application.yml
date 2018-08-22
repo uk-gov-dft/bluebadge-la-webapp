@@ -34,7 +34,7 @@ blue-badge:
       scheme: http
       connectiontimeout: 6000
       requesttimeout: 6000
-      contextpath: /uk-gov-dft/applications-service/1.0.0
+      contextpath: /uk-gov-dft/application-management-service/1.0.0
 
 logging:
   level:
