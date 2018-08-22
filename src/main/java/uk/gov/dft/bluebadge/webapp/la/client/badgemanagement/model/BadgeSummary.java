@@ -17,9 +17,6 @@ public class BadgeSummary {
   @JsonProperty("partyTypeCode")
   private String partyTypeCode = null;
 
-  @JsonProperty("partyTypeDescription")
-  private String partyTypeDescription = null;
-
   @JsonProperty("name")
   private String name = null;
 
@@ -79,26 +76,6 @@ public class BadgeSummary {
 
   public void setPartyTypeCode(String partyTypeCode) {
     this.partyTypeCode = partyTypeCode;
-  }
-
-  public BadgeSummary partyTypeDescription(String partyTypeDescription) {
-    this.partyTypeDescription = partyTypeDescription;
-    return this;
-  }
-
-  /**
-   * Get partyTypeDescription
-   *
-   * @return partyTypeDescription
-   */
-  @ApiModelProperty(example = "Person", value = "")
-  @Size(max = 100)
-  public String getPartyTypeDescription() {
-    return partyTypeDescription;
-  }
-
-  public void setPartyTypeDescription(String partyTypeDescription) {
-    this.partyTypeDescription = partyTypeDescription;
   }
 
   public BadgeSummary name(String name) {
@@ -241,7 +218,6 @@ public class BadgeSummary {
     BadgeSummary badgeSummary = (BadgeSummary) o;
     return Objects.equals(this.badgeNumber, badgeSummary.badgeNumber)
         && Objects.equals(this.partyTypeCode, badgeSummary.partyTypeCode)
-        && Objects.equals(this.partyTypeDescription, badgeSummary.partyTypeDescription)
         && Objects.equals(this.name, badgeSummary.name)
         && Objects.equals(this.nino, badgeSummary.nino)
         && Objects.equals(this.localAuthorityShortCode, badgeSummary.localAuthorityShortCode)
@@ -252,27 +228,15 @@ public class BadgeSummary {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        badgeNumber,
-        partyTypeCode,
-        partyTypeDescription,
-        name,
-        nino,
-        postCode,
-        expiryDate,
-        statusCode);
+    return Objects.hash(badgeNumber, partyTypeCode, name, nino, postCode, expiryDate, statusCode);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BadgeSummary {\n");
-
     sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
     sb.append("    partyTypeCode: ").append(toIndentedString(partyTypeCode)).append("\n");
-    sb.append("    partyTypeDescription: ")
-        .append(toIndentedString(partyTypeDescription))
-        .append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    localAuthorityShortCode: ")
