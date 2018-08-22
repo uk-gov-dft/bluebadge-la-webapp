@@ -16,7 +16,7 @@
 
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
 
-            <form th:action="@{/find-a-badge}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/manage-badges}" th:object="${formRequest}" method="post" novalidate>
                 <div class="dft-width-three-quarters">
 
                     <div th:class="${#fields.hasErrors('findBadgeBy')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"

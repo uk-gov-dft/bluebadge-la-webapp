@@ -29,9 +29,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 @Controller
 public class FindBadgeController {
 
-  public static final String URL_FIND_BADGE = "/find-a-badge";
+  public static final String URL_FIND_BADGE = "/manage-badges";
 
-  private static final String TEMPLATE = "find-a-badge/index";
+  private static final String TEMPLATE = "manage-badges/index";
 
   private static final String REDIRECT_FIND_BADGE_SEARCH_RESULTS =
       "redirect:" + FindBadgeSearchResultsController.URL;

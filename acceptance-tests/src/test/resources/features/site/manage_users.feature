@@ -1,5 +1,5 @@
 @ManageUsers
-Feature: Dft BlueBadge LA Manage User
+Feature: Dft BlueBadge LA Manage Users
 
   As an admin user
   I want to create,remove,modify a new user in LA webapp

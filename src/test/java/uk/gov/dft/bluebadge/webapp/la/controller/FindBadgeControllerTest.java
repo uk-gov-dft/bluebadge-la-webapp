@@ -73,9 +73,9 @@ public class FindBadgeControllerTest {
   public void show_shouldDisplayFindBadgeTemplateWithEmptyValues() throws Exception {
     FindBadgeFormRequest formRequest = FindBadgeFormRequest.builder().build();
     mockMvc
-        .perform(get("/find-a-badge"))
+        .perform(get("/manage-badges"))
         .andExpect(status().isOk())
-        .andExpect(view().name("find-a-badge/index"))
+        .andExpect(view().name("manage-badges/index"))
         .andExpect(model().attribute("formRequest", formRequest));
   }
 
@@ -84,9 +84,9 @@ public class FindBadgeControllerTest {
       submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithEmptyValues()
           throws Exception {
     mockMvc
-        .perform(post("/find-a-badge"))
+        .perform(post("/manage-badges"))
         .andExpect(status().isOk())
-        .andExpect(view().name("find-a-badge/index"))
+        .andExpect(view().name("manage-badges/index"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "findBadgeBy", "NotBlank"))
         .andExpect(model().errorCount(1));
   }
@@ -101,11 +101,11 @@ public class FindBadgeControllerTest {
     HttpSession session =
         mockMvc
             .perform(
-                post("/find-a-badge")
+                post("/manage-badges")
                     .param("findBadgeBy", "badgeNumber")
                     .param("searchTerm", BADGE_NUMBER))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();
@@ -120,11 +120,11 @@ public class FindBadgeControllerTest {
     HttpSession session =
         mockMvc
             .perform(
-                post("/find-a-badge")
+                post("/manage-badges")
                     .param("findBadgeBy", "badgeNumber")
                     .param("searchTerm", INVALID_BADGE_NUMBER))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();
@@ -138,11 +138,11 @@ public class FindBadgeControllerTest {
     HttpSession session =
         mockMvc
             .perform(
-                post("/find-a-badge")
+                post("/manage-badges")
                     .param("findBadgeBy", FIND_BY_POSTCODE)
                     .param("searchTerm", ""))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();
@@ -158,11 +158,11 @@ public class FindBadgeControllerTest {
     HttpSession session =
         mockMvc
             .perform(
-                post("/find-a-badge")
+                post("/manage-badges")
                     .param("findBadgeBy", INVALID_SEARCH_BADGE_BY_OPTION)
                     .param("searchTerm", "12345678"))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();
@@ -191,11 +191,11 @@ public class FindBadgeControllerTest {
     HttpSession session =
         mockMvc
             .perform(
-                post("/find-a-badge")
+                post("/manage-badges")
                     .param("findBadgeBy", FIND_BY_POSTCODE)
                     .param("searchTerm", POSTCODE))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();
@@ -224,9 +224,9 @@ public class FindBadgeControllerTest {
 
     HttpSession session =
         mockMvc
-            .perform(post("/find-a-badge").param("findBadgeBy", "name").param("searchTerm", NAME))
+            .perform(post("/manage-badges").param("findBadgeBy", "name").param("searchTerm", NAME))
             .andExpect(status().isFound())
-            .andExpect(redirectedUrl("/find-a-badge/search-results"))
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
             .getRequest()
             .getSession();

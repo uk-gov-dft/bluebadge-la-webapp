@@ -52,11 +52,11 @@ public class FindBadgeSearchResultsControllerTest {
   public void show_shouldFindBadgeSearchResultsTemplateWithResults() throws Exception {
     mockMvc
         .perform(
-            get("/find-a-badge/search-results")
+            get("/manage-badges/search-results")
                 .sessionAttr("results", RESULTS)
                 .sessionAttr("searchTerm", SEARCH_TERM))
         .andExpect(status().isOk())
-        .andExpect(view().name("find-a-badge/search-results"))
+        .andExpect(view().name("manage-badges/search-results"))
         .andExpect(model().attribute("searchTerm", SEARCH_TERM))
         .andExpect(model().attribute("results", RESULTS));
   }
