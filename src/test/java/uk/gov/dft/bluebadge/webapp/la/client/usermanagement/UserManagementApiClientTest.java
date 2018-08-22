@@ -79,6 +79,19 @@ public class UserManagementApiClientTest {
   }
 
   @Test
+  public void getCurrentUserDetails() throws Exception {
+    UsersResponse usersResponse = new UsersResponse();
+    mockServer
+        .expect(once(), requestTo(startsWith(TEST_URI + "/users/me")))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withSuccess(om.writeValueAsString(usersResponse), MediaType.APPLICATION_JSON));
+
+    userManagementApiClient.currentUserDetails();
+
+    mockServer.verify();
+  }
+
+  @Test
   public void createUser() throws Exception {
     UserResponse userResponse = new UserResponse();
     User responseUser = User.builder().uuid(USER_UUID).build();

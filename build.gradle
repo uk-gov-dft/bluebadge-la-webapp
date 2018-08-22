@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
         mavenLocal()
@@ -13,6 +13,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.3"
+        classpath 'org.owasp:dependency-check-gradle:3.3.1'
     }
 }
 
@@ -32,6 +33,7 @@ apply plugin: 'pmd'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
+apply plugin: 'org.owasp.dependencycheck'
 
 //apply plugin: 'findbugs'
 
@@ -125,8 +127,17 @@ tasks.withType(Pmd) {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        // don't cache changing modules at all
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
 dependencies {
-    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: '0.4.1-SNAPSHOT', changing: true ){
+    ext.commonVersion = '0.4.2-SNAPSHOT'
+
+    compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
 
@@ -160,6 +171,9 @@ dependencies {
     testCompile('org.springframework.security:spring-security-test')
     testCompile("org.assertj:assertj-core:3.9.1")
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
+    testCompile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", classifier: 'tests',  changing: true ){
+        exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
+    }
     testCompileOnly ('org.projectlombok:lombok:1.16.22')
 }
 

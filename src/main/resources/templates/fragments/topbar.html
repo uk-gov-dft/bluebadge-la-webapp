@@ -11,13 +11,13 @@
 
             <span class="dft-topbar__title"
                   data-uipath="topbar.title"
-                  sec:authorize="isAuthenticated()" th:utext="'Manchester City Council'" />
+                  sec:authorize="isAuthenticated()" th:utext="${#authentication.principal.localAuthorityName}" />
         </div>
 
         <div class="dft-topbar__menu" sec:authorize="isAuthenticated()">
             <span class="dft-topbar__username" th:data-uipath="topbar.username"
-                  th:aria-label="'You are logged in as ' + ${#authentication.name}"
-                  sec:authentication="name"/>
+                  th:aria-label="'You are logged in as ' + ${#authentication.principal.name}"
+                  sec:authentication="principal.name"/>
 
             <form name="logoutForm" th:action="@{/sign-out}" method="post"  class="dft-topbar__signout">
               <input th:data-uipath="topbar.signout" class="dft-btn-link" type="submit" value="Sign out"/>
