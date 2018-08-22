@@ -92,7 +92,7 @@ public class OrderBadgePersonDetailsController
     BufferedImage thumb = ImageIO.read(input);
 
     String thumbBase64 = "data:" + contentType + ";base64, ";
-    return thumbBase64 += ImageProcessingUtils.getBase64FromBufferedImage(thumb);
+    return thumbBase64 + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
   }
 
   private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
