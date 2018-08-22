@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.ManageUsersFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -35,16 +36,16 @@ public class ManageUsersController {
 
   @GetMapping(URL_MANAGE_USERS)
   public String manageUsers(@ModelAttribute final ManageUsersFormRequest formRequest, Model model) {
-    uk.gov.dft.bluebadge.common.security.model.User user = securityUtils.getCurrentUserDetails();
+    BBPrincipal authUser = securityUtils.getCurrentAuth();
     log.debug("Showing manage users page.");
-    List<User> allUsers = userService.find(user.getLocalAuthorityShortCode());
+    List<User> allUsers = userService.find(authUser.getLocalAuthorityShortCode());
     List<User> users = Lists.newArrayList();
 
     String trimmedSearch = StringUtils.trimToEmpty(formRequest.getSearch());
     if (StringUtils.isEmpty(trimmedSearch)) {
       users.addAll(allUsers);
     } else {
-      users.addAll(userService.find(user.getLocalAuthorityShortCode(), trimmedSearch));
+      users.addAll(userService.find(authUser.getLocalAuthorityShortCode(), trimmedSearch));
     }
 
     model.addAttribute("search", trimmedSearch);

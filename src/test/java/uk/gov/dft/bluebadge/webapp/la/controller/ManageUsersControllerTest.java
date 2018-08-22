@@ -20,6 +20,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
+import uk.gov.dft.bluebadge.common.util.TestBBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -42,8 +44,8 @@ public class ManageUsersControllerTest {
   private static final String NAME_NOT_FOUND = "NotFound";
   private static final Integer ROLE_ID = 1;
 
-  private uk.gov.dft.bluebadge.common.security.model.User userDataSignedIn;
-  private uk.gov.dft.bluebadge.common.security.model.User userSignedIn;
+  private BBPrincipal userDataSignedIn;
+  private BBPrincipal userSignedIn;
   private User userJane;
   private User user2;
   private User user3;
@@ -63,18 +65,18 @@ public class ManageUsersControllerTest {
             .build();
 
     userSignedIn =
-        uk.gov.dft.bluebadge.common.security.model.User.builder()
+        TestBBPrincipal.user()
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
     userDataSignedIn =
-        uk.gov.dft.bluebadge.common.security.model.User.builder()
+        TestBBPrincipal.user()
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
-    when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
+    when(securityUtilsMock.getCurrentAuth()).thenReturn(userDataSignedIn);
 
     userJane =
         User.builder()
