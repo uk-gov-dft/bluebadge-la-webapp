@@ -5,16 +5,12 @@ import static org.mockito.Mockito.*;
 import static uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData.PHOTO;
 
 import com.google.common.collect.Lists;
-
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
-
-import com.jayway.restassured.config.MultiPartConfig;
+import javax.imageio.ImageIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -28,8 +24,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
-
-import javax.imageio.ImageIO;
 
 public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
@@ -78,7 +72,8 @@ public class BadgeServiceTest {
     BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
     expectedBadgeOrderRequest.imageFile("base64");
 
-    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest)).thenReturn(BADGE_NUMBERS_FOR_PERSON);
+    when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
+        .thenReturn(BADGE_NUMBERS_FOR_PERSON);
 
     List<String> badgeNumbers = badgeService.orderABadgeForAPerson(badgeOrderRequest, imageInByte);
 

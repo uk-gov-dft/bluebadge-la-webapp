@@ -38,23 +38,24 @@ public abstract class OrderBadgeBaseControllerTest extends OrderBadgeTestData {
           .byteImage("thumbnail".getBytes())
           .build();
 
-  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE =
+  protected static final OrderBadgePersonDetailsFormRequest
+      FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE =
           OrderBadgePersonDetailsFormRequest.builder()
-                  .buildingAndStreet(BUILDING_AND_STREET)
-                  .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-                  .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-                  .contactDetailsName(CONTACT_DETAILS_NAME)
-                  .dobDay(Integer.valueOf(DOB_DAY))
-                  .dobMonth(Integer.valueOf(DOB_MONTH))
-                  .dobYear(Integer.valueOf(DOB_YEAR))
-                  .eligibility(ELIGIBILITY)
-                  .name(NAME)
-                  .nino(NINO)
-                  .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
-                  .postcode(POSTCODE)
-                  .townOrCity(TOWN_OR_CITY)
-                  .photo(EMPTY_PHOTO)
-                  .build();
+              .buildingAndStreet(BUILDING_AND_STREET)
+              .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+              .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+              .contactDetailsName(CONTACT_DETAILS_NAME)
+              .dobDay(Integer.valueOf(DOB_DAY))
+              .dobMonth(Integer.valueOf(DOB_MONTH))
+              .dobYear(Integer.valueOf(DOB_YEAR))
+              .eligibility(ELIGIBILITY)
+              .name(NAME)
+              .nino(NINO)
+              .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+              .postcode(POSTCODE)
+              .townOrCity(TOWN_OR_CITY)
+              .photo(EMPTY_PHOTO)
+              .build();
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()

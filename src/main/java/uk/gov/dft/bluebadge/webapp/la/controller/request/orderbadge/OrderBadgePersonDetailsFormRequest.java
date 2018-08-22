@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
+import java.util.Arrays;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -36,6 +37,9 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
   private String thumbBase64;
 
   private byte[] byteImage;
+
+  private static final String[] ALLOWED_FILE_TYPES =
+      new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
 
   @NotBlank(message = "{NotNull.badge.dob}")
   @CannotBeInTheFutureDate(message = "{Pattern.badge.dob}")
@@ -85,4 +89,12 @@ public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetails
 
   @NotBlank(message = "{NotNull.badge.eligibility}")
   private String eligibility;
+
+  public Boolean hasPhoto() {
+    return getPhoto().getSize() > 0;
+  }
+
+  public Boolean isPhotoValid() {
+    return Arrays.asList(ALLOWED_FILE_TYPES).contains(getPhoto().getContentType().toLowerCase());
+  }
 }

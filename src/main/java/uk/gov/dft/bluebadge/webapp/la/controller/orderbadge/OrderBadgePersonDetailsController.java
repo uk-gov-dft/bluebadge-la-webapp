@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,9 +40,6 @@ public class OrderBadgePersonDetailsController
   public static final int THUMB_IMAGE_HEIGHT = 300;
   public static final String FORM_REQUEST = "formRequest";
 
-  private String[] allowedFileTypes =
-      new String[] {"image/jpg", "image/jpeg", "image/png", "image/gif"};
-
   private ReferenceDataService referenceDataService;
 
   @Autowired
@@ -65,17 +61,14 @@ public class OrderBadgePersonDetailsController
       BindingResult bindingResult,
       Model model,
       HttpSession session) {
+
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    Boolean isFileTypeCorrect =
-        Arrays.asList(allowedFileTypes)
-            .contains(formRequest.getPhoto().getContentType().toLowerCase());
-
-    if (!isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+    if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
-    if (isFileTypeCorrect && formRequest.getPhoto().getSize() > 0) {
+    if(formRequest.isPhotoValid()) {
       try {
         processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
@@ -88,37 +81,42 @@ public class OrderBadgePersonDetailsController
     if (bindingResult.hasErrors()) {
       return getTemplate();
     }
+
     return getProcessingRedirectUrl();
+  }
+
+  private String generateThumbnail(BufferedImage imageBuffer, String contentType)
+      throws IOException {
+    InputStream input =
+        ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
+    BufferedImage thumb = ImageIO.read(input);
+
+    String thumbBase64 = "data:" + contentType + ";base64, ";
+    return thumbBase64 += ImageProcessingUtils.getBase64FromBufferedImage(thumb);
+  }
+
+  private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
+    byte[] imageByteArray;
+    ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+    ImageIO.write(bufferedImage, "JPG", byteArrayStream);
+    byteArrayStream.flush();
+    imageByteArray = byteArrayStream.toByteArray();
+    byteArrayStream.close();
+    return imageByteArray;
   }
 
   private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
 
     MultipartFile photo = formRequest.getPhoto();
     InputStream stream = photo.getInputStream();
-    BufferedImage imageBuffer = ImageIO.read(stream);
+    BufferedImage sourceImageBuffer = ImageIO.read(stream);
 
-    if (imageBuffer == null) {
+    if (sourceImageBuffer == null) {
       throw new IllegalArgumentException("Invalid image.");
     }
 
-    byte[] imageInByte;
-    ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-    ImageIO.write(imageBuffer, "JPG", byteArrayStream);
-    byteArrayStream.flush();
-    imageInByte = byteArrayStream.toByteArray();
-    byteArrayStream.close();
-
-    InputStream input =
-        ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
-    BufferedImage thumb = ImageIO.read(input);
-    String thumbBase64 =
-        "data:"
-            + formRequest.getPhoto().getContentType()
-            + ";base64, "
-            + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
-
-    formRequest.setThumbBase64(thumbBase64);
-    formRequest.setByteImage(imageInByte);
+    formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer));
+    formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
   }
 
   @ModelAttribute("genderOptions")
