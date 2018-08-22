@@ -388,7 +388,7 @@ public class SiteSteps extends AbstractSpringSteps {
         uipath = "sidebar-nav.order-a-badge";
         break;
       case "Find a badge":
-        uipath = "sidebar-nav.find-a-badge";
+        uipath = "sidebar-nav.manage-badges";
         break;
       case "New applications":
         uipath = "sidebar-nav.new-applications";

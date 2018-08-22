@@ -29,7 +29,6 @@ Feature: Dft BlueBadge LA Find a Badge
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
     And I type the badge number of the badge previously ordered
-#    And I type "AAAAA1" for "searchTerm.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should not see "No results found for badge number" text on the page
