@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<article class="dft-check-answers" th:fragment="badgePersonDetails(badge)">
+
+    <div class="dft-check-answers__heading">
+        <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title"
+            th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
+    </div>
+
+    <dl class="dft-data-list" data-uipath="personalDetails.answers">
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.fullName}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.fullName}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.gender}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.gender}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.dob}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.dob}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.nino}"/>
+            <dd class="dft-data-list__dd" th:with="ref=${badge.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.address}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.address}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactFullName}"/>
+            <dd class="dft-data-list__dd" th:with="ref=${badge.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactNumber}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.contactNumber}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.secondaryContactNumber}"/>
+            <dd class="dft-data-list__dd"  th:with="ref=${badge.secondaryContactNumber}" th:text="${ref} ? ${ref} : ${noValue}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.emailAddress}"/>
+            <dd class="dft-data-list__dd" th:with="ref=${badge.emailAddress}"
+                th:text="${ref} ? ${ref} : ${noValue}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.eligibility}"/>
+            <dd class="dft-data-list__dd" th:text="${badge.eligibility}"/>
+        </div>
+
+        <div class="dft-data-list__item">
+            <dt class="dft-data-list__dt">Photo</dt>
+            <dd class="dft-data-list__dd">
+                <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
+            </dd>
+        </div>
+    </dl>
+</article>
+
+</body>
+</html>

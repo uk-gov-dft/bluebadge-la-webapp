@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 
 @Configuration
 @EnableOAuth2Client
@@ -72,5 +73,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     services.setTokenType(authServerProps.getTokenType());
     services.setRestTemplate(restTemplate);
     return services;
+  }
+
+  @Bean
+  public SecurityUtils securityUtils() {
+    return new SecurityUtils();
   }
 }

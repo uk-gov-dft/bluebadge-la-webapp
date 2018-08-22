@@ -21,7 +21,6 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -34,8 +33,8 @@ public class CreateANewUserControllerTest {
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String NAME = "joeblogs@joe.com";
   private static final String NAME_WRONG_FORMAT = "111";
-  private static final int ROLE_ID = 1;
-  private static final int LOCAL_AUTHORITY_ID = 1;
+  private static final int ROLE_ID = 2;
+  private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
   public static final String ERROR_IN_NAME = "error in name";
 
@@ -67,21 +66,19 @@ public class CreateANewUserControllerTest {
 
     userDataSignedIn =
         uk.gov.dft.bluebadge.common.security.model.User.builder()
-            .name("Joe")
-            .id(1)
             .emailAddress("joe.blogs@email.com")
-            .localAuthority(LocalAuthority.builder().id(LOCAL_AUTHORITY_ID).build())
-            .roleId(ROLE_ID)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
 
     when(securityUtilsMock.getCurrentUserDetails()).thenReturn(userDataSignedIn);
 
     user =
-        new User()
+        User.builder()
             .emailAddress(EMAIL)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_ID)
+            .build();
   }
 
   @Test
@@ -98,11 +95,12 @@ public class CreateANewUserControllerTest {
       createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
-        new User()
+        User.builder()
             .emailAddress(EMAIL)
             .name(NAME)
-            .localAuthorityId(LOCAL_AUTHORITY_ID)
-            .roleId(ROLE_ID);
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_ID)
+            .build();
 
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
