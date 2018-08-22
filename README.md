@@ -187,21 +187,25 @@ BROWSER = do inside your favourite browser
 Yo may need to update your Vagrantfile with your vagrant ip address
 
 ```
-$ cd /home/vagrant/valtech-dft-workspace/solution/dev-env
+$ cd /Users/YOUR_USER/work/sourcecode/bluebadgebeta/dev-env
 $ git pull
-$ cd /Users/miguelgil_garcia/work/sourcecode/bluebadgebeta/valtech-dft-workspace
+$ cd /Users/YOUR_USER/work/sourcecode/bluebadgebeta/valtech-dft-workspace
 $ git pull
+$ vagrant reload (Sometimes you may need to do that if there are changes in dev-env)
 $ vagrant up
 $ vagrant ssh 
-$Vagrant docker-compose ps
 $Vagrant cd /home/vagrant/valtech-dft-workspace/solution/dev-env
+$Vagrant git pull
+$Vagrant git checkout develop
+$Vagrant docker-compose ps
 $Vagrant vi ./env.sh
 BROWSER: Go to artifactory with a browser to the appropriave project, i.e.: https://artifactory.does.not.exist/artifactory/webapp/#/artifacts/browse/tree/General/gradle-dev-local/uk/gov/dft/bluebadge/webapp/la/la-webapp/0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page/la-webapp-0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page.jar
 BROWSER: Copy the version to the clipboard (0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page)
 $VIM copy the version in vim for each project
 $VIM :wq!
 $Vagrant source ./env.sh
-$Vagrant ./rebuild
+$Vagrant bash load-modules.sh (you may need to do that if there are new services or applications)
+$Vagrant ./rebuild.sh
 ```
 To find out your ip address in vagrant
 ```

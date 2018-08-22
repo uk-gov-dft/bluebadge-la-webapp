@@ -11,9 +11,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResult
 @Controller
 public class FindBadgeSearchResultsController {
 
-  public static final String URL = "/find-a-badge/search-results";
+  public static final String URL = "/manage-badges/search-results";
 
-  private static final String TEMPLATE = "find-a-badge/search-results";
+  private static final String TEMPLATE = "manage-badges/search-results";
 
   private static final String MODEL_SEARCH_TERM = "searchTerm";
   private static final String MODEL_RESULTS = "results";
