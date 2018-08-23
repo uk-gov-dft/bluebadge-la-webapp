@@ -8,7 +8,7 @@ public class ModelViewFormats {
 
   private static final String VIEW_MODEL_DATE_FORMAT = "dd/MM/yy";
 
-  private static final String VIEW_MODEL_DATE_TIME_FORMAT = "dd/MM/yy hh:mm";
+  private static final String VIEW_MODEL_DATE_TIME_FORMAT = "dd/MM/yy HH:mm";
 
   public static final DateTimeFormatter viewModelDateFormatter =
       DateTimeFormatter.ofPattern(VIEW_MODEL_DATE_FORMAT);
