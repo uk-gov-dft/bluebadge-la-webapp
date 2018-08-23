@@ -10,6 +10,6 @@ public class ModelViewFormats {
   public static final DateTimeFormatter viewModelDateFormatter =
       DateTimeFormatter.ofPattern(VIEW_MODEL_DATE_FORMAT);
 
-  public static DateTimeFormatter viewModelDateTimeFormatter =
+  public static final DateTimeFormatter viewModelDateTimeFormatter =
       DateTimeFormatter.ofPattern(ModelViewFormats.VIEW_MODEL_DATE_TIME_FORMAT);
 }
