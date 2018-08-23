@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import java.time.format.DateTimeFormatter;
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Component
 public class BadgeSummaryToFindBadgeSearchResultViewModel
     implements Converter<BadgeSummary, FindBadgeSearchResultViewModel> {
-
-  private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
-  private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
 
   private ReferenceDataService referenceDataService;
 
@@ -38,7 +36,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
         .name(source.getName())
         .postCode(source.getPostCode())
         .localAuthority(localAuthorityDisplayText)
-        .expiryDate(source.getExpiryDate().format(formatter))
+        .expiryDate(source.getExpiryDate().format(viewModelDateFormatter))
         .status(statusDisplayText)
         .build();
   }
