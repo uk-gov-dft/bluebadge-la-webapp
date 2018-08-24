@@ -73,13 +73,13 @@
             </div>
 
             <hr class="dft-hr dft-hr--small">
-            <h2 class="govuk-heading-m" data-uipath="photoTitle">Upload photo (optional)</h2>
+            <h2 class="govuk-heading-m" data-uipath="photoTitle">Photo (optional)</h2>
 
             <div class="dft-width-one-half">
                 <p class="govuk-body">Photos should:</p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>be either JPEG, PNG or GIF format</li>
-                    <li>not be bigger than 10MB</li>
+                    <li>not be bigger than 2MB</li>
                 </ul>
 
                 <div th:class="${#fields.hasErrors('photo')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
@@ -88,7 +88,7 @@
                           th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
 
                     <label class="govuk-label" th:attr="for=photo">Upload a file</label>
-                    <p class="govuk-body" th:if="${photo}">You have already uploaded a photo</p>
+                    <p class="govuk-body" th:if="${formRequest.thumbBase64}">You have already uploaded a photo</p>
                     <input type="file" data-uipath="photo.field" class="govuk-file-upload" th:field="*{photo}">
                 </div>
             </div>

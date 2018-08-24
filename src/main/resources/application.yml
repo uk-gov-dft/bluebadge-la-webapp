@@ -46,14 +46,10 @@ management:
         include: '*'
 
 spring:
-  http:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   servlet:
       multipart:
-        max-file-size: 10MB
-        max-request-size: 10MB
+        max-file-size: 2MB
+        max-request-size: 2MB
   devtools:
     restart:
       additional-exclude: sass/**,js/**
@@ -68,6 +64,7 @@ server:
   tomcat:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
+    #max-swallow-size: -1
 
 security:
   oauth2:
