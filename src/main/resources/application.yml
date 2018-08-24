@@ -48,8 +48,8 @@ management:
 spring:
   servlet:
       multipart:
-        max-file-size: 2MB
-        max-request-size: 2MB
+        max-file-size: 10MB
+        max-request-size: 10MB
   devtools:
     restart:
       additional-exclude: sass/**,js/**
