@@ -12,13 +12,10 @@ public class CustomTomcatConnectorConfiguration implements WebServerFactoryCusto
 
   @Override
   public void customize(TomcatServletWebServerFactory factory) {
-    factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
-      @Override
-      public void customize(Connector connector) {
-        if ((connector.getProtocolHandler() instanceof AbstractHttp11Protocol<?>)) {
-          // -1 means unlimited, accept bytes
-          ((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);
-        }
+    factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
+      if ((connector.getProtocolHandler() instanceof AbstractHttp11Protocol<?>)) {
+        // -1 means unlimited, accept bytes
+        ((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);
       }
     });
   }
