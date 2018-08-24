@@ -40,7 +40,8 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
 
-    when(converterMock.convert(APPLICATION_SUMMARY_1)).thenReturn(APPLICATION_VIEW_MODEL_1);
+    when(converterMock.convert(APPLICATION_SUMMARY_PERSON_1))
+        .thenReturn(APPLICATION_PERSON_VIEW_MODEL_1);
   }
 
   @Test

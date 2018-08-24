@@ -26,8 +26,14 @@ public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTes
   }
 
   @Test
-  public void convert_shouldWork() {
-    ApplicationViewModel viewModel = converter.convert(APPLICATION_SUMMARY_1);
-    assertThat(viewModel).isEqualTo(APPLICATION_VIEW_MODEL_1);
+  public void convert_shouldWork_whenPerson() {
+    ApplicationViewModel viewModel = converter.convert(APPLICATION_SUMMARY_PERSON_1);
+    assertThat(viewModel).isEqualTo(APPLICATION_PERSON_VIEW_MODEL_1);
+  }
+
+  @Test
+  public void convert_shouldWork_whenOrganisation() {
+    ApplicationViewModel viewModel = converter.convert(APPLICATION_SUMMARY_ORGANISATION_1);
+    assertThat(viewModel).isEqualTo(APPLICATION_ORGANISATION_VIEW_MODEL_1);
   }
 }

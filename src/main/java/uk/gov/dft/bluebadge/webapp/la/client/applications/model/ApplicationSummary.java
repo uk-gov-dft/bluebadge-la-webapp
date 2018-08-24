@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -28,7 +28,7 @@ public class ApplicationSummary {
   private String name = null;
 
   @JsonProperty("submissionDate")
-  private LocalDateTime submissionDate = null;
+  private OffsetDateTime submissionDate = null;
 
   @JsonProperty("eligibilityCode")
   private EligibilityCodeField eligibilityCode = null;
@@ -141,7 +141,7 @@ public class ApplicationSummary {
     this.name = name;
   }
 
-  public ApplicationSummary submissionDate(LocalDateTime submissionDate) {
+  public ApplicationSummary submissionDate(OffsetDateTime submissionDate) {
     this.submissionDate = submissionDate;
     return this;
   }
@@ -153,11 +153,11 @@ public class ApplicationSummary {
    */
   @ApiModelProperty(example = "2018-12-25T12:30:45Z", value = "Submitted date and time")
   @Valid
-  public LocalDateTime getSubmissionDate() {
+  public OffsetDateTime getSubmissionDate() {
     return submissionDate;
   }
 
-  public void setSubmissionDate(LocalDateTime submissionDate) {
+  public void setSubmissionDate(OffsetDateTime submissionDate) {
     this.submissionDate = submissionDate;
   }
 
