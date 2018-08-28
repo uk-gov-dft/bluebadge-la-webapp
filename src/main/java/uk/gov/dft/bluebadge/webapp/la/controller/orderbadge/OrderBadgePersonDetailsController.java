@@ -75,7 +75,10 @@ public class OrderBadgePersonDetailsController
       try {
         processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
-        log.debug(e.getMessage());
+        log.info("--- IMAGE IO EXCEPTION STACK TRACE --- ");
+        log.debug(e.getStackTrace().toString());
+        log.info("--- WHOLE ERROR --- ");
+        log.debug(e.toString());
         bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
       }
     }
@@ -102,7 +105,7 @@ public class OrderBadgePersonDetailsController
   private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
     byte[] imageByteArray;
     ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, "JPG", byteArrayStream);
+    ImageIO.write(bufferedImage, "jpg", byteArrayStream);
     byteArrayStream.flush();
     imageByteArray = byteArrayStream.toByteArray();
     byteArrayStream.close();
