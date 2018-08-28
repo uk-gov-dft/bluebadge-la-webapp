@@ -68,24 +68,15 @@ public class OrderBadgePersonDetailsController
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
-    String fileName = formRequest.getPhoto().getOriginalFilename();
-
-    String extension = "jpg";
-
-    int i = fileName.lastIndexOf('.');
-    if (i > 0) {
-      extension = fileName.substring(i+1);
-    }
 
     log.debug("--------------> mime type is " + formRequest.getPhoto().getContentType() + " --- ");
-    log.info("---------------> file format is ---> " + extension + " --- ");
 
     if (formRequest.isPhotoValid()) {
       try {
-        processImage(formRequest, extension);
+        processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
         log.info("--- IMAGE IO EXCEPTION STACK TRACE --- ");
-        log.debug(e.getStackTrace().toString());
+        log.info(e.getStackTrace().toString());
         log.info("--- WHOLE ERROR --- ");
         log.debug(e.toString());
         bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
@@ -101,38 +92,53 @@ public class OrderBadgePersonDetailsController
     return getProcessingRedirectUrl();
   }
 
-  private String generateThumbnail(BufferedImage imageBuffer, String contentType)
-      throws IOException {
+  private String generateThumbnail(BufferedImage imageBuffer, String contentType) throws IOException {
     InputStream input =
         ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
-    BufferedImage thumb = ImageIO.read(input);
-
+    BufferedImage thumb;
+    try {
+      thumb = ImageIO.read(input);
+    }catch(IOException e){
+      log.error("GenerateThumbnail:" + e.getMessage(), e);
+      throw e;
+    }
     String thumbBase64 = "data:" + contentType + ";base64, ";
     return thumbBase64 + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
   }
 
-  private byte[] extractImageToByteArray(BufferedImage bufferedImage, String format) throws IOException {
+  private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
     byte[] imageByteArray;
     ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, format, byteArrayStream);
-    byteArrayStream.flush();
-    imageByteArray = byteArrayStream.toByteArray();
-    byteArrayStream.close();
-    return imageByteArray;
-  }
-
-  private void processImage(OrderBadgePersonDetailsFormRequest formRequest, String format) throws IOException {
-
-    MultipartFile photo = formRequest.getPhoto();
-    InputStream stream = photo.getInputStream();
-    BufferedImage sourceImageBuffer = ImageIO.read(stream);
-
-    if (sourceImageBuffer == null) {
-      throw new IllegalArgumentException("Invalid image.");
+    try {
+      ImageIO.write(bufferedImage, "jpg", byteArrayStream);
+      byteArrayStream.flush();
+      imageByteArray = byteArrayStream.toByteArray();
+      byteArrayStream.close();
+      return imageByteArray;
+    } catch (IOException e) {
+      log.error("extractImageToByteArray:" + e.getMessage(), e);
+      throw e;
     }
 
-    formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer, format));
-    formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
+  }
+
+  private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
+
+    MultipartFile photo = formRequest.getPhoto();
+    try{
+      InputStream stream = photo.getInputStream();
+      BufferedImage sourceImageBuffer = ImageIO.read(stream);
+
+      if (sourceImageBuffer == null) {
+        throw new IllegalArgumentException("Invalid image.");
+      }
+
+      formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer));
+      formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
+    }catch (IOException e){
+      log.error("processImage:" + e.getMessage(), e);
+      throw e;
+    }
   }
 
   @ModelAttribute("genderOptions")
