@@ -64,7 +64,7 @@ public class OrderBadgePersonDetailsController
 
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    log.debug("----------------------> " + formRequest.getPhoto().getContentType());
+    log.debug("----------------------> " + formRequest.getPhoto().getContentType() + " --- ");
 
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
       log.debug("if block");
