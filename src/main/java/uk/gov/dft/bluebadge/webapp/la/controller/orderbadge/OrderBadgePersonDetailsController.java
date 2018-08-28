@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base32InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,144 +32,117 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Slf4j
 @Controller
 public class OrderBadgePersonDetailsController
-    extends OrderBadgeBaseDetailsController<OrderBadgePersonDetailsFormRequest> {
-  public static final String URL = "/order-a-badge/person/details";
+        extends OrderBadgeBaseDetailsController<OrderBadgePersonDetailsFormRequest> {
+    public static final String URL = "/order-a-badge/person/details";
 
-  private static final String TEMPLATE = "order-a-badge/person/details";
+    private static final String TEMPLATE = "order-a-badge/person/details";
 
-  private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
+    private static final String REDIRECT_ORDER_BADGE_PROCESSING =
+            "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
 
-  public static final int THUMB_IMAGE_HEIGHT = 300;
-  public static final String FORM_REQUEST = "formRequest";
+    private static final int THUMB_IMAGE_HEIGHT = 300;
+    private static final String FORM_REQUEST = "formRequest";
 
-  private ReferenceDataService referenceDataService;
+    private ReferenceDataService referenceDataService;
 
-  @Autowired
-  public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
-    this.referenceDataService = referenceDataService;
-  }
-
-  @GetMapping(URL)
-  public String showPersonDetails(
-      @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
-      HttpSession session,
-      Model model) {
-    return super.show(formRequest, session, model);
-  }
-
-  @PostMapping(URL)
-  public String submitPersonDetails(
-      @Valid @ModelAttribute(FORM_REQUEST) final OrderBadgePersonDetailsFormRequest formRequest,
-      BindingResult bindingResult,
-      Model model,
-      HttpSession session) {
-
-    model.addAttribute("errorSummary", new ErrorViewModel());
-
-    if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
-      bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
+    @Autowired
+    public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
+        this.referenceDataService = referenceDataService;
     }
 
-
-    log.debug("--------------> mime type is " + formRequest.getPhoto().getContentType() + " --- ");
-
-    if (formRequest.isPhotoValid()) {
-      try {
-        processImage(formRequest);
-      } catch (IOException | IllegalArgumentException e) {
-        log.info("--- IMAGE IO EXCEPTION STACK TRACE --- ");
-        log.info(e.getStackTrace().toString());
-        log.info("--- WHOLE ERROR --- ");
-        log.debug(e.toString());
-        bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
-      }
+    @GetMapping(URL)
+    public String showPersonDetails(
+            @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
+            HttpSession session,
+            Model model) {
+        return super.show(formRequest, session, model);
     }
 
-    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+    @PostMapping(URL)
+    public String submitPersonDetails(
+            @Valid @ModelAttribute(FORM_REQUEST) final OrderBadgePersonDetailsFormRequest formRequest,
+            BindingResult bindingResult,
+            Model model,
+            HttpSession session) {
 
-    if (bindingResult.hasErrors()) {
-      return getTemplate();
+        model.addAttribute("errorSummary", new ErrorViewModel());
+
+        if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
+            bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
+        }
+
+        if (formRequest.isPhotoValid()) {
+            try {
+                processImage(formRequest);
+            } catch (IOException | IllegalArgumentException e) {
+                log.debug("Error uploading image:{}", e.getCause());
+                bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
+            }
+        }
+
+        session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+
+        if (bindingResult.hasErrors()) {
+            return getTemplate();
+        }
+
+        return getProcessingRedirectUrl();
     }
 
-    return getProcessingRedirectUrl();
-  }
+    private String generateThumbnail(BufferedImage imageBuffer, String contentType) throws IOException {
+        InputStream input =
+                ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
 
-  private String generateThumbnail(BufferedImage imageBuffer, String contentType) throws IOException {
-    InputStream input =
-        ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
-    BufferedImage thumb;
-    try {
-      thumb = ImageIO.read(input);
-    }catch(IOException e){
-      log.error("GenerateThumbnail:" + e.getMessage(), e);
-      throw e;
-    }
-    String thumbBase64 = "data:" + contentType + ";base64, ";
-    return thumbBase64 + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
-  }
+        BufferedImage thumb = ImageIO.read(input);
 
-  private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
-    byte[] imageByteArray;
-    ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-    try {
-      ImageIO.write(bufferedImage, "jpg", byteArrayStream);
-      byteArrayStream.flush();
-      imageByteArray = byteArrayStream.toByteArray();
-      byteArrayStream.close();
-      return imageByteArray;
-    } catch (IOException e) {
-      log.error("extractImageToByteArray:" + e.getMessage(), e);
-      throw e;
+        String thumbBase64 = "data:" + contentType + ";base64, ";
+        return thumbBase64 + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
     }
 
-  }
+    private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
 
-  private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
+        MultipartFile photo = formRequest.getPhoto();
 
-    MultipartFile photo = formRequest.getPhoto();
-    try{
-      InputStream stream = photo.getInputStream();
-      BufferedImage sourceImageBuffer = ImageIO.read(stream);
+        InputStream stream = photo.getInputStream();
+        byte[] bytes = new byte[stream.available()];
+        int bytesRead = stream.read(bytes);
+        log.debug("Read {} bytes.", bytesRead);
 
-      if (sourceImageBuffer == null) {
-        throw new IllegalArgumentException("Invalid image.");
-      }
-      ByteArrayInputStream asJpeg = ImageProcessingUtils.getInputStreamForSizedBufferedImage(sourceImageBuffer, sourceImageBuffer.getHeight());
-      byte[] bytes = new byte[asJpeg.available()];
-      asJpeg.read(bytes);
-      formRequest.setByteImage(bytes);
-      formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
-    }catch (IOException e){
-      log.error("processImage:" + e.getMessage(), e);
-      throw e;
+        formRequest.setByteImage(bytes);
+
+        BufferedImage sourceImageBuffer = ImageIO.read(new ByteArrayInputStream(bytes));
+
+        if (sourceImageBuffer == null) {
+            throw new IllegalArgumentException("Invalid image.");
+        }
+        formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
+
     }
-  }
 
-  @ModelAttribute("genderOptions")
-  public List<ReferenceData> genderOptions() {
-    return referenceDataService.retrieveGenders();
-  }
+    @ModelAttribute("genderOptions")
+    public List<ReferenceData> genderOptions() {
+        return referenceDataService.retrieveGenders();
+    }
 
-  @ModelAttribute("eligibilityOptions")
-  public Map<String, List<ReferenceData>> eligibilities() {
-    return new TreeMap<>(
-        referenceDataService
-            .retrieveEligilities()
-            .stream()
-            .collect(
-                Collectors.groupingBy(
-                    ref ->
-                        "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
-  }
+    @ModelAttribute("eligibilityOptions")
+    public Map<String, List<ReferenceData>> eligibilities() {
+        return new TreeMap<>(
+                referenceDataService
+                        .retrieveEligilities()
+                        .stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        ref ->
+                                                "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
+    }
 
-  @Override
-  protected String getTemplate() {
-    return TEMPLATE;
-  }
+    @Override
+    protected String getTemplate() {
+        return TEMPLATE;
+    }
 
-  @Override
-  protected String getProcessingRedirectUrl() {
-    return REDIRECT_ORDER_BADGE_PROCESSING;
-  }
+    @Override
+    protected String getProcessingRedirectUrl() {
+        return REDIRECT_ORDER_BADGE_PROCESSING;
+    }
 }
