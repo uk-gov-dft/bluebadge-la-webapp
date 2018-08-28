@@ -8,21 +8,25 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.DateTimeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
 public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTestData {
 
   @Mock ReferenceDataService referenceDataServiceMock;
+  @Mock DateTimeService dateTimeServiceMock;
 
   ApplicationSummaryToApplicationViewModel converter;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    converter = new ApplicationSummaryToApplicationViewModel(referenceDataServiceMock);
+    converter =
+        new ApplicationSummaryToApplicationViewModel(referenceDataServiceMock, dateTimeServiceMock);
     when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORT_CODE))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
+    when(dateTimeServiceMock.now()).thenReturn(NOW);
   }
 
   @Test

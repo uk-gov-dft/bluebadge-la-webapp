@@ -19,13 +19,15 @@ public class ApplicationTestData {
   protected static final String ELIGIBILITY_VIEW_MODEL = "DLA";
   protected static final String NAME = "name";
   protected static final String NINO = "nino";
+  protected static final OffsetDateTime NOW =
+      OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.ofHours(2));
   protected static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
   protected static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
   protected static final java.time.OffsetDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
 
   // Application View Model fields
-  protected static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 11:10";
+  protected static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 12:10";
 
   // Application Summary objects
   protected static final ApplicationSummary APPLICATION_SUMMARY_PERSON_1 =
