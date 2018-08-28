@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import com.google.common.collect.Lists;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
@@ -19,8 +20,9 @@ public class ApplicationTestData {
   protected static final String ELIGIBILITY_VIEW_MODEL = "DLA";
   protected static final String NAME = "name";
   protected static final String NINO = "nino";
+  protected static final ZoneId TIME_ZONE = ZoneId.of("Europe/Berlin");
   protected static final OffsetDateTime NOW =
-      OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.ofHours(2));
+      OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.ofHours(1));
   protected static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
   protected static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);

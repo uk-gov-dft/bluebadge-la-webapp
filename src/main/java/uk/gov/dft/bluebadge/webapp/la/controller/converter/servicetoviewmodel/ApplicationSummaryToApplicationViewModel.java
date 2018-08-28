@@ -39,7 +39,7 @@ public class ApplicationSummaryToApplicationViewModel
     String submittedDateViewModel =
         source
             .getSubmissionDate()
-            .withOffsetSameInstant(dateTimeService.now().getOffset())
+            .atZoneSameInstant(dateTimeService.clientZoneId())
             .format(ModelViewFormats.viewModelDateTimeFormatter);
 
     return ApplicationViewModel.builder()

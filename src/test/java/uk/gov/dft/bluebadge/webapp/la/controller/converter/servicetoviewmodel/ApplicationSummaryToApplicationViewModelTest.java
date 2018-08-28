@@ -26,7 +26,7 @@ public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTes
         new ApplicationSummaryToApplicationViewModel(referenceDataServiceMock, dateTimeServiceMock);
     when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORT_CODE))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
-    when(dateTimeServiceMock.now()).thenReturn(NOW);
+    when(dateTimeServiceMock.clientZoneId()).thenReturn(TIME_ZONE);
   }
 
   @Test
