@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,8 +133,10 @@ public class OrderBadgePersonDetailsController
       if (sourceImageBuffer == null) {
         throw new IllegalArgumentException("Invalid image.");
       }
-
-      formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer));
+      ByteArrayInputStream asJpeg = ImageProcessingUtils.getInputStreamForSizedBufferedImage(sourceImageBuffer, sourceImageBuffer.getHeight());
+      byte[] bytes = new byte[asJpeg.available()];
+      asJpeg.read(bytes);
+      formRequest.setByteImage(bytes);
       formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
     }catch (IOException e){
       log.error("processImage:" + e.getMessage(), e);
