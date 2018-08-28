@@ -17,9 +17,6 @@ public class BadgeSummary {
   @JsonProperty("partyTypeCode")
   private String partyTypeCode = null;
 
-  @JsonProperty("partyTypeDescription")
-  private String partyTypeDescription = null;
-
   @JsonProperty("name")
   private String name = null;
 
@@ -32,17 +29,11 @@ public class BadgeSummary {
   @JsonProperty("postCode")
   private String postCode = null;
 
-  @JsonProperty("localAuthorityName")
-  private String localAuthorityName = null;
-
   @JsonProperty("expiryDate")
   private LocalDate expiryDate = null;
 
   @JsonProperty("statusCode")
   private String statusCode = null;
-
-  @JsonProperty("statusDescription")
-  private String statusDescription = null;
 
   public BadgeSummary badgeNumber(String badgeNumber) {
     this.badgeNumber = badgeNumber;
@@ -85,26 +76,6 @@ public class BadgeSummary {
 
   public void setPartyTypeCode(String partyTypeCode) {
     this.partyTypeCode = partyTypeCode;
-  }
-
-  public BadgeSummary partyTypeDescription(String partyTypeDescription) {
-    this.partyTypeDescription = partyTypeDescription;
-    return this;
-  }
-
-  /**
-   * Get partyTypeDescription
-   *
-   * @return partyTypeDescription
-   */
-  @ApiModelProperty(example = "Person", value = "")
-  @Size(max = 100)
-  public String getPartyTypeDescription() {
-    return partyTypeDescription;
-  }
-
-  public void setPartyTypeDescription(String partyTypeDescription) {
-    this.partyTypeDescription = partyTypeDescription;
   }
 
   public BadgeSummary name(String name) {
@@ -193,29 +164,6 @@ public class BadgeSummary {
     this.postCode = postCode;
   }
 
-  public BadgeSummary localAuthorityName(String localAuthorityName) {
-    this.localAuthorityName = localAuthorityName;
-    return this;
-  }
-
-  /**
-   * Display name of the local authority.
-   *
-   * @return localAuthorityName
-   */
-  @ApiModelProperty(
-    example = "Shropshire County Council",
-    value = "Display name of the local authority."
-  )
-  @Size(max = 100)
-  public String getLocalAuthorityName() {
-    return localAuthorityName;
-  }
-
-  public void setLocalAuthorityName(String localAuthorityName) {
-    this.localAuthorityName = localAuthorityName;
-  }
-
   public BadgeSummary expiryDate(LocalDate expiryDate) {
     this.expiryDate = expiryDate;
     return this;
@@ -259,26 +207,6 @@ public class BadgeSummary {
     this.statusCode = statusCode;
   }
 
-  public BadgeSummary statusDescription(String statusDescription) {
-    this.statusDescription = statusDescription;
-    return this;
-  }
-
-  /**
-   * Status full description.
-   *
-   * @return statusDescription
-   */
-  @ApiModelProperty(example = "Issued", value = "Status full description.")
-  @Size(max = 100)
-  public String getStatusDescription() {
-    return statusDescription;
-  }
-
-  public void setStatusDescription(String statusDescription) {
-    this.statusDescription = statusDescription;
-  }
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -290,52 +218,33 @@ public class BadgeSummary {
     BadgeSummary badgeSummary = (BadgeSummary) o;
     return Objects.equals(this.badgeNumber, badgeSummary.badgeNumber)
         && Objects.equals(this.partyTypeCode, badgeSummary.partyTypeCode)
-        && Objects.equals(this.partyTypeDescription, badgeSummary.partyTypeDescription)
         && Objects.equals(this.name, badgeSummary.name)
         && Objects.equals(this.nino, badgeSummary.nino)
         && Objects.equals(this.localAuthorityShortCode, badgeSummary.localAuthorityShortCode)
         && Objects.equals(this.postCode, badgeSummary.postCode)
-        && Objects.equals(this.localAuthorityName, badgeSummary.localAuthorityName)
         && Objects.equals(this.expiryDate, badgeSummary.expiryDate)
-        && Objects.equals(this.statusCode, badgeSummary.statusCode)
-        && Objects.equals(this.statusDescription, badgeSummary.statusDescription);
+        && Objects.equals(this.statusCode, badgeSummary.statusCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        badgeNumber,
-        partyTypeCode,
-        partyTypeDescription,
-        name,
-        nino,
-        postCode,
-        localAuthorityName,
-        expiryDate,
-        statusCode,
-        statusDescription);
+    return Objects.hash(badgeNumber, partyTypeCode, name, nino, postCode, expiryDate, statusCode);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BadgeSummary {\n");
-
     sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
     sb.append("    partyTypeCode: ").append(toIndentedString(partyTypeCode)).append("\n");
-    sb.append("    partyTypeDescription: ")
-        .append(toIndentedString(partyTypeDescription))
-        .append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    localAuthorityShortCode: ")
         .append(toIndentedString(localAuthorityShortCode))
         .append("\n");
     sb.append("    postCode: ").append(toIndentedString(postCode)).append("\n");
-    sb.append("    localAuthorityName: ").append(toIndentedString(localAuthorityName)).append("\n");
     sb.append("    expiryDate: ").append(toIndentedString(expiryDate)).append("\n");
     sb.append("    statusCode: ").append(toIndentedString(statusCode)).append("\n");
-    sb.append("    statusDescription: ").append(toIndentedString(statusDescription)).append("\n");
     sb.append("}");
     return sb.toString();
   }
