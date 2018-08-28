@@ -64,16 +64,25 @@ public class OrderBadgePersonDetailsController
 
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    log.debug("----------------------> " + formRequest.getPhoto().getContentType() + " --- ");
-
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
-      log.debug("if block");
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
+    String fileName = formRequest.getPhoto().getOriginalFilename();
+
+    String extension = "jpg";
+
+    int i = fileName.lastIndexOf('.');
+    if (i > 0) {
+      extension = fileName.substring(i+1);
+    }
+
+    log.debug("--------------> mime type is " + formRequest.getPhoto().getContentType() + " --- ");
+    log.info("---------------> file format is ---> " + extension + " --- ");
+
     if (formRequest.isPhotoValid()) {
       try {
-        processImage(formRequest);
+        processImage(formRequest, extension);
       } catch (IOException | IllegalArgumentException e) {
         log.info("--- IMAGE IO EXCEPTION STACK TRACE --- ");
         log.debug(e.getStackTrace().toString());
@@ -102,17 +111,17 @@ public class OrderBadgePersonDetailsController
     return thumbBase64 + ImageProcessingUtils.getBase64FromBufferedImage(thumb);
   }
 
-  private byte[] extractImageToByteArray(BufferedImage bufferedImage) throws IOException {
+  private byte[] extractImageToByteArray(BufferedImage bufferedImage, String format) throws IOException {
     byte[] imageByteArray;
     ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, "jpg", byteArrayStream);
+    ImageIO.write(bufferedImage, format, byteArrayStream);
     byteArrayStream.flush();
     imageByteArray = byteArrayStream.toByteArray();
     byteArrayStream.close();
     return imageByteArray;
   }
 
-  private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
+  private void processImage(OrderBadgePersonDetailsFormRequest formRequest, String format) throws IOException {
 
     MultipartFile photo = formRequest.getPhoto();
     InputStream stream = photo.getInputStream();
@@ -122,7 +131,7 @@ public class OrderBadgePersonDetailsController
       throw new IllegalArgumentException("Invalid image.");
     }
 
-    formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer));
+    formRequest.setByteImage(extractImageToByteArray(sourceImageBuffer, format));
     formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
   }
 
