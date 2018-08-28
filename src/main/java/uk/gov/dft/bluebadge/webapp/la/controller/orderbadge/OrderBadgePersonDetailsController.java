@@ -67,6 +67,7 @@ public class OrderBadgePersonDetailsController
     log.debug("----------------------> " + formRequest.getPhoto().getContentType());
 
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
+      log.debug("if block");
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
@@ -74,6 +75,7 @@ public class OrderBadgePersonDetailsController
       try {
         processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
+        log.debug(e.getMessage());
         bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
       }
     }
