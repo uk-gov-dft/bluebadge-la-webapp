@@ -64,6 +64,8 @@ public class OrderBadgePersonDetailsController
 
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    log.debug("----------------------> " + formRequest.getPhoto().getContentType());
+
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
