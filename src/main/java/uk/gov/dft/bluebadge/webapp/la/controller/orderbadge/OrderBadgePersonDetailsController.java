@@ -121,7 +121,7 @@ public class OrderBadgePersonDetailsController
   private byte[] convertInputStreamToBytesArray(InputStream stream) throws IOException {
     byte[] bytes = new byte[stream.available()];
     int bytesRead = stream.read(bytes);
-    log.debug("Read {} bytes.", bytes);
+    log.debug("Read {} bytes.", bytesRead);
     return bytes;
   }
 
