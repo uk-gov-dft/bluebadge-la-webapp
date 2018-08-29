@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +17,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormReque
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
+@Slf4j
 @Controller
 public class CreateANewUserController {
-
-  private static final Logger log = LoggerFactory.getLogger(CreateANewUserController.class);
 
   private static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 

@@ -25,6 +25,8 @@ import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+  private static final String LANDING_PAGE_URL = "/new-applications";
+
   @Value("${blue-badge.auth-server.url}")
   private String authServerUrl;
 
@@ -71,7 +73,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         .loginPage("/sign-in")
         .permitAll()
-        .defaultSuccessUrl("/", true)
+        .defaultSuccessUrl(LANDING_PAGE_URL, true)
         .and()
         .logout()
         .logoutUrl("/sign-out");

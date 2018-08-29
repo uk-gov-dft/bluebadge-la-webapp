@@ -45,6 +45,13 @@ public class ApiConfig {
   }
 
   @Validated
+  @ConfigurationProperties("blue-badge.applicationsservice.servicehost")
+  @Bean
+  public ServiceConfiguration applicationsApiConfig() {
+    return new ServiceConfiguration();
+  }
+
+  @Validated
   @ConfigurationProperties("blue-badge.referencedataservice.servicehost")
   @Bean
   public ServiceConfiguration referenceDataManagementApiConfig() {
@@ -63,6 +70,13 @@ public class ApiConfig {
       ResourceOwnerPasswordResourceDetails resourceDetails,
       ServiceConfiguration badgeManagementApiConfig) {
     return createOAuthRestTemplate(resourceDetails, badgeManagementApiConfig);
+  }
+
+  @Bean("applicationsRestTemplate")
+  OAuth2RestTemplate applicationsRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails,
+      ServiceConfiguration applicationsApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, applicationsApiConfig);
   }
 
   @Bean("referenceDataRestTemplate")

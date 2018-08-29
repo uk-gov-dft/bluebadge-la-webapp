@@ -8,10 +8,8 @@ public class HomeController {
 
   public static final String URL = "/";
 
-  public static final String TEMPLATE = "home";
-
   @GetMapping(URL)
   public String show() {
-    return TEMPLATE;
+    return "redirect:" + NewApplicationsController.URL;
   }
 }

@@ -1,7 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,20 +13,12 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 
 public class HomeControllerTest {
 
-  private static final String EMAIL = "joeblogs@joe.com";
-  private static final String EMAIL_WRONG_FORMAT = "joeblogs";
-
-  @SuppressWarnings("squid:S2068")
-  private static final String PASSWORD = "password";
-
   private MockMvc mockMvc;
 
   private HomeController controller;
 
   @Before
   public void setup() {
-
-    // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
     controller = new HomeController();
@@ -39,7 +32,9 @@ public class HomeControllerTest {
   @Test
   public void showHome_shouldDisplayHomePageAndAddEmailAttribute_WhenUserIsSignedIn()
       throws Exception {
-    mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("home"));
-    // TODO: We should expect the name of the user printed out
+    mockMvc
+        .perform(get("/"))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/new-applications"));
   }
 }
