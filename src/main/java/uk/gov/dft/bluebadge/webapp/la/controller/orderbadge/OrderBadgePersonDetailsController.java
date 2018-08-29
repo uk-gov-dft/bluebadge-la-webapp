@@ -53,6 +53,7 @@ public class OrderBadgePersonDetailsController
       @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
       Model model) {
+
     return super.show(formRequest, session, model);
   }
 
@@ -76,6 +77,8 @@ public class OrderBadgePersonDetailsController
         log.debug("Error uploading image:{}", e.getCause());
         bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
       }
+    } else {
+      augmentWithExistingSessionPhoto(formRequest, session);
     }
 
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
@@ -87,11 +90,21 @@ public class OrderBadgePersonDetailsController
     return getProcessingRedirectUrl();
   }
 
+  private void augmentWithExistingSessionPhoto(
+      OrderBadgePersonDetailsFormRequest formRequest, HttpSession session) {
+    OrderBadgePersonDetailsFormRequest formSession =
+        (OrderBadgePersonDetailsFormRequest) session.getAttribute(SESSION_FORM_REQUEST);
+
+    if (formSession != null) {
+      formRequest.setThumbBase64(formSession.getThumbBase64());
+      formRequest.setByteImage(formSession.getByteImage());
+    }
+  }
+
   private String generateThumbnail(BufferedImage imageBuffer, String contentType)
       throws IOException {
     InputStream stream =
         ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
-
 
     byte[] bytes = convertInputStreamToBytesArray(stream);
 
