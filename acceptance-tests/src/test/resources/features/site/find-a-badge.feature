@@ -10,6 +10,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
     When I select option "applicantType.option.person"
@@ -39,6 +40,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
@@ -54,6 +56,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I type "AAAAA1" for "searchTerm.field" field by uipath
@@ -65,6 +68,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
     When I select option "applicantType.option.person"
@@ -94,6 +98,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
@@ -107,6 +112,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
     Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
     When I select option "applicantType.option.person"
@@ -136,6 +142,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"

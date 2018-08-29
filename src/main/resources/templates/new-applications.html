@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{newapplications.html.title} + ' ' + #{common.title.suffix}"></title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="dft-content-container--full">
+
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span th:text="#{newapplications.title.h1}" />
+                <span class="dft-badge dft-badge--heading" th:utext="${applications.size()}" />
+            </h1>
+
+            <table class="govuk-table" th:if="${applications != null && applications.size() > 0}">
+                <thead class="govuk-table__head" data-uipath="table.head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.name.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.nino.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.eligibility.label}"/>
+                    <th class="govuk-table__header" scope="col" th:text="#{newapplications.submittedDate.label}"/>
+                </tr>
+                </thead>
+
+                <tbody class="govuk-table__body" data-uipath="table.body">
+                <tr class="govuk-table__row" th:each="app : ${applications}">
+                    <td class="govuk-table__cell">
+                        <a href="#" th:utext="${app.name}"></a>
+                    </td>
+                    <td class="govuk-table__cell" th:utext="${app.nino}"/>
+                    <td class="govuk-table__cell" th:utext="${app.eligibility}" />
+                    <td class="govuk-table__cell" th:utext="${app.submittedDate}" />
+                </tr>
+                </tbody>
+            </table>
+
+            <p class="govuk-body" th:if="${applications == null || applications.size() == 0}" th:text="#{newapplications.message.noResultsFound}"/>
+
+        </section>
+    </div>
+</body>
+</html>
+

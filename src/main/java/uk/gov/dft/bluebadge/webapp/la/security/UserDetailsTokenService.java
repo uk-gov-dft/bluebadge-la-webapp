@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -32,7 +31,7 @@ public class UserDetailsTokenService
   }
 
   @Override
-  public UserPrincipal loadUserByUsername(String s) throws UsernameNotFoundException {
+  public UserPrincipal loadUserByUsername(String s) {
     User user = userManagementApiClient.currentUserDetails();
     Set<SimpleGrantedAuthority> authorities =
         Collections.singleton(new SimpleGrantedAuthority(user.getRoleName()));

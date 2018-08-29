@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import java.time.format.DateTimeFormatter;
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -16,9 +17,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Component
 public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetailsViewModel> {
 
-  private static final String VIEW_DATE_FORMAT = "dd/MM/yy";
-  private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(VIEW_DATE_FORMAT);
-
   private ReferenceDataService referenceDataService;
 
   @Autowired
@@ -31,9 +29,9 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     Assert.notNull(source, "Source cannot be null");
 
     String address = toAddress(source);
-    String applicationDate = source.getApplicationDate().format(dateFormatter);
-    String expiryDate = source.getExpiryDate().format(dateFormatter);
-    String startDate = source.getStartDate().format(dateFormatter);
+    String applicationDate = source.getApplicationDate().format(viewModelDateFormatter);
+    String expiryDate = source.getExpiryDate().format(viewModelDateFormatter);
+    String startDate = source.getStartDate().format(viewModelDateFormatter);
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveApplicationChannelDisplayValue(
@@ -53,7 +51,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
 
     if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
       Person person = source.getParty().getPerson();
-      String dob = source.getParty().getPerson().getDob().format(dateFormatter);
+      String dob = source.getParty().getPerson().getDob().format(viewModelDateFormatter);
       String genderDisplayText =
           referenceDataService.retrieveGenderDisplayValue(
               source.getParty().getPerson().getGenderCode());
