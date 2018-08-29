@@ -89,14 +89,11 @@ public class OrderBadgePersonDetailsController
 
   private String generateThumbnail(BufferedImage imageBuffer, String contentType)
       throws IOException {
-    InputStream input =
+    InputStream stream =
         ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
 
 
-    //BufferedImage thumb = ImageIO.read(input);
-    byte[] bytes = new byte[input.available()];
-    int bytesRead = input.read(bytes);
-    log.debug("Read {} bytes.", bytesRead);
+    byte[] bytes = convertInputStreamToBytesArray(stream);
 
     String thumbBase64 = "data:" + contentType + ";base64, ";
 
@@ -108,18 +105,24 @@ public class OrderBadgePersonDetailsController
     MultipartFile photo = formRequest.getPhoto();
 
     InputStream stream = photo.getInputStream();
-    byte[] bytes = new byte[stream.available()];
-    int bytesRead = stream.read(bytes);
-    log.debug("Read {} bytes.", bytesRead);
+    byte[] imageByteArray = convertInputStreamToBytesArray(stream);
 
-    formRequest.setByteImage(bytes);
+    formRequest.setByteImage(imageByteArray);
 
-    BufferedImage sourceImageBuffer = ImageIO.read(new ByteArrayInputStream(bytes));
+    BufferedImage sourceImageBuffer = ImageIO.read(new ByteArrayInputStream(imageByteArray));
 
     if (sourceImageBuffer == null) {
       throw new IllegalArgumentException("Invalid image.");
     }
+
     formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
+  }
+
+  private byte[] convertInputStreamToBytesArray(InputStream stream) throws IOException {
+    byte[] bytes = new byte[stream.available()];
+    int bytesRead = stream.read(bytes);
+    log.debug("Read {} bytes.", bytes);
+    return bytes;
   }
 
   @ModelAttribute("genderOptions")
