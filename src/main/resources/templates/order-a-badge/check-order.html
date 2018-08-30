@@ -84,12 +84,13 @@
                     <dd class="dft-data-list__dd" th:text="${data.eligibility}"/>
                 </div>
 
-                <!-- <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt">Photo</dt>
+                <div class="dft-data-list__item">
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
                     <dd class="dft-data-list__dd">
-                        <img src="https://lostpetshv.org/wp-content/uploads/2018/05/Jessie-image.jpg" alt="" />
+                        <img th:if="${data.photo}" th:src="${data.photo}" th:alt="'Photo of ' + ${data.fullName}" />
+                        <span th:unless="${data.photo}" th:text="${noValue}"></span>
                     </dd>
-                </div> -->
+                </div>
             </dl>
         </article>
 

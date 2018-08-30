@@ -28,6 +28,7 @@ public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModelTest
           .deliverTo(DELIVER_TO)
           .deliveryOptions(DELIVERY_OPTIONS)
           .numberOfBadges(NUMBER_OF_BADGES_PERSON_VIEW_MODEL)
+          .photo("base64")
           .build();
 
   private OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel converter;

@@ -51,7 +51,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             get("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"));
   }
@@ -65,7 +65,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             get("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(model().attribute("appSourceOptions", appSourceOptions))
         .andExpect(view().name("order-a-badge/processing"));
@@ -80,7 +80,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             get("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(model().attribute("deliverToOptions", deliverToOptions))
         .andExpect(view().name("order-a-badge/processing"));
@@ -96,7 +96,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             get("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(model().attribute("deliveryOptions", deliverOptions))
         .andExpect(view().name("order-a-badge/processing"));
@@ -110,7 +110,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             get("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .sessionAttr(
                     "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isOk())
@@ -126,7 +126,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -152,7 +152,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -179,7 +179,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -208,7 +208,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY_WRONG)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH_WRONG)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR_WRONG)
@@ -251,7 +251,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, "32")
                 .param(APPLICATION_DATE_MONTH_FIELD, "13")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2017")
@@ -282,7 +282,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, "1")
                 .param(APPLICATION_DATE_MONTH_FIELD, "12")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2100")
@@ -313,7 +313,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -344,7 +344,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -374,7 +374,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
     mockMvc
         .perform(
             post("/order-a-badge/person/processing")
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
@@ -406,7 +406,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -437,7 +437,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
         .perform(
             post("/order-a-badge/person/processing")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)

@@ -48,7 +48,8 @@ public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel
         .contactNumber(details.getContactDetailsContactNumber())
         .secondaryContactNumber(details.getContactDetailsSecondaryContactNumber())
         .emailAddress(details.getContactDetailsEmailAddress())
-        .eligibility(eligibilityDisplayText);
+        .eligibility(eligibilityDisplayText)
+        .photo(details.getThumbBase64());
   }
 
   private String buildAddress(OrderBadgePersonDetailsFormRequest details) {
