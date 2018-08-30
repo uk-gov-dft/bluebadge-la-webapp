@@ -1,9 +1,6 @@
-apply plugin : 'eclipse'
-apply plugin : 'eclipse-wtp'
 apply plugin : 'java'
-apply plugin : 'jacoco'
-apply plugin : 'war'
-apply plugin : 'org.akhikhl.gretty'
+//apply plugin : 'jacoco'
+//apply plugin : 'org.akhikhl.gretty'
 
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
@@ -14,27 +11,26 @@ buildscript {
         jcenter()
     }
 
-    dependencies {
-        classpath 'org.akhikhl.gretty:gretty:1.1.1'
-
-    }
+//    dependencies {
+//        classpath 'org.akhikhl.gretty:gretty:1.1.1'
+//    }
 }
 
-configurations {
-    functTestCompile.extendsFrom testCompile
-    functTestRuntime.extendsFrom testRuntime
+//configurations {
+//    functTestCompile.extendsFrom testCompile
+//    functTestRuntime.extendsFrom testRuntime
+//
+//}
 
-}
-
-sourceSets{
-    functionalTest {
-        java.srcDir file('src/test/java/')
-        resources.srcDir('src/test/resources')
-
-        compileClasspath = sourceSets.main.output + configurations.functTestCompile
-        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
-    }
-}
+//sourceSets{
+//    functionalTest {
+//        java.srcDir file('src/test/java/')
+//        resources.srcDir('src/test/resources')
+//
+//        compileClasspath = sourceSets.main.output + configurations.functTestCompile
+//        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
+//    }
+//}
 
 dependencies {
     compile group: 'commons-io', name: 'commons-io', version:'2.6'
@@ -54,29 +50,36 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
     testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
-    functionalTestCompile 'org.springframework:spring-test:4.0.5.RELEASE'
+    testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 }
 
-gretty {
-    contextConfigFile = "${projectDir}/tomcat-context.xml"
-    jvmArgs = ['-Dspring.profiles.active=test']
-    integrationTestTask = 'integrationTest'
-    servletContainer = 'tomcat7'
+//gretty {
+//    contextConfigFile = "${projectDir}/tomcat-context.xml"
+//    jvmArgs = ['-Dspring.profiles.active=test']
+//    integrationTestTask = 'integrationTest'
+//    servletContainer = 'tomcat7'
+//
+//
+//    afterEvaluate {
+//        // Add integration test classes to Jetty's war
+//        tasks['prepareInplaceWebApp'].dependsOn 'copyIntegrationTestClasses', 'copyIntegrationTestResources'
+//    }
+//}
 
-
-    afterEvaluate {
-        // Add integration test classes to Jetty's war
-        tasks['prepareInplaceWebApp'].dependsOn 'copyIntegrationTestClasses', 'copyIntegrationTestResources'
-    }
-}
-
-jacocoTestReport {
-    executionData = fileTree(dir:"${buildDir}/jacoco/", include:"*.exec")
-}
+//jacocoTestReport {
+//    executionData = fileTree(dir:"${buildDir}/jacoco/", include:"*.exec")
+//}
 
 test {
-    reports.junitXml.destination = "$buildDir/test-results/unit"
-    reports.html.destination = "$buildDir/reports/tests/unit"
+    exclude '**/*AcceptanceTest*'
+//    reports.junitXml.destination = "$buildDir/test-results/unit"
+//    reports.html.destination = "$buildDir/reports/tests/unit"
+}
+
+task acceptanceTests(type:Test) {
+    group = "acceptancetests"
+    outputs.upToDateWhen { false }
+    description = "Run acceptance tests (located in acceptance-tests/...)."
 }
 
 if (!hasProperty('buildProfile')) ext.buildProfile = 'local'
