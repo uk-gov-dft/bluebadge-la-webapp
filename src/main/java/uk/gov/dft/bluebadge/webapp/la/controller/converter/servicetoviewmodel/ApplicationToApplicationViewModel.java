@@ -21,6 +21,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Component
+@SuppressWarnings("squid:S2589Boolean")
 public class ApplicationToApplicationViewModel
     implements Converter<Application, ApplicationViewModel> {
 

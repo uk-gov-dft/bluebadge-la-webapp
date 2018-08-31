@@ -29,6 +29,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryVie
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 
 public abstract class ApplicationTestData {
+
+  private ApplicationTestData() {}
+
   // Application Summary fields
   protected static final UUID APPLICATION_ID = UUID.randomUUID();
   protected static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
