@@ -18,7 +18,7 @@ public abstract class OrderBadgeBaseControllerTest extends OrderBadgeTestData {
   protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX_ORGANISATION =
       OrderBadgeIndexFormRequest.builder().applicantType("organisation").build();
 
-  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
+  protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE =
       OrderBadgePersonDetailsFormRequest.builder()
           .buildingAndStreet(BUILDING_AND_STREET)
           .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
@@ -33,7 +33,29 @@ public abstract class OrderBadgeBaseControllerTest extends OrderBadgeTestData {
           .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
           .postcode(POSTCODE)
           .townOrCity(TOWN_OR_CITY)
+          .photo(PHOTO())
+          .thumbBase64("thumbnail")
+          .byteImage("thumbnail".getBytes())
           .build();
+
+  protected static final OrderBadgePersonDetailsFormRequest
+      FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE =
+          OrderBadgePersonDetailsFormRequest.builder()
+              .buildingAndStreet(BUILDING_AND_STREET)
+              .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+              .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+              .contactDetailsName(CONTACT_DETAILS_NAME)
+              .dobDay(Integer.valueOf(DOB_DAY))
+              .dobMonth(Integer.valueOf(DOB_MONTH))
+              .dobYear(Integer.valueOf(DOB_YEAR))
+              .eligibility(ELIGIBILITY)
+              .name(NAME)
+              .nino(NINO)
+              .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
+              .postcode(POSTCODE)
+              .townOrCity(TOWN_OR_CITY)
+              .photo(EMPTY_PHOTO)
+              .build();
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()

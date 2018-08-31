@@ -77,7 +77,8 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     mockMvc
         .perform(
             get("/order-a-badge/person/check-order")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(
+                    "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .sessionAttr(
                     "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isOk())
@@ -88,15 +89,40 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   @Test
   public void submit_shouldRedirectToHomePageAndCreateABadge() throws Exception {
     when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
+
     when(converterToServiceModelMock.convert(any(), any())).thenReturn(BADGE_ORDER_REQUEST_PERSON);
+
     mockMvc
         .perform(
             post("/order-a-badge/person/check-order")
-                .sessionAttr("formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS)
+                .sessionAttr(
+                    "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE)
                 .sessionAttr(
                     "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
+
     verify(badgeServiceMock).orderABadge(BADGE_ORDER_REQUEST_PERSON);
+  }
+
+  @Test
+  public void submit_withImageUploaded_shouldRedirectToHomePageAndCreateABadge() throws Exception {
+    when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
+
+    when(converterToServiceModelMock.convert(any(), any()))
+        .thenReturn(BADGE_ORDER_REQUEST_PERSON_WITH_IMAGE);
+
+    mockMvc
+        .perform(
+            post("/order-a-badge/person/check-order")
+                .sessionAttr(
+                    "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .sessionAttr(
+                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
+
+    verify(badgeServiceMock)
+        .orderABadgeForAPerson(BADGE_ORDER_REQUEST_PERSON_WITH_IMAGE, "thumbnail".getBytes());
   }
 }

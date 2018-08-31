@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ModelViewFormats {
 
-  private ModelViewFormats() {};
+  private ModelViewFormats() {}
 
   private static final String VIEW_MODEL_DATE_FORMAT = "dd/MM/yy";
 

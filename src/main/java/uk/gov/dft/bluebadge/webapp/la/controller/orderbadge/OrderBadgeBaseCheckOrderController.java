@@ -23,11 +23,11 @@ abstract class OrderBadgeBaseCheckOrderController<
 
   private static final String TEMPLATE = "order-a-badge/check-order";
 
-  private static final String REDIRECT_BADGE_ORDERED =
+  protected static final String REDIRECT_BADGE_ORDERED =
       "redirect:" + OrderBadgeBadgeOrderedController.URL;
 
-  private BadgeService badgeService;
-  private ConverterToServiceModel converterToServiceModel;
+  protected BadgeService badgeService;
+  protected ConverterToServiceModel converterToServiceModel;
   private ConverterToViewModel converterToViewModel;
 
   OrderBadgeBaseCheckOrderController(
