@@ -23,7 +23,7 @@ public class ApplicationViewModel {
 
   // shared
   private String reasonForApplying;
-  private List<String> healthConditions;
+  private String healthCondition;
   private List<String> healthcareProfessionals;
   private List<String> treatments;
   private List<String> medications;

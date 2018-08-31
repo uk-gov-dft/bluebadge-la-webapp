@@ -1,5 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -16,21 +20,16 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
-
 @Component
 public class ApplicationToApplicationViewModel
-  implements Converter<Application, ApplicationViewModel> {
+    implements Converter<Application, ApplicationViewModel> {
 
   private ReferenceDataService referenceDataService;
   private PartyToAddressViewModel partyToAddressViewModel;
 
   @Autowired
   public ApplicationToApplicationViewModel(
-    ReferenceDataService referenceDataService, PartyToAddressViewModel partyToAddressViewModel) {
+      ReferenceDataService referenceDataService, PartyToAddressViewModel partyToAddressViewModel) {
     this.referenceDataService = referenceDataService;
     this.partyToAddressViewModel = partyToAddressViewModel;
   }
@@ -45,7 +44,7 @@ public class ApplicationToApplicationViewModel
   }
 
   private ApplicationViewModel.ApplicationViewModelBuilder buildPersonalDetails(
-    ApplicationViewModel.ApplicationViewModelBuilder builder, Application source) {
+      ApplicationViewModel.ApplicationViewModelBuilder builder, Application source) {
     String fullName = null;
     String gender = null;
     String dob = null;
@@ -62,9 +61,9 @@ public class ApplicationToApplicationViewModel
     Person person = party.getPerson();
     if (person != null) {
       fullName =
-        (StringUtils.isNotBlank(person.getBadgeHolderName())
-          ? person.getBadgeHolderName()
-          : null);
+          (StringUtils.isNotBlank(person.getBadgeHolderName())
+              ? person.getBadgeHolderName()
+              : null);
       gender = referenceDataService.retrieveApplicationGenderDisplayValue(person.getGenderCode());
       dob = (person.getDob() != null ? person.getDob().format(viewModelDateFormatter) : null);
       nino = person.getNino();
@@ -83,53 +82,54 @@ public class ApplicationToApplicationViewModel
     }
 
     return builder
-      .applicationId(source.getApplicationId())
-      .fullName(fullName)
-      .gender(gender)
-      .dob(dob)
-      .nino(nino)
-      .address(address)
-      .contactDetailsName(contactDetailsName)
-      .contactDetailsPhoneNumber(contactDetailsPhoneNumber)
-      .contactDetailsEmail(contactDetailsEmail)
-      .proofOfIdentityUrl(proofOfIdentityUrl)
-      .proofOfAddressUrl(proofOfAddressUrl)
-      .photoUrl(photoUrl);
+        .applicationId(source.getApplicationId())
+        .fullName(fullName)
+        .gender(gender)
+        .dob(dob)
+        .nino(nino)
+        .address(address)
+        .contactDetailsName(contactDetailsName)
+        .contactDetailsPhoneNumber(contactDetailsPhoneNumber)
+        .contactDetailsEmail(contactDetailsEmail)
+        .proofOfIdentityUrl(proofOfIdentityUrl)
+        .proofOfAddressUrl(proofOfAddressUrl)
+        .photoUrl(photoUrl);
   }
 
   private ApplicationViewModel.ApplicationViewModelBuilder buildProofOfEligibility(
-    ApplicationViewModel.ApplicationViewModelBuilder builder, Application source) {
+      ApplicationViewModel.ApplicationViewModelBuilder builder, Application source) {
     Eligibility eligibility = source.getEligibility();
     if (eligibility != null) {
       String eligibilityTypeCodeViewModel =
-        referenceDataService.retrieveApplicationEligibilityDisplayValue(
-          eligibility.getTypeCode().name());
+          referenceDataService.retrieveApplicationEligibilityDisplayValue(
+              eligibility.getTypeCode().name());
       builder.reasonForApplying(eligibilityTypeCodeViewModel);
       WalkingDifficulty walkingDifficulty = eligibility.getWalkingDifficulty();
       if (walkingDifficulty != null) {
         if (walkingDifficulty.getTypeCodes() != null) {
           List<String> walkingDifficulties =
-            walkingDifficulty
-              .getTypeCodes()
-              .stream()
-              .map(
-                key ->
-                  referenceDataService.retrieveApplicationWalkingDifficultyDisplayValue(
-                    key.name()))
-              .collect(Collectors.toList());
+              walkingDifficulty
+                  .getTypeCodes()
+                  .stream()
+                  .map(
+                      key ->
+                          referenceDataService.retrieveApplicationWalkingDifficultyDisplayValue(
+                              key.name()))
+                  .collect(Collectors.toList());
           builder.walkingDifficulties(walkingDifficulties);
         }
         List<WalkingAid> walkingAids = walkingDifficulty.getWalkingAids();
         if (walkingAids != null) {
           List<String> walkingAidsViewModel =
-            walkingAids.stream().map(WalkingAid::getDescription).collect(Collectors.toList());
+              walkingAids.stream().map(WalkingAid::getDescription).collect(Collectors.toList());
           builder.mobilityAids(walkingAidsViewModel);
         }
         String walkingSpeedViewModel =
-          referenceDataService.retrieveApplicationWalkingSpeedDisplayValue(
-            walkingDifficulty.getWalkingSpeedCode().name());
+            referenceDataService.retrieveApplicationWalkingSpeedDisplayValue(
+                walkingDifficulty.getWalkingSpeedCode().name());
         builder.walkingSpeed(walkingSpeedViewModel);
       }
+      builder.healthCondition(eligibility.getDescriptionOfConditions());
     }
     return builder;
   }

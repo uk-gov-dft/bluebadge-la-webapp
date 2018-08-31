@@ -145,6 +145,8 @@ public class ApplicationTestData {
   protected static final String WALKING_AID_DESCRIPTION_1 = "Needs travelator";
   protected static final String WALKING_AID_DESCRIPTION_2 = "Needs crutches";
 
+  protected static final String DESCRIPTION_OF_CONDITIONS = "Several illneses and disseases";
+
   protected static final WalkingSpeedCodeField WALKING_SPEED_SHORT_CODE =
       WalkingSpeedCodeField.SLOW;
 
@@ -224,7 +226,8 @@ public class ApplicationTestData {
       new Eligibility()
           .typeCode(EligibilityCodeField.WALKD)
           .walkingDifficulty(WALKING_DIFFICULTY)
-          .healthcareProfessionals(HEALTHCARE_PROFESSIONALS);
+          .healthcareProfessionals(HEALTHCARE_PROFESSIONALS)
+          .descriptionOfConditions(DESCRIPTION_OF_CONDITIONS);
 
   protected static final Application APPLICATION_FOR_PERSON_WALKING_DIFFICULTIES =
       new Application()
@@ -270,5 +273,6 @@ public class ApplicationTestData {
               .walkingDifficulties(WALKING_DIFFICULTIES)
               .mobilityAids(MOBILITY_ADIS_VIEW_MODEL)
               .walkingSpeed(WALKING_SPEED_VIEW_MODEL)
+              .healthCondition(DESCRIPTION_OF_CONDITIONS)
               .build();
 }

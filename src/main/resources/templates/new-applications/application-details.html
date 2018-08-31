@@ -145,6 +145,13 @@
                     th:text="#{newapplications.applicationdetails.proofofeligibility.label.walkingSpeed}"/>
                 <dd class="dft-data-list__dd" th:text="${app.walkingSpeed}"/>
             </div>
+
+            <div class="dft-data-list__item" th:if="${app.healthCondition != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.proofofeligibility.label.healthCondition}"/>
+                <dd class="dft-data-list__dd" th:text="${app.healthCondition}"/>
+            </div>
+
         </dl>
 
     </section>
