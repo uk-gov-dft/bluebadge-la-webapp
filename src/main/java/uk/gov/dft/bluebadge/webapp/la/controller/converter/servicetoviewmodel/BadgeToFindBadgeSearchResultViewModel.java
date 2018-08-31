@@ -26,9 +26,9 @@ public class BadgeToFindBadgeSearchResultViewModel
   public FindBadgeSearchResultViewModel convert(Badge source) {
     Assert.notNull(source, "Source cannot be null");
     String statusDisplayText =
-        referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
+        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
     String localAuthorityDisplayText =
-        referenceDataService.retrieveLocalAuthorityDisplayValue(
+        referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
 
     String partyTypeCode = source.getParty().getTypeCode();

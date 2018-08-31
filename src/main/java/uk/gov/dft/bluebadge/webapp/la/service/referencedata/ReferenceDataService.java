@@ -13,8 +13,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 @Service
 public class ReferenceDataService {
 
-  private Map<String, List<ReferenceData>> groupedReferenceDataList = null;
-  private Map<String, Map<String, String>> groupedReferenceDataMap = null;
+  private Map<String, List<ReferenceData>> badgeGroupedReferenceDataList = null;
+  private Map<String, Map<String, String>> badgeGroupedReferenceDataMap = null;
+  private Map<String, List<ReferenceData>> applicationGroupedReferenceDataList = null;
+  private Map<String, Map<String, String>> applicationGroupedReferenceDataMap = null;
 
   private final ReferenceDataApiClient referenceDataApiClient;
   private AtomicBoolean isLoaded = new AtomicBoolean();
@@ -30,100 +32,147 @@ public class ReferenceDataService {
    */
   private void init() {
     if (!isLoaded.getAndSet(true)) {
-
-      List<ReferenceData> referenceDataList =
-          referenceDataApiClient.retrieveReferenceData(RefDataDomainEnum.BADGE);
-
-      groupedReferenceDataList =
-          referenceDataList
-              .stream()
-              .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
-
-      groupedReferenceDataMap = new HashMap<>();
-
-      groupedReferenceDataList.forEach(
-          (key, value) ->
-              groupedReferenceDataMap.put(
-                  key,
-                  value
-                      .stream()
-                      .collect(
-                          Collectors.toMap(
-                              ReferenceData::getShortCode, ReferenceData::getDescription))));
+      badgeGroupedReferenceDataList = initDataList(RefDataDomainEnum.BADGE);
+      applicationGroupedReferenceDataList = initDataList(RefDataDomainEnum.APP);
+      badgeGroupedReferenceDataMap = initDataMap(badgeGroupedReferenceDataList);
+      applicationGroupedReferenceDataMap = initDataMap(applicationGroupedReferenceDataList);
     }
   }
 
-  public List<ReferenceData> retrieveCancellations() {
-    return retrieveReferenceDataList(RefDataGroupEnum.CANCEL);
+  private Map<String, List<ReferenceData>> initDataList(RefDataDomainEnum domain) {
+    List<ReferenceData> referenceDataList = referenceDataApiClient.retrieveReferenceData(domain);
+
+    Map<String, List<ReferenceData>> groupedReferenceDataList =
+        referenceDataList.stream().collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
+    return groupedReferenceDataList;
   }
 
-  public List<ReferenceData> retrieveEligilities() {
-    return retrieveReferenceDataList(RefDataGroupEnum.ELIGIBILITY);
+  private Map<String, Map<String, String>> initDataMap(
+      Map<String, List<ReferenceData>> groupedReferenceDataList) {
+    Map<String, Map<String, String>> groupedReferenceDataMap = new HashMap<>();
+
+    groupedReferenceDataList.forEach(
+        (key, value) ->
+            groupedReferenceDataMap.put(
+                key,
+                value
+                    .stream()
+                    .collect(
+                        Collectors.toMap(
+                            ReferenceData::getShortCode, ReferenceData::getDescription))));
+    return groupedReferenceDataMap;
   }
 
-  public List<ReferenceData> retrieveGenders() {
-    return retrieveReferenceDataList(RefDataGroupEnum.GENDER);
+  // BADGE
+  public List<ReferenceData> retrieveBadgeCancellations() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.CANCEL);
   }
 
-  public List<ReferenceData> retrieveApplicationChannels() {
-    return retrieveReferenceDataList(RefDataGroupEnum.APP_SOURCE);
+  public List<ReferenceData> retrieveBadgeEligilities() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.ELIGIBILITY);
   }
 
-  public List<ReferenceData> retrieveDeliverTos() {
-    return retrieveReferenceDataList(RefDataGroupEnum.DELIVER_TO);
+  public List<ReferenceData> retrieveBadgeGenders() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.GENDER);
   }
 
-  public List<ReferenceData> retrieveDeliveryOptions() {
-    return retrieveReferenceDataList(RefDataGroupEnum.DELIVERY_OPTIONS);
+  public List<ReferenceData> retrieveBadgeApplicationChannels() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.APP_SOURCE);
   }
 
-  public List<ReferenceData> retrieveStatuses() {
-    return retrieveReferenceDataList(RefDataGroupEnum.STATUS);
+  public List<ReferenceData> retrieveBadgeDeliverTos() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.DELIVER_TO);
   }
 
-  public List<ReferenceData> retrieveLocalAuthorities() {
-    return retrieveReferenceDataList(RefDataGroupEnum.LA);
+  public List<ReferenceData> retrieveBadgeDeliveryOptions() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.DELIVERY_OPTIONS);
   }
 
-  private List<ReferenceData> retrieveReferenceDataList(RefDataGroupEnum referenceDataGroup) {
+  public List<ReferenceData> retrieveBadgeStatuses() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.STATUS);
+  }
+
+  public List<ReferenceData> retrieveBadgeLocalAuthorities() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
+  }
+
+  // APPLICATION
+  public List<ReferenceData> retrieveApplicationWalkingDifficulties() {
+    return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
+  }
+
+  // BADGE
+  private List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }
-    return groupedReferenceDataList.get(referenceDataGroup.getGroupKey());
+    return badgeGroupedReferenceDataList.get(referenceDataGroup.getGroupKey());
   }
 
-  public String retrieveEligibilityDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.ELIGIBILITY, key);
-  }
-
-  public String retrieveGenderDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);
-  }
-
-  public String retrieveApplicationChannelDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.APP_SOURCE, key);
-  }
-
-  public String retrieveDeliverToDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVER_TO, key);
-  }
-
-  public String retrieveDeliveryOptionDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.DELIVERY_OPTIONS, key);
-  }
-
-  public String retrieveStatusDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.STATUS, key);
-  }
-
-  public String retrieveLocalAuthorityDisplayValue(String key) {
-    return retrieveReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
-  }
-
-  private String retrieveReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
+  private List<ReferenceData> retrieveApplicationReferenceDataList(
+      RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }
-    return groupedReferenceDataMap.get(group.getGroupKey()).get(key);
+    return applicationGroupedReferenceDataList.get(referenceDataGroup.getGroupKey());
+  }
+
+  public String retrieveBadgeEligibilityDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.ELIGIBILITY, key);
+  }
+
+  public String retrieveBadgeGenderDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);
+  }
+
+  public String retrieveBadgeApplicationChannelDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.APP_SOURCE, key);
+  }
+
+  public String retrieveBadgeDeliverToDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.DELIVER_TO, key);
+  }
+
+  public String retrieveBadgeDeliveryOptionDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.DELIVERY_OPTIONS, key);
+  }
+
+  public String retrieveBadgeStatusDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.STATUS, key);
+  }
+
+  public String retrieveBadgeLocalAuthorityDisplayValue(String key) {
+    return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
+  }
+
+  // APPLICATION
+  public String retrieveApplicationGenderDisplayValue(String key) {
+    return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);
+  }
+
+  public String retrieveApplicationEligibilityDisplayValue(String key) {
+    return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.ELIGIBILITY, key);
+  }
+
+  public String retrieveApplicationWalkingDifficultyDisplayValue(String key) {
+    return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_DIFFICULTIES, key);
+  }
+
+  public String retrieveApplicationWalkingSpeedDisplayValue(String key) {
+    return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_SPEED, key);
+  }
+
+  private String retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
+    if (!isLoaded.get()) {
+      init();
+    }
+    return badgeGroupedReferenceDataMap.get(group.getGroupKey()).get(key);
+  }
+
+  private String retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
+    if (!isLoaded.get()) {
+      init();
+    }
+    return applicationGroupedReferenceDataMap.get(group.getGroupKey()).get(key);
   }
 }

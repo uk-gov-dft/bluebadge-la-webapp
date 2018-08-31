@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{newapplications.applicationdetails.html.title} + ' ' + ${app.fullName} + ' ' + #{common.title.suffix}"></title>
+</head>
+
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="@{/new-applications}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+           th:text="#{common.button.back}"/>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container--full">
+
+        <header class="dft-content-heading dft-content-heading--with-cta">
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span class="govuk-caption-m" th:text="${app.applicationId}"></span>
+                <span th:remove="tag" th:text="#{newapplications.applicationdetails.title}"></span>
+            </h1>
+        </header>
+
+        <div class="dft-check-answers__heading">
+            <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title"
+                th:text="#{newapplications.applicationdetails.personaldetails.title}"></h2>
+        </div>
+
+        <dl class="dft-data-list" data-uipath="personalDetails.answers">
+
+            <div class="dft-data-list__item" th:if="${app.fullName != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.fullName}"/>
+                <dd class="dft-data-list__dd" th:text="${app.fullName}"/>
+            </div>
+
+
+            <div class="dft-data-list__item" th:if="${app.gender != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.gender}"/>
+                <dd class="dft-data-list__dd" th:text="${app.gender}"/>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.dob != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.dob}"/>
+                <dd class="dft-data-list__dd" th:text="${app.dob}"/>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.nino != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.nino}"/>
+                <dd class="dft-data-list__dd" th:with="ref=${app.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.address != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.address}"/>
+                <dd class="dft-data-list__dd" th:text="${app.address}"/>
+            </div>
+
+            <div class="dft-data-list__item"
+                 th:if="${app.contactDetailsName != null || app.contactDetailsPhoneNumber != null || app.contactDetailsEmail != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.contactDetails}"/>
+                <dd class="dft-data-list__dd">
+                    <div th:if="${app.contactDetailsName != null}" th:remove="tag">
+                        <span th:text="${app.contactDetailsName}" th:remove="tag"/><br/>
+                    </div>
+                    <div th:if="${app.contactDetailsPhoneNumber != null}" th:remove="tag">
+                        <span th:text="${app.contactDetailsPhoneNumber}" th:remove="tag"/><br/>
+                    </div>
+                    <span th:if="${app.contactDetailsEmail != null}" th:text="${app.contactDetailsEmail}"
+                          th:remove="tag"/>
+                </dd>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.proofOfIdentityUrl != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.proofOfIdentity}"/>
+                <dd class="dft-data-list__dd"><a th:href="${app.proofOfIdentityUrl}">proof-or-identity.jpg</a></dd>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.proofOfAddressUrl != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.proofOfAddress}"/>
+                <dd class="dft-data-list__dd"><a th:href="${app.proofOfAddressUrl}">proof-or-address.jpg</a></dd>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.photoUrl != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.personaldetails.label.photo}"/>
+                <dd class="dft-data-list__dd"><img th:src="${app.photoUrl}" alt=""/>
+            </div>
+
+        </dl>
+
+        <br/><br/>
+        <br/><br/>
+
+        <div class="dft-check-answers__heading">
+            <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="proofOfEligibility.title"
+                th:text="#{newapplications.applicationdetails.proofofeligibility.title}"></h2>
+        </div>
+
+        <dl class="dft-data-list" data-uipath="proofOfEligibility.answers">
+
+            <div class="dft-data-list__item" th:if="${app.reasonForApplying != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.proofofeligibility.label.reasonForApplying}"/>
+                <dd class="dft-data-list__dd" th:text="${app.reasonForApplying}"/>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.walkingDifficulties != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.proofofeligibility.label.walkingDifficulty}"/>
+                <dd class="dft-data-list__dd">
+                    <div th:each="walkingDifficulty: ${app.walkingDifficulties}" th:remove="tag">
+                        <span th:text="${walkingDifficulty}"/>
+                        <br/>
+                    </div>
+                </dd>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.mobilityAids != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.proofofeligibility.label.mobilityAids}"/>
+                <dd class="dft-data-list__dd">
+                    <div th:each="mobilityAid: ${app.mobilityAids}" th:remove="tag">
+                        <span th:text="${mobilityAid}"/>
+                        <br/>
+                    </div>
+                </dd>
+            </div>
+
+            <div class="dft-data-list__item" th:if="${app.walkingSpeed != null}">
+                <dt class="dft-data-list__dt"
+                    th:text="#{newapplications.applicationdetails.proofofeligibility.label.walkingSpeed}"/>
+                <dd class="dft-data-list__dd" th:text="${app.walkingSpeed}"/>
+            </div>
+        </dl>
+
+    </section>
+</main>
+</body>
+
+</html>

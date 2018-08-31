@@ -61,14 +61,14 @@ public class OrderBadgePersonDetailsController
 
   @ModelAttribute("genderOptions")
   public List<ReferenceData> genderOptions() {
-    return referenceDataService.retrieveGenders();
+    return referenceDataService.retrieveBadgeGenders();
   }
 
   @ModelAttribute("eligibilityOptions")
   public Map<String, List<ReferenceData>> eligibilities() {
     return new TreeMap<>(
         referenceDataService
-            .retrieveEligilities()
+            .retrieveBadgeEligilities()
             .stream()
             .collect(
                 Collectors.groupingBy(

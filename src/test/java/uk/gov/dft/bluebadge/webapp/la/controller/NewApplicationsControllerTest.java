@@ -56,7 +56,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
     mockMvc
         .perform(get("/new-applications"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications"))
+        .andExpect(view().name("new-applications/index"))
         .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
   }
 }

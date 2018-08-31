@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.testdata;
+package uk.gov.dft.bluebadge.webapp.la.service;
 
 import com.google.common.collect.Lists;
 import java.time.LocalDate;
@@ -142,12 +142,6 @@ public class ApplicationTestData {
   protected static final String PROOF_OF_IDENTITY = "proofOfIdentity";
   protected static final String PROOF_OF_IDENTITY_URL = "http://localhost:8080/proofOfIdentityUrl";
 
-  protected static final String WALKING_AID_DESCRIPTION_1 = "Needs travelator";
-  protected static final String WALKING_AID_DESCRIPTION_2 = "Needs crutches";
-
-  protected static final WalkingSpeedCodeField WALKING_SPEED_SHORT_CODE =
-      WalkingSpeedCodeField.SLOW;
-
   // Application
   protected static final Contact CONTACT_PERSON =
       new Contact()
@@ -195,9 +189,8 @@ public class ApplicationTestData {
           .proofOfIdentityUrl(PROOF_OF_IDENTITY_URL);
 
   protected static final WalkingAid WALKING_AID_1 =
-      new WalkingAid().description(WALKING_AID_DESCRIPTION_1);
-  protected static final WalkingAid WALKING_AID_2 =
-      new WalkingAid().description(WALKING_AID_DESCRIPTION_2);
+      new WalkingAid().description("Needs travelator");
+  protected static final WalkingAid WALKING_AID_2 = new WalkingAid().description("Needs crutches");
   protected static final WalkingDifficulty WALKING_DIFFICULTY =
       new WalkingDifficulty()
           .typeCodes(
@@ -205,7 +198,7 @@ public class ApplicationTestData {
                   WalkingDifficultyTypeCodeField.fromValue(WALKING_DIFFICULTY_1_SHORTCODE),
                   WalkingDifficultyTypeCodeField.fromValue(WALKING_DIFFICULTY_2_SHORTCODE)))
           .walkingAids(Lists.newArrayList(WALKING_AID_1, WALKING_AID_2))
-          .walkingSpeedCode(WALKING_SPEED_SHORT_CODE)
+          .walkingSpeedCode(WalkingSpeedCodeField.SLOW)
           .walkingLengthOfTimeCode(WalkingLengthOfTimeCodeField.FEWMIN)
           .treatments(TREATMENTS)
           .medications(MEDICATIONS);
@@ -248,9 +241,6 @@ public class ApplicationTestData {
   protected static final String WALKING_DIFFICULTY_2 = "Struggle planning or following a journey";
   protected static final List<String> WALKING_DIFFICULTIES =
       Lists.newArrayList(WALKING_DIFFICULTY_1, WALKING_DIFFICULTY_2);
-  protected static final List<String> MOBILITY_ADIS_VIEW_MODEL =
-      Lists.newArrayList(WALKING_AID_DESCRIPTION_1, WALKING_AID_DESCRIPTION_2);
-  protected static final String WALKING_SPEED_VIEW_MODEL = "Slower";
 
   // Application View Model - objects
   protected static final ApplicationViewModel APPLICATION_VIEW_MODEL_EMPTY =
@@ -273,7 +263,5 @@ public class ApplicationTestData {
               .photoUrl(BADGE_PHOTO_URL)
               .reasonForApplying(ELIGIBILITY_VIEW_MODEL)
               .walkingDifficulties(WALKING_DIFFICULTIES)
-              .mobilityAids(MOBILITY_ADIS_VIEW_MODEL)
-              .walkingSpeed(WALKING_SPEED_VIEW_MODEL)
               .build();
 }

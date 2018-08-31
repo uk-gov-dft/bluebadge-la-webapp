@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
@@ -18,7 +18,7 @@ public class NewApplicationsController {
 
   public static final String URL = "/new-applications";
 
-  public static final String TEMPLATE = "new-applications";
+  public static final String TEMPLATE = "new-applications/index";
 
   private ApplicationService applicationService;
   private ApplicationSummaryToApplicationViewModel converterToViewModel;
@@ -40,7 +40,7 @@ public class NewApplicationsController {
             Optional.empty(),
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW));
-    List<ApplicationViewModel> applicationsViewModel =
+    List<ApplicationSummaryViewModel> applicationsViewModel =
         applications
             .stream()
             .map(app -> converterToViewModel.convert(app))
