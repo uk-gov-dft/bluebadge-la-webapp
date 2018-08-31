@@ -84,8 +84,6 @@ public class ApplicationToApplicationViewModel
       photoUrl = artifacts.getBadgePhotoUrl();
     }
 
-    Person person = party != null ? party.getPerson() : null;
-
     return builder
         .applicationId(source.getApplicationId())
         .fullName(fullName)
@@ -126,7 +124,7 @@ public class ApplicationToApplicationViewModel
         List<WalkingAid> walkingAids = walkingDifficulty.getWalkingAids();
         if (walkingAids != null) {
           List<String> walkingAidsViewModel =
-              walkingAids.stream().map(v -> v.getDescription()).collect(Collectors.toList());
+              walkingAids.stream().map(WalkingAid::getDescription).collect(Collectors.toList());
           builder.mobilityAids(walkingAidsViewModel);
         }
         String walkingSpeedViewModel =

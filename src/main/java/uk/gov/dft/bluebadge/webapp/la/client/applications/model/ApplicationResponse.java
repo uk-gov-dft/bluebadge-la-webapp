@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.client;
+package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 
 /** ApplicationResponse */
 @Validated

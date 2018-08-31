@@ -24,7 +24,8 @@ public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTes
     MockitoAnnotations.initMocks(this);
     converter =
         new ApplicationSummaryToApplicationViewModel(referenceDataServiceMock, dateTimeServiceMock);
-    when(referenceDataServiceMock.retrieveApplicationEligibilityDisplayValue(ELIGIBILITY_SHORT_CODE))
+    when(referenceDataServiceMock.retrieveApplicationEligibilityDisplayValue(
+            ELIGIBILITY_SHORT_CODE))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
     when(dateTimeServiceMock.clientZoneId()).thenReturn(TIME_ZONE);
   }

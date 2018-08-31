@@ -13,9 +13,6 @@ public class PartyToAddressViewModel implements Converter<Contact, String> {
   public String convert(Contact source) {
     Assert.notNull(source, "Source cannot be null");
 
-    if (source == null) {
-      return "";
-    }
     StringBuilder address = new StringBuilder(source.getBuildingStreet());
     String line2 = source.getLine2();
     if (!StringUtils.isEmpty(line2)) {

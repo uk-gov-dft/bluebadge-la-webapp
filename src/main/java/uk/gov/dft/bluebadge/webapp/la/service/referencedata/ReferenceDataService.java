@@ -41,10 +41,9 @@ public class ReferenceDataService {
 
   private Map<String, List<ReferenceData>> initDataList(RefDataDomainEnum domain) {
     List<ReferenceData> referenceDataList = referenceDataApiClient.retrieveReferenceData(domain);
-
-    Map<String, List<ReferenceData>> groupedReferenceDataList =
-        referenceDataList.stream().collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
-    return groupedReferenceDataList;
+    return referenceDataList
+        .stream()
+        .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
   }
 
   private Map<String, Map<String, String>> initDataMap(

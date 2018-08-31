@@ -29,7 +29,6 @@ public class ApplicationViewModel {
   private List<String> medications;
 
   // walking
-  //  private WalkingDifficulty walkingDifficulty;
   private List<String> walkingDifficulties;
   private List<String> mobilityAids;
   private String walkingSpeed;
