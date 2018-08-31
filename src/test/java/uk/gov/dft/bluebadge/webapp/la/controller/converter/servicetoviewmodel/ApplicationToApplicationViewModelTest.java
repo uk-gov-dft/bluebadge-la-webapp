@@ -44,12 +44,6 @@ public class ApplicationToApplicationViewModelTest extends ApplicationTestData {
     assertThat(viewModel).isEqualTo(APPLICATION_VIEW_MODEL_FOR_PERSON_WALKING_DIFFICULTIES);
   }
 
-  @Test
-  public void convert_shouldEmptyViewModel_whenApplicationIsEmpty() {
-    ApplicationViewModel viewModel = converter.convert(APPLICATION_EMPTY);
-    assertThat(viewModel).isEqualTo(APPLICATION_VIEW_MODEL_EMPTY);
-  }
-
   @Test(expected = IllegalArgumentException.class)
   public void convert_shouldThrowIllegalArgumentException_whenApplicationIsNull() {
     converter.convert(null);

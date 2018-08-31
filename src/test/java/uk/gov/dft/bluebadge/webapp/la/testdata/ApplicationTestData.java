@@ -226,8 +226,6 @@ public class ApplicationTestData {
           .walkingDifficulty(WALKING_DIFFICULTY)
           .healthcareProfessionals(HEALTHCARE_PROFESSIONALS);
 
-  protected static final Application APPLICATION_EMPTY = new Application();
-
   protected static final Application APPLICATION_FOR_PERSON_WALKING_DIFFICULTIES =
       new Application()
           .applicationId(APPLICATION_ID.toString())
@@ -253,9 +251,6 @@ public class ApplicationTestData {
   protected static final String WALKING_SPEED_VIEW_MODEL = "Slower";
 
   // Application View Model - objects
-  protected static final ApplicationViewModel APPLICATION_VIEW_MODEL_EMPTY =
-      ApplicationViewModel.builder().build();
-
   protected static final ApplicationViewModel
       APPLICATION_VIEW_MODEL_FOR_PERSON_WALKING_DIFFICULTIES =
           ApplicationViewModel.builder()
