@@ -1,6 +1,4 @@
 apply plugin : 'java'
-//apply plugin : 'jacoco'
-//apply plugin : 'org.akhikhl.gretty'
 
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
@@ -10,27 +8,7 @@ buildscript {
     repositories {
         jcenter()
     }
-
-//    dependencies {
-//        classpath 'org.akhikhl.gretty:gretty:1.1.1'
-//    }
 }
-
-//configurations {
-//    functTestCompile.extendsFrom testCompile
-//    functTestRuntime.extendsFrom testRuntime
-//
-//}
-
-//sourceSets{
-//    functionalTest {
-//        java.srcDir file('src/test/java/')
-//        resources.srcDir('src/test/resources')
-//
-//        compileClasspath = sourceSets.main.output + configurations.functTestCompile
-//        runtimeClasspath = output + compileClasspath + configurations.functTestRuntime
-//    }
-//}
 
 dependencies {
     compile group: 'commons-io', name: 'commons-io', version:'2.6'
@@ -53,27 +31,8 @@ dependencies {
     testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 }
 
-//gretty {
-//    contextConfigFile = "${projectDir}/tomcat-context.xml"
-//    jvmArgs = ['-Dspring.profiles.active=test']
-//    integrationTestTask = 'integrationTest'
-//    servletContainer = 'tomcat7'
-//
-//
-//    afterEvaluate {
-//        // Add integration test classes to Jetty's war
-//        tasks['prepareInplaceWebApp'].dependsOn 'copyIntegrationTestClasses', 'copyIntegrationTestResources'
-//    }
-//}
-
-//jacocoTestReport {
-//    executionData = fileTree(dir:"${buildDir}/jacoco/", include:"*.exec")
-//}
-
 test {
     exclude '**/*AcceptanceTest*'
-//    reports.junitXml.destination = "$buildDir/test-results/unit"
-//    reports.html.destination = "$buildDir/reports/tests/unit"
 }
 
 task acceptanceTests(type:Test) {
