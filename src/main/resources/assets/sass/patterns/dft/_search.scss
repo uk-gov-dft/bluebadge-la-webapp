@@ -10,6 +10,19 @@
 		}
 	}
 
+	&__select {
+		@include govuk-font(16, regular);
+		float: left;
+		width: 135px;
+		margin-right: 5px;
+		border: 2px solid govuk-colour("grey-3");
+	}
+
+	&__field-wrapper {
+		float: left;
+		position: relative;
+	}
+
 	&__label {
 		@include govuk-visually-hidden;
 	}
