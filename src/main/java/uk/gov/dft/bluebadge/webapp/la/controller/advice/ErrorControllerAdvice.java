@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.webapp.la.controller.ErrorHandlerController;
 
 @Slf4j
 @ControllerAdvice
 public class ErrorControllerAdvice {
 
-  private static final String URL = "/unexpected-error";
-
-  private static final String REDIRECT_URL = "redirect:" + URL;
+  private static final String REDIRECT_URL = "redirect:/" + ErrorHandlerController.ERROR_500_URL;
 
   @ExceptionHandler(Exception.class)
   public String handleException(Exception ex, RedirectAttributes redirectAttributes) {

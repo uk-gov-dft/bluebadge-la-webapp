@@ -16,7 +16,7 @@ public class ErrorControllerTest {
 
   private MockMvc mockMvc;
 
-  private ErrorController controller;
+  private ErrorHandlerController controller;
 
   @Before
   public void setup() {
@@ -24,7 +24,7 @@ public class ErrorControllerTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new ErrorController();
+    controller = new ErrorHandlerController();
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
