@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -12,7 +11,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
 
 @Service
@@ -56,15 +54,8 @@ public class ApplicationService {
     return applicationSummariesResponse;
   }
 
-  public Optional<Application> retrieve(String applicationId) {
-    if (StringUtils.isEmpty(applicationId)) {
-      return Optional.empty();
-    }
-    try {
-      return Optional.of(ApplicationTestData.APPLICATION_FOR_PERSON_WALKING_DIFFICULTIES);
-    } catch (NotFoundException ex) {
-      log.debug("Application with id:{} could not be found!", applicationId);
-      return Optional.empty();
-    }
+  public Application retrieve(String applicationId) {
+
+    return applicationsApiClient.retrieve(applicationId);
   }
 }

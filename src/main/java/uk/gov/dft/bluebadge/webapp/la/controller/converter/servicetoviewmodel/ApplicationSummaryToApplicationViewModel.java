@@ -40,7 +40,7 @@ public class ApplicationSummaryToApplicationViewModel
         source
             .getSubmissionDate()
             .atZoneSameInstant(dateTimeService.clientZoneId())
-            .format(ModelViewFormats.viewModelDateTimeFormatter);
+            .format(ModelViewFormats.viewModelGridDateTimeFormatter);
 
     return ApplicationSummaryViewModel.builder()
         .applicationId(source.getApplicationId())

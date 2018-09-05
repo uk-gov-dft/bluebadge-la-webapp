@@ -7,12 +7,16 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppContact;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Artifacts;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Eligibility;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.GenderCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.HealthcareProfessional;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Medication;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
@@ -22,11 +26,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingDifficult
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingDifficultyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingLengthOfTimeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingSpeedCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
 
 public class ApplicationTestData {
   // Application Summary fields
@@ -97,7 +97,7 @@ public class ApplicationTestData {
           .submissionDate(SUBMISSION_DATE_1);
 
   // Application View Model fields
-  protected static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 12:10";
+  private static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20/06/18 12:10";
 
   // Application View Model Objects
   protected static final ApplicationSummaryViewModel APPLICATION_PERSON_VIEW_MODEL_1 =
@@ -121,38 +121,38 @@ public class ApplicationTestData {
           .build();
 
   // Application fields
-  protected static final String BUILDING_AND_STREET = "Building and street";
-  protected static final String OPTIONAL_ADDRESS_FIELD = "Optional address field";
-  protected static final String TOWN_OR_CITY = "Town or city";
+  private static final String BUILDING_AND_STREET = "Building and street";
+  private static final String OPTIONAL_ADDRESS_FIELD = "Optional address field";
+  private static final String TOWN_OR_CITY = "Town or city";
   protected static final String POSTCODE = "TF8 6GF";
-  protected static final String CONTACT_DETAILS_NAME = "Contact details name";
-  protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
+  private static final String CONTACT_DETAILS_NAME = "Contact details name";
+  private static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
   protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "07700900099";
-  protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
+  private static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   protected static final String GENDER_SHORTCODE = "MALE";
-  protected static final LocalDate DOB = LocalDate.of(1980, 3, 15);
+  private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
 
-  protected static final String EXISTING_BADGE_NUMBER = "KKKKK1";
-  protected static final String LOCAL_AUTHORITY_CODE = "ABERD";
-  protected static final String BADGE_PHOTO = "badgePhoto";
-  protected static final String BADGE_PHOTO_URL =
+  private static final String EXISTING_BADGE_NUMBER = "KKKKK1";
+  private static final String LOCAL_AUTHORITY_CODE = "ABERD";
+  private static final String BADGE_PHOTO = "badgePhoto";
+  private static final String BADGE_PHOTO_URL =
       "https://winklevosscapital.com/wp-content/uploads/2014/10/2014-09-16-Anoynmous-The-Rise-of-Personal-Networks.jpg";
-  protected static final String PROOF_OF_ADDRESS = "proofOfAddress";
-  protected static final String PROOF_OF_ADDRESS_URL = "http://localhost:8080/proofOfAddressUrl";
-  protected static final String PROOF_OF_IDENTITY = "proofOfIdentity";
-  protected static final String PROOF_OF_IDENTITY_URL = "http://localhost:8080/proofOfIdentityUrl";
+  private static final String PROOF_OF_ADDRESS = "proofOfAddress";
+  private static final String PROOF_OF_ADDRESS_URL = "http://localhost:8080/proofOfAddressUrl";
+  private static final String PROOF_OF_IDENTITY = "proofOfIdentity";
+  private static final String PROOF_OF_IDENTITY_URL = "http://localhost:8080/proofOfIdentityUrl";
 
-  protected static final String WALKING_AID_DESCRIPTION_1 = "Needs travelator";
-  protected static final String WALKING_AID_DESCRIPTION_2 = "Needs crutches";
+  private static final String WALKING_AID_DESCRIPTION_1 = "Needs travelator";
+  private static final String WALKING_AID_DESCRIPTION_2 = "Needs crutches";
 
-  protected static final String DESCRIPTION_OF_CONDITIONS = "Several illneses and disseases";
+  private static final String DESCRIPTION_OF_CONDITIONS = "Several illneses and disseases";
 
   protected static final WalkingSpeedCodeField WALKING_SPEED_SHORT_CODE =
       WalkingSpeedCodeField.SLOW;
 
   // Application
-  protected static final Contact CONTACT_PERSON =
-      new Contact()
+  private static final AppContact CONTACT_PERSON =
+      new AppContact()
           .buildingStreet(BUILDING_AND_STREET)
           .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
           .fullName(CONTACT_DETAILS_NAME)
@@ -161,33 +161,37 @@ public class ApplicationTestData {
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
 
-  protected static final Person PERSON =
-      new Person().genderCode(GENDER_SHORTCODE).badgeHolderName(NAME).dob(DOB).nino(NINO);
+  private static final AppPerson PERSON =
+      new AppPerson().genderCode(GenderCodeField.MALE).badgeHolderName(NAME).dob(DOB).nino(NINO);
 
-  protected static final Party PARTY_PERSON =
-      new Party().contact(CONTACT_PERSON).person(PERSON).typeCode("PERSON").organisation(null);
+  private static final AppParty PARTY_PERSON =
+      new AppParty()
+          .contact(CONTACT_PERSON)
+          .person(PERSON)
+          .typeCode(PartyTypeCodeField.PERSON)
+          .organisation(null);
 
-  protected static final Treatment TREATMENT_1 =
+  private static final Treatment TREATMENT_1 =
       new Treatment().description("Needs treatment 1").time("20/4/2018");
-  protected static final Treatment TREATMENT_2 =
+  private static final Treatment TREATMENT_2 =
       new Treatment().description("Needs treatment 2").time("18/3/2017");
-  protected static final List<Treatment> TREATMENTS = Lists.newArrayList(TREATMENT_1, TREATMENT_2);
-  protected static final Medication MEDICATION_1 =
+  private static final List<Treatment> TREATMENTS = Lists.newArrayList(TREATMENT_1, TREATMENT_2);
+  private static final Medication MEDICATION_1 =
       new Medication()
           .name("medication name 1")
           .frequency("daily")
           .quantity("1 pill")
           .isPrescribed(true);
-  protected static final Medication MEDICATION_2 =
+  private static final Medication MEDICATION_2 =
       new Medication()
           .name("medication name 2")
           .frequency("monthly")
           .quantity("2 pill")
           .isPrescribed(false);
-  protected static final List<Medication> MEDICATIONS =
+  private static final List<Medication> MEDICATIONS =
       Lists.newArrayList(MEDICATION_1, MEDICATION_2);
 
-  protected static final Artifacts ARTIFACTS =
+  private static final Artifacts ARTIFACTS =
       new Artifacts()
           .badgePhoto(BADGE_PHOTO)
           .badgePhotoUrl(BADGE_PHOTO_URL)
@@ -196,11 +200,11 @@ public class ApplicationTestData {
           .proofOfIdentity(PROOF_OF_IDENTITY)
           .proofOfIdentityUrl(PROOF_OF_IDENTITY_URL);
 
-  protected static final WalkingAid WALKING_AID_1 =
+  private static final WalkingAid WALKING_AID_1 =
       new WalkingAid().description(WALKING_AID_DESCRIPTION_1);
-  protected static final WalkingAid WALKING_AID_2 =
+  private static final WalkingAid WALKING_AID_2 =
       new WalkingAid().description(WALKING_AID_DESCRIPTION_2);
-  protected static final WalkingDifficulty WALKING_DIFFICULTY =
+  private static final WalkingDifficulty WALKING_DIFFICULTY =
       new WalkingDifficulty()
           .typeCodes(
               Lists.newArrayList(
@@ -212,17 +216,17 @@ public class ApplicationTestData {
           .treatments(TREATMENTS)
           .medications(MEDICATIONS);
 
-  protected static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_1 =
+  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_1 =
       new HealthcareProfessional().name("Doctor 1").location("London");
-  protected static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_2 =
+  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_2 =
       new HealthcareProfessional().name("Doctor 2").location("Manchester");
-  protected static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_3 =
+  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_3 =
       new HealthcareProfessional().name("Doctor 3").location("Edinburgh");
-  protected static final List<HealthcareProfessional> HEALTHCARE_PROFESSIONALS =
+  private static final List<HealthcareProfessional> HEALTHCARE_PROFESSIONALS =
       Lists.newArrayList(
           HEALTHCARE_PROFESSIONAL_1, HEALTHCARE_PROFESSIONAL_2, HEALTHCARE_PROFESSIONAL_3);
 
-  protected static final Eligibility ELIGIBILITY_WALKING_DIFFICULTY =
+  private static final Eligibility ELIGIBILITY_WALKING_DIFFICULTY =
       new Eligibility()
           .typeCode(EligibilityCodeField.WALKD)
           .walkingDifficulty(WALKING_DIFFICULTY)
@@ -242,37 +246,14 @@ public class ApplicationTestData {
 
   // Application View Model - fields
   protected static final String GENDER_VIEW_MODEL = "Male";
-  protected static final String DOB_VIEW_MODEL = "15/03/80";
-  protected static final String ADDRESS_VIEW_MODEL =
+  private static final String DOB_VIEW_MODEL = "15/03/80";
+  private static final String ADDRESS_VIEW_MODEL =
       "Building and street, Optional address field, Town or city, TF8 6GF";
   protected static final String WALKING_DIFFICULTY_1 = "Something else";
   protected static final String WALKING_DIFFICULTY_2 = "Struggle planning or following a journey";
-  protected static final List<String> WALKING_DIFFICULTIES =
+  private static final List<String> WALKING_DIFFICULTIES =
       Lists.newArrayList(WALKING_DIFFICULTY_1, WALKING_DIFFICULTY_2);
-  protected static final List<String> MOBILITY_ADIS_VIEW_MODEL =
+  private static final List<String> MOBILITY_ADIS_VIEW_MODEL =
       Lists.newArrayList(WALKING_AID_DESCRIPTION_1, WALKING_AID_DESCRIPTION_2);
   protected static final String WALKING_SPEED_VIEW_MODEL = "Slower";
-
-  // Application View Model - objects
-  protected static final ApplicationViewModel
-      APPLICATION_VIEW_MODEL_FOR_PERSON_WALKING_DIFFICULTIES =
-          ApplicationViewModel.builder()
-              .applicationId(APPLICATION_ID.toString())
-              .fullName(NAME)
-              .gender(GENDER_VIEW_MODEL)
-              .nino(NINO)
-              .dob(DOB_VIEW_MODEL)
-              .address(ADDRESS_VIEW_MODEL)
-              .contactDetailsName(CONTACT_DETAILS_NAME)
-              .contactDetailsPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-              .contactDetailsEmail(CONTACT_DETAILS_EMAIL_ADDRESS)
-              .proofOfIdentityUrl(PROOF_OF_IDENTITY_URL)
-              .proofOfAddressUrl(PROOF_OF_ADDRESS_URL)
-              .photoUrl(BADGE_PHOTO_URL)
-              .reasonForApplying(ELIGIBILITY_VIEW_MODEL)
-              .walkingDifficulties(WALKING_DIFFICULTIES)
-              .mobilityAids(MOBILITY_ADIS_VIEW_MODEL)
-              .walkingSpeed(WALKING_SPEED_VIEW_MODEL)
-              .healthCondition(DESCRIPTION_OF_CONDITIONS)
-              .build();
 }

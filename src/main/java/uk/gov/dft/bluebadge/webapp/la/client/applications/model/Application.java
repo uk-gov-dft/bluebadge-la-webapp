@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import org.springframework.validation.annotation.Validated;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 
 /** Application */
 @Validated
@@ -32,7 +31,7 @@ public class Application {
   private String existingBadgeNumber = null;
 
   @JsonProperty("party")
-  private Party party = null;
+  private AppParty party = null;
 
   @JsonProperty("eligibility")
   private Eligibility eligibility = null;
@@ -166,7 +165,7 @@ public class Application {
     this.existingBadgeNumber = existingBadgeNumber;
   }
 
-  public Application party(Party party) {
+  public Application party(AppParty party) {
     this.party = party;
     return this;
   }
@@ -179,11 +178,11 @@ public class Application {
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
-  public Party getParty() {
+  public AppParty getParty() {
     return party;
   }
 
-  public void setParty(Party party) {
+  public void setParty(AppParty party) {
     this.party = party;
   }
 

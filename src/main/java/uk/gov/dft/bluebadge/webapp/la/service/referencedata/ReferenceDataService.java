@@ -161,6 +161,25 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_SPEED, key);
   }
 
+  public String retrieveAppEnumDisplayValueByString(String group, String key) {
+    if (null == key) {
+      return "";
+    }
+    Map<String, String> groupMap = applicationGroupedReferenceDataMap.get(group);
+    if (null == groupMap) {
+      return "INVALID REF DATA GROUP";
+    }
+    return groupMap.get(key);
+  }
+
+  public String retrieveAppEnumDisplayValue(String group, Enum<?> key) {
+    if (null == key) {
+      return "";
+    }
+
+    return retrieveAppEnumDisplayValueByString(group, key.name());
+  }
+
   private String retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
     if (!isLoaded.get()) {
       init();
