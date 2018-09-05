@@ -20,5 +20,4 @@ public class ErrorHandlerController {
     log.debug("exception [()]", ex);
     return ERROR_500_TEMPLATE;
   }
-
 }

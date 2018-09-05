@@ -10,7 +10,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.ErrorHandlerController;
 @ControllerAdvice
 public class ErrorControllerAdvice {
 
-  private static final String REDIRECT_URL = "redirect:/" + ErrorHandlerController.ERROR_500_URL;
+  private static final String REDIRECT_URL = "redirect:" + ErrorHandlerController.ERROR_500_URL;
 
   @ExceptionHandler(Exception.class)
   public String handleException(Exception ex, RedirectAttributes redirectAttributes) {

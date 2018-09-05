@@ -16,7 +16,7 @@
 
     <p class="govuk-body">Please try again later.</p>
 
-    <div th:if="${#arrays.contains(@environment.getActiveProfiles(), 'dev')}">
+    <div th:if="${#arrays.contains(@environment.getActiveProfiles(), 'dev')} AND ${errorMessage}">
         <hr class="dft-hr"/>
         <h2 class="govuk-heading-m">
             <span class="govuk-caption-m">Development Mode</span>
