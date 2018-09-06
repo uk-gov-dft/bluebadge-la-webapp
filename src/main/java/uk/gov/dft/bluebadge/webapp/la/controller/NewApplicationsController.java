@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,47 +19,53 @@ import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 @Controller
 public class NewApplicationsController {
 
-  public static final String URL = "/new-applications";
+    public static final String URL = "/new-applications";
 
-  public static final String TEMPLATE = "new-applications";
+    public static final String TEMPLATE = "new-applications";
 
-  private ApplicationService applicationService;
-  private ApplicationSummaryToApplicationViewModel converterToViewModel;
+    private ApplicationService applicationService;
+    private ApplicationSummaryToApplicationViewModel converterToViewModel;
 
-  @Autowired
-  public NewApplicationsController(
-      ApplicationService applicationService,
-      ApplicationSummaryToApplicationViewModel converterToViewModel) {
-    this.applicationService = applicationService;
-    this.converterToViewModel = converterToViewModel;
-  }
+    @Autowired
+    public NewApplicationsController(
+            ApplicationService applicationService,
+            ApplicationSummaryToApplicationViewModel converterToViewModel) {
+        this.applicationService = applicationService;
+        this.converterToViewModel = converterToViewModel;
+    }
 
-  @GetMapping(URL)
-  public String show(
-      @RequestParam Optional<String> searchField,
-      @RequestParam Optional<String> searchTerm,
-      RedirectAttributes redirectAttributes,
-      Model model) {
+    @GetMapping(URL)
+    public String show(
+            @RequestParam("searchBy") Optional<String> searchBy,
+            @RequestParam("searchTerm") Optional<String> searchTerm,
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
-    List<ApplicationSummary> applications =
-        applicationService.find(
-            searchTerm,
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW));
-    List<ApplicationViewModel> applicationsViewModel =
-        applications
-            .stream()
-            .map(app -> converterToViewModel.convert(app))
-            .collect(Collectors.toList());
-    model.addAttribute("appSize", applicationsViewModel.size());
-    model.addAttribute("applications", applicationsViewModel);
-    model.addAttribute("searchTerm", searchTerm);
+        List<ApplicationSummary> applications;
 
-    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
-    redirectAttributes.addFlashAttribute("searchField", searchField);
+        if(searchTerm.isPresent() && searchBy.isPresent()) {
+            model.addAttribute("searchTerm", searchTerm.get());
+            model.addAttribute("searchBy", searchBy.get());
+            redirectAttributes.addFlashAttribute("searchTerm", searchTerm.get());
+            redirectAttributes.addFlashAttribute("searchBy", searchBy.get());
+        }
 
-    return TEMPLATE;
-  }
+        if(searchTerm.isPresent() && searchBy.get().equals("name") && searchTerm.isPresent()) {
+            applications = applicationService.findApplicationByName(searchTerm.get());
+        } else if(searchTerm.isPresent() && searchBy.get().equals("postcode") && searchTerm.isPresent()) {
+            applications = applicationService.findApplicationByPostCode(searchTerm.get());
+        } else {
+            applications = applicationService.retrieve();
+        }
+
+        List<ApplicationViewModel> applicationsViewModel = applications
+                .stream()
+                .map(app -> converterToViewModel.convert(app))
+                .collect(Collectors.toList());
+
+        model.addAttribute("applications", applicationsViewModel);
+        model.addAttribute("applicationCount", applicationsViewModel.size());
+
+        return TEMPLATE;
+    }
 }
