@@ -31,11 +31,12 @@ public class CancelBadgeControllerTest {
   private MockMvc mockMvc;
   private CancelBadgeController controller;
 
-  private final String BADGE_NUMBER = "AAAAA1";
-  private static final String URL_CANCEL_BADGE = "/manage-badges/cancel-badge/AAAAA1";
+  private static final String BADGE_NUMBER = "AAAAA1";
+  private static final String URL_CANCEL_BADGE = "/manage-badges/cancel-badge/" + BADGE_NUMBER;
   private static final String TEMPLATE_CANCEL_BADGE = "manage-badges/cancel-badge";
 
-  private static final String URL_BADGE_CANCELLED = "/manage-badges/badge-cancelled/AAAAA1";
+  private static final String URL_BADGE_CANCELLED =
+      "/manage-badges/badge-cancelled/" + BADGE_NUMBER;
   private static final String TEMPLATE_BADGE_CANCELLED = "manage-badges/badge-cancelled";
 
   @Before

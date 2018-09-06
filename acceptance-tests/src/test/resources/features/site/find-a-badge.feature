@@ -10,12 +10,16 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.person"
+    And I click on element "continue" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
@@ -25,7 +29,6 @@ Feature: Dft BlueBadge LA Find a Badge
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
     And I type the badge number of the badge previously ordered
-#    And I type "AAAAA1" for "searchTerm.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should not see "No results found for badge number" text on the page
@@ -37,6 +40,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
@@ -52,6 +56,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I type "AAAAA1" for "searchTerm.field" field by uipath
@@ -63,12 +68,16 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.person"
+    And I click on element "continue" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
@@ -89,6 +98,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
@@ -102,12 +112,16 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.person"
+    And I click on element "continue" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When I enter all the mandatory valid personal details to order a badge
     And I can click "continue" button
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
-    When I enter all the mandatory valid processing details to order a badge
+    When I enter all the mandatory valid processing details to order a badge for person
     And I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
     When I can click "orderBadge.button" button
@@ -128,6 +142,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"

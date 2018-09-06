@@ -33,8 +33,10 @@ public class TestContentUrls {
     add("home", "/");
     add("manage-users", "/manage-users");
     add("order-a-badge", "/order-a-badge/");
-    add("order-a-badge/details", "/order-a-badge/details");
-    add("order-a-badge/processing", "/order-a-badge/processing");
+    add("order-a-badge/person/details", "/order-a-badge/person/details");
+    add("order-a-badge/person/processing", "/order-a-badge/person/processing");
+    add("order-a-badge/organisation/details", "/order-a-badge/organisation/details");
+    add("order-a-badge/organisation/processing", "/order-a-badge/organisation/processing");
   }
 
   private void add(String pageName, String url) {

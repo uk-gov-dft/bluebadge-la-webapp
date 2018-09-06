@@ -2,15 +2,21 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData.PHOTO;
 
 import com.google.common.collect.Lists;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import javax.imageio.ImageIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
@@ -40,13 +46,38 @@ public class BadgeServiceTest {
   }
 
   @Test
-  public void orderBadgeForAPerson_shouldOrderOneBadgeAndReturnBadgeNumber() {
+  public void orderBadge_shouldOrderBadgesAndReturnBadgeNumbers() {
+    BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest().numberOfBadges(1);
+    when(badgeManagementApiClientMock.orderBlueBadges(badgeOrderRequest))
+        .thenReturn(BADGE_NUMBERS_FOR_PERSON);
+    List<String> badgeNumbers = badgeService.orderABadge(badgeOrderRequest);
+    assertThat(badgeNumbers).isEqualTo(BADGE_NUMBERS_FOR_PERSON);
+  }
+
+  @Test
+  public void orderBadgeForAPersonWithImageUploaded_shouldOrderOneBadgeAndReturnBadgeNumber()
+      throws IOException {
     BadgeOrderRequest badgeOrderRequest = new BadgeOrderRequest();
+
+    MultipartFile photo = PHOTO();
+    BufferedImage bufferedImage = ImageIO.read(photo.getInputStream());
+
+    byte[] imageInByte;
+    ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+    ImageIO.write(bufferedImage, "JPG", byteArrayStream);
+    byteArrayStream.flush();
+    imageInByte = byteArrayStream.toByteArray();
+    byteArrayStream.close();
+
     BadgeOrderRequest expectedBadgeOrderRequest = badgeOrderRequest.numberOfBadges(1);
+    expectedBadgeOrderRequest.imageFile("base64");
+
     when(badgeManagementApiClientMock.orderBlueBadges(expectedBadgeOrderRequest))
         .thenReturn(BADGE_NUMBERS_FOR_PERSON);
-    String badgeNumber = badgeService.orderABadgeForAPerson(badgeOrderRequest);
-    assertThat(badgeNumber).isEqualTo(BADGE_NUMBER);
+
+    List<String> badgeNumbers = badgeService.orderABadgeForAPerson(badgeOrderRequest, imageInByte);
+
+    assertThat(badgeNumbers).isEqualTo(BADGE_NUMBERS_FOR_PERSON);
   }
 
   @Test

@@ -3,7 +3,6 @@ package uk.gov.dft.bluebadge.webapp.la.security;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +13,7 @@ import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResourceAccessException;
@@ -28,18 +28,18 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
   private final OAuth2RestTemplate oAuth2RestTemplate;
   private final ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails;
   private final ResourceOwnerPasswordAccessTokenProvider accessTokenProvider;
-  private final UserInfoTokenServices userInfoTokenServices;
+  private final ResourceServerTokenServices tokenService;
 
   @Autowired
   public PasswordGrantFlowAuthenticationProvider(
       OAuth2RestTemplate oAuth2RestTemplate,
       ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails,
       ResourceOwnerPasswordAccessTokenProvider accessTokenProvider,
-      UserInfoTokenServices userInfoTokenServices) {
+      ResourceServerTokenServices tokenService) {
     this.oAuth2RestTemplate = oAuth2RestTemplate;
     this.resourceOwnerPasswordResourceDetails = resourceOwnerPasswordResourceDetails;
     this.accessTokenProvider = accessTokenProvider;
-    this.userInfoTokenServices = userInfoTokenServices;
+    this.tokenService = tokenService;
   }
 
   @Override
@@ -73,7 +73,7 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
           accessTokenProvider.obtainAccessToken(
               resourceOwnerPasswordResourceDetails, accessTokenRequest);
 
-      return userInfoTokenServices.loadAuthentication(oAuth2AccessToken.getValue());
+      return tokenService.loadAuthentication(oAuth2AccessToken.getValue());
     } catch (OAuth2AccessDeniedException ade) {
       if (ade.getCause() instanceof ResourceAccessException) {
         throw new AuthServerConnectionException("Failed to connect to authorisation service.", ade);

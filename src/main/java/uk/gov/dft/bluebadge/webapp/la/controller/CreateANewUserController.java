@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
@@ -17,10 +17,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.CreateANewUserFormReque
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
+@Slf4j
 @Controller
 public class CreateANewUserController {
-
-  private static final Logger log = LoggerFactory.getLogger(CreateANewUserController.class);
 
   private static final String URL_CREATE_A_NEW_USER = "/manage-users/create-a-new-user";
 
@@ -56,8 +55,7 @@ public class CreateANewUserController {
       Model model) {
     try {
       log.debug("Creating new user");
-      uk.gov.dft.bluebadge.common.security.model.User signedInUser =
-          securityUtils.getCurrentUserDetails();
+      BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = createANewUserRequest2User.convert(formRequest);
       user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
       user.setRoleId(TODO_HARDCODED_CREATE_USER_ROLE_ID);

@@ -23,9 +23,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 @Service
 public class UserManagementApiClient extends BaseApiClient {
 
-  class Endpoints {
+  static class Endpoints {
     private Endpoints() {}
 
+    static final String GET_CURRENT_ENDPOINT = "/users/me";
     static final String GET_BY_ID_ENDPOINT = "/users/{uuid}";
     static final String CREATE_ENDPOINT = "/users";
     static final String GET_USERS_FOR_AUTHORITY_ENDPOINT =
@@ -58,6 +59,17 @@ public class UserManagementApiClient extends BaseApiClient {
         restTemplate.getForEntity(
             GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityShortCode);
     return Objects.requireNonNull(userListResponse.getBody()).getData();
+  }
+
+  public User currentUserDetails() {
+    try {
+      return Objects.requireNonNull(
+              restTemplate.getForEntity(GET_CURRENT_ENDPOINT, UserResponse.class).getBody())
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+    return null;
   }
 
   public User getByUuid(UUID uuid) {

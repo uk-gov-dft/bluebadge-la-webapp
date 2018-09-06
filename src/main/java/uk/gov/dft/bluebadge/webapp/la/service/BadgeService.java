@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import com.google.common.collect.Lists;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -26,15 +27,27 @@ public class BadgeService {
     this.badgeManagementApiClient = badgeManagementApiClient;
   }
 
-  public String orderABadgeForAPerson(BadgeOrderRequest badgeOrderRequest) {
+  public List<String> orderABadge(BadgeOrderRequest badgeOrderRequest) {
     Assert.notNull(badgeOrderRequest, "badgeOrderRequest should not be null");
+    log.debug("Ordering [{}] badges.", badgeOrderRequest.getNumberOfBadges());
+    Assert.notNull(badgeOrderRequest.getNumberOfBadges(), "numberOfBadges should not be null");
 
-    List<String> badgeNumbers =
-        badgeManagementApiClient.orderBlueBadges(badgeOrderRequest.numberOfBadges(1));
+    List<String> badgeNumbers = badgeManagementApiClient.orderBlueBadges(badgeOrderRequest);
 
     Assert.notEmpty(badgeNumbers, "badgeNumbers should not be empty");
 
-    return badgeNumbers.get(0);
+    return badgeNumbers;
+  }
+
+  public List<String> orderABadgeForAPerson(
+      BadgeOrderRequest badgeOrderRequest, byte[] imageByteArray) {
+    Assert.notNull(badgeOrderRequest, "badgeOrderRequest should not be null");
+    Assert.notNull(imageByteArray, "image byte array cannot be null");
+
+    String base64 = Base64.getEncoder().encodeToString(imageByteArray);
+    badgeOrderRequest.setImageFile(base64);
+
+    return orderABadge(badgeOrderRequest);
   }
 
   public Optional<Badge> retrieve(String badgeNumber) {

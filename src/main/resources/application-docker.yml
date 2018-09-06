@@ -10,3 +10,7 @@ blue-badge:
   referencedataservice:
     servicehost:
       host: referencedata-service
+  applicationsservice:
+    servicehost:
+      host: applications-service
+

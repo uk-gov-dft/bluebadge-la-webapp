@@ -274,7 +274,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I should see the newly created user is on the users list$")
   public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
-    sitePage.getPageContent().contains(System.getProperty("email"));
+    assertTrue(sitePage.getPageContent().contains(System.getProperty("email")));
   }
 
   @And("^I should see \"([^\"]*)\" text on the page$")
@@ -373,7 +373,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @And("^I (?:can )?click on element \"([^\"]+)\"(?: link| button)?$")
-  public void AndICanClickOnElement(String uiPath) throws Throwable {
+  public void andICanClickOnElement(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
   }
 
@@ -388,8 +388,13 @@ public class SiteSteps extends AbstractSpringSteps {
         uipath = "sidebar-nav.order-a-badge";
         break;
       case "Find a badge":
-        uipath = "sidebar-nav.find-a-badge";
+        uipath = "sidebar-nav.manage-badges";
+        break;
+      case "New applications":
+        uipath = "sidebar-nav.new-applications";
+        break;
       default:
+        uipath = "sidebar-nav";
         break;
     }
     sitePage.findElementWithUiPath(uipath).click();

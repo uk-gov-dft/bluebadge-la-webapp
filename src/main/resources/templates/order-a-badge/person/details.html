@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{orderbadge.person.details.html.title} + ' ' + #{common.title.suffix}"></title>
+</head>
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="@{/order-a-badge/}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container--full">
+        <h1 class="govuk-heading-l" data-uipath="title">
+            <span class="govuk-caption-m" th:text="#{common.text.step} + ' 2'"></span>
+            <span th:remove="tag" th:text="#{orderbadge.person.details.title.h1}"></span>
+        </h1>
+
+        <div class="dft-width-two-thirds">
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
+        </div>
+
+        <form th:action="@{/order-a-badge/person/details}" th:object="${formRequest}" method="post" novalidate enctype="multipart/form-data">
+
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.fullname}, 'name', null, 'text') }"/>
+
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.person.details.gender.label}, 'gender', null, ${genderOptions}) }"/>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-date(#{orderbadge.person.details.dob.label}, #{orderbadge.person.details.dob.hint}, 'dobDay', 'dobMonth', 'dobYear', 'dob') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{orderbadge.person.details.nino.label}, 'nino', null, 'text') }"/>
+            </div>
+
+            <hr class="dft-hr dft-hr--small">
+
+            <fieldset class="govuk-fieldset fieldset-with-inputs">
+                <legend>
+                    <h2 class="govuk-heading-m" data-uipath="addressTitle" th:text="#{common.h2.address}"/>
+                </legend>
+                <div class="dft-width-one-half">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.buildingAdnStreet}, 'buildingAndStreet', null, 'text') }"/>
+                    <div class="dft-u-label--visually-hidden"
+                         th:insert="~{ fragments/form-elements :: govuk-input(#{common.label.addressLine2}, 'optionalAddressField', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.townOrCity}, 'townOrCity', null, 'text') }"/>
+                </div>
+
+                <div class="dft-width-one-quarter">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.postcode}, 'postcode', null, 'text') }"/>
+                </div>
+            </fieldset>
+
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="contactTitle" th:text="#{common.h2.contactDetails}"/>
+
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.fullnameOptional}, 'contactDetailsName', #{common.hint.fullNameOptional}, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.primaryContactNumber}, 'contactDetailsContactNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.secondaryContactNumberOptional}, 'contactDetailsSecondaryContactNumber', null, 'text') }"/>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.emailAddressOptional}, 'contactDetailsEmailAddress', null, 'email') }"/>
+            </div>
+
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="eligibilityTitle" th:text="#{orderbadge.person.details.h2.eligibility}"/>
+
+            <div class="dft-width-one-half">
+                <div th:replace="~{ fragments/govuk-select :: govuk-select(#{orderbadge.person.details.eligiblity.label}, 'eligibility', null, ${eligibilityOptions}) }"/>
+            </div>
+
+            <hr class="dft-hr dft-hr--small">
+            <h2 class="govuk-heading-m" data-uipath="photoTitle">Photo (optional)</h2>
+
+            <div class="dft-width-one-half">
+                <p class="govuk-body">Photos should:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>be either JPEG, PNG or GIF format</li>
+                    <li>not be bigger than 10MB</li>
+                </ul>
+
+                <div th:class="${#fields.hasErrors('photo')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+
+                    <span class="govuk-error-message"
+                          th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
+
+                    <label class="govuk-label" th:attr="for=photo">Upload a file</label>
+                    <p class="govuk-body" th:if="${formRequest.thumbBase64}">You have already uploaded a photo</p>
+                    <input type="file" data-uipath="photo.field" class="govuk-file-upload" th:field="*{photo}">
+                </div>
+            </div>
+
+            <input th:value="#{common.button.continue}" type="submit" data-uipath="continue" class="govuk-button">
+
+        </form>
+    </section>
+</main>
+
+</body>
+</html>

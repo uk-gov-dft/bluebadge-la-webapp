@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/master.html}">
+
+<head>
+    <title>Badge search results - GOV.UK Manage Blue Badges</title>
+</head>
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="@{/manage-badges}" aria-label="go back" data-uipath="back-link" class="govuk-back-link">Back</a>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container--full">
+
+        <h1 class="govuk-heading-l" data-uipath="title">Find a badge</h1>
+
+            <p th:if="${results.size() == 0}">No results found for <strong th:text="${searchTerm}"></strong></p>
+
+            <table class="govuk-table" th:if="${results.size()} > 0">
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="col">Badge number</th>
+                    <th class="govuk-table__header" scope="col">Name</th>
+                    <th class="govuk-table__header" scope="col">Postcode</th>
+                    <th class="govuk-table__header" scope="col">Local authority</th>
+                    <th class="govuk-table__header" scope="col">Expiry date</th>
+                    <th class="govuk-table__header" scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody class="govuk-table__body" data-uipath="table.body">
+                <tr class="govuk-table__row" th:each="badge : ${results}">
+                    <td class="govuk-table__cell">
+                        <a th:href="@{/manage-badges/__${badge.badgeNumber}__}" th:text="${badge.badgeNumber}"></a>
+                    </td>
+                    <td class="govuk-table__cell" th:text="${badge.name}">
+                    <td class="govuk-table__cell" th:text="${badge.postCode}">
+                    <td class="govuk-table__cell" th:text="${badge.localAuthority}">
+                    <td class="govuk-table__cell" th:text="${badge.expiryDate}">
+                    <td class="govuk-table__cell" th:text="${badge.status}">
+                </tr>
+                </tbody>
+            </table>
+
+    </section>
+</main>
+
+</body>
+
+</html>
