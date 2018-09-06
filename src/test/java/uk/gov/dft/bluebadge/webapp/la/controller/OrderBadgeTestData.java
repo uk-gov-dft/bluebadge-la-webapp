@@ -1,9 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Organisation;
@@ -14,6 +18,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePe
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 
+@Slf4j
 public class OrderBadgeTestData {
 
   // details
@@ -34,6 +39,8 @@ public class OrderBadgeTestData {
   protected static final String OPTIONAL_ADDRESS_FIELD_FIELD = "optionalAddressField";
   protected static final String CONTACT_DETAILS_NAME_FIELD = "contactDetailsName";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS_FIELD = "contactDetailsEmailAddress";
+  protected static final String GENDER_FIELD = "gender";
+  protected static final String PHOTO_FIELD = "photo";
 
   protected static final String SESSION_FORM_REQUEST_INDEX = "formRequest-order-a-badge-index";
   protected static final String SESSION_FORM_REQUEST_DETAILS = "formRequest-order-a-badge-details";
@@ -57,8 +64,9 @@ public class OrderBadgeTestData {
   protected static final String ELIGIBILITY_SHORTCODE = "PIP";
   protected static final String GENDER = "male";
   protected static final String GENDER_SHORTCODE = "MALE";
+  protected static final MockMultipartFile EMPTY_PHOTO =
+      new MockMultipartFile("photo", "", "", "".getBytes());
 
-  protected static final String GENDER_FIELD = "gender";
   protected static final String NAME_WRONG = "  My Na me 2";
   protected static final String DOB_DAY_WRONG = "32";
   protected static final String DOB_MONTH_WRONG = "13";
@@ -73,6 +81,24 @@ public class OrderBadgeTestData {
   protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_WRONG = "345345345";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS_WRONG = "joeblogscom";
   protected static final String ELIGIBILITY_WRONG = "";
+  protected static final MockMultipartFile PHOTO_WRONG =
+      new MockMultipartFile("photo", "file.pdf", "application/pdf", "pdfData".getBytes());
+
+  protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
+      new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
+
+  protected static final String IMAGE_BASE64 = "base64";
+
+  public static MockMultipartFile PHOTO() {
+    try {
+      File file = new File(System.getProperty("user.dir") + "/src/test/resources/icon-test.jpg");
+      FileInputStream stream = new FileInputStream(file);
+      return new MockMultipartFile("photo", "", "image/jpeg", stream);
+    } catch (Exception ex) {
+      log.warn("Cannot read photo file. Exception: [{}]", ex);
+      return null;
+    }
+  }
 
   // processing
   protected static final String APPLICATION_DATE_DAY_FIELD = "applicationDateDay";
@@ -148,6 +174,9 @@ public class OrderBadgeTestData {
           .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
           .postcode(POSTCODE)
           .townOrCity(TOWN_OR_CITY)
+          .photo(PHOTO())
+          .thumbBase64("base64")
+          .byteImage("someBytes".getBytes())
           .build();
 
   protected static final OrderBadgeOrganisationDetailsFormRequest
@@ -279,6 +308,9 @@ public class OrderBadgeTestData {
           .localAuthorityRef(LOCAL_AUTHORITY_REFERENCE_NUMBER)
           .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES_PERSON)
           .party(PARTY_PERSON);
+
+  protected static final BadgeOrderRequest BADGE_ORDER_REQUEST_PERSON_WITH_IMAGE =
+      BADGE_ORDER_REQUEST_PERSON;
 
   protected static final String VIEW_MODEL_APPLICATION_DATE = "2/7/2018";
   protected static final String VIEW_MODEL_BADGE_START_DATE =

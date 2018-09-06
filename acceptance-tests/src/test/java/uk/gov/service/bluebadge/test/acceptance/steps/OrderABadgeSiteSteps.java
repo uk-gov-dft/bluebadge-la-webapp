@@ -7,6 +7,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import java.time.LocalDate;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,9 @@ public class OrderABadgeSiteSteps {
         .sendKeys("0161 763 8309");
     sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
 
+    WebElement fileUpload = sitePage.findElementWithUiPath("photo.field");
+    fileUpload.sendKeys(
+        System.getProperty("user.dir") + "/src/test/resources/attachments/icon-test.jpg");
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");
   }
