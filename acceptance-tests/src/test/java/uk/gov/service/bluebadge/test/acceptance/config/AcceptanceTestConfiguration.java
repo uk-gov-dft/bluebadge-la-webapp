@@ -52,9 +52,8 @@ public class AcceptanceTestConfiguration {
   }
 
   @Bean
-  public AcceptanceTestProperties acceptanceTestProperties(final Environment environment) {
+  public AcceptanceTestProperties acceptanceTestProperties() {
 
-    //final String buildDirectory = environment.getRequiredProperty("buildDirectory");
     final String buildDirectory = "./build";
 
     // Supported custom JVM system properties:

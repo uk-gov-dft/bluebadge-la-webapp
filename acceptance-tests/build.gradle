@@ -28,7 +28,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
     testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
-    testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 }
 
 test {
@@ -36,12 +35,13 @@ test {
 }
 
 task acceptanceTests(type:Test) {
+    testLogging.showStandardStreams = true
+    // Make gradle JVM properties available to cucumber JVM
+    systemProperties System.getProperties()
+    
     group = "acceptancetests"
     outputs.upToDateWhen { false }
     description = "Run acceptance tests (located in acceptance-tests/...)."
+    reports.junitXml.destination = "$buildDir/test-results/acceptanceTest"
+    reports.html.destination = "$buildDir/reports/tests/acceptanceTest"
 }
-
-if (!hasProperty('buildProfile')) ext.buildProfile = 'local'
-apply from: "./gradle/profiles/${buildProfile}.gradle"
-
-if (!hasProperty('os')) ext.os = 'mac'

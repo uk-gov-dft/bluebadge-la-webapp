@@ -1,5 +1,0 @@
-task acceptanceTest(type:Test){
-    systemProperty 'baseUrl', 'http://dft.local:8080/'
-//    systemProperties System.getProperties()
-}
-

@@ -14,6 +14,4 @@ import org.junit.runner.RunWith;
 )
 public class AcceptanceTest {
   // no-op, config class only
-  @AfterClass
-  public static void teardown() throws IOException {}
 }

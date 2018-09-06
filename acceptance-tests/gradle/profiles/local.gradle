@@ -1,7 +1,0 @@
-task acceptanceTest(type:Test){
-    reports.junitXml.destination = "$buildDir/test-results/acceptanceTest"
-    reports.html.destination = "$buildDir/reports/tests/acceptanceTest"
-    systemProperty 'baseUrl', 'http://localhost:8080'
-    systemProperties System.getProperties()
-}
-

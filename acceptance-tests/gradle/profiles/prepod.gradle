@@ -1,4 +1,0 @@
-task acceptanceTest(type:Test){
-    systemProperty 'baseUrl', 'http://pre.bluebadge.dft.gov.uk'
-//    systemProperties System.getProperties()
-}

@@ -1,4 +1,0 @@
-task acceptanceTest(type:Test){
-    systemProperty 'baseUrl', 'https://la-webapp.qa.does.not.exist/'
-//    systemProperties System.getProperties()
-}

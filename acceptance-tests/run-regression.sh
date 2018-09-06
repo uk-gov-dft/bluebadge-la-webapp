@@ -75,7 +75,7 @@ psql -h localhost -U developer -d bb_dev -f ./scripts/db/setup-user.sql
 
 # Run the acceptance tests
 cd ..
-gradle acceptanceTest -PbuildProfile=local -Dheadless=true -Dos=linux
+gradle acceptanceTests -Dheadless=true -DbaseUrl=http://localhost:8080
 testExitCode=$?
 
 # Save the logs if something went wrong
