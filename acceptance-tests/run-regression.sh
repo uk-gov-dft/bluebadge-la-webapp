@@ -60,6 +60,7 @@ gradle :outputComputedVersion
 echo "Using env.sh configuration as default."
 . dev-env-develop/env.sh
 if ! [[ "$BRANCH_NAME" =~ ^develop.*|^release.* ]]; then
+    echo "On branch '${BRANCH_NAME}'. So also using env-feature.sh configuration."
    . env-feature.sh
 fi
 
@@ -74,7 +75,7 @@ psql -h localhost -U developer -d bb_dev -f ./scripts/db/setup-user.sql
 
 # Run the acceptance tests
 cd ..
-gradle acceptanceTest -PbuildProfile=local -Dheadless=true
+gradle acceptanceTest -PbuildProfile=local -Dheadless=true -Dos=linux
 testExitCode=$?
 
 # Save the logs if something went wrong
