@@ -1,5 +1,5 @@
 task acceptanceTest(type:Test){
     systemProperty 'baseUrl', 'http://localhost:8080'
-//    systemProperties System.getProperties()
+    systemProperties System.getProperties()
 }
 
