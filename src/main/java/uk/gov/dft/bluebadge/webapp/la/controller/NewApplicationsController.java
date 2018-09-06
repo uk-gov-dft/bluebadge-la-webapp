@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
@@ -32,10 +34,15 @@ public class NewApplicationsController {
   }
 
   @GetMapping(URL)
-  public String show(Model model) {
+  public String show(
+      @RequestParam Optional<String> searchField,
+      @RequestParam Optional<String> searchTerm,
+      RedirectAttributes redirectAttributes,
+      Model model) {
+
     List<ApplicationSummary> applications =
         applicationService.find(
-            Optional.empty(),
+            searchTerm,
             Optional.empty(),
             Optional.empty(),
             Optional.empty(),
@@ -45,7 +52,13 @@ public class NewApplicationsController {
             .stream()
             .map(app -> converterToViewModel.convert(app))
             .collect(Collectors.toList());
+    model.addAttribute("appSize", applicationsViewModel.size());
     model.addAttribute("applications", applicationsViewModel);
+    model.addAttribute("searchTerm", searchTerm);
+
+    redirectAttributes.addFlashAttribute("searchTerm", searchTerm);
+    redirectAttributes.addFlashAttribute("searchField", searchField);
+
     return TEMPLATE;
   }
 }

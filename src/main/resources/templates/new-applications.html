@@ -10,25 +10,35 @@
     <div layout:fragment="content">
         <section class="dft-content-container--full">
 
-            <h1 class="govuk-heading-l" data-uipath="title">
-                <span th:text="#{newapplications.title.h1}">
-                <span class="dft-badge dft-badge--heading" th:utext="${applications.size()}">
-            </h1>
+            <h1 class="govuk-heading-l" data-uipath="title" th:text="'rowc'+${appSize}"/>
 
             <div role="toolbar" class="dft-actions-panel govuk-clearfix">
+             <label class="govuk-label" for="search.dropdown">Filter results</label>
+                            <select id="search.dropdown" name="searchField" data-uipath="searchFilter.dropdown" class="govuk-select dft-search__select">
+                                <option value="name">Name</option>
+                                <option value="postcode">Postcode</option>
+                            </select>
+                            
                 <div class="dft-actions-panel__content">
-                    <form action="/asdas">
+                    <form th:replace="~{ fragments/search :: dft-search('Search', 'searchTerm', ${applications.size()}, true) }" />
+                </div>
+
+            </div>
+
+<!--             <div role="toolbar" class="dft-actions-panel govuk-clearfix">
+                <div class="dft-actions-panel__content">
+                    <form action="/new-applications">
                         <div class="dft-search__container govuk-h-clearfix">
 
                             <label class="govuk-label" for="search.dropdown">Filter results</label>
-                            <select id="search.dropdown" class="govuk-select dft-search__select">
+                            <select id="search.dropdown" name="searchField" data-uipath="searchFilter.dropdown" class="govuk-select dft-search__select">
                                 <option value="name">Name</option>
                                 <option value="postcode">Postcode</option>
                             </select>
 
                             <div class="dft-search__field-wrapper">
                                 <label class="dft-search__label">Search</label>
-                                <input data-uipath="search.field" type="text" placeholder="Search" class="dft-search__field">
+                                <input data-uipath="search.field" name="searchTerm" type="text" placeholder="Search" class="dft-search__field" th:value="${searchTerm}">
                                 <button type="submit" data-uipath="search.button" class="dft-search__button">
                                     <span class="govuk-visually-hidden" th:text="'label'" />
                                 </button>
@@ -41,7 +51,7 @@
                 <div class="dft-actions-panel__cta-area">
                 </div>
             </div>
-
+ -->
             <table class="govuk-table" th:if="${applications != null && applications.size() > 0}">
                 <thead class="govuk-table__head" data-uipath="table.head">
                 <tr class="govuk-table__row">

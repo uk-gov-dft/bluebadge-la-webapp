@@ -14,11 +14,16 @@ import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -28,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
 import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
@@ -405,8 +411,53 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithUiPath(arg0).click();
   }
 
+  @When("^I select option \"([^\"]*)\" from dropdown \"([^\"]*)\"$")
+  public void iSelectSingleOptionFromDropdown(String optionName, String dropdownName) {
+    WebElement dropElement = sitePage.findElementWithUiPath(dropdownName);
+    Select dropdown = new Select(dropElement);
+    dropdown.selectByValue(optionName);
+  }
+
+  @And("^I type the search term \"([^\"]*)\" in the field \"([^\"]*)\"$")
+  public void iTypeSearchTermInTheField(String searchTerm, String uipath) {
+    sitePage.findElementWithUiPath(uipath).sendKeys(searchTerm);
+  }
+
+  @Then("^I should see only results containing search term \"([^\"]*)\"$")
+  public void iShouldSeeOnlyResultsContainingSearchTerm(String searchTerm) {
+
+    System.out.println("content: " + sitePage.getPageContent());
+    //ensure only results with search term
+    assertTrue(sitePage.getPageContent().contains(searchTerm));
+  }
+
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  //hooks
+  private Map<String, Object> settings() {
+    Map<String, Object> settings = new HashMap<>();
+
+    settings.put("username", "developer");
+    settings.put(" ***REMOVED***);
+    settings.put(
+        "url", "jdbc:postgresql://localhost:5432/bb_dev?currentSchema=applicationmanagement");
+    settings.put("driverClassName", "org.postgresql.Driver");
+
+    return settings;
+  }
+
+  @Before("@NewApplicationsFindByName")
+  public void executeInsertApplicationsDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/create_applications.sql");
+  }
+
+  @After("@NewApplicationsFindByName")
+  public void executeDeleteApplicationsDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/delete_applications.sql");
   }
 }
