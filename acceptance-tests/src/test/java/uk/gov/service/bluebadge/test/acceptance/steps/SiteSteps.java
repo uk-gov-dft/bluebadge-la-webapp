@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -426,14 +427,55 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see only results containing search term \"([^\"]*)\"$")
   public void iShouldSeeOnlyResultsContainingSearchTerm(String searchTerm) {
 
-    System.out.println("content: " + sitePage.getPageContent());
-    //ensure only results with search term
     assertTrue(sitePage.getPageContent().contains(searchTerm));
+
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    for (WebElement record : records) {
+      assertTrue(record.getText().toLowerCase().contains(searchTerm.toLowerCase()));
+    }
+
+    WebElement displayCount =
+        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
+    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
   }
 
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  @And("^I can see all records$")
+  public void iCanSeeNotFilteredRecords() {
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+    assertTrue(records.size() > 3);
+
+    WebElement displayCount =
+        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
+    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
+  }
+
+  @And(
+      "^Search filter \"([^\"]*)\" has value \"([^\"]*)\" and search field \"([^\"]*)\" has value \"([^\"]*)\"$")
+  public void serachFilterAndSearchFieldCorrectlyPopulated(
+      String searchFilter, String filterValue, String searchField, String fieldValue) {
+    WebElement dropElement = sitePage.findElementWithUiPath(searchFilter);
+    Select dropdown = new Select(dropElement);
+    assertEquals(filterValue, dropdown.getFirstSelectedOption().getText());
+
+    WebElement fieldElement = sitePage.findElementWithUiPath(searchField);
+    assertEquals(fieldValue, fieldElement.getAttribute("value"));
+  }
+
+  @Then("^I see no records returned$")
+  public void iShouldSeeNoRecords() {
+    assertTrue(sitePage.getPageContent().contains("No results found"));
+
+    WebElement displayCount =
+        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
+    assertTrue(Integer.valueOf(displayCount.getText()).equals(0));
   }
 
   //hooks
@@ -449,14 +491,16 @@ public class SiteSteps extends AbstractSpringSteps {
     return settings;
   }
 
-  @Before("@NewApplicationsFindByName")
+  @Before("@NewApplicationScripts")
   public void executeInsertApplicationsDBScript() throws SQLException {
+    System.out.println("RUN BEFORE");
     DbUtils db = new DbUtils(settings());
     db.runScript("scripts/create_applications.sql");
   }
 
-  @After("@NewApplicationsFindByName")
+  @After("@NewApplicationScripts")
   public void executeDeleteApplicationsDBScript() throws SQLException {
+    System.out.println("RUN AFTER");
     DbUtils db = new DbUtils(settings());
     db.runScript("scripts/delete_applications.sql");
   }

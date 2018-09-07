@@ -1,8 +1,8 @@
-@NewApplicationsFindByName @NewApplicationScripts
-Feature: Dft BlueBadge LA New applications find by name
+@NewApplicationsFindByPostcode @NewApplicationScripts
+Feature: Dft BlueBadge LA New applications find by postcode
 
   As a Blue Badge team member
-  I want to filter the latest applications by name
+  I want to filter the latest applications by postcode
   So that I can process applications
 
   Scenario: Verify New Applications can be searched by name
@@ -13,11 +13,11 @@ Feature: Dft BlueBadge LA New applications find by name
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can see all records  
    
-    When I select option "name" from dropdown "searchFilter.dropdown"
+    When I select option "postcode" from dropdown "searchFilter.dropdown"
     And I type the search term "john" in the field "search.field"
     And I can click "search.button" button
-    Then I should see only results containing search term "john"
-    And Search filter "searchFilter.dropdown" has value "Name" and search field "search.field" has value "john"
+    Then I should see only results containing search term "sw11aa"
+    And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "sw11aa"
 
   Scenario: Verify New Applications searched by non existing name will return no results
     Given I navigate to the "home" page
@@ -31,5 +31,5 @@ Feature: Dft BlueBadge LA New applications find by name
     And I type the search term "notinthelist" in the field "search.field"
     And I can click "search.button" button
     Then I see no records returned
-    And Search filter "searchFilter.dropdown" has value "Name" and search field "search.field" has value "notinthelist"
+    And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "notinthelist"
     
