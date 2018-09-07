@@ -2,10 +2,11 @@ package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
 import lombok.Builder;
 import lombok.Data;
+import uk.gov.dft.bluebadge.common.security.model.LocalAuthorityControlled;
 
 @Data
 @Builder
-public class BadgeDetailsViewModel {
+public class BadgeDetailsViewModel implements LocalAuthorityControlled {
   private String nino;
   private String fullName;
   private String dob;
@@ -21,6 +22,7 @@ public class BadgeDetailsViewModel {
   private String status;
   private String badgeNumber;
   private String issuedBy;
+  private String localAuthorityShortCode;
   private String badgeStartDate;
   private String badgeExpiryDate;
   private String localAuthorityReference;
