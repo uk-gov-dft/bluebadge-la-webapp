@@ -1,5 +1,4 @@
 task acceptanceTest(type:Test, dependsOn: functionalTestClasses){
-
     outputs.upToDateWhen { false }
     check.dependsOn it
 

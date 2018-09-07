@@ -8,11 +8,13 @@ public class AcceptanceTestProperties {
   private final boolean headlessMode;
   private final Path downloadDir;
   private final Path tempDir;
+  private final boolean zapMode;
 
-  AcceptanceTestProperties(final boolean headlessMode, final Path downloadDir, final Path tempDir) {
+  AcceptanceTestProperties(final boolean headlessMode, final Path downloadDir, final Path tempDir, boolean zapMode) {
     this.headlessMode = headlessMode;
     this.downloadDir = downloadDir;
     this.tempDir = tempDir;
+    this.zapMode = zapMode;
   }
 
   public Path getDownloadDir() {
@@ -23,6 +25,10 @@ public class AcceptanceTestProperties {
     return headlessMode;
   }
 
+  public boolean isZapMode() {
+    return zapMode;
+  }
+
   public Path getTempDir() {
     return tempDir;
   }
@@ -30,12 +36,15 @@ public class AcceptanceTestProperties {
   @Override
   public String toString() {
     return "AcceptanceTestProperties{"
-        + "headlessMode="
-        + headlessMode
-        + ", downloadDir="
-        + downloadDir
-        + ", tempDir="
-        + tempDir
-        + '}';
+            + "headlessMode="
+            + headlessMode
+            + ", downloadDir="
+            + downloadDir
+            + ", tempDir="
+            + tempDir
+            + ", zapMode="
+            + zapMode
+            + '}'
+            ;
   }
 }

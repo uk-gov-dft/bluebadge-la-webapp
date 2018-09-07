@@ -5,8 +5,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 
@@ -32,17 +36,24 @@ public class WebDriverProvider {
    */
   private final boolean isHeadlessMode;
 
+  /**
+   * When 'true', the WebDriver will be operating through zap proxy.
+   */
+  private final boolean isZapMode;
+
   /** Location that the web browser will be downloading content into. */
   private final Path downloadDirectory;
 
   private WebDriver webDriver;
 
   public WebDriverProvider(
-      final WebDriverServiceProvider webDriverServiceProvider,
-      final boolean isHeadlessMode,
-      final Path downloadDirectory) {
+          final WebDriverServiceProvider webDriverServiceProvider,
+          final boolean isHeadlessMode,
+          final Path downloadDirectory,
+          final boolean isZapMode) {
     this.webDriverServiceProvider = webDriverServiceProvider;
     this.isHeadlessMode = isHeadlessMode;
+    this.isZapMode = isZapMode;
     this.downloadDirectory = downloadDirectory;
   }
 
@@ -78,7 +89,25 @@ public class WebDriverProvider {
       chromeOptions.addArguments("window-size=1920,1080");
     }
 
-    webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), chromeOptions);
+    if (isZapMode){
+
+      Proxy proxy = new Proxy();
+      proxy.setHttpProxy("localhost:9999");
+      proxy.setFtpProxy("localhost:9999");
+      proxy.setSslProxy("localhost:9999");
+      DesiredCapabilities capabilities = new DesiredCapabilities();
+      capabilities.setCapability(CapabilityType.PROXY, proxy);
+
+      capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+      webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), capabilities);
+    }
+    else {
+      webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), chromeOptions);
+    }
+
+
+
+
   }
 
   /**

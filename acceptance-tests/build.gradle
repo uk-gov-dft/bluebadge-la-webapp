@@ -58,6 +58,7 @@ dependencies {
 }
 
 gretty {
+    test.maxParallelForks = 10
     contextConfigFile = "${projectDir}/tomcat-context.xml"
     jvmArgs = ['-Dspring.profiles.active=test']
     integrationTestTask = 'integrationTest'
@@ -75,9 +76,14 @@ jacocoTestReport {
 }
 
 test {
+
     reports.junitXml.destination = "$buildDir/test-results/unit"
     reports.html.destination = "$buildDir/reports/tests/unit"
 }
+
+
+if (project.hasProperty('maxParallelForks'))
+    maxParallelForks = project.maxParallelForks as int
 
 if (!hasProperty('buildProfile')) ext.buildProfile = 'local'
 apply from: "./gradle/profiles/${buildProfile}.gradle"
