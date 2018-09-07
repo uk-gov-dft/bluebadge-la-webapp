@@ -46,4 +46,23 @@ node {
         }
     }
 
+    stage("Acceptance Tests") {
+        node('Functional') {
+            git(
+               url: "${REPONAME}",
+               credentialsId: 'dft-buildbot-valtech',
+               branch: "${BRANCH_NAME}"
+            )
+
+            timeout(time: 10, unit: 'MINUTES') {
+                try {
+                    sh 'bash -c "echo $PATH && cd acceptance-tests && ./run-regression.sh"'
+                }
+                finally {
+                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/docker.log'
+                    junit '**/TEST*.xml'
+                }
+            }
+        }
+    }
 }
