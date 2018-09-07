@@ -99,6 +99,7 @@ public class BadgeToBadgeDetailsViewModelTest {
           .fullName(BADGE_HOLDER_NAME)
           .gender(GENDER_VIEW_MODEL)
           .issuedBy(LOCAL_AUTHORITY_VIEW_MODEL)
+          .localAuthorityShortCode(LOCAL_AUTHORITY)
           .localAuthorityReference(LOCAL_AUTHORITY_REF)
           .nino(NINO)
           .photoUrl(IMAGE_LINK)
