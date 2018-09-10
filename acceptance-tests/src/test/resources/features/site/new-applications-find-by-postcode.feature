@@ -1,4 +1,4 @@
-@NewApplicationsFindByPostcode @NewApplicationScripts
+@NewApplicationsFindByPostcode @NewApplicationScripts @ignore
 Feature: Dft BlueBadge LA New applications find by postcode
 
   As a Blue Badge team member

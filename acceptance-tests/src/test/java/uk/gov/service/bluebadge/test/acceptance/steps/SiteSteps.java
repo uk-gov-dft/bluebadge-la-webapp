@@ -437,8 +437,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount =
-        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
-    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
+        sitePage.findElementWithUiPath("search.count");
+    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
   }
 
   @And("^I can click \"([^\"]*)\" button$")
@@ -474,8 +474,8 @@ public class SiteSteps extends AbstractSpringSteps {
     assertTrue(sitePage.getPageContent().contains("No results found"));
 
     WebElement displayCount =
-        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
-    assertTrue(Integer.valueOf(displayCount.getText()).equals(0));
+            sitePage.findElementWithUiPath("search.count");
+        assertTrue(displayCount.getText().equals("0 Results:"));
   }
 
   //hooks
