@@ -16,30 +16,41 @@
 
         <div role="toolbar" class="dft-actions-panel govuk-clearfix">
             <div class="dft-actions-panel__content">
-                <form action="/new-applications" method="GET">
+                <form action="/new-applications" method="GET" class="dft-search">
+
                     <div class="dft-search__container govuk-h-clearfix">
 
                         <label class="govuk-label" for="search.dropdown">Filter results</label>
-                        <select id="search.dropdown" name="searchBy" th:value="${searchBy}" data-uipath="searchFilter.dropdown"
+                        <select id="search.dropdown" name="searchBy" data-uipath="searchFilter.dropdown"
                                 class="govuk-select dft-search__select">
-                            <option value="name">Name</option>
-                            <option value="postcode">Postcode</option>
+                            <option th:each="option: ${searchByOptions}"
+                                    th:selected="${searchBy == option.getShortCode()}"
+                                    th:value="${option.getShortCode()}"
+                                    th:text="${option.getDescription()}"></option>
                         </select>
 
-                        <div class="dft-search__field-wrapper">
+                        <div class="dft-search__field">
                             <label class="dft-search__label">Search</label>
                             <input data-uipath="search.field" name="searchTerm" type="text" placeholder="Search"
-                                   class="dft-search__field" th:value="${searchTerm}">
+                                   class="dft-search__input" th:value="${searchTerm}">
                             <button type="submit" data-uipath="search.button" class="dft-search__button">
                                 <span class="govuk-visually-hidden" th:text="'label'"/>
                             </button>
                         </div>
 
+                        <span class="dft-search__result" th:if="${searchTerm != null}">
+                            <span data-uipath="search.count"
+                                  th:text="${applicationCount == 1} ? ${applicationCount} + ' Result:' : ${applicationCount} + ' Results:'"></span>
+
+                            <button
+                               class="dft-search__clear-link"
+                               aria-label="clear search input field"
+                               type="reset">Clear</button>
+
+                        </span>
+
                     </div>
                 </form>
-            </div>
-
-            <div class="dft-actions-panel__cta-area">
             </div>
         </div>
 
@@ -56,11 +67,11 @@
             <tbody class="govuk-table__body" data-uipath="table.body">
             <tr class="govuk-table__row" th:each="app : ${applications}">
                 <td class="govuk-table__cell">
-                    <a href="#" th:utext="${app.name}"></a>
+                    <a href="#" th:text="${app.name}"></a>
                 </td>
-                <td class="govuk-table__cell" th:utext="${app.nino}">
-                <td class="govuk-table__cell" th:utext="${app.eligibility}">
-                <td class="govuk-table__cell" th:utext="${app.submittedDate}">
+                <td class="govuk-table__cell" th:text="${app.nino}">
+                <td class="govuk-table__cell" th:text="${app.eligibility}">
+                <td class="govuk-table__cell" th:text="${app.submittedDate}">
             </tr>
             </tbody>
         </table>
