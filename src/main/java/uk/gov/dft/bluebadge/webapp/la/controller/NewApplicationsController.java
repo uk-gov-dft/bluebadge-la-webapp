@@ -62,10 +62,35 @@ public class NewApplicationsController {
             .map(app -> converterToViewModel.convert(app))
             .collect(Collectors.toList());
 
-    model.addAttribute("searchByOptions", getSearchByOptions());
     model.addAttribute("applications", applicationsViewModel);
+    // it's wrong thing to do, but for the sake of speeding delivery time we're going to call
+    // service twice to get amount of 'new' applications without filters applied
+    // TODO: should be revisited to proper solution
+    model.addAttribute("applicationCount", applicationService.retrieve().size());
+    if (searchTerm.isPresent() && !searchTerm.get().isEmpty()) {
+      model.addAttribute("filteredApplicationCount", applicationsViewModel.size());
+    }
 
     return TEMPLATE;
+  }
+
+  private void saveParams(
+      Optional<String> searchBy,
+      Optional<String> searchTerm,
+      RedirectAttributes redirectAttributes,
+      Model model) {
+
+    searchBy.ifPresent(
+        s -> {
+          model.addAttribute("searchBy", s);
+        });
+
+    searchTerm.ifPresent(
+        s -> {
+          model.addAttribute("searchTerm", s);
+        });
+
+    model.addAttribute("searchByOptions", getSearchByOptions());
   }
 
   private List<ReferenceData> getSearchByOptions() {
@@ -78,24 +103,5 @@ public class NewApplicationsController {
     postcode.setDescription("Postcode");
 
     return Lists.newArrayList(name, postcode);
-  }
-
-  private void saveParams(
-      Optional<String> searchBy,
-      Optional<String> searchTerm,
-      RedirectAttributes redirectAttributes,
-      Model model) {
-
-    searchBy.ifPresent(
-        s -> {
-          model.addAttribute("searchBy", s);
-          //redirectAttributes.addFlashAttribute("searchBy", s);
-        });
-
-    searchTerm.ifPresent(
-        s -> {
-          model.addAttribute("searchTerm", s);
-          //redirectAttributes.addFlashAttribute("searchTerm", s);
-        });
   }
 }

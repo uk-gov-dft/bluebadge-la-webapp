@@ -38,9 +38,9 @@
                             </button>
                         </div>
 
-                        <span class="dft-search__result" th:if="${searchTerm != null}">
+                        <span class="dft-search__result" th:if="${searchTerm != null && filteredApplicationCount != null}">
                             <span data-uipath="search.count"
-                                  th:text="${applicationCount == 1} ? ${applicationCount} + ' Result:' : ${applicationCount} + ' Results:'"></span>
+                                  th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' Result:' : ${filteredApplicationCount} + ' Results:'"></span>
 
                             <button
                                class="dft-search__clear-link"
