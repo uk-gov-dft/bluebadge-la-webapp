@@ -49,14 +49,14 @@ public class NewApplicationsController {
         searchTerm
             .map(
                 term -> {
-                	  if (!term.isEmpty()) {
-                		  if (searchBy.get().equals("name")) {
-                			  return applicationService.findApplicationByName(term);
-                       }
-                       return applicationService.findApplicationByPostCode(term);
-                	  } else {
-                		  return applicationService.retrieve();
-                	  }
+                  if (!term.isEmpty()) {
+                    if (searchBy.get().equals("name")) {
+                      return applicationService.findApplicationByName(term);
+                    }
+                    return applicationService.findApplicationByPostCode(term);
+                  } else {
+                    return applicationService.retrieve();
+                  }
                 })
             .orElse(applicationService.retrieve());
 

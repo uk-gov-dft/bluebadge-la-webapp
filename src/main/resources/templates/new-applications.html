@@ -42,10 +42,11 @@
                             <span data-uipath="search.count"
                                   th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' Result:' : ${filteredApplicationCount} + ' Results:'"></span>
 
-                            <button
+                            <a th:href="@{/new-applications}"
+                               role="button"
                                class="dft-search__clear-link"
                                aria-label="clear search input field"
-                               type="reset">Clear</button>
+                               type="reset">Clear</a>
 
                         </span>
 

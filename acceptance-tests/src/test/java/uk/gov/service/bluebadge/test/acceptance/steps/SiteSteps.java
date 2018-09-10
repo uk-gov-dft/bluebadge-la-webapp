@@ -436,8 +436,7 @@ public class SiteSteps extends AbstractSpringSteps {
       assertTrue(record.getText().toLowerCase().contains(searchTerm.toLowerCase()));
     }
 
-    WebElement displayCount =
-        sitePage.findElementWithUiPath("search.count");
+    WebElement displayCount = sitePage.findElementWithUiPath("search.count");
     assertTrue(displayCount.getText().equals(records.size() + " Results:"));
   }
 
@@ -473,9 +472,8 @@ public class SiteSteps extends AbstractSpringSteps {
   public void iShouldSeeNoRecords() {
     assertTrue(sitePage.getPageContent().contains("No results found"));
 
-    WebElement displayCount =
-            sitePage.findElementWithUiPath("search.count");
-        assertTrue(displayCount.getText().equals("0 Results:"));
+    WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertTrue(displayCount.getText().equals("0 Results:"));
   }
 
   //hooks
