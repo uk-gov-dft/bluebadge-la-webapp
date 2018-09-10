@@ -20,7 +20,8 @@ for id and attaching label to the input field.
 
         <div class="dft-search__field">
             <label th:for="${name}" class="dft-search__label" th:utext="${label}"></label>
-            <input th:value="${search}" data-uipath="search.field" type="text" th:name="${name}" th:attr="id=${name}" placeholder="Search" class="dft-search__input">
+            <input th:value="${search}" data-uipath="search.field" type="text" th:name="${name}" th:attr="id=${name}"
+                   placeholder="Search" class="dft-search__input">
 
             <button type="submit" data-uipath="search.button" class="dft-search__button">
                 <span class="govuk-visually-hidden" th:utext="${label}"></span>
@@ -29,14 +30,16 @@ for id and attaching label to the input field.
 
     </div>
 
-   <span class="dft-search__result" th:if="${searchCount != null}">
-        <span data-uipath="search.count" th:utext="${searchCount == 1} ? ${searchCount} + ' Result:' : ${searchCount} + ' Results:'"></span>
+    <span class="dft-search__result" th:if="${searchCount != null}">
+        <span data-uipath="search.count"
+              th:utext="${searchCount == 1} ? ${searchCount} + ' Result:' : ${searchCount} + ' Results:'"></span>
 
         <a th:href="@{/manage-users}"
-                th:if="${showClearBtn}"
-                class="dft-search__clear-link"
-                aria-label="clear search input field"
-                type="reset">Clear
+           role="button"
+           th:if="${showClearBtn}"
+           class="dft-search__clear-link"
+           aria-label="clear search input field"
+           type="reset">Clear
         </a>
 
     </span>
