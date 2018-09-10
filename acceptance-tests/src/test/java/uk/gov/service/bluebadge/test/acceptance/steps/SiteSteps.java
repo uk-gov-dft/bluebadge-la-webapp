@@ -20,6 +20,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -380,25 +381,30 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
   public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
-    String uipath = "sidebar-nav";
-    switch (linkTitle) {
+    String uiPath = navTitleToUiPath(linkTitle);
+    sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  private String navTitleToUiPath(String navTitle){
+    String uiPath;
+    switch (navTitle) {
       case "Manage users":
-        uipath = "sidebar-nav.manage-users";
+        uiPath = "sidebar-nav.manage-users";
         break;
       case "Order a badge":
-        uipath = "sidebar-nav.order-a-badge";
+        uiPath = "sidebar-nav.order-a-badge";
         break;
       case "Find a badge":
-        uipath = "sidebar-nav.manage-badges";
+        uiPath = "sidebar-nav.manage-badges";
         break;
       case "New applications":
-        uipath = "sidebar-nav.new-applications";
+        uiPath = "sidebar-nav.new-applications";
         break;
       default:
-        uipath = "sidebar-nav";
+        uiPath = "sidebar-nav";
         break;
     }
-    sitePage.findElementWithUiPath(uipath).click();
+    return uiPath;
   }
 
   @When("^I select option \"([^\"]*)\"$")
@@ -409,5 +415,17 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? element with ui path \"([^\"]*)\"$")
+  public void iShouldSeeElementWithUiPath(String visible, String uiPath) throws Throwable {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertThat(elementWithUiPath, "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle) throws Throwable {
+    String uiPath = navTitleToUiPath(navTitle);
+    iShouldSeeElementWithUiPath(visible, uiPath);
   }
 }
