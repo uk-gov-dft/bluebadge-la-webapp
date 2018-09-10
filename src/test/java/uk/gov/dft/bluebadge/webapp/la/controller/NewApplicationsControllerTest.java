@@ -5,17 +5,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData.applicationsForSearchByName;
-import static uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData.applicationsForSearchByNameView;
 
 import java.util.Collections;
 import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
@@ -49,12 +49,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
-    when(applicationServiceMock.find(
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW)))
+    when(applicationServiceMock.retrieve())
         .thenReturn(ApplicationTestData.APPLICATION_SUMMARIES_ONE_ITEM);
     mockMvc
         .perform(get("/new-applications"))
@@ -66,16 +61,11 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
-    when(applicationServiceMock.find(
-            Optional.of("anyone"),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW)))
+    when(applicationServiceMock.findApplicationByName("anyone"))
         .thenReturn(Collections.emptyList());
 
     mockMvc
-        .perform(get("/new-applications?searchField=name&searchTerm=anyone"))
+        .perform(get("/new-applications?searchBy=name&searchTerm=anyone"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications"))
         .andExpect(model().attribute("applications", Collections.emptyList()));
@@ -84,12 +74,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-    when(applicationServiceMock.find(
-            Optional.of("john"),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW)))
+	when(applicationServiceMock.findApplicationByName("john"))
         .thenReturn(applicationsForSearchByName);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
@@ -100,7 +85,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .thenReturn(applicationsForSearchByNameView.get(2));
 
     mockMvc
-        .perform(get("/new-applications?searchField=name&searchTerm=john"))
+        .perform(get("/new-applications?searchBy=name&searchTerm=john"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications"))
         .andExpect(model().attribute("applications", applicationsForSearchByNameView));

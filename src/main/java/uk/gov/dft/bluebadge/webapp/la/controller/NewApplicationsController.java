@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
@@ -38,25 +37,24 @@ public class NewApplicationsController {
   public String show(
       @RequestParam("searchBy") Optional<String> searchBy,
       @RequestParam("searchTerm") Optional<String> searchTerm,
-      RedirectAttributes redirectAttributes,
       Model model) {
 
     List<ApplicationSummary> applications;
 
-    saveParams(searchBy, searchTerm, redirectAttributes, model);
+    saveParams(searchBy, searchTerm, model);
 
     applications =
         searchTerm
             .map(
                 term -> {
-                	  if (!term.isEmpty()) {
-                		  if (searchBy.get().equals("name")) {
-                			  return applicationService.findApplicationByName(term);
-                       }
-                       return applicationService.findApplicationByPostCode(term);
-                	  } else {
-                		  return applicationService.retrieve();
-                	  }
+                  if (!term.isEmpty()) {
+                    if (searchBy.get().equals("name")) {
+                      return applicationService.findApplicationByName(term);
+                    }
+                    return applicationService.findApplicationByPostCode(term);
+                  } else {
+                    return applicationService.retrieve();
+                  }
                 })
             .orElse(applicationService.retrieve());
 
@@ -78,11 +76,7 @@ public class NewApplicationsController {
     return TEMPLATE;
   }
 
-  private void saveParams(
-      Optional<String> searchBy,
-      Optional<String> searchTerm,
-      RedirectAttributes redirectAttributes,
-      Model model) {
+  private void saveParams(Optional<String> searchBy, Optional<String> searchTerm, Model model) {
 
     searchBy.ifPresent(
         s -> {
