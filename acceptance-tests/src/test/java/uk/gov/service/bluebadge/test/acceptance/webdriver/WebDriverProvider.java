@@ -5,7 +5,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -28,6 +27,7 @@ public class WebDriverProvider {
 
   private static final Logger log = getLogger(WebDriverProvider.class);
 
+  private static ChromeOptions chromeOptions;
   private final WebDriverServiceProvider webDriverServiceProvider;
 
   /**
@@ -36,9 +36,7 @@ public class WebDriverProvider {
    */
   private final boolean isHeadlessMode;
 
-  /**
-   * When 'true', the WebDriver will be operating through zap proxy.
-   */
+  /** When 'true', the WebDriver will be operating through zap proxy. */
   private final boolean isZapMode;
 
   /** Location that the web browser will be downloading content into. */
@@ -47,10 +45,10 @@ public class WebDriverProvider {
   private WebDriver webDriver;
 
   public WebDriverProvider(
-          final WebDriverServiceProvider webDriverServiceProvider,
-          final boolean isHeadlessMode,
-          final Path downloadDirectory,
-          final boolean isZapMode) {
+      final WebDriverServiceProvider webDriverServiceProvider,
+      final boolean isHeadlessMode,
+      final Path downloadDirectory,
+      final boolean isZapMode) {
     this.webDriverServiceProvider = webDriverServiceProvider;
     this.isHeadlessMode = isHeadlessMode;
     this.isZapMode = isZapMode;
@@ -59,8 +57,7 @@ public class WebDriverProvider {
 
   public WebDriver getWebDriver() {
     if (webDriver == null) {
-      throw new IllegalStateException(
-          "WebDriver hasn't been initialised, yet. Have you forgotten to call 'initialise()' first?");
+      initialise();
     }
 
     return webDriver;
@@ -74,22 +71,24 @@ public class WebDriverProvider {
    */
   public void initialise() {
 
-    final ChromeOptions chromeOptions = new ChromeOptions();
+    if (null == chromeOptions) {
+      chromeOptions = new ChromeOptions();
 
-    final Map<String, Object> chromePrefs = new HashMap<>();
-    log.info("Setting WebDriver download directory to '{}'.", downloadDirectory);
-    chromePrefs.put("download.default_directory", downloadDirectory.toAbsolutePath().toString());
+      final Map<String, Object> chromePrefs = new HashMap<>();
+      log.info("Setting WebDriver download directory to '{}'.", downloadDirectory);
+      chromePrefs.put("download.default_directory", downloadDirectory.toAbsolutePath().toString());
 
-    chromeOptions.setExperimentalOption("prefs", chromePrefs);
-    log.info(
-        "Configuring WebDriver to run in {} mode.",
-        isHeadlessMode ? "headless" : "full, graphical");
-    if (isHeadlessMode) {
-      chromeOptions.addArguments("--headless");
-      chromeOptions.addArguments("window-size=1920,1080");
+      chromeOptions.setExperimentalOption("prefs", chromePrefs);
+      log.info(
+          "Configuring WebDriver to run in {} mode.",
+          isHeadlessMode ? "headless" : "full, graphical");
+      if (isHeadlessMode) {
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("window-size=1920,1080");
+      }
     }
 
-    if (isZapMode){
+    if (isZapMode) {
 
       Proxy proxy = new Proxy();
       proxy.setHttpProxy("localhost:9999");
@@ -100,14 +99,9 @@ public class WebDriverProvider {
 
       capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
       webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), capabilities);
-    }
-    else {
+    } else {
       webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), chromeOptions);
     }
-
-
-
-
   }
 
   /**
