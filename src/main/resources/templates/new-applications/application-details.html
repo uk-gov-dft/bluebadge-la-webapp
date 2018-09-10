@@ -52,12 +52,11 @@
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.party.organisation.label.vehicles}"/>
                     <dd class="dft-data-list__dd">
-                        <div th:each="vehicle: ${organisation.vehicles}"
-                             th:with="vehicleType=${@referenceDataService.retrieveAppEnumDisplayValue('VEHICLETYP', vehicle.typeCode)}"
-                             th:remove="tag">
-                            <span th:text="${@modelFormatUtils.toCommaSeparatedString(vehicle.registrationNumber, vehicleType, vehicle.usageFrequency)}"/>
-                            <br/>
-                        </div>
+                        <ul class="govuk-list">
+                            <li th:each="vehicle: ${organisation.vehicles}"
+                                th:with="vehicleType=${@referenceDataService.retrieveAppEnumDisplayValue('VEHICLETYP', vehicle.typeCode)}"
+                                th:text="${@modelFormatUtils.toCommaSeparatedString(vehicle.registrationNumber, vehicleType, vehicle.usageFrequency)}">
+                        </ul>
                     </dd>
                 </div>
                 <div class="dft-data-list__item" th:if="${organisation.numberOfBadges}">
@@ -72,6 +71,11 @@
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.party.person.label.badgeHolderName}"/>
                     <dd class="dft-data-list__dd" th:text="${person.badgeHolderName}"/>
+                </div>
+                <div class="dft-data-list__item" th:if="${person.nameAtBirth}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.party.person.label.nameAtBirth}"/>
+                    <dd class="dft-data-list__dd" th:text="${person.nameAtBirth}"/>
                 </div>
                 <div class="dft-data-list__item" th:if="${person.genderCode}">
                     <dt class="dft-data-list__dt"
@@ -120,14 +124,16 @@
                 <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfIdentityUrl}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
-                    <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfIdentityUrl}">proof-of-identity.jpg</a>
+                    <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfIdentityUrl}" target="_blank"
+                                                     th:text="#{open.file.in.new.tab}"></a>
                     </dd>
                 </div>
 
                 <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfAddressUrl}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.artifacts.label.proofOfAddress}"/>
-                    <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfAddressUrl}">proof-of-address.jpg</a>
+                    <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfAddressUrl}" target="_blank"
+                                                     th:text="#{open.file.in.new.tab}"></a>
                     </dd>
                 </div>
 
@@ -165,10 +171,10 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingDifficulty}"/>
                         <dd class="dft-data-list__dd">
-                            <div th:each="type: ${walking.typeCodes}" th:remove="tag">
-                                <span th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}"/>
-                                <br/>
-                            </div>
+                            <ul class="govuk-list">
+                                <li th:each="type: ${walking.typeCodes}"
+                                    th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
+                            </ul>
                         </dd>
                     </div>
 
@@ -176,11 +182,11 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingAids}"/>
                         <dd class="dft-data-list__dd">
-                            <div th:each="aid: ${walking.walkingAids}" th:remove="tag"
-                                 th:with="howProvided=${@referenceDataService.retrieveAppEnumDisplayValue('WALKMOB', aid.howProvidedCode)}">
-                                <span th:text="${@modelFormatUtils.toCommaSeparatedString(aid.description, howProvided, aid.usage)}"/>
-                                <br/>
-                            </div>
+                            <ul class="govuk-list">
+                                <li th:each="aid: ${walking.walkingAids}"
+                                    th:with="howProvided=${@referenceDataService.retrieveAppEnumDisplayValue('WALKMOB', aid.howProvidedCode)}"
+                                    th:text="${@modelFormatUtils.toCommaSeparatedString(aid.description, howProvided, aid.usage)}">
+                            </ul>
                         </dd>
                     </div>
                     <div class="dft-data-list__item" th:if="${walking.walkingSpeedCode}">
@@ -193,21 +199,21 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.treatments}"/>
                         <dd class="dft-data-list__dd">
-                            <div th:each="treatment: ${walking.treatments}" th:remove="tag">
-                                <span th:text="${@modelFormatUtils.toCommaSeparatedString(treatment.description, treatment.time)}"/>
-                                <br/>
-                            </div>
+                            <ul class="govuk-list">
+                                <li th:each="treatment: ${walking.treatments}"
+                                    th:text="${@modelFormatUtils.toCommaSeparatedString(treatment.description, treatment.time)}">
+                            </ul>
                         </dd>
                     </div>
                     <div class="dft-data-list__item" th:if="${walking.medications}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.medications}"/>
                         <dd class="dft-data-list__dd">
-                            <div th:each="med: ${walking.medications}" th:remove="tag"
-                                 th:with="prescribed=#{${@modelFormatUtils.prescribedToMessageKey(med.isPrescribed)}}">
-                                <span th:text="${@modelFormatUtils.toCommaSeparatedString(med.name, prescribed, med.quantity, med.frequency)}"/>
-                                <br/>
-                            </div>
+                            <ul class="govuk-list">
+                                <li th:each="med: ${walking.medications}"
+                                    th:with="prescribed=#{${@modelFormatUtils.prescribedToMessageKey(med.isPrescribed)}}"
+                                    th:text="${@modelFormatUtils.toCommaSeparatedString(med.name, prescribed, med.quantity, med.frequency)}">
+                            </ul>
                         </dd>
                     </div>
                 </div>
@@ -220,18 +226,19 @@
                             th:text="#{application.details.eligibility.disablilityArms.label.drivingFrequency}"/>
                         <dd class="dft-data-list__dd" th:text="${arms.drivingFrequency}"/>
                     </div>
-                    <div class="dft-data-list__item">
+                    <div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
                             th:text="#{isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}"/>
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
-                            th:text="#{isAdaptedVehicle}"/>
+                            th:text="#{isNotAdaptedVehicle}"/>
                     </div>
                     <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
-                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfEligibility}">driving-licence-back.jpg</a>
+                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfEligibility}" target="_blank"
+                                                         th:text="#{open.file.in.new.tab}"></a>
                     </div>
                 </div>
 
@@ -265,16 +272,20 @@
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.label.descriptionOfConditions}"/>
-                    <dd class="dft-data-list__dd" th:text="${eligibility.descriptionOfConditions}"/>
+                    <dd class="dft-data-list__dd" th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
+                        <ul class="govuk-list">
+                            <li th:each="condition: ${conditions}" th:text="${condition}">
+                        </ul>
+                    </dd>
                 </div>
                 <div class="dft-data-list__item" th:if="${eligibility.healthcareProfessionals}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.label.healthcareProfessionals}"/>
                     <dd class="dft-data-list__dd">
-                        <div th:each="pro: ${eligibility.healthcareProfessionals}" th:remove="tag">
-                            <span th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}"/>
-                            <br/>
-                        </div>
+                        <ul class="govuk-list">
+                            <li th:each="pro: ${eligibility.healthcareProfessionals}"
+                                th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}">
+                        </ul>
                     </dd>
                 </div>
             </dl>
@@ -297,6 +308,20 @@
                         th:text="#{application.details.submissionDate}"/>
                     <dd class="dft-data-list__dd"
                         th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.submissionDate)}"/>
+                </div>
+                <div class="dft-data-list__item" th:if="${app.paymentTaken != null}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.paymentTaken}"/>
+                    <dd class="dft-data-list__dd" th:if="${app.paymentTaken}"
+                        th:text="#{isPaymentTaken}"/>
+                    <dd class="dft-data-list__dd" th:unless="${app.paymentTaken}"
+                        th:text="#{isNotPaymentTaken}"/>
+                </div>
+                <div class="dft-data-list__item" th:if="${app.existingBadgeNumber}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.existingBadgeNumber}"/>
+                    <dd class="dft-data-list__dd"
+                        th:text="${app.existingBadgeNumber}"/>
                 </div>
             </dl>
         </div>

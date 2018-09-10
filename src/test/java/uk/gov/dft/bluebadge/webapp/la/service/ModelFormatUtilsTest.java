@@ -1,5 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
+import static org.junit.Assert.*;
+
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppOrganisation;
@@ -7,15 +12,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-
-import static org.junit.Assert.*;
-
 public class ModelFormatUtilsTest {
 
-  class TestDateTimeService extends DateTimeService{
+  class TestDateTimeService extends DateTimeService {
     @Override
     public ZoneId clientZoneId() {
       return ZoneId.of("Europe/London");
@@ -33,7 +32,8 @@ public class ModelFormatUtilsTest {
 
     Assert.assertEquals("1, 2", utils.toCommaSeparatedString(string1, string2));
     Assert.assertEquals("1, 2", utils.toCommaSeparatedString(string1, stringNull, string2));
-    Assert.assertEquals("1, 2", utils.toCommaSeparatedString(string1, stringNull, stringEmpty, string2));
+    Assert.assertEquals(
+        "1, 2", utils.toCommaSeparatedString(string1, stringNull, stringEmpty, string2));
     Assert.assertEquals("", utils.toCommaSeparatedString(stringNull));
   }
 
@@ -70,6 +70,5 @@ public class ModelFormatUtilsTest {
     application.getParty().setOrganisation(null);
     application.getParty().setPerson(new AppPerson().badgeHolderName("Person"));
     Assert.assertEquals("Person", utils.extractBadgeHolderName(application));
-
   }
 }

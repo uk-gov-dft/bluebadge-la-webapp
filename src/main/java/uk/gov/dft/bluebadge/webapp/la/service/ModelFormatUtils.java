@@ -23,6 +23,7 @@ public class ModelFormatUtils {
 
   /**
    * Return a single line string with not null inputs comma separated.
+   *
    * @param args List of Strings to conacatnate with a comma separator.
    * @return Concatenated alues
    */
@@ -44,6 +45,7 @@ public class ModelFormatUtils {
 
   /**
    * Message key based upon medication.isPrescribed.
+   *
    * @param isPrescribed medication.isPrescribed
    * @return The property key
    */
@@ -57,6 +59,7 @@ public class ModelFormatUtils {
 
   /**
    * Get formatted OffsetDateTime as string for display in details screens.
+   *
    * @param time Time to format.
    * @return Formatted time.
    */
@@ -70,6 +73,7 @@ public class ModelFormatUtils {
 
   /**
    * Get formatted LocalDate as string for display in details screens.
+   *
    * @param date Date to format.
    * @return Formatted date.
    */
@@ -82,6 +86,7 @@ public class ModelFormatUtils {
 
   /**
    * Get badge holder name whether Peron or Org application.
+   *
    * @param application The application.
    * @return Badge holders name.
    */
@@ -94,5 +99,9 @@ public class ModelFormatUtils {
       return application.getParty().getOrganisation().getBadgeHolderName();
     }
     return "";
+  }
+
+  public String[] parseNewLinesToArray(String text) {
+    return StringUtils.split(text, "\n");
   }
 }
