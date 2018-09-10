@@ -37,9 +37,9 @@ public class ErrorControllerTest {
     String errorMessage = "error message";
     Exception ex = new Exception(errorMessage);
     mockMvc
-        .perform(get("/unexpected-error").flashAttr("exception", ex))
+        .perform(get("/something-went-wrong").flashAttr("exception", ex))
         .andExpect(status().isOk())
-        .andExpect(view().name("unexpected-error"))
+        .andExpect(view().name("error/500"))
         .andExpect(model().attribute("errorMessage", "java.lang.Exception"))
         .andExpect(model().attribute("exceptionMessage", errorMessage));
   }
