@@ -12,5 +12,5 @@ Feature: Dft BlueBadge Display Error Pages
     And     I type username "abc@dft.gov.uk" and  ***REMOVED***
     And     I can click Sign in button
     Then    I should see the page titled "New applications - GOV.UK Manage Blue Badges"
-    Given   I navigate to the "some-page-that-does exist" page
+    Given   I navigate to the "page-that-does-not-exist" page
     Then    I should see the page titled "Page not found - GOV.UK Manage Blue Badges"
