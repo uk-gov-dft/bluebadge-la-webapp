@@ -71,4 +71,18 @@ public class ModelFormatUtilsTest {
     application.getParty().setPerson(new AppPerson().badgeHolderName("Person"));
     Assert.assertEquals("Person", utils.extractBadgeHolderName(application));
   }
+
+  @Test
+  public void parseNewLinesToArray() {
+    String noNewLines = "Stuff";
+    String newLines = "Stuff1\nStuff2\nStuff3";
+
+    Assert.assertEquals(1, utils.parseNewLinesToArray(noNewLines).length);
+    Assert.assertEquals(noNewLines, utils.parseNewLinesToArray(noNewLines)[0]);
+
+    Assert.assertEquals(3, utils.parseNewLinesToArray(newLines).length);
+    Assert.assertEquals("Stuff3", utils.parseNewLinesToArray(newLines)[2]);
+
+    Assert.assertNull(utils.parseNewLinesToArray(null));
+  }
 }
