@@ -45,7 +45,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
-    when(applicationServiceMock.retrieve())
+    when(applicationServiceMock.findAllNew())
         .thenReturn(ApplicationTestData.APPLICATION_SUMMARIES_ONE_ITEM);
     mockMvc
         .perform(get("/new-applications"))
@@ -57,7 +57,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
-    when(applicationServiceMock.findApplicationByName("anyone"))
+    when(applicationServiceMock.findNewApplicationsByName("anyone"))
         .thenReturn(Collections.emptyList());
 
     mockMvc
@@ -70,7 +70,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-    when(applicationServiceMock.findApplicationByName("john"))
+    when(applicationServiceMock.findNewApplicationsByName("john"))
         .thenReturn(applicationsForSearchByName);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))

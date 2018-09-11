@@ -49,14 +49,14 @@ public class NewApplicationsController {
                 term -> {
                   if (!term.isEmpty()) {
                     if (searchBy.get().equals("name")) {
-                      return applicationService.findApplicationByName(term);
+                      return applicationService.findNewApplicationsByName(term);
                     }
-                    return applicationService.findApplicationByPostCode(term);
+                    return applicationService.findNewApplicationsByPostCode(term);
                   } else {
-                    return applicationService.retrieve();
+                    return applicationService.findAllNew();
                   }
                 })
-            .orElse(applicationService.retrieve());
+            .orElse(applicationService.findAllNew());
 
     List<ApplicationViewModel> applicationsViewModel =
         applications
@@ -68,7 +68,7 @@ public class NewApplicationsController {
     // it's wrong thing to do, but for the sake of speeding delivery time we're going to call
     // service twice to get amount of 'new' applications without filters applied
     // TODO: should be revisited to proper solution
-    model.addAttribute("applicationCount", applicationService.retrieve().size());
+    model.addAttribute("applicationCount", applicationService.findAllNew().size());
     if (searchTerm.isPresent() && !searchTerm.get().isEmpty()) {
       model.addAttribute("filteredApplicationCount", applicationsViewModel.size());
     }

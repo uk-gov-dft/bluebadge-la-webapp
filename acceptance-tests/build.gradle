@@ -36,7 +36,6 @@ dependencies {
     testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
     testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
     testCompile group: 'org.postgresql', name: 'postgresql', version:'42.2.2'
-    functionalTestCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 }
 
 test {
