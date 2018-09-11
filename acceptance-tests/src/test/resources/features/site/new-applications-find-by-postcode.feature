@@ -1,4 +1,4 @@
-@NewApplicationsFindByPostcode @NewApplicationScripts @ignore
+@NewApplicationsFindByPostcode @NewApplicationScripts
 Feature: Dft BlueBadge LA New applications find by postcode
 
   As a Blue Badge team member
@@ -14,9 +14,9 @@ Feature: Dft BlueBadge LA New applications find by postcode
     And I can see all records  
    
     When I select option "postcode" from dropdown "searchFilter.dropdown"
-    And I type the search term "john" in the field "search.field"
+    And I type the search term "sw11aa" in the field "search.field"
     And I can click "search.button" button
-    Then I should see only results containing search term "sw11aa"
+    Then I should see only results where postcode "sw11aa"
     And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "sw11aa"
 
   Scenario: Verify New Applications searched by non existing postcode will return no results
@@ -27,7 +27,7 @@ Feature: Dft BlueBadge LA New applications find by postcode
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I can see all records  
    
-    When I select option "name" from dropdown "searchFilter.dropdown"
+    When I select option "postcode" from dropdown "searchFilter.dropdown"
     And I type the search term "notinthelist" in the field "search.field"
     And I can click "search.button" button
     Then I see no records returned
