@@ -230,9 +230,9 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
-                            th:text="#{isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}"/>
+                            th:text="#{application.details.isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}"/>
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
-                            th:text="#{isNotAdaptedVehicle}"/>
+                            th:text="#{application.details.isNotAdaptedVehicle}"/>
                     </div>
                     <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
                         <dt class="dft-data-list__dt"
@@ -263,9 +263,9 @@
                      th:with="ben=${eligibility.benefit}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.benefit.label.benefit}"/>
-                    <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}" th:text="#{benefit.isIndefinite}"/>
+                    <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}" th:text="#{application.details.benefit.isIndefinite}"/>
                     <dd class="dft-data-list__dd" th:unless="${ben.isIndefinite}"
-                        th:text="#{benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
+                        th:text="#{application.details.benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
                 </div>
 
                 <!-- COMMON ELIGIBILITY FIELDS -->
@@ -313,9 +313,9 @@
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.paymentTaken}"/>
                     <dd class="dft-data-list__dd" th:if="${app.paymentTaken}"
-                        th:text="#{isPaymentTaken}"/>
+                        th:text="#{application.details.isPaymentTaken}"/>
                     <dd class="dft-data-list__dd" th:unless="${app.paymentTaken}"
-                        th:text="#{isNotPaymentTaken}"/>
+                        th:text="#{application.details.isNotPaymentTaken}"/>
                 </div>
                 <div class="dft-data-list__item" th:if="${app.existingBadgeNumber}">
                     <dt class="dft-data-list__dt"

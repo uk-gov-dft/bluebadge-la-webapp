@@ -1,8 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +14,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSumma
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -77,14 +78,10 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT, applicationId);
-    try {
-      log.debug("retrieveApplication {}", applicationId);
-      ApplicationResponse response =
-          restTemplate.getForObject(builder.toUriString(), ApplicationResponse.class);
-      return response.getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+
+    log.debug("retrieveApplication {}", applicationId);
+    ApplicationResponse response =
+        restTemplate.getForObject(builder.toUriString(), ApplicationResponse.class);
+    return response.getData();
   }
 }
