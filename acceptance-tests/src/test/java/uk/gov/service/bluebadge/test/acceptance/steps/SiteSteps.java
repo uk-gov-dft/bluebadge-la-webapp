@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -447,12 +446,14 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see only results where postcode \"([^\"]*)\"$")
   public void iShouldSeeOnlyResultsWithPostcode(String postcode) {
 
-	List<WebElement> records = sitePage.findElementWithUiPath("table.body")
-											.findElements(By.className("govuk-table__row"));
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-	List<String> displayedRecordsNames = records.stream()
-											   .map(r -> r.findElement(By.tagName("a")).getText())
-											   .collect(Collectors.toList());
+    List<String> displayedRecordsNames =
+        records
+            .stream()
+            .map(r -> r.findElement(By.tagName("a")).getText())
+            .collect(Collectors.toList());
 
     List<String> namesWithPostcode = Arrays.asList("John The First", "Alex Johnson");
     for (String record : displayedRecordsNames) {
@@ -463,7 +464,6 @@ public class SiteSteps extends AbstractSpringSteps {
     assertTrue(displayCount.getText().equals(records.size() + " Results:"));
   }
 
-  
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
@@ -474,17 +474,20 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    List<String> allRecordsNames = Arrays.asList("John The First", "Alex Johnson", "David Littlejohnson", "Freddie Kruger");
+    List<String> allRecordsNames =
+        Arrays.asList("John The First", "Alex Johnson", "David Littlejohnson", "Freddie Kruger");
     assertFalse(records.size() < allRecordsNames.size());
 
-    List<String> displayedRecordsNames = records.stream()
-    												.map(r -> r.findElement(By.tagName("a")).getText())
-    												.collect(Collectors.toList());
-    
-//    List<String> displayedRecordsNames = records.stream().map(r -> r.getText()).collect(Collectors.toList());
-    
+    List<String> displayedRecordsNames =
+        records
+            .stream()
+            .map(r -> r.findElement(By.tagName("a")).getText())
+            .collect(Collectors.toList());
+
+    //    List<String> displayedRecordsNames = records.stream().map(r -> r.getText()).collect(Collectors.toList());
+
     System.out.println("displayedRecordsNames = " + displayedRecordsNames);
-    
+
     assertTrue(displayedRecordsNames.containsAll(allRecordsNames));
 
     WebElement displayCount =
