@@ -82,17 +82,19 @@ Run a single feature
 ```
 
 Run multiple features
-Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
 ```
 ./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
 ```
+Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
+
 To ignore certain features, first you need to mark your feature 
 with specific tag, let's say @ignore and then:
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags ~@ignore"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags ~@ignore"
 ```
+
 Test results:
 You can find the results in following location on la-webapp project:
 ```

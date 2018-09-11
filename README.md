@@ -139,7 +139,7 @@ without having to restart the application. To do so, make sure to have the appli
 standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run the tests, execute (from project folder ..../la-webapp):
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080
 ```
 
 -PbuildProfile is the profile for environment that you want to run tests against{Eg, local,dev,qa,prepod,prod}
@@ -148,7 +148,7 @@ standalone mode ([see instructions above](#RUN WITH GRADLE)) and then, to run th
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false
 ```
 
 If you need to run only speficied features, then add a tag to feature file & specify that in run command as below, execute:
@@ -156,13 +156,13 @@ If you need to run only speficied features, then add a tag to feature file & spe
 Run a single feature
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
 
 Run multiple features
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
 ```
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
@@ -170,7 +170,7 @@ To ignore certain features, first you need to mark your feature
 with specific tag, let's say @ignore and then:
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags ~@ignore"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags ~@ignore"
 ```
 
 # How to deploy to QA enviroment
