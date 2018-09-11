@@ -484,10 +484,6 @@ public class SiteSteps extends AbstractSpringSteps {
             .map(r -> r.findElement(By.tagName("a")).getText())
             .collect(Collectors.toList());
 
-    //    List<String> displayedRecordsNames = records.stream().map(r -> r.getText()).collect(Collectors.toList());
-
-    System.out.println("displayedRecordsNames = " + displayedRecordsNames);
-
     assertTrue(displayedRecordsNames.containsAll(allRecordsNames));
 
     WebElement displayCount =
@@ -507,9 +503,9 @@ public class SiteSteps extends AbstractSpringSteps {
     assertEquals(fieldValue, fieldElement.getAttribute("value"));
   }
 
-  @Then("^I see no records returned$")
-  public void iShouldSeeNoRecords() {
-    assertTrue(sitePage.getPageContent().contains("No results found"));
+  @Then("^I see no records returned for the search term \"([^\"]*)\"$")
+  public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
+    assertTrue(sitePage.findElementWithUiPath("search.term").getText().contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
     assertTrue(displayCount.getText().equals("0 Results:"));

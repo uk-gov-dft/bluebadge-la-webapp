@@ -30,6 +30,6 @@ Feature: Dft BlueBadge LA New applications find by name
     When I select option "name" from dropdown "searchFilter.dropdown"
     And I type the search term "notinthelist" in the field "search.field"
     And I can click "search.button" button
-    Then I see no records returned
+    Then I see no records returned for the search term "notinthelist"
     And Search filter "searchFilter.dropdown" has value "Name" and search field "search.field" has value "notinthelist"
     

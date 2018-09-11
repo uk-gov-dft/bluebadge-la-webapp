@@ -11,8 +11,8 @@ Feature: Dft BlueBadge LA New applications find by postcode
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
-    And I can see all records  
-   
+    And I can see all records
+
     When I select option "postcode" from dropdown "searchFilter.dropdown"
     And I type the search term "sw11aa" in the field "search.field"
     And I can click "search.button" button
@@ -30,6 +30,6 @@ Feature: Dft BlueBadge LA New applications find by postcode
     When I select option "postcode" from dropdown "searchFilter.dropdown"
     And I type the search term "notinthelist" in the field "search.field"
     And I can click "search.button" button
-    Then I see no records returned
+    Then I see no records returned for the search term "notinthelist"
     And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "notinthelist"
     
