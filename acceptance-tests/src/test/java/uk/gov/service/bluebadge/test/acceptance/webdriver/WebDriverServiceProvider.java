@@ -8,7 +8,6 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.slf4j.Logger;
@@ -29,6 +28,7 @@ public class WebDriverServiceProvider {
   private static final Logger log = LoggerFactory.getLogger(WebDriverServiceProvider.class);
 
   private static final String WEB_DRIVER_LOCATION = "drivers/";
+  private static final String WEB_DRIVER_LOCATION2 = "acceptance-tests/drivers/";
 
   private ChromeDriverService chromeDriverService;
 
@@ -76,25 +76,29 @@ public class WebDriverServiceProvider {
     String chosenOs;
     // If JVM property set use that to override detection.
     String jvmSpecifiedOs = System.getProperty("os");
-    if(null != jvmSpecifiedOs){
+    if (null != jvmSpecifiedOs) {
       chosenOs = jvmSpecifiedOs;
       log.info("JVM parameter set os to:{}", chosenOs);
-    }else{
-      if(SystemUtils.IS_OS_WINDOWS){
+    } else {
+      if (SystemUtils.IS_OS_WINDOWS) {
         chosenOs = "windows";
         log.info("Using windows chrome driver from detection.");
-      }else if(SystemUtils.IS_OS_LINUX){
+      } else if (SystemUtils.IS_OS_LINUX) {
         chosenOs = "linux";
         log.info("Using linux chrome driver from detection.");
-      }else if(SystemUtils.IS_OS_MAC){
+      } else if (SystemUtils.IS_OS_MAC) {
         chosenOs = "mac";
         log.info("Using mac chrome driver from detection.");
-      }else {
+      } else {
         chosenOs = "linux";
         log.warn("defaulting to linux chrome driver. Failed to detect OS.");
       }
     }
-    final Path webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION + chosenOs).toAbsolutePath();
+    Path webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION + chosenOs).toAbsolutePath();
+
+    if (!isDirectory(webDriverLocationPath)) {
+      webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION2 + chosenOs).toAbsolutePath();
+    }
 
     if (!isDirectory(webDriverLocationPath)) {
       throw new IllegalStateException(
