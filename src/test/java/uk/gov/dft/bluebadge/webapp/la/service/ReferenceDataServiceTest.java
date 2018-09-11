@@ -44,7 +44,7 @@ public class ReferenceDataServiceTest {
   private static final String STATUS_2 = "status 2";
   private static final String LA_1_SHORTCODE = "ABERD";
   private static final String LA_2_SHORTCODE = "BARNS";
-  private static final String LA_1 = "Aberdeenshire Council";
+  private static final String LA_1 = "Aberdeenshire council";
   private static final String LA_2 = "Barnsley MBC";
   private static final String WALKING_DIFFICULTY_1_SHORTCODE = "PEOPLECAR";
   private static final String WALKING_DIFFICULTY_2_SHORTCODE = "BREATH";

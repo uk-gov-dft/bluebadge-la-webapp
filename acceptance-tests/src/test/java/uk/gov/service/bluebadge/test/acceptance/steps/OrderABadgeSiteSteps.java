@@ -102,8 +102,13 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("contactDetailsEmailAddress.field").sendKeys(email);
 
     WebElement fileUpload = sitePage.findElementWithUiPath("photo.field");
-    fileUpload.sendKeys(
-        System.getProperty("user.dir") + "/src/test/resources/attachments/icon-test.jpg");
+    if (System.getProperty("user.dir").endsWith("acceptance-tests")) {
+      fileUpload.sendKeys(
+          System.getProperty("user.dir") + "/src/test/resources/attachments/icon-test.jpg");
+    }else{
+      fileUpload.sendKeys(
+          System.getProperty("user.dir") + "/acceptance-tests/src/test/resources/attachments/icon-test.jpg");
+    }
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");
   }
