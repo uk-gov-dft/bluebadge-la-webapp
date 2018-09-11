@@ -65,7 +65,7 @@ public class CancelBadgeSiteSteps {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
     String pageTitle = "Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges";
 
-    assertEquals(sitePage.findElementWithText("Cancel badge"), null);
+    assertEquals(null, sitePage.findElementWithText("Cancel badge"));
     assertThat("I should see page titled.", sitePage.getDocumentTitle(), is(pageTitle));
   }
 }
