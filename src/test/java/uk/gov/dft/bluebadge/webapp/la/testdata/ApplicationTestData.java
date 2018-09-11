@@ -1,52 +1,31 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import com.google.common.collect.Lists;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppContact;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Artifacts;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Eligibility;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.GenderCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.HealthcareProfessional;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Medication;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Treatment;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingAid;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingDifficulty;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingDifficultyTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingLengthOfTimeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.WalkingSpeedCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryViewModel;
 
 public class ApplicationTestData {
   // Application Summary fields
-  protected static final UUID APPLICATION_ID = UUID.randomUUID();
-  protected static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
-  protected static final EligibilityCodeField ELIGIBILITY_CODE = EligibilityCodeField.WALKD;
+  private static final UUID APPLICATION_ID = UUID.randomUUID();
+  private static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
+  private static final EligibilityCodeField ELIGIBILITY_CODE = EligibilityCodeField.WALKD;
   protected static final String ELIGIBILITY_SHORT_CODE = EligibilityCodeField.WALKD.toString();
   protected static final String ELIGIBILITY_VIEW_MODEL = "Walking ability";
   protected static final String NAME = "name";
-  protected static final String NINO = "nino";
+  private static final String NINO = "nino";
   protected static final ZoneId TIME_ZONE = ZoneId.of("Europe/Berlin");
-  protected static final OffsetDateTime NOW =
-      OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.ofHours(1));
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
+  private static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
-  protected static final java.time.OffsetDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
-  protected static final String WALKING_DIFFICULTY_1_SHORTCODE = "SOMELSE";
-  protected static final String WALKING_DIFFICULTY_2_SHORTCODE = "STRUGGLE";
-
+  private static final java.time.OffsetDateTime SUBMISSION_DATE_2 = SUBMISSION_DATE_1.plusDays(1);
+  private static final java.time.OffsetDateTime SUBMISSION_DATE_3 = SUBMISSION_DATE_2.plusDays(2);
   // Application Summary objects
   protected static final ApplicationSummary APPLICATION_SUMMARY_PERSON_1 =
       new ApplicationSummary()
@@ -57,7 +36,7 @@ public class ApplicationTestData {
           .nino(NINO)
           .partyTypeCode(PartyTypeCodeField.PERSON)
           .submissionDate(SUBMISSION_DATE_1);
-  protected static final ApplicationSummary APPLICATION_SUMMARY_2 =
+  private static final ApplicationSummary APPLICATION_SUMMARY_2 =
       new ApplicationSummary()
           .applicationId("2")
           .applicationTypeCode(ApplicationTypeCodeField.NEW)
@@ -66,7 +45,7 @@ public class ApplicationTestData {
           .nino("AA0000A2")
           .partyTypeCode(PartyTypeCodeField.PERSON)
           .submissionDate(SUBMISSION_DATE_2);
-  protected static final ApplicationSummary APPLICATION_SUMMARY_3 =
+  private static final ApplicationSummary APPLICATION_SUMMARY_3 =
       new ApplicationSummary()
           .applicationId("3")
           .applicationTypeCode(ApplicationTypeCodeField.NEW)
@@ -121,139 +100,5 @@ public class ApplicationTestData {
           .build();
 
   // Application fields
-  private static final String BUILDING_AND_STREET = "Building and street";
-  private static final String OPTIONAL_ADDRESS_FIELD = "Optional address field";
-  private static final String TOWN_OR_CITY = "Town or city";
   protected static final String POSTCODE = "TF8 6GF";
-  private static final String CONTACT_DETAILS_NAME = "Contact details name";
-  private static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
-  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "07700900099";
-  private static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
-  protected static final String GENDER_SHORTCODE = "MALE";
-  private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
-
-  private static final String EXISTING_BADGE_NUMBER = "KKKKK1";
-  private static final String LOCAL_AUTHORITY_CODE = "ABERD";
-  private static final String BADGE_PHOTO = "badgePhoto";
-  private static final String BADGE_PHOTO_URL =
-      "https://winklevosscapital.com/wp-content/uploads/2014/10/2014-09-16-Anoynmous-The-Rise-of-Personal-Networks.jpg";
-  private static final String PROOF_OF_ADDRESS = "proofOfAddress";
-  private static final String PROOF_OF_ADDRESS_URL = "http://localhost:8080/proofOfAddressUrl";
-  private static final String PROOF_OF_IDENTITY = "proofOfIdentity";
-  private static final String PROOF_OF_IDENTITY_URL = "http://localhost:8080/proofOfIdentityUrl";
-
-  private static final String WALKING_AID_DESCRIPTION_1 = "Needs travelator";
-  private static final String WALKING_AID_DESCRIPTION_2 = "Needs crutches";
-
-  private static final String DESCRIPTION_OF_CONDITIONS = "Several illneses and disseases";
-
-  protected static final WalkingSpeedCodeField WALKING_SPEED_SHORT_CODE =
-      WalkingSpeedCodeField.SLOW;
-
-  // Application
-  private static final AppContact CONTACT_PERSON =
-      new AppContact()
-          .buildingStreet(BUILDING_AND_STREET)
-          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-          .fullName(CONTACT_DETAILS_NAME)
-          .line2(OPTIONAL_ADDRESS_FIELD)
-          .postCode(POSTCODE)
-          .townCity(TOWN_OR_CITY)
-          .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
-
-  private static final AppPerson PERSON =
-      new AppPerson().genderCode(GenderCodeField.MALE).badgeHolderName(NAME).dob(DOB).nino(NINO);
-
-  private static final AppParty PARTY_PERSON =
-      new AppParty()
-          .contact(CONTACT_PERSON)
-          .person(PERSON)
-          .typeCode(PartyTypeCodeField.PERSON)
-          .organisation(null);
-
-  private static final Treatment TREATMENT_1 =
-      new Treatment().description("Needs treatment 1").time("20/4/2018");
-  private static final Treatment TREATMENT_2 =
-      new Treatment().description("Needs treatment 2").time("18/3/2017");
-  private static final List<Treatment> TREATMENTS = Lists.newArrayList(TREATMENT_1, TREATMENT_2);
-  private static final Medication MEDICATION_1 =
-      new Medication()
-          .name("medication name 1")
-          .frequency("daily")
-          .quantity("1 pill")
-          .isPrescribed(true);
-  private static final Medication MEDICATION_2 =
-      new Medication()
-          .name("medication name 2")
-          .frequency("monthly")
-          .quantity("2 pill")
-          .isPrescribed(false);
-  private static final List<Medication> MEDICATIONS =
-      Lists.newArrayList(MEDICATION_1, MEDICATION_2);
-
-  private static final Artifacts ARTIFACTS =
-      new Artifacts()
-          .badgePhoto(BADGE_PHOTO)
-          .badgePhotoUrl(BADGE_PHOTO_URL)
-          .proofOfAddress(PROOF_OF_ADDRESS)
-          .proofOfAddressUrl(PROOF_OF_ADDRESS_URL)
-          .proofOfIdentity(PROOF_OF_IDENTITY)
-          .proofOfIdentityUrl(PROOF_OF_IDENTITY_URL);
-
-  private static final WalkingAid WALKING_AID_1 =
-      new WalkingAid().description(WALKING_AID_DESCRIPTION_1);
-  private static final WalkingAid WALKING_AID_2 =
-      new WalkingAid().description(WALKING_AID_DESCRIPTION_2);
-  private static final WalkingDifficulty WALKING_DIFFICULTY =
-      new WalkingDifficulty()
-          .typeCodes(
-              Lists.newArrayList(
-                  WalkingDifficultyTypeCodeField.fromValue(WALKING_DIFFICULTY_1_SHORTCODE),
-                  WalkingDifficultyTypeCodeField.fromValue(WALKING_DIFFICULTY_2_SHORTCODE)))
-          .walkingAids(Lists.newArrayList(WALKING_AID_1, WALKING_AID_2))
-          .walkingSpeedCode(WALKING_SPEED_SHORT_CODE)
-          .walkingLengthOfTimeCode(WalkingLengthOfTimeCodeField.FEWMIN)
-          .treatments(TREATMENTS)
-          .medications(MEDICATIONS);
-
-  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_1 =
-      new HealthcareProfessional().name("Doctor 1").location("London");
-  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_2 =
-      new HealthcareProfessional().name("Doctor 2").location("Manchester");
-  private static final HealthcareProfessional HEALTHCARE_PROFESSIONAL_3 =
-      new HealthcareProfessional().name("Doctor 3").location("Edinburgh");
-  private static final List<HealthcareProfessional> HEALTHCARE_PROFESSIONALS =
-      Lists.newArrayList(
-          HEALTHCARE_PROFESSIONAL_1, HEALTHCARE_PROFESSIONAL_2, HEALTHCARE_PROFESSIONAL_3);
-
-  private static final Eligibility ELIGIBILITY_WALKING_DIFFICULTY =
-      new Eligibility()
-          .typeCode(EligibilityCodeField.WALKD)
-          .walkingDifficulty(WALKING_DIFFICULTY)
-          .healthcareProfessionals(HEALTHCARE_PROFESSIONALS)
-          .descriptionOfConditions(DESCRIPTION_OF_CONDITIONS);
-
-  protected static final Application APPLICATION_FOR_PERSON_WALKING_DIFFICULTIES =
-      new Application()
-          .applicationId(APPLICATION_ID.toString())
-          .applicationTypeCode(ApplicationTypeCodeField.NEW)
-          .party(PARTY_PERSON)
-          .artifacts(ARTIFACTS)
-          .eligibility(ELIGIBILITY_WALKING_DIFFICULTY)
-          .existingBadgeNumber(EXISTING_BADGE_NUMBER)
-          .localAuthorityCode(LOCAL_AUTHORITY_CODE)
-          .paymentTaken(true);
-
-  // Application View Model - fields
-  protected static final String GENDER_VIEW_MODEL = "Male";
-  private static final String DOB_VIEW_MODEL = "15/03/80";
-  private static final String ADDRESS_VIEW_MODEL =
-      "Building and street, Optional address field, Town or city, TF8 6GF";
-  protected static final String WALKING_DIFFICULTY_1 = "Something else";
-  protected static final String WALKING_DIFFICULTY_2 = "Struggle planning or following a journey";
-  private static final List<String> WALKING_DIFFICULTIES =
-      Lists.newArrayList(WALKING_DIFFICULTY_1, WALKING_DIFFICULTY_2);
-  private static final List<String> MOBILITY_ADIS_VIEW_MODEL =
-      Lists.newArrayList(WALKING_AID_DESCRIPTION_1, WALKING_AID_DESCRIPTION_2);
-  protected static final String WALKING_SPEED_VIEW_MODEL = "Slower";
 }

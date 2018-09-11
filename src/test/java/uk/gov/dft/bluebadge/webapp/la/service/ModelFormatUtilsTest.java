@@ -39,9 +39,12 @@ public class ModelFormatUtilsTest {
 
   @Test
   public void prescribedToMessageKey() {
-    Assert.assertEquals("medication.isPrescribed", utils.prescribedToMessageKey(Boolean.TRUE));
-    Assert.assertEquals("medication.notPrescribed", utils.prescribedToMessageKey(Boolean.FALSE));
-    Assert.assertEquals(null, utils.prescribedToMessageKey(null));
+    Assert.assertEquals(
+        "application.details.medication.isPrescribed", utils.prescribedToMessageKey(Boolean.TRUE));
+    Assert.assertEquals(
+        "application.details.medication.notPrescribed",
+        utils.prescribedToMessageKey(Boolean.FALSE));
+    Assert.assertNull(utils.prescribedToMessageKey(null));
   }
 
   @Test
@@ -53,7 +56,7 @@ public class ModelFormatUtilsTest {
 
   @Test
   public void localDateToDisplay() {
-    LocalDate testDate = LocalDate.of(1980, 01, 31);
+    LocalDate testDate = LocalDate.of(1980, 1, 31);
     Assert.assertEquals("31 January 1980", utils.localDateToDisplay(testDate));
     Assert.assertEquals("", utils.localDateToDisplay(null));
   }

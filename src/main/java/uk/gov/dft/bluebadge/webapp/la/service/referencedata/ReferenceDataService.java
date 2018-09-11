@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
 @Service
+@Slf4j
 public class ReferenceDataService {
 
   private Map<String, List<ReferenceData>> badgeGroupedReferenceDataList = null;
@@ -163,6 +165,11 @@ public class ReferenceDataService {
 
   public String retrieveAppEnumDisplayValueByString(String group, String key) {
     if (null == key) {
+      return "";
+    }
+    if (null == applicationGroupedReferenceDataMap) {
+      log.warn(
+          "No application reference data loaded.  Returning enpty string in retrieveAppEnumDisplayValueByString.");
       return "";
     }
     Map<String, String> groupMap = applicationGroupedReferenceDataMap.get(group);

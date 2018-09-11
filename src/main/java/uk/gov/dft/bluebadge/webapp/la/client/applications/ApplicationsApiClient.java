@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,10 +17,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSumma
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

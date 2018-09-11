@@ -54,7 +54,9 @@ public class ModelFormatUtils {
       return null;
     }
 
-    return isPrescribed ? "application.details.medication.isPrescribed" : "application.details.medication.notPrescribed";
+    return isPrescribed
+        ? "application.details.medication.isPrescribed"
+        : "application.details.medication.notPrescribed";
   }
 
   /**
