@@ -48,10 +48,8 @@ git pull
 
 ```
 cd acceptance-tests
-./gradlew acceptanceTest -PbuildProfile=local
+./gradlew acceptanceTest -PbaseUrl=http://localhost:8080
 ```
-
--PbuildProfile is the profile for environment that you want to run tests against{Eg, local,dev,qa,prepod,prod}
 
 OR you can run the shell script
 
@@ -61,18 +59,18 @@ Go to acceptance-tests folder & run (run_local.sh) shell script
 ./run_local.sh
 ```
 
-To specify your operating system; By default it will use as 'mac'
+To specify your operating system; It should be detected automatically - so only required if problems.
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dos=mac
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dos=mac
 ```
-os parameter values can be 'mac' or 'linux' or 'windows'
+os parameter values can be 'mac' or 'linux' or 'windows' - Generally not required though.
 
 
 By default acceptance tests will run on headless chrome. If you need to run it on headed mode, execute:
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false
 ```
 
 If you need to run only specified features, then add a tag to feature file & specify that in run command as below, execute:
@@ -80,14 +78,14 @@ If you need to run only specified features, then add a tag to feature file & spe
 Run a single feature
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
 
 Run multiple features
 Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
 ```
-./gradlew acceptanceTest -PbuildProfile=local -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
 ```
 To ignore certain features, first you need to mark your feature 
 with specific tag, let's say @ignore and then:
