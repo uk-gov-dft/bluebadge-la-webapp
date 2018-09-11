@@ -505,7 +505,11 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I see no records returned for the search term \"([^\"]*)\"$")
   public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
-    assertTrue(sitePage.findElementWithUiPath("search.term").getText().contains("There are no results for " + searchTerm));
+    assertTrue(
+        sitePage
+            .findElementWithUiPath("search.term")
+            .getText()
+            .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
     assertTrue(displayCount.getText().equals("0 Results:"));

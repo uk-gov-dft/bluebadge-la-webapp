@@ -10,7 +10,8 @@
 <div layout:fragment="content">
     <section class="dft-content-container--full">
 
-        <h1 class="govuk-heading-l" data-uipath="title">New applications
+        <h1 class="govuk-heading-l" data-uipath="title">
+            <span th:text="#{newapplications.html.title}" th:remove="tag"></span>
             <span class="dft-badge dft-badge--heading" th:text="${applicationCount}"/>
         </h1>
 
@@ -20,7 +21,7 @@
 
                     <div class="dft-search__container govuk-h-clearfix">
 
-                        <label class="govuk-label" for="search.dropdown">Filter results</label>
+                        <label class="govuk-label" for="search.dropdown" th:text="#{search.filterResults.label}"></label>
                         <select id="search.dropdown" name="searchBy" data-uipath="searchFilter.dropdown"
                                 class="govuk-select dft-search__select">
                             <option th:each="option: ${searchByOptions}"
@@ -30,8 +31,8 @@
                         </select>
 
                         <div class="dft-search__field">
-                            <label class="dft-search__label">Search</label>
-                            <input data-uipath="search.field" name="searchTerm" type="text" placeholder="Search"
+                            <label class="dft-search__label" th:text="#{search.label}"></label>
+                            <input data-uipath="search.field" name="searchTerm" type="text" th:placeholder="#{search.label}"
                                    class="dft-search__input" th:value="${searchTerm}">
                             <button type="submit" data-uipath="search.button" class="dft-search__button">
                                 <span class="govuk-visually-hidden" th:text="'label'"/>
@@ -40,13 +41,13 @@
 
                         <span class="dft-search__result" th:if="${searchTerm != null && filteredApplicationCount != null}">
                             <span data-uipath="search.count"
-                                  th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' Result:' : ${filteredApplicationCount} + ' Results:'"></span>
+                                  th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' ' + #{search.result.label} : ${filteredApplicationCount} + ' ' + #{search.results.label}"></span>
 
                             <a th:href="@{/new-applications}"
                                role="button"
                                class="dft-search__clear-link"
                                aria-label="clear search input field"
-                               type="reset">Clear</a>
+                               type="reset" th:text="#{search.btn.clear}"></a>
 
                         </span>
 
