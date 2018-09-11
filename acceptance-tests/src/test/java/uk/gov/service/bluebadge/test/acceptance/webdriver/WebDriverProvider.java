@@ -63,7 +63,7 @@ public class WebDriverProvider {
    */
   public void initialise() {
 
-    if(null == chromeOptions) {
+    if (null == chromeOptions) {
       chromeOptions = new ChromeOptions();
 
       final Map<String, Object> chromePrefs = new HashMap<>();
