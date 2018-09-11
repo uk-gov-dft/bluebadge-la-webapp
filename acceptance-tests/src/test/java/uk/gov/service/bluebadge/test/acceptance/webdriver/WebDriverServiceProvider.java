@@ -28,6 +28,7 @@ public class WebDriverServiceProvider {
   private static final Logger log = LoggerFactory.getLogger(WebDriverServiceProvider.class);
 
   private static final String WEB_DRIVER_LOCATION = "drivers/";
+  private static final String WEB_DRIVER_LOCATION2 = "acceptance-tests/drivers/";
 
   private ChromeDriverService chromeDriverService;
 
@@ -93,7 +94,11 @@ public class WebDriverServiceProvider {
         log.warn("defaulting to linux chrome driver. Failed to detect OS.");
       }
     }
-    final Path webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION + chosenOs).toAbsolutePath();
+    Path webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION + chosenOs).toAbsolutePath();
+
+    if (!isDirectory(webDriverLocationPath)) {
+      webDriverLocationPath = Paths.get(WEB_DRIVER_LOCATION2 + chosenOs).toAbsolutePath();
+    }
 
     if (!isDirectory(webDriverLocationPath)) {
       throw new IllegalStateException(
