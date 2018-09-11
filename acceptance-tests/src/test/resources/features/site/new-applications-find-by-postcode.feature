@@ -5,7 +5,7 @@ Feature: Dft BlueBadge LA New applications find by postcode
   I want to filter the latest applications by postcode
   So that I can process applications
 
-  Scenario: Verify New Applications can be searched by name
+  Scenario: Verify New Applications can be searched by postcode
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -19,7 +19,7 @@ Feature: Dft BlueBadge LA New applications find by postcode
     Then I should see only results containing search term "sw11aa"
     And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "sw11aa"
 
-  Scenario: Verify New Applications searched by non existing name will return no results
+  Scenario: Verify New Applications searched by non existing postcode will return no results
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***

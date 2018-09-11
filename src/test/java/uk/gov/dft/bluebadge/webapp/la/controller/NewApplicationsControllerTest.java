@@ -7,17 +7,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.Collections;
-import java.util.Optional;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
@@ -74,7 +70,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-	when(applicationServiceMock.findApplicationByName("john"))
+    when(applicationServiceMock.findApplicationByName("john"))
         .thenReturn(applicationsForSearchByName);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
