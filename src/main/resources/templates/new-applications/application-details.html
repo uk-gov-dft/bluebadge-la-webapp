@@ -265,7 +265,7 @@
                         th:text="#{application.details.eligibility.benefit.label.benefit}"/>
                     <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}" th:text="#{benefit.isIndefinite}"/>
                     <dd class="dft-data-list__dd" th:unless="${ben.isIndefinite}"
-                        th:text="#{benefit.expires} + ' ' + ${ben.expiryDate}"/>
+                        th:text="#{benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
                 </div>
 
                 <!-- COMMON ELIGIBILITY FIELDS -->
