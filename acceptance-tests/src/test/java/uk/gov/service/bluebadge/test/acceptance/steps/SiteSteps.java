@@ -141,6 +141,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I wait (\\d+)s$")
+  @SuppressWarnings("squid:S2925") // Suppress thread.sleep warning
   public void thenIWait(int sec) throws InterruptedException {
     Thread.sleep(sec * 1000);
   }
