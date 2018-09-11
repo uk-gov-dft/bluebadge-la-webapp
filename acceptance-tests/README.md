@@ -81,12 +81,14 @@ Run a single feature
 ./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn"
 ```
 
-Run multiple features
+Run security testing through OWASP ZAP proxy
+
+Just need to set the 'zapMode' parameter to true in order to run security testing. This can only be done in jenkins.
+If you need to run it in localhost then your will have to start ZAP on port 9999 & should active listning
 
 ```
-./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags @SignIn,@ManageUsers"
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -DzapMode=true
 ```
-Specify the relevant tag to run a feature file (Eg. @SignIn, @ManageUsers etc.)
 
 Test results:
 You can find the results in following location on la-webapp project:
