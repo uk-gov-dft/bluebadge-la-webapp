@@ -1,5 +1,10 @@
 apply plugin : 'java'
 
+if (project != rootProject) {
+    apply plugin: 'eclipse'
+    eclipse.project.name = (rootProject.name + project.path).replaceAll(':', '-')
+}
+
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
@@ -21,6 +26,8 @@ dependencies {
     testCompile group: 'info.cukes', name: 'cucumber-java', version:'1.2.5'
     testCompile group: 'info.cukes', name: 'cucumber-junit', version:'1.2.5'
     testCompile group: 'info.cukes', name: 'cucumber-spring', version:'1.2.5'
+    testCompile group: 'org.springframework', name:'spring-core', version: '5.0.4.RELEASE'
+    testCompile group: 'org.springframework', name:'spring-jdbc', version: '5.0.4.RELEASE'
     testCompile group: 'org.springframework', name: 'spring-context', version:'5.0.4.RELEASE'
     testCompile group: 'org.springframework', name: 'spring-test', version:'5.0.4.RELEASE'
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'3.10.0'
@@ -28,6 +35,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.hamcrest', name: 'java-hamcrest', version:'2.0.0.0'
     testCompile group: 'net.masterthought', name: 'cucumber-reporting', version:'3.8.0'
+    testCompile group: 'org.postgresql', name: 'postgresql', version:'42.2.2'
 }
 
 test {
