@@ -386,7 +386,7 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithUiPath(uiPath).click();
   }
 
-  private String navTitleToUiPath(String navTitle){
+  private String navTitleToUiPath(String navTitle) {
     String uiPath;
     switch (navTitle) {
       case "Manage users":
@@ -470,11 +470,14 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I should ([^\"]+)(?: not see | see)? element with ui path \"([^\"]*)\"$")
   public void iShouldSeeElementWithUiPath(String visible, String uiPath) throws Throwable {
     WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
-    assertThat(elementWithUiPath, "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+    assertThat(
+        elementWithUiPath,
+        "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
-  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle) throws Throwable {
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle)
+      throws Throwable {
     String uiPath = navTitleToUiPath(navTitle);
     iShouldSeeElementWithUiPath(visible, uiPath);
   }
