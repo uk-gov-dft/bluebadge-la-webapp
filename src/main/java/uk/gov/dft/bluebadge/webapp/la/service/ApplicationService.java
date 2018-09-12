@@ -52,4 +52,31 @@ public class ApplicationService {
     }
     return applicationSummariesResponse;
   }
+
+  public List<ApplicationSummary> findNewApplicationsByName(String name) {
+    return find(
+        Optional.of(name),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(ApplicationTypeCodeField.NEW));
+  }
+
+  public List<ApplicationSummary> findNewApplicationsByPostCode(String postcode) {
+    return find(
+        Optional.empty(),
+        Optional.of(postcode),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(ApplicationTypeCodeField.NEW));
+  }
+
+  public List<ApplicationSummary> findAllNew() {
+    return find(
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(ApplicationTypeCodeField.NEW));
+  }
 }

@@ -90,6 +90,13 @@ If you need to run it in localhost then your will have to start ZAP on port 9999
 ./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -DzapMode=true
 ```
 
+To ignore certain features, first you need to mark your feature 
+with specific tag, let's say @ignore and then:
+
+```
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags ~@ignore"
+```
+
 Test results:
 You can find the results in following location on la-webapp project:
 ```

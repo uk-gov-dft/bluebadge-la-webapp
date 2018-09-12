@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.List;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
@@ -98,4 +99,93 @@ public class ApplicationTestData {
           .eligibility("Organisation")
           .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
           .build();
+
+  public static final String NAME_SEARCH_BY = "john";
+
+  public static final ApplicationSummary APPLICATION_JOHN =
+      new ApplicationSummary()
+          .applicationId("100")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY)
+          .name("John Bates")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_1);
+
+  public static final ApplicationSummary APPLICATION_JOHNSON =
+      new ApplicationSummary()
+          .applicationId("101")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY)
+          .name("Tom Johnson")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_1);
+
+  public static final ApplicationSummary APPLICATION_LITTLEJOHN =
+      new ApplicationSummary()
+          .applicationId("102")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY)
+          .name("David Littlejohn")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_2);
+
+  public static final ApplicationSummary APPLICATION_OTHER =
+      new ApplicationSummary()
+          .applicationId("103")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY)
+          .name("Maria Davis")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_2);
+
+  public static final List<ApplicationSummary> applicationsForSearchByName =
+      Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON, APPLICATION_LITTLEJOHN);
+
+  public static final List<ApplicationSummary> unorderedApplicationsForSearchByName =
+      Arrays.asList(APPLICATION_JOHN, APPLICATION_LITTLEJOHN, APPLICATION_JOHNSON);
+
+  public static final List<ApplicationSummary> orderdApplicationsForSearchByName =
+      Arrays.asList(APPLICATION_LITTLEJOHN, APPLICATION_JOHN, APPLICATION_JOHNSON);
+
+  protected static final String SUBMISSION_DATE_VIEW_1 = "20/06/18 10:10";
+  protected static final String SUBMISSION_DATE_VIEW_2 = "21/06/18 10:10";
+
+  public static final ApplicationViewModel APPLICATION_JOHN_VIEW =
+      ApplicationViewModel.builder()
+          .name("John Bates")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_1)
+          .build();
+
+  public static final ApplicationViewModel APPLICATION_JOHNSON_VIEW =
+      ApplicationViewModel.builder()
+          .name("Tom Johnson")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_1)
+          .build();
+
+  public static final ApplicationViewModel APPLICATION_LITTLEJOHN_VIEW =
+      ApplicationViewModel.builder()
+          .name("David Littlejohn")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_2)
+          .build();
+
+  public static final ApplicationViewModel APPLICATION_OTHER_VIEW =
+      ApplicationViewModel.builder()
+          .name("Maria Davis")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_2)
+          .build();
+
+  public static final List<ApplicationViewModel> applicationsForSearchByNameView =
+      Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW, APPLICATION_LITTLEJOHN_VIEW);
 }
