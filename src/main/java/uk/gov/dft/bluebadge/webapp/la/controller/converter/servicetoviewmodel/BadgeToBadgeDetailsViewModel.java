@@ -80,6 +80,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .emailAddress(StringUtils.trimToNull(contact.getEmailAddress()))
         .secondaryContactNumber(StringUtils.trimToNull(contact.getSecondaryPhoneNumber()))
         .issuedBy(StringUtils.trimToNull(localAuthorityDisplayText))
+        .localAuthorityShortCode(source.getLocalAuthorityShortCode())
         .localAuthorityReference(StringUtils.trimToNull(source.getLocalAuthorityRef()))
         .status(StringUtils.trimToNull(statusDisplayText))
         .build();

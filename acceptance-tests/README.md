@@ -48,7 +48,7 @@ git pull
 
 ```
 cd acceptance-tests
-./gradlew acceptanceTest -PbaseUrl=http://localhost:8080
+./gradlew acceptanceTest -DbaseUrl=http://localhost:8080
 ```
 
 OR you can run the shell script

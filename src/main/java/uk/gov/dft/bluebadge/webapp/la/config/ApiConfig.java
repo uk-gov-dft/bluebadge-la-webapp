@@ -95,6 +95,9 @@ public class ApiConfig {
     oAuth2RestTemplate.setRequestFactory(requestFactory);
     oAuth2RestTemplate.setUriTemplateHandler(
         new DefaultUriBuilderFactory(apiConfig.getUrlPrefix()));
+    // If a request is denied by the api, the default action is to clear the token and try again.
+    // But this results in the user needing to request a new access token and hence essentially being logged out.
+    oAuth2RestTemplate.setRetryBadAccessTokens(false);
     return oAuth2RestTemplate;
   }
 
@@ -112,6 +115,9 @@ public class ApiConfig {
     result.setRequestFactory(requestFactory);
     result.setUriTemplateHandler(
         new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
+    // If a request is denied by the api, the default action is to clear the token and try again.
+    // But this results in the user needing to request a new access token and hence essentially being logged out.
+    result.setRetryBadAccessTokens(false);
     return result;
   }
 }
