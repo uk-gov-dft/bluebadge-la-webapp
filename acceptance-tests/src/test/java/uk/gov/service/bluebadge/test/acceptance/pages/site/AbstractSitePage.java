@@ -42,7 +42,7 @@ public abstract class AbstractSitePage extends AbstractPage {
   }
 
   public void clickOnElement(WebElement element) {
-    // scroll to element to prevent errors like "Other element would receive the click"
+    // scroll to element to prevent error like "Other element would receive the click"
     new Actions(getWebDriver()).moveToElement(element).moveByOffset(0, 100).perform();
 
     // click it

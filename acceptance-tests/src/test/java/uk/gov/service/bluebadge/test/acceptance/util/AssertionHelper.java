@@ -41,7 +41,7 @@ public abstract class AssertionHelper {
       } catch (final Exception | AssertionError exception) {
         // We don't want to suppress java.lang.Error instances other than AssertionError, hence going with the
         // above selection rather than with blanket Throwable; this is so that we do not snuff out unexpected
-        // errors (we do expect Exceptions and AssertionErrors during normal course of resolving assertions
+        // error (we do expect Exceptions and AssertionErrors during normal course of resolving assertions
         // but anything other from the Throwable hierarchy indicates abnormal conditions that we don't want to
         // ignore but want to fail on early, instead).
 
