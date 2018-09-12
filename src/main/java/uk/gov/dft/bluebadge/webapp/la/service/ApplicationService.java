@@ -58,7 +58,7 @@ public class ApplicationService {
 
     return applicationsApiClient.retrieve(applicationId);
   }
-  
+
   public List<ApplicationSummary> findNewApplicationsByName(String name) {
     return find(
         Optional.of(name),

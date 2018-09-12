@@ -157,7 +157,7 @@ public class ApplicationTestData {
   protected static final String SUBMISSION_DATE_VIEW_2 = "21/06/18 10:10";
 
   public static final ApplicationSummaryViewModel APPLICATION_JOHN_VIEW =
-		  ApplicationSummaryViewModel.builder()
+      ApplicationSummaryViewModel.builder()
           .name("John Bates")
           .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
@@ -165,7 +165,7 @@ public class ApplicationTestData {
           .build();
 
   public static final ApplicationSummaryViewModel APPLICATION_JOHNSON_VIEW =
-		  ApplicationSummaryViewModel.builder()
+      ApplicationSummaryViewModel.builder()
           .name("Tom Johnson")
           .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
@@ -173,7 +173,7 @@ public class ApplicationTestData {
           .build();
 
   public static final ApplicationSummaryViewModel APPLICATION_LITTLEJOHN_VIEW =
-		  ApplicationSummaryViewModel.builder()
+      ApplicationSummaryViewModel.builder()
           .name("David Littlejohn")
           .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
@@ -181,7 +181,7 @@ public class ApplicationTestData {
           .build();
 
   public static final ApplicationSummaryViewModel APPLICATION_OTHER_VIEW =
-		  ApplicationSummaryViewModel.builder()
+      ApplicationSummaryViewModel.builder()
           .name("Maria Davis")
           .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
