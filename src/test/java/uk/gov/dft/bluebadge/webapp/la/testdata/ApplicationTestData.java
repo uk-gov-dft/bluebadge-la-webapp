@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
@@ -101,4 +102,92 @@ public class ApplicationTestData {
 
   // Application fields
   protected static final String POSTCODE = "TF8 6GF";
+  public static final String NAME_SEARCH_BY = "john";
+
+  public static final ApplicationSummary APPLICATION_JOHN =
+      new ApplicationSummary()
+          .applicationId("100")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY_CODE)
+          .name("John Bates")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_1);
+
+  public static final ApplicationSummary APPLICATION_JOHNSON =
+      new ApplicationSummary()
+          .applicationId("101")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY_CODE)
+          .name("Tom Johnson")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_1);
+
+  public static final ApplicationSummary APPLICATION_LITTLEJOHN =
+      new ApplicationSummary()
+          .applicationId("102")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY_CODE)
+          .name("David Littlejohn")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_2);
+
+  public static final ApplicationSummary APPLICATION_OTHER =
+      new ApplicationSummary()
+          .applicationId("103")
+          .applicationTypeCode(APPLICATION_TYPE)
+          .eligibilityCode(ELIGIBILITY_CODE)
+          .name("Maria Davis")
+          .nino(NINO)
+          .partyTypeCode(PartyTypeCodeField.PERSON)
+          .submissionDate(SUBMISSION_DATE_2);
+
+  public static final List<ApplicationSummary> applicationsForSearchByName =
+      Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON, APPLICATION_LITTLEJOHN);
+
+  public static final List<ApplicationSummary> unorderedApplicationsForSearchByName =
+      Arrays.asList(APPLICATION_JOHN, APPLICATION_LITTLEJOHN, APPLICATION_JOHNSON);
+
+  public static final List<ApplicationSummary> orderdApplicationsForSearchByName =
+      Arrays.asList(APPLICATION_LITTLEJOHN, APPLICATION_JOHN, APPLICATION_JOHNSON);
+
+  protected static final String SUBMISSION_DATE_VIEW_1 = "20/06/18 10:10";
+  protected static final String SUBMISSION_DATE_VIEW_2 = "21/06/18 10:10";
+
+  public static final ApplicationSummaryViewModel APPLICATION_JOHN_VIEW =
+		  ApplicationSummaryViewModel.builder()
+          .name("John Bates")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_1)
+          .build();
+
+  public static final ApplicationSummaryViewModel APPLICATION_JOHNSON_VIEW =
+		  ApplicationSummaryViewModel.builder()
+          .name("Tom Johnson")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_1)
+          .build();
+
+  public static final ApplicationSummaryViewModel APPLICATION_LITTLEJOHN_VIEW =
+		  ApplicationSummaryViewModel.builder()
+          .name("David Littlejohn")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_2)
+          .build();
+
+  public static final ApplicationSummaryViewModel APPLICATION_OTHER_VIEW =
+		  ApplicationSummaryViewModel.builder()
+          .name("Maria Davis")
+          .nino(NINO)
+          .eligibility(ELIGIBILITY_VIEW_MODEL)
+          .submittedDate(SUBMISSION_DATE_VIEW_2)
+          .build();
+
+  public static final List<ApplicationSummaryViewModel> applicationsForSearchByNameView =
+      Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW, APPLICATION_LITTLEJOHN_VIEW);
 }
