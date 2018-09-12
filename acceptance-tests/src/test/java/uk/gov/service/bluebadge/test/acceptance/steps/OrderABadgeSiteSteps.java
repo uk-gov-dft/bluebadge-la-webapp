@@ -105,9 +105,10 @@ public class OrderABadgeSiteSteps {
     if (System.getProperty("user.dir").endsWith("acceptance-tests")) {
       fileUpload.sendKeys(
           System.getProperty("user.dir") + "/src/test/resources/attachments/icon-test.jpg");
-    }else{
+    } else {
       fileUpload.sendKeys(
-          System.getProperty("user.dir") + "/acceptance-tests/src/test/resources/attachments/icon-test.jpg");
+          System.getProperty("user.dir")
+              + "/acceptance-tests/src/test/resources/attachments/icon-test.jpg");
     }
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");

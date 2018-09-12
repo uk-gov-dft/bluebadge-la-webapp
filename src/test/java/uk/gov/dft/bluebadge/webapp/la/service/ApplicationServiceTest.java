@@ -72,4 +72,24 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.of(ApplicationTypeCodeField.NEW));
     assertThat(result).isEqualTo(ORDERED_APPLICATION_SUMMARIES);
   }
+
+  @Test
+  public void
+      find_shouldReturnResultsPartiallyMatchedToNameOrderedBySubmittedDataDescendingOrder_WhenNameIsSet() {
+    when(applicationsApiClientMock.find(
+            Optional.of(NAME_SEARCH_BY),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(ApplicationTypeCodeField.NEW)))
+        .thenReturn(unorderedApplicationsForSearchByName);
+    List<ApplicationSummary> result =
+        applicationService.find(
+            Optional.of(NAME_SEARCH_BY),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(ApplicationTypeCodeField.NEW));
+    assertThat(result).isEqualTo(orderdApplicationsForSearchByName);
+  }
 }

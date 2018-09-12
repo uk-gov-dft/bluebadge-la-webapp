@@ -42,7 +42,8 @@ public class AcceptanceTestConfiguration {
     return new WebDriverProvider(
         webDriverServiceProvider,
         acceptanceTestProperties.isHeadlessMode(),
-        acceptanceTestProperties.getDownloadDir());
+        acceptanceTestProperties.getDownloadDir(),
+        acceptanceTestProperties.isZapMode());
   }
 
   @Bean(initMethod = "initialise", destroyMethod = "dispose")
@@ -67,7 +68,8 @@ public class AcceptanceTestConfiguration {
         new AcceptanceTestProperties(
             Boolean.parseBoolean(System.getProperty("headless", "true")),
             Paths.get(buildDirectory, "download"),
-            Paths.get(buildDirectory));
+            Paths.get(buildDirectory),
+            Boolean.parseBoolean(System.getProperty("zapMode", "false")));
 
     log.info("Applying test properties: {}", acceptanceTestProperties);
 
