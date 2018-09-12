@@ -2,6 +2,7 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{managebadges.badgedetails.html.title} + ${badge.badgeNumber} + ' ' + #{common.title.suffix}"></title>
@@ -26,7 +27,7 @@
                     <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
                 </h1>
 
-                <div class="cta" th:if="${isBadgeActive}">
+                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${isBadgeActive}">
                     <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19">Cancel badge</a>
                 </div>
             </header>

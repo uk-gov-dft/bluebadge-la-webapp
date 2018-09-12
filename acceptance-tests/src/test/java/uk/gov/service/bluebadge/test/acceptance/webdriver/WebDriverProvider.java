@@ -82,9 +82,9 @@ public class WebDriverProvider {
       log.info(
           "Configuring WebDriver to run in {} mode.",
           isHeadlessMode ? "headless" : "full, graphical");
+      chromeOptions.addArguments("window-size=1920,1080");
       if (isHeadlessMode) {
         chromeOptions.addArguments("--headless");
-        chromeOptions.addArguments("window-size=1920,1080");
       }
     }
 
