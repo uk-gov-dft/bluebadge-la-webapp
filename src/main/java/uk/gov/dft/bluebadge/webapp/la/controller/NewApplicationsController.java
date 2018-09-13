@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,19 +40,23 @@ public class NewApplicationsController {
       @RequestParam("searchTerm") Optional<String> searchTerm,
       Model model) {
 
+    searchTerm = searchTerm.map(StringUtils::trimToNull);
+
     saveParams(searchBy, searchTerm, model);
 
-    List<ApplicationSummary> applications =
+    List<ApplicationSummary> applications;
+    applications =
         searchTerm
             .map(
                 term -> {
-                  if (!term.isEmpty()) {
-                    if (searchBy.get().equals("name")) {
+                  switch (searchBy.get()) {
+                    case "name":
                       return applicationService.findNewApplicationsByName(term);
-                    }
-                    return applicationService.findNewApplicationsByPostCode(term);
-                  } else {
-                    return applicationService.findAllNew();
+                    case "postcode":
+                      return applicationService.findNewApplicationsByPostCode(term);
+                    default:
+                      throw new IllegalArgumentException(
+                          "Unsupported search by value:" + searchBy.get());
                   }
                 })
             .orElse(applicationService.findAllNew());
