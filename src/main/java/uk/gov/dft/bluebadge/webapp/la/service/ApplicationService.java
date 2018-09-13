@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
@@ -51,6 +52,11 @@ public class ApplicationService {
           new ApplicationSummaryComparatorBySubmittedDateDescendingOrder());
     }
     return applicationSummariesResponse;
+  }
+
+  public Application retrieve(String applicationId) {
+
+    return applicationsApiClient.retrieve(applicationId);
   }
 
   public List<ApplicationSummary> findNewApplicationsByName(String name) {

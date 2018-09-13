@@ -38,16 +38,14 @@ public class BadgeDetailsController {
   public String show(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     Optional<Badge> badge = badgeService.retrieve(badgeNumber);
 
-    if (badge.isPresent()) {
-      Boolean isBadgeActive = "ISSUED".equals(badge.get().getStatusCode());
-      model.addAttribute("isBadgeActive", isBadgeActive);
+    Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
 
-      BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badge.get());
-      model.addAttribute("partyTypeCode", badge.get().getParty().getTypeCode());
-      model.addAttribute("badge", viewModel);
-      return TEMPLATE;
-    } else {
-      throw new NotFoundException(new CommonResponse());
-    }
+    Boolean isBadgeActive = "ISSUED".equals(badgeDetails.getStatusCode());
+    model.addAttribute("isBadgeActive", isBadgeActive);
+
+    BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
+    model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
+    model.addAttribute("badge", viewModel);
+    return TEMPLATE;
   }
 }

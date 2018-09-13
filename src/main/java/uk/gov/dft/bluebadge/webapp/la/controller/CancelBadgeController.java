@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
 import javax.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationE
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
+@PreAuthorize("hasAuthority('PERM_CANCEL_BADGE')")
 public class CancelBadgeController {
 
   private static final String URL_CANCEL_BADGE = "/manage-badges/cancel-badge/{badgeNumber}";
@@ -68,7 +70,7 @@ public class CancelBadgeController {
   }
 
   private void populateCancellationReferenceData(Model model) {
-    List<ReferenceData> reasonOptions = referenceDataService.retrieveCancellations();
+    List<ReferenceData> reasonOptions = referenceDataService.retrieveBadgeCancellations();
     model.addAttribute("reasonOptions", reasonOptions);
   }
 

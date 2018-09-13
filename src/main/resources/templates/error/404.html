@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{error404Page.title} + ' ' + #{common.title.suffix}"></title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="dft-content-container">
+        <h1 class="govuk-heading-l" th:text="#{error404Page.title}"></h1>
+
+        <p class="govuk-body" th:text="#{error404Page.p1}"></p>
+
+        <p class="govuk-body" th:text="#{error404Page.p2}"></p>
+    </div>
+
+</main>
+
+</body>
+</html>

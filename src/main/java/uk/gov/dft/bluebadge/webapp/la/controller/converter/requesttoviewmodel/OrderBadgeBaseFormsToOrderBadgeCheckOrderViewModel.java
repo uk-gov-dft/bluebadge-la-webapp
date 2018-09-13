@@ -29,12 +29,13 @@ public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel<
             processing.getBadgeExpiryDateMonth(),
             processing.getBadgeExpiryDateYear());
     String applicationChannelDisplayText =
-        referenceDataService.retrieveApplicationChannelDisplayValue(
+        referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
             processing.getApplicationChannel());
     String deliverToDisplayText =
-        referenceDataService.retrieveDeliverToDisplayValue(processing.getDeliverTo());
+        referenceDataService.retrieveBadgeDeliverToDisplayValue(processing.getDeliverTo());
     String deliveryOptionsDisplayText =
-        referenceDataService.retrieveDeliveryOptionDisplayValue(processing.getDeliveryOptions());
+        referenceDataService.retrieveBadgeDeliveryOptionDisplayValue(
+            processing.getDeliveryOptions());
 
     return builder
         .numberOfBadges(String.valueOf(processing.getNumberOfBadges()))

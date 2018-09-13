@@ -37,7 +37,8 @@ public class UserDetailsTokenService
         Collections.singleton(new SimpleGrantedAuthority(user.getRoleName()));
 
     String localAuthorityDisplayValue =
-        referenceDataService.retrieveLocalAuthorityDisplayValue(user.getLocalAuthorityShortCode());
+        referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
+            user.getLocalAuthorityShortCode());
 
     return UserPrincipal.builder()
         .uuid(user.getUuid())

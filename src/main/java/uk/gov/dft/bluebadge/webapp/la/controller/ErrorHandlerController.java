@@ -7,18 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
 @Controller
-public class ErrorController {
+public class ErrorHandlerController {
 
-  public static final String URL = "/unexpected-error";
+  public static final String ERROR_500_URL = "/something-went-wrong";
+  public static final String ERROR_500_TEMPLATE = "error/500";
 
-  public static final String TEMPLATE = "unexpected-error";
-
-  @GetMapping(URL)
+  @GetMapping(ERROR_500_URL)
   public String show(Model model) {
     Exception ex = (Exception) model.asMap().get("exception");
     model.addAttribute("errorMessage", ex.getClass().getName());
     model.addAttribute("exceptionMessage", ex.getMessage());
     log.debug("exception [()]", ex);
-    return TEMPLATE;
+    return ERROR_500_TEMPLATE;
   }
 }

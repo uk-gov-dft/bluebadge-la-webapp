@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -90,14 +91,6 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see the content \"([^\"]*)\"$")
   public void thenIShouldSeeTheContent(String content) throws Throwable {
     assertThat(sitePage.getPageContent(), containsString(content));
-  }
-
-  @Then("^I should see the \"page not found\" error page$")
-  public void thenIShouldSeeThePageNotFoundErrorPage() throws Throwable {
-    // Ideally we would check the HTTP response code is 404 as well but it's not
-    // currently possible to do this with the Selinium Web Driver.
-    // See https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141
-    thenIShouldSeePageTitled("Page not found");
   }
 
   @Then("^I should (?:also )?see:?$")
@@ -389,25 +382,30 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
   public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
-    String uipath = "sidebar-nav";
-    switch (linkTitle) {
+    String uiPath = navTitleToUiPath(linkTitle);
+    sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  private String navTitleToUiPath(String navTitle) {
+    String uiPath;
+    switch (navTitle) {
       case "Manage users":
-        uipath = "sidebar-nav.manage-users";
+        uiPath = "sidebar-nav.manage-users";
         break;
       case "Order a badge":
-        uipath = "sidebar-nav.order-a-badge";
+        uiPath = "sidebar-nav.order-a-badge";
         break;
       case "Find a badge":
-        uipath = "sidebar-nav.manage-badges";
+        uiPath = "sidebar-nav.manage-badges";
         break;
       case "New applications":
-        uipath = "sidebar-nav.new-applications";
+        uiPath = "sidebar-nav.new-applications";
         break;
       default:
-        uipath = "sidebar-nav";
+        uiPath = "sidebar-nav";
         break;
     }
-    sitePage.findElementWithUiPath(uipath).click();
+    return uiPath;
   }
 
   @When("^I select option \"([^\"]*)\"$")
@@ -467,6 +465,21 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? element with ui path \"([^\"]*)\"$")
+  public void iShouldSeeElementWithUiPath(String visible, String uiPath) throws Throwable {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertThat(
+        elementWithUiPath,
+        "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle)
+      throws Throwable {
+    String uiPath = navTitleToUiPath(navTitle);
+    iShouldSeeElementWithUiPath(visible, uiPath);
   }
 
   @And("^I can see all records$")

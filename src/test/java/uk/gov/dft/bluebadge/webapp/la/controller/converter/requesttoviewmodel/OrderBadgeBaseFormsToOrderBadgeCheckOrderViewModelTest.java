@@ -77,15 +77,17 @@ public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModelTest
             .shortCode(DELIVERY_OPTIONS_SHORTCODE)
             .description(DELIVERY_OPTIONS);
 
-    when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY_SHORTCODE))
+    when(referenceDataServiceMock.retrieveBadgeEligibilityDisplayValue(ELIGIBILITY_SHORTCODE))
         .thenReturn(ELIGIBILITY);
-    when(referenceDataServiceMock.retrieveGenderDisplayValue(GENDER_SHORTCODE)).thenReturn(GENDER);
-    when(referenceDataServiceMock.retrieveApplicationChannelDisplayValue(
+    when(referenceDataServiceMock.retrieveBadgeGenderDisplayValue(GENDER_SHORTCODE))
+        .thenReturn(GENDER);
+    when(referenceDataServiceMock.retrieveBadgeApplicationChannelDisplayValue(
             APPLICATION_CHANNEL_SHORTCODE))
         .thenReturn(APPLICATION_CHANNEL);
-    when(referenceDataServiceMock.retrieveDeliverToDisplayValue(DELIVER_TO_SHORTCODE))
+    when(referenceDataServiceMock.retrieveBadgeDeliverToDisplayValue(DELIVER_TO_SHORTCODE))
         .thenReturn(DELIVER_TO);
-    when(referenceDataServiceMock.retrieveDeliveryOptionDisplayValue(DELIVERY_OPTIONS_SHORTCODE))
+    when(referenceDataServiceMock.retrieveBadgeDeliveryOptionDisplayValue(
+            DELIVERY_OPTIONS_SHORTCODE))
         .thenReturn(DELIVERY_OPTIONS);
   }
 }

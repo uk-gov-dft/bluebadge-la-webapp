@@ -10,7 +10,9 @@ public enum RefDataGroupEnum {
   DELIVERY_OPTIONS("DELOP"),
   GENDER("GENDER"),
   LA("LA"),
-  CANCEL("CANCEL");
+  CANCEL("CANCEL"),
+  WALKING_DIFFICULTIES("WALKDIFF"),
+  WALKING_SPEED("WALKSPEED");
 
   public String getGroupKey() {
     return groupKey;
