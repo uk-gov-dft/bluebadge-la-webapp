@@ -70,6 +70,7 @@
 	&__result {
 		@include govuk-font(16, regular);
 		margin-left: 10px;
+		margin-top: 13px;
 		display: none;
 
 		@include govuk-media-query($from: tablet) {
