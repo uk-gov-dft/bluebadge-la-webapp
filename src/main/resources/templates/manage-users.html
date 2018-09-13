@@ -47,7 +47,11 @@
             </table>
 
             <p th:if="${users == null || users.size() == 0}">
-                There are no results for <strong th:text="${search}"/>.
+                <span th:if="${search}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
+                    <strong th:text="${search}"></strong>
+                </span>
+
+                <span th:unless="${search}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
             </p>
 
         </section>

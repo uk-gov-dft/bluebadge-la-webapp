@@ -14,6 +14,7 @@
 		@include govuk-media-query(tablet) {
 			float: left;
 			width: 135px;
+			margin-top: 2px;
 			margin-right: 5px;
 			margin-bottom: 0;
 		}
@@ -25,7 +26,7 @@
 
 		@include govuk-media-query(tablet) {
 			width: auto;
-			display: inline-block;
+			float: left;
 		}
 	}
 
@@ -35,11 +36,11 @@
 
 	&__input {
 		@include govuk-font(19, regular);
+		@include govuk-focusable;
 		width: 100%;
-		border: 0;
+		border: 2px solid govuk-colour("grey-3");
 		display: block;
 		padding: 9px 32px 6px 15px;
-		outline: 2px solid govuk-colour("grey-3");
 
 		&:focus {
 			outline-width: 2px;
@@ -69,6 +70,7 @@
 	&__result {
 		@include govuk-font(16, regular);
 		margin-left: 10px;
+		margin-top: 13px;
 		display: none;
 
 		@include govuk-media-query($from: tablet) {

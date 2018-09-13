@@ -31,8 +31,8 @@
                         </select>
 
                         <div class="dft-search__field">
-                            <label class="dft-search__label" th:text="#{search.label}"></label>
-                            <input data-uipath="search.field" name="searchTerm" type="text" th:placeholder="#{search.label}"
+                            <label for="searchTerm" class="dft-search__label" th:text="#{search.label}"></label>
+                            <input data-uipath="search.field" id="searchTerm" name="searchTerm" type="text" th:placeholder="#{search.label}"
                                    class="dft-search__input" th:value="${searchTerm}">
                             <button type="submit" data-uipath="search.button" class="dft-search__button">
                                 <span class="govuk-visually-hidden" th:text="'label'"/>
@@ -78,9 +78,14 @@
             </tbody>
         </table>
 
-        <p class="govuk-body" th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
-            <span th:text="#{newapplications.message.noResultsFound}" th:remove="tag"></span>
-            <strong th:text="${searchTerm}"></strong>
+        <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
+
+            <span th:if="${searchTerm}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
+                <strong th:text="${searchTerm}"></strong>
+            </span>
+
+            <span th:unless="${searchTerm}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
+
         </p>
 
     </section>
