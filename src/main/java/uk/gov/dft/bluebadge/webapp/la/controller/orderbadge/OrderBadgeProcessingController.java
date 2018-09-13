@@ -69,17 +69,17 @@ public class OrderBadgeProcessingController {
 
   @ModelAttribute("appSourceOptions")
   public List<ReferenceData> appSourceOptions() {
-    return referenceDataService.retrieveApplicationChannels();
+    return referenceDataService.retrieveBadgeApplicationChannels();
   }
 
   @ModelAttribute("deliverToOptions")
   public List<ReferenceData> deliverToOptions() {
-    return referenceDataService.retrieveDeliverTos();
+    return referenceDataService.retrieveBadgeDeliverTos();
   }
 
   @ModelAttribute("deliveryOptions")
   public List<ReferenceData> deliveryOptions() {
-    return referenceDataService.retrieveDeliveryOptions();
+    return referenceDataService.retrieveBadgeDeliveryOptions();
   }
 
   private String getRedirectUrlCheckOrder(String applicantType) {

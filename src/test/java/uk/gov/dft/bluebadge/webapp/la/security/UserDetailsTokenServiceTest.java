@@ -39,7 +39,8 @@ public class UserDetailsTokenServiceTest {
             .roleName("testRole")
             .build();
     when(mockUserManagementApiClient.currentUserDetails()).thenReturn(user);
-    when(mockReferenceDataService.retrieveLocalAuthorityDisplayValue("ABC")).thenReturn("LA Name");
+    when(mockReferenceDataService.retrieveBadgeLocalAuthorityDisplayValue("ABC"))
+        .thenReturn("LA Name");
 
     UserPrincipal userPrincipal = userDetailsTokenService.loadUserByUsername("bob@bob.com");
 

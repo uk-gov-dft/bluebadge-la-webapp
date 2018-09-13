@@ -51,8 +51,9 @@ public class BadgeSummaryToFindBadgeSearchResultViewModelTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    when(referenceDataServiceMock.retrieveStatusDisplayValue(STATUS)).thenReturn(STATUS_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
+    when(referenceDataServiceMock.retrieveBadgeStatusDisplayValue(STATUS))
+        .thenReturn(STATUS_VIEW_MODEL);
+    when(referenceDataServiceMock.retrieveBadgeLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
         .thenReturn(LOCAL_AUTHORITY_VIEW_MODEL);
     converter = new BadgeSummaryToFindBadgeSearchResultViewModel(referenceDataServiceMock);
   }

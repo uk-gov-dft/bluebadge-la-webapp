@@ -23,18 +23,18 @@ public class BadgeDetailsSiteSteps {
   @Given("^I have ordered a badge and found it and it is listed in badge search results page$")
   public void IHaveOrderedABadgeAndFoundItAndItIsListedInBadgeSearchResultsPage() {}
 
-  @Given("^I click on the badge number of the first result$")
+  @Given("^I click on the first badge of the table$")
   public void iClickOnTheBadgeNumberOfTheFirstResult() {
-    WebElement badgeDetailsLink =
+    WebElement itemLink =
         sitePage
             .findElementWithUiPath("table.body")
             .findElement(By.cssSelector("tr.govuk-table__row td.govuk-table__cell:first-child a"));
-    String href = badgeDetailsLink.getAttribute("href");
+    String href = itemLink.getAttribute("href");
     String[] linkParts = href.split("/");
     String badgeNumber = linkParts[linkParts.length - 1];
     scenarioContext.setContext("badgeNumber", badgeNumber);
     log.debug("save to scenario context badgeNumber", badgeNumber);
-    badgeDetailsLink.click();
+    itemLink.click();
   }
 
   @And("^I should see the page title for Badge Details for that particular badge number$")

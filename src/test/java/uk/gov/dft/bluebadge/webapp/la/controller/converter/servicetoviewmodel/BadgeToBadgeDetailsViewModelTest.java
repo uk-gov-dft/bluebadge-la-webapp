@@ -115,15 +115,18 @@ public class BadgeToBadgeDetailsViewModelTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    when(referenceDataServiceMock.retrieveApplicationChannelDisplayValue(APPLICATION_CHANNEL))
+    when(referenceDataServiceMock.retrieveBadgeApplicationChannelDisplayValue(APPLICATION_CHANNEL))
         .thenReturn(APPLICATION_CHANNEL_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveEligibilityDisplayValue(ELIGIBILITY))
+    when(referenceDataServiceMock.retrieveBadgeEligibilityDisplayValue(ELIGIBILITY))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveGenderDisplayValue(GENDER)).thenReturn(GENDER_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
+    when(referenceDataServiceMock.retrieveBadgeGenderDisplayValue(GENDER))
+        .thenReturn(GENDER_VIEW_MODEL);
+    when(referenceDataServiceMock.retrieveBadgeLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
         .thenReturn(LOCAL_AUTHORITY_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveStatusDisplayValue(STATUS)).thenReturn(STATUS_VIEW_MODEL);
-    converter = new BadgeToBadgeDetailsViewModel(referenceDataServiceMock);
+    when(referenceDataServiceMock.retrieveBadgeStatusDisplayValue(STATUS))
+        .thenReturn(STATUS_VIEW_MODEL);
+    converter =
+        new BadgeToBadgeDetailsViewModel(referenceDataServiceMock, new PartyToAddressViewModel());
   }
 
   @Test

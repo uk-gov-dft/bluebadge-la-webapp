@@ -50,7 +50,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
     mockMvc
         .perform(get("/new-applications"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications"))
+        .andExpect(view().name("new-applications/index"))
         .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
   }
 
@@ -63,7 +63,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
     mockMvc
         .perform(get("/new-applications?searchBy=name&searchTerm=anyone"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications"))
+        .andExpect(view().name("new-applications/index"))
         .andExpect(model().attribute("applications", Collections.emptyList()));
   }
 
@@ -83,7 +83,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
     mockMvc
         .perform(get("/new-applications?searchBy=name&searchTerm=john"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications"))
+        .andExpect(view().name("new-applications/index"))
         .andExpect(model().attribute("applications", applicationsForSearchByNameView));
   }
 }

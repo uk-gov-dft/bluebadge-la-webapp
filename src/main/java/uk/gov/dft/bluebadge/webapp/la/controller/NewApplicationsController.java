@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
@@ -20,7 +20,7 @@ public class NewApplicationsController {
 
   public static final String URL = "/new-applications";
 
-  public static final String TEMPLATE = "new-applications";
+  public static final String TEMPLATE = "new-applications/index";
 
   private ApplicationService applicationService;
   private ApplicationSummaryToApplicationViewModel converterToViewModel;
@@ -39,11 +39,9 @@ public class NewApplicationsController {
       @RequestParam("searchTerm") Optional<String> searchTerm,
       Model model) {
 
-    List<ApplicationSummary> applications;
-
     saveParams(searchBy, searchTerm, model);
 
-    applications =
+    List<ApplicationSummary> applications =
         searchTerm
             .map(
                 term -> {
@@ -58,19 +56,19 @@ public class NewApplicationsController {
                 })
             .orElse(applicationService.findAllNew());
 
-    List<ApplicationViewModel> applicationsViewModel =
+    List<ApplicationSummaryViewModel> applicationsView =
         applications
             .stream()
             .map(app -> converterToViewModel.convert(app))
             .collect(Collectors.toList());
 
-    model.addAttribute("applications", applicationsViewModel);
+    model.addAttribute("applications", applicationsView);
     // it's wrong thing to do, but for the sake of speeding delivery time we're going to call
     // service twice to get amount of 'new' applications without filters applied
     // TODO: should be revisited to proper solution
     model.addAttribute("applicationCount", applicationService.findAllNew().size());
     if (searchTerm.isPresent() && !searchTerm.get().isEmpty()) {
-      model.addAttribute("filteredApplicationCount", applicationsViewModel.size());
+      model.addAttribute("filteredApplicationCount", applicationsView.size());
     }
 
     return TEMPLATE;
