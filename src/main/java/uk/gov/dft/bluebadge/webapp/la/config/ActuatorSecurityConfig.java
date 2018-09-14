@@ -14,6 +14,9 @@ public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
     http.requestMatcher(EndpointRequest.toAnyEndpoint())
         .authorizeRequests()
         .anyRequest()
-        .permitAll();
+        .permitAll()
+        .and()
+        .csrf()
+        .disable();
   }
 }
