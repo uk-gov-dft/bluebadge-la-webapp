@@ -73,6 +73,10 @@
 			border: 2px solid $govuk-border-colour;
 		}
 
+		.govuk-list {
+			margin-bottom: 0;
+		}
+
 		@include govuk-media-query($from: tablet) {
 			padding: govuk-em(12, 19) govuk-em(20, 19) govuk-em(9, 19) 0;
 		}

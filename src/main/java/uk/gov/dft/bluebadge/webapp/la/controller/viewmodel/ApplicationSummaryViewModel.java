@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ApplicationViewModel {
+public class ApplicationSummaryViewModel {
+  private String applicationId;
   private String name;
   private String nino;
   private String eligibility;

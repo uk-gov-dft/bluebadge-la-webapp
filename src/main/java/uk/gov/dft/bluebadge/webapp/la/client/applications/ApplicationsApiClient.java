@@ -11,6 +11,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
@@ -67,6 +69,18 @@ public class ApplicationsApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
 
+    return response.getData();
+  }
+
+  public Application retrieve(String applicationId) {
+    Assert.notNull(applicationId, "applicationId supplied must be not null");
+
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT, applicationId);
+
+    log.debug("retrieveApplication {}", applicationId);
+    ApplicationResponse response =
+        restTemplate.getForObject(builder.toUriString(), ApplicationResponse.class);
     return response.getData();
   }
 }

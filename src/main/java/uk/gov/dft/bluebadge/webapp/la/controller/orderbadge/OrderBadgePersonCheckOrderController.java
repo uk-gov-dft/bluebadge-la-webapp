@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
-import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +38,7 @@ public class OrderBadgePersonCheckOrderController
   }
 
   @PostMapping(URL)
-  public String submitCheckOrderPerson(HttpSession session, RedirectAttributes redirectAttributes)
-      throws IOException {
+  public String submitCheckOrderPerson(HttpSession session, RedirectAttributes redirectAttributes) {
     OrderBadgePersonDetailsFormRequest detailsForm =
         (OrderBadgePersonDetailsFormRequest)
             session.getAttribute(OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST);

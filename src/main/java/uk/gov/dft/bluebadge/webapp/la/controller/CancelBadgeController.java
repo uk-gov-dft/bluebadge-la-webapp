@@ -70,7 +70,7 @@ public class CancelBadgeController {
   }
 
   private void populateCancellationReferenceData(Model model) {
-    List<ReferenceData> reasonOptions = referenceDataService.retrieveCancellations();
+    List<ReferenceData> reasonOptions = referenceDataService.retrieveBadgeCancellations();
     model.addAttribute("reasonOptions", reasonOptions);
   }
 

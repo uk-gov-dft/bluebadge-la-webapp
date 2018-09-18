@@ -26,10 +26,10 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
     Assert.notNull(source, "Source cannot be null");
 
     String localAuthorityDisplayText =
-        referenceDataService.retrieveLocalAuthorityDisplayValue(
+        referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
     String statusDisplayText =
-        referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
+        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
 
     return FindBadgeSearchResultViewModel.builder()
         .badgeNumber(source.getBadgeNumber())

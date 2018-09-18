@@ -93,8 +93,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     rdGender2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
     referenceDataGenderList = Lists.newArrayList(rdGender1, rdGender2);
 
-    when(referenceDataServiceMock.retrieveEligilities()).thenReturn(referenceDataEligibilityList);
-    when(referenceDataServiceMock.retrieveGenders()).thenReturn(referenceDataGenderList);
+    when(referenceDataServiceMock.retrieveBadgeEligilities())
+        .thenReturn(referenceDataEligibilityList);
+    when(referenceDataServiceMock.retrieveBadgeGenders()).thenReturn(referenceDataGenderList);
 
     // Expected Result Shape
     TreeMap<String, List<ReferenceData>> eligibilityMap = new TreeMap<>();
