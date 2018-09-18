@@ -10,9 +10,11 @@ Feature: Dft BlueBadge LA New applications find by name
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "New applications" link on left navigation
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
-    And I can see all records  
-   
+    And I can see all records
+
     When I select option "name" from dropdown "searchFilter.dropdown"
     And I type the search term "john" in the field "search.field"
     And I can click "search.button" button
@@ -24,12 +26,13 @@ Feature: Dft BlueBadge LA New applications find by name
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "New applications" link on left navigation
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
-    And I can see all records  
-   
+    And I can see all records
+
     When I select option "name" from dropdown "searchFilter.dropdown"
     And I type the search term "notinthelist" in the field "search.field"
     And I can click "search.button" button
     Then I see no records returned for the search term "notinthelist"
     And Search filter "searchFilter.dropdown" has value "Name" and search field "search.field" has value "notinthelist"
-    

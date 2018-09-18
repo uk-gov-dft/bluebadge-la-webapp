@@ -9,8 +9,9 @@ import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+
   @Bean
   public SecurityUtils securityUtils() {
-    return new SecurityUtils(accessDecisionManager());
+    return new SecurityUtils();
   }
 }

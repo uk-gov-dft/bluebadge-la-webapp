@@ -5,7 +5,7 @@ VALUES(-1000, 'aberd dft admin user', 'aberddftadmin@dft.gov.uk', 'ABERD', 1, '$
 'd5e2f9c5-74e8-4445-bc5d-f75a6b3413ea'::UUID);
 
 INSERT INTO usermanagement.users (id, name, email_address, local_authority_short_code, role_id, password, user_uuid)
-VALUES(-1001, 'aberd la admin user', 'aberdlaadminuser@dft.gov.uk', 'ABERD', 2, '$2a$11$l8Y6fw6mOmj39naJfQtgvu1KITnSBDURsP7kCHWsJXthM.atfzNWC',
+VALUES(-1001, 'aberd la admin user', 'aberdlaadmin@dft.gov.uk', 'ABERD', 2, '$2a$11$l8Y6fw6mOmj39naJfQtgvu1KITnSBDURsP7kCHWsJXthM.atfzNWC',
 'd5e2f9c5-74e8-4445-bc5d-f75a6b3413eb'::UUID);
 
 INSERT INTO usermanagement.users (id, name, email_address, local_authority_short_code, role_id, password, user_uuid)
