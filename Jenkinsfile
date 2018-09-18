@@ -3,10 +3,6 @@ def REPONAME = "${scm.getUserRemoteConfigs()[0].getUrl()}"
 
 node {
 
-    stage('clean workspace') {
-        cleanWs()
-    }
-
     stage('Clone sources') {
       git(
            url: "${REPONAME}",
@@ -24,7 +20,7 @@ node {
         try {
             sh 'echo $(whoami)'
             sh 'bash -c "source /etc/profile && (npm list gulp -g || npm install -g gulp) && npm install && npm run prod"'
-            sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy --refresh-dependencies'
+            sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
         }
         finally {
             junit '**/TEST*.xml'
