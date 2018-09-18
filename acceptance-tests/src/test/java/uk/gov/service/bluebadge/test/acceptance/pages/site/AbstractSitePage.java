@@ -38,6 +38,7 @@ public abstract class AbstractSitePage extends AbstractPage {
 
   public void openByPageNameUnmapped(final String pageName) {
     String lookupUrl = TestContentUrls.lookupUrlUnmapped(pageName);
+    System.err.println("--------------lookupUrl: " + lookupUrl);
     getWebDriver().get(lookupUrl);
   }
 

@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
-import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.security.BlueBadgeUserAuthenticationConverter;
 import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 
@@ -26,7 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-  private static final String LANDING_PAGE_URL = "/new-applications";
+  private static final String LANDING_PAGE_URL = "/";
 
   @Value("${blue-badge.auth-server.url}")
   private String authServerUrl;
@@ -68,8 +67,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
+        .antMatchers("/new-applications", "/new-applications/**")
+        .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
+        .antMatchers("/order-a-badge", "/order-a-badge")
+        .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())
+        .antMatchers("/manage-badges", "/manage-badges/**")
+        .hasAuthority(Permissions.FIND_BADGES.getPermissionName())
         .antMatchers("/manage-users", "/manage-users/**")
-        .hasAuthority(Permissions.VIEW_USER_DETAILS.getPermissionName())
+        .hasAuthority(Permissions.FIND_USERS.getPermissionName())
         .anyRequest()
         .fullyAuthenticated()
         .and()
@@ -111,10 +116,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public UserDetailsTokenService userDetailsTokenService() {
     return new UserDetailsTokenService();
-  }
-
-  @Bean
-  public SecurityUtils securityUtils() {
-    return new SecurityUtils();
   }
 }
