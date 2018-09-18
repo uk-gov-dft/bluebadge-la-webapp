@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.security.BlueBadgeUserAuthenticationConverter;
 import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 
@@ -116,5 +117,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public UserDetailsTokenService userDetailsTokenService() {
     return new UserDetailsTokenService();
+  }
+
+  @Bean
+  public SecurityUtils securityUtils() {
+    return new SecurityUtils();
   }
 }
