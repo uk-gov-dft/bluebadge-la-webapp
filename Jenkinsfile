@@ -24,7 +24,7 @@ node {
         try {
             sh 'echo $(whoami)'
             sh 'bash -c "source /etc/profile && (npm list gulp -g || npm install -g gulp) && npm install && npm run prod"'
-            sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
+            sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy --refresh-dependencies'
         }
         finally {
             junit '**/TEST*.xml'
