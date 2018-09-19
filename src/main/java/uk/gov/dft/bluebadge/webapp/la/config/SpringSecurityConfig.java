@@ -70,7 +70,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/new-applications", "/new-applications/**")
         .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
-        .antMatchers("/order-a-badge", "/order-a-badge")
+        .antMatchers("/order-a-badge", "/order-a-badge/**")
         .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())
         .antMatchers("/manage-badges", "/manage-badges/**")
         .hasAuthority(Permissions.FIND_BADGES.getPermissionName())

@@ -19,12 +19,18 @@ public class HomeController {
 
   @GetMapping(URL)
   public String show() {
+
+    // default action
     if (securityUtils.isPermitted(Permissions.FIND_USERS)) {
       return "redirect:" + ManageUsersController.URL_MANAGE_USERS;
-    } else if (securityUtils.isPermitted(Permissions.FIND_APPLICATION)) {
-      return "redirect:" + NewApplicationsController.URL;
-    } else {
-      return "redirect:" + FindBadgeController.URL_FIND_BADGE;
     }
+
+    // plan b
+    if (securityUtils.isPermitted(Permissions.FIND_APPLICATION)) {
+      return "redirect:" + NewApplicationsController.URL;
+    }
+
+    // have neither of the above permissions
+    return "redirect:" + FindBadgeController.URL_FIND_BADGE;
   }
 }
