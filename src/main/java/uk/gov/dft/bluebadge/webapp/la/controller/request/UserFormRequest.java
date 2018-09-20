@@ -7,5 +7,6 @@ public class UserFormRequest {
   private String localAuthorityShortCode;
   private String emailAddress;
   private String name;
+  // @NotBlank(message = "{NotNull.badge.applicantType}")
   private String roleName;
 }
