@@ -10,6 +10,8 @@ Feature: Dft BlueBadge LA New applications - view application details
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "New applications" link on left navigation
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     When I click on application with name "John The First"
     Then I should see the page titled "New application John The First - GOV.UK Manage Blue Badges"
