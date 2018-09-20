@@ -10,15 +10,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.google.common.collect.Lists;
-
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
@@ -60,8 +58,7 @@ public class CreateUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateUserController(
-            userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
+        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

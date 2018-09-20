@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
@@ -17,7 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.service.UserService; 
+import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 @Slf4j
 @Controller
@@ -36,9 +35,7 @@ public class CreateUserController {
 
   @Autowired
   public CreateUserController(
-      UserService userService,
-      UserFormRequestToUser userConverter,
-      SecurityUtils securityUtils) {
+      UserService userService, UserFormRequestToUser userConverter, SecurityUtils securityUtils) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.securityUtils = securityUtils;
@@ -62,12 +59,11 @@ public class CreateUserController {
       user.setRoleId(Role.findForPrettyName(formRequest.getRoleName()).getRoleId());
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);
-      
+
       return REDIRECT_URL_MANAGE_USERS;
     } catch (BadRequestException e) {
       ErrorHandlingUtils.bindBadRequestException(e, bindingResult, model);
       return TEMPLATE_CREATE_A_NEW_USER;
     }
   }
-  
 }
