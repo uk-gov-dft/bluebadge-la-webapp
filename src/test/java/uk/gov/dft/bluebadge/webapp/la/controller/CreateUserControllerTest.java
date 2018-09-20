@@ -10,13 +10,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.google.common.collect.Lists;
+
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
@@ -26,10 +28,10 @@ import uk.gov.dft.bluebadge.common.util.TestBBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-public class CreateANewUserControllerTest {
+public class CreateUserControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
@@ -45,7 +47,7 @@ public class CreateANewUserControllerTest {
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
 
-  private CreateANewUserController controller;
+  private CreateUserController controller;
 
   // Test Data
   private BBPrincipal userDataSignedIn;
@@ -58,8 +60,8 @@ public class CreateANewUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateANewUserController(
-            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtilsMock);
+        new CreateUserController(
+            userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

@@ -27,8 +27,8 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
 public class UserDetailsControllerTest extends BaseControllerTest {
@@ -67,7 +67,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
 
     UserDetailsController controller =
-        new UserDetailsController(userServiceMock, new UserDetailsFormRequestToUser());
+        new UserDetailsController(userServiceMock, new UserFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -98,8 +98,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .build();
   }
 
-  private UserDetailsFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
-    UserDetailsFormRequest userDetailsFormRequest = new UserDetailsFormRequest();
+  private UserFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
+    UserFormRequest userDetailsFormRequest = new UserFormRequest();
     userDetailsFormRequest.setEmailAddress(emailAddress);
     userDetailsFormRequest.setName(name);
     return userDetailsFormRequest;
@@ -110,7 +110,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(user);
-    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
+    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     mockMvc
         .perform(get(URL_USER_DETAILS + USER_ID).sessionAttr("user", userSignedIn))
@@ -125,8 +125,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    UserDetailsFormRequest formRequest =
-        getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
+    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
     mockMvc
         .perform(
             post(URL_USER_DETAILS + USER_ID)
@@ -169,7 +168,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
 
     when(userServiceMock.update(any())).thenThrow(new BadRequestException(userResponseUpdate));
 
-    UserDetailsFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
+    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
 
     mockMvc
         .perform(

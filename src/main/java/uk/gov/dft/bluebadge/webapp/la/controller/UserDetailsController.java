@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserDetailsFormRequestToUser;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.UserDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
@@ -34,32 +35,36 @@ public class UserDetailsController {
       "/manage-users/request***REMOVED***-reset/{uuid}";
   private UserService userService;
 
-  private UserDetailsFormRequestToUser userDetailsFormRequestToUser;
+  private UserFormRequestToUser userConverter;
 
   @Autowired
-  public UserDetailsController(
-      UserService userService, UserDetailsFormRequestToUser userDetailsFormRequestToUser) {
+  public UserDetailsController(UserService userService, UserFormRequestToUser userConverter) {
     this.userService = userService;
-    this.userDetailsFormRequestToUser = userDetailsFormRequestToUser;
+    this.userConverter = userConverter;
   }
 
   @GetMapping(URL_USER_DETAILS)
   public String showUserDetails(
       @PathVariable(PARAM_ID) UUID uuid,
-      @ModelAttribute(MODEL_FORM_REQUEST) final UserDetailsFormRequest formRequest,
+      @ModelAttribute(MODEL_FORM_REQUEST) final UserFormRequest formRequest,
       Model model) {
     User user = userService.retrieve(uuid);
+    populateForm(formRequest, user);
+    model.addAttribute(MODEL_ID, uuid);
+
+    return TEMPLATE_USER_DETAILS;
+  }
+
+  private void populateForm(final UserFormRequest formRequest, User user) {
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
-    model.addAttribute(MODEL_ID, uuid);
-    return TEMPLATE_USER_DETAILS;
   }
 
   @PostMapping(URL_USER_DETAILS)
   public String updateUserDetails(
       @PathVariable(PARAM_ID) UUID uuid,
-      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
     try {
@@ -75,7 +80,7 @@ public class UserDetailsController {
   @DeleteMapping(URL_USER_DETAILS)
   public String deleteUser(
       @PathVariable(PARAM_ID) UUID uuid,
-      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserFormRequest formRequest,
       Model model) {
     try {
       userService.delete(uuid);
@@ -90,18 +95,19 @@ public class UserDetailsController {
     }
   }
 
-  private User combine(final UserDetailsFormRequest formRequest, final User userData) {
-    User user = userDetailsFormRequestToUser.convert(formRequest);
+  private User combine(final UserFormRequest formRequest, final User userData) {
+    User user = userConverter.convert(formRequest);
     user.setUuid(userData.getUuid());
     user.setLocalAuthorityShortCode(userData.getLocalAuthorityShortCode());
-    user.setRoleId(userData.getRoleId());
+    user.setRoleId(Role.findForPrettyName(formRequest.getRoleName()).getRoleId());
+
     return user;
   }
 
   @PostMapping(URL_REQUEST_RESET_EMAIL)
   public String requestPasswordReset(
       @PathVariable(PARAM_ID) UUID uuid,
-      @ModelAttribute(MODEL_FORM_REQUEST) UserDetailsFormRequest formRequest,
+      @ModelAttribute(MODEL_FORM_REQUEST) UserFormRequest formRequest,
       Model model) {
 
     userService.requestPasswordReset(uuid);
