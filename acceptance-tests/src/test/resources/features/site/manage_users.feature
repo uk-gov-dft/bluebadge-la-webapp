@@ -10,7 +10,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     When I can click on the "Create a new user" button
@@ -24,7 +24,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     When I type " " for "name" field
@@ -37,7 +37,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
@@ -50,7 +50,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
@@ -67,7 +67,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I click on the first name link from users table
     Then I should see the title "User details"
@@ -79,7 +79,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
@@ -97,7 +97,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button
@@ -114,7 +114,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
     And I enter full name and email address and clicks on create a new user button

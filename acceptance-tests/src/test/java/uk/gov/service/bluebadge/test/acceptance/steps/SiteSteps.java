@@ -552,4 +552,16 @@ public class SiteSteps extends AbstractSpringSteps {
     DbUtils db = new DbUtils(settings());
     db.runScript("scripts/delete_applications.sql");
   }
+
+  @Before("@UsersRolesAndPermissionsScripts")
+  public void executeInsertUsersDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/create_users.sql");
+  }
+
+  @After("@UsersRolesAndPermissionsScripts")
+  public void executeDeleteUsersDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/delete_users.sql");
+  }
 }
