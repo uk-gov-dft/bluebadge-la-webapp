@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
@@ -48,9 +51,14 @@ public class CreateUserController {
 
   @PostMapping(URL_CREATE_A_NEW_USER)
   public String submit(
-      @ModelAttribute("formRequest") UserFormRequest formRequest,
+      @Valid @ModelAttribute("formRequest") UserFormRequest formRequest,
       BindingResult bindingResult,
       Model model) {
+	  
+	if (bindingResult.hasErrors()) {
+	   return TEMPLATE_CREATE_A_NEW_USER;
+	}
+  
     try {
       log.debug("Creating new user");
       BBPrincipal signedInUser = securityUtils.getCurrentAuth();
