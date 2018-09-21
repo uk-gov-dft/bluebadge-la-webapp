@@ -14,11 +14,12 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
+import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.security.BlueBadgeUserAuthenticationConverter;
 import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 
 @Configuration
@@ -67,6 +68,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
+        .antMatchers("/manage-users", "/manage-users/**")
+        .hasAuthority(Permissions.VIEW_USER_DETAILS.getPermissionName())
         .anyRequest()
         .fullyAuthenticated()
         .and()
@@ -99,9 +102,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public BBAccessTokenConverter accessTokenConverter() {
     BBAccessTokenConverter converter = new BBAccessTokenConverter();
-    DefaultUserAuthenticationConverter userTokenConverter =
-        new DefaultUserAuthenticationConverter();
-    userTokenConverter.setUserDetailsService(userDetailsTokenService());
+    BlueBadgeUserAuthenticationConverter userTokenConverter =
+        new BlueBadgeUserAuthenticationConverter(userDetailsTokenService());
     converter.setUserTokenConverter(userTokenConverter);
     return converter;
   }

@@ -35,8 +35,9 @@ public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel
       OrderBadgeCheckOrderViewModel.OrderBadgeCheckOrderViewModelBuilder builder,
       OrderBadgePersonDetailsFormRequest details) {
     String eligibilityDisplayText =
-        referenceDataService.retrieveEligibilityDisplayValue(details.getEligibility());
-    String genderDisplayText = referenceDataService.retrieveGenderDisplayValue(details.getGender());
+        referenceDataService.retrieveBadgeEligibilityDisplayValue(details.getEligibility());
+    String genderDisplayText =
+        referenceDataService.retrieveBadgeGenderDisplayValue(details.getGender());
 
     return builder
         .fullName(details.getName())

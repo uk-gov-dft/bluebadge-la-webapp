@@ -12,9 +12,13 @@ Feature: Dft BlueBadge LA Sign In Page
     And I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
-    And I should see LA name as "Aberdeenshire Council"
+    And I should see LA name as "Aberdeenshire council"
     And I should see username as "Bruce Wayne"
     And I should see signout link
+    And I should see the left navigation menu item "New applications"
+    And I should see the left navigation menu item "Order a badge"
+    And I should see the left navigation menu item "Find a badge"
+    And I should see the left navigation menu item "Manage users"
 
   Scenario: Verify Sign in with an invalid email address
     Given I navigate to the "home" page

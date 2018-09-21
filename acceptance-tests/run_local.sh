@@ -1,2 +1,2 @@
 #!/bin/bash
-gradle acceptanceTest -PbuildProfile=local -Dheadless=false
+gradle acceptanceTests -Dheadless=false -DbaseUrl=http://localhost:8080

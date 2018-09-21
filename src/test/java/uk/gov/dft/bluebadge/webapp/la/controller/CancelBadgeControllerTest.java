@@ -60,7 +60,7 @@ public class CancelBadgeControllerTest {
     ReferenceData refData3 = new ReferenceData();
     List<ReferenceData> reasonOptions = Lists.newArrayList(refData1, refData2, refData3);
 
-    when(referenceDataServiceMock.retrieveCancellations()).thenReturn(reasonOptions);
+    when(referenceDataServiceMock.retrieveBadgeCancellations()).thenReturn(reasonOptions);
 
     mockMvc
         .perform(get(URL_CANCEL_BADGE))

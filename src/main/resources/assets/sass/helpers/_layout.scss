@@ -65,6 +65,10 @@ body {
 .dft-content-container {
 	width: 100%;
 
+	&--padding {
+		padding: 0 30px;
+	}
+
 	@include govuk-media-query($from: wide) {
 		width: 75%;
 	}

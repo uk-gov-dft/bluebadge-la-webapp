@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,12 +15,20 @@ import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -28,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
 import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
@@ -83,14 +93,6 @@ public class SiteSteps extends AbstractSpringSteps {
     assertThat(sitePage.getPageContent(), containsString(content));
   }
 
-  @Then("^I should see the \"page not found\" error page$")
-  public void thenIShouldSeeThePageNotFoundErrorPage() throws Throwable {
-    // Ideally we would check the HTTP response code is 404 as well but it's not
-    // currently possible to do this with the Selinium Web Driver.
-    // See https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141
-    thenIShouldSeePageTitled("Page not found");
-  }
-
   @Then("^I should (?:also )?see:?$")
   public void thenIShouldAlsoSee(final DataTable pageSections) throws Throwable {
     String elementName = null;
@@ -141,6 +143,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I wait (\\d+)s$")
+  @SuppressWarnings("squid:S2925") // Suppress thread.sleep warning
   public void thenIWait(int sec) throws InterruptedException {
     Thread.sleep(sec * 1000);
   }
@@ -379,25 +382,30 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
   public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
-    String uipath = "sidebar-nav";
-    switch (linkTitle) {
+    String uiPath = navTitleToUiPath(linkTitle);
+    sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  private String navTitleToUiPath(String navTitle) {
+    String uiPath;
+    switch (navTitle) {
       case "Manage users":
-        uipath = "sidebar-nav.manage-users";
+        uiPath = "sidebar-nav.manage-users";
         break;
       case "Order a badge":
-        uipath = "sidebar-nav.order-a-badge";
+        uiPath = "sidebar-nav.order-a-badge";
         break;
       case "Find a badge":
-        uipath = "sidebar-nav.manage-badges";
+        uiPath = "sidebar-nav.manage-badges";
         break;
       case "New applications":
-        uipath = "sidebar-nav.new-applications";
+        uiPath = "sidebar-nav.new-applications";
         break;
       default:
-        uipath = "sidebar-nav";
+        uiPath = "sidebar-nav";
         break;
     }
-    sitePage.findElementWithUiPath(uipath).click();
+    return uiPath;
   }
 
   @When("^I select option \"([^\"]*)\"$")
@@ -405,8 +413,143 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithUiPath(arg0).click();
   }
 
+  @When("^I select option \"([^\"]*)\" from dropdown \"([^\"]*)\"$")
+  public void iSelectSingleOptionFromDropdown(String optionName, String dropdownName) {
+    WebElement dropElement = sitePage.findElementWithUiPath(dropdownName);
+    Select dropdown = new Select(dropElement);
+    dropdown.selectByValue(optionName);
+  }
+
+  @And("^I type the search term \"([^\"]*)\" in the field \"([^\"]*)\"$")
+  public void iTypeSearchTermInTheField(String searchTerm, String uipath) {
+    sitePage.findElementWithUiPath(uipath).sendKeys(searchTerm);
+  }
+
+  @Then("^I should see only results containing search term \"([^\"]*)\"$")
+  public void iShouldSeeOnlyResultsContainingSearchTerm(String searchTerm) {
+
+    assertTrue(sitePage.getPageContent().contains(searchTerm));
+
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    for (WebElement record : records) {
+      assertTrue(record.getText().toLowerCase().contains(searchTerm.toLowerCase()));
+    }
+
+    WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+  }
+
+  @Then("^I should see only results where postcode \"([^\"]*)\"$")
+  public void iShouldSeeOnlyResultsWithPostcode(String postcode) {
+
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    List<String> displayedRecordsNames =
+        records
+            .stream()
+            .map(r -> r.findElement(By.tagName("a")).getText())
+            .collect(Collectors.toList());
+
+    List<String> namesWithPostcode = Arrays.asList("John The First", "Alex Johnson");
+    for (String record : displayedRecordsNames) {
+      assertTrue(namesWithPostcode.contains(record));
+    }
+
+    WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+  }
+
   @And("^I can click \"([^\"]*)\" button$")
   public void iCanClickButton(String uiPath) throws Throwable {
     sitePage.findElementWithUiPath(uiPath).click();
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? element with ui path \"([^\"]*)\"$")
+  public void iShouldSeeElementWithUiPath(String visible, String uiPath) throws Throwable {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertThat(
+        elementWithUiPath,
+        "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+  }
+
+  @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle)
+      throws Throwable {
+    String uiPath = navTitleToUiPath(navTitle);
+    iShouldSeeElementWithUiPath(visible, uiPath);
+  }
+
+  @And("^I can see all records$")
+  public void iCanSeeNotFilteredRecords() {
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    List<String> allRecordsNames =
+        Arrays.asList("John The First", "Alex Johnson", "David Littlejohnson", "Freddie Kruger");
+    assertFalse(records.size() < allRecordsNames.size());
+
+    List<String> displayedRecordsNames =
+        records
+            .stream()
+            .map(r -> r.findElement(By.tagName("a")).getText())
+            .collect(Collectors.toList());
+
+    assertTrue(displayedRecordsNames.containsAll(allRecordsNames));
+
+    WebElement displayCount =
+        sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
+    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
+  }
+
+  @And(
+      "^Search filter \"([^\"]*)\" has value \"([^\"]*)\" and search field \"([^\"]*)\" has value \"([^\"]*)\"$")
+  public void serachFilterAndSearchFieldCorrectlyPopulated(
+      String searchFilter, String filterValue, String searchField, String fieldValue) {
+    WebElement dropElement = sitePage.findElementWithUiPath(searchFilter);
+    Select dropdown = new Select(dropElement);
+    assertEquals(filterValue, dropdown.getFirstSelectedOption().getText());
+
+    WebElement fieldElement = sitePage.findElementWithUiPath(searchField);
+    assertEquals(fieldValue, fieldElement.getAttribute("value"));
+  }
+
+  @Then("^I see no records returned for the search term \"([^\"]*)\"$")
+  public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
+    assertTrue(
+        sitePage
+            .findElementWithUiPath("search.term")
+            .getText()
+            .contains("There are no results for " + searchTerm));
+
+    WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertTrue(displayCount.getText().equals("0 Results:"));
+  }
+
+  //hooks
+  private Map<String, Object> settings() {
+    Map<String, Object> settings = new HashMap<>();
+
+    settings.put("username", "developer");
+    settings.put(" ***REMOVED***);
+    settings.put(
+        "url", "jdbc:postgresql://localhost:5432/bb_dev?currentSchema=applicationmanagement");
+    settings.put("driverClassName", "org.postgresql.Driver");
+
+    return settings;
+  }
+
+  @Before("@NewApplicationScripts")
+  public void executeInsertApplicationsDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/create_applications.sql");
+  }
+
+  @After("@NewApplicationScripts")
+  public void executeDeleteApplicationsDBScript() throws SQLException {
+    DbUtils db = new DbUtils(settings());
+    db.runScript("scripts/delete_applications.sql");
   }
 }

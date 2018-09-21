@@ -18,31 +18,34 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetailsViewModel> {
 
   private ReferenceDataService referenceDataService;
+  private PartyToAddressViewModel partyToAddressViewModel;
 
   @Autowired
-  public BadgeToBadgeDetailsViewModel(ReferenceDataService referenceDataService) {
+  public BadgeToBadgeDetailsViewModel(
+      ReferenceDataService referenceDataService, PartyToAddressViewModel partyToAddressViewModel) {
     this.referenceDataService = referenceDataService;
+    this.partyToAddressViewModel = partyToAddressViewModel;
   }
 
   @Override
   public BadgeDetailsViewModel convert(Badge source) {
     Assert.notNull(source, "Source cannot be null");
 
-    String address = toAddress(source);
+    String address = partyToAddressViewModel.convert(source.getParty().getContact());
     String applicationDate = source.getApplicationDate().format(viewModelDateFormatter);
     String expiryDate = source.getExpiryDate().format(viewModelDateFormatter);
     String startDate = source.getStartDate().format(viewModelDateFormatter);
 
     String applicationChannelDisplayText =
-        referenceDataService.retrieveApplicationChannelDisplayValue(
+        referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
             source.getApplicationChannelCode());
     String eligibilityDisplayText =
-        referenceDataService.retrieveEligibilityDisplayValue(source.getEligibilityCode());
+        referenceDataService.retrieveBadgeEligibilityDisplayValue(source.getEligibilityCode());
     String localAuthorityDisplayText =
-        referenceDataService.retrieveLocalAuthorityDisplayValue(
+        referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
     String statusDisplayText =
-        referenceDataService.retrieveStatusDisplayValue(source.getStatusCode());
+        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
 
     Contact contact = source.getParty().getContact();
 
@@ -53,7 +56,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
       Person person = source.getParty().getPerson();
       String dob = source.getParty().getPerson().getDob().format(viewModelDateFormatter);
       String genderDisplayText =
-          referenceDataService.retrieveGenderDisplayValue(
+          referenceDataService.retrieveBadgeGenderDisplayValue(
               source.getParty().getPerson().getGenderCode());
       badgeView
           .dob(dob)
@@ -80,20 +83,9 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .emailAddress(StringUtils.trimToNull(contact.getEmailAddress()))
         .secondaryContactNumber(StringUtils.trimToNull(contact.getSecondaryPhoneNumber()))
         .issuedBy(StringUtils.trimToNull(localAuthorityDisplayText))
+        .localAuthorityShortCode(source.getLocalAuthorityShortCode())
         .localAuthorityReference(StringUtils.trimToNull(source.getLocalAuthorityRef()))
         .status(StringUtils.trimToNull(statusDisplayText))
         .build();
-  }
-
-  private String toAddress(Badge badge) {
-    Contact contact = badge.getParty().getContact();
-    StringBuilder address = new StringBuilder(contact.getBuildingStreet());
-    String line2 = contact.getLine2();
-    if (!StringUtils.isEmpty(line2)) {
-      address.append(", ").append(line2);
-    }
-    address.append(", ").append(contact.getTownCity());
-    address.append(", ").append(contact.getPostCode());
-    return address.toString();
   }
 }

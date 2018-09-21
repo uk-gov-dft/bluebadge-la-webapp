@@ -44,8 +44,16 @@ public class ReferenceDataServiceTest {
   private static final String STATUS_2 = "status 2";
   private static final String LA_1_SHORTCODE = "ABERD";
   private static final String LA_2_SHORTCODE = "BARNS";
-  private static final String LA_1 = "Aberdeenshire Council";
+  private static final String LA_1 = "Aberdeenshire council";
   private static final String LA_2 = "Barnsley MBC";
+  private static final String WALKING_DIFFICULTY_1_SHORTCODE = "PEOPLECAR";
+  private static final String WALKING_DIFFICULTY_2_SHORTCODE = "BREATH";
+  private static final String WALKING_DIFFICULTY_1 = "People Carrier";
+  private static final String WALKING_DIFFICULTY_2 = "Breathlessness";
+  private static final String WALKING_SPEED_1_SHORTCODE = "SLOW";
+  private static final String WALKING_SPEED_2_SHORTCODE = "SAME";
+  private static final String WALKING_SPEED_1 = "Slower";
+  private static final String WALKING_SPEED_2 = "About the same";
 
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
 
@@ -65,8 +73,13 @@ public class ReferenceDataServiceTest {
   private ReferenceData referenceDataStatus2;
   private ReferenceData referenceDataLocalAuthority1;
   private ReferenceData referenceDataLocalAuthority2;
+  private ReferenceData referenceDataWalkingDifficulty1;
+  private ReferenceData referenceDataWalkingDifficulty2;
+  private ReferenceData referenceDataWalkingSpeed1;
+  private ReferenceData referenceDataWalkingSpeed2;
 
-  private List<ReferenceData> referenceDataList;
+  private List<ReferenceData> badgeReferenceDataList;
+  private List<ReferenceData> applicationReferenceDataList;
 
   @Before
   public void setup() {
@@ -132,7 +145,25 @@ public class ReferenceDataServiceTest {
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 14)
             .shortCode(LA_2_SHORTCODE)
             .description(LA_2);
-    referenceDataList =
+    referenceDataWalkingDifficulty1 =
+        ReferenceDataUtils.buildReferenceData(
+                RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 15)
+            .shortCode(WALKING_DIFFICULTY_1_SHORTCODE)
+            .description(WALKING_DIFFICULTY_1);
+    referenceDataWalkingDifficulty2 =
+        ReferenceDataUtils.buildReferenceData(
+                RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 16)
+            .shortCode(WALKING_DIFFICULTY_2_SHORTCODE)
+            .description(WALKING_DIFFICULTY_2);
+    referenceDataWalkingSpeed1 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 17)
+            .shortCode(WALKING_SPEED_1_SHORTCODE)
+            .description(WALKING_SPEED_1);
+    referenceDataWalkingSpeed2 =
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 18)
+            .shortCode(WALKING_SPEED_2_SHORTCODE)
+            .description(WALKING_SPEED_2);
+    badgeReferenceDataList =
         Lists.newArrayList(
             referenceDataEligibility1,
             referenceDataEligibility2,
@@ -148,100 +179,153 @@ public class ReferenceDataServiceTest {
             referenceDataStatus2,
             referenceDataLocalAuthority1,
             referenceDataLocalAuthority2);
+
+    applicationReferenceDataList =
+        Lists.newArrayList(
+            referenceDataEligibility1,
+            referenceDataEligibility2,
+            referenceDataGender1,
+            referenceDataGender2,
+            referenceDataWalkingDifficulty1,
+            referenceDataWalkingDifficulty2,
+            referenceDataWalkingSpeed1,
+            referenceDataWalkingSpeed2);
     when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
-        .thenReturn(referenceDataList);
+        .thenReturn(badgeReferenceDataList);
+    when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.APP))
+        .thenReturn(applicationReferenceDataList);
   }
 
   @Test
-  public void retrieveEligibilities_ShouldReturnEligibilities() {
-    List<ReferenceData> eligibilities = referenceDataService.retrieveEligilities();
+  public void retrieveBadgeEligibilities_ShouldReturnEligibilities() {
+    List<ReferenceData> eligibilities = referenceDataService.retrieveBadgeEligilities();
     assertThat(eligibilities)
         .containsExactlyInAnyOrder(referenceDataEligibility1, referenceDataEligibility2);
   }
 
   @Test
-  public void retrieveGenders_ShouldReturnGender() {
-    List<ReferenceData> gender = referenceDataService.retrieveGenders();
+  public void retrieveBadgeGenders_ShouldReturnGender() {
+    List<ReferenceData> gender = referenceDataService.retrieveBadgeGenders();
     assertThat(gender).containsExactlyInAnyOrder(referenceDataGender1, referenceDataGender2);
   }
 
   @Test
-  public void retrieveApplicationChannels_ShouldReturnApplicationChannels() {
-    List<ReferenceData> applicationChannels = referenceDataService.retrieveApplicationChannels();
+  public void retrieveBadgeApplicationChannels_ShouldReturnApplicationChannels() {
+    List<ReferenceData> applicationChannels =
+        referenceDataService.retrieveBadgeApplicationChannels();
     assertThat(applicationChannels)
         .containsExactlyInAnyOrder(
             referenceDataApplicationChannel1, referenceDataApplicationChannel2);
   }
 
   @Test
-  public void retrieveDeliverTos_ShouldReturnDeliverTos() {
-    List<ReferenceData> deliverTos = referenceDataService.retrieveDeliverTos();
+  public void retrieveBadgeDeliverTos_ShouldReturnDeliverTos() {
+    List<ReferenceData> deliverTos = referenceDataService.retrieveBadgeDeliverTos();
     assertThat(deliverTos)
         .containsExactlyInAnyOrder(referenceDataDeliverTo1, referenceDataDeliverTo2);
   }
 
   @Test
-  public void retrieveDeliveryOptions_ShouldReturnDeliveryOptions() {
-    List<ReferenceData> deliveryOptions = referenceDataService.retrieveDeliveryOptions();
+  public void retrieveBadgeDeliveryOptions_ShouldReturnDeliveryOptions() {
+    List<ReferenceData> deliveryOptions = referenceDataService.retrieveBadgeDeliveryOptions();
     assertThat(deliveryOptions)
         .containsExactlyInAnyOrder(referenceDataDeliveryOptions1, referenceDataDeliveryOptions2);
   }
 
   @Test
-  public void retrieveStatuses_ShouldReturnStatuses() {
-    List<ReferenceData> statuses = referenceDataService.retrieveStatuses();
+  public void retrieveBadgeStatuses_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveBadgeStatuses();
     assertThat(statuses).containsExactlyInAnyOrder(referenceDataStatus1, referenceDataStatus2);
   }
 
   @Test
-  public void retrieveLocalAuthorities_ShouldReturnStatuses() {
-    List<ReferenceData> statuses = referenceDataService.retrieveLocalAuthorities();
+  public void retrieveBadgeLocalAuthorities_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveBadgeLocalAuthorities();
     assertThat(statuses)
         .containsExactlyInAnyOrder(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
   }
 
   @Test
-  public void retrieveEligibilityDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveEligibilityDisplayValue(ELIGIBILITY_1_SHORTCODE))
+  public void retrieveApplicationWalkingDifficulties_ShouldReturnStatuses() {
+    List<ReferenceData> statuses = referenceDataService.retrieveApplicationWalkingDifficulties();
+    assertThat(statuses)
+        .containsExactlyInAnyOrder(
+            referenceDataWalkingDifficulty1, referenceDataWalkingDifficulty2);
+  }
+
+  @Test
+  public void retrieveBadgeEligibilityDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveBadgeEligibilityDisplayValue(ELIGIBILITY_1_SHORTCODE))
         .isEqualTo(ELIGIBILITY_1);
   }
 
   @Test
-  public void retrieveGenderDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveGenderDisplayValue(GENDER_1_SHORTCODE))
+  public void retrieveBadgeGenderDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveBadgeGenderDisplayValue(GENDER_1_SHORTCODE))
         .isEqualTo(GENDER_1);
   }
 
   @Test
-  public void retrieveApplicationChannelDisplayValue_ShouldWork() {
+  public void retrieveBadgeApplicationChannelDisplayValue_ShouldWork() {
     assertThat(
-            referenceDataService.retrieveApplicationChannelDisplayValue(
+            referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
                 APPLICATION_CHANNEL_1_SHORTCODE))
         .isEqualTo(APPLICATION_CHANNEL_1);
   }
 
   @Test
-  public void retrieveDeliverToDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveDeliverToDisplayValue(DELIVER_TO_1_SHORTCODE))
+  public void retrieveBadgeDeliverToDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveBadgeDeliverToDisplayValue(DELIVER_TO_1_SHORTCODE))
         .isEqualTo(DELIVER_TO_1);
   }
 
   @Test
-  public void retrieveDeliveryOptionsDisplayValue_ShouldWork() {
+  public void retrieveBadgeDeliveryOptionsDisplayValue_ShouldWork() {
     assertThat(
-            referenceDataService.retrieveDeliveryOptionDisplayValue(DELIVERY_OPTIONS_1_SHORTCODE))
+            referenceDataService.retrieveBadgeDeliveryOptionDisplayValue(
+                DELIVERY_OPTIONS_1_SHORTCODE))
         .isEqualTo(DELIVERY_OPTIONS_1);
   }
 
   @Test
-  public void retrieveStatusDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveStatusDisplayValue(STATUS_1_SHORTCODE))
+  public void retrieveBadgeStatusDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveBadgeStatusDisplayValue(STATUS_1_SHORTCODE))
         .isEqualTo(STATUS_1);
   }
 
   @Test
-  public void retrieveLocalAuthorityDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveLocalAuthorityDisplayValue(LA_1_SHORTCODE))
+  public void retrieveBadgeLocalAuthorityDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(LA_1_SHORTCODE))
         .isEqualTo(LA_1);
+  }
+
+  @Test
+  public void retrieveApplicationGenderDisplayValue_ShouldWork() {
+    assertThat(referenceDataService.retrieveApplicationGenderDisplayValue(GENDER_1_SHORTCODE))
+        .isEqualTo(GENDER_1);
+  }
+
+  @Test
+  public void retrieveApplicationEligibilityDisplayValue_ShouldWork() {
+    assertThat(
+            referenceDataService.retrieveApplicationEligibilityDisplayValue(
+                ELIGIBILITY_1_SHORTCODE))
+        .isEqualTo(ELIGIBILITY_1);
+  }
+
+  @Test
+  public void retrieveApplicationWalkingDifficultyDisplayValue_ShouldWork() {
+    assertThat(
+            referenceDataService.retrieveApplicationWalkingDifficultyDisplayValue(
+                WALKING_DIFFICULTY_1_SHORTCODE))
+        .isEqualTo(WALKING_DIFFICULTY_1);
+  }
+
+  @Test
+  public void retrieveApplicationWalkingSpeedDisplayValue_ShouldWork() {
+    assertThat(
+            referenceDataService.retrieveApplicationWalkingSpeedDisplayValue(
+                WALKING_SPEED_1_SHORTCODE))
+        .isEqualTo(WALKING_SPEED_1);
   }
 }

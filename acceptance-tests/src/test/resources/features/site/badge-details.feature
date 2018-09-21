@@ -32,11 +32,11 @@ Feature: Dft BlueBadge LA View Badge Details
     And   I can click "button" button
     Then  I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And   I should not see "No results found for " text on the page
-    When  I click on the badge number of the first result
+    When  I click on the first badge of the table
     Then  I should see the page title for Badge Details for that particular badge number
     When  I can click "back-link" button
     Then  I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And   I should not see "No results found for " text on the page
-    When  I click on the badge number of the first result
+    When  I click on the first badge of the table
     Then  I should see the page title for Badge Details for that particular badge number
     And   I should see correct details for organisation or person

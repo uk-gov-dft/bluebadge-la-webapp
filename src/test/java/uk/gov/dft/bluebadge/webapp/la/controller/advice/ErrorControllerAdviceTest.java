@@ -30,7 +30,7 @@ public class ErrorControllerAdviceTest {
     Exception ex = new Exception("my error message");
 
     String template = controllerAdvice.handleException(ex, redirectAttributesMock);
-    assertThat(template).isEqualTo("redirect:/unexpected-error");
+    assertThat(template).isEqualTo("redirect:/something-went-wrong");
     verify(redirectAttributesMock, times(1)).addFlashAttribute("exception", ex);
   }
 }

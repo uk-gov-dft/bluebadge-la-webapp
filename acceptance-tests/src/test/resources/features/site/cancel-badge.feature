@@ -29,7 +29,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the badge number of the first result
+    When  I click on the first badge of the table
     Then  I click on "Cancel badge" link
     Then  I should see the page title for Cancel badge for that particular badge number
     When  I select the "reason.option.REVOKE" option
@@ -40,7 +40,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the badge number of the first result
+    When  I click on the first badge of the table
     Then  I should see the badge details page without the "Cancel badge" link button
 
   Scenario: Cancelling a badge without selecting a reason
@@ -68,7 +68,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the badge number of the first result
+    When  I click on the first badge of the table
     Then  I click on "Cancel badge" link
     Then  I should see the page title for Cancel badge for that particular badge number
     And   I can click "cancel.badge.button" button

@@ -19,7 +19,7 @@ node {
     stage ('Gradle build') {
         try {
             sh 'echo $(whoami)'
-            sh 'bash -c "source /etc/profile && (npm list gulp -g || npm install -g gulp) && npm install"'
+            sh 'bash -c "source /etc/profile && (npm list gulp -g || npm install -g gulp) && npm install && npm run prod"'
             sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
         }
         finally {
@@ -46,4 +46,23 @@ node {
         }
     }
 
+    stage("Acceptance Tests") {
+        node('Functional') {
+            git(
+               url: "${REPONAME}",
+               credentialsId: 'dft-buildbot-valtech',
+               branch: "${BRANCH_NAME}"
+            )
+
+            timeout(time: 10, unit: 'MINUTES') {
+                try {
+                    sh 'bash -c "echo $PATH && cd acceptance-tests && ./run-regression.sh"'
+                }
+                finally {
+                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/docker.log'
+                    junit '**/TEST*.xml'
+                }
+            }
+        }
+    }
 }
