@@ -59,6 +59,7 @@ public class UserDetailsController {
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
+    formRequest.setRoleName(Role.getById(user.getRoleId()).getPrettyName());
   }
 
   @PostMapping(URL_USER_DETAILS)

@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
+import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -41,10 +42,16 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String NAME_UPDATED = "updated";
   private static final String NAME_ERROR = "updated11";
 
-  private static final int ROLE_ID = 1;
+  private static final int ROLE_ID = Role.LA_ADMIN.getRoleId();
+  private static final int ROLE_ID_UPDATED = Role.LA_EDITOR.getRoleId();
+  
+  private static final String ROLE_NAME = Role.LA_ADMIN.getPrettyName();
+  private static final String ROLE_NAME_UPDATED = Role.LA_EDITOR.getPrettyName();
+
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   private static final UUID USER_ID = UUID.randomUUID();
   private static final String NAME_PARAM = "name";
+  private static final String ROLE_NAME_PARAM = "roleName";
   private static final String EMAIL_ADDRESS_PARAM = "emailAddress";
   private static final String LOCAL_AUTHORITY_ID_PARAM = "localAuthorityShortCode";
   private static final String MODEL_FORM_REQUEST = "formRequest";
@@ -80,7 +87,9 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .uuid(USER_ID)
             .emailAddress("joe.blogs@email.com")
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_ID)
             .build();
+    
     user =
         User.builder()
             .emailAddress(EMAIL_ADDRESS)
@@ -88,6 +97,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .roleId(ROLE_ID)
             .build();
+    
     userWithId =
         User.builder()
             .uuid(USER_ID)
@@ -98,11 +108,13 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .build();
   }
 
-  private UserFormRequest getUserDetailsFormRequest(String emailAddress, String name) {
-    UserFormRequest userDetailsFormRequest = new UserFormRequest();
-    userDetailsFormRequest.setEmailAddress(emailAddress);
-    userDetailsFormRequest.setName(name);
-    return userDetailsFormRequest;
+  private UserFormRequest getUserDetails(String emailAddress, String name, String roleName) {
+    UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress(emailAddress);
+    form.setName(name);
+    form.setRoleName(roleName);
+    
+    return form;
   }
 
   @Test
@@ -110,7 +122,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       showUserDetails_shouldShowUserDetailsTemplateWithUserDetails_WhenYouAreSignedInAndUserExists()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(user);
-    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS, NAME);
+    UserFormRequest formRequest = getUserDetails(EMAIL_ADDRESS, NAME, ROLE_NAME);
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     mockMvc
         .perform(get(URL_USER_DETAILS + USER_ID).sessionAttr("user", userSignedIn))
@@ -125,12 +137,13 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_UPDATED, NAME_UPDATED);
+    UserFormRequest formRequest = getUserDetails(EMAIL_ADDRESS_UPDATED, NAME_UPDATED, ROLE_NAME_UPDATED);
     mockMvc
         .perform(
             post(URL_USER_DETAILS + USER_ID)
                 .param(NAME_PARAM, NAME_UPDATED)
-                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_UPDATED))
+                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_UPDATED)
+                .param(ROLE_NAME_PARAM, ROLE_NAME_UPDATED))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/manage-users"))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest));
@@ -139,7 +152,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .uuid(USER_ID)
             .name(NAME_UPDATED)
             .emailAddress(EMAIL_ADDRESS_UPDATED)
-            .roleId(ROLE_ID)
+            .roleId(ROLE_ID_UPDATED)
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .build();
     verify(userServiceMock, times(1)).update(user);
@@ -168,13 +181,14 @@ public class UserDetailsControllerTest extends BaseControllerTest {
 
     when(userServiceMock.update(any())).thenThrow(new BadRequestException(userResponseUpdate));
 
-    UserFormRequest formRequest = getUserDetailsFormRequest(EMAIL_ADDRESS_ERROR, NAME_ERROR);
+    UserFormRequest formRequest = getUserDetails(EMAIL_ADDRESS_ERROR, NAME_ERROR, ROLE_NAME);
 
     mockMvc
         .perform(
             post(URL_USER_DETAILS + USER_ID)
                 .param(NAME_PARAM, NAME_ERROR)
-                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_ERROR))
+                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_ERROR)
+                .param(ROLE_NAME_PARAM, ROLE_NAME))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_USER_DETAILS))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, formRequest))
