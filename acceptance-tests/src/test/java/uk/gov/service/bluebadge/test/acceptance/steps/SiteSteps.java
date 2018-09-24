@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -563,5 +564,21 @@ public class SiteSteps extends AbstractSpringSteps {
   public void executeDeleteUsersDBScript() throws SQLException {
     DbUtils db = new DbUtils(settings());
     db.runScript("scripts/delete_users.sql");
+  }
+
+  @Then("^I should see the newly created user's permission as \"([^\"]*)\"$")
+  public void iShouldSeeTheNewlyCreatedUserSPermissionAs(String permission) throws Throwable {
+    assertThat(
+            "Only 1 result is expected",
+            sitePage.findElementWithUiPath("search.count").getText(),
+            getMatcherForText("1 Result:"));
+    assert (sitePage
+            .findElementWithUiPath("table.body")
+            .getText()
+            .contains(System.getProperty("email")));
+    assert (sitePage
+            .findElementWithUiPath("table.body")
+            .getText()
+            .contains(permission));
   }
 }
