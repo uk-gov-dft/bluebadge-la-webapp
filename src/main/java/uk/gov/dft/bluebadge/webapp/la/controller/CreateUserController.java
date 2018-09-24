@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
@@ -62,11 +63,11 @@ public class CreateUserController {
       BindingResult bindingResult,
       Model model) {
 
-    if (bindingResult.hasErrors()) {
-      return TEMPLATE_CREATE_USER;
-    }
-
     try {
+      if (bindingResult.hasErrors()) {
+        throw new BadRequestException(new CommonResponse());
+      }
+
       log.debug("Creating new user");
       BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = userConverter.convert(formRequest);

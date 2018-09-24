@@ -46,8 +46,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final int ROLE_ID = Role.LA_ADMIN.getRoleId();
   private static final int ROLE_ID_UPDATED = Role.LA_EDITOR.getRoleId();
 
-  private static final String ROLE_NAME = Role.LA_ADMIN.getPrettyName();
-  private static final String ROLE_NAME_UPDATED = Role.LA_EDITOR.getPrettyName();
+  private static final String ROLE_NAME = Role.LA_ADMIN.name();
+  private static final String ROLE_NAME_UPDATED = Role.LA_EDITOR.name();
 
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   private static final UUID USER_ID = UUID.randomUUID();
