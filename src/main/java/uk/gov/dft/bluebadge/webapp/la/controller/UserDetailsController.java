@@ -144,6 +144,6 @@ public class UserDetailsController {
                 messageSource.getMessage("label.user.permissions.viewer", null, Locale.ENGLISH))
             .shortCode(Role.LA_READ.name());
 
-    return Lists.newArrayList(admin, editor, viewer);
+    return Lists.newArrayList(viewer, editor, admin);
   }
 }
