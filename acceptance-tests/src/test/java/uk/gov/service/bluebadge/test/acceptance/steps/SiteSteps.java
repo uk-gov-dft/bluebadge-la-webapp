@@ -309,6 +309,12 @@ public class SiteSteps extends AbstractSpringSteps {
           signInPage.findElementWithUiPath("name.summary-error").getText(),
           getMatcherForText(arg1));
     }
+    else if (arg0.equals("blank permissions")) {
+      assertThat(
+              "Validation message expected",
+              signInPage.findElementWithUiPath("roleName.summary-error").getText(),
+              getMatcherForText(arg1));
+    }
   }
 
   @When("^I search for newly create user using email address$")
