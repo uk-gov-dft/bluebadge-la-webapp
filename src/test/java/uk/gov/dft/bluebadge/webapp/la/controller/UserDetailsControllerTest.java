@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
@@ -44,7 +45,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
 
   private static final int ROLE_ID = Role.LA_ADMIN.getRoleId();
   private static final int ROLE_ID_UPDATED = Role.LA_EDITOR.getRoleId();
-  
+
   private static final String ROLE_NAME = Role.LA_ADMIN.getPrettyName();
   private static final String ROLE_NAME_UPDATED = Role.LA_EDITOR.getPrettyName();
 
@@ -61,6 +62,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String ERROR_MSG_NAME = "error in name";
 
   @Mock private UserService userServiceMock;
+  @Mock private MessageSource messageSource;
 
   // Test Data
   private User userSignedIn;
@@ -74,7 +76,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
 
     UserDetailsController controller =
-        new UserDetailsController(userServiceMock, new UserFormRequestToUser());
+        new UserDetailsController(userServiceMock, new UserFormRequestToUser(), messageSource);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -89,7 +91,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .roleId(ROLE_ID)
             .build();
-    
+
     user =
         User.builder()
             .emailAddress(EMAIL_ADDRESS)
@@ -97,7 +99,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .roleId(ROLE_ID)
             .build();
-    
+
     userWithId =
         User.builder()
             .uuid(USER_ID)
@@ -113,7 +115,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     form.setEmailAddress(emailAddress);
     form.setName(name);
     form.setRoleName(roleName);
-    
+
     return form;
   }
 
@@ -137,7 +139,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    UserFormRequest formRequest = getUserDetails(EMAIL_ADDRESS_UPDATED, NAME_UPDATED, ROLE_NAME_UPDATED);
+    UserFormRequest formRequest =
+        getUserDetails(EMAIL_ADDRESS_UPDATED, NAME_UPDATED, ROLE_NAME_UPDATED);
     mockMvc
         .perform(
             post(URL_USER_DETAILS + USER_ID)
