@@ -20,20 +20,21 @@
     </div>
 
     <div class="dft-grid-row">
-        <div class="dft-grid-col dft-grid-col--half">
 
             <form  th:action="@{/manage-users/create-user}" th:object="${formRequest}" method="post" novalidate>
+                <div class="dft-grid-col dft-grid-col--half">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                </div>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
-
-				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'roleName', null, ${permissionsOptions}) }"/>
+                <div class="dft-grid-col">
+				    <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'roleName', null, ${permissionsOptions}) }"/>
+                </div>
                 
                 <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
             </form>
 
-        </div><!-- govuk-o-grid -->
     </div><!-- govuk-o-grid__item -->
 </main>
 
