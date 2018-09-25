@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -48,7 +47,6 @@ public class CreateUserControllerTest {
 
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
-  @Mock private MessageSource messageSource;
 
   private CreateUserController controller;
 
@@ -63,8 +61,7 @@ public class CreateUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateUserController(
-            userServiceMock, new UserFormRequestToUser(), securityUtilsMock, messageSource);
+        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
