@@ -51,10 +51,6 @@ public class UserManagementApiClient extends BaseApiClient {
    * @return UsersResponse containing list of Users.
    */
   public List<User> getUsersForAuthority(String authorityShortCode, String nameFilter) {
-
-    Assert.notNull(
-        authorityShortCode, "getUsersForAuthority - Local Authority short code must be provided");
-
     ResponseEntity<UsersResponse> userListResponse =
         restTemplate.getForEntity(
             GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityShortCode);
