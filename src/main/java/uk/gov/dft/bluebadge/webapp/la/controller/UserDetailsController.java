@@ -62,7 +62,7 @@ public class UserDetailsController {
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
-    formRequest.setRoleName(Role.getById(user.getRoleId()).name());
+    formRequest.setRole(Role.getById(user.getRoleId()));
   }
 
   @PostMapping(URL_USER_DETAILS)
@@ -103,7 +103,7 @@ public class UserDetailsController {
     User user = userConverter.convert(formRequest);
     user.setUuid(userData.getUuid());
     user.setLocalAuthorityShortCode(userData.getLocalAuthorityShortCode());
-    user.setRoleId(Role.valueOf(formRequest.getRoleName()).getRoleId());
+    user.setRoleId(formRequest.getRole().getRoleId());
 
     return user;
   }
