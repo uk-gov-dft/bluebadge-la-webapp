@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
@@ -62,7 +61,6 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String ERROR_MSG_NAME = "error in name";
 
   @Mock private UserService userServiceMock;
-  @Mock private MessageSource messageSource;
 
   // Test Data
   private User userSignedIn;
@@ -76,7 +74,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
 
     UserDetailsController controller =
-        new UserDetailsController(userServiceMock, new UserFormRequestToUser(), messageSource);
+        new UserDetailsController(userServiceMock, new UserFormRequestToUser());
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

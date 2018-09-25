@@ -120,7 +120,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I search for newly create user using email address
     Then I should see the newly created user's permission as "Administrator"
 
-  Scenario: Verify creating View only user
+  Scenario: Verify creating Editor user
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***

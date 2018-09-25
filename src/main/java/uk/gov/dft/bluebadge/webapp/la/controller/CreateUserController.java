@@ -2,11 +2,9 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Locale;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,18 +36,13 @@ public class CreateUserController {
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
   private final SecurityUtils securityUtils;
-  private final MessageSource messageSource;
 
   @Autowired
   public CreateUserController(
-      UserService userService,
-      UserFormRequestToUser userConverter,
-      SecurityUtils securityUtils,
-      MessageSource messageSource) {
+      UserService userService, UserFormRequestToUser userConverter, SecurityUtils securityUtils) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.securityUtils = securityUtils;
-    this.messageSource = messageSource;
   }
 
   @GetMapping(URL_CREATE_USER)
@@ -85,24 +78,13 @@ public class CreateUserController {
 
   @ModelAttribute("permissionsOptions")
   public List<ReferenceData> permissionsOptions() {
+    //@stephen-bealine made me do it
     ReferenceData admin =
-        new ReferenceData()
-            .description(
-                messageSource.getMessage(
-                    "label.user.permissions.administrator", null, Locale.ENGLISH))
-            .shortCode(Role.LA_ADMIN.name());
-
+        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
     ReferenceData editor =
-        new ReferenceData()
-            .description(
-                messageSource.getMessage("label.user.permissions.editor", null, Locale.ENGLISH))
-            .shortCode(Role.LA_EDITOR.name());
-
+        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
     ReferenceData viewer =
-        new ReferenceData()
-            .description(
-                messageSource.getMessage("label.user.permissions.viewer", null, Locale.ENGLISH))
-            .shortCode(Role.LA_READ.name());
+        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
 
     return Lists.newArrayList(viewer, editor, admin);
   }
