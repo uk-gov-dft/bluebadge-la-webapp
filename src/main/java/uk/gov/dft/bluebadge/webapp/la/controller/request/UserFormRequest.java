@@ -15,4 +15,6 @@ public class UserFormRequest {
 
   @NotBlank(message = "{NotNull.user.roleName}")
   private String roleName;
+
+  private String localAuthority;
 }

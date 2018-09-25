@@ -22,6 +22,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.User
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Slf4j
 @Controller
@@ -36,13 +37,18 @@ public class CreateUserController {
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
   private final SecurityUtils securityUtils;
+  private final ReferenceDataService referenceDataService;
 
   @Autowired
   public CreateUserController(
-      UserService userService, UserFormRequestToUser userConverter, SecurityUtils securityUtils) {
+      UserService userService,
+      UserFormRequestToUser userConverter,
+      SecurityUtils securityUtils,
+      ReferenceDataService referenceDataService) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.securityUtils = securityUtils;
+    this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL_CREATE_USER)
@@ -85,14 +91,19 @@ public class CreateUserController {
         new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
     ReferenceData viewer =
         new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
-    
+
     List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
-    
+
     ReferenceData dftAdmin =
-            new ReferenceData().description("DfT Administrator").shortCode(Role.DFT_ADMIN.name());
+        new ReferenceData().description("DfT Administrator").shortCode(Role.DFT_ADMIN.name());
 
     roles.add(dftAdmin);
 
     return roles;
+  }
+
+  @ModelAttribute("localAuthorities")
+  public List<ReferenceData> localAuthorities() {
+    return referenceDataService.retrieveBadgeLocalAuthorities();
   }
 }
