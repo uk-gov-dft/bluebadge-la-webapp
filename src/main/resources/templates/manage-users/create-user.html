@@ -35,7 +35,7 @@
 	            <h2 class="govuk-heading-m" data-uipath="laTitle" th:text="#{label.user.index.h2.localAuthority}"/>
 	
 	            <div class="dft-width-one-half">
-	                <div th:replace="~{ fragments/govuk-select :: govuk-select(#{label.user.localAuthority.label}, 'localAuthority', null, ${localAuthorities}) }"/>
+	                <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthority', null, ${localAuthorities}) }"/>
 	            </div>
 
                 <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
