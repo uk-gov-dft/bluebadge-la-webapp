@@ -85,7 +85,14 @@ public class CreateUserController {
         new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
     ReferenceData viewer =
         new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
+    
+    List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
+    
+    ReferenceData dftAdmin =
+            new ReferenceData().description("DfT Administrator").shortCode(Role.DFT_ADMIN.name());
 
-    return Lists.newArrayList(viewer, editor, admin);
+    roles.add(dftAdmin);
+
+    return roles;
   }
 }
