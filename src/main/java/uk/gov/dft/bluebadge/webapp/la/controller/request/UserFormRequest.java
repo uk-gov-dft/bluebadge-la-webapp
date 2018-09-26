@@ -1,7 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
+import uk.gov.dft.bluebadge.common.security.Role;
 
 @Data
 public class UserFormRequest {
@@ -13,8 +15,6 @@ public class UserFormRequest {
   @NotBlank(message = "{NotNull.user.name}")
   private String name;
 
-  @NotBlank(message = "{NotNull.user.roleName}")
-  private String roleName;
-
-  private String localAuthority;
+  @NotNull(message = "{NotNull.user.role}")
+  private Role role;
 }
