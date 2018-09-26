@@ -1,10 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doThrow;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,7 +33,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
+
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -70,7 +70,6 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   @Mock private UserService userServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
-  @Mock private UserFormValidator userValidator;
 
   // Test Data
   private User userSignedIn;
@@ -88,8 +87,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
         new UserDetailsController(
             userServiceMock,
             new UserFormRequestToUser(securityUtilsMock),
-            referenceDataServiceMock,
-            userValidator);
+            referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -122,15 +120,14 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .roleId(ROLE_ID)
             .build();
 
-  
     userDfTAdmin =
-            User.builder()
-                .uuid(USER_ID)
-                .emailAddress(EMAIL_ADDRESS)
-                .name(NAME)
-                .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
-                .roleId(ROLE_DFT_ID)
-                .build();
+        User.builder()
+            .uuid(USER_ID)
+            .emailAddress(EMAIL_ADDRESS)
+            .name(NAME)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_DFT_ID)
+            .build();
   }
 
   private UserFormRequest getUserDetails(String emailAddress, String name, Role role) {
@@ -254,33 +251,4 @@ public class UserDetailsControllerTest extends BaseControllerTest {
         .andExpect(redirectedUrl(URL_MANAGE_USERS));
     verify(userServiceMock, times(1)).requestPasswordReset(USER_ID);
   }
-  
-  
-	@Test
-	public void shouldShowValidationErrorWhenChangeRoleFromDfTtoLAAndNotSelectingLocalAuthority() throws Exception {
-		ErrorErrors laError = new ErrorErrors().field("localAuthorityShortCode").message(ERROR_NOT_BLANK);
-
-		CommonResponse commonResponse = new CommonResponse();
-		commonResponse.setError(new Error().errors(Lists.newArrayList(laError)));
-
-		UserFormRequest form = new UserFormRequest();
-		form.setEmailAddress(userDfTAdmin.getEmailAddress());
-		form.setName(userDfTAdmin.getName());
-		form.setRole(ROLE);
-		form.setLocalAuthorityShortCode(null);
-		doThrow(new BadRequestException(commonResponse)).when(userValidator).validate(form);
-
-		mockMvc.perform(post(URL_USER_DETAILS + USER_ID)
-							.param(NAME_PARAM, userDfTAdmin.getName())
-							.param(EMAIL_ADDRESS_PARAM, userDfTAdmin.getEmailAddress())
-							.param(ROLE_PARAM, ROLE.name()))
-						.andExpect(status().isOk())
-						.andExpect(view().name(TEMPLATE_USER_DETAILS))
-						.andExpect(model().attribute(MODEL_FORM_REQUEST, form))
-						.andExpect(model().errorCount(1))
-						.andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, "localAuthorityShortCode", ERROR_NOT_BLANK));
-
-	    verifyZeroInteractions(userServiceMock);
-	}
-  
 }

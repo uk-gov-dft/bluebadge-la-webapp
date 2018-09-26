@@ -17,7 +17,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
+
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -34,18 +34,15 @@ public class CreateUserController {
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
   private final ReferenceDataService referenceDataService;
-  private final UserFormValidator userValidator;
 
   @Autowired
   public CreateUserController(
       UserService userService,
       UserFormRequestToUser userConverter,
-      ReferenceDataService referenceDataService,
-      UserFormValidator userValidator) {
+      ReferenceDataService referenceDataService) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.referenceDataService = referenceDataService;
-    this.userValidator = userValidator;
   }
 
   @GetMapping(URL_CREATE_USER)
@@ -65,8 +62,6 @@ public class CreateUserController {
       if (bindingResult.hasErrors()) {
         throw new BadRequestException(new CommonResponse());
       }
-
-      userValidator.validate(formRequest);
 
       User user = userConverter.convert(formRequest);
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());

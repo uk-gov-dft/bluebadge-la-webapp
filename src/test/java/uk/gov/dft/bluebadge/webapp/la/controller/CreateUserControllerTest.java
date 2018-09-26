@@ -1,8 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -34,7 +33,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
+
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -58,7 +57,6 @@ public class CreateUserControllerTest {
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
-  @Mock private UserFormValidator userValidator;
 
   private CreateUserController controller;
 
@@ -76,8 +74,7 @@ public class CreateUserControllerTest {
         new CreateUserController(
             userServiceMock,
             new UserFormRequestToUser(securityUtilsMock),
-            referenceDataServiceMock,
-            userValidator);
+            referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -126,7 +123,6 @@ public class CreateUserControllerTest {
     form.setEmailAddress(EMAIL);
     form.setName(NAME);
     form.setRole(Role.valueOf(ROLE_NAME));
-    doNothing().when(userValidator).validate(form);
 
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
@@ -199,7 +195,6 @@ public class CreateUserControllerTest {
     form.setEmailAddress("");
     form.setName("");
     form.setRole(null);
-    doNothing().when(userValidator).validate(form);
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
 
     mockMvc
@@ -215,43 +210,6 @@ public class CreateUserControllerTest {
             model().attributeHasFieldErrorCode("formRequest", "emailAddress", ERROR_NOT_BLANK))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_NOT_BLANK))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "role", "NotNull"));
-
-    verifyZeroInteractions(userServiceMock);
-  }
-
-  @Test
-  public void
-      createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenLoggedAsDfTAdminAndLANotPopulatedForNonDfTUser()
-          throws Exception {
-
-    ErrorErrors laError =
-        new ErrorErrors().field("localAuthorityShortCode").message(ERROR_NOT_BLANK);
-
-    CommonResponse commonResponse = new CommonResponse();
-    commonResponse.setError(new Error().errors(Lists.newArrayList(laError)));
-
-    UserFormRequest form = new UserFormRequest();
-    form.setEmailAddress(EMAIL);
-    form.setName(NAME);
-    form.setRole(Role.valueOf(ROLE_NAME));
-    form.setLocalAuthorityShortCode(null);
-    doThrow(new BadRequestException(commonResponse)).when(userValidator).validate(form);
-    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
-
-    mockMvc
-        .perform(
-            post("/manage-users/create-user")
-                .sessionAttr("user", userDataSignedIn)
-                .param("emailAddress", EMAIL)
-                .param("name", NAME)
-                .param("role", ROLE_NAME))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-users/create-user"))
-        .andExpect(model().errorCount(1))
-        .andExpect(
-            model()
-                .attributeHasFieldErrorCode(
-                    "formRequest", "localAuthorityShortCode", ERROR_NOT_BLANK));
 
     verifyZeroInteractions(userServiceMock);
   }
@@ -273,7 +231,6 @@ public class CreateUserControllerTest {
     form.setRole(Role.valueOf(DFT_ROLE_NAME));
     form.setLocalAuthorityShortCode(null);
 
-    doNothing().when(userValidator).validate(form);
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
 
     mockMvc
