@@ -15,7 +15,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     When I can click on the "Create a new user" button
     Then I should see the page titled "Create a new user - GOV.UK Manage Blue Badges"
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see the newly created user is on the users list
@@ -28,7 +28,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
@@ -42,7 +42,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
@@ -60,7 +60,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
@@ -79,7 +79,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
@@ -97,7 +97,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    When I select an option "roleName.LA_ADMIN"
+    When I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     And I should see the newly created user is on the users list
     When I search for newly create user using email address
@@ -115,7 +115,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    And I select an option "roleName.LA_ADMIN"
+    And I select an option "role.LA_ADMIN"
     And I enter full name and email address and clicks on create a new user button
     When I search for newly create user using email address
     Then I should see the newly created user's permission as "Administrator"
@@ -128,7 +128,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    And I select an option "roleName.LA_EDITOR"
+    And I select an option "role.LA_EDITOR"
     And I enter full name and email address and clicks on create a new user button
     When I search for newly create user using email address
     Then I should see the newly created user's permission as "Editor"
@@ -141,7 +141,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
     When I can click on the "Create a new user" button
-    And I select an option "roleName.LA_READ"
+    And I select an option "role.LA_READ"
     And I enter full name and email address and clicks on create a new user button
     When I search for newly create user using email address
     Then I should see the newly created user's permission as "View only"
@@ -156,7 +156,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Create a new user" button
     When I type " " for "name" field
     And I type "test@dft.gov.uk" for "emailAddress" field
-    And I select an option "roleName.LA_ADMIN"
+    And I select an option "role.LA_ADMIN"
     And I can click "createUserButton" button
     Then I should see the validation message for "invalid name" as "Enter a valid name"
 
