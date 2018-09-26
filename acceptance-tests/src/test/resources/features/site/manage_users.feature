@@ -144,7 +144,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I select an option "roleName.LA_READ"
     And I enter full name and email address and clicks on create a new user button
     When I search for newly create user using email address
-    Then I should see the newly created user's permission as "View Only"
+    Then I should see the newly created user's permission as "View only"
 
   Scenario: Verify Create a new user with an invalid full name
     Given I navigate to the "home" page
