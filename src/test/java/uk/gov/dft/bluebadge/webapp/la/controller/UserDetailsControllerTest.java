@@ -24,7 +24,6 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.common.security.Role;
-
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
@@ -80,7 +79,9 @@ public class UserDetailsControllerTest extends BaseControllerTest {
 
     UserDetailsController controller =
         new UserDetailsController(
-            userServiceMock, new UserFormRequestToUser(securityUtilsMock), referenceDataServiceMock);
+            userServiceMock,
+            new UserFormRequestToUser(securityUtilsMock),
+            referenceDataServiceMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -143,7 +144,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetails_WhenYouAreSignedInAndThereAreNoValidationErrors()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
+        .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
     UserFormRequest formRequest = getUserDetails(EMAIL_ADDRESS_UPDATED, NAME_UPDATED, ROLE_UPDATED);
     mockMvc
         .perform(
@@ -170,7 +172,8 @@ public class UserDetailsControllerTest extends BaseControllerTest {
       updateUserDetails_shouldShowUserDetailsTemplateWithNewUserDetailsAndValidationErrors_WhenYouAreSignedInAndThereAreValidationErrors()
           throws Exception {
     when(userServiceMock.retrieve(USER_ID)).thenReturn(userWithId);
-    when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
+        .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
 
     ErrorErrors emailAddressError =
         new ErrorErrors().field(EMAIL_ADDRESS_PARAM).message(ERROR_MSG_EMAIL_ADDRESS);

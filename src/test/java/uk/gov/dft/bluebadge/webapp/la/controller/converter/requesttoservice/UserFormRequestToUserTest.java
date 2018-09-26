@@ -18,18 +18,17 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 
 public class UserFormRequestToUserTest {
 
-  @Mock
-  private SecurityUtils securityUtilsMock;
+  @Mock private SecurityUtils securityUtilsMock;
   private UserFormRequestToUser userFormRequestToUser;
 
   @Before
-  public void setup(){
+  public void setup() {
     MockitoAnnotations.initMocks(this);
     userFormRequestToUser = new UserFormRequestToUser(securityUtilsMock);
   }
 
   @Test
-  public void convertFormToUser_whenAdminRole_thenLACopiedFromUser(){
+  public void convertFormToUser_whenAdminRole_thenLACopiedFromUser() {
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn("BIRM");
 
     UserFormRequest form = new UserFormRequest();
@@ -47,7 +46,7 @@ public class UserFormRequestToUserTest {
   }
 
   @Test
-  public void convertFormToUser_whenDftAdminRole(){
+  public void convertFormToUser_whenDftAdminRole() {
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
 
     UserFormRequest form = new UserFormRequest();
@@ -67,7 +66,7 @@ public class UserFormRequestToUserTest {
   }
 
   @Test
-  public void convertFormToUser_whenDftUserAndNoneDftRole_thenLACopied(){
+  public void convertFormToUser_whenDftUserAndNoneDftRole_thenLACopied() {
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
 
     UserFormRequest form = new UserFormRequest();
@@ -87,7 +86,7 @@ public class UserFormRequestToUserTest {
   }
 
   @Test(expected = AccessDeniedException.class)
-  public void convertFormToUser_whenDftAdminRole_andUserNotGotPermission_thenException(){
+  public void convertFormToUser_whenDftAdminRole_andUserNotGotPermission_thenException() {
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
 
     UserFormRequest form = new UserFormRequest();
