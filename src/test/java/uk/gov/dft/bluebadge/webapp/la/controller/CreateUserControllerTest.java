@@ -14,15 +14,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.google.common.collect.Lists;
-
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
@@ -129,7 +127,7 @@ public class CreateUserControllerTest {
     form.setName(NAME);
     form.setRole(Role.valueOf(ROLE_NAME));
     doNothing().when(userValidator).validate(form);
-    
+
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
         .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
@@ -221,16 +219,17 @@ public class CreateUserControllerTest {
     verifyZeroInteractions(userServiceMock);
   }
 
-
   @Test
-  public void createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenLoggedAsDfTAdminAndLANotPopulatedForNonDfTUser()
-      throws Exception {
+  public void
+      createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenLoggedAsDfTAdminAndLANotPopulatedForNonDfTUser()
+          throws Exception {
 
-	ErrorErrors laError = new ErrorErrors().field("localAuthorityShortCode").message(ERROR_NOT_BLANK);
+    ErrorErrors laError =
+        new ErrorErrors().field("localAuthorityShortCode").message(ERROR_NOT_BLANK);
 
     CommonResponse commonResponse = new CommonResponse();
     commonResponse.setError(new Error().errors(Lists.newArrayList(laError)));
-    
+
     UserFormRequest form = new UserFormRequest();
     form.setEmailAddress(EMAIL);
     form.setName(NAME);
@@ -250,25 +249,25 @@ public class CreateUserControllerTest {
         .andExpect(view().name("manage-users/create-user"))
         .andExpect(model().errorCount(1))
         .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", "localAuthorityShortCode", ERROR_NOT_BLANK));
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", "localAuthorityShortCode", ERROR_NOT_BLANK));
 
     verifyZeroInteractions(userServiceMock);
   }
 
-
   @Test
-  public void shouldCreateDfTAdminUserAndRedirectToManageUserTemplate()
-      throws Exception {
-    
-	    User user =
-	            User.builder()
-	                .emailAddress(EMAIL)
-	                .name(NAME)
-	                .localAuthorityShortCode(null)
-	                .roleId(DFT_ROLE_ID)
-	                .build();
+  public void shouldCreateDfTAdminUserAndRedirectToManageUserTemplate() throws Exception {
 
-	UserFormRequest form = new UserFormRequest();
+    User user =
+        User.builder()
+            .emailAddress(EMAIL)
+            .name(NAME)
+            .localAuthorityShortCode(null)
+            .roleId(DFT_ROLE_ID)
+            .build();
+
+    UserFormRequest form = new UserFormRequest();
     form.setEmailAddress(EMAIL);
     form.setName(NAME);
     form.setRole(Role.valueOf(DFT_ROLE_NAME));

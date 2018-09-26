@@ -22,6 +22,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.User
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -40,15 +41,18 @@ public class UserDetailsController {
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
   private final ReferenceDataService referenceDataService;
+  private final UserFormValidator userValidator;
 
   @Autowired
   public UserDetailsController(
       UserService userService,
       UserFormRequestToUser userConverter,
-      ReferenceDataService referenceDataService) {
+      ReferenceDataService referenceDataService,
+      UserFormValidator userValidator) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.referenceDataService = referenceDataService;
+    this.userValidator = userValidator;
   }
 
   @GetMapping(URL_USER_DETAILS)
@@ -77,6 +81,7 @@ public class UserDetailsController {
       BindingResult bindingResult,
       Model model) {
     try {
+      userValidator.validate(formRequest);
       User user = userConverter.convert(formRequest);
       user.setUuid(uuid);
       userService.update(user);

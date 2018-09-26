@@ -1,9 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -71,7 +67,7 @@ public class CreateUserController {
       }
 
       userValidator.validate(formRequest);
-      
+
       User user = userConverter.convert(formRequest);
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);
