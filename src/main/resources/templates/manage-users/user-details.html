@@ -30,13 +30,10 @@
 
 				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'role', null, ${permissionsOptions}) }"/>
 
-                <span sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
+                <div th:remove="tag" sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
                     <h2 class="govuk-heading-m" data-uipath="laTitle" th:text="#{label.user.index.h2.localAuthority}"/>
-
-                    <div class="dft-width-one-half">
-                        <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthorityShortCode', null, ${localAuthorities}) }"/>
-                    </div>
-                </span>
+                    <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthorityShortCode', null, ${localAuthorities}) }"></div>
+                </div>
 
                 <input th:value="#{common.button.update}" type="submit" data-uipath="updateUserButton" class="govuk-button">
             </form>
