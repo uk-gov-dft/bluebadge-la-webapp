@@ -70,6 +70,7 @@ public class CreateUserController {
 
     try {
       if (!DFT_ADMIN.equals(formRequest.getRole())
+          && securityUtils.isPermitted(Permissions.CREATE_DFT_USER)
           && StringUtils.isEmpty(formRequest.getLocalAuthorityShortCode())) {
         bindingResult.rejectValue(
             "localAuthorityShortCode", "NotNull.user.localAuthorityShortCode");
