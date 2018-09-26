@@ -27,7 +27,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.emailAddress}, 'emailAddress', null, 'email') }"></div>
 
-				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'roleName', null, ${permissionsOptions}) }"/>
+				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'role', null, ${permissionsOptions}) }"/>
 
                 <input th:value="#{common.button.update}" type="submit" data-uipath="updateUserButton" class="govuk-button">
             </form>
