@@ -1,7 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.hamcrest.CoreMatchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -13,16 +14,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.google.common.collect.Lists;
+
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
+import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
@@ -42,8 +46,10 @@ public class CreateUserControllerTest {
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String NAME = "joeblogs@joe.com";
   private static final String NAME_WRONG_FORMAT = "111";
-  private static final String ROLE_NAME = "LA_ADMIN";
+  private static final String ROLE_NAME = Role.LA_ADMIN.name();
+  private static final String DFT_ROLE_NAME = Role.DFT_ADMIN.name();
   private static final int ROLE_ID = 2;
+  private static final int DFT_ROLE_ID = 1;
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
   public static final String ERROR_IN_NAME = "error in name";
@@ -53,7 +59,7 @@ public class CreateUserControllerTest {
 
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
-  @Mock private ReferenceDataService referenceDataService;
+  @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private UserFormValidator userValidator;
 
   private CreateUserController controller;
@@ -69,7 +75,12 @@ public class CreateUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock, referenceDataService, userValidator);
+        new CreateUserController(
+            userServiceMock,
+            new UserFormRequestToUser(),
+            securityUtilsMock,
+            referenceDataServiceMock,
+            userValidator);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -120,13 +131,14 @@ public class CreateUserControllerTest {
     form.setRole(Role.valueOf(ROLE_NAME));
     doNothing().when(userValidator).validate(form);
     
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
         .perform(
             post("/manage-users/create-user")
                 .param("emailAddress", EMAIL)
                 .param("name", NAME)
-                .param("roleName", ROLE_NAME))
+                .param("role", ROLE_NAME))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/manage-users"));
     verify(userServiceMock, times(1)).create(user);
@@ -146,13 +158,20 @@ public class CreateUserControllerTest {
     CommonResponse commonResponse = new CommonResponse();
     commonResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
     when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
+
+    UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress(EMAIL_WRONG_FORMAT);
+    form.setName(NAME_WRONG_FORMAT);
+    form.setRole(Role.valueOf(ROLE_NAME));
+    doNothing().when(userValidator).validate(form);
+
     mockMvc
         .perform(
             post("/manage-users/create-user")
                 .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL_WRONG_FORMAT)
                 .param("name", NAME_WRONG_FORMAT)
-                .param("roleName", ROLE_NAME))
+                .param("role", ROLE_NAME))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-user"))
         .andExpect(model().errorCount(2))
@@ -179,21 +198,97 @@ public class CreateUserControllerTest {
     commonResponse.setError(
         new Error().errors(Lists.newArrayList(emailError, nameError, roleError)));
     when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
+
+    UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress("");
+    form.setName("");
+    form.setRole(null);
+    doNothing().when(userValidator).validate(form);
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
+
     mockMvc
         .perform(
             post("/manage-users/create-user")
                 .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", "")
-                .param("name", "")
-                .param("roleName", ""))
+                .param("name", ""))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-users/create-user"))
         .andExpect(model().errorCount(3))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", "emailAddress", ERROR_NOT_BLANK))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_NOT_BLANK))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "roleName", ERROR_NOT_BLANK));
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "role", "NotNull"));
 
     verifyZeroInteractions(userServiceMock);
+  }
+
+
+  @Test
+  public void createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenLoggedAsDfTAdminAndLANotPopulatedForNonDfTUser()
+      throws Exception {
+
+	ErrorErrors laError = new ErrorErrors().field("localAuthorityShortCode").message(ERROR_NOT_BLANK);
+
+    CommonResponse commonResponse = new CommonResponse();
+    commonResponse.setError(new Error().errors(Lists.newArrayList(laError)));
+    
+    UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress(EMAIL);
+    form.setName(NAME);
+    form.setRole(Role.valueOf(ROLE_NAME));
+    form.setLocalAuthorityShortCode(null);
+    doThrow(new BadRequestException(commonResponse)).when(userValidator).validate(form);
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
+
+    mockMvc
+        .perform(
+            post("/manage-users/create-user")
+                .sessionAttr("user", userDataSignedIn)
+                .param("emailAddress", EMAIL)
+                .param("name", NAME)
+                .param("role", ROLE_NAME))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-users/create-user"))
+        .andExpect(model().errorCount(1))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", "localAuthorityShortCode", ERROR_NOT_BLANK));
+
+    verifyZeroInteractions(userServiceMock);
+  }
+
+
+  @Test
+  public void shouldCreateDfTAdminUserAndRedirectToManageUserTemplate()
+      throws Exception {
+    
+	    User user =
+	            User.builder()
+	                .emailAddress(EMAIL)
+	                .name(NAME)
+	                .localAuthorityShortCode(null)
+	                .roleId(DFT_ROLE_ID)
+	                .build();
+
+	UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress(EMAIL);
+    form.setName(NAME);
+    form.setRole(Role.valueOf(DFT_ROLE_NAME));
+    form.setLocalAuthorityShortCode(null);
+
+    doNothing().when(userValidator).validate(form);
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
+
+    mockMvc
+        .perform(
+            post("/manage-users/create-user")
+                .sessionAttr("user", userDataSignedIn)
+                .param("emailAddress", EMAIL)
+                .param("name", NAME)
+                .param("role", DFT_ROLE_NAME))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/manage-users"));
+
+    verify(userServiceMock, times(1)).create(user);
   }
 }

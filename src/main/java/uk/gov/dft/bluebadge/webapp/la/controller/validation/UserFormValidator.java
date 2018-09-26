@@ -6,9 +6,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.google.common.collect.Lists;
+
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
+import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
@@ -26,10 +29,11 @@ public class UserFormValidator {
 
 	public void validate(UserFormRequest user) throws BadRequestException {
 		if (!DFT_ADMIN.equals(user.getRole()) && StringUtils.isEmpty(user.getLocalAuthorityShortCode())) {
+		    CommonResponse commonResponse = new CommonResponse();
+			ErrorErrors laError = new ErrorErrors().field("localAuthorityShortCode").message("NotNull.user.localAuthorityShortCode");
+		    commonResponse.setError(new Error().errors(Lists.newArrayList(laError)));
 
-			CommonResponse response = new CommonResponse()
-					.error(new Error().reason("NotNull.user.localAuthorityShortCode")).id("localAuthorityShortCode");
-			throw new BadRequestException(response);
+			throw new BadRequestException(commonResponse);
 		}
 
 		if (DFT_ADMIN.equals(user.getRole())) {

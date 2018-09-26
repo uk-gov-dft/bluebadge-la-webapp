@@ -1,7 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static uk.gov.dft.bluebadge.common.security.Role.DFT_ADMIN;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,14 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.google.common.collect.Lists;
-
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.security.Permissions;
-import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -75,36 +69,16 @@ public class CreateUserController {
     log.debug("Creating new user");
 
     try {
-//      if (!DFT_ADMIN.equals(formRequest.getRole())
-//          && StringUtils.isEmpty(formRequest.getLocalAuthorityShortCode())) {
-//        bindingResult.rejectValue(
-//            "localAuthorityShortCode", "NotNull.user.localAuthorityShortCode");
-//      }
 
       if (bindingResult.hasErrors()) {
         throw new BadRequestException(new CommonResponse());
       }
       userValidator.validate(formRequest);
       
-      BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = userConverter.convert(formRequest);
-      /*
-      NEEDS FINISHING OFF
-       */
-//      if (DFT_ADMIN.equals(formRequest.getRole())) {
-//        if (!securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-//          throw new AccessDeniedException("User not permitted to create DFT user");
-//        }
-//        user.setLocalAuthorityShortCode(null);
-//      } else 
-
-      if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-        user.setLocalAuthorityShortCode(formRequest.getLocalAuthorityShortCode());
-      } else {
-        user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
-      }
-      
+      user.setLocalAuthorityShortCode(localAuthorityShortCode(formRequest));     
       user.setRoleId(formRequest.getRole().getRoleId());
+
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);
 
@@ -115,25 +89,17 @@ public class CreateUserController {
     }
   }
 
+  private String localAuthorityShortCode(UserFormRequest formRequest) {
+      if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
+        return formRequest.getLocalAuthorityShortCode();
+      } else {
+        return securityUtils.getCurrentAuth().getLocalAuthorityShortCode();
+      }
+  }
+  
   @ModelAttribute("permissionsOptions")
   public List<ReferenceData> permissionsOptions() {
-    //@stephen-bealine made me do it
-    ReferenceData admin =
-        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
-    ReferenceData editor =
-        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
-    ReferenceData viewer =
-        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
-
-    List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
-
-    if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-      ReferenceData dftAdmin =
-          new ReferenceData().description("DfT Administrator").shortCode(DFT_ADMIN.name());
-      roles.add(dftAdmin);
-    }
-
-    return roles;
+    return referenceDataService.displayedUserRoles();
   }
 
   @ModelAttribute("localAuthorities")
