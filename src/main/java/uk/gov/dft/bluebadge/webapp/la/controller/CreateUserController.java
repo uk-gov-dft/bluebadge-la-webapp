@@ -89,7 +89,7 @@ public class CreateUserController {
           throw new AccessDeniedException("User not permitted to create DFT user");
         }
         user.setLocalAuthorityShortCode(null);
-      } else if (!securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
+      } else if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
         user.setLocalAuthorityShortCode(formRequest.getLocalAuthorityShortCode());
       } else {
         user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
