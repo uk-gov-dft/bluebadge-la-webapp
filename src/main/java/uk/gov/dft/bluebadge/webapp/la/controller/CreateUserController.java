@@ -79,22 +79,7 @@ public class CreateUserController {
         throw new BadRequestException(new CommonResponse());
       }
 
-      BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = userConverter.convert(formRequest);
-      /*
-      NEEDS FINISHING OFF
-       */
-      if (DFT_ADMIN.equals(formRequest.getRole())) {
-        if (!securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-          throw new AccessDeniedException("User not permitted to create DFT user");
-        }
-        user.setLocalAuthorityShortCode(null);
-      } else if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-        user.setLocalAuthorityShortCode(formRequest.getLocalAuthorityShortCode());
-      } else {
-        user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
-      }
-      user.setRoleId(formRequest.getRole().getRoleId());
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);
 
