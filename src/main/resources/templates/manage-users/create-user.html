@@ -33,13 +33,14 @@
 				    <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'role', null, ${permissionsOptions}) }"/>
                 </div>
 
-                <span sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
+                <div th:remove="tag" sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
+
                     <h2 class="govuk-heading-m" data-uipath="laTitle" th:text="#{label.user.index.h2.localAuthority}"/>
 
                     <div class="dft-width-one-half">
                         <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthorityShortCode', null, ${localAuthorities}) }"/>
                     </div>
-                </span>
+                </div>
 
                 <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
             </form>
