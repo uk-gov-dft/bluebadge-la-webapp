@@ -310,7 +310,7 @@ public class SiteSteps extends AbstractSpringSteps {
     } else if (arg0.equals("blank permissions")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("roleName.summary-error").getText(),
+          signInPage.findElementWithUiPath("role.summary-error").getText(),
           getMatcherForText(arg1));
     }
   }
