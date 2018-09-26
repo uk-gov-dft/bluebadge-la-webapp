@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,26 +27,28 @@ import uk.gov.dft.bluebadge.common.util.TestBBPrincipal;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.CreateANewUserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 
-public class CreateANewUserControllerTest {
+public class CreateUserControllerTest {
 
   private static final String EMAIL = "joeblogs@joe.com";
   private static final String EMAIL_WRONG_FORMAT = "joeblogs";
   private static final String NAME = "joeblogs@joe.com";
   private static final String NAME_WRONG_FORMAT = "111";
+  private static final String ROLE_NAME = "LA_ADMIN";
   private static final int ROLE_ID = 2;
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
   public static final String ERROR_IN_EMAIL_ADDRESS = "error in emailAddress";
   public static final String ERROR_IN_NAME = "error in name";
+  public static final String ERROR_NOT_BLANK = "NotBlank";
 
   private MockMvc mockMvc;
 
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
 
-  private CreateANewUserController controller;
+  private CreateUserController controller;
 
   // Test Data
   private BBPrincipal userDataSignedIn;
@@ -58,8 +61,7 @@ public class CreateANewUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateANewUserController(
-            userServiceMock, new CreateANewUserFormRequestToUser(), securityUtilsMock);
+        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -87,14 +89,14 @@ public class CreateANewUserControllerTest {
   public void showCreateANewUser_shouldDisplayCreateANewUserTemplate_WhenUserIsSignedIn()
       throws Exception {
     mockMvc
-        .perform(get("/manage-users/create-a-new-user"))
+        .perform(get("/manage-users/create-user"))
         .andExpect(status().isOk())
-        .andExpect(view().name("manage-users/create-a-new-user"));
+        .andExpect(view().name("manage-users/create-user"));
   }
 
   @Test
   public void
-      createANewUser_shouldCreateANewUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
+      createUser_shouldCreateUserAndRedirectToManageUserTemplate_WhenThereAreNoValidationError()
           throws Exception {
     User user =
         User.builder()
@@ -107,9 +109,10 @@ public class CreateANewUserControllerTest {
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
         .perform(
-            post("/manage-users/create-a-new-user")
+            post("/manage-users/create-user")
                 .param("emailAddress", EMAIL)
-                .param("name", NAME))
+                .param("name", NAME)
+                .param("roleName", ROLE_NAME))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/manage-users"));
     verify(userServiceMock, times(1)).create(user);
@@ -117,7 +120,7 @@ public class CreateANewUserControllerTest {
 
   @Test
   public void
-      createANewUser_shouldDisplayCreateANewUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
+      createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenThereAreValidationErrors()
           throws Exception {
     user.setEmailAddress(EMAIL_WRONG_FORMAT);
     user.setName(NAME_WRONG_FORMAT);
@@ -125,17 +128,19 @@ public class CreateANewUserControllerTest {
     ErrorErrors emailError =
         new ErrorErrors().field("emailAddress").message(ERROR_IN_EMAIL_ADDRESS);
     ErrorErrors nameError = new ErrorErrors().field("name").message(ERROR_IN_NAME);
+
     CommonResponse commonResponse = new CommonResponse();
     commonResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
     when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
     mockMvc
         .perform(
-            post("/manage-users/create-a-new-user")
+            post("/manage-users/create-user")
                 .sessionAttr("user", userDataSignedIn)
                 .param("emailAddress", EMAIL_WRONG_FORMAT)
-                .param("name", NAME_WRONG_FORMAT))
+                .param("name", NAME_WRONG_FORMAT)
+                .param("roleName", ROLE_NAME))
         .andExpect(status().isOk())
-        .andExpect(view().name("manage-users/create-a-new-user"))
+        .andExpect(view().name("manage-users/create-user"))
         .andExpect(model().errorCount(2))
         .andExpect(
             model()
@@ -143,5 +148,38 @@ public class CreateANewUserControllerTest {
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_IN_NAME));
 
     verify(userServiceMock, times(1)).create(user);
+  }
+
+  @Test
+  public void createUser_shouldDisplayCreateUserTemplateWithValidationErrors_WhenNoFieldsPopulated()
+      throws Exception {
+    user.setEmailAddress("");
+    user.setName("");
+    user.setRoleName("");
+
+    ErrorErrors emailError = new ErrorErrors().field("emailAddress").message(ERROR_NOT_BLANK);
+    ErrorErrors nameError = new ErrorErrors().field("name").message(ERROR_NOT_BLANK);
+    ErrorErrors roleError = new ErrorErrors().field("roleName").message(ERROR_NOT_BLANK);
+
+    CommonResponse commonResponse = new CommonResponse();
+    commonResponse.setError(
+        new Error().errors(Lists.newArrayList(emailError, nameError, roleError)));
+    when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
+    mockMvc
+        .perform(
+            post("/manage-users/create-user")
+                .sessionAttr("user", userDataSignedIn)
+                .param("emailAddress", "")
+                .param("name", "")
+                .param("roleName", ""))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-users/create-user"))
+        .andExpect(model().errorCount(3))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", "emailAddress", ERROR_NOT_BLANK))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "name", ERROR_NOT_BLANK))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "roleName", ERROR_NOT_BLANK));
+
+    verifyZeroInteractions(userServiceMock);
   }
 }
