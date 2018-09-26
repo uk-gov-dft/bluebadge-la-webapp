@@ -2,19 +2,21 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.common.security.Role.DFT_ADMIN;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import javax.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.google.common.collect.Lists;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
@@ -26,6 +28,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -43,17 +46,20 @@ public class CreateUserController {
   private final UserFormRequestToUser userConverter;
   private final SecurityUtils securityUtils;
   private final ReferenceDataService referenceDataService;
+  private final UserFormValidator userValidator;
 
   @Autowired
   public CreateUserController(
       UserService userService,
       UserFormRequestToUser userConverter,
       SecurityUtils securityUtils,
-      ReferenceDataService referenceDataService) {
+      ReferenceDataService referenceDataService,
+      UserFormValidator userValidator) {
     this.userService = userService;
     this.userConverter = userConverter;
     this.securityUtils = securityUtils;
     this.referenceDataService = referenceDataService;
+    this.userValidator = userValidator;
   }
 
   @GetMapping(URL_CREATE_USER)
@@ -69,31 +75,35 @@ public class CreateUserController {
     log.debug("Creating new user");
 
     try {
-      if (!DFT_ADMIN.equals(formRequest.getRole())
-          && StringUtils.isEmpty(formRequest.getLocalAuthorityShortCode())) {
-        bindingResult.rejectValue(
-            "localAuthorityShortCode", "NotNull.user.localAuthorityShortCode");
-      }
+//      if (!DFT_ADMIN.equals(formRequest.getRole())
+//          && StringUtils.isEmpty(formRequest.getLocalAuthorityShortCode())) {
+//        bindingResult.rejectValue(
+//            "localAuthorityShortCode", "NotNull.user.localAuthorityShortCode");
+//      }
 
       if (bindingResult.hasErrors()) {
         throw new BadRequestException(new CommonResponse());
       }
-
+      userValidator.validate(formRequest);
+      
       BBPrincipal signedInUser = securityUtils.getCurrentAuth();
       User user = userConverter.convert(formRequest);
       /*
       NEEDS FINISHING OFF
        */
-      if (DFT_ADMIN.equals(formRequest.getRole())) {
-        if (!securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-          throw new AccessDeniedException("User not permitted to create DFT user");
-        }
-        user.setLocalAuthorityShortCode(null);
-      } else if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
+//      if (DFT_ADMIN.equals(formRequest.getRole())) {
+//        if (!securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
+//          throw new AccessDeniedException("User not permitted to create DFT user");
+//        }
+//        user.setLocalAuthorityShortCode(null);
+//      } else 
+
+      if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
         user.setLocalAuthorityShortCode(formRequest.getLocalAuthorityShortCode());
       } else {
         user.setLocalAuthorityShortCode(signedInUser.getLocalAuthorityShortCode());
       }
+      
       user.setRoleId(formRequest.getRole().getRoleId());
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);

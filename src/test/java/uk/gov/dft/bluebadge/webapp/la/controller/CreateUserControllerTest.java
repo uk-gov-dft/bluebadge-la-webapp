@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
+import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.common.security.model.BBPrincipal;
 import uk.gov.dft.bluebadge.common.util.TestBBPrincipal;
@@ -28,6 +31,8 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.validation.UserFormValidator;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -49,6 +54,7 @@ public class CreateUserControllerTest {
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
   @Mock private ReferenceDataService referenceDataService;
+  @Mock private UserFormValidator userValidator;
 
   private CreateUserController controller;
 
@@ -63,7 +69,7 @@ public class CreateUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock, referenceDataService);
+        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock, referenceDataService, userValidator);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -108,6 +114,12 @@ public class CreateUserControllerTest {
             .roleId(ROLE_ID)
             .build();
 
+    UserFormRequest form = new UserFormRequest();
+    form.setEmailAddress(EMAIL);
+    form.setName(NAME);
+    form.setRole(Role.valueOf(ROLE_NAME));
+    doNothing().when(userValidator).validate(form);
+    
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
         .perform(
