@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.gov.dft.bluebadge.common.security.Permissions;
+import uk.gov.dft.bluebadge.common.security.Role;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
@@ -56,6 +59,7 @@ public class ReferenceDataServiceTest {
   private static final String WALKING_SPEED_2 = "About the same";
 
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
+  @Mock private SecurityUtils securityUtilsMock;
 
   private ReferenceDataService referenceDataService;
 
@@ -87,7 +91,7 @@ public class ReferenceDataServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    referenceDataService = new ReferenceDataService(referenceDataManagementApiClientMock);
+    referenceDataService = new ReferenceDataService(referenceDataManagementApiClientMock, securityUtilsMock);
 
     referenceDataEligibility1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
@@ -327,5 +331,20 @@ public class ReferenceDataServiceTest {
             referenceDataService.retrieveApplicationWalkingSpeedDisplayValue(
                 WALKING_SPEED_1_SHORTCODE))
         .isEqualTo(WALKING_SPEED_1);
+  }
+
+  @Test
+  public void displayedUserRoles_whenNotDft_thenExpectedRoles(){
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
+    List<ReferenceData> referenceDatas = referenceDataService.displayedUserRoles();
+    assertThat(referenceDatas).extracting("shortCode")
+        .containsOnly(Role.LA_ADMIN.name(), Role.LA_EDITOR.name(), Role.LA_READ.name());
+  }
+  @Test
+  public void displayedUserRoles_whenDft_thenExpectedRolesIncludesDftAdmin(){
+    when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
+    List<ReferenceData> referenceDatas = referenceDataService.displayedUserRoles();
+    assertThat(referenceDatas).extracting("shortCode")
+        .containsOnly(Role.LA_ADMIN.name(), Role.LA_EDITOR.name(), Role.LA_READ.name(), Role.DFT_ADMIN.name());
   }
 }

@@ -1,5 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.service.referencedata;
 
+import static uk.gov.dft.bluebadge.common.security.Role.DFT_ADMIN;
+
+import com.google.common.collect.Lists;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +11,9 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.gov.dft.bluebadge.common.security.Permissions;
+import uk.gov.dft.bluebadge.common.security.Role;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
@@ -21,11 +27,13 @@ public class ReferenceDataService {
   private Map<String, Map<String, String>> applicationGroupedReferenceDataMap = null;
 
   private final ReferenceDataApiClient referenceDataApiClient;
+  private final SecurityUtils securityUtils;
   private AtomicBoolean isLoaded = new AtomicBoolean();
 
   @Autowired
-  public ReferenceDataService(ReferenceDataApiClient referenceDataApiClient) {
+  public ReferenceDataService(ReferenceDataApiClient referenceDataApiClient, SecurityUtils securityUtils) {
     this.referenceDataApiClient = referenceDataApiClient;
+    this.securityUtils = securityUtils;
   }
 
   /**
@@ -199,5 +207,24 @@ public class ReferenceDataService {
       init();
     }
     return applicationGroupedReferenceDataMap.get(group.getGroupKey()).get(key);
+  }
+
+  public List<ReferenceData> displayedUserRoles() {
+    ReferenceData admin =
+        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
+    ReferenceData editor =
+        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
+    ReferenceData viewer =
+        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
+
+    List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
+
+    if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
+      ReferenceData dftAdmin =
+          new ReferenceData().description("DfT Administrator").shortCode(DFT_ADMIN.name());
+      roles.add(dftAdmin);
+    }
+
+    return roles;
   }
 }

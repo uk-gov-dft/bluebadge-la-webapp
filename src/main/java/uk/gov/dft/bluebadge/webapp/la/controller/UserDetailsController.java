@@ -132,22 +132,7 @@ public class UserDetailsController {
 
   @ModelAttribute("permissionsOptions")
   public List<ReferenceData> permissionsOptions() {
-    ReferenceData admin =
-        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
-    ReferenceData editor =
-        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
-    ReferenceData viewer =
-        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
-
-    List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
-
-    if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-      ReferenceData dftAdmin =
-          new ReferenceData().description("DfT Administrator").shortCode(DFT_ADMIN.name());
-      roles.add(dftAdmin);
-    }
-
-    return roles;
+    return referenceDataService.displayedUserRoles();
   }
 
   @ModelAttribute("localAuthorities")
