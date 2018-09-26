@@ -43,18 +43,15 @@ public class UserDetailsController {
 
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
-  private final SecurityUtils securityUtils;
   private final ReferenceDataService referenceDataService;
 
   @Autowired
   public UserDetailsController(
       UserService userService,
       UserFormRequestToUser userConverter,
-      SecurityUtils securityUtils,
       ReferenceDataService referenceDataService) {
     this.userService = userService;
     this.userConverter = userConverter;
-    this.securityUtils = securityUtils;
     this.referenceDataService = referenceDataService;
   }
 

@@ -63,7 +63,6 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String ERROR_MSG_NAME = "error in name";
 
   @Mock private UserService userServiceMock;
-  @Mock private SecurityUtils securityUtilsMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
 
   // Test Data
@@ -81,7 +80,6 @@ public class UserDetailsControllerTest extends BaseControllerTest {
         new UserDetailsController(
             userServiceMock,
             new UserFormRequestToUser(),
-            securityUtilsMock,
             referenceDataServiceMock);
 
     this.mockMvc =
