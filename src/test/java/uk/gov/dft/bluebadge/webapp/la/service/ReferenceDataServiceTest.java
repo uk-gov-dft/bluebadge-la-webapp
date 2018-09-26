@@ -91,7 +91,8 @@ public class ReferenceDataServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    referenceDataService = new ReferenceDataService(referenceDataManagementApiClientMock, securityUtilsMock);
+    referenceDataService =
+        new ReferenceDataService(referenceDataManagementApiClientMock, securityUtilsMock);
 
     referenceDataEligibility1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
@@ -334,17 +335,24 @@ public class ReferenceDataServiceTest {
   }
 
   @Test
-  public void displayedUserRoles_whenNotDft_thenExpectedRoles(){
+  public void displayedUserRoles_whenNotDft_thenExpectedRoles() {
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
     List<ReferenceData> referenceDatas = referenceDataService.displayedUserRoles();
-    assertThat(referenceDatas).extracting("shortCode")
+    assertThat(referenceDatas)
+        .extracting("shortCode")
         .containsOnly(Role.LA_ADMIN.name(), Role.LA_EDITOR.name(), Role.LA_READ.name());
   }
+
   @Test
-  public void displayedUserRoles_whenDft_thenExpectedRolesIncludesDftAdmin(){
+  public void displayedUserRoles_whenDft_thenExpectedRolesIncludesDftAdmin() {
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(true);
     List<ReferenceData> referenceDatas = referenceDataService.displayedUserRoles();
-    assertThat(referenceDatas).extracting("shortCode")
-        .containsOnly(Role.LA_ADMIN.name(), Role.LA_EDITOR.name(), Role.LA_READ.name(), Role.DFT_ADMIN.name());
+    assertThat(referenceDatas)
+        .extracting("shortCode")
+        .containsOnly(
+            Role.LA_ADMIN.name(),
+            Role.LA_EDITOR.name(),
+            Role.LA_READ.name(),
+            Role.DFT_ADMIN.name());
   }
 }

@@ -31,7 +31,8 @@ public class ReferenceDataService {
   private AtomicBoolean isLoaded = new AtomicBoolean();
 
   @Autowired
-  public ReferenceDataService(ReferenceDataApiClient referenceDataApiClient, SecurityUtils securityUtils) {
+  public ReferenceDataService(
+      ReferenceDataApiClient referenceDataApiClient, SecurityUtils securityUtils) {
     this.referenceDataApiClient = referenceDataApiClient;
     this.securityUtils = securityUtils;
   }
