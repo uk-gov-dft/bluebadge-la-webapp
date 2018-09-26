@@ -29,6 +29,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class CreateUserControllerTest {
 
@@ -47,6 +48,7 @@ public class CreateUserControllerTest {
 
   @Mock private UserService userServiceMock;
   @Mock private SecurityUtils securityUtilsMock;
+  @Mock private ReferenceDataService referenceDataService;
 
   private CreateUserController controller;
 
@@ -61,7 +63,7 @@ public class CreateUserControllerTest {
     MockitoAnnotations.initMocks(this);
 
     controller =
-        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock);
+        new CreateUserController(userServiceMock, new UserFormRequestToUser(), securityUtilsMock, referenceDataService);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
