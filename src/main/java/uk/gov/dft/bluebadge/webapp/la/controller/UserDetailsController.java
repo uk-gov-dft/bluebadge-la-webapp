@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import uk.gov.dft.bluebadge.common.security.Role;
-
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -79,7 +77,8 @@ public class UserDetailsController {
       BindingResult bindingResult,
       Model model) {
     try {
-      User user = combine(formRequest, userService.retrieve(uuid));
+      User user = userConverter.convert(formRequest);
+      user.setUuid(uuid);
       userService.update(user);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (BadRequestException e) {
@@ -104,15 +103,6 @@ public class UserDetailsController {
       model.addAttribute(PARAM_ID, uuid);
       return TEMPLATE_USER_DETAILS;
     }
-  }
-
-  private User combine(final UserFormRequest formRequest, final User userData) {
-    User user = userConverter.convert(formRequest);
-    user.setUuid(userData.getUuid());
-    user.setLocalAuthorityShortCode(userData.getLocalAuthorityShortCode());
-    user.setRoleId(formRequest.getRole().getRoleId());
-
-    return user;
   }
 
   @PostMapping(URL_REQUEST_RESET_EMAIL)

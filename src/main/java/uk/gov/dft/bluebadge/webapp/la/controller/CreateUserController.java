@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -38,7 +37,6 @@ public class CreateUserController {
 
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
-  private final SecurityUtils securityUtils;
   private final ReferenceDataService referenceDataService;
   private final UserFormValidator userValidator;
 
@@ -46,12 +44,10 @@ public class CreateUserController {
   public CreateUserController(
       UserService userService,
       UserFormRequestToUser userConverter,
-      SecurityUtils securityUtils,
       ReferenceDataService referenceDataService,
       UserFormValidator userValidator) {
     this.userService = userService;
     this.userConverter = userConverter;
-    this.securityUtils = securityUtils;
     this.referenceDataService = referenceDataService;
     this.userValidator = userValidator;
   }
@@ -73,12 +69,10 @@ public class CreateUserController {
       if (bindingResult.hasErrors()) {
         throw new BadRequestException(new CommonResponse());
       }
+
       userValidator.validate(formRequest);
       
       User user = userConverter.convert(formRequest);
-      user.setLocalAuthorityShortCode(localAuthorityShortCode(formRequest));     
-      user.setRoleId(formRequest.getRole().getRoleId());
-
       log.debug("Creating user for email {}, user: {}", user.getEmailAddress(), user.toString());
       userService.create(user);
 
@@ -89,14 +83,6 @@ public class CreateUserController {
     }
   }
 
-  private String localAuthorityShortCode(UserFormRequest formRequest) {
-      if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
-        return formRequest.getLocalAuthorityShortCode();
-      } else {
-        return securityUtils.getCurrentAuth().getLocalAuthorityShortCode();
-      }
-  }
-  
   @ModelAttribute("permissionsOptions")
   public List<ReferenceData> permissionsOptions() {
     return referenceDataService.displayedUserRoles();

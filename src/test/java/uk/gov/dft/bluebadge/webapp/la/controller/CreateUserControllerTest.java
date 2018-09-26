@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -77,8 +77,7 @@ public class CreateUserControllerTest {
     controller =
         new CreateUserController(
             userServiceMock,
-            new UserFormRequestToUser(),
-            securityUtilsMock,
+            new UserFormRequestToUser(securityUtilsMock),
             referenceDataServiceMock,
             userValidator);
 
@@ -132,6 +131,8 @@ public class CreateUserControllerTest {
     doNothing().when(userValidator).validate(form);
     
     when(securityUtilsMock.isPermitted(Permissions.CREATE_DFT_USER)).thenReturn(false);
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
+        .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
     when(userServiceMock.create(user)).thenReturn(user);
     mockMvc
         .perform(
@@ -157,13 +158,10 @@ public class CreateUserControllerTest {
 
     CommonResponse commonResponse = new CommonResponse();
     commonResponse.setError(new Error().errors(Lists.newArrayList(emailError, nameError)));
-    when(userServiceMock.create(user)).thenThrow(new BadRequestException(commonResponse));
-
-    UserFormRequest form = new UserFormRequest();
-    form.setEmailAddress(EMAIL_WRONG_FORMAT);
-    form.setName(NAME_WRONG_FORMAT);
-    form.setRole(Role.valueOf(ROLE_NAME));
-    doNothing().when(userValidator).validate(form);
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode())
+        .thenReturn(LOCAL_AUTHORITY_SHORT_CODE);
+    when(userServiceMock.create(any(User.class)))
+        .thenThrow(new BadRequestException(commonResponse));
 
     mockMvc
         .perform(
