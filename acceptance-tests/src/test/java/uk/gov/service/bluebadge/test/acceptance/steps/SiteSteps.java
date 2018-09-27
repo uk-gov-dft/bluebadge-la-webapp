@@ -1,19 +1,5 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.slf4j.LoggerFactory.getLogger;
-
 import cucumber.api.DataTable;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -21,12 +7,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
@@ -37,11 +17,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
-import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
+import uk.gov.service.bluebadge.test.acceptance.util.*;
+
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.*;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class SiteSteps extends AbstractSpringSteps {
 
@@ -310,8 +300,13 @@ public class SiteSteps extends AbstractSpringSteps {
     } else if (arg0.equals("blank permissions")) {
       assertThat(
           "Validation message expected",
-          signInPage.findElementWithUiPath("roleName.summary-error").getText(),
+          signInPage.findElementWithUiPath("role.summary-error").getText(),
           getMatcherForText(arg1));
+    } else if (arg0.equals("blank Local authority")) {
+      assertThat(
+              "Validation message expected",
+              signInPage.findElementWithUiPath("localAuthorityShortCode.summary-error").getText(),
+              getMatcherForText(arg1));
     }
   }
 
@@ -582,4 +577,6 @@ public class SiteSteps extends AbstractSpringSteps {
         .contains(System.getProperty("email")));
     assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
   }
+
+
 }
