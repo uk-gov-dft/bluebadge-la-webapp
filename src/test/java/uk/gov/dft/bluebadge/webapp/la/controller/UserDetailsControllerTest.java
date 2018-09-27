@@ -1,8 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.Mockito.any;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,6 +33,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
+
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -45,6 +48,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private static final String NAME_ERROR = "updated11";
 
   private static final int ROLE_ID = Role.LA_ADMIN.getRoleId();
+  private static final int ROLE_DFT_ID = Role.DFT_ADMIN.getRoleId();
   private static final int ROLE_ID_UPDATED = Role.LA_EDITOR.getRoleId();
 
   private static final Role ROLE = Role.LA_ADMIN;
@@ -61,6 +65,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
 
   private static final String ERROR_MSG_EMAIL_ADDRESS = "error in emailAddress";
   private static final String ERROR_MSG_NAME = "error in name";
+  private static final String ERROR_NOT_BLANK = "NotBlank";
 
   @Mock private UserService userServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
@@ -70,6 +75,7 @@ public class UserDetailsControllerTest extends BaseControllerTest {
   private User userSignedIn;
   private User user;
   private User userWithId;
+  private User userDfTAdmin;
 
   @Before
   public void setup() {
@@ -112,6 +118,15 @@ public class UserDetailsControllerTest extends BaseControllerTest {
             .name(NAME)
             .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
             .roleId(ROLE_ID)
+            .build();
+
+    userDfTAdmin =
+        User.builder()
+            .uuid(USER_ID)
+            .emailAddress(EMAIL_ADDRESS)
+            .name(NAME)
+            .localAuthorityShortCode(LOCAL_AUTHORITY_SHORT_CODE)
+            .roleId(ROLE_DFT_ID)
             .build();
   }
 
