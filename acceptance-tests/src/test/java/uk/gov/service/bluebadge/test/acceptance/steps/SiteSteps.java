@@ -1,5 +1,12 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static java.util.stream.Collectors.toList;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.*;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import cucumber.api.DataTable;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -7,6 +14,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
@@ -18,20 +31,6 @@ import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 import uk.gov.service.bluebadge.test.acceptance.util.*;
-
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.*;
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class SiteSteps extends AbstractSpringSteps {
 
@@ -283,32 +282,28 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
   public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+    WebElement errorElement = null;
     if (arg0.equals("invalid email")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
-          getMatcherForText(arg1));
+      errorElement =
+          signInPage.findElementWithUiPath("emailAddress.summary-error");
     } else if (arg0.equals("invalid email or password")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
-          getMatcherForText(arg1));
+      errorElement =
+          signInPage.findElementWithUiPath("error.form.signin.invalid");
     } else if (arg0.equals("invalid name")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("name.summary-error").getText(),
-          getMatcherForText(arg1));
+      errorElement =
+          signInPage.findElementWithUiPath("name.summary-error");
     } else if (arg0.equals("blank permissions")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("role.summary-error").getText(),
-          getMatcherForText(arg1));
+      errorElement =
+          signInPage.findElementWithUiPath("role.summary-error");
     } else if (arg0.equals("blank Local authority")) {
-      assertThat(
-              "Validation message expected",
-              signInPage.findElementWithUiPath("localAuthorityShortCode.summary-error").getText(),
-              getMatcherForText(arg1));
+      errorElement =
+          signInPage.findElementWithUiPath("localAuthorityShortCode.summary-error");
     }
+    assertThat(
+        "Failed to find error element for " + arg0,
+        errorElement,
+        Matchers.notNullValue());
+    assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
   }
 
   @When("^I search for newly create user using email address$")
@@ -578,6 +573,4 @@ public class SiteSteps extends AbstractSpringSteps {
         .contains(System.getProperty("email")));
     assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
   }
-
-
 }
