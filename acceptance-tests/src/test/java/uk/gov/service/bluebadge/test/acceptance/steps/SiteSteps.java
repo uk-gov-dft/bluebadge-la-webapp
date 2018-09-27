@@ -262,7 +262,6 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findPageElementById("emailAddress").sendKeys(email);
     sitePage.findElementWithUiPath("createUserButton").click();
-    thenIWait(3);
   }
 
   @And("^I should see the newly created user is on the users list$")
@@ -282,28 +281,35 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
   public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
-    WebElement errorElement = null;
     if (arg0.equals("invalid email")) {
-      errorElement =
-          signInPage.findElementWithUiPath("emailAddress.summary-error");
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
+          getMatcherForText(arg1));
     } else if (arg0.equals("invalid email or password")) {
-      errorElement =
-          signInPage.findElementWithUiPath("error.form.signin.invalid");
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
+          getMatcherForText(arg1));
     } else if (arg0.equals("invalid name")) {
-      errorElement =
-          signInPage.findElementWithUiPath("name.summary-error");
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("name.summary-error").getText(),
+          getMatcherForText(arg1));
     } else if (arg0.equals("blank permissions")) {
-      errorElement =
-          signInPage.findElementWithUiPath("role.summary-error");
+      assertThat(
+          "Validation message expected",
+          signInPage.findElementWithUiPath("role.summary-error").getText(),
+          getMatcherForText(arg1));
     } else if (arg0.equals("blank Local authority")) {
-      errorElement =
+      WebElement errorElement =
           signInPage.findElementWithUiPath("localAuthorityShortCode.summary-error");
+      assertThat(
+          "Failed to find element 'localAuthorityShortCode.summary-error'",
+          errorElement,
+          Matchers.notNullValue());
+      assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
     }
-    assertThat(
-        "Failed to find error element for " + arg0,
-        errorElement,
-        Matchers.notNullValue());
-    assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
   }
 
   @When("^I search for newly create user using email address$")
