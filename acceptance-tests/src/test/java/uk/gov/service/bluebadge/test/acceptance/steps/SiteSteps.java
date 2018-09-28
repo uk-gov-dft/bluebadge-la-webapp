@@ -262,7 +262,6 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findPageElementById("emailAddress").sendKeys(email);
     sitePage.findElementWithUiPath("createUserButton").click();
-    thenIWait(3);
   }
 
   @And("^I should see the newly created user is on the users list$")
