@@ -2,6 +2,7 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{userdetail.title.prefix} + '&nbsp;' + ${formRequest.name} + '&nbsp;' + #{common.title.suffix}"></title>
@@ -27,7 +28,12 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.emailAddress}, 'emailAddress', null, 'email') }"></div>
 
-				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'roleName', null, ${permissionsOptions}) }"/>
+				<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'role', null, ${permissionsOptions}) }"/>
+
+                <div th:remove="tag" sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
+                    <h2 class="govuk-heading-m" data-uipath="laTitle" th:text="#{label.user.index.h2.localAuthority}"/>
+                    <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthorityShortCode', null, ${localAuthorities}) }"></div>
+                </div>
 
                 <input th:value="#{common.button.update}" type="submit" data-uipath="updateUserButton" class="govuk-button">
             </form>

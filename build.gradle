@@ -23,6 +23,7 @@ plugins {
     id "com.moowork.node" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
     id "com.jfrog.artifactory" version "4.5.4"
+    id "com.gorylenko.gradle-git-properties" version "1.5.1"
 }
 
 apply plugin: 'java'
@@ -134,7 +135,7 @@ configurations.all {
 }
 
 dependencies {
-    ext.commonVersion = '0.6.1-SNAPSHOT'
+    ext.commonVersion = '0.6.2-SNAPSHOT'
 
     compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'

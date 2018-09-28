@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.ManageUsersController.URL_MANAGE_USERS;
 
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.User
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
+
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
 @Slf4j
@@ -39,11 +40,16 @@ public class UserDetailsController {
 
   private final UserService userService;
   private final UserFormRequestToUser userConverter;
+  private final ReferenceDataService referenceDataService;
 
   @Autowired
-  public UserDetailsController(UserService userService, UserFormRequestToUser userConverter) {
+  public UserDetailsController(
+      UserService userService,
+      UserFormRequestToUser userConverter,
+      ReferenceDataService referenceDataService) {
     this.userService = userService;
     this.userConverter = userConverter;
+    this.referenceDataService = referenceDataService;
   }
 
   @GetMapping(URL_USER_DETAILS)
@@ -62,7 +68,7 @@ public class UserDetailsController {
     formRequest.setLocalAuthorityShortCode(user.getLocalAuthorityShortCode());
     formRequest.setEmailAddress(user.getEmailAddress());
     formRequest.setName(user.getName());
-    formRequest.setRoleName(Role.getById(user.getRoleId()).name());
+    formRequest.setRole(Role.getById(user.getRoleId()));
   }
 
   @PostMapping(URL_USER_DETAILS)
@@ -72,7 +78,8 @@ public class UserDetailsController {
       BindingResult bindingResult,
       Model model) {
     try {
-      User user = combine(formRequest, userService.retrieve(uuid));
+      User user = userConverter.convert(formRequest);
+      user.setUuid(uuid);
       userService.update(user);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (BadRequestException e) {
@@ -99,15 +106,6 @@ public class UserDetailsController {
     }
   }
 
-  private User combine(final UserFormRequest formRequest, final User userData) {
-    User user = userConverter.convert(formRequest);
-    user.setUuid(userData.getUuid());
-    user.setLocalAuthorityShortCode(userData.getLocalAuthorityShortCode());
-    user.setRoleId(Role.valueOf(formRequest.getRoleName()).getRoleId());
-
-    return user;
-  }
-
   @PostMapping(URL_REQUEST_RESET_EMAIL)
   public String requestPasswordReset(
       @PathVariable(PARAM_ID) UUID uuid,
@@ -120,14 +118,11 @@ public class UserDetailsController {
 
   @ModelAttribute("permissionsOptions")
   public List<ReferenceData> permissionsOptions() {
-    //@stephen-bealine made me do it
-    ReferenceData admin =
-        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
-    ReferenceData editor =
-        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
-    ReferenceData viewer =
-        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
+    return referenceDataService.displayedUserRoles();
+  }
 
-    return Lists.newArrayList(viewer, editor, admin);
+  @ModelAttribute("localAuthorities")
+  public List<ReferenceData> localAuthorities() {
+    return referenceDataService.retrieveBadgeLocalAuthorities();
   }
 }
