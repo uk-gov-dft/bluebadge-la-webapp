@@ -27,6 +27,7 @@ public abstract class MockMVCWithSecurityTests {
 
   @Value("${local.management.port}")
   protected int managementPort;
+
   @Autowired protected WebApplicationContext wac;
   protected MockMvc mockMvc;
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -25,6 +27,7 @@ import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatExce
 public class PasswordGrantFlowAuthenticationProvider implements AuthenticationProvider {
 
   private static final Pattern EMAIL_REGEX = Pattern.compile(".+\\@.+");
+  public static final String USER_ACCOUNT_IS_LOCKED_MSG = "User account is locked";
   private final OAuth2RestTemplate oAuth2RestTemplate;
   private final ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails;
   private final ResourceOwnerPasswordAccessTokenProvider accessTokenProvider;
@@ -77,6 +80,10 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
     } catch (OAuth2AccessDeniedException ade) {
       if (ade.getCause() instanceof ResourceAccessException) {
         throw new AuthServerConnectionException("Failed to connect to authorisation service.", ade);
+      }
+      if (ade.getCause() instanceof InvalidGrantException
+          && USER_ACCOUNT_IS_LOCKED_MSG.equals(ade.getCause().getMessage())) {
+        throw new LockedException("Sign in failed. Account is locked.", ade);
       }
       throw new BadCredentialsException("Failed to authenticate user.", ade);
     }
