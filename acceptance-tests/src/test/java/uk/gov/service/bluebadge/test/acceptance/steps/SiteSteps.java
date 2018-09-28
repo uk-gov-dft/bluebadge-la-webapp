@@ -1,21 +1,13 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
 import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -38,11 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
-import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
+import uk.gov.service.bluebadge.test.acceptance.util.*;
 
 public class SiteSteps extends AbstractSpringSteps {
 
@@ -308,12 +296,19 @@ public class SiteSteps extends AbstractSpringSteps {
           "Validation message expected",
           signInPage.findElementWithUiPath("name.summary-error").getText(),
           getMatcherForText(arg1));
-    }
-    else if (arg0.equals("blank permissions")) {
+    } else if (arg0.equals("blank permissions")) {
       assertThat(
-              "Validation message expected",
-              signInPage.findElementWithUiPath("roleName.summary-error").getText(),
-              getMatcherForText(arg1));
+          "Validation message expected",
+          signInPage.findElementWithUiPath("role.summary-error").getText(),
+          getMatcherForText(arg1));
+    } else if (arg0.equals("blank Local authority")) {
+      WebElement errorElement =
+          signInPage.findElementWithUiPath("localAuthorityShortCode.summary-error");
+      assertThat(
+          "Failed to find element 'localAuthorityShortCode.summary-error'",
+          errorElement,
+          Matchers.notNullValue());
+      assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
     }
   }
 
@@ -575,16 +570,13 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see the newly created user's permission as \"([^\"]*)\"$")
   public void iShouldSeeTheNewlyCreatedUserSPermissionAs(String permission) throws Throwable {
     assertThat(
-            "Only 1 result is expected",
-            sitePage.findElementWithUiPath("search.count").getText(),
-            getMatcherForText("1 Result:"));
+        "Only 1 result is expected",
+        sitePage.findElementWithUiPath("search.count").getText(),
+        getMatcherForText("1 Result:"));
     assert (sitePage
-            .findElementWithUiPath("table.body")
-            .getText()
-            .contains(System.getProperty("email")));
-    assert (sitePage
-            .findElementWithUiPath("table.body")
-            .getText()
-            .contains(permission));
+        .findElementWithUiPath("table.body")
+        .getText()
+        .contains(System.getProperty("email")));
+    assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
   }
 }

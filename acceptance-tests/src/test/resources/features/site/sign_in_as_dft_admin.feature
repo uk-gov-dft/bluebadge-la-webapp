@@ -9,17 +9,16 @@ Feature: Dft BlueBadge LA Sign In Page - User with DFT admin role
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     Then I should see the page titled "Sign in - GOV.UK Manage Blue Badges"
-    And I type username "aberddftadmin@dft.gov.uk" and  ***REMOVED***
+    And I type username "dft_admin@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should see LA name as "Aberdeenshire council"
-    And I should see username as "aberd dft admin user"
+    And I should see username as "Dr. Pamela Lillian Isley"
     And I should see signout link
 
-  Scenario: Verify Editor sees only manage users link in the nav bar
+  Scenario: Verify Dft Admin sees only manage users link in the nav bar
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
-    And I type username "aberddftadmin@dft.gov.uk" and  ***REMOVED***
+    And I type username "dft_admin@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should not see the left navigation menu item "New applications"
