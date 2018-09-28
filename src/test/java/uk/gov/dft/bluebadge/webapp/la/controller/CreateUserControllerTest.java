@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -33,7 +32,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.UserFormRequestToUser;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UserFormRequest;
-
 import uk.gov.dft.bluebadge.webapp.la.service.UserService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
