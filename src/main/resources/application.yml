@@ -88,4 +88,4 @@ security:
       user-info-uri: ${blue-badge.auth-server.url}/me
 
 # Google Analytics Code
-GACode: 'UA-124760983-6'
+GACode:  ${GACODE:UA-124760983-6}
