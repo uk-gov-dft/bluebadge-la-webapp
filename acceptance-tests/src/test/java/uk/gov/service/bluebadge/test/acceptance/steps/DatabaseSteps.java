@@ -16,7 +16,7 @@ public class DatabaseSteps {
 
   private final DbUtils dbUtils;
 
-  public DatabaseSteps(){
+  public DatabaseSteps() {
     Map<String, Object> settings = new HashMap<>();
 
     settings.put("username", "developer");

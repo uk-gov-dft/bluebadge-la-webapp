@@ -86,7 +86,8 @@ public class ManageUserSteps {
   @And("^I navigate to new users reset password page$")
   public void iNavigateToNewUsersResetPasswordPage() throws Throwable {
     String email = System.getProperty("email");
-    String query = "SELECT uuid from usermanagement.email_link el join usermanagement.users u on u.id = el.user_id where u.email_address = '%s'";
+    String query =
+        "SELECT uuid from usermanagement.email_link el join usermanagement.users u on u.id = el.user_id where u.email_address = '%s'";
     String linkUuid = databaseSteps.queryForString(String.format(query, email));
     siteSteps.givenINavigateToPage("set***REMOVED***/" + linkUuid);
   }
