@@ -4,40 +4,55 @@
     <title>GOV.UK Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}">
     <!--<![endif]-->
 
     <!--[if IE 8]>
-        <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main-ie8.css}">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main-ie8.css}">
     <![endif]-->
 
     <!--[if lt IE 9]>
-        <script src="/js/html5-shiv.js"></script>
+    <script src="/js/html5-shiv.js"></script>
     <![endif]-->
+
+    <th:block th:if="${@environment.getProperty('GACode')}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async th:src="'https://www.googletagmanager.com/gtag/js?id='+${@environment.getProperty('GACode')}"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', [[${@environment.getProperty('GACode')}]], {'anonymize_ip': true });
+    /*]]>*/
+    </script>
+    </th:block>
 </head>
 <body>
-    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+<script>
+    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+</script>
 
-    <a href="#content" class="govuk-skip-link">Skip to main content</a>
+<a href="#content" class="govuk-skip-link">Skip to main content</a>
 
-    <header th:replace="~{fragments/topbar :: topbar }"></header>
+<header th:replace="~{fragments/topbar :: topbar }"></header>
 
-    <div class="dft-container dft-container--with-sidebar">
+<div class="dft-container dft-container--with-sidebar">
 
-        <aside th:replace="~{ fragments/sidebar :: dft-sidebar }"></aside>
+    <aside th:replace="~{ fragments/sidebar :: dft-sidebar }"></aside>
 
-        <div class="dft-width-container">
+    <div class="dft-width-container">
 
-            <div layout:fragment="headline" th:remove="tag"></div>
+        <div layout:fragment="headline" th:remove="tag"></div>
 
-            <main id="content" class="dft-main-wrapper" layout:fragment="content"></main>
-
-        </div>
+        <main id="content" class="dft-main-wrapper" layout:fragment="content"></main>
 
     </div>
 
-    <script th:src="@{/js/main.js}"></script>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>
