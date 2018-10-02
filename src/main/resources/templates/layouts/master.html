@@ -44,6 +44,15 @@
     <aside th:replace="~{ fragments/sidebar :: dft-sidebar }"></aside>
 
     <div class="dft-width-container">
+        <div th:fragment="govuk-phase-banner" class="govuk-phase-banner">
+            <p class="govuk-phase-banner__content">
+                <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{phaseBanner.title}"></strong>
+                <span class="govuk-phase-banner__text">
+                    <span th:remove="tag" th:text="#{phaseBanner.text}"></span>
+                    <a target="_blank" data-uipath="feedback.link" class="govuk-link" th:text="#{phaseBanner.link}" href="https://www.smartsurvey.co.uk/s/L2D6Q/"></a>
+                </span>
+            </p>
+        </div>
 
         <div layout:fragment="headline" th:remove="tag"></div>
 
