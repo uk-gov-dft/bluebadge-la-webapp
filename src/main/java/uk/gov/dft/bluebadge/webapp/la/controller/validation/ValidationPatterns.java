@@ -4,7 +4,7 @@ public class ValidationPatterns {
 
   private ValidationPatterns() {}
 
-  public static final String EMAIL = "^\\S+\\@\\S+";
+  public static final String EMAIL = "^(?=.{1,100}$)\\S+\\@\\S+";
 
   public static final String PERSON_NAME = "^[\\p{L} \\.'\\-]+$";
 
