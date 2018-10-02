@@ -187,6 +187,12 @@
                         </dd>
                     </div>
 
+                    <div class="dft-data-list__item" th:if="${walking.otherDescription}">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.walkingDifficulty.label.otherDescription}"/>
+                        <dd class="dft-data-list__dd" data-uipath="walking.otherDescription"
+                            th:text="${walking.otherDescription}"/>
+                    </div>
                     <div class="dft-data-list__item" th:if="${walking.walkingAids}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingAids}"/>
