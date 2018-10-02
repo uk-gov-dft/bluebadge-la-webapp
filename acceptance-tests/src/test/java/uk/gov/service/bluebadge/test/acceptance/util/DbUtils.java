@@ -35,8 +35,8 @@ public class DbUtils {
     return true;
   }
 
-  public Object readValue(String query) {
-    return jdbc.queryForObject(query, Object.class);
+  public <T> T readValue(String query, Class<T> requiredType) {
+    return jdbc.queryForObject(query, requiredType);
   }
 
   public Map<String, Object> readRow(String query) {
