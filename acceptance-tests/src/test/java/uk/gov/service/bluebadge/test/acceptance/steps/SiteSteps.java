@@ -12,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
@@ -53,7 +54,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Autowired protected ScenarioContext scenarioContext;
 
-  @Given("^I navigate óto (?:the )?\"([^\"]+)\" (?:.* )?page$")
+  @Given("^I navigate to (?:the )?\"([^\"]+)\" (?:.* )?page$")
   public void givenINavigateToPage(String pageName) throws Throwable {
     sitePage.openByPageName(pageName);
   }
@@ -305,6 +306,16 @@ public class SiteSteps extends AbstractSpringSteps {
           errorElement,
           Matchers.notNullValue());
       assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
+    } else if (arg0.equals("password_reset_password_error")) {
+      WebElement errorElement =
+          signInPage.findElementWithUiPath("password.error");
+      assertThat(
+          "Failed to find element ' ***REMOVED***,
+          errorElement,
+          Matchers.notNullValue());
+      assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
+    } else {
+      fail("Unsupported validation error message switch:"  + arg0);
     }
   }
 
