@@ -314,8 +314,6 @@ public class SiteSteps extends AbstractSpringSteps {
           errorElement,
           Matchers.notNullValue());
       assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
-    } else {
-      fail("Unsupported validation error message switch:"  + arg0);
     }
   }
 
