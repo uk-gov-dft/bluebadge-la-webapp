@@ -12,6 +12,8 @@ public class OpenEndpointsSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.requestMatchers()
         .antMatchers("/set***REMOVED***/*")
+        .antMatchers("/cookies")
+        .antMatchers("/privacy-notice")
         .and()
         .authorizeRequests()
         .anyRequest()
