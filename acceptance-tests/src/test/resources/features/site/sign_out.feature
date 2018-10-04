@@ -3,6 +3,7 @@ Feature: user can log out without errors
 
   Scenario: Verify valid sign out
     Given I navigate to the "home" page
+    When I can click on the "Sign in" link
     Then I should see the page titled "Sign in - GOV.UK Manage Blue Badges"
     And I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
