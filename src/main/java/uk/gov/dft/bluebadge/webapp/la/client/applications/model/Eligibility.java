@@ -70,7 +70,7 @@ public class Eligibility {
    * @return descriptionOfConditions
    */
   @ApiModelProperty(example = "Freetext", value = "")
-  @Size(max = 100)
+  @Size(max = 10000)
   public String getDescriptionOfConditions() {
     return descriptionOfConditions;
   }
