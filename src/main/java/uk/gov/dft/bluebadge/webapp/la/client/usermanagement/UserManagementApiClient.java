@@ -133,7 +133,7 @@ public class UserManagementApiClient extends BaseApiClient {
     Assert.notNull(uuid, "requestPasswordReset - uuid must not be null");
 
     try {
-      restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, uuid);
+      restTemplate.postForEntity(REQUEST_RESET_EMAIL_ENDPOINT, null, String.class, uuid);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
