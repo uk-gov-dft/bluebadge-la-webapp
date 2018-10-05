@@ -34,4 +34,3 @@ Feature: Reset my password
     And I can click on element "resetPasswordButton" button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Create a new user" button
-    

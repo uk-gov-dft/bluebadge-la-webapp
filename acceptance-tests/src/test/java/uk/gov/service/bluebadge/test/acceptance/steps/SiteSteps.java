@@ -53,7 +53,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Autowired protected ScenarioContext scenarioContext;
 
-  @Given("^I navigate óto (?:the )?\"([^\"]+)\" (?:.* )?page$")
+  @Given("^I navigate to (?:the )?\"([^\"]+)\" (?:.* )?page$")
   public void givenINavigateToPage(String pageName) throws Throwable {
     sitePage.openByPageName(pageName);
   }
