@@ -296,8 +296,13 @@
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', eligibility.blind.registeredAtLaId)}"/>
                 </div>
 
+                <!--
+                    *   Commented out as part of BBB-921
+                    *   Uncomment this block of code when the Citizen app is ready to
+                        populate benefit duration.
+                -->
                 <!-- BENEFIT FIELDS -->
-                <div th:if="${eligibility.benefit}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
+                <!--<div th:if="${eligibility.benefit}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.benefit.label.benefit}"/>
                     <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}"
@@ -306,7 +311,7 @@
                     <dd class="dft-data-list__dd" th:unless="${ben.isIndefinite}"
                         data-uipath="eligibility.benefit.isnotindefinite"
                         th:text="#{application.details.benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
-                </div>
+                </div>-->
 
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
