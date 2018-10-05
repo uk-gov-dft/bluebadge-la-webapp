@@ -1,7 +1,7 @@
 @PrivacyPage
 Feature: Dft BlueBadge Display Privacy page
 
-  As a citizen I should be able to navigate to the cookies page
+  As a citizen I should be able to navigate to the privacy page
 
   Scenario: Verify I can navigate to privacy page
     Given   I navigate to the "privacy-notice" page
