@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 import uk.gov.dft.bluebadge.webapp.la.utilities.CookieUtils;
 
-@SuppressWarnings("squid:S2092")
+@SuppressWarnings({"squid:S2092", "squid:S2583"})
 @Component
 @Order(999)
 public class CookieFilter implements Filter {
