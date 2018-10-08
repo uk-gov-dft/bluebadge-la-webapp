@@ -11,7 +11,7 @@ public class OpenEndpointsSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.requestMatchers()
-        .antMatchers("/set***REMOVED***/*")
+        .antMatchers("/set- ***REMOVED***)
         .and()
         .authorizeRequests()
         .anyRequest()

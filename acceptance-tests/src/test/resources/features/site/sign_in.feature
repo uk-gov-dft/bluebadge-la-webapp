@@ -25,14 +25,14 @@ Feature: Dft BlueBadge LA Sign In Page
     When I can click on the "Sign in" link
     And I type username "example" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message for "invalid email address or  ***REMOVED***
+    Then I should see the validation message for "sign in invalid email" as "Enter a valid email address"
 
   Scenario: Verify Sign in with an invalid password
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     And I type username "example@gmail.com" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the validation message for "invalid email address or  ***REMOVED***
+    Then I should see the validation message for "invalid email or  ***REMOVED***
 
   Scenario: Verify Sign out
     Given I navigate to the "home" page
