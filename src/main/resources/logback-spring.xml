@@ -24,6 +24,7 @@
     </springProfile>
 
     <springProfile name="!dev">
+    	    <logger name="org.apache" level="INFO" />
         <root level="info">
             <appender-ref ref="json" />
         </root>
