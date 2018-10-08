@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
 import java.util.Objects;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -31,7 +30,7 @@ public class SetPasswordApiClient extends BaseApiClient {
     this.restTemplate = setPasswordRestTemplate;
   }
 
-  public User updatePassword(UUID uuid, String password, String passwordConfirm) {
+  public User updatePassword(String uuid, String password, String passwordConfirm) {
     Assert.notNull(uuid, "updatePassword - uuid must be provided");
     // Do NOT assert password not null.  Rely on API to return correct error message.
 
@@ -44,7 +43,7 @@ public class SetPasswordApiClient extends BaseApiClient {
     try {
       return Objects.requireNonNull(
               this.restTemplate.patchForObject(
-                  Endpoints.UPDATE_P_ENDPOINT, requestBody, UserResponse.class, uuid.toString()))
+                  Endpoints.UPDATE_P_ENDPOINT, requestBody, UserResponse.class, uuid))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);

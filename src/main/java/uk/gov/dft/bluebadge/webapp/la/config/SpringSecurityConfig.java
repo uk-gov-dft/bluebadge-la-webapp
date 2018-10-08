@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
@@ -85,7 +86,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl(LANDING_PAGE_URL, true)
         .and()
         .logout()
-        .logoutUrl("/sign-out");
+        .logoutUrl("/sign-out")
+        .and()
+        .csrf()
+        .csrfTokenRepository(new HttpSessionCsrfTokenRepository());
   }
 
   @Bean

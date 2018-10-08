@@ -50,7 +50,7 @@ public class SetPasswordApiClientTest {
         .andExpect(jsonPath(" ***REMOVED***)))
         .andRespond(withSuccess(om.writeValueAsString(userResponse), MediaType.APPLICATION_JSON));
 
-    setPasswordApiClient.updatePassword(uuid, "pass1", "pass2");
+    setPasswordApiClient.updatePassword(uuid.toString(), "pass1", "pass2");
     mockServer.verify();
   }
 }

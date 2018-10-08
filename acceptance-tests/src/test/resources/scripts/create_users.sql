@@ -14,6 +14,8 @@ VALUES
   ,(-1009, 'locked out', 'lawa_locked@dft.gov.uk', 'KENTC', 4, '$2a$11$l8Y6fw6mOmj39naJfQtgvu1KITnSBDURsP7kCHWsJXthM.atfzNWC', 'ff4a0dcb-c07b-4928-99e1-f64c23cbe84f'::UUID, TRUE, 10)
 ;
 
-INSERT INTO usermanagement.email_link(user_id, uuid) VALUES
-  (-1009, '06c8f2fd-7064-4abb-bba9-b3839acd19b7')
+INSERT INTO usermanagement.email_link(user_id, uuid, is_active, created_on) VALUES
+  (-1009, '06c8f2fd-7064-4abb-bba9-b3839acd19b7', true, now())
+  ,(-1009, '032da369-8877-4722-bde2-7ae01408b06d', false, now())
+  ,(-1009, '8fac089e-b925-4b6e-8470-7ab0a1c6a301', true, now() - INTERVAL '25 HOUR')
 ;
