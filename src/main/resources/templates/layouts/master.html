@@ -32,37 +32,39 @@
     </th:block>
 </head>
 <body>
-<script>
-    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-</script>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
 
-<a href="#content" class="govuk-skip-link">Skip to main content</a>
+    <a href="#content" class="govuk-skip-link">Skip to main content</a>
 
-<header th:replace="~{fragments/topbar :: topbar }"></header>
+    <header th:replace="~{fragments/topbar :: topbar }"></header>
 
-<div class="dft-container dft-container--with-sidebar">
+    <div class="dft-container dft-container--with-sidebar">
 
-    <aside th:replace="~{ fragments/sidebar :: dft-sidebar }"></aside>
+        <aside th:replace="~{ fragments/sidebar :: dft-sidebar }"></aside>
 
-    <div class="dft-width-container">
-        <div th:fragment="govuk-phase-banner" class="govuk-phase-banner">
-            <p class="govuk-phase-banner__content">
-                <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{phaseBanner.title}"></strong>
-                <span class="govuk-phase-banner__text">
-                    <span th:remove="tag" th:text="#{phaseBanner.text}"></span>
-                    <a target="_blank" data-uipath="feedback.link" class="govuk-link" th:text="#{phaseBanner.link}" href="https://www.smartsurvey.co.uk/s/L2D6Q/"></a>
-                </span>
-            </p>
+        <div class="dft-width-container">
+            <div th:fragment="govuk-phase-banner" class="govuk-phase-banner">
+                <p class="govuk-phase-banner__content">
+                    <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{phaseBanner.title}"></strong>
+                    <span class="govuk-phase-banner__text">
+                        <span th:remove="tag" th:text="#{phaseBanner.text}"></span>
+                        <a target="_blank" data-uipath="feedback.link" class="govuk-link" th:text="#{phaseBanner.link}" href="https://www.smartsurvey.co.uk/s/L2D6Q/"></a>
+                    </span>
+                </p>
+            </div>
+
+            <div layout:fragment="headline" th:remove="tag"></div>
+
+            <main id="content" class="dft-main-wrapper" layout:fragment="content"></main>
+
         </div>
-
-        <div layout:fragment="headline" th:remove="tag"></div>
-
-        <main id="content" class="dft-main-wrapper" layout:fragment="content"></main>
 
     </div>
 
-</div>
+    <footer th:replace="~{ fragments/govuk-footer :: govuk-footer }"></footer>
 
-<script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

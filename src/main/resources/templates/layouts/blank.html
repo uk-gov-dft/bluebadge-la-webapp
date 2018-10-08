@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th=”http://www.thymeleaf.org lang="en">
+<html class="govuk-template" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th=”http://www.thymeleaf.org lang="en">
 <head>
     <title>GOV.UK Manage Blue Badges</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -34,6 +34,10 @@
 <body>
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
+    <div th:unless="${@cookieUtils.isCookieBannerSet()}">
+        <div th:replace="~{ fragments/govuk-cookie-banner :: govuk-cookie-banner }"></div>
+    </div>
+
     <a href="#content" class="govuk-skip-link">Skip to main content</a>
 
     <header th:replace="~{fragments/topbar :: topbar }" />
@@ -49,6 +53,8 @@
         </div>
 
     </div>
+
+    <footer th:replace="~{ fragments/govuk-footer :: govuk-footer }"></footer>
 
     <script th:src="@{/js/main.js}"></script>
 </body>
