@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/blank.html}">
+<head>
+    <title th:utext="#{cookiesPage.title} + ' ' + #{common.title.suffix}"></title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="dft-content-container dft-content-container--padding">
+        <div class="dft-width-two-thirds">
+
+            <h1 class="govuk-heading-l" th:text="#{cookiesPage.title}"></h1>
+
+            <p class="govuk-body" th:text="#{cookiesPage.content.p1}"></p>
+
+            <p class="govuk-body" th:text="#{cookiesPage.content.p2}"></p>
+
+            <ul class="govuk-list govuk-list--bullet">
+                <li th:text="#{cookiesPage.content.list.one}"></li>
+                <li th:text="#{cookiesPage.content.list.two}"></li>
+                <li th:text="#{cookiesPage.content.list.three}"></li>
+            </ul>
+
+            <p class="govuk-body">
+                <span th:text="#{cookiesPage.content.p4.phraseOne}" th:remove="tag"></span>
+                <a th:text="#{cookiesPage.content.p4.link}" target="_blank" href="https://ico.org.uk/your-data-matters/online/cookies/"></a>
+            </p>
+
+            <table class="govuk-table">
+                <caption class="govuk-table__caption">
+                    <h2 class="govuk-heading-m govuk-!-margin-top-5" th:text="#{cookiePage.table.sc.title}"></h2>
+                </caption>
+
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header govuk-table__header--width-30" scope="col" th:text="#{cookiesPage.table.th.one}"></th>
+                    <th class="govuk-table__header" scope="col" th:text="#{cookiesPage.table.th.two}"></th>
+                    <th class="govuk-table__header govuk-table__header--width-16" scope="col" th:text="#{cookiesPage.table.th.three}"></th>
+                </tr>
+                </thead>
+
+                <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.sc.td.name}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.sc.td.purpose}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.sc.td.expires}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="govuk-table">
+                <caption class="govuk-table__caption">
+                    <h2 class="govuk-heading-m govuk-!-margin-top-5" th:text="#{cookiesPage.content.intro.title}"></h2>
+                    <p class="govuk-body" th:text="#{cookiesPage.content.intro.p1}"></p>
+                </caption>
+
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header govuk-table__header--width-30" th:text="#{cookiesPage.table.th.one}"></th>
+                    <th class="govuk-table__header" scope="col" th:text="#{cookiesPage.table.th.two}"></th>
+                    <th class="govuk-table__header govuk-table__header--width-16" scope="col" th:text="#{cookiesPage.table.th.three}"></th>
+                </tr>
+                </thead>
+
+                <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.intro.td.name}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.intro.td.purpose}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.intro.td.expires}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="govuk-table">
+                <caption class="govuk-table__caption">
+                    <h2 class="govuk-heading-m govuk-!-margin-top-5" th:text="#{cookiesPage.content.ga.title}"></h2>
+                </caption>
+
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header govuk-table__header--width-30" scope="col" th:text="#{cookiesPage.table.th.one}"></th>
+                    <th class="govuk-table__header" scope="col" th:text="#{cookiesPage.table.th.two}"></th>
+                    <th class="govuk-table__header govuk-table__header--width-16" scope="col" th:text="#{cookiesPage.table.th.three}"></th>
+                </tr>
+                </thead>
+
+                <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.ga.td.name}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.ga.td.purpose}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.ga.td.expires}"></td>
+                </tr>
+
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gid.td.name}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gid.td.purpose}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gid.td.expires}"></td>
+                </tr>
+
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gat.td.name}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gat.td.purpose}"></td>
+                    <td class="govuk-table__cell" th:text="#{cookiesPage.table.gat.td.expires}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
