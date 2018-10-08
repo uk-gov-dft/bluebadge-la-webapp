@@ -143,9 +143,10 @@ public class UserServiceTest {
 
   @Test
   public void updatePassword_shouldUpdatePassword() {
-    when(setPasswordApiClientMock.updatePassword(USER_UUID_1, PASSWORD, PASSWORD)).thenReturn(user);
-    User userUpdated = userService.updatePassword(USER_UUID_1, PASSWORD, PASSWORD);
+    when(setPasswordApiClientMock.updatePassword(USER_UUID_1.toString(), PASSWORD, PASSWORD))
+        .thenReturn(user);
+    User userUpdated = userService.updatePassword(USER_UUID_1.toString(), PASSWORD, PASSWORD);
     assertThat(userUpdated).isEqualTo(user);
-    verify(setPasswordApiClientMock).updatePassword(USER_UUID_1, PASSWORD, PASSWORD);
+    verify(setPasswordApiClientMock).updatePassword(USER_UUID_1.toString(), PASSWORD, PASSWORD);
   }
 }

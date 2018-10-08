@@ -29,7 +29,7 @@ variable which comes from Thymleaf / Spring integration.
         th:data-uipath="${errorSummary.title}"
         th:utext="#{${errorSummary.title}}" />
 
-    <div th:if="${errorSummary} AND ${errorSummary.description}"
+    <div th:if="${errorSummary} AND ${errorSummary.description}" th:data-uipath="${errorSummary.description}" id="error-summary-description"
          th:utext="#{${errorSummary.description}}"
          class="govuk-error-summary__body" />
 
