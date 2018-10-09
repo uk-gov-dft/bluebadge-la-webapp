@@ -113,19 +113,6 @@ artifactory {
 
 }
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-tasks.withType(Pmd) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-
 configurations.all {
     resolutionStrategy {
         // don't cache changing modules at all
