@@ -82,3 +82,6 @@ security:
       auto-approve-scopes: '.*'
     resource:
       user-info-uri: ${blue-badge.auth-server.url}/me
+ 
+ # Google Analytics Code
+GACode:  ${GACODE:UA-124760983-5}
