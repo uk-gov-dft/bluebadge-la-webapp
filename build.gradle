@@ -29,7 +29,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'pmd'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
@@ -112,19 +111,6 @@ artifactory {
         }
     }
 
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-tasks.withType(Pmd) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
 }
 
 configurations.all {
