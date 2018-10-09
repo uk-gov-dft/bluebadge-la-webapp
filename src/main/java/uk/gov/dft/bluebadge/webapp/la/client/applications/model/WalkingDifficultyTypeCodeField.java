@@ -10,6 +10,8 @@ public enum WalkingDifficultyTypeCodeField {
 
   BALANCE("BALANCE"),
 
+  LONGTIME("LONGTIME"),
+
   DANGER("DANGER"),
 
   STRUGGLE("STRUGGLE"),

@@ -19,7 +19,8 @@ import org.mockito.Mockito;
 public class CookieFilterTest {
 
   @Test
-  public void doFilter_ShouldSetCookieBanner_WhenCookieIsNotSet() throws ServletException, IOException {
+  public void doFilter_ShouldSetCookieBanner_WhenCookieIsNotSet()
+      throws ServletException, IOException {
 
     CookieFilter filter = new CookieFilter();
 
@@ -45,7 +46,8 @@ public class CookieFilterTest {
   }
 
   @Test
-  public void doFilter_ShouldNotSetCookieBanner_WhenCookieIsSet() throws ServletException, IOException {
+  public void doFilter_ShouldNotSetCookieBanner_WhenCookieIsSet()
+      throws ServletException, IOException {
 
     CookieFilter filter = new CookieFilter();
 
@@ -57,7 +59,7 @@ public class CookieFilterTest {
 
     // mock the getRequestURI() response
     when(mockReq.getRequestURI()).thenReturn("/");
-    when(mockReq.getCookies()).thenReturn(new Cookie[] { new Cookie("cookie_banner_seen", "yes") });
+    when(mockReq.getCookies()).thenReturn(new Cookie[] {new Cookie("cookie_banner_seen", "yes")});
 
     filter.init(mockFilterConfig);
     filter.doFilter(mockReq, mockResp, mockFilterChain);
@@ -67,5 +69,4 @@ public class CookieFilterTest {
     ArgumentCaptor<Cookie> captor = ArgumentCaptor.forClass(Cookie.class);
     verify(mockResp, times(0)).addCookie(captor.capture());
   }
-  
 }
