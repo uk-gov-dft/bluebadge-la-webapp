@@ -204,12 +204,19 @@
                             </ul>
                         </dd>
                     </div>
-                    <div class="dft-data-list__item" th:if="${walking.walkingSpeedCode}">
+
+                    <!--
+                        *   Commented out as part of BBB-921
+                        *   Uncomment this block of code when the Citizen app is ready to
+                            populate walking speed data.
+                    -->
+                    <!--<div class="dft-data-list__item" th:if="${walking.walkingSpeedCode}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingSpeed}"/>
                         <dd class="dft-data-list__dd" data-uipath="eligibility.walking.speed"
                             th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKSPEED', walking.walkingSpeedCode)}"/>
-                    </div>
+                    </div>-->
+
                     <div class="dft-data-list__item" th:if="${walking.treatments}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.treatments}"/>
@@ -242,7 +249,13 @@
                         <dd class="dft-data-list__dd" th:text="${arms.drivingFrequency}"
                             data-uipath="eligibility.arms.drivingfrequency"/>
                     </div>
-                    <div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
+
+                    <!--
+                        *   Commented out as part of BBB-921
+                        *   Uncomment this block of code when the Citizen app is ready to
+                            populate adapted vehicle
+                    -->
+                    <!--<div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
@@ -251,7 +264,8 @@
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isnotadaptedvehicle"
                             th:text="#{application.details.isNotAdaptedVehicle}"/>
-                    </div>
+                    </div>-->
+
                     <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
@@ -260,13 +274,19 @@
                     </div>
                 </div>
 
+
+                <!--
+                    *   Commented out as part of BBB-921
+                    *   Uncomment this block of code when the Citizen app is ready to
+                        populate medical equipment for child under 3.
+                -->
                 <!-- CHILD UNDER 3 FIELDS -->
-                <div class="dft-data-list__item" th:if="${eligibility.childUnder3?.bulkyMedicalEquipmentTypeCode}">
+                <!--<div class="dft-data-list__item" th:if="${eligibility.childUnder3?.bulkyMedicalEquipmentTypeCode}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.childUnder3.label.bulkyMedicalEquipment}"/>
                     <dd class="dft-data-list__dd" data-uipath="eligibility.child.bulkyequipmenttype"
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BULKEQUIP', eligibility.childUnder3.bulkyMedicalEquipmentTypeCode)}"/>
-                </div>
+                </div>-->
 
                 <!-- BLIND FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.blind?.registeredAtLaId}">
@@ -276,8 +296,13 @@
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', eligibility.blind.registeredAtLaId)}"/>
                 </div>
 
+                <!--
+                    *   Commented out as part of BBB-921
+                    *   Uncomment this block of code when the Citizen app is ready to
+                        populate benefit duration.
+                -->
                 <!-- BENEFIT FIELDS -->
-                <div th:if="${eligibility.benefit}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
+                <!--<div th:if="${eligibility.benefit}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.benefit.label.benefit}"/>
                     <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}"
@@ -286,7 +311,7 @@
                     <dd class="dft-data-list__dd" th:unless="${ben.isIndefinite}"
                         data-uipath="eligibility.benefit.isnotindefinite"
                         th:text="#{application.details.benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
-                </div>
+                </div>-->
 
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
