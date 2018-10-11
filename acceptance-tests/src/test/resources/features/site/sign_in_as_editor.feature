@@ -1,4 +1,4 @@
-@SignInEditor
+@SignInEditor @UsersRolesAndPermissionsScripts
 Feature: Dft BlueBadge LA Sign In Page - User with Editor role
 
   As an editor user
@@ -9,17 +9,17 @@ Feature: Dft BlueBadge LA Sign In Page - User with Editor role
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     Then I should see the page titled "Sign in - GOV.UK Manage Blue Badges"
-    And I type username "editor@dft.gov.uk" and  ***REMOVED***
+    And I type username "aberdlaeditor@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I should see LA name as "Aberdeenshire council"
-    And I should see username as "Dick Grayson"
+    And I should see username as "aberd la editor user"
     And I should see signout link
 
   Scenario: Verify Editor does not see manage users in the nav bar
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
-    And I type username "editor@dft.gov.uk" and  ***REMOVED***
+    And I type username "aberdlaeditor@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     And I should see the left navigation menu item "New applications"

@@ -31,6 +31,17 @@ outputVersions() {
   echo "RD_VERSION=$RD_VERSION"
 }
 
+outputCommits() {
+    echo "Commits running:"
+    echo "AP_VERSION: $(curl -s localhost:8681/manage/actuator/info)"
+    echo "AZ_VERSION: $(curl -s localhost:8381/manage/actuator/info)"
+    echo "BB_VERSION: $(curl -s localhost:8281/manage/actuator/info)"
+    echo "LA_VERSION: $(curl -s localhost:8081/manage/actuator/info)"
+    echo "MG_VERSION: $(curl -s localhost:8481/manage/actuator/info)"
+    echo "UM_VERSION: $(curl -s localhost:8181/manage/actuator/info)"
+    echo "RD_VERSION: $(curl -s localhost:8581/manage/actuator/info)"
+}
+
 saveLogs() {
    docker-compose logs > ../logs.txt
 }

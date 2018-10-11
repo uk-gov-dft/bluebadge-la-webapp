@@ -70,7 +70,7 @@ public class DisabilityArms {
    * @return adaptedVehicleDescription
    */
   @ApiModelProperty(value = "")
-  @Size(max = 100)
+  @Size(max = 255)
   public String getAdaptedVehicleDescription() {
     return adaptedVehicleDescription;
   }

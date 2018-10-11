@@ -48,7 +48,7 @@ public class UserService {
     return userManagementApiClient.updateUser(user);
   }
 
-  public User updatePassword(UUID uuid, String password, String passwordConfirm) {
+  public User updatePassword(String uuid, String password, String passwordConfirm) {
     return setPasswordApiClient.updatePassword(uuid, password, passwordConfirm);
   }
 

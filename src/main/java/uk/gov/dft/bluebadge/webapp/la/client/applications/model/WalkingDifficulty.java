@@ -79,7 +79,7 @@ public class WalkingDifficulty {
   @ApiModelProperty(
     value = "Only entered if something else type selected and even then not required."
   )
-  @Size(max = 100)
+  @Size(max = 255)
   public String getOtherDescription() {
     return otherDescription;
   }

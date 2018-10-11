@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
@@ -26,7 +27,7 @@ import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-  private static final String LANDING_PAGE_URL = "/new-applications";
+  private static final String LANDING_PAGE_URL = "/";
 
   @Value("${blue-badge.auth-server.url}")
   private String authServerUrl;
@@ -68,8 +69,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
+        .antMatchers("/new-applications", "/new-applications/**")
+        .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
+        .antMatchers("/order-a-badge", "/order-a-badge/**")
+        .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())
+        .antMatchers("/manage-badges", "/manage-badges/**")
+        .hasAuthority(Permissions.FIND_BADGES.getPermissionName())
         .antMatchers("/manage-users", "/manage-users/**")
-        .hasAuthority(Permissions.VIEW_USER_DETAILS.getPermissionName())
+        .hasAuthority(Permissions.FIND_USERS.getPermissionName())
         .anyRequest()
         .fullyAuthenticated()
         .and()
@@ -79,7 +86,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl(LANDING_PAGE_URL, true)
         .and()
         .logout()
-        .logoutUrl("/sign-out");
+        .logoutUrl("/sign-out")
+        .and()
+        .csrf()
+        .csrfTokenRepository(new HttpSessionCsrfTokenRepository());
   }
 
   @Bean

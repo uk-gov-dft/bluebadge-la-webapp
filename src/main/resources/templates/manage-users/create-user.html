@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title>Create a new user - GOV.UK Manage Blue Badges</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
+
+            <h1 class="govuk-heading-l" data-uipath="title">Create a new user</h1>
+
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" />
+        </div>
+    </div>
+
+    <div class="dft-grid-row">
+
+            <form  th:action="@{/manage-users/create-user}" th:object="${formRequest}" method="post" novalidate>
+                <div class="dft-grid-col dft-grid-col--half">
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Full name', 'name', null, 'text') }"/>
+
+                    <div th:replace="~{ fragments/form-elements :: govuk-input('Email address', 'emailAddress', null, 'email') }"/>
+                </div>
+
+                <div class="dft-grid-col">
+				    <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-with-hint(#{label.user.index.h2.permissions}, 'role', null, ${permissionsOptions}) }"/>
+                </div>
+
+                <div th:remove="tag" sec:authorize="hasAuthority('PERM_CREATE_DFT_USER')">
+
+                    <h2 class="govuk-heading-m" data-uipath="laTitle" th:text="#{label.user.index.h2.localAuthority}"/>
+
+                    <div class="dft-width-one-half">
+                        <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{label.user.localAuthority.label}, 'localAuthorityShortCode', null, ${localAuthorities}) }"/>
+                    </div>
+                </div>
+
+                <input value="Create user" type="submit" data-uipath="createUserButton" class="govuk-button">
+            </form>
+
+    </div><!-- govuk-o-grid__item -->
+</main>
+
+</body>
+</html>

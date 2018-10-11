@@ -204,20 +204,22 @@ $ vagrant ssh
 $Vagrant cd /home/vagrant/valtech-dft-workspace/solution/dev-env
 $Vagrant git pull
 $Vagrant git checkout develop
-$Vagrant vi ./env.sh
+$Vagrant vi ./env-feature.sh
 BROWSER: Go to artifactory with a browser to the appropriave project, i.e.: https://artifactory.does.not.exist/artifactory/webapp/#/artifacts/browse/tree/General/gradle-dev-local/uk/gov/dft/bluebadge/webapp/la/la-webapp/0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page/la-webapp-0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page.jar
 BROWSER: Copy the version to the clipboard (0.4.0-feature_BBB-569-use-reference-data-for-add-a-badge-check-order-page)
 $VIM copy the version in vim for each project
 $VIM :wq!
-$Vagrant source ./env.sh
+$Vagrant source ./env-feature.sh
 $Vagrant bash load-modules.sh (you may need to do that if there are new services or applications)
-$Vagrant ./rebuild-vagrant.sh
+$Vagrant ./rebuild.sh
 ```
 You also may need to configure AWS
 For troubleshooting:
 ```
+$ vagrant status
 $Vagrant docker-compose ps
 $Vagrant docker-compose up -d badgemanagement-service
+$Vagrant docker-compose stop badgemanagement-service
 $Vagrant docker-compose logs badgemanagement-service
 ```
 To find out your ip address in vagrant
@@ -249,6 +251,7 @@ To run Acceptance Test against virtual computer, from terminal prompt (host comp
 ```
 $ cd la-webapp/acceptance-tests
 $ ./gradlew acceptanceTest -PbuildProfile=vagrant -Dheadless=false
+$ ./gradlew acceptanceTests -Dheadless=false -DbaseUrl=http://dft.local:8080
 ```
 
 ## TOOLING

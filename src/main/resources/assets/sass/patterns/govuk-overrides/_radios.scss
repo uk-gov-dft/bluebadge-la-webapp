@@ -1,0 +1,12 @@
+.govuk-radios__hint {
+	padding-left: 15px;
+	color: $govuk-text-colour;
+}
+
+.govuk-radios__label {
+	&--bold {
+		padding-top: 0;
+		font-weight: 600;
+		padding-bottom: 0;
+	}
+}

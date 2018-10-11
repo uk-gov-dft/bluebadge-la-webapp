@@ -51,10 +51,6 @@ public class UserManagementApiClient extends BaseApiClient {
    * @return UsersResponse containing list of Users.
    */
   public List<User> getUsersForAuthority(String authorityShortCode, String nameFilter) {
-
-    Assert.notNull(
-        authorityShortCode, "getUsersForAuthority - Local Authority short code must be provided");
-
     ResponseEntity<UsersResponse> userListResponse =
         restTemplate.getForEntity(
             GET_USERS_FOR_AUTHORITY_ENDPOINT, UsersResponse.class, nameFilter, authorityShortCode);
@@ -137,7 +133,7 @@ public class UserManagementApiClient extends BaseApiClient {
     Assert.notNull(uuid, "requestPasswordReset - uuid must not be null");
 
     try {
-      restTemplate.getForEntity(REQUEST_RESET_EMAIL_ENDPOINT, String.class, uuid);
+      restTemplate.postForEntity(REQUEST_RESET_EMAIL_ENDPOINT, null, String.class, uuid);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

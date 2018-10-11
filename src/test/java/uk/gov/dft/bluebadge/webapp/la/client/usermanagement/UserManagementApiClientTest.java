@@ -153,7 +153,7 @@ public class UserManagementApiClientTest {
             once(),
             requestTo(
                 TEST_URI + String.format("/users/%s/passwordReset", USER_UUID_DELETE.toString())))
-        .andExpect(method(HttpMethod.GET))
+        .andExpect(method(HttpMethod.POST))
         .andRespond(withSuccess());
 
     userManagementApiClient.requestPasswordReset(USER_UUID_DELETE);

@@ -5,6 +5,7 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils
 import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,11 @@ public class SignInController {
     if (signInException instanceof BadCredentialsException) {
       addCustomError(
           "error.form.summary.title", "error.form.global.accessDenied.description", model);
+    } else if (signInException instanceof LockedException) {
+      addCustomError(
+          "error.form.field.signin.locked.title",
+          "error.form.field.signin.locked.description",
+          model);
     } else if (signInException instanceof InvalidEmailFormatException) {
       addCustomError("error.form.summary.title", "error.form.field.signin.email.invalid", model);
     } else if (signInException instanceof AuthServerConnectionException) {

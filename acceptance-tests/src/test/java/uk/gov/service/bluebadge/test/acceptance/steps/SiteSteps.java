@@ -15,17 +15,12 @@ import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -37,9 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
 import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.NameGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
@@ -47,7 +40,6 @@ public class SiteSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
 
-  protected NameGenerator ng = new NameGenerator();
   protected LocalDateGenerator ldg = new LocalDateGenerator();
   protected PostCodeGenerator pcg = new PostCodeGenerator();
 
@@ -148,7 +140,7 @@ public class SiteSteps extends AbstractSpringSteps {
     Thread.sleep(sec * 1000);
   }
 
-  private static Matcher<String> getMatcherForText(String text) {
+  public static Matcher<String> getMatcherForText(String text) {
     if (text.endsWith(" ...")) {
       return startsWith(text.substring(0, text.length() - 4));
     }
@@ -186,6 +178,12 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click Sign in button$")
   public void andICanClickSignInButton() throws Throwable {
     signInPage.findElementWithUiPath("button").click();
+  }
+
+  @And("^I sign in as new user with  ***REMOVED***)
+  public void andISignInAsNewUser(String password) throws Throwable {
+    andITypeUsernameAndPassword(System.getProperty("email"), password);
+    andICanClickSignInButton();
   }
 
   @Then("^I should see the title \"([^\"]*)\"$")
@@ -262,24 +260,6 @@ public class SiteSteps extends AbstractSpringSteps {
     signInPage.findElementWithUiPath(fieldUiPath).sendKeys(text);
   }
 
-  @When("^I enter full name and email address and clicks on create a new user button$")
-  public void iEnterFullNameAndEmailAddressAndClicksOnCreateANewUserButton() throws Throwable {
-
-    String name = ng.get_full_name();
-    String email = ng.get_email(name);
-    System.setProperty("fullname", name);
-    System.setProperty("email", email);
-
-    sitePage.findPageElementById("name").sendKeys(name);
-    sitePage.findPageElementById("emailAddress").sendKeys(email);
-    sitePage.findElementWithUiPath("createUserButton").click();
-  }
-
-  @And("^I should see the newly created user is on the users list$")
-  public void iShouldSeeTheNewCreatedUserIsOnTheUsersList() throws Throwable {
-    assertTrue(sitePage.getPageContent().contains(System.getProperty("email")));
-  }
-
   @And("^I should see \"([^\"]*)\" text on the page$")
   public void iShouldSeeTextOnPage(String content) throws Throwable {
     assertTrue(sitePage.getPageContent().contains(content));
@@ -292,22 +272,35 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
   public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+    String uiPath;
     if (arg0.equals("invalid email")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("emailAddress.summary-error").getText(),
-          getMatcherForText(arg1));
+      uiPath = "emailAddress.summary-error";
+    } else if (arg0.equals("sign in invalid email")) {
+      uiPath = "error.form.field.signin.email.invalid";
     } else if (arg0.equals("invalid email or password")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("error.form.signin.invalid").getText(),
-          getMatcherForText(arg1));
+      uiPath = "error.form.global.accessDenied.description";
+    } else if (arg0.equals("sign in account locked title")) {
+      uiPath = "error.form.field.signin.locked.title";
+    } else if (arg0.equals("sign in account locked")) {
+      uiPath = "error.form.field.signin.locked.description";
     } else if (arg0.equals("invalid name")) {
-      assertThat(
-          "Validation message expected",
-          signInPage.findElementWithUiPath("name.summary-error").getText(),
-          getMatcherForText(arg1));
+      uiPath = "name.summary-error";
+    } else if (arg0.equals("blank permissions")) {
+      uiPath = "role.summary-error";
+    } else if (arg0.equals("blank Local authority")) {
+      uiPath = "localAuthorityShortCode.summary-error";
+    } else if (arg0.equals("password_reset_password_error")) {
+      uiPath = "password.error";
+    } else {
+      uiPath = arg0;
     }
+
+    WebElement errorElement = signInPage.findElementWithUiPath(uiPath);
+    assertThat(
+        "Failed to find element with ui path: '" + uiPath + "' for validation check '" + arg0 + "'",
+        errorElement,
+        Matchers.notNullValue());
+    assertThat("Validation message expected", errorElement.getText(), getMatcherForText(arg1));
   }
 
   @When("^I search for newly create user using email address$")
@@ -337,42 +330,6 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I can click on the \"([^\"]*)\" button on manage user page$")
   public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
     sitePage.findElementWithUiPath("createUserButton").click();
-  }
-
-  @When("^I click on the first name link from users table$")
-  public void iClickOnTheFirstNameLinkFromUsersTable() throws Throwable {
-    sitePage.findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(1)>a").click();
-  }
-
-  @When("^I change email address and clicks on update button$")
-  public void iChangeEmailAddressAndClicksOnUpdateButton() throws Throwable {
-    String new_email = ng.get_email(sitePage.findPageElementById("name").getAttribute("value"));
-
-    sitePage.findElementWithUiPath("emailAddress.field").clear();
-    sitePage.findElementWithUiPath("emailAddress.field").sendKeys(new_email);
-    System.setProperty("updated_email", new_email);
-
-    sitePage.findElementWithUiPath("updateUserButton").click();
-  }
-
-  @Then("^I should see the relevant email address has updated$")
-  public void iShouldSeeTheUpdatedUserIsOnTheUsersTable() throws Throwable {
-
-    assertThat(
-        "Updated email address expected",
-        sitePage
-            .findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(2)")
-            .getText(),
-        getMatcherForText(System.getProperty("updated_email")));
-  }
-
-  @When("^I enter invalid email address and clicks on update button$")
-  public void iEnterInvalidEmailAddressAndClicksOnUpdateButton() throws Throwable {
-
-    sitePage.findElementWithUiPath("emailAddress.field").clear();
-    sitePage.findElementWithUiPath("emailAddress.field").sendKeys("not valid email");
-
-    sitePage.findElementWithUiPath("updateUserButton").click();
   }
 
   @And("^I (?:can )?click on element \"([^\"]+)\"(?: link| button)?$")
@@ -528,28 +485,16 @@ public class SiteSteps extends AbstractSpringSteps {
     assertTrue(displayCount.getText().equals("0 Results:"));
   }
 
-  //hooks
-  private Map<String, Object> settings() {
-    Map<String, Object> settings = new HashMap<>();
-
-    settings.put("username", "developer");
-    settings.put(" ***REMOVED***);
-    settings.put(
-        "url", "jdbc:postgresql://localhost:5432/bb_dev?currentSchema=applicationmanagement");
-    settings.put("driverClassName", "org.postgresql.Driver");
-
-    return settings;
-  }
-
-  @Before("@NewApplicationScripts")
-  public void executeInsertApplicationsDBScript() throws SQLException {
-    DbUtils db = new DbUtils(settings());
-    db.runScript("scripts/create_applications.sql");
-  }
-
-  @After("@NewApplicationScripts")
-  public void executeDeleteApplicationsDBScript() throws SQLException {
-    DbUtils db = new DbUtils(settings());
-    db.runScript("scripts/delete_applications.sql");
+  @Then("^I should see the newly created user's permission as \"([^\"]*)\"$")
+  public void iShouldSeeTheNewlyCreatedUserSPermissionAs(String permission) throws Throwable {
+    assertThat(
+        "Only 1 result is expected",
+        sitePage.findElementWithUiPath("search.count").getText(),
+        getMatcherForText("1 Result:"));
+    assert (sitePage
+        .findElementWithUiPath("table.body")
+        .getText()
+        .contains(System.getProperty("email")));
+    assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
   }
 }
