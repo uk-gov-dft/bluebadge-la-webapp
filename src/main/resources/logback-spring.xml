@@ -1,5 +1,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property resource="application.properties" />
+    <springProperty scope="context" name="application" source="spring.application.name" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -15,6 +17,7 @@
             <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
             <appendLineSeparator>true</appendLineSeparator>
         </layout>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
     <springProfile name="dev">
