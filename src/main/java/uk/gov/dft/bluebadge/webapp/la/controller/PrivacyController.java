@@ -1,5 +1,4 @@
-package uk.gov.
-        dft.bluebadge.webapp.la.controller;
+package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
