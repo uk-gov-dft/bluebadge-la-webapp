@@ -82,14 +82,10 @@ public class NewApplicationsController {
   private void saveParams(Optional<String> searchBy, Optional<String> searchTerm, Model model) {
 
     searchBy.ifPresent(
-        s -> {
-          model.addAttribute("searchBy", s);
-        });
+        s -> model.addAttribute("searchBy", s));
 
     searchTerm.ifPresent(
-        s -> {
-          model.addAttribute("searchTerm", s);
-        });
+        s -> model.addAttribute("searchTerm", s));
 
     model.addAttribute("searchByOptions", getSearchByOptions());
   }
