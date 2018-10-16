@@ -29,7 +29,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'pmd'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
@@ -114,19 +113,6 @@ artifactory {
 
 }
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-tasks.withType(Pmd) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-
 configurations.all {
     resolutionStrategy {
         // don't cache changing modules at all
@@ -146,6 +132,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.0.1.RELEASE'
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
@@ -163,6 +150,7 @@ dependencies {
 
     //hot swapping, disable cache for template, enable live reload
     runtime('org.springframework.boot:spring-boot-devtools')
+    runtime group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.2'
     runtime group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version: '0.1.5'
     runtime group: 'ch.qos.logback.contrib', name: 'logback-jackson', version: '0.1.5'
     runtime group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
