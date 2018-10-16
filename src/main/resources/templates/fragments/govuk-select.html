@@ -21,7 +21,7 @@ for id and attaching label to the input field.
 
     <label class="govuk-label"
         th:attr="for=${name}"
-        th:utext="${label}"
+        th:text="${label}"
         th:data-uipath="${name} + '.label'"></label>
 
     <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}"></span>
@@ -59,7 +59,7 @@ for id and attaching label to the input field.
 
     <label class="govuk-label"
            th:attr="for=${name}"
-           th:utext="${label}"
+           th:text="${label}"
            th:data-uipath="${name} + '.label'"></label>
 
     <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}"></span>

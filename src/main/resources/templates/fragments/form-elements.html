@@ -20,12 +20,12 @@
         <label
             class="govuk-label"
             th:attr="for=${name}"
-            th:utext="${label}"
+            th:text="${label}"
             th:data-uipath="${name} + '.label'" />
 
         <span class="govuk-hint"
               th:if="${hint}"
-              th:utext="${hint}"
+              th:text="${hint}"
               th:id="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
@@ -66,10 +66,10 @@
             th:aria-describedby="${hint} ? ${date} + '-hint'" role="group">
 
             <legend class="govuk-fieldset__legend" th:if="${label}">
-                <h2 th:utext="${label}" data-uipath="${date} + '.legend'" class="govuk-heading-s" />
+                <h2 th:text="${label}" data-uipath="${date} + '.legend'" class="govuk-heading-s" />
             </legend>
 
-            <span th:id="${date} + '-hint'" class="govuk-hint" th:if="${hint}" th:utext="${hint}" />
+            <span th:id="${date} + '-hint'" class="govuk-hint" th:if="${hint}" th:text="${hint}" />
 
             <span class="govuk-error-message"
                 th:data-uipath="*{__${date}__} + '.error'"

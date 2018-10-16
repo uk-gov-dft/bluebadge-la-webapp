@@ -11,7 +11,7 @@
 
             <span class="dft-topbar__title"
                   data-uipath="topbar.title"
-                  sec:authorize="isAuthenticated()" th:utext="${#authentication.principal.localAuthorityName}" />
+                  sec:authorize="isAuthenticated()" th:text="${#authentication.principal.localAuthorityName}" />
         </div>
 
         <div class="dft-topbar__menu" sec:authorize="isAuthenticated()">
