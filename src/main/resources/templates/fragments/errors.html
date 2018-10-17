@@ -27,10 +27,10 @@ variable which comes from Thymleaf / Spring integration.
         th:if="${errorSummary} AND ${errorSummary.title}"
         id="error-summary-title"
         th:data-uipath="${errorSummary.title}"
-        th:utext="#{${errorSummary.title}}" />
+        th:text="#{${errorSummary.title}}" />
 
     <div th:if="${errorSummary} AND ${errorSummary.description}" th:data-uipath="${errorSummary.description}" id="error-summary-description"
-         th:utext="#{${errorSummary.description}}"
+         th:text="#{${errorSummary.description}}"
          class="govuk-error-summary__body" />
 
     <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
