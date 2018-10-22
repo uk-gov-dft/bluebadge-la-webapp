@@ -29,6 +29,7 @@ node {
 
     stage ('OWASP Dependency Check') {
         sh './gradlew dependencyCheckUpdate dependencyCheckAggregate'
+        archive (includes: 'build/reports/*.html')
     }
 
     stage('SonarQube analysis') {
