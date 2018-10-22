@@ -29,14 +29,14 @@ node {
 
     stage ('OWASP Dependency Check') {
         sh './gradlew dependencyCheckUpdate dependencyCheckAggregate'
-        archive (includes: 'build/reports/*.html')
-         publishHTML (target: [
-          allowMissing: false,
-          alwaysLinkToLastBuild: false,
-          keepAll: true,
-          reportDir: 'build/reports',
-          reportFiles: 'dependency-check-report.html',
-          reportName: "OWASP Dependency Check"
+
+        publishHTML (target: [
+         allowMissing: false,
+         alwaysLinkToLastBuild: false,
+         keepAll: true,
+         reportDir: 'build/reports',
+         reportFiles: 'dependency-check-report.html',
+         reportName: "OWASP Dependency Check"
         ])
     }
 

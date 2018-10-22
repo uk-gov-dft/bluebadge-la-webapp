@@ -49,3 +49,4 @@ src/main/resources/static/govuk/*
 VERSION-computed
 
 tmp/
+*.swp
