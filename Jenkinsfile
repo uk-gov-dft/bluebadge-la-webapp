@@ -27,6 +27,10 @@ node {
         }
     }
 
+    stage ('OWASP Dependency Check') {
+        sh './gradlew dependencyCheckUpdate dependencyCheckAggregate'
+    }
+
     stage('SonarQube analysis') {
         withSonarQubeEnv('sonarqube') {
             def ver = readFile('VERSION').trim()
