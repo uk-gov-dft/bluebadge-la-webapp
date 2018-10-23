@@ -4,8 +4,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import java.sql.SQLException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ public class ApplicationSiteSteps {
   private static final Logger log = getLogger(BadgeDetailsSiteSteps.class);
 
   @Autowired protected SitePage sitePage;
+  @Autowired protected DatabaseSteps databaseSteps;
 
   @Autowired protected ScenarioContext scenarioContext;
 
@@ -42,5 +46,17 @@ public class ApplicationSiteSteps {
         "I should see page titled.",
         sitePage.getDocumentTitle(),
         is("Application details " + applicationId + " - GOV.UK Manage Blue Badges"));
+  }
+
+  @Before("@DeleteApplication")
+  public void executeInsertApplicationsForDeletionDBScript() throws SQLException {
+    databaseSteps.runScript(
+        "scripts/new-applications/details/create-application-details-for-deletion.sql");
+  }
+
+  @After("@DeleteApplication")
+  public void executeDeleteApplicationsForDeletionDBScript() throws SQLException {
+    databaseSteps.runScript(
+        "scripts/new-applications/details/delete-application-details-for-deletion.sql");
   }
 }

@@ -379,6 +379,25 @@
                 </div>
             </dl>
         </div>
+
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text" data-uipath="removeApplicationSummaryText" th:text="#{application.details.removeApplicationSummaryText}"></span>
+            </summary>
+
+            <div class="govuk-details__text">
+                <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="delete">
+                    <p th:text="#{application.details.text.confirmdelete.line1}" />
+                    <input data-uipath="removeApplicationButton" th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
+                </form>
+
+                <p class="govuk-body">
+                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveApplicationButton" th:text="#{application.details.doNotRemoveApplicationButton}"></a>
+                </p>
+            </div>
+        </details>
+
+
     </section>
 </main>
 </body>

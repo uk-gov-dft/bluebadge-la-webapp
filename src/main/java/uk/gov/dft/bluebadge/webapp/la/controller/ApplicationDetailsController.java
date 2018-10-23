@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
@@ -15,6 +16,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 public class ApplicationDetailsController {
   private static final String URL = "/new-applications/{uuid}";
   private static final String TEMPLATE = "new-applications/application-details";
+  private static final String REDIRECT_URL_NEW_APPLICATION =
+      "redirect:" + NewApplicationsController.URL;
 
   private ApplicationService applicationService;
 
@@ -28,6 +31,14 @@ public class ApplicationDetailsController {
     Application application = applicationService.retrieve(uuid.toString());
 
     model.addAttribute("app", application);
+    model.addAttribute("uuid", uuid);
+
     return TEMPLATE;
+  }
+
+  @DeleteMapping(URL)
+  public String delete(@PathVariable("uuid") UUID uuid, Model model) {
+    applicationService.delete(uuid.toString());
+    return REDIRECT_URL_NEW_APPLICATION;
   }
 }
