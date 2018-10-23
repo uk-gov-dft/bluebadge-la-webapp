@@ -87,6 +87,5 @@ public class ApplicationService {
 
   public void delete(String applicationId) {
     applicationsApiClient.delete(applicationId);
-    return;
   }
 }
