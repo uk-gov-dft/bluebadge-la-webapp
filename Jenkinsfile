@@ -20,11 +20,20 @@ node {
         try {
             sh 'echo $(whoami)'
             sh 'bash -c "source /etc/profile && (npm list gulp -g || npm install -g gulp) && npm install && npm run prod"'
-            sh './gradlew clean build bootJar artifactoryPublish artifactoryDeploy'
+            sh './gradlew --no-daemon --profile --configure-on-demand clean build bootJar artifactoryPublish artifactoryDeploy'
+            sh 'mv build/reports/profile/profile-*.html build/reports/profile/index.html'
         }
         finally {
             junit '**/TEST*.xml'
         }
+        publishHTML (target: [
+          allowMissing: false,
+          alwaysLinkToLastBuild: false,
+          keepAll: true,
+          reportDir: 'build/reports/profile',
+          reportFiles: 'index.html',
+          reportName: "Gradle Profile Report"
+        ])
     }
 
     stage ('OWASP Dependency Check') {
