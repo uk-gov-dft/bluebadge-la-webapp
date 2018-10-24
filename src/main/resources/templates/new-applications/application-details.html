@@ -387,7 +387,7 @@
 
             <div class="govuk-details__text">
                 <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="delete">
-                    <p th:text="#{application.details.text.confirmdelete.line1}" />
+                    <p class="govuk-body" th:text="#{application.details.text.confirmdelete.line1}" />
                     <input data-uipath="removeApplicationButton" th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
                 </form>
 
