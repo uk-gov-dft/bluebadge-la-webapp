@@ -11,6 +11,7 @@ public class HomeController {
 
   private final SecurityUtils securityUtils;
   public static final String URL = "/";
+  private final String REDIRECT = "redirect:";
 
   @Autowired
   public HomeController(SecurityUtils securityUtils) {
@@ -22,15 +23,15 @@ public class HomeController {
 
     // default action
     if (securityUtils.isPermitted(Permissions.FIND_USERS)) {
-      return "redirect:" + ManageUsersController.URL_MANAGE_USERS;
+      return REDIRECT + ManageUsersController.URL_MANAGE_USERS;
     }
 
     // plan b
     if (securityUtils.isPermitted(Permissions.FIND_APPLICATION)) {
-      return "redirect:" + NewApplicationsController.URL;
+      return REDIRECT + NewApplicationsController.URL;
     }
 
     // have neither of the above permissions
-    return "redirect:" + FindBadgeController.URL_FIND_BADGE;
+    return REDIRECT + FindBadgeController.URL_FIND_BADGE;
   }
 }
