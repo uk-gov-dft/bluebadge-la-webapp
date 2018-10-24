@@ -216,6 +216,12 @@
                         <dd class="dft-data-list__dd" data-uipath="eligibility.walking.speed"
                             th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKSPEED', walking.walkingSpeedCode)}"/>
                     </div>-->
+                    <div class="dft-data-list__item" th:if="${walking.walkingLengthOfTimeCode}">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.walkingDifficulty.label.walkingTime}"/>
+                        <dd class="dft-data-list__dd" data-uipath="eligibility.walking.time"
+                            th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKLEN', walking.walkingLengthOfTimeCode)}"/>
+                    </div>
 
                     <div class="dft-data-list__item" th:if="${walking.treatments}">
                         <dt class="dft-data-list__dt"
