@@ -15,11 +15,9 @@ Feature: Dft BlueBadge LA New applications - delete application
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
     When I click on application with name "John The Second"
     Then I should see the page titled "New application - GOV.UK Manage Blue Badges"
-#    Then I should see the page title for Application Details for that particular "1087ac26-491a-46f0-9006-36187dc40771"
     When I can click "removeApplicationSummaryText" button
     And I can click on element "doNotRemoveApplicationButton" link
     Then I should see the page titled "New application - GOV.UK Manage Blue Badges"
-#    Then I should see the page title for Application Details for that particular "1087ac26-491a-46f0-9006-36187dc40771"
     When I can click "removeApplicationSummaryText" button
     And I can click "removeApplicationButton" button
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
