@@ -1,10 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -258,5 +261,15 @@ public class ApplicationDetailsControllerTest {
                 .string(
                     containsString(
                         ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)));
+  }
+
+  @Test
+  public void delete_shouldRedirectToNewApplicationsPage() throws Exception {
+    mockMvc
+        .perform(
+            delete("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID.toString()))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/new-applications"));
+    verify(applicationServiceMock).delete(ApplicationDetailsTestData.ModelValues.UUID.toString());
   }
 }
