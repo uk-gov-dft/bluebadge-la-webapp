@@ -1,10 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.filters;
 
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
-import uk.gov.dft.bluebadge.webapp.la.utilities.CookieUtils;
-
+import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,7 +10,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
+import uk.gov.dft.bluebadge.webapp.la.utilities.CookieUtils;
 
 @SuppressWarnings({"squid:S2092", "squid:S2583", "squid:S1186"})
 @Component
