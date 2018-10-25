@@ -83,4 +83,18 @@ public class ApplicationsApiClient extends BaseApiClient {
         restTemplate.getForObject(builder.toUriString(), ApplicationResponse.class);
     return response.getData();
   }
+
+  public void delete(String applicationId) {
+    Assert.notNull(applicationId, "applicationId supplied must be not null");
+
+    log.debug("delete {}", applicationId);
+
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT, applicationId);
+    try {
+      restTemplate.delete(builder.toUriString());
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+  }
 }

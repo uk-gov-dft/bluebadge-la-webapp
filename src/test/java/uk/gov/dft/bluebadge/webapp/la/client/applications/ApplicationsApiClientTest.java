@@ -13,6 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
@@ -41,6 +43,8 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   private static final LocalDateTime FIND_PARAM_TO = LocalDateTime.of(2018, 4, 27, 11, 42);
   private static final String FIND_PARAM_FROM_API = "2018-04-20T10:37";
   private static final String FIND_PARAM_TO_API = "2018-04-27T11:42";
+
+  private static final String APPLICATION_ID = UUID.randomUUID().toString();
 
   private ApplicationsApiClient client;
 
@@ -144,5 +148,39 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delete_ShouldThrowIllegalArgumentException_WhenApplicationIdIsMissing()
+      throws Exception {
+    client.delete(null);
+  }
+
+  @Test
+  public void delete_ShouldThrowBadRequestException_When400() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    Error error = new Error();
+    commonResponse.error(error.message("Message"));
+    String errorBody = objectMapper.writeValueAsString(commonResponse);
+
+    try {
+      mockServer
+          .expect(once(), requestTo(APPLICATIONS_ENDPOINT + "/" + APPLICATION_ID))
+          .andExpect(method(HttpMethod.DELETE))
+          .andRespond(
+              withBadRequest().body(errorBody).contentType(MediaType.APPLICATION_JSON_UTF8));
+      client.delete(APPLICATION_ID);
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
+  }
+
+  @Test
+  public void delete_ShouldReturn_WhenOK() {
+    mockServer
+        .expect(once(), requestTo(APPLICATIONS_ENDPOINT + "/" + APPLICATION_ID))
+        .andExpect(method(HttpMethod.DELETE))
+        .andRespond(withSuccess());
+    client.delete(APPLICATION_ID);
   }
 }
