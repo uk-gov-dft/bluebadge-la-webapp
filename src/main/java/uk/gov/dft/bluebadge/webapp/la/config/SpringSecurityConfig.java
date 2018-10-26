@@ -21,121 +21,121 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.webapp.la.security.CustomAccessDeniedHandler;
 import uk.gov.dft.bluebadge.webapp.la.security.BlueBadgeUserAuthenticationConverter;
+import uk.gov.dft.bluebadge.webapp.la.security.CustomAccessDeniedHandler;
 import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 
 @Configuration
 @EnableOAuth2Client
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String LANDING_PAGE_URL = "/";
+  private static final String LANDING_PAGE_URL = "/";
 
-    @Value("${blue-badge.auth-server.url}")
-    private String authServerUrl;
+  @Value("${blue-badge.auth-server.url}")
+  private String authServerUrl;
 
-    @Value("${blue-badge.auth-server.client-id}")
-    private String clientId;
+  @Value("${blue-badge.auth-server.client-id}")
+  private String clientId;
 
-    @Value("${blue-badge.auth-server.client-secret}")
-    private String clientSecret;
+  @Value("${blue-badge.auth-server.client-secret}")
+  private String clientSecret;
 
-    private OAuth2ClientContext oauth2ClientContext;
+  private OAuth2ClientContext oauth2ClientContext;
 
-    @Autowired
-    public SpringSecurityConfig(OAuth2ClientContext oauth2ClientContext) {
-        this.oauth2ClientContext = oauth2ClientContext;
-    }
+  @Autowired
+  public SpringSecurityConfig(OAuth2ClientContext oauth2ClientContext) {
+    this.oauth2ClientContext = oauth2ClientContext;
+  }
 
-    @Bean
-    @Primary
-    OAuth2RestTemplate restTemplate(ResourceOwnerPasswordResourceDetails resourceDetails) {
-        return new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
-    }
+  @Bean
+  @Primary
+  OAuth2RestTemplate restTemplate(ResourceOwnerPasswordResourceDetails resourceDetails) {
+    return new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
+  }
 
-    @Bean
-    ResourceOwnerPasswordAccessTokenProvider resourceOwnerPasswordAccessTokenProvider() {
-        return new ResourceOwnerPasswordAccessTokenProvider();
-    }
+  @Bean
+  ResourceOwnerPasswordAccessTokenProvider resourceOwnerPasswordAccessTokenProvider() {
+    return new ResourceOwnerPasswordAccessTokenProvider();
+  }
 
-    @Bean
-    @ConfigurationProperties(prefix = "security.oauth2.client")
-    @Primary
-    public ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails() {
-        return new ResourceOwnerPasswordResourceDetails();
-    }
+  @Bean
+  @ConfigurationProperties(prefix = "security.oauth2.client")
+  @Primary
+  public ResourceOwnerPasswordResourceDetails resourceOwnerPasswordResourceDetails() {
+    return new ResourceOwnerPasswordResourceDetails();
+  }
 
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return new CustomAccessDeniedHandler();
-    }
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new CustomAccessDeniedHandler();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
-                .permitAll()
-                .antMatchers("/new-applications", "/new-applications/**")
-                .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
-                .antMatchers("/order-a-badge", "/order-a-badge/**")
-                .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())
-                .antMatchers("/manage-badges", "/manage-badges/**")
-                .hasAuthority(Permissions.FIND_BADGES.getPermissionName())
-                .antMatchers("/manage-users", "/manage-users/**")
-                .hasAuthority(Permissions.FIND_USERS.getPermissionName())
-                .anyRequest()
-                .fullyAuthenticated()
-                .and()
-                .formLogin()
-                .loginPage("/sign-in")
-                .permitAll()
-                .defaultSuccessUrl(LANDING_PAGE_URL, true)
-                .and()
-                .logout()
-                .logoutUrl("/sign-out")
-                .and()
-                .csrf()
-                .csrfTokenRepository(new HttpSessionCsrfTokenRepository())
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/something-went-wrong")
-                .accessDeniedHandler(accessDeniedHandler());
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.antMatcher("/**")
+        .authorizeRequests()
+        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
+        .permitAll()
+        .antMatchers("/new-applications", "/new-applications/**")
+        .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
+        .antMatchers("/order-a-badge", "/order-a-badge/**")
+        .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())
+        .antMatchers("/manage-badges", "/manage-badges/**")
+        .hasAuthority(Permissions.FIND_BADGES.getPermissionName())
+        .antMatchers("/manage-users", "/manage-users/**")
+        .hasAuthority(Permissions.FIND_USERS.getPermissionName())
+        .anyRequest()
+        .fullyAuthenticated()
+        .and()
+        .formLogin()
+        .loginPage("/sign-in")
+        .permitAll()
+        .defaultSuccessUrl(LANDING_PAGE_URL, true)
+        .and()
+        .logout()
+        .logoutUrl("/sign-out")
+        .and()
+        .csrf()
+        .csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+        .and()
+        .exceptionHandling()
+        .accessDeniedPage("/something-went-wrong")
+        .accessDeniedHandler(accessDeniedHandler());
+  }
 
-    @Bean
-    public RemoteTokenServices tokenService() {
-        RemoteTokenServices tokenService = new RemoteTokenServices();
-        tokenService.setCheckTokenEndpointUrl(authServerUrl + "/oauth/check_token");
-        tokenService.setClientId(clientId);
-        tokenService.setClientSecret(clientSecret);
-        tokenService.setAccessTokenConverter(jwtAccessTokenConverter());
-        return tokenService;
-    }
+  @Bean
+  public RemoteTokenServices tokenService() {
+    RemoteTokenServices tokenService = new RemoteTokenServices();
+    tokenService.setCheckTokenEndpointUrl(authServerUrl + "/oauth/check_token");
+    tokenService.setClientId(clientId);
+    tokenService.setClientSecret(clientSecret);
+    tokenService.setAccessTokenConverter(jwtAccessTokenConverter());
+    return tokenService;
+  }
 
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setAccessTokenConverter(accessTokenConverter());
-        return converter;
-    }
+  @Bean
+  public JwtAccessTokenConverter jwtAccessTokenConverter() {
+    JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+    converter.setAccessTokenConverter(accessTokenConverter());
+    return converter;
+  }
 
-    @Bean
-    public BBAccessTokenConverter accessTokenConverter() {
-        BBAccessTokenConverter converter = new BBAccessTokenConverter();
-        BlueBadgeUserAuthenticationConverter userTokenConverter =
-                new BlueBadgeUserAuthenticationConverter(userDetailsTokenService());
-        converter.setUserTokenConverter(userTokenConverter);
-        return converter;
-    }
+  @Bean
+  public BBAccessTokenConverter accessTokenConverter() {
+    BBAccessTokenConverter converter = new BBAccessTokenConverter();
+    BlueBadgeUserAuthenticationConverter userTokenConverter =
+        new BlueBadgeUserAuthenticationConverter(userDetailsTokenService());
+    converter.setUserTokenConverter(userTokenConverter);
+    return converter;
+  }
 
-    @Bean
-    public UserDetailsTokenService userDetailsTokenService() {
-        return new UserDetailsTokenService();
-    }
+  @Bean
+  public UserDetailsTokenService userDetailsTokenService() {
+    return new UserDetailsTokenService();
+  }
 
-    @Bean
-    public SecurityUtils securityUtils() {
-        return new SecurityUtils();
-    }
+  @Bean
+  public SecurityUtils securityUtils() {
+    return new SecurityUtils();
+  }
 }
