@@ -1,0 +1,5 @@
+## la-webapp v0.13.0 Fri Oct 26 13:35:46 UTC 2018
+- **BBB-348** : "LA App - Delete Applications "
+- **BBB-855** : "Citizen and LA app - styling tidy up"
+- **BBK_140** : "Disable the gradle daemon on Jenkins"
+- **BBK_156** : "Add OWASP dependency checker to each of the repositories"
