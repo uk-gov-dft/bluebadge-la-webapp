@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeC
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
 public class ApplicationServiceTest extends ApplicationTestData {
+
+  private static final String APPLICATION_ID = UUID.randomUUID().toString();
 
   @Mock private ApplicationsApiClient applicationsApiClientMock;
 
@@ -91,5 +94,10 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW));
     assertThat(result).isEqualTo(orderdApplicationsForSearchByName);
+  }
+
+  @Test
+  public void delete_shouldWork() {
+    applicationService.delete(APPLICATION_ID);
   }
 }

@@ -55,7 +55,6 @@ public class ApplicationService {
   }
 
   public Application retrieve(String applicationId) {
-
     return applicationsApiClient.retrieve(applicationId);
   }
 
@@ -84,5 +83,9 @@ public class ApplicationService {
         Optional.empty(),
         Optional.empty(),
         Optional.of(ApplicationTypeCodeField.NEW));
+  }
+
+  public void delete(String applicationId) {
+    applicationsApiClient.delete(applicationId);
   }
 }
