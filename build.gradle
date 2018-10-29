@@ -56,7 +56,7 @@ def getTheVersion() {
         }
 
     }
-    return version + versionSuffix
+    return version.txt + versionSuffix
 }
 
 
