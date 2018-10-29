@@ -37,18 +37,20 @@ apply plugin: 'org.owasp.dependencycheck'
 //apply plugin: 'findbugs'
 
 def getTheVersion() {
-    def version = rootProject.file('VERSION').text.trim()
+    def version = 'git describe --abbrev=0'.execute(null, workingDir)
+    version.waitFor()
     def versionSuffix = "UnknownA"
     def workingDir = new File("${project.projectDir}")
     def result = 'git rev-parse --abbrev-ref HEAD'.execute(null, workingDir)
     result.waitFor()
     if (result.exitValue() == 0) {
         def gitBranch = result.text.trim().replaceAll('/','_')
-        if (gitBranch == 'develop') {
-            gitBranch = 'SNAPSHOT'
-        }
         if (gitBranch == 'master') {
             versionSuffix = ''
+        else if (gitBranch = 'develop') {
+            versionSuffix = 'SNAPSHOT'
+        else if (gitBranch.contains('release')) {
+            versionSuffix = 'RC'
         } else {
             versionSuffix = '-' + gitBranch
         }
