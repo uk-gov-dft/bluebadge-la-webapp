@@ -56,7 +56,7 @@ def getTheVersion() {
         }
 
     }
-    return version.text + versionSuffix
+    return "${version}${versionSuffix}"
 }
 
 
