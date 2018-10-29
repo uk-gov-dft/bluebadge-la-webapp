@@ -71,6 +71,9 @@ server:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
     #max-swallow-size: -1
+  error:
+    whitelabel:
+      enabled: false
 
 security:
   oauth2:
