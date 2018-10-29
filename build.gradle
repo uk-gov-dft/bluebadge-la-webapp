@@ -47,7 +47,7 @@ def getTheVersion() {
         def gitBranch = result.text.trim().replaceAll('/','_')
         if (gitBranch == 'master') {
             versionSuffix = ''
-        } else if (gitBranch = 'develop') {
+        } else if (gitBranch == 'develop') {
             versionSuffix = 'SNAPSHOT'
         } else if (gitBranch.contains('release')) {
             versionSuffix = 'RC'
