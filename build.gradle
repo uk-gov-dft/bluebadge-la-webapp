@@ -49,14 +49,12 @@ def getTheVersion() {
             versionSuffix = ''
         } else if (gitBranch == 'develop') {
             versionSuffix = '-SNAPSHOT'
-        } else if (gitBranch.contains('release')) {
-            versionSuffix = '-RC'
         } else {
             versionSuffix = '-' + gitBranch
         }
 
     }
-    return "${version.txt}${versionSuffix}"
+    return "${version.text.trim()}${versionSuffix}"
 }
 
 
@@ -64,6 +62,7 @@ task outputComputedVersion {
     def computedVersion = new File('VERSION-computed')
     computedVersion.delete()
     computedVersion.write(getTheVersion())
+    println(getTheVersion())
 }
 
 
