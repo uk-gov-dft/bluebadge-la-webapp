@@ -48,15 +48,15 @@ def getTheVersion() {
         if (gitBranch == 'master') {
             versionSuffix = ''
         } else if (gitBranch == 'develop') {
-            versionSuffix = 'SNAPSHOT'
+            versionSuffix = '-SNAPSHOT'
         } else if (gitBranch.contains('release')) {
-            versionSuffix = 'RC'
+            versionSuffix = '-RC'
         } else {
             versionSuffix = '-' + gitBranch
         }
 
     }
-    return "${version}${versionSuffix}"
+    return "${version.txt}${versionSuffix}"
 }
 
 
