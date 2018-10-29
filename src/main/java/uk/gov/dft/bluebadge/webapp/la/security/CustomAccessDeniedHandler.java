@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.security;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -10,20 +9,15 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.stereotype.Component;
 
-// handle 403 page
-@Component
-public class MyAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-  private static Logger logger = LoggerFactory.getLogger(MyAccessDeniedHandler.class);
+  private static Logger logger = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
 
   @Override
   public void handle(
-      HttpServletRequest httpServletRequest,
-      HttpServletResponse httpServletResponse,
-      AccessDeniedException e)
-      throws IOException, ServletException {
+      HttpServletRequest request, HttpServletResponse response, AccessDeniedException exc)
+      throws IOException {
 
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -31,9 +25,9 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
       logger.info(
           "User '{}' attempted to access the protected URL: {}",
           auth.getName(),
-          httpServletRequest.getRequestURI());
+          request.getRequestURI());
     }
 
-    httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/access-denied");
+    response.sendRedirect(request.getContextPath() + "/something-went-wrong");
   }
 }

@@ -56,7 +56,7 @@ public class SignInTests extends MockMVCWithSecurityTests {
                 .param("username", VALID_USERNAME_1)
                 .param(" ***REMOVED***)
                 .with(SecurityMockMvcRequestPostProcessors.csrf().useInvalidToken()))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isFound()).andExpect(redirectedUrl("/something-went-wrong"));
   }
 
   @Test
@@ -65,6 +65,6 @@ public class SignInTests extends MockMVCWithSecurityTests {
     mockMvc
         .perform(
             post("/sign-in").param("username", VALID_USERNAME_1).param(USERNAME_1_PASSWORD, "xxx"))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isFound()).andExpect(redirectedUrl("/something-went-wrong"));
   }
 }

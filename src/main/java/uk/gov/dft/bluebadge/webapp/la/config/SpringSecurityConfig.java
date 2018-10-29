@@ -16,11 +16,13 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import uk.gov.dft.bluebadge.common.security.BBAccessTokenConverter;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.security.BlueBadgeUserAuthenticationConverter;
+import uk.gov.dft.bluebadge.webapp.la.security.CustomAccessDeniedHandler;
 import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 
 @Configuration
@@ -63,6 +65,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     return new ResourceOwnerPasswordResourceDetails();
   }
 
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new CustomAccessDeniedHandler();
+  }
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
@@ -89,7 +96,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutUrl("/sign-out")
         .and()
         .csrf()
-        .csrfTokenRepository(new HttpSessionCsrfTokenRepository());
+        .csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+        .and()
+        .exceptionHandling()
+        .accessDeniedPage("/something-went-wrong")
+        .accessDeniedHandler(accessDeniedHandler());
   }
 
   @Bean
