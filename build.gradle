@@ -118,10 +118,11 @@ configurations.all {
         // don't cache changing modules at all
         cacheChangingModulesFor 0, 'seconds'
     }
+    exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 dependencies {
-    ext.commonVersion = '0.6.2-SNAPSHOT'
+    ext.commonVersion = '0.6.4-SNAPSHOT'
 
     compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
