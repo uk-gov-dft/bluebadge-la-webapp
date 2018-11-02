@@ -119,6 +119,7 @@ configurations.all {
         // don't cache changing modules at all
         cacheChangingModulesFor 0, 'seconds'
     }
+    exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 dependencies {
@@ -133,6 +134,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile('org.springframework.session:spring-session-data-redis')
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.0.1.RELEASE'
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -163,6 +166,7 @@ dependencies {
     testCompile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", classifier: 'tests',  changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
+    testCompile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
     testCompileOnly ('org.projectlombok:lombok:1.16.22')
 }
 

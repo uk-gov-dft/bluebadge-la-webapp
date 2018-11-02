@@ -2,12 +2,13 @@ package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
 
 /** ReferenceData */
 @Validated
-public class ReferenceData {
+public class ReferenceData implements Serializable {
   @JsonProperty("shortCode")
   private String shortCode = null;
 
