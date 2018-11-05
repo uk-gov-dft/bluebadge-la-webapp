@@ -1,20 +1,22 @@
 * {
-    color: black;
-    font-family: 'HelveticaNeue', 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
+	color: #000;
+	font-family: "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
-h1, h2, h3 {
-    font-weight: bold;
-    margin-bottom: 5mm;
+h1,
+h2,
+h3 {
+	font-weight: bold;
+	margin-bottom: 5mm;
 }
 
 @page {
-    margin: 15mm 10mm 15mm 15mm;
-    size: A4 portrait;
+	margin: 15mm 10mm 15mm 15mm;
+	size: A4 portrait;
 }
 
 .govuk-phase-banner,
@@ -25,68 +27,68 @@ h1, h2, h3 {
 .dft-topbar__menu,
 .govuk-details,
 .govuk-footer__inline-list {
-    display: none;
+	display: none;
 }
 
 .dft-topbar__proposition {
-    border-bottom: 1px solid lightgray;
-    padding: 5mm 0;
+	border-bottom: 1px solid #d3d3d3;
+	padding: 5mm 0;
 }
 
 .dft-topbar__title-link {
-    display: block;
-    font-size: 6mm;
-    font-weight: bold;
+	display: block;
+	font-size: 6mm;
+	font-weight: bold;
 }
 
 .govuk-heading-l {
-    font-size: 6mm;
+	font-size: 6mm;
 }
 
 .govuk-heading-m {
-    font-size: 5mm;
+	font-size: 5mm;
 }
 
 .dft-data-list {
-    display: table;
-    width: 100%;
-    margin-bottom: 10mm;
+	display: table;
+	width: 100%;
+	margin-bottom: 10mm;
 }
 
 .dft-data-list__item {
-    clear: both;
-    display: table-row;
+	clear: both;
+	display: table-row;
+
+	&:last-child > * {
+		border: 0;
+	}
 }
 
-.dft-data-list__dt, 
+.dft-data-list__dt,
 .dft-data-list__dd {
-    margin: 2mm 0;
-    display: table-cell;
-    padding: 3mm 0;
-    border-bottom: 0.2mm solid lightgray;
-    vertical-align: top;
-}
-
-.dft-data-list__item:last-child > * {
-    border: none;
+	margin: 2mm 0;
+	display: table-cell;
+	padding: 3mm 0;
+	border-bottom: .2mm solid #d3d3d3;
+	vertical-align: top;
 }
 
 .dft-data-list__dt {
-    width: 40%;
-    font-weight: bold;
+	width: 40%;
+	font-weight: bold;
 }
 
 .dft-data-list__dd {
-    width: 60%;
+	width: 60%;
 }
 
 ul {
-    margin: 0;
-    padding-left: 5mm;
+	margin: 0;
+	padding-left: 5mm;
 }
 
 .govuk-footer__meta {
-    border-top: 1px solid lightgray;
-    padding: 5mm 0;
-    margin-top: 15mm;
+	border-top: 1px solid #d3d3d3;
+	padding: 5mm 0;
+	margin-top: 15mm;
 }
