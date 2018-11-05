@@ -36,7 +36,8 @@ blue-badge:
       requesttimeout: 6000
       contextpath: /uk-gov-dft/application-management-service/1.0.0
   client-time-zone: Europe/London
-
+  env:  ${bb_env:dev}
+  
 logging:
   level:
     root: ${APP_LOGGING_LEVEL:-INFO}
