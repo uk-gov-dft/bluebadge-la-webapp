@@ -65,7 +65,7 @@ spring:
       quiet-period: 5
       # include: static/css/**,static/js/**
     redis:
-      host: redis.elasticache-la.${bb_env}.${url}
+      host: redis.elasticache-admin.${bb_env}.${url}
 
 server:
   port: ${bb_port:-8080}
