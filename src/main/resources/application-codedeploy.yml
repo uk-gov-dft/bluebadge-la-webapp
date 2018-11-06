@@ -54,18 +54,8 @@ management:
         include: '*'
 
 spring:
-  servlet:
-      multipart:
-        max-file-size: 10MB
-        max-request-size: 10MB
-  devtools:
-    restart:
-      additional-exclude: sass/**,js/**
-      poll-interval: 10
-      quiet-period: 5
-      # include: static/css/**,static/js/**
-    redis:
-      host: redis.elasticache-admin.${bb_env}.${url}
+  redis:
+    host: redis.elasticache-admin.${bb_env}.${url}
 
 server:
   port: ${bb_port:-8080}
