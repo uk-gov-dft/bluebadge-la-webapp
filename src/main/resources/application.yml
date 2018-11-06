@@ -40,9 +40,9 @@ blue-badge:
   
 logging:
   level:
-    root: ${APP_LOGGING_LEVEL:-INFO}
+    root: ${APP_LOGGING_LEVEL:INFO}
     sample.mybatis.mapper: WARN
-    uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:-DEBUG}
+    uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:DEBUG}
     org.springframework.security: INFO
 
 management:
