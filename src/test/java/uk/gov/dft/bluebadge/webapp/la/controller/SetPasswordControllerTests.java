@@ -6,24 +6,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.webapp.la.BaseSpringBootTest;
-import uk.gov.dft.bluebadge.webapp.la.client.RestTemplateFactory;
 
 @RunWith(SpringRunner.class)
 public class SetPasswordControllerTests extends BaseSpringBootTest {
 
-  @Autowired
-  private WebApplicationContext wac;
+  @Autowired private WebApplicationContext wac;
   private MockMvc mockMvc;
 
   @Before

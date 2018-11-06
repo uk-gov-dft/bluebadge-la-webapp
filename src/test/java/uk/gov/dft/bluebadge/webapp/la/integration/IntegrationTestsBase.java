@@ -19,7 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.LocalAuthorityApplication;
 @SpringBootTest(
   classes = LocalAuthorityApplication.class,
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-  properties = {"management.server.port=19999"}
+  properties = {"management.server.port=19999", "spring.redis.port=35623"}
 )
 public abstract class IntegrationTestsBase {
   @LocalServerPort protected int serverPort;

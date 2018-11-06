@@ -1,5 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.integration;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,20 +18,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.webapp.la.BaseSpringBootTest;
 
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @RunWith(SpringRunner.class)
 public class SignInTests extends BaseSpringBootTest {
 
   private static final String VALID_USERNAME_1 = "abc@dft.gov.uk";
   private static final String USERNAME_1_PASSWORD = "password";
 
-  @Autowired
-  private WebApplicationContext wac;
+  @Autowired private WebApplicationContext wac;
   protected MockMvc mockMvc;
 
   @Before
