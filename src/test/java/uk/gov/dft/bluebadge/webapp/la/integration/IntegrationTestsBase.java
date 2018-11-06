@@ -1,9 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.integration;
 
 import com.jayway.restassured.RestAssured;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import redis.embedded.RedisServer;
 import uk.gov.dft.bluebadge.webapp.la.LocalAuthorityApplication;
 
 /**
@@ -24,6 +27,13 @@ public abstract class IntegrationTestsBase {
   protected static final int MANAGEMENT_PORT = 19999;
   protected String baseUrl;
 
+  private static RedisServer REDISSERVER = new RedisServer(35623);
+
+  @BeforeClass
+  public static void before() {
+    REDISSERVER.start();
+  }
+
   @Before
   public void setup() {
     RestAssured.baseURI = "http://localhost";
@@ -31,5 +41,10 @@ public abstract class IntegrationTestsBase {
     RestAssured.port = serverPort;
 
     baseUrl = RestAssured.baseURI + ":" + RestAssured.port + RestAssured.basePath;
+  }
+
+  @AfterClass
+  public static void after() {
+    REDISSERVER.stop();
   }
 }
