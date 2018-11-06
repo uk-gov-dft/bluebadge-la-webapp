@@ -53,10 +53,6 @@ management:
     web:
       exposure:
         include: '*'
-  session:
-    store-type: redis
-    redis:
-      host: localhost
 
 spring:
   servlet:
@@ -68,6 +64,10 @@ spring:
       additional-exclude: sass/**,js/**
       poll-interval: 10
       quiet-period: 5
+  session:
+    store-type: redis
+    redis:
+      host: localhost
 
 server:
   port: 8080

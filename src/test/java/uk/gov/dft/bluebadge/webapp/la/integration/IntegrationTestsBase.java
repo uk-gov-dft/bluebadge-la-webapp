@@ -1,12 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.integration;
 
 import com.jayway.restassured.RestAssured;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import redis.embedded.RedisServer;
+import org.springframework.test.context.ActiveProfiles;
 import uk.gov.dft.bluebadge.webapp.la.LocalAuthorityApplication;
 
 /**
@@ -19,20 +17,14 @@ import uk.gov.dft.bluebadge.webapp.la.LocalAuthorityApplication;
 @SpringBootTest(
   classes = LocalAuthorityApplication.class,
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-  properties = {"management.server.port=19999", "spring.redis.port=35623"}
+  properties = {"management.server.port=19999"}
 )
+@ActiveProfiles({"test", "dev"})
 public abstract class IntegrationTestsBase {
   @LocalServerPort protected int serverPort;
 
   protected static final int MANAGEMENT_PORT = 19999;
   protected String baseUrl;
-
-  private static RedisServer REDISSERVER = new RedisServer(35623);
-
-  @BeforeClass
-  public static void before() {
-    REDISSERVER.start();
-  }
 
   @Before
   public void setup() {
@@ -41,10 +33,5 @@ public abstract class IntegrationTestsBase {
     RestAssured.port = serverPort;
 
     baseUrl = RestAssured.baseURI + ":" + RestAssured.port + RestAssured.basePath;
-  }
-
-  @AfterClass
-  public static void after() {
-    REDISSERVER.stop();
   }
 }

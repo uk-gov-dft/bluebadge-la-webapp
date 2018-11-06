@@ -166,7 +166,6 @@ dependencies {
     testCompile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", classifier: 'tests',  changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
-    testCompile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
     testCompileOnly ('org.projectlombok:lombok:1.16.22')
 }
 
