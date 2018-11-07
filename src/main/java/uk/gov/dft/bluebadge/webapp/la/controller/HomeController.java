@@ -11,6 +11,7 @@ public class HomeController {
 
   private final SecurityUtils securityUtils;
   public static final String URL = "/";
+  private final String REDIRECT = "redirect:";
 
   @Autowired
   public HomeController(SecurityUtils securityUtils) {

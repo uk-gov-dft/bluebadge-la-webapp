@@ -176,7 +176,13 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_SPEED, key);
   }
 
+  /*
+   * Used directly by template.  Do not delete.
+   */
   public String retrieveAppEnumDisplayValueByString(String group, String key) {
+    if (!isLoaded.get()) {
+      init();
+    }
     if (null == key) {
       return "";
     }
@@ -192,6 +198,9 @@ public class ReferenceDataService {
     return groupMap.get(key);
   }
 
+  /*
+   * Used directly by template.  Do not delete.
+   */
   public String retrieveAppEnumDisplayValue(String group, Enum<?> key) {
     if (null == key) {
       return "";
