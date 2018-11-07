@@ -15,7 +15,7 @@ public class ActuatorTests extends IntegrationTestsBase {
   @Before
   public void setup() {
     RestAssured.basePath = "/manage/actuator";
-    RestAssured.port = MANAGEMENT_PORT;
+    RestAssured.port = managementPort;
   }
 
   @Test
