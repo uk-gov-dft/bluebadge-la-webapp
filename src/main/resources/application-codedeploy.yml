@@ -36,12 +36,6 @@ blue-badge:
       requesttimeout: 6000
       contextpath: /uk-gov-dft/application-management-service/1.0.0
   client-time-zone: Europe/London
-logging:
-  level:
-    root: ${APP_LOGGING_LEVEL:-INFO}
-    sample.mybatis.mapper: WARN
-    uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:-DEBUG}
-    org.springframework.security: DEBUG
 
 management:
   server:
