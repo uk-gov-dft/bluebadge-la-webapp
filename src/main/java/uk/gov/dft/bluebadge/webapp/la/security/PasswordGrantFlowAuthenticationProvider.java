@@ -79,10 +79,11 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
 
       return tokenService.loadAuthentication(oAuth2AccessToken.getValue());
     } catch (OAuth2AccessDeniedException ade) {
-      log.debug("Authentication Failed. OAuth exception. {}", ade.getCause().getMessage(), ade);
       if (ade.getCause() instanceof ResourceAccessException) {
+        log.error("Authentication Failed. Failed to connect to authorisation service. {}", ade.getCause().getMessage(), ade);
         throw new AuthServerConnectionException("Failed to connect to authorisation service.");
       }
+      log.debug("Authentication Failed. OAuth exception. {}", ade.getCause().getMessage(), ade);
       if (ade.getCause() instanceof InvalidGrantException
           && USER_ACCOUNT_IS_LOCKED_MSG.equals(ade.getCause().getMessage())) {
         throw new LockedException("Sign in failed. Account is locked.");
