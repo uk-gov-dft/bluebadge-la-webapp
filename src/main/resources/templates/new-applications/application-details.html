@@ -308,16 +308,15 @@
                         populate benefit duration.
                 -->
                 <!-- BENEFIT FIELDS -->
-                <!--<div th:if="${eligibility.benefit}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
-                    <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.benefit.label.benefit}"/>
-                    <dd class="dft-data-list__dd" th:if="${ben.isIndefinite}"
-                        th:text="#{application.details.benefit.isIndefinite}"
-                        data-uipath="eligibility.benefit.isindefinite"/>
-                    <dd class="dft-data-list__dd" th:unless="${ben.isIndefinite}"
-                        data-uipath="eligibility.benefit.isnotindefinite"
-                        th:text="#{application.details.benefit.expires} + ' ' + ${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"/>
-                </div>-->
+                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
+                    <dt class="dft-data-list__dt" th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
+                    <dd class="dft-data-list__dd">
+                        <span th:remove="tag" th:text="${ben.isIndefinite}? #{application.details.benefit.isIndefinite} : #{application.details.benefit.expires}"></span>
+                        <span th:unless="${ben.isIndefinite}" th:remove="tag">
+                            <br/><span th:text="${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"></span>
+                        </span>
+                    </dd>
+                </div>
 
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
