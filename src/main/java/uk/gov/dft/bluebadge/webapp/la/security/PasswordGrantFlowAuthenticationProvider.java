@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.security;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -78,14 +79,15 @@ public class PasswordGrantFlowAuthenticationProvider implements AuthenticationPr
 
       return tokenService.loadAuthentication(oAuth2AccessToken.getValue());
     } catch (OAuth2AccessDeniedException ade) {
+      log.debug("Authentication Failed. OAuth exception. {}", ade.getCause().getMessage(), ade);
       if (ade.getCause() instanceof ResourceAccessException) {
-        throw new AuthServerConnectionException("Failed to connect to authorisation service.", ade);
+        throw new AuthServerConnectionException("Failed to connect to authorisation service.");
       }
       if (ade.getCause() instanceof InvalidGrantException
           && USER_ACCOUNT_IS_LOCKED_MSG.equals(ade.getCause().getMessage())) {
-        throw new LockedException("Sign in failed. Account is locked.", ade);
+        throw new LockedException("Sign in failed. Account is locked.");
       }
-      throw new BadCredentialsException("Failed to authenticate user.", ade);
+      throw new BadCredentialsException("Failed to authenticate user.");
     }
   }
 }
