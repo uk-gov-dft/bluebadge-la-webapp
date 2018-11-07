@@ -71,8 +71,6 @@ spring:
       namespace: spring:session:admin
   redis:
     host: localhost
-  profiles:
-    active: dev
 
 server:
   port: 8080
