@@ -11,10 +11,9 @@ public class HomeController {
 
   private final SecurityUtils securityUtils;
   public static final String URL = "/";
-  private static final String REDIRECT = "redirect:";
 
   @Autowired
-  public HomeController(SecurityUtils securityUtils) {
+  HomeController(SecurityUtils securityUtils) {
     this.securityUtils = securityUtils;
   }
 
@@ -22,6 +21,7 @@ public class HomeController {
   public String show() {
 
     // default action
+    String REDIRECT = "redirect:";
     if (securityUtils.isPermitted(Permissions.FIND_USERS)) {
       return REDIRECT + ManageUsersController.URL_MANAGE_USERS;
     }

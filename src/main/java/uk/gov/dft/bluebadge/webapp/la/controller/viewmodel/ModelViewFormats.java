@@ -1,8 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 
-public class ModelViewFormats {
+public class ModelViewFormats implements Serializable {
 
   private ModelViewFormats() {}
 

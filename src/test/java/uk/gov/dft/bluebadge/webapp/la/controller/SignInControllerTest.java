@@ -118,8 +118,7 @@ public class SignInControllerTest {
             get("/sign-in")
                 .param("error", "")
                 .sessionAttr(
-                    "SPRING_SECURITY_LAST_EXCEPTION",
-                    new AuthServerConnectionException("test", null)))
+                    "SPRING_SECURITY_LAST_EXCEPTION", new AuthServerConnectionException("test")))
         .andExpect(status().isOk())
         .andExpect(view().name("sign-in"))
         .andExpect(model().attribute("errorSummary", Matchers.notNullValue()))

@@ -15,7 +15,7 @@ public class ActuatorTests extends IntegrationTestsBase {
   @Before
   public void setup() {
     RestAssured.basePath = "/manage/actuator";
-    RestAssured.port = MANAGEMENT_PORT;
+    RestAssured.port = managementPort;
   }
 
   @Test
@@ -25,7 +25,7 @@ public class ActuatorTests extends IntegrationTestsBase {
 
   @Test
   public void givenNoAuth_whenActuatorHealthRequested_thenSuccess() {
-    get("health").then().statusCode(200).body("status", equalTo("UP"));
+    get("health").then().log().all().statusCode(200).body("status", equalTo("UP"));
   }
 
   @Test

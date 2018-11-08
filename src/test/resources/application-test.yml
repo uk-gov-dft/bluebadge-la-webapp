@@ -6,4 +6,12 @@ blue-badge:
       host: localhost
       port: 8180
       contextpath: /test-usermanagementservice
+spring:
+  session:
+    store-type: none
+  autoconfigure.exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+management:
+  endpoint:
+    health:
+      show-details: always
 

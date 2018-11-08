@@ -1,11 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class OrderBadgeCheckOrderViewModel {
+public class OrderBadgeCheckOrderViewModel implements Serializable {
   private String fullName;
   private String dob;
   private String gender;

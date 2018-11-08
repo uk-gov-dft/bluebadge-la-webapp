@@ -37,13 +37,13 @@ blue-badge:
       contextpath: /uk-gov-dft/application-management-service/1.0.0
   client-time-zone: Europe/London
   env:  ${bb_env:dev}
-  
+
 logging:
   level:
     root: ${APP_LOGGING_LEVEL:INFO}
     sample.mybatis.mapper: WARN
     uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:DEBUG}
-    org.springframework.security: INFO
+    org.springframework: INFO
 
 management:
   server:
@@ -65,6 +65,12 @@ spring:
       additional-exclude: sass/**,js/**
       poll-interval: 10
       quiet-period: 5
+  session:
+    store-type: redis
+    redis:
+      namespace: spring:session:admin
+  redis:
+    host: localhost
 
 server:
   port: 8080

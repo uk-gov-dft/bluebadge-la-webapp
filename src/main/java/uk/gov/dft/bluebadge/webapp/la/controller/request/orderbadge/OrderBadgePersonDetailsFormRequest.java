@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -13,7 +14,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
 @Builder
-public class OrderBadgePersonDetailsFormRequest implements OrderBadgeBaseDetailsFormRequest {
+public class OrderBadgePersonDetailsFormRequest
+    implements OrderBadgeBaseDetailsFormRequest, Serializable {
   private Integer numberOfBadges;
 
   @NotBlank(message = "{NotNull.user.name}")

@@ -1,9 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.util.Assert;
 
-public class ErrorViewModel {
+public class ErrorViewModel implements Serializable {
 
   private static final String DEFAULT_TITLE = "error.form.summary.title";
   private static final String DEFAULT_DESCRIPTION = "empty";
