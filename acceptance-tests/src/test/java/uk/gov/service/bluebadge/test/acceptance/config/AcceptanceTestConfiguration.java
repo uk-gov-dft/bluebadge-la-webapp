@@ -40,10 +40,15 @@ public class AcceptanceTestConfiguration {
       final AcceptanceTestProperties acceptanceTestProperties) {
 
     return new WebDriverProvider(
-        webDriverServiceProvider,
-        acceptanceTestProperties.isHeadlessMode(),
-        acceptanceTestProperties.getDownloadDir(),
-        acceptanceTestProperties.isZapMode());
+            webDriverServiceProvider,
+            acceptanceTestProperties.isHeadlessMode(),
+            acceptanceTestProperties.getDownloadDir(),
+            acceptanceTestProperties.isZapMode(),
+            acceptanceTestProperties.isbStackMode(),
+            acceptanceTestProperties.getBrowserName(),
+            acceptanceTestProperties.getBrowserVersion(),
+            acceptanceTestProperties.getBrowserStackUser(),
+            acceptanceTestProperties.getBrowserStackKey());
   }
 
   @Bean(initMethod = "initialise", destroyMethod = "dispose")
@@ -65,11 +70,17 @@ public class AcceptanceTestConfiguration {
     //                  In Maven this would typically be 'target' directory of the current module.
 
     final AcceptanceTestProperties acceptanceTestProperties =
-        new AcceptanceTestProperties(
-            Boolean.parseBoolean(System.getProperty("headless", "true")),
-            Paths.get(buildDirectory, "download"),
-            Paths.get(buildDirectory),
-            Boolean.parseBoolean(System.getProperty("zapMode", "false")));
+            new AcceptanceTestProperties(
+                    Boolean.parseBoolean(System.getProperty("headless", "true")),
+                    Paths.get(buildDirectory, "download"),
+                    Paths.get(buildDirectory),
+                    Boolean.parseBoolean(System.getProperty("zapMode", "false")),
+                    Boolean.parseBoolean(System.getProperty("bStackMode", "false")),
+                    System.getProperty("bStackBrowserName", "false"),
+                    System.getProperty("bStackBrowserVersion", "false"),
+                    System.getProperty("bStackUser", " "),
+                    System.getProperty("bStackKey", " ")
+            );
 
     log.info("Applying test properties: {}", acceptanceTestProperties);
 
