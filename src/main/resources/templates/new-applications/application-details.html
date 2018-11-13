@@ -255,13 +255,7 @@
                         <dd class="dft-data-list__dd" th:text="${arms.drivingFrequency}"
                             data-uipath="eligibility.arms.drivingfrequency"/>
                     </div>
-
-                    <!--
-                        *   Commented out as part of BBB-921
-                        *   Uncomment this block of code when the Citizen app is ready to
-                            populate adapted vehicle
-                    -->
-                    <!--<div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
+                    <div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
@@ -270,8 +264,7 @@
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isnotadaptedvehicle"
                             th:text="#{application.details.isNotAdaptedVehicle}"/>
-                    </div>-->
-
+                    </div>
                     <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
@@ -302,11 +295,6 @@
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', eligibility.blind.registeredAtLaId)}"/>
                 </div>
 
-                <!--
-                    *   Commented out as part of BBB-921
-                    *   Uncomment this block of code when the Citizen app is ready to
-                        populate benefit duration.
-                -->
                 <!-- BENEFIT FIELDS -->
                 <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
