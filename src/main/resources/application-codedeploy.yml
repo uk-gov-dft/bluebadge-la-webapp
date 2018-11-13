@@ -49,7 +49,9 @@ management:
 
 spring:
   redis:
-    host: redis.elasticache-admin.${bb_env}.${url}
+    host:
+    cluster:
+      nodes: redis.elasticache-admin.${bb_env}.${url}:6379
 
 server:
   port: ${bb_port:-8080}
