@@ -40,10 +40,10 @@ public class WebDriverServiceProvider {
    */
   public void initialise() {
     chromeDriverService =
-            new ChromeDriverService.Builder()
-                    .usingAnyFreePort()
-                    .usingDriverExecutable(getChromedriverFileLocation())
-                    .build();
+        new ChromeDriverService.Builder()
+            .usingAnyFreePort()
+            .usingDriverExecutable(getChromedriverFileLocation())
+            .build();
 
     try {
       chromeDriverService.start();
@@ -102,17 +102,17 @@ public class WebDriverServiceProvider {
 
     if (!isDirectory(webDriverLocationPath)) {
       throw new IllegalStateException(
-              "Expected to find a directory with downloaded web driver binaries at "
-                      + webDriverLocationPath);
+          "Expected to find a directory with downloaded web driver binaries at "
+              + webDriverLocationPath);
     }
 
     final File[] candidateFiles =
-            webDriverLocationPath.toFile().listFiles((dir, name) -> !name.endsWith(".version"));
+        webDriverLocationPath.toFile().listFiles((dir, name) -> !name.endsWith(".version"));
 
     if (candidateFiles == null || candidateFiles.length != 1) {
       throw new IllegalStateException(
-              "Expected exactly one web driver binary file to be available in "
-                      + webDriverLocationPath);
+          "Expected exactly one web driver binary file to be available in "
+              + webDriverLocationPath);
     }
 
     return candidateFiles[0];

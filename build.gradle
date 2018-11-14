@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.4.RELEASE'
+        springBootVersion = '2.1.0.RELEASE'
     }
     repositories {
         mavenLocal()
@@ -132,14 +132,14 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
+    compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.0.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-data-redis')
     compile('org.springframework.session:spring-session-data-redis')
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.0.1.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.0.2.RELEASE'
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
+    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
     compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
     compile('org.webjars:jquery:3.2.1')
