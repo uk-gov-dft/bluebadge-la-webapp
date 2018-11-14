@@ -260,8 +260,8 @@
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isadaptedvehicle"
-                            th:with="lines = ${@modelFormatUtils.parseNewLinesToArray(#{application.details.isAdaptedVehicle} + ' ' + arms.adaptedVehicleDescription)}">
-                            <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">
+                            th:with="vehicledesc=#{application.details.isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}">
+                            <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist" th:with="lines=${@modelFormatUtils.parseNewLinesToArray(vehicledesc)}">
                                 <li th:each="line: ${lines}" th:text="${line}">
                             </ul>
                         </dd>
