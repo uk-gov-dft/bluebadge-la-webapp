@@ -27,7 +27,7 @@
                     <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
                 </h1>
 
-                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${isBadgeActive}">
+                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${canBeCancelled}">
                     <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19">Cancel badge</a>
                 </div>
             </header>
