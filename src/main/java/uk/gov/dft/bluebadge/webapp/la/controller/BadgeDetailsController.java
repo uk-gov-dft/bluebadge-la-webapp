@@ -40,7 +40,9 @@ public class BadgeDetailsController {
 
     Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
 
-    Boolean canBeCancelled = "ISSUED".equals(badgeDetails.getStatusCode()) || "ORDERED".equals(badgeDetails.getStatusCode());
+    Boolean canBeCancelled =
+        "ISSUED".equals(badgeDetails.getStatusCode())
+            || "ORDERED".equals(badgeDetails.getStatusCode());
     model.addAttribute("canBeCancelled", canBeCancelled);
 
     BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
