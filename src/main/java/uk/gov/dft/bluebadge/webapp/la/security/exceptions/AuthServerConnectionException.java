@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
  * messaging on login fails.
  */
 public class AuthServerConnectionException extends AuthenticationException {
-  public AuthServerConnectionException(String msg, Throwable t) {
-    super(msg, t);
+  public AuthServerConnectionException(String msg) {
+    super(msg);
   }
 }

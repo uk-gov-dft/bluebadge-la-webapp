@@ -97,6 +97,22 @@ with specific tag, let's say @ignore and then:
 ./gradlew acceptanceTest -DbaseUrl=http://localhost:8080 -Dheadless=false -Dcucumber.options="--tags ~@ignore"
 ```
 
+#Running Acceptance tests on Browserstack
+---Run this to enable local testing
+
+Download https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip and unzip
+
+Go to that directory and run below command
+
+./BrowserStackLocal --key TgSoo4cFJycJxqXkzHxT --local-identifier Test123
+
+---Run this in Terminal
+gradle acceptanceTest -Dheadless=false -DbStackMode=true -DbaseUrl=http://dft.local:8080 -Dcucumber.options="--tags @SubmitApplicationWALKDRoute" -DbStackBrowserName="chrome" -DbStackBrowserVersion="70.0"  -DbStackBrowserVersion="70.0" -DbStackUser="<user>" -DbStackKey="<key>"
+
+You can find the browsers and versions in https://www.browserstack.com/automate/java
+
+
+
 Test results:
 You can find the results in following location on la-webapp project:
 ```

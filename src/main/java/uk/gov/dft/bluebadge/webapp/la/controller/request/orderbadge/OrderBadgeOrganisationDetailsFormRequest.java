@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -9,7 +10,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
 @Builder
-public class OrderBadgeOrganisationDetailsFormRequest implements OrderBadgeBaseDetailsFormRequest {
+public class OrderBadgeOrganisationDetailsFormRequest
+    implements OrderBadgeBaseDetailsFormRequest, Serializable {
   @NotBlank(message = "{NotNull.user.name}")
   @Size(max = 100)
   private String name;

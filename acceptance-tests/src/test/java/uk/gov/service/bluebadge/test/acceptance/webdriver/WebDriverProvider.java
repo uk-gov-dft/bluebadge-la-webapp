@@ -2,6 +2,8 @@ package uk.gov.service.bluebadge.test.acceptance.webdriver;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,19 +30,35 @@ public class WebDriverProvider {
   private static final Logger log = getLogger(WebDriverProvider.class);
 
   private static ChromeOptions chromeOptions;
-  private final WebDriverServiceProvider webDriverServiceProvider;
+
+  private WebDriverServiceProvider webDriverServiceProvider;
 
   /**
    * When 'true', the WebDriver will be operating in a headless mode, i.e. not displaying web
    * browser window.
    */
-  private final boolean isHeadlessMode;
+  private boolean isHeadlessMode;
 
   /** When 'true', the WebDriver will be operating through zap proxy. */
-  private final boolean isZapMode;
+  private boolean isZapMode;
+
+  /** When 'true', the WebDriver will be from BrowserStack. */
+  private final boolean isBstackMode;
+
+  /** This is the target browser on BrowserStack */
+  private final String bStackBrowserName;
+
+  /** This is the target browser version on BrowserStack */
+  private final String bStackBrowserVersion;
+
+  /** This is the Username for BrowserStack account */
+  private final String bStackBrowserUser;
+
+  /** This is the Key for BrowserStack account */
+  private final String bStackBrowserKey;
 
   /** Location that the web browser will be downloading content into. */
-  private final Path downloadDirectory;
+  private Path downloadDirectory;
 
   private WebDriver webDriver;
 
@@ -48,11 +66,21 @@ public class WebDriverProvider {
       final WebDriverServiceProvider webDriverServiceProvider,
       final boolean isHeadlessMode,
       final Path downloadDirectory,
-      final boolean isZapMode) {
+      final boolean isZapMode,
+      boolean isBstackMode,
+      String bStackBrowserName,
+      String bStackBrowserVersion,
+      String bStackBrowserUser,
+      String bStackBrowserKey) {
     this.webDriverServiceProvider = webDriverServiceProvider;
     this.isHeadlessMode = isHeadlessMode;
     this.isZapMode = isZapMode;
+    this.isBstackMode = isBstackMode;
     this.downloadDirectory = downloadDirectory;
+    this.bStackBrowserName = bStackBrowserName;
+    this.bStackBrowserVersion = bStackBrowserVersion;
+    this.bStackBrowserUser = bStackBrowserUser;
+    this.bStackBrowserKey = bStackBrowserKey;
   }
 
   public WebDriver getWebDriver() {
@@ -99,6 +127,32 @@ public class WebDriverProvider {
 
       capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
       webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), capabilities);
+
+    } else if (isBstackMode) {
+
+      final String URL =
+          "https://"
+              + bStackBrowserUser
+              + ":"
+              + bStackBrowserKey
+              + "@hub-cloud.browserstack.com/wd/hub";
+
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browser", bStackBrowserName.toUpperCase());
+      caps.setCapability("browser_version", bStackBrowserVersion);
+      caps.setCapability("os", "Windows");
+      caps.setCapability("os_version", "10");
+      caps.setCapability("resolution", "1024x768");
+      caps.setCapability("browserstack.local", "true");
+      caps.setCapability("browserstack.localIdentifier", "Test123");
+      //caps.setCapability("browserstack.debug","true");
+
+      try {
+        webDriver = new RemoteWebDriver(new URL(URL), caps);
+      } catch (MalformedURLException e) {
+        e.printStackTrace();
+      }
+
     } else {
       webDriver = new RemoteWebDriver(webDriverServiceProvider.getUrl(), chromeOptions);
     }

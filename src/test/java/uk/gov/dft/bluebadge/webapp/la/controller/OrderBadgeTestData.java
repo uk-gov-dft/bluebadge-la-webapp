@@ -141,8 +141,8 @@ public class OrderBadgeTestData {
   protected static final String DELIVER_TO_SHORTCODE = "HOME";
   protected static final String DELIVERY_OPTIONS = "fast";
   protected static final String DELIVERY_OPTIONS_SHORTCODE = "FAST";
-  protected static final String NUMBER_OF_BADGES_PERSON = "1";
-  protected static final String NUMBER_OF_BADGES_ORGANISATION = "3";
+  protected static final Integer NUMBER_OF_BADGES_PERSON = 1;
+  protected static final Integer NUMBER_OF_BADGES_ORGANISATION = 3;
 
   protected static final String APPLICATION_DATE_DAY_WRONG = "32";
   protected static final String APPLICATION_DATE_MONTH_WRONG = "13";

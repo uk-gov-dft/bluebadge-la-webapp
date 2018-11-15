@@ -1,12 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.common.security.model.LocalAuthorityControlled;
 
 @Data
 @Builder
-public class BadgeDetailsViewModel implements LocalAuthorityControlled {
+public class BadgeDetailsViewModel implements LocalAuthorityControlled, Serializable {
   private String nino;
   private String fullName;
   private String dob;

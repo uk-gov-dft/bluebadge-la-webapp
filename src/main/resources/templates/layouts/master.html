@@ -21,6 +21,8 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main-ie8.css}">
     <![endif]-->
 
+    <link rel="stylesheet" type="text/css" media="print" th:href="@{/css/print.css}">
+
     <!--[if lt IE 9]>
     <script src="/js/html5-shiv.js"></script>
     <![endif]-->
@@ -56,8 +58,13 @@
                 <p class="govuk-phase-banner__content">
                     <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{phaseBanner.title}"></strong>
                     <span class="govuk-phase-banner__text">
-                        <span th:remove="tag" th:text="#{phaseBanner.text}"></span>
-                        <a target="_blank" data-uipath="feedback.link" class="govuk-link" th:text="#{phaseBanner.link}" href="https://www.smartsurvey.co.uk/s/L2D6Q/"></a>
+                        <span th:remove="tag" th:if="${(@environment.getProperty('blue-badge.env') == 'int')}">
+                        		<span th:remove="tag" th:text="#{phaseBanner.text1}"></span>                        
+					    </span>
+                        <span th:remove="tag" th:if="${(@environment.getProperty('blue-badge.env') != 'int')}">
+	                        <span th:remove="tag" th:text="#{phaseBanner.text2}"></span>
+	                        <a target="_blank" data-uipath="feedback.link" class="govuk-link" th:text="#{phaseBanner.link}" href="https://www.smartsurvey.co.uk/s/L2D6Q/"></a>
+                        </span>
                     </span>
                 </p>
             </div>

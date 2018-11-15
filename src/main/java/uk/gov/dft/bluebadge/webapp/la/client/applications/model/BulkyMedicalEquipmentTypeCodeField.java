@@ -20,7 +20,9 @@ public enum BulkyMedicalEquipmentTypeCodeField {
 
   SUCTION("SUCTION"),
 
-  VENT("VENT");
+  VENT("VENT"),
+
+  OTHER("OTHER");
 
   private String value;
 

@@ -10,7 +10,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
@@ -19,6 +22,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 
 @Service
 @Slf4j
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ReferenceDataService {
 
   private Map<String, List<ReferenceData>> badgeGroupedReferenceDataList = null;
@@ -172,7 +176,13 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_SPEED, key);
   }
 
+  /*
+   * Used directly by template.  Do not delete.
+   */
   public String retrieveAppEnumDisplayValueByString(String group, String key) {
+    if (!isLoaded.get()) {
+      init();
+    }
     if (null == key) {
       return "";
     }
@@ -188,6 +198,9 @@ public class ReferenceDataService {
     return groupMap.get(key);
   }
 
+  /*
+   * Used directly by template.  Do not delete.
+   */
   public String retrieveAppEnumDisplayValue(String group, Enum<?> key) {
     if (null == key) {
       return "";

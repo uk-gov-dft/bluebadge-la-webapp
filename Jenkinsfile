@@ -4,6 +4,7 @@ def REPONAME = "${scm.getUserRemoteConfigs()[0].getUrl()}"
 node {
 
     stage('Clone sources') {
+      cleanWs()
       git(
            url: "${REPONAME}",
            credentialsId: 'githubsshkey',
