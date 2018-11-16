@@ -159,6 +159,10 @@ public class ReferenceDataService {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
   }
 
+  public String retrieveBadgeLocalAuthorityDisplayValue() {
+    return retrieveBadgeLocalAuthorityDisplayValue(securityUtils.getCurrentLocalAuthorityShortCode());
+  }
+
   // APPLICATION
   public String retrieveApplicationGenderDisplayValue(String key) {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);

@@ -3,7 +3,10 @@ package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -61,20 +66,29 @@ public class OrderBadgeProcessingController {
       @PathVariable("applicantType") String applicantType) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+
+    // Must have delivery option if sent to badge holder.
+    // Is always standard if sent to council.
+    if(DeliverToCodeField.HOME == formRequest.getDeliverTo() && null == formRequest.getDeliveryOptions()){
+      bindingResult.rejectValue("deliveryOptions", "NotNull");
+    }else if(DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()){
+      formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
+    }
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
     return getRedirectUrlCheckOrder(applicantType);
   }
 
+  @ModelAttribute("localAuthorityName")
+  public String localAuthorityDisplayValue(){
+    return referenceDataService.retrieveBadgeLocalAuthorityDisplayValue();
+  }
+
   @ModelAttribute("appSourceOptions")
   public List<ReferenceData> appSourceOptions() {
     return referenceDataService.retrieveBadgeApplicationChannels();
-  }
-
-  @ModelAttribute("deliverToOptions")
-  public List<ReferenceData> deliverToOptions() {
-    return referenceDataService.retrieveBadgeDeliverTos();
   }
 
   @ModelAttribute("deliveryOptions")

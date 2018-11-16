@@ -1,15 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
-import java.io.File;
-import java.io.FileInputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Organisation;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
@@ -17,6 +14,12 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOr
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 public class OrderBadgeTestData {
@@ -87,8 +90,6 @@ public class OrderBadgeTestData {
   protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
       new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
 
-  protected static final String IMAGE_BASE64 = "base64";
-
   public static MockMultipartFile PHOTO() {
     try {
       File file = new File(System.getProperty("user.dir") + "/src/test/resources/icon-test.jpg");
@@ -129,12 +130,12 @@ public class OrderBadgeTestData {
   protected static final String LOCAL_AUTHORITY_REFERENCE_NUMBER = "AA110";
   protected static final String BADGE_START_DATE_DAY = "7";
   protected static final String BADGE_START_DATE_MONTH = "8";
-  //protected static final String BADGE_START_DATE_YEAR = "2018";
+  // protected static final String BADGE_START_DATE_YEAR = "2018";
   protected static final String BADGE_START_DATE_YEAR =
       Integer.toString(LocalDate.now().plusYears(1).getYear());
   protected static final String BADGE_EXPIRY_DATE_DAY = "7";
   protected static final String BADGE_EXPIRY_DATE_MONTH = "8";
-  //protected static final String BADGE_EXPIRY_DATE_YEAR = "2021";
+  // protected static final String BADGE_EXPIRY_DATE_YEAR = "2021";
   protected static final String BADGE_EXPIRY_DATE_YEAR =
       Integer.toString(LocalDate.now().plusYears(2).getYear());
   protected static final String DELIVER_TO = "Home adress";
@@ -147,15 +148,12 @@ public class OrderBadgeTestData {
   protected static final String APPLICATION_DATE_DAY_WRONG = "32";
   protected static final String APPLICATION_DATE_MONTH_WRONG = "13";
   protected static final String APPLICATION_DATE_YEAR_WRONG = "201";
-  protected static final String APPLICATION_CHANNEL_WRONG = "paper";
   protected static final String BADGE_START_DATE_DAY_WRONG = "7";
   protected static final String BADGE_START_DATE_MONTH_WRONG = "6";
   protected static final String BADGE_START_DATE_YEAR_WRONG = "2018";
   protected static final String BADGE_EXPIRY_DATE_DAY_WRONG = "5";
   protected static final String BADGE_EXPIRY_DATE_MONTH_WRONG = "6";
   protected static final String BADGE_EXPIRY_DATE_YEAR_WRONG = "2018";
-  protected static final String DELIVER_TO_WRONG = "deliverTo";
-  protected static final String DELIVERY_OPTIONS_WRONG = "deliveryOptions";
 
   // form requests
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
@@ -206,8 +204,8 @@ public class OrderBadgeTestData {
           .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
           .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
           .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-          .deliverTo(DELIVER_TO_SHORTCODE)
-          .deliveryOptions(DELIVERY_OPTIONS_SHORTCODE)
+          .deliverTo(DeliverToCodeField.HOME)
+          .deliveryOptions(DeliveryOptionCodeField.FAST)
           .numberOfBadges(NUMBER_OF_BADGES_PERSON)
           .build();
 
@@ -224,31 +222,28 @@ public class OrderBadgeTestData {
           .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
           .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
           .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-          .deliverTo(DELIVER_TO_SHORTCODE)
-          .deliveryOptions(DELIVERY_OPTIONS_SHORTCODE)
+          .deliverTo(DeliverToCodeField.HOME)
+          .deliveryOptions(DeliveryOptionCodeField.FAST)
           .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
           .build();
 
-  protected static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.of(2018, 7, 2);
-  protected static final String SERVICE_MODEL_APPLICATION_CHANNEL = "PAPER";
-  protected static final String SERVICE_MODEL_DELIVER_TO = DELIVER_TO_SHORTCODE;
+  private static final LocalDate SERVICE_MODEL_APPLICATION_DATE = LocalDate.of(2018, 7, 2);
+  private static final String SERVICE_MODEL_APPLICATION_CHANNEL = "PAPER";
+  private static final String SERVICE_MODEL_DELIVER_TO = DELIVER_TO_SHORTCODE;
 
   protected static final String BADGE_NUMBER = "MyBadgeNumber123";
   protected static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
-  protected static final LocalDate SERVICE_MODEL_DOB = LocalDate.of(1980, 3, 15);
-  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_ORGANISATION =
-      Integer.valueOf(NUMBER_OF_BADGES_ORGANISATION);
-  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES_PERSON =
-      Integer.valueOf(NUMBER_OF_BADGES_PERSON);
+  private static final LocalDate SERVICE_MODEL_DOB = LocalDate.of(1980, 3, 15);
+  private static final int SERVICE_MODEL_NUMBER_OF_BADGES_ORGANISATION =
+      NUMBER_OF_BADGES_ORGANISATION;
+  private static final int SERVICE_MODEL_NUMBER_OF_BADGES_PERSON = NUMBER_OF_BADGES_PERSON;
   protected static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
-  protected static final LocalDate SERVICE_MODEL_START_DATE =
+  private static final LocalDate SERVICE_MODEL_START_DATE =
       LocalDate.of(LocalDate.now().getYear(), 8, 7).plusYears(1);
-  protected static final LocalDate SERVICE_MODEL_EXPIRY_DATE =
+  private static final LocalDate SERVICE_MODEL_EXPIRY_DATE =
       LocalDate.of(LocalDate.now().getYear(), 8, 7).plusYears(2);
-  protected static final int SERVICE_MODEL_NUMBER_OF_BADGES =
-      Integer.valueOf(NUMBER_OF_BADGES_PERSON);
 
-  static final Contact contactOrganisation =
+  private static final Contact contactOrganisation =
       new Contact()
           .buildingStreet(BUILDING_AND_STREET)
           .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
@@ -258,8 +253,8 @@ public class OrderBadgeTestData {
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER)
           .secondaryPhoneNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER);
-  static final Organisation organisation = new Organisation().badgeHolderName(NAME);
-  static final Party partyOrganisation =
+  private static final Organisation organisation = new Organisation().badgeHolderName(NAME);
+  private static final Party partyOrganisation =
       new Party()
           .contact(contactOrganisation)
           .organisation(organisation)
@@ -278,7 +273,7 @@ public class OrderBadgeTestData {
           .numberOfBadges(SERVICE_MODEL_NUMBER_OF_BADGES_ORGANISATION)
           .party(partyOrganisation);
 
-  static final Contact CONTACT_PERSON =
+  private static final Contact CONTACT_PERSON =
       new Contact()
           .buildingStreet(BUILDING_AND_STREET)
           .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
@@ -287,13 +282,13 @@ public class OrderBadgeTestData {
           .postCode(POSTCODE)
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
-  static final Person PERSON =
+  private static final Person PERSON =
       new Person()
           .genderCode(GENDER_SHORTCODE)
           .badgeHolderName(NAME)
           .dob(SERVICE_MODEL_DOB)
           .nino(NINO);
-  static final Party PARTY_PERSON =
+  private static final Party PARTY_PERSON =
       new Party().contact(CONTACT_PERSON).person(PERSON).typeCode("PERSON").organisation(null);
   protected static final BadgeOrderRequest BADGE_ORDER_REQUEST_PERSON =
       new BadgeOrderRequest()
@@ -322,7 +317,7 @@ public class OrderBadgeTestData {
       "Building and street, Optional address field, Town or city, TF8 6GF";
   protected static final String NUMBER_OF_BADGES_PERSON_VIEW_MODEL =
       String.valueOf(NUMBER_OF_BADGES_PERSON);
-  protected static final String NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL =
+  private static final String NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL =
       String.valueOf(NUMBER_OF_BADGES_ORGANISATION);
 
   protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
