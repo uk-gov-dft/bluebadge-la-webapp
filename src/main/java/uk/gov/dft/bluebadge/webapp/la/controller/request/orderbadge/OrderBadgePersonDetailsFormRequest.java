@@ -99,4 +99,8 @@ public class OrderBadgePersonDetailsFormRequest
   public Boolean isPhotoValid() {
     return Arrays.asList(ALLOWED_FILE_TYPES).contains(getPhoto().getContentType().toLowerCase());
   }
+
+  public String getNino() {
+    return null != nino ? nino.replaceAll("\\s+", "") : null;
+  }
 }
