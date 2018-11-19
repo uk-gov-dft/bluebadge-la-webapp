@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-/* ------------------------------------------------------------------------------
+<!-- ------------------------------------------------------------------------------
 
 * Radios
 
@@ -13,7 +13,7 @@ for id and attaching label to the input field.
 @options - (List | TreeMap| Map)
 <ReferenceData>: List of radio options
 
-    -------------------------------------------------------------------------------- */
+    -------------------------------------------------------------------------------- -->
 
     <div th:fragment="radios-options(layout, withHint)"
          th:class="${layout} == 'inline' ? 'govuk-radios govuk-radios--inline' : 'govuk-radios'">
@@ -106,6 +106,8 @@ for id and attaching label to the input field.
 
     </div>
 
+    <!-- Following 2 fragments use key/values from message.properties (or other property files).
+     The key is made up as; name.groupShortCode.shortCode.  So for example, deliveryOption.DELOP.FAST -->
     <div th:fragment="radios-options-internationalized(layout, withHint)"
          th:class="${layout} == 'inline' ? 'govuk-radios govuk-radios--inline' : 'govuk-radios'">
         <div class="govuk-radios__item" th:each="option : ${options}" th:data-uipath="${name} + '.radio-options'">
