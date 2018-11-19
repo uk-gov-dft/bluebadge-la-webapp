@@ -57,8 +57,9 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    OrderBadgeBaseController controller = new OrderBadgePersonCheckOrderController(
-        badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
+    OrderBadgeBaseController controller =
+        new OrderBadgePersonCheckOrderController(
+            badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

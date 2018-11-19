@@ -160,7 +160,8 @@ public class ReferenceDataService {
   }
 
   public String retrieveBadgeLocalAuthorityDisplayValue() {
-    return retrieveBadgeLocalAuthorityDisplayValue(securityUtils.getCurrentLocalAuthorityShortCode());
+    return retrieveBadgeLocalAuthorityDisplayValue(
+        securityUtils.getCurrentLocalAuthorityShortCode());
   }
 
   // APPLICATION

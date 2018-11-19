@@ -90,7 +90,7 @@
 
                         <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
                              id="conditional-deliverTo_home">
-                            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"></div>
+                            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-internationalized(#{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"></div>
                         </div>
 
                         <div class="govuk-radios__item">
@@ -106,7 +106,7 @@
                                    th:text="${localAuthorityName}"></label>
                         </div>
 
-                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                        <div class="govuk-label govuk-radios__conditional govuk-radios__conditional--hidden"
                              id="conditional-deliverTo_council">
                             <span th:text="#{orderbadge.processing.label.sent.to.council} + ' ' + ${localAuthorityName} + '.'"></span>
                         </div>

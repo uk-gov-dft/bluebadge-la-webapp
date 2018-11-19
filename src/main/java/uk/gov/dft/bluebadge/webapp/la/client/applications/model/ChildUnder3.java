@@ -1,10 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @Data
 @Builder

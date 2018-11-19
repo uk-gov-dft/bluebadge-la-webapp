@@ -3,10 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,9 +66,10 @@ public class OrderBadgeProcessingController {
 
     // Must have delivery option if sent to badge holder.
     // Is always standard if sent to council.
-    if(DeliverToCodeField.HOME == formRequest.getDeliverTo() && null == formRequest.getDeliveryOptions()){
+    if (DeliverToCodeField.HOME == formRequest.getDeliverTo()
+        && null == formRequest.getDeliveryOptions()) {
       bindingResult.rejectValue("deliveryOptions", "NotNull");
-    }else if(DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()){
+    } else if (DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()) {
       formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
     }
 
@@ -82,7 +80,7 @@ public class OrderBadgeProcessingController {
   }
 
   @ModelAttribute("localAuthorityName")
-  public String localAuthorityDisplayValue(){
+  public String localAuthorityDisplayValue() {
     return referenceDataService.retrieveBadgeLocalAuthorityDisplayValue();
   }
 

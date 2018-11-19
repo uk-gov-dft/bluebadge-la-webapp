@@ -1,6 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
+import java.io.File;
+import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
@@ -14,12 +19,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOr
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
 public class OrderBadgeTestData {

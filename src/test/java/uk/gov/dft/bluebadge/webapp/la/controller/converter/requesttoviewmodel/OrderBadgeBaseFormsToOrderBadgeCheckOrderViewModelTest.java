@@ -1,11 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel;
 
+import static org.mockito.Mockito.when;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import static org.mockito.Mockito.when;
 
 public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModelTest
     extends OrderBadgeTestData {
