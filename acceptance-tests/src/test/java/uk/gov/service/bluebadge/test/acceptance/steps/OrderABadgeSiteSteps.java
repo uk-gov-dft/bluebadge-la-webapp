@@ -89,7 +89,7 @@ public class OrderABadgeSiteSteps {
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);
     sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
-    sitePage.findElementWithUiPath("nino.field").sendKeys("SN234234C");
+    sitePage.findElementWithUiPath("nino.field").sendKeys("sn 23 42 34 C");
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("optionalAddressField.field").sendKeys("second line of address");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
