@@ -46,11 +46,15 @@ public class OrderBadgeProcessingController {
       HttpSession session,
       Model model,
       @PathVariable("applicantType") String applicantType) {
+    log.debug("Processing, begin get/show.");
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
+      log.debug("Processing, copy bean properties.");
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
+    log.debug("Processing, add applicant type.");
     model.addAttribute("applicantType", applicantType);
+    log.debug("Processing, show template.");
     return TEMPLATE;
   }
 
@@ -81,16 +85,19 @@ public class OrderBadgeProcessingController {
 
   @ModelAttribute("localAuthorityName")
   public String localAuthorityDisplayValue() {
+    log.debug("Processing, adding la display value.");
     return referenceDataService.retrieveBadgeLocalAuthorityDisplayValue();
   }
 
   @ModelAttribute("appSourceOptions")
   public List<ReferenceData> appSourceOptions() {
+    log.debug("Processing, adding source options.");
     return referenceDataService.retrieveBadgeApplicationChannels();
   }
 
   @ModelAttribute("deliveryOptions")
   public List<ReferenceData> deliveryOptions() {
+    log.debug("Processing, adding delivery options.");
     return referenceDataService.retrieveBadgeDeliveryOptions();
   }
 
