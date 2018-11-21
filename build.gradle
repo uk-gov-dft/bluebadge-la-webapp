@@ -57,6 +57,23 @@ def getTheVersion() {
     return "${version.text.trim()}${versionSuffix}"
 }
 
+def findUText() {
+    println("Looking for th:utext")
+    def hasError = false;
+
+    for (File file : sourceSets.main.resources) {
+        if (file.getName().endsWith(".html")) {
+            file.eachLine { line ->
+                if (line.toLowerCase().contains("th:utext")) {
+                    println file.getAbsolutePath() + " - " + line
+                    hasError = true
+                }
+            }
+        }
+
+    }
+    return hasError
+}
 
 task outputComputedVersion {
     def computedVersion = new File('VERSION-computed')
@@ -183,8 +200,12 @@ bootRun {
     sourceResources sourceSets.main
 }
 
+task checkUiResources {
+    if (findUText()) throw new GradleException("Failed due to illegal utext found in html")
+}
+
 build.dependsOn gulp_default
 build.finalizedBy(outputComputedVersion)
 
-compileJava.dependsOn 'googleJavaFormat'
+compileJava.dependsOn 'googleJavaFormat', 'checkUiResources'
 
