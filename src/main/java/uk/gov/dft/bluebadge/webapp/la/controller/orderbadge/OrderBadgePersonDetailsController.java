@@ -53,7 +53,7 @@ public class OrderBadgePersonDetailsController
       @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
       Model model) {
-
+    log.debug("Show person details page.");
     return super.show(formRequest, session, model);
   }
 
@@ -64,29 +64,37 @@ public class OrderBadgePersonDetailsController
       Model model,
       HttpSession session) {
 
+    log.info("Submit person details");
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    log.info("Submit:check hasPhoto and !photoValid:{},{}", formRequest.hasPhoto(), !formRequest.isPhotoValid());
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
 
     if (formRequest.isPhotoValid()) {
+      log.info("Submit photo processing");
       try {
         processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
-        log.debug("Error uploading image:{}", e.getCause());
+        log.info("Error uploading image:{}", e.getCause());
         bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
       }
     } else {
+      log.info("Submit, start augment session photo");
       augmentWithExistingSessionPhoto(formRequest, session);
+      log.info("Submit, end augment session photo");
     }
 
+    log.info("Submit, set form request");
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
 
     if (bindingResult.hasErrors()) {
+      log.info("Submit, have binding errors");
       return getTemplate();
     }
 
+    log.info("Submit, redirecting");
     return getProcessingRedirectUrl();
   }
 

@@ -159,6 +159,15 @@ public class ReferenceDataService {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
   }
 
+  /**
+   * Get the display name for the local authority of the logged in user.
+   * @return LA name, e.g. Shropshire County Council
+   */
+  public String retrieveBadgeLocalAuthorityDisplayValue() {
+    return retrieveBadgeLocalAuthorityDisplayValue(
+        securityUtils.getCurrentLocalAuthorityShortCode());
+  }
+
   // APPLICATION
   public String retrieveApplicationGenderDisplayValue(String key) {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);

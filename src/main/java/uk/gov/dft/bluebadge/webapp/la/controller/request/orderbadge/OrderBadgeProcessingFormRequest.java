@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInThePastDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
@@ -89,11 +91,10 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
     }
   }
 
-  @NotBlank(message = "{NotNull.badge.deliverTo}")
-  private String deliverTo;
+  @NotNull(message = "{NotNull.badge.deliverTo}")
+  private DeliverToCodeField deliverTo;
 
-  @NotBlank(message = "{NotNull.badge.deliveryOptions}")
-  private String deliveryOptions;
+  private DeliveryOptionCodeField deliveryOptions;
 
   @NotNull(message = "{NotNull.badge.numberOfBadges}")
   @Min(value = 1, message = "{Pattern.badge.numberOfBadges}")

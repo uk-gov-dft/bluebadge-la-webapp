@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -44,11 +46,15 @@ public class OrderBadgeProcessingController {
       HttpSession session,
       Model model,
       @PathVariable("applicantType") String applicantType) {
+    log.debug("Processing, begin get/show.");
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);
     if (sessionFormRequest != null) {
+      log.debug("Processing, copy bean properties.");
       BeanUtils.copyProperties(sessionFormRequest, formRequest);
     }
+    log.debug("Processing, add applicant type.");
     model.addAttribute("applicantType", applicantType);
+    log.debug("Processing, show template.");
     return TEMPLATE;
   }
 
@@ -61,24 +67,37 @@ public class OrderBadgeProcessingController {
       @PathVariable("applicantType") String applicantType) {
     model.addAttribute("errorSummary", new ErrorViewModel());
     session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+
+    // Must have delivery option if sent to badge holder.
+    // Is always standard if sent to council.
+    if (DeliverToCodeField.HOME == formRequest.getDeliverTo()
+        && null == formRequest.getDeliveryOptions()) {
+      bindingResult.rejectValue("deliveryOptions", "NotNull");
+    } else if (DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()) {
+      formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
+    }
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
     return getRedirectUrlCheckOrder(applicantType);
   }
 
-  @ModelAttribute("appSourceOptions")
-  public List<ReferenceData> appSourceOptions() {
-    return referenceDataService.retrieveBadgeApplicationChannels();
+  @ModelAttribute("localAuthorityName")
+  public String localAuthorityDisplayValue() {
+    log.debug("Processing, adding la display value.");
+    return referenceDataService.retrieveBadgeLocalAuthorityDisplayValue();
   }
 
-  @ModelAttribute("deliverToOptions")
-  public List<ReferenceData> deliverToOptions() {
-    return referenceDataService.retrieveBadgeDeliverTos();
+  @ModelAttribute("appSourceOptions")
+  public List<ReferenceData> appSourceOptions() {
+    log.debug("Processing, adding source options.");
+    return referenceDataService.retrieveBadgeApplicationChannels();
   }
 
   @ModelAttribute("deliveryOptions")
   public List<ReferenceData> deliveryOptions() {
+    log.debug("Processing, adding delivery options.");
     return referenceDataService.retrieveBadgeDeliveryOptions();
   }
 
