@@ -101,6 +101,6 @@ public class OrderBadgePersonDetailsFormRequest
   }
 
   public String getNino() {
-    return null != nino ? nino.replaceAll("\\s+", "") : null;
+    return null != nino ? nino.replaceAll("\\s+", "").toUpperCase() : null;
   }
 }
