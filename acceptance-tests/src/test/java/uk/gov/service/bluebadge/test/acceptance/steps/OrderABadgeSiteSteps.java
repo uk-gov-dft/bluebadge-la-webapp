@@ -19,16 +19,21 @@ import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
 public class OrderABadgeSiteSteps {
 
   private static final Logger log = getLogger(OrderABadgeSiteSteps.class);
-  protected NameGenerator ng = new NameGenerator();
-  protected LocalDateGenerator ldg = new LocalDateGenerator();
-  protected PostCodeGenerator pcg = new PostCodeGenerator();
+  private NameGenerator ng = new NameGenerator();
+  private LocalDateGenerator ldg = new LocalDateGenerator();
+  private PostCodeGenerator pcg = new PostCodeGenerator();
 
-  @Autowired protected SitePage sitePage;
+  private SitePage sitePage;
+  private ScenarioContext scenarioContext;
 
-  @Autowired protected ScenarioContext scenarioContext;
+  @Autowired
+  public OrderABadgeSiteSteps(SitePage sitePage, ScenarioContext scenarioContext) {
+    this.sitePage = sitePage;
+    this.scenarioContext = scenarioContext;
+  }
 
   @When("^I enter all the mandatory valid personal details to order a badge$")
-  public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge() throws Throwable {
+  public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge() {
     String name = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
@@ -54,7 +59,7 @@ public class OrderABadgeSiteSteps {
   }
 
   @When("^I enter all the mandatory valid organisation details to order a badge$")
-  public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge() throws Throwable {
+  public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge() {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
 
@@ -71,7 +76,7 @@ public class OrderABadgeSiteSteps {
   }
 
   @When("^I enter all valid personal details to order a badge$")
-  public void iEnterAllValidPersonalDetailsToOrderABadge() throws Throwable {
+  public void iEnterAllValidPersonalDetailsToOrderABadge() {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
     LocalDate date = ldg.get_local_date();
@@ -89,7 +94,7 @@ public class OrderABadgeSiteSteps {
     sitePage.findPageElementById("dobDay").sendKeys(dobDay);
     sitePage.findPageElementById("dobMonth").sendKeys(dobMonth);
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
-    sitePage.findElementWithUiPath("nino.field").sendKeys("SN234234C");
+    sitePage.findElementWithUiPath("nino.field").sendKeys("sn 23 42 34 C");
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("optionalAddressField.field").sendKeys("second line of address");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
@@ -115,7 +120,7 @@ public class OrderABadgeSiteSteps {
   }
 
   @When("^I enter all valid organisation details to order a badge$")
-  public void iEnterAllValidOrganisationDetailsToOrderABadge() throws Throwable {
+  public void iEnterAllValidOrganisationDetailsToOrderABadge() {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
     String email = ng.get_email(name);
@@ -138,7 +143,7 @@ public class OrderABadgeSiteSteps {
   }
 
   @When("^I enter all the mandatory valid processing details to order a badge for person$")
-  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson() throws Throwable {
+  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson() {
     sitePage.findElementWithUiPath("applicationDate.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("applicationDate.month.field").sendKeys("6");
     sitePage.findElementWithUiPath("applicationDate.year.field").sendKeys("2018");
@@ -149,19 +154,18 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("badgeExpiryDateValid.day.field").sendKeys("1");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.month.field").sendKeys("5");
     sitePage.findElementWithUiPath("badgeExpiryDateValid.year.field").sendKeys("2028");
-    sitePage.findElementWithUiPath("deliverTo.option.HOME").click();
+    sitePage.findElementWithUiPath("deliverTo_home").click();
     sitePage.findElementWithUiPath("deliveryOptions.option.STAND").click();
   }
 
   @When("^I enter all the mandatory valid processing details to order a badge for organisation$")
-  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForOrganisations()
-      throws Throwable {
+  public void iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForOrganisations() {
     iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
     sitePage.findElementWithUiPath("numberOfBadges.field").sendKeys("3");
   }
 
   @When("^I enter all valid processing details to order a badge for person$")
-  public void iEnterAllValidProcessingDetailsToOrderABadgeForPerson() throws Throwable {
+  public void iEnterAllValidProcessingDetailsToOrderABadgeForPerson() {
     iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
     sitePage
         .findElementWithUiPath("localAuthorityReferenceNumber.field")
@@ -169,7 +173,7 @@ public class OrderABadgeSiteSteps {
   }
 
   @When("^I enter all valid processing details to order a badge for organisation")
-  public void iEnterAllValidProcessingDetailsToOrderABadgeForOrganisation() throws Throwable {
+  public void iEnterAllValidProcessingDetailsToOrderABadgeForOrganisation() {
     iEnterAllMandatoryValidProcessingDetailsToOrderABadgeForPerson();
     sitePage.findElementWithUiPath("numberOfBadges.field").sendKeys("3");
   }

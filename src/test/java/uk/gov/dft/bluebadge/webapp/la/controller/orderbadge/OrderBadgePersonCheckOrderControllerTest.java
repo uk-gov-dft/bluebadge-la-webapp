@@ -27,14 +27,14 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
   private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
 
-  static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
+  private static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
       OrderBadgeCheckOrderViewModel.builder()
           .gender(GENDER)
           .deliveryOptions(DELIVERY_OPTIONS)
           .applicationChannel(APPLICATION_CHANNEL)
           .applicationDate(VIEW_MODEL_APPLICATION_DATE)
           .applicationChannel(APPLICATION_CHANNEL)
-          .deliverTo(DELIVER_TO)
+          .deliverTo(DELIVER_TO_SHORTCODE)
           .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
           .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
           .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
@@ -48,8 +48,6 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
           .nino(NINO)
           .build();
 
-  private OrderBadgeBaseController controller;
-
   @Mock private OrderBadgePersonFormsToBadgeOrderRequest converterToServiceModelMock;
   @Mock private OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel converterToViewModelMock;
 
@@ -59,7 +57,7 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller =
+    OrderBadgeBaseController controller =
         new OrderBadgePersonCheckOrderController(
             badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
 
