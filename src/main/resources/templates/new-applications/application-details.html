@@ -136,7 +136,7 @@
                         <dd class="dft-data-list__dd">
                             <span th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}" th:remove="tag">
                                 <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{open.file.in.new.tab} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                   th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
                             </span>
                         </dd>
                     </div>
@@ -147,7 +147,7 @@
                         <dd class="dft-data-list__dd">
                             <span th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}" th:remove="tag">
                                 <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{open.file.in.new.tab} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                   th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
                             </span>
                         </dd>
                     </div>
@@ -284,7 +284,7 @@
                         <dd class="dft-data-list__dd">
                             <span th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}" th:remove="tag">
                                 <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{open.file.in.new.tab} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                   th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
                             </span>
                         </dd>
                     </div>
