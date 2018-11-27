@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -43,13 +44,13 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String ADDRESS_VIEW_MODEL =
       BUILDING_AND_STREET + ", " + LINE2 + ", " + TOWN_CITY + ", " + POSTCODE;
   private static final String APPLICATION_CHANNEL_VIEW_MODEL = "channel";
-  private static final String APPLICATION_DATE_VIEW_MODEL = "01/01/17";
-  private static final String DOB_VIEW_MODEL = "01/01/30";
+  private static final String APPLICATION_DATE_VIEW_MODEL = "01 January 2017";
+  private static final String DOB_VIEW_MODEL = "01 January 1930";
   private static final String ELIGIBILITY_VIEW_MODEL = "pip";
-  private static final String EXPIRY_DATE_VIEW_MODEL = "09/07/99";
+  private static final String EXPIRY_DATE_VIEW_MODEL = "09 July 2099";
   private static final String GENDER_VIEW_MODEL = "male";
   private static final String LOCAL_AUTHORITY_VIEW_MODEL = "Barnsley MBC";
-  private static final String START_DATE_VIEW_MODEL = "09/07/96";
+  private static final String START_DATE_VIEW_MODEL = "09 July 2096";
   private static final String STATUS_VIEW_MODEL = "New";
 
   private static final Badge BADGE =
@@ -113,7 +114,7 @@ public class BadgeToBadgeDetailsViewModelTest {
   private BadgeToBadgeDetailsViewModel converter;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     when(referenceDataServiceMock.retrieveBadgeApplicationChannelDisplayValue(APPLICATION_CHANNEL))
         .thenReturn(APPLICATION_CHANNEL_VIEW_MODEL);
@@ -123,7 +124,7 @@ public class BadgeToBadgeDetailsViewModelTest {
         .thenReturn(GENDER_VIEW_MODEL);
     when(referenceDataServiceMock.retrieveBadgeLocalAuthorityDisplayValue(LOCAL_AUTHORITY))
         .thenReturn(LOCAL_AUTHORITY_VIEW_MODEL);
-    when(referenceDataServiceMock.retrieveBadgeStatusDisplayValue(STATUS))
+    when(referenceDataServiceMock.retrieveBadgeStatusDisplayValue(any(Badge.class)))
         .thenReturn(STATUS_VIEW_MODEL);
     converter =
         new BadgeToBadgeDetailsViewModel(referenceDataServiceMock, new PartyToAddressViewModel());

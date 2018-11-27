@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelFieldDateFormatter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
   private PartyToAddressViewModel partyToAddressViewModel;
 
   @Autowired
-  public BadgeToBadgeDetailsViewModel(
+  BadgeToBadgeDetailsViewModel(
       ReferenceDataService referenceDataService, PartyToAddressViewModel partyToAddressViewModel) {
     this.referenceDataService = referenceDataService;
     this.partyToAddressViewModel = partyToAddressViewModel;
@@ -32,9 +32,9 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     Assert.notNull(source, "Source cannot be null");
 
     String address = partyToAddressViewModel.convert(source.getParty().getContact());
-    String applicationDate = source.getApplicationDate().format(viewModelDateFormatter);
-    String expiryDate = source.getExpiryDate().format(viewModelDateFormatter);
-    String startDate = source.getStartDate().format(viewModelDateFormatter);
+    String applicationDate = source.getApplicationDate().format(viewModelFieldDateFormatter);
+    String expiryDate = source.getExpiryDate().format(viewModelFieldDateFormatter);
+    String startDate = source.getStartDate().format(viewModelFieldDateFormatter);
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
@@ -44,8 +44,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String localAuthorityDisplayText =
         referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
-    String statusDisplayText =
-        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
+    String statusDisplayText = referenceDataService.retrieveBadgeStatusDisplayValue(source);
 
     Contact contact = source.getParty().getContact();
 
@@ -54,7 +53,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
 
     if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
       Person person = source.getParty().getPerson();
-      String dob = source.getParty().getPerson().getDob().format(viewModelDateFormatter);
+      String dob = source.getParty().getPerson().getDob().format(viewModelFieldDateFormatter);
       String genderDisplayText =
           referenceDataService.retrieveBadgeGenderDisplayValue(
               source.getParty().getPerson().getGenderCode());

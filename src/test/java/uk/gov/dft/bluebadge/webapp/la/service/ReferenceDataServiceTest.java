@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
@@ -41,10 +42,6 @@ public class ReferenceDataServiceTest {
   private static final String DELIVERY_OPTIONS_2_SHORTCODE = "DELIVERY_OPTIONS2";
   private static final String DELIVERY_OPTIONS_1 = "delivery options 1";
   private static final String DELIVERY_OPTIONS_2 = "delivery options 2";
-  private static final String STATUS_1_SHORTCODE = "status 1 short code";
-  private static final String STATUS_2_SHORTCODE = "status 2 short code";
-  private static final String STATUS_1 = "status 1";
-  private static final String STATUS_2 = "status 2";
   private static final String LA_1_SHORTCODE = "ABERD";
   private static final String LA_2_SHORTCODE = "BARNS";
   private static final String LA_1 = "Aberdeenshire council";
@@ -73,17 +70,25 @@ public class ReferenceDataServiceTest {
   private ReferenceData referenceDataDeliverTo2;
   private ReferenceData referenceDataDeliveryOptions1;
   private ReferenceData referenceDataDeliveryOptions2;
-  private ReferenceData referenceDataStatus1;
-  private ReferenceData referenceDataStatus2;
+  private ReferenceData statusNew =
+      new ReferenceData()
+          .shortCode("NEW")
+          .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
+          .description("New");
+  private ReferenceData statusCancelled =
+      new ReferenceData()
+          .shortCode("CANCELLED")
+          .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
+          .description("Cancelled");
+  private ReferenceData statusReplaced =
+      new ReferenceData()
+          .shortCode("REPLACED")
+          .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
+          .description("Replaced");
   private ReferenceData referenceDataLocalAuthority1;
   private ReferenceData referenceDataLocalAuthority2;
   private ReferenceData referenceDataWalkingDifficulty1;
   private ReferenceData referenceDataWalkingDifficulty2;
-  private ReferenceData referenceDataWalkingSpeed1;
-  private ReferenceData referenceDataWalkingSpeed2;
-
-  private List<ReferenceData> badgeReferenceDataList;
-  private List<ReferenceData> applicationReferenceDataList;
 
   @Before
   public void setup() {
@@ -134,14 +139,6 @@ public class ReferenceDataServiceTest {
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10)
             .shortCode(DELIVERY_OPTIONS_2_SHORTCODE)
             .description(DELIVERY_OPTIONS_2);
-    referenceDataStatus1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 11)
-            .shortCode(STATUS_1_SHORTCODE)
-            .description(STATUS_1);
-    referenceDataStatus2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.STATUS.getGroupKey(), 12)
-            .shortCode(STATUS_2_SHORTCODE)
-            .description(STATUS_2);
     referenceDataLocalAuthority1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 13)
             .shortCode(LA_1_SHORTCODE)
@@ -160,15 +157,15 @@ public class ReferenceDataServiceTest {
                 RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 16)
             .shortCode(WALKING_DIFFICULTY_2_SHORTCODE)
             .description(WALKING_DIFFICULTY_2);
-    referenceDataWalkingSpeed1 =
+    ReferenceData referenceDataWalkingSpeed1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 17)
             .shortCode(WALKING_SPEED_1_SHORTCODE)
             .description(WALKING_SPEED_1);
-    referenceDataWalkingSpeed2 =
+    ReferenceData referenceDataWalkingSpeed2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 18)
             .shortCode(WALKING_SPEED_2_SHORTCODE)
             .description(WALKING_SPEED_2);
-    badgeReferenceDataList =
+    List<ReferenceData> badgeReferenceDataList =
         Lists.newArrayList(
             referenceDataEligibility1,
             referenceDataEligibility2,
@@ -180,12 +177,21 @@ public class ReferenceDataServiceTest {
             referenceDataDeliverTo2,
             referenceDataDeliveryOptions1,
             referenceDataDeliveryOptions2,
-            referenceDataStatus1,
-            referenceDataStatus2,
+            statusNew,
+            statusCancelled,
+            statusReplaced,
             referenceDataLocalAuthority1,
-            referenceDataLocalAuthority2);
+            referenceDataLocalAuthority2,
+            new ReferenceData()
+                .shortCode("NOLONG")
+                .groupShortCode(RefDataGroupEnum.CANCEL.getGroupKey())
+                .description("No longer needed"),
+            new ReferenceData()
+                .shortCode("LOST")
+                .groupShortCode(RefDataGroupEnum.REPLACE.getGroupKey())
+                .description("Lost"));
 
-    applicationReferenceDataList =
+    List<ReferenceData> applicationReferenceDataList =
         Lists.newArrayList(
             referenceDataEligibility1,
             referenceDataEligibility2,
@@ -240,7 +246,7 @@ public class ReferenceDataServiceTest {
   @Test
   public void retrieveBadgeStatuses_ShouldReturnStatuses() {
     List<ReferenceData> statuses = referenceDataService.retrieveBadgeStatuses();
-    assertThat(statuses).containsExactlyInAnyOrder(referenceDataStatus1, referenceDataStatus2);
+    assertThat(statuses).containsExactlyInAnyOrder(statusCancelled, statusNew, statusReplaced);
   }
 
   @Test
@@ -294,8 +300,8 @@ public class ReferenceDataServiceTest {
 
   @Test
   public void retrieveBadgeStatusDisplayValue_ShouldWork() {
-    assertThat(referenceDataService.retrieveBadgeStatusDisplayValue(STATUS_1_SHORTCODE))
-        .isEqualTo(STATUS_1);
+    assertThat(referenceDataService.retrieveBadgeStatusDisplayValue("NEW"))
+        .isEqualTo(statusNew.getDescription());
   }
 
   @Test
@@ -354,5 +360,24 @@ public class ReferenceDataServiceTest {
             Role.LA_EDITOR.name(),
             Role.LA_READ.name(),
             Role.DFT_ADMIN.name());
+  }
+
+  @Test
+  public void retrieveBadgeStatusDisplayValue() {
+    Badge badge = new Badge();
+    badge.setStatusCode("NEW");
+
+    String result = referenceDataService.retrieveBadgeStatusDisplayValue(badge);
+    assertThat(result).isEqualTo("New");
+
+    badge.setStatusCode("REPLACED");
+    badge.setReplaceReasonCode("LOST");
+    result = referenceDataService.retrieveBadgeStatusDisplayValue(badge);
+    assertThat(result).isEqualTo("Replaced (Lost)");
+
+    badge.setStatusCode("CANCELLED");
+    badge.setCancelReasonCode("NOLONG");
+    result = referenceDataService.retrieveBadgeStatusDisplayValue(badge);
+    assertThat(result).isEqualTo("Cancelled (No longer needed)");
   }
 }
