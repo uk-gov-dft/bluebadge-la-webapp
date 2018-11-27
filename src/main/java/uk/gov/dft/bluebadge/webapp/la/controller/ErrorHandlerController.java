@@ -14,14 +14,6 @@ public class ErrorHandlerController {
 
   @GetMapping(ERROR_500_URL)
   public String show(Model model) {
-    Exception ex = (Exception) model.asMap().get("exception");
-    if (null != ex) {
-      model.addAttribute("errorMessage", ex.getClass().getName());
-      model.addAttribute("exceptionMessage", ex.getMessage());
-    } else {
-      log.error("Unable to get the exception details from the model!");
-    }
-    log.debug("exception [()]", ex);
     return ERROR_500_TEMPLATE;
   }
 }

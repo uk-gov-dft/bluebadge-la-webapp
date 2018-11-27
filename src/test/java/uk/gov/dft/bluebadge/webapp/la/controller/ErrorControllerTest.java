@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -39,8 +38,6 @@ public class ErrorControllerTest {
     mockMvc
         .perform(get("/something-went-wrong").flashAttr("exception", ex))
         .andExpect(status().isOk())
-        .andExpect(view().name("error/500"))
-        .andExpect(model().attribute("errorMessage", "java.lang.Exception"))
-        .andExpect(model().attribute("exceptionMessage", errorMessage));
+        .andExpect(view().name("error/500"));
   }
 }
