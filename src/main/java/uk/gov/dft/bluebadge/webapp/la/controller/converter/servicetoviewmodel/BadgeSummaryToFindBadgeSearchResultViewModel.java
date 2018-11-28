@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelFieldDateFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -17,7 +17,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public BadgeSummaryToFindBadgeSearchResultViewModel(ReferenceDataService referenceDataService) {
+  BadgeSummaryToFindBadgeSearchResultViewModel(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
@@ -36,7 +36,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModel
         .name(source.getName())
         .postCode(source.getPostCode())
         .localAuthority(localAuthorityDisplayText)
-        .expiryDate(source.getExpiryDate().format(viewModelDateFormatter))
+        .expiryDate(source.getExpiryDate().format(viewModelFieldDateFormatter))
         .status(statusDisplayText)
         .build();
   }
