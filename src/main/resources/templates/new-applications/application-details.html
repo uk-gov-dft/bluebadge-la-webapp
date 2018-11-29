@@ -331,7 +331,7 @@
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
                     <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.label.descriptionOfConditions}"/>
+                        th:text="${altHealthConditionLabel} ? #{application.details.eligibility.label.altDescriptionOfConditions} : #{application.details.eligibility.label.descriptionOfConditions}"/>
                     <dd class="dft-data-list__dd"
                         th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
                         <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">

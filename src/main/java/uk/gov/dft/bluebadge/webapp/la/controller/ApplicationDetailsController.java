@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
@@ -30,6 +31,7 @@ public class ApplicationDetailsController {
   public String show(@PathVariable("uuid") UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
+    model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
     model.addAttribute("uuid", uuid);
 
@@ -40,5 +42,17 @@ public class ApplicationDetailsController {
   public String delete(@PathVariable("uuid") UUID uuid, Model model) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;
+  }
+
+  private boolean useAlternativeConditionLabel(Application application) {
+
+    if (application == null
+        || application.getEligibility() == null
+        || application.getEligibility().getTypeCode() == null) {
+      return false;
+    }
+
+    EligibilityCodeField typeCode = application.getEligibility().getTypeCode();
+    return EligibilityCodeField.WALKD == typeCode || EligibilityCodeField.ARMS == typeCode;
   }
 }
