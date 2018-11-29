@@ -63,8 +63,7 @@ public class ModelFormatUtilsTest {
 
   @Test
   public void extractBadgeHolderName() {
-    Application application = new Application();
-    application.setParty(new AppParty());
+    Application application = Application.builder().party(new AppParty()).build();
 
     // Org
     application.getParty().setOrganisation(new AppOrganisation().badgeHolderName("Org"));

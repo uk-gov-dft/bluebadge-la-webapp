@@ -130,28 +130,35 @@
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfIdentityUrl}">
+                    <div class="dft-data-list__item" th:if="${!app.proofOfIdentityArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
-                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfIdentityUrl}" target="_blank"
-                                                         th:text="#{open.file.in.new.tab}"></a>
+                        <dd class="dft-data-list__dd">
+                            <span th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfAddressUrl}">
+                    <div class="dft-data-list__item" th:if="${!app.proofOfAddressArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfAddress}"/>
                         <dd class="dft-data-list__dd">
-                            <a th:href="${app.artifacts.proofOfAddressUrl}" target="_blank"
-                               th:text="#{open.file.in.new.tab}"></a>
+                            <span th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.badgePhotoUrl}">
+                    <div class="dft-data-list__item" th:if="${!app.badgePhotoArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
                         <dd class="dft-data-list__dd">
-                            <img th:src="${app.artifacts.badgePhotoUrl}" alt=""/>
+                            <span th:each="artifact: ${app.badgePhotoArtifacts}" th:remove="tag">
+                                <img th:src="${artifact.link}" alt=""/><br/>
+                            </span>
                         </dd>
                     </div>
                 </div>
@@ -271,11 +278,15 @@
                             data-uipath="eligibility.arms.isnotadaptedvehicle"
                             th:text="#{application.details.isNotAdaptedVehicle}"/>
                     </div>
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
+                    <div class="dft-data-list__item" th:if="${!app.proofOfEligibilityArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
-                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfEligibility}" target="_blank"
-                                                         th:text="#{open.file.in.new.tab}"></a>
+                        <dd class="dft-data-list__dd">
+                            <span th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
+                        </dd>
                     </div>
                 </div>
 

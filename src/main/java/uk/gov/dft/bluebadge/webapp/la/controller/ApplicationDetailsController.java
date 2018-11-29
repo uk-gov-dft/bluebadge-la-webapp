@@ -44,6 +44,7 @@ public class ApplicationDetailsController {
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
+  @SuppressWarnings("squid:S2589")
   private boolean useAlternativeConditionLabel(Application application) {
 
     if (application == null
