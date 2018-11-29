@@ -77,7 +77,7 @@ node {
                branch: "${BRANCH_NAME}"
             )
 
-            timeout(time: 10, unit: 'MINUTES') {
+            timeout(time: 20, unit: 'MINUTES') {
                 try {
                     sh 'bash -c "echo $PATH && cd acceptance-tests && ./run-regression.sh"'
                 }

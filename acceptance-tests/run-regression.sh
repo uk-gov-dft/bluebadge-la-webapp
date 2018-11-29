@@ -64,7 +64,7 @@ if [ $? -ne 0 ]; then
    echo "Cannot download dev-env!"
    exit 1
 fi
-
+sudo chmod 444
 # 'VERSION-computed' needed for environment variables
 gradle :outputComputedVersion
 
