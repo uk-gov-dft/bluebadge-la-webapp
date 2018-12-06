@@ -72,21 +72,6 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   }
 
   @Test
-  public void show_ShouldPopulateDeliverToAttributeFromReferenceDataService() throws Exception {
-    List<ReferenceData> deliverToOptions = Lists.newArrayList(ref1, ref2, ref3);
-    when(referenceDataServiceMock.retrieveBadgeDeliverTos()).thenReturn(deliverToOptions);
-
-    mockMvc
-        .perform(
-            get("/order-a-badge/person/processing")
-                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
-        .andExpect(status().isOk())
-        .andExpect(model().attribute("deliverToOptions", deliverToOptions))
-        .andExpect(view().name("order-a-badge/processing"));
-  }
-
-  @Test
   public void show_ShouldPopulateDeliveryOptionsAttributeFromReferenceDataService()
       throws Exception {
     List<ReferenceData> deliverOptions = Lists.newArrayList(ref1, ref2, ref3);
@@ -137,8 +122,8 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_DAY_FIELD, BADGE_EXPIRY_DATE_DAY)
                 .param(BADGE_EXPIRY_DATE_MONTH_FIELD, BADGE_EXPIRY_DATE_MONTH)
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
-                .param(DELIVER_TO_FIELD, DELIVER_TO)
-                .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
+                .param(DELIVER_TO_FIELD, DELIVER_TO_SHORTCODE)
+                .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS_SHORTCODE)
                 .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
@@ -164,8 +149,8 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(BADGE_EXPIRY_DATE_DAY_FIELD, BADGE_EXPIRY_DATE_DAY)
                 .param(BADGE_EXPIRY_DATE_MONTH_FIELD, BADGE_EXPIRY_DATE_MONTH)
                 .param(BADGE_EXPIRY_DATE_YEAR_FIELD, BADGE_EXPIRY_DATE_YEAR)
-                .param(DELIVER_TO_FIELD, DELIVER_TO)
-                .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS)
+                .param(DELIVER_TO_FIELD, DELIVER_TO_SHORTCODE)
+                .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS_SHORTCODE)
                 .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         //.param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
         .andExpect(status().isFound())
@@ -193,12 +178,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", BADGE_EXPIRY_DATE_VALID_FIELD, "AssertTrue"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", DELIVER_TO_FIELD, "NotBlank"))
-        .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", DELIVERY_OPTIONS_FIELD, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", DELIVER_TO_FIELD, "NotNull"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", NUMBER_OF_BADGES_FIELD, "NotNull"))
-        .andExpect(model().errorCount(7));
+        .andExpect(model().errorCount(6));
   }
 
   @Test
@@ -237,10 +220,8 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", BADGE_EXPIRY_DATE_VALID_FIELD, "AssertTrue"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", DELIVER_TO_FIELD, "NotBlank"))
-        .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", DELIVERY_OPTIONS_FIELD, "NotBlank"))
-        .andExpect(model().errorCount(6));
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", DELIVER_TO_FIELD, "NotNull"))
+        .andExpect(model().errorCount(5));
   }
 
   @Test

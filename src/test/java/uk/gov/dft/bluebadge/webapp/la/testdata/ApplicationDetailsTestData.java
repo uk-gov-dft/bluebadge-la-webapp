@@ -143,14 +143,15 @@ public class ApplicationDetailsTestData {
               .townCity(ModelValues.TOWN);
       AppParty party = new AppParty().contact(contact);
       application =
-          new Application()
+          Application.builder()
               .party(party)
               .localAuthorityCode(ModelValues.LA_CODE)
               .applicationTypeCode(ModelValues.APP_TYPE_CODE)
               .applicationId(ModelValues.ID)
               .paymentTaken(ModelValues.PAYMENT_TAKEN)
               .existingBadgeNumber(ModelValues.EXISTING_BADGE_NO)
-              .submissionDate(ModelValues.SUBMISSION_DATE_TIME);
+              .submissionDate(ModelValues.SUBMISSION_DATE_TIME)
+              .build();
     }
 
     private void addBenefit() {
@@ -261,8 +262,11 @@ public class ApplicationDetailsTestData {
     }
 
     void addChild() {
-      ChildUnder3 child = new ChildUnder3();
-      child.setBulkyMedicalEquipmentTypeCode(ModelValues.BULKY_MEDICAL_EQUIPMENT_TYPE_CODE_FIELD);
+      ChildUnder3 child =
+          ChildUnder3.builder()
+              .bulkyMedicalEquipmentTypeCodes(
+                  Lists.newArrayList(ModelValues.BULKY_MEDICAL_EQUIPMENT_TYPE_CODE_FIELD))
+              .build();
       application.getEligibility().setChildUnder3(child);
     }
 

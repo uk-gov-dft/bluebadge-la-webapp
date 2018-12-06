@@ -1,7 +1,7 @@
 SET search_path TO applicationmanagement;
 
 
-INSERT INTO applicationmanagement.application(id, local_authority_code, app_type_code, is_payment_taken, submission_datetime, party_code, contact_name, contact_building_street, contact_town_city, contact_postcode, holder_name, existing_badge_no, contact_line2, primary_phone_no, secondary_phone_no, contact_email_address, org_is_charity, org_charity_no, no_of_badges, nino, dob, gender_code, holder_name_at_birth, eligibility_code, eligibility_conditions, benefit_is_indefinite, benefit_expiry_date, walk_other_desc, walk_length_code, walk_speed_code, arms_driving_freq, arms_is_adapted_vehicle, arms_adapted_veh_desc, blind_registered_at_la_code, bulky_equipment_type_code, url_proof_eligibility, url_proof_address, url_proof_identity, url_badge_photo
+INSERT INTO applicationmanagement.application(id, local_authority_code, app_type_code, is_payment_taken, submission_datetime, party_code, contact_name, contact_building_street, contact_town_city, contact_postcode, holder_name, existing_badge_no, contact_line2, primary_phone_no, secondary_phone_no, contact_email_address, org_is_charity, org_charity_no, no_of_badges, nino, dob, gender_code, holder_name_at_birth, eligibility_code, eligibility_conditions, benefit_is_indefinite, benefit_expiry_date, walk_other_desc, walk_length_code, walk_speed_code, arms_driving_freq, arms_is_adapted_vehicle, arms_adapted_veh_desc, blind_registered_at_la_code, bulky_equipment_type_code
  ) 
 VALUES 
 (
@@ -35,10 +35,6 @@ VALUES
  null, 
  'LESSMIN', 
  'SLOW', 
- null, 
- null, 
- null, 
- null, 
  null, 
  null, 
  null, 
@@ -80,10 +76,6 @@ VALUES
  null, 
  null, 
  null, 
- null, 
- null, 
- null, 
- null, 
  null
  ),
 (
@@ -121,10 +113,6 @@ VALUES
  null, 
  null, 
  null, 
- null, 
- null, 
- null, 
- null, 
  null
  ),
 (
@@ -158,10 +146,6 @@ VALUES
  null, 
  'LESSMIN', 
  'SLOW', 
- null, 
- null, 
- null, 
- null, 
  null, 
  null, 
  null, 

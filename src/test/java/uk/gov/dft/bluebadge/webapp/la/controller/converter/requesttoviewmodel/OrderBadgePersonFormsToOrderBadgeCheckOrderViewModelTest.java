@@ -9,7 +9,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderV
 public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModelTest
     extends OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModelTest {
 
-  protected static final OrderBadgeCheckOrderViewModel VIEW_MODEL_PERSON =
+  private static final OrderBadgeCheckOrderViewModel VIEW_MODEL_PERSON_EXPECTED =
       OrderBadgeCheckOrderViewModel.builder()
           .fullName(NAME)
           .dob(DOB_VIEW_MODEL)
@@ -43,6 +43,6 @@ public class OrderBadgePersonFormsToOrderBadgeCheckOrderViewModelTest
   @Test
   public void convert_ShouldConvert() {
     assertThat(converter.convert(FORM_REQUEST_PERSON_DETAILS, FORM_REQUEST_PERSON_PROCESSING))
-        .isEqualTo(VIEW_MODEL_PERSON);
+        .isEqualTo(VIEW_MODEL_PERSON_EXPECTED);
   }
 }

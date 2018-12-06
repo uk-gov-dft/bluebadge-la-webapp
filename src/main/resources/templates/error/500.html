@@ -16,23 +16,6 @@
 
     <p class="govuk-body" th:text="#{error500Page.p2}"></p>
 
-    <div th:if="${#arrays.contains(@environment.getActiveProfiles(), 'dev')}">
-        <hr class="dft-hr"/>
-
-        <h2 class="govuk-heading-m">Development Mode</h2>
-        <p class="govuk-body" th:text="'Message: ' + ${exception.message}"></p>
-
-        <div th:if="${commonResponse}">
-            <h3 class="govuk-heading-s">Common Response</h3>
-            <pre class="govuk-pre" th:text="${commonResponse}"/>
-        </div>
-
-        <div th:if="${exception.stackTrace}">
-            <h3 class="govuk-heading-s">Stack trace</h3>
-            <pre class="govuk-pre" th:each="st : ${exception.stackTrace}" th:text="${st}"/>
-        </div>
-    </div>
-
 </main>
 
 </body>

@@ -1,6 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.service.referencedata;
 
 import static uk.gov.dft.bluebadge.common.security.Role.DFT_ADMIN;
+import static uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum.CANCEL;
+import static uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum.REPLACE;
+import static uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum.STATUS;
 
 import com.google.common.collect.Lists;
 import java.util.HashMap;
@@ -9,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -17,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
@@ -155,8 +160,29 @@ public class ReferenceDataService {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.STATUS, key);
   }
 
+  public String retrieveBadgeStatusDisplayValue(Badge badge) {
+    String description = retrieveBadgeReferenceDataDisplayValue(STATUS, badge.getStatusCode());
+    String reason = StringUtils.EMPTY;
+    if ("REPLACED".equals(badge.getStatusCode())) {
+      reason = retrieveBadgeReferenceDataDisplayValue(REPLACE, badge.getReplaceReasonCode());
+    } else if ("CANCELLED".equals(badge.getStatusCode())) {
+      reason = retrieveBadgeReferenceDataDisplayValue(CANCEL, badge.getCancelReasonCode());
+    }
+
+    return StringUtils.isEmpty(reason) ? description : description + " (" + reason + ")";
+  }
+
   public String retrieveBadgeLocalAuthorityDisplayValue(String key) {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.LA, key);
+  }
+
+  /**
+   * Get the display name for the local authority of the logged in user.
+   * @return LA name, e.g. Shropshire County Council
+   */
+  public String retrieveBadgeLocalAuthorityDisplayValue() {
+    return retrieveBadgeLocalAuthorityDisplayValue(
+        securityUtils.getCurrentLocalAuthorityShortCode());
   }
 
   // APPLICATION
@@ -179,6 +205,7 @@ public class ReferenceDataService {
   /*
    * Used directly by template.  Do not delete.
    */
+  @SuppressWarnings("WeakerAccess")
   public String retrieveAppEnumDisplayValueByString(String group, String key) {
     if (!isLoaded.get()) {
       init();
@@ -201,6 +228,7 @@ public class ReferenceDataService {
   /*
    * Used directly by template.  Do not delete.
    */
+  @SuppressWarnings("unused")
   public String retrieveAppEnumDisplayValue(String group, Enum<?> key) {
     if (null == key) {
       return "";

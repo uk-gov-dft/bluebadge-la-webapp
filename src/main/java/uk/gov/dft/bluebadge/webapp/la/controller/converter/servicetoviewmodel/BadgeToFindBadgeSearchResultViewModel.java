@@ -1,6 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelDateFormatter;
+import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelFieldDateFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -18,15 +18,14 @@ public class BadgeToFindBadgeSearchResultViewModel
   private ReferenceDataService referenceDataService;
 
   @Autowired
-  public BadgeToFindBadgeSearchResultViewModel(ReferenceDataService referenceDataService) {
+  BadgeToFindBadgeSearchResultViewModel(ReferenceDataService referenceDataService) {
     this.referenceDataService = referenceDataService;
   }
 
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
     Assert.notNull(source, "Source cannot be null");
-    String statusDisplayText =
-        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
+    String statusDisplayText = referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
     String localAuthorityDisplayText =
         referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
@@ -48,7 +47,7 @@ public class BadgeToFindBadgeSearchResultViewModel
         .badgeNumber(source.getBadgeNumber())
         .postCode(source.getParty().getContact().getPostCode())
         .localAuthority(localAuthorityDisplayText)
-        .expiryDate(source.getExpiryDate().format(viewModelDateFormatter))
+        .expiryDate(source.getExpiryDate().format(viewModelFieldDateFormatter))
         .status(statusDisplayText)
         .build();
   }

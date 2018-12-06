@@ -32,10 +32,10 @@ public abstract class OrderBadgeBaseFormsToOrderBadgeCheckOrderViewModel<
         referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
             processing.getApplicationChannel());
     String deliverToDisplayText =
-        referenceDataService.retrieveBadgeDeliverToDisplayValue(processing.getDeliverTo());
+        referenceDataService.retrieveBadgeDeliverToDisplayValue(processing.getDeliverTo().name());
     String deliveryOptionsDisplayText =
         referenceDataService.retrieveBadgeDeliveryOptionDisplayValue(
-            processing.getDeliveryOptions());
+            processing.getDeliveryOptions().name());
 
     return builder
         .numberOfBadges(String.valueOf(processing.getNumberOfBadges()))

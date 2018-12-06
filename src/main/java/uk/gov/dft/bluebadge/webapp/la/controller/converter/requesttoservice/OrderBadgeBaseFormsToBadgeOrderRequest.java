@@ -44,8 +44,8 @@ public abstract class OrderBadgeBaseFormsToBadgeOrderRequest<
         .localAuthorityRef(processing.getLocalAuthorityReferenceNumber())
         .startDate(startDate)
         .expiryDate(expiryDate)
-        .deliverToCode(processing.getDeliverTo())
-        .deliveryOptionCode(processing.getDeliveryOptions())
+        .deliverToCode(processing.getDeliverTo().name())
+        .deliveryOptionCode(processing.getDeliveryOptions().name())
         .localAuthorityShortCode(securityUtils.getCurrentLocalAuthorityShortCode())
         .numberOfBadges(processing.getNumberOfBadges());
   }

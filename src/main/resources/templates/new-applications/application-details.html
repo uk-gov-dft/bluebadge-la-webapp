@@ -130,27 +130,35 @@
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfIdentityUrl}">
+                    <div class="dft-data-list__item" th:if="${!app.proofOfIdentityArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
-                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfIdentityUrl}" target="_blank"
-                                                         th:text="#{open.file.in.new.tab}"></a>
+                        <dd class="dft-data-list__dd">
+                            <span th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfAddressUrl}">
+                    <div class="dft-data-list__item" th:if="${!app.proofOfAddressArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfAddress}"/>
                         <dd class="dft-data-list__dd">
-                            <a th:href="${app.artifacts.proofOfAddressUrl}" target="_blank"
-                               th:text="#{open.file.in.new.tab}"></a>
+                            <span th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.badgePhotoUrl}">
-                        <dt class="dft-data-list__dt" th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
+                    <div class="dft-data-list__item" th:if="${!app.badgePhotoArtifacts.empty}">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
                         <dd class="dft-data-list__dd">
-                            <img th:src="${app.artifacts.badgePhotoUrl}" alt=""/>
+                            <span th:each="artifact: ${app.badgePhotoArtifacts}" th:remove="tag">
+                                <img th:src="${artifact.link}" alt=""/><br/>
+                            </span>
                         </dd>
                     </div>
                 </div>
@@ -255,44 +263,48 @@
                         <dd class="dft-data-list__dd" th:text="${arms.drivingFrequency}"
                             data-uipath="eligibility.arms.drivingfrequency"/>
                     </div>
-
-                    <!--
-                        *   Commented out as part of BBB-921
-                        *   Uncomment this block of code when the Citizen app is ready to
-                            populate adapted vehicle
-                    -->
-                    <!--<div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
+                    <div class="dft-data-list__item" th:if="${arms.isAdaptedVehicle != null}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.disablilityArms.label.adaptedVehicle}"/>
                         <dd class="dft-data-list__dd" th:if="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isadaptedvehicle"
-                            th:text="#{application.details.isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}"/>
+                            th:with="vehicledesc=#{application.details.isAdaptedVehicle} + ' ' + ${arms.adaptedVehicleDescription}">
+                            <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist"
+                                th:with="lines=${@modelFormatUtils.parseNewLinesToArray(vehicledesc)}">
+                                <li th:each="line: ${lines}" th:text="${line}">
+                            </ul>
+                        </dd>
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isnotadaptedvehicle"
                             th:text="#{application.details.isNotAdaptedVehicle}"/>
-                    </div>-->
-
-                    <div class="dft-data-list__item" th:if="${app?.artifacts?.proofOfEligibility}">
+                    </div>
+                    <div class="dft-data-list__item" th:if="${!app.proofOfEligibilityArtifacts.empty}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
-                        <dd class="dft-data-list__dd"><a th:href="${app.artifacts.proofOfEligibility}" target="_blank"
-                                                         th:text="#{open.file.in.new.tab}"></a>
+                        <dd class="dft-data-list__dd">
+                            <span th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}" th:remove="tag">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </span>
+                        </dd>
                     </div>
                 </div>
 
-
-                <!--
-                    *   Commented out as part of BBB-921
-                    *   Uncomment this block of code when the Citizen app is ready to
-                        populate medical equipment for child under 3.
-                -->
                 <!-- CHILD UNDER 3 FIELDS -->
-                <!--<div class="dft-data-list__item" th:if="${eligibility.childUnder3?.bulkyMedicalEquipmentTypeCode}">
-                    <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.childUnder3.label.bulkyMedicalEquipment}"/>
-                    <dd class="dft-data-list__dd" data-uipath="eligibility.child.bulkyequipmenttype"
-                        th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BULKEQUIP', eligibility.childUnder3.bulkyMedicalEquipmentTypeCode)}"/>
-                </div>-->
+                <div th:if="${eligibility.childUnder3}" th:remove="tag"
+                     th:with="child=${eligibility.childUnder3}">
+                    <div class="dft-data-list__item" th:if="${child.bulkyMedicalEquipmentTypeCodes}">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.childUnder3.label.bulkyMedicalEquipment}"/>
+                        <dd class="dft-data-list__dd">
+                            <ul class="govuk-list" data-uipath="eligibility.child.bulky.equipment">
+                                <li th:each="equipment: ${child.bulkyMedicalEquipmentTypeCodes.?[name() != 'OTHER']}"
+                                    th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BULKEQUIP', equipment)}">
+                                <li th:if="${child.otherMedicalEquipment}" th:text="${child.otherMedicalEquipment}">
+                            </ul>
+                        </dd>
+                    </div>
+                </div>
 
                 <!-- BLIND FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.blind?.registeredAtLaId}">
@@ -302,16 +314,14 @@
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', eligibility.blind.registeredAtLaId)}"/>
                 </div>
 
-                <!--
-                    *   Commented out as part of BBB-921
-                    *   Uncomment this block of code when the Citizen app is ready to
-                        populate benefit duration.
-                -->
                 <!-- BENEFIT FIELDS -->
-                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}" th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
+                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}"
+                     th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
                     <dd class="dft-data-list__dd">
-                        <span th:remove="tag" th:text="${ben.isIndefinite}? #{application.details.benefit.isIndefinite} : #{application.details.benefit.expires}"></span>
+                        <span th:remove="tag"
+                              th:text="${ben.isIndefinite}? #{application.details.benefit.isIndefinite} : #{application.details.benefit.expires}"></span>
                         <span th:unless="${ben.isIndefinite}" th:remove="tag">
                             <br/><span th:text="${@modelFormatUtils.localDateToDisplay(ben.expiryDate)}"></span>
                         </span>
@@ -321,7 +331,7 @@
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
                     <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.label.descriptionOfConditions}"/>
+                        th:text="${altHealthConditionLabel} ? #{application.details.eligibility.label.altDescriptionOfConditions} : #{application.details.eligibility.label.descriptionOfConditions}"/>
                     <dd class="dft-data-list__dd"
                         th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
                         <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">
@@ -381,17 +391,20 @@
 
         <details class="govuk-details">
             <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text" data-uipath="removeApplicationSummaryText" th:text="#{application.details.removeApplicationSummaryText}"></span>
+                <span class="govuk-details__summary-text" data-uipath="removeApplicationSummaryText"
+                      th:text="#{application.details.removeApplicationSummaryText}"></span>
             </summary>
 
             <div class="govuk-details__text">
                 <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="delete">
-                    <p class="govuk-body" th:text="#{application.details.text.confirmdelete.line1}" />
-                    <input data-uipath="removeApplicationButton" th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
+                    <p class="govuk-body" th:text="#{application.details.text.confirmdelete.line1}"/>
+                    <input data-uipath="removeApplicationButton"
+                           th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
                 </form>
 
                 <p class="govuk-body">
-                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveApplicationButton" th:text="#{application.details.doNotRemoveApplicationButton}"></a>
+                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveApplicationButton"
+                       th:text="#{application.details.doNotRemoveApplicationButton}"></a>
                 </p>
             </div>
         </details>

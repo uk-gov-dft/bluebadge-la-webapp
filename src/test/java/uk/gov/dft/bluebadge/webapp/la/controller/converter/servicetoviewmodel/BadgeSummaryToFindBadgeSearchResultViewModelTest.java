@@ -21,7 +21,7 @@ public class BadgeSummaryToFindBadgeSearchResultViewModelTest {
   private static final String POSTCODE = "AAA AAA";
   private static final String STATUS = "NEW";
 
-  private static final String EXPIRY_DATE_VIEW_MODEL = "09/07/99";
+  private static final String EXPIRY_DATE_VIEW_MODEL = "09 July 2099";
   private static final String LOCAL_AUTHORITY_VIEW_MODEL = "Blackpool";
   private static final String STATUS_VIEW_MODEL = "new";
 
@@ -46,10 +46,10 @@ public class BadgeSummaryToFindBadgeSearchResultViewModelTest {
 
   @Mock ReferenceDataService referenceDataServiceMock;
 
-  BadgeSummaryToFindBadgeSearchResultViewModel converter;
+  private BadgeSummaryToFindBadgeSearchResultViewModel converter;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     when(referenceDataServiceMock.retrieveBadgeStatusDisplayValue(STATUS))
         .thenReturn(STATUS_VIEW_MODEL);

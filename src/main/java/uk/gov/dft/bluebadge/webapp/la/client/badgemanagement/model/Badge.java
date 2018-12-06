@@ -51,6 +51,9 @@ public class Badge {
   @JsonProperty("statusCode")
   private String statusCode = null;
 
+  @JsonProperty("replaceReasonCode")
+  private String replaceReasonCode;
+
   public Badge badgeNumber(String badgeNumber) {
     this.badgeNumber = badgeNumber;
     return this;
@@ -306,6 +309,20 @@ public class Badge {
 
   public void setCancelReasonCode(String cancelReasonCode) {
     this.cancelReasonCode = cancelReasonCode;
+  }
+
+  public Badge replaceReasonCode(String replaceReasonCode) {
+    this.replaceReasonCode = replaceReasonCode;
+    return this;
+  }
+
+  @Size(max = 10)
+  public String getReplaceReasonCode() {
+    return replaceReasonCode;
+  }
+
+  public void setReplaceReasonCode(String replaceReasonCode) {
+    this.replaceReasonCode = replaceReasonCode;
   }
 
   public Badge statusCode(String statusCode) {
