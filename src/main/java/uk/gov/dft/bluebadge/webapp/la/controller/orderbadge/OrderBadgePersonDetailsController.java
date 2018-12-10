@@ -67,7 +67,10 @@ public class OrderBadgePersonDetailsController
     log.info("Submit person details");
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    log.info("Submit:check hasPhoto and !photoValid:{},{}", formRequest.hasPhoto(), !formRequest.isPhotoValid());
+    log.info(
+        "Submit:check hasPhoto and !photoValid:{},{}",
+        formRequest.hasPhoto(),
+        !formRequest.isPhotoValid());
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
       bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
     }
