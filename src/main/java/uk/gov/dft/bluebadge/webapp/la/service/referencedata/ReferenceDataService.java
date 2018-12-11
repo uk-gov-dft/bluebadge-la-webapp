@@ -178,6 +178,7 @@ public class ReferenceDataService {
 
   /**
    * Get the display name for the local authority of the logged in user.
+   *
    * @return LA name, e.g. Shropshire County Council
    */
   public String retrieveBadgeLocalAuthorityDisplayValue() {
