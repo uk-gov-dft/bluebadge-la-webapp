@@ -1,5 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
+import brave.spring.web.TracingClientHttpRequestInterceptor;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -49,13 +51,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   @Primary
-  OAuth2RestTemplate restTemplate(ResourceOwnerPasswordResourceDetails resourceDetails) {
-    return new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
+  OAuth2RestTemplate restTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails,
+      TracingClientHttpRequestInterceptor tracingClientHttpRequestInterceptor) {
+    OAuth2RestTemplate oAuth2RestTemplate =
+        new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
+    oAuth2RestTemplate.setInterceptors(ImmutableList.of(tracingClientHttpRequestInterceptor));
+    return oAuth2RestTemplate;
   }
 
   @Bean
-  ResourceOwnerPasswordAccessTokenProvider resourceOwnerPasswordAccessTokenProvider() {
-    return new ResourceOwnerPasswordAccessTokenProvider();
+  ResourceOwnerPasswordAccessTokenProvider resourceOwnerPasswordAccessTokenProvider(
+      TracingClientHttpRequestInterceptor tracingClientHttpRequestInterceptor) {
+    ResourceOwnerPasswordAccessTokenProvider resourceOwnerPasswordAccessTokenProvider =
+        new ResourceOwnerPasswordAccessTokenProvider();
+    resourceOwnerPasswordAccessTokenProvider.setInterceptors(
+        ImmutableList.of(tracingClientHttpRequestInterceptor));
+    return resourceOwnerPasswordAccessTokenProvider;
   }
 
   @Bean
