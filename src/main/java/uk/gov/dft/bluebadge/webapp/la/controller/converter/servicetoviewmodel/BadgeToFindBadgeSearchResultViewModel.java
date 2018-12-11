@@ -25,7 +25,8 @@ public class BadgeToFindBadgeSearchResultViewModel
   @Override
   public FindBadgeSearchResultViewModel convert(Badge source) {
     Assert.notNull(source, "Source cannot be null");
-    String statusDisplayText = referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
+    String statusDisplayText =
+        referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
     String localAuthorityDisplayText =
         referenceDataService.retrieveBadgeLocalAuthorityDisplayValue(
             source.getLocalAuthorityShortCode());
