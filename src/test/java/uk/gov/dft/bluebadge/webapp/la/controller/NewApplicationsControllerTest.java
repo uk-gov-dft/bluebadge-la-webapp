@@ -53,7 +53,8 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .perform(get("/new-applications?pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
+        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
+        .andExpect(model().attributeExists("pagingInfo"));
   }
 
   @Test
@@ -67,7 +68,8 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .perform(get("/new-applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", Collections.emptyList()));
+        .andExpect(model().attribute("applications", Collections.emptyList()))
+        .andExpect(model().attributeExists("pagingInfo"));
   }
 
   @Test
@@ -88,7 +90,8 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", applicationsForSearchByNameView));
+        .andExpect(model().attribute("applications", applicationsForSearchByNameView))
+        .andExpect(model().attributeExists("pagingInfo"));
   }
 
   @Test
