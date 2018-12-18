@@ -58,6 +58,19 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   }
 
   @Test
+  public void show_shouldDisplayApplications_whenThereAreApplications_withDefaultPaging()
+      throws Exception {
+
+    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    mockMvc
+        .perform(get("/new-applications"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("new-applications/index"))
+        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
+        .andExpect(model().attributeExists("pagingInfo"));
+  }
+
+  @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
     when(applicationServiceMock.findNewApplicationsByName(any(), any()))
@@ -90,8 +103,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", applicationsForSearchByNameView))
-        .andExpect(model().attributeExists("pagingInfo"));
+        .andExpect(model().attribute("applications", applicationsForSearchByNameView));
   }
 
   @Test

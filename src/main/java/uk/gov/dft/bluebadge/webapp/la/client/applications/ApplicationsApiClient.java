@@ -60,7 +60,6 @@ public class ApplicationsApiClient extends BaseApiClient {
     to.ifPresent(value -> builder.queryParam("to", value));
     applicationTypeCode.ifPresent(value -> builder.queryParam("applicationTypeCode", value));
 
-    // Hard code the page size to 200.
     builder.queryParam("pageSize", pageInfo.getPageSize());
     builder.queryParam("pageNum", pageInfo.getPageNum());
 

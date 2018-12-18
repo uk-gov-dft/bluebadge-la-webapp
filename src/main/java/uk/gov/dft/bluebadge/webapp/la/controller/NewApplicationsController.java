@@ -77,6 +77,8 @@ public class NewApplicationsController {
     // TODO: should be revisited to proper solution
     PagingInfo pagingInfo = new PagingInfo();
     pagingInfo.setPageSize(1);
+    pagingInfo.setPageNum(1);
+    ;
     ApplicationSummaryResponse allNew = applicationService.findAllNew(pagingInfo);
 
     return allNew.getPagingInfo().getTotal();
