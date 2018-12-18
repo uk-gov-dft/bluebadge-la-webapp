@@ -2,17 +2,19 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.FindApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ApplicationSummaryViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
@@ -35,57 +37,68 @@ public class NewApplicationsController {
   }
 
   @GetMapping(URL)
-  public String show(
-      @RequestParam("searchBy") Optional<String> searchBy,
-      @RequestParam("searchTerm") Optional<String> searchTerm,
-      Model model) {
+  public String show(@ModelAttribute @Valid FindApplicationFormRequest formRequest, Model model) {
 
-    searchTerm = searchTerm.map(StringUtils::trimToNull);
-
-    saveParams(searchBy, searchTerm, model);
-
-    List<ApplicationSummary> applications;
-    applications =
-        searchTerm
+    ApplicationSummaryResponse result =
+        formRequest
+            .getSearchTerm()
             .map(
                 term -> {
-                  switch (searchBy.get()) {
+                  switch (formRequest.getSearchBy().get()) {
                     case "name":
-                      return applicationService.findNewApplicationsByName(term);
+                      return applicationService.findNewApplicationsByName(
+                          term, formRequest.getPagingInfo());
                     case "postcode":
-                      return applicationService.findNewApplicationsByPostCode(term);
+                      return applicationService.findNewApplicationsByPostCode(
+                          term, formRequest.getPagingInfo());
                     default:
                       throw new IllegalArgumentException(
-                          "Unsupported search by value:" + searchBy.get());
+                          "Unsupported search by value:" + formRequest.getSearchBy().get());
                   }
                 })
-            .orElse(applicationService.findAllNew());
+            .orElse(applicationService.findAllNew(formRequest.getPagingInfo()));
 
+    List<ApplicationSummary> applications = result.getData();
     List<ApplicationSummaryViewModel> applicationsView =
         applications
             .stream()
             .map(app -> converterToViewModel.convert(app))
             .collect(Collectors.toList());
 
-    model.addAttribute("applications", applicationsView);
-    // it's wrong thing to do, but for the sake of speeding delivery time we're going to call
-    // service twice to get amount of 'new' applications without filters applied
-    // TODO: should be revisited to proper solution
-    model.addAttribute("applicationCount", applicationService.findAllNew().size());
-    if (searchTerm.isPresent() && !searchTerm.get().isEmpty()) {
-      model.addAttribute("filteredApplicationCount", applicationsView.size());
-    }
+    setupModel(model, formRequest, result.getPagingInfo(), applicationsView);
 
     return TEMPLATE;
   }
 
-  private void saveParams(Optional<String> searchBy, Optional<String> searchTerm, Model model) {
+  private Long getAllNewApplicationSize() {
+    // it's wrong thing to do, but for the sake of speeding delivery time we're
+    // going to call
+    // service twice to get amount of 'new' applications without filters applied
+    // TODO: should be revisited to proper solution
+    PagingInfo pagingInfo = new PagingInfo();
+    pagingInfo.setPageSize(1);
+    ApplicationSummaryResponse allNew = applicationService.findAllNew(pagingInfo);
 
-    searchBy.ifPresent(s -> model.addAttribute("searchBy", s));
+    return allNew.getPagingInfo().getTotal();
+  }
 
-    searchTerm.ifPresent(s -> model.addAttribute("searchTerm", s));
+  private void setupModel(
+      Model model,
+      FindApplicationFormRequest formRequest,
+      PagingInfo info,
+      List<ApplicationSummaryViewModel> applicationsView) {
+    formRequest.getSearchBy().ifPresent(s -> model.addAttribute("searchBy", s));
+    formRequest.getSearchTerm().ifPresent(s -> model.addAttribute("searchTerm", s));
 
     model.addAttribute("searchByOptions", getSearchByOptions());
+    model.addAttribute("pagingInfo", info);
+
+    model.addAttribute("applicationCount", getAllNewApplicationSize());
+
+    model.addAttribute("applications", applicationsView);
+    if (!formRequest.isSearchTermEmpty()) {
+      model.addAttribute("filteredApplicationCount", applicationsView.size());
+    }
   }
 
   private List<ReferenceData> getSearchByOptions() {

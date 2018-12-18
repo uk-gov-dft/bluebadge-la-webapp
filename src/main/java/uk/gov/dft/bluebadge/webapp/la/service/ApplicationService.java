@@ -1,15 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
 
@@ -24,12 +24,13 @@ public class ApplicationService {
     this.applicationsApiClient = applicationsApiClient;
   }
 
-  public List<ApplicationSummary> find(
+  public ApplicationSummaryResponse find(
       Optional<String> name,
       Optional<String> postcode,
       Optional<LocalDateTime> from,
       Optional<LocalDateTime> to,
-      Optional<ApplicationTypeCodeField> applicationTypeCode) {
+      Optional<ApplicationTypeCodeField> applicationTypeCode,
+      PagingInfo pageInfo) {
     log.debug(
         "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",
         name,
@@ -45,44 +46,47 @@ public class ApplicationService {
             || applicationTypeCode.isPresent(),
         "Either name or postcode or from or to or applicationTypeCode should be non empty");
 
-    List<ApplicationSummary> applicationSummariesResponse =
-        this.applicationsApiClient.find(name, postcode, from, to, applicationTypeCode);
-    if (!applicationSummariesResponse.isEmpty()) {
-      applicationSummariesResponse.sort(
-          new ApplicationSummaryComparatorBySubmittedDateDescendingOrder());
+    ApplicationSummaryResponse response =
+        this.applicationsApiClient.find(name, postcode, from, to, applicationTypeCode, pageInfo);
+    if (!response.getData().isEmpty()) {
+      response.getData().sort(new ApplicationSummaryComparatorBySubmittedDateDescendingOrder());
     }
-    return applicationSummariesResponse;
+    return response;
   }
 
   public Application retrieve(String applicationId) {
     return applicationsApiClient.retrieve(applicationId);
   }
 
-  public List<ApplicationSummary> findNewApplicationsByName(String name) {
+  public ApplicationSummaryResponse findNewApplicationsByName(String name, PagingInfo pageInfo) {
     return find(
         Optional.of(name),
         Optional.empty(),
         Optional.empty(),
         Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW));
+        Optional.of(ApplicationTypeCodeField.NEW),
+        pageInfo);
   }
 
-  public List<ApplicationSummary> findNewApplicationsByPostCode(String postcode) {
+  public ApplicationSummaryResponse findNewApplicationsByPostCode(
+      String postcode, PagingInfo pageInfo) {
     return find(
         Optional.empty(),
         Optional.of(postcode),
         Optional.empty(),
         Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW));
+        Optional.of(ApplicationTypeCodeField.NEW),
+        pageInfo);
   }
 
-  public List<ApplicationSummary> findAllNew() {
+  public ApplicationSummaryResponse findAllNew(PagingInfo pageInfo) {
     return find(
         Optional.empty(),
         Optional.empty(),
         Optional.empty(),
         Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW));
+        Optional.of(ApplicationTypeCodeField.NEW),
+        pageInfo);
   }
 
   public void delete(String applicationId) {
