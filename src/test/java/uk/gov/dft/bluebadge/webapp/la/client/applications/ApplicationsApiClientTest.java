@@ -78,7 +78,9 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
         .expect(
             once(),
             requestTo(
-                APPLICATIONS_ENDPOINT + "?applicationTypeCode=" + FIND_PARAM_APPLICATION_TYPE
+                APPLICATIONS_ENDPOINT
+                    + "?applicationTypeCode="
+                    + FIND_PARAM_APPLICATION_TYPE
                     + "&pageSize=200"))
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess(applicationResponseBody, MediaType.APPLICATION_JSON));
@@ -138,8 +140,12 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     try {
       mockServer
           .expect(
-              once(), requestTo(APPLICATIONS_ENDPOINT + "?postcode=" + FIND_PARAM_POSTCODE_WRONG
-                  + "&pageSize=200"))
+              once(),
+              requestTo(
+                  APPLICATIONS_ENDPOINT
+                      + "?postcode="
+                      + FIND_PARAM_POSTCODE_WRONG
+                      + "&pageSize=200"))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 
       client.find(
