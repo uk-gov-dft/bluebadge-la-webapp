@@ -1,0 +1,39 @@
+.dft-pagination {
+	@include govuk-clearfix;
+
+	@include govuk-media-query($until: tablet) {
+		text-align: center;
+	}
+
+	&__results {
+		@include govuk-media-query($from: tablet) {
+			float: left;
+		}
+	}
+
+	&__paginate {
+		@include govuk-font(19, regular);
+
+
+		@include govuk-media-query($from: tablet) {
+			float: right;
+		}
+
+		span {
+			margin: 0 5px;
+		}
+
+		a {
+			color:  #005ea5;
+			padding: 4px 8px 2px;
+			display: inline-block;
+
+			&:hover {
+				color: #fff;
+				text-decoration: none;
+				background-color: #005ea5;
+			}
+		}
+	}
+
+}

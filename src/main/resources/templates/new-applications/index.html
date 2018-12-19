@@ -69,7 +69,7 @@
             <tbody class="govuk-table__body" data-uipath="table.body">
             <tr class="govuk-table__row" th:each="app : ${applications}">
                 <td class="govuk-table__cell">
-                		<a th:href="@{/new-applications/__${app.applicationId}__}" th:text="${app.name}"></a>
+                    <a th:href="@{/new-applications/__${app.applicationId}__}" th:text="${app.name}"></a>
                 </td>
                 <td class="govuk-table__cell" th:text="${app.nino}">
                 <td class="govuk-table__cell" th:text="${app.eligibility}">
@@ -77,6 +77,8 @@
             </tr>
             </tbody>
         </table>
+
+        <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}) }"></div>
 
         <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
 

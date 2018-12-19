@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="pagination(pagingInfo)" class="dft-pagination">
+
+    <p class="dft-pagination__results" th:text="#{pagination.results} + ' ' + ${pagingInfo.pageSize}"></p>
+
+    <div class="dft-pagination__paginate">
+        <a th:if="${pagingInfo.pageNum != 1}"
+           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum - 1}" th:text="#{pagination.previous}"></a>
+
+        <span th:text="#{pagination.paginate(${pagingInfo.pageNum}, ${pagingInfo.pages}) }"></span>
+
+        <a th:if="${pagingInfo.pageNum != pagingInfo.pages}"
+           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum + 1}" th:text="#{pagination.next}"></a>
+    </div>
+
+</div>
+
+</body>
+</html>
