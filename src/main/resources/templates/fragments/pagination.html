@@ -12,12 +12,12 @@
 
     <div class="dft-pagination__paginate">
         <a th:if="${pagingInfo.pageNum != 1}"
-           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum - 1}" th:text="#{pagination.previous}"></a>
+           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum - 1} + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.previous}"></a>
 
         <span th:text="#{pagination.paginate(${pagingInfo.pageNum}, ${pagingInfo.pages}) }"></span>
 
         <a th:if="${pagingInfo.pageNum != pagingInfo.pages}"
-           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum + 1}" th:text="#{pagination.next}"></a>
+           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum + 1}  + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.next}"></a>
     </div>
 
 </div>
