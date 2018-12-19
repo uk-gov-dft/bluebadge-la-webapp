@@ -1,14 +1,18 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.google.common.collect.Lists;
+
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
@@ -38,7 +42,6 @@ public class NewApplicationsController {
 
   @GetMapping(URL)
   public String show(@ModelAttribute @Valid FindApplicationFormRequest formRequest, Model model) {
-
     ApplicationSummaryResponse result =
         formRequest
             .getSearchTerm()
@@ -78,7 +81,7 @@ public class NewApplicationsController {
     PagingInfo pagingInfo = new PagingInfo();
     pagingInfo.setPageSize(1);
     pagingInfo.setPageNum(1);
-    ;
+
     ApplicationSummaryResponse allNew = applicationService.findAllNew(pagingInfo);
 
     return allNew.getPagingInfo().getTotal();

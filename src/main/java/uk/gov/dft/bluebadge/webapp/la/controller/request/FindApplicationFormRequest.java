@@ -32,7 +32,7 @@ public class FindApplicationFormRequest implements Serializable {
   }
 
   public boolean isSearchTermEmpty() {
-    return !searchTerm.isPresent() || !searchTerm.get().isEmpty();
+    return !searchTerm.isPresent() || searchTerm.get().isEmpty();
   }
 
   public Optional<String> getSearchTerm() {
