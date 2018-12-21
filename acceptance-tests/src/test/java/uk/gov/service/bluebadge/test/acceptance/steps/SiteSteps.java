@@ -461,6 +461,66 @@ public class SiteSteps extends AbstractSpringSteps {
     assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
   }
 
+  @And("^I can see first page of paged records$")
+  public void iCanSeeFirstPagedRecords() {
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    assertTrue(records.size() == 50);
+
+    String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
+    assertTrue(pageSize.contains("Results per page: 50"));
+    
+    String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
+    assertTrue(pageOfPages.contains("Page 1 of 3"));
+    
+    WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
+    assertNotNull(nextLink);
+    
+    WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
+    assertNull(previousLink);
+  }
+
+  @And("^I can see second page of paged records$")
+  public void iCanSeeSecondPagedRecords() {
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    assertTrue(records.size() == 50);
+
+    String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
+    assertTrue(pageSize.contains("Results per page: 50"));
+    
+    String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
+    assertTrue(pageOfPages.contains("Page 2 of 3"));
+    
+    WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
+    assertNotNull(nextLink);
+    
+    WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
+    assertNotNull(previousLink);
+  }
+
+  @And("^I can see third page of paged records$")
+  public void iCanSeeThirdPagedRecords() {
+    List<WebElement> records =
+        sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
+
+    assertTrue(records.size() == 20);
+
+    String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
+    assertTrue(pageSize.contains("Results per page: 50"));
+    
+    String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
+    assertTrue(pageOfPages.contains("Page 3 of 3"));
+    
+    WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
+    assertNull(nextLink);
+    
+    WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
+    assertNotNull(previousLink);
+  }
+
   @And(
       "^Search filter \"([^\"]*)\" has value \"([^\"]*)\" and search field \"([^\"]*)\" has value \"([^\"]*)\"$")
   public void serachFilterAndSearchFieldCorrectlyPopulated(

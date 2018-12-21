@@ -38,6 +38,16 @@ public class DatabaseSteps {
     dbUtils.runScript("scripts/delete_applications.sql");
   }
 
+  @Before("@NewApplicationPaginationScripts")
+  public void executeInsertApplicationsPaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/create_applications_pagination.sql");
+  }
+
+  @After("@NewApplicationPaginationScripts")
+  public void executeDeleteApplicationsPaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/delete_applications_pagination.sql");
+  }
+
   @Before("@UsersRolesAndPermissionsScripts")
   public void executeInsertUsersDBScript() throws SQLException {
     dbUtils.runScript("scripts/create_users.sql");
