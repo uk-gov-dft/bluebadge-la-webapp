@@ -470,13 +470,13 @@ public class SiteSteps extends AbstractSpringSteps {
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
-    
+
     String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
     assertTrue(pageOfPages.contains("Page 1 of 3"));
-    
+
     WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
     assertNotNull(nextLink);
-    
+
     WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
     assertNull(previousLink);
   }
@@ -490,13 +490,13 @@ public class SiteSteps extends AbstractSpringSteps {
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
-    
+
     String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
     assertTrue(pageOfPages.contains("Page 2 of 3"));
-    
+
     WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
     assertNotNull(nextLink);
-    
+
     WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
     assertNotNull(previousLink);
   }
@@ -510,13 +510,13 @@ public class SiteSteps extends AbstractSpringSteps {
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
-    
+
     String pageOfPages = sitePage.findElementWithUiPath("pagination.page.of.pages").getText();
     assertTrue(pageOfPages.contains("Page 3 of 3"));
-    
+
     WebElement nextLink = sitePage.findElementWithUiPath("pagination.next");
     assertNull(nextLink);
-    
+
     WebElement previousLink = sitePage.findElementWithUiPath("pagination.previous");
     assertNotNull(previousLink);
   }

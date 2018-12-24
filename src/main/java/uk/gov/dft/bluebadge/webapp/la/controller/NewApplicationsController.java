@@ -38,24 +38,26 @@ public class NewApplicationsController {
 
   @GetMapping(URL)
   public String show(@ModelAttribute @Valid FindApplicationFormRequest formRequest, Model model) {
-    ApplicationSummaryResponse result =
-        formRequest
-            .getSearchTerm()
-            .map(
-                term -> {
-                  switch (formRequest.getSearchBy().get()) {
-                    case "name":
-                      return applicationService.findNewApplicationsByName(
-                          term, formRequest.getPagingInfo());
-                    case "postcode":
-                      return applicationService.findNewApplicationsByPostCode(
-                          term, formRequest.getPagingInfo());
-                    default:
-                      throw new IllegalArgumentException(
-                          "Unsupported search by value:" + formRequest.getSearchBy().get());
-                  }
-                })
-            .orElse(applicationService.findAllNew(formRequest.getPagingInfo()));
+
+    ApplicationSummaryResponse result = null;
+    if (formRequest.getSearchTerm().isPresent()) {
+      String searchBy = formRequest.getSearchBy().get();
+      switch (searchBy) {
+        case "name":
+          result =
+              applicationService.findNewApplicationsByName(searchBy, formRequest.getPagingInfo());
+          break;
+        case "postcode":
+          result =
+              applicationService.findNewApplicationsByPostCode(
+                  searchBy, formRequest.getPagingInfo());
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
+      }
+    } else {
+      result = applicationService.findAllNew(formRequest.getPagingInfo());
+    }
 
     List<ApplicationSummary> applications = result.getData();
     List<ApplicationSummaryViewModel> applicationsView =
@@ -70,10 +72,6 @@ public class NewApplicationsController {
   }
 
   private Long getAllNewApplicationSize() {
-    // it's wrong thing to do, but for the sake of speeding delivery time we're
-    // going to call
-    // service twice to get amount of 'new' applications without filters applied
-    // TODO: should be revisited to proper solution
     PagingInfo pagingInfo = new PagingInfo();
     pagingInfo.setPageSize(1);
     pagingInfo.setPageNum(1);

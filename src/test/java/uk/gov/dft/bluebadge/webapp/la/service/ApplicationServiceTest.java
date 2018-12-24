@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
 public class ApplicationServiceTest extends ApplicationTestData {
@@ -33,17 +34,31 @@ public class ApplicationServiceTest extends ApplicationTestData {
 
   @Test(expected = IllegalArgumentException.class)
   public void find_shouldThrowIllegalArgumentException_WhenNoParamIsSet() {
-    applicationService.find(
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        validPaging);
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.empty())
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.empty())
+            .pageInfo(validPaging)
+            .build();
+
+    applicationService.find(searchParams);
   }
 
   @Test
   public void find_shouldReturnEmptyList_WhenThereAreNoResults() {
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.empty())
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(validPaging)
+            .build();
+
     when(applicationsApiClientMock.find(
             Optional.empty(),
             Optional.empty(),
@@ -52,19 +67,22 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.of(ApplicationTypeCodeField.NEW),
             validPaging))
         .thenReturn(noNewApplications);
-    ApplicationSummaryResponse result =
-        applicationService.find(
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging);
+    ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(Lists.emptyList());
   }
 
   @Test
   public void find_shouldReturnResultsOrderedBySubmittedDataDescendingOrder_WhenOneParamIsSet() {
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.empty())
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(validPaging)
+            .build();
+
     when(applicationsApiClientMock.find(
             Optional.empty(),
             Optional.empty(),
@@ -73,20 +91,22 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.of(ApplicationTypeCodeField.NEW),
             validPaging))
         .thenReturn(unorderedApplications);
-    ApplicationSummaryResponse result =
-        applicationService.find(
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging);
+    ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);
   }
 
   @Test
   public void
       find_shouldReturnResultsPartiallyMatchedToNameOrderedBySubmittedDataDescendingOrder_WhenNameIsSet() {
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.of(NAME_SEARCH_BY))
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(validPaging)
+            .build();
     when(applicationsApiClientMock.find(
             Optional.of(NAME_SEARCH_BY),
             Optional.empty(),
@@ -95,14 +115,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.of(ApplicationTypeCodeField.NEW),
             validPaging))
         .thenReturn(unorderedApplications);
-    ApplicationSummaryResponse result =
-        applicationService.find(
-            Optional.of(NAME_SEARCH_BY),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging);
+    ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);
   }
 

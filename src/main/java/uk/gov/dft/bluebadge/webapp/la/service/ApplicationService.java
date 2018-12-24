@@ -11,6 +11,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
 
 @Service
@@ -24,13 +25,15 @@ public class ApplicationService {
     this.applicationsApiClient = applicationsApiClient;
   }
 
-  public ApplicationSummaryResponse find(
-      Optional<String> name,
-      Optional<String> postcode,
-      Optional<LocalDateTime> from,
-      Optional<LocalDateTime> to,
-      Optional<ApplicationTypeCodeField> applicationTypeCode,
-      PagingInfo pageInfo) {
+  public ApplicationSummaryResponse find(FindApplicationsParameters params) {
+
+    Optional<String> name = params.getName();
+    Optional<String> postcode = params.getPostcode();
+    Optional<LocalDateTime> from = params.getFrom();
+    Optional<LocalDateTime> to = params.getTo();
+    Optional<ApplicationTypeCodeField> applicationTypeCode = params.getApplicationTypeCode();
+    PagingInfo pageInfo = params.getPageInfo();
+
     log.debug(
         "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",
         name,
@@ -59,34 +62,45 @@ public class ApplicationService {
   }
 
   public ApplicationSummaryResponse findNewApplicationsByName(String name, PagingInfo pageInfo) {
-    return find(
-        Optional.of(name),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW),
-        pageInfo);
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.of(name))
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(pageInfo)
+            .build();
+    return find(searchParams);
   }
 
   public ApplicationSummaryResponse findNewApplicationsByPostCode(
       String postcode, PagingInfo pageInfo) {
-    return find(
-        Optional.empty(),
-        Optional.of(postcode),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW),
-        pageInfo);
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.empty())
+            .postcode(Optional.of(postcode))
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(pageInfo)
+            .build();
+
+    return find(searchParams);
   }
 
   public ApplicationSummaryResponse findAllNew(PagingInfo pageInfo) {
-    return find(
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.of(ApplicationTypeCodeField.NEW),
-        pageInfo);
+    FindApplicationsParameters searchParams =
+        FindApplicationsParameters.builder()
+            .name(Optional.empty())
+            .postcode(Optional.empty())
+            .from(Optional.empty())
+            .to(Optional.empty())
+            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .pageInfo(pageInfo)
+            .build();
+
+    return find(searchParams);
   }
 
   public void delete(String applicationId) {

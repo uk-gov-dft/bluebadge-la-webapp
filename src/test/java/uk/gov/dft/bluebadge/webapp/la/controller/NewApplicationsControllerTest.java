@@ -108,9 +108,6 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
   @Test
   public void findByName_shouldReturnBadRequest_whenPagingIsWrong() throws Exception {
-
-    //	when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
-
     mockMvc
         .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=500"))
         .andExpect(status().isBadRequest());
