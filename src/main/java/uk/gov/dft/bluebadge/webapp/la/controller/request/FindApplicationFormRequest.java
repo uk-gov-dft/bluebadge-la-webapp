@@ -12,7 +12,7 @@ import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 @Data
 @Builder
 public class FindApplicationFormRequest implements Serializable {
-  private Optional<String> searchBy = Optional.empty();
+  private transient Optional<String> searchBy = Optional.empty();
 
   private Optional<String> searchTerm = Optional.empty();
 
