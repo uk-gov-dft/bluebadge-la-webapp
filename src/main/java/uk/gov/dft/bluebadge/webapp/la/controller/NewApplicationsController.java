@@ -41,7 +41,7 @@ public class NewApplicationsController {
 
     ApplicationSummaryResponse result = null;
     if (formRequest.getSearchTerm().isPresent()) {
-      String searchBy = formRequest.getSearchBy().isPresent() ? formRequest.getSearchBy().get() : "";
+      String searchBy = formRequest.getSearchBy().map(w -> w).orElse("");
       switch (searchBy) {
         case "name":
           result =
