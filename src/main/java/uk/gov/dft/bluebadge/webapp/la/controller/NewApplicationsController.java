@@ -41,16 +41,17 @@ public class NewApplicationsController {
 
     ApplicationSummaryResponse result = null;
     if (formRequest.getSearchTerm().isPresent()) {
+      String searchTerm = formRequest.getSearchTerm().map(t -> t).orElse("");
       String searchBy = formRequest.getSearchBy().map(w -> w).orElse("");
       switch (searchBy) {
         case "name":
           result =
-              applicationService.findNewApplicationsByName(formRequest.getSearchTerm().get(), formRequest.getPagingInfo());
+              applicationService.findNewApplicationsByName(searchTerm, formRequest.getPagingInfo());
           break;
         case "postcode":
           result =
               applicationService.findNewApplicationsByPostCode(
-            		  formRequest.getSearchTerm().get(), formRequest.getPagingInfo());
+                  searchTerm, formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
