@@ -45,12 +45,12 @@ public class NewApplicationsController {
       switch (searchBy) {
         case "name":
           result =
-              applicationService.findNewApplicationsByName(searchBy, formRequest.getPagingInfo());
+              applicationService.findNewApplicationsByName(formRequest.getSearchTerm().get(), formRequest.getPagingInfo());
           break;
         case "postcode":
           result =
               applicationService.findNewApplicationsByPostCode(
-                  searchBy, formRequest.getPagingInfo());
+            		  formRequest.getSearchTerm().get(), formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
