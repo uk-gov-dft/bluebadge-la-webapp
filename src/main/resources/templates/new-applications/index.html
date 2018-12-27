@@ -78,7 +78,9 @@
             </tbody>
         </table>
 
-        <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}) }"></div>
+        <th:block th:if="${searchTerm == null || filteredApplicationCount > 0}">
+            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}) }"></div>
+        </th:block>
 
         <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
 
