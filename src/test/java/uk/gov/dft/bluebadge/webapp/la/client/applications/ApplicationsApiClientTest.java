@@ -11,7 +11,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.Before;
@@ -23,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
@@ -64,7 +62,12 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   @Test(expected = IllegalArgumentException.class)
   public void find_shouldThrowIllegalArgumentException_WhenNoParamIsSet() {
     client.find(
-        Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        validPaging);
   }
 
   @Test
@@ -78,19 +81,24 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
         .expect(
             once(),
             requestTo(
-                APPLICATIONS_ENDPOINT + "?applicationTypeCode=" + FIND_PARAM_APPLICATION_TYPE))
+                APPLICATIONS_ENDPOINT
+                    + "?applicationTypeCode="
+                    + FIND_PARAM_APPLICATION_TYPE
+                    + "&pageSize=50"
+                    + "&pageNum=1"))
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess(applicationResponseBody, MediaType.APPLICATION_JSON));
 
-    List<ApplicationSummary> results =
+    ApplicationSummaryResponse result =
         client.find(
             Optional.empty(),
             Optional.empty(),
             Optional.empty(),
             Optional.empty(),
-            Optional.of(FIND_PARAM_APPLICATION_TYPE));
+            Optional.of(FIND_PARAM_APPLICATION_TYPE),
+            validPaging);
 
-    assertThat(results).containsExactlyElementsOf(APPLICATION_SUMMARIES);
+    assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
 
   @Test
@@ -113,19 +121,22 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
                     + "&to="
                     + FIND_PARAM_TO_API
                     + "&applicationTypeCode="
-                    + FIND_PARAM_APPLICATION_TYPE))
+                    + FIND_PARAM_APPLICATION_TYPE
+                    + "&pageSize=50"
+                    + "&pageNum=1"))
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess(applicationResponseBody, MediaType.APPLICATION_JSON));
 
-    List<ApplicationSummary> results =
+    ApplicationSummaryResponse result =
         client.find(
             Optional.of(FIND_PARAM_NAME),
             Optional.of(FIND_PARAM_POSTCODE),
             Optional.of(FIND_PARAM_FROM),
             Optional.of(FIND_PARAM_TO),
-            Optional.of(FIND_PARAM_APPLICATION_TYPE));
+            Optional.of(FIND_PARAM_APPLICATION_TYPE),
+            validPaging);
 
-    assertThat(results).containsExactlyElementsOf(APPLICATION_SUMMARIES);
+    assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
 
   @Test
@@ -136,7 +147,13 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     try {
       mockServer
           .expect(
-              once(), requestTo(APPLICATIONS_ENDPOINT + "?postcode=" + FIND_PARAM_POSTCODE_WRONG))
+              once(),
+              requestTo(
+                  APPLICATIONS_ENDPOINT
+                      + "?postcode="
+                      + FIND_PARAM_POSTCODE_WRONG
+                      + "&pageSize=50"
+                      + "&pageNum=1"))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 
       client.find(
@@ -144,7 +161,8 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
           Optional.of(FIND_PARAM_POSTCODE_WRONG),
           Optional.empty(),
           Optional.empty(),
-          Optional.empty());
+          Optional.empty(),
+          validPaging);
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }

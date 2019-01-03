@@ -134,10 +134,12 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
+                            <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
+                                <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
 
@@ -145,10 +147,12 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfAddress}"/>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
+                            <ul th:if="${app.proofOfAddressArtifacts}" class="govuk-list">
+                                <li th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
 
@@ -156,9 +160,11 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact: ${app.badgePhotoArtifacts}" th:remove="tag">
-                                <img th:src="${artifact.link}" alt=""/><br/>
-                            </span>
+                            <ul th:if="${app.badgePhotoArtifacts}" class="govuk-list">
+                                <li th:each="artifact: ${app.badgePhotoArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank" class="govuk-link"><img th:src="${artifact.link}" alt=""/></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
                 </div>
@@ -282,10 +288,12 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
+                            <ul th:if="${app.proofOfEligibilityArtifacts}" class="govuk-list">
+                                <li th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
                 </div>

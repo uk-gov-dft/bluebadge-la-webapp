@@ -71,6 +71,8 @@ spring:
       namespace: spring:session:admin
   redis:
     host: localhost
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: 8080
