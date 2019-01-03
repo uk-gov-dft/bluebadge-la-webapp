@@ -15,7 +15,8 @@ public class Artifact {
     PROOF_ELIG,
     PROOF_ADD,
     PROOF_ID,
-    PHOTO
+    PHOTO,
+    SUPPORT_DOCS
   }
 
   private TypeEnum type;
