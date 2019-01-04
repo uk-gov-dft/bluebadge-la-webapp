@@ -13,10 +13,10 @@ import org.springframework.validation.annotation.Validated;
 public class Artifact {
   public enum TypeEnum {
     PROOF_ELIG,
+    SUPPORT_DOCS,
     PROOF_ADD,
     PROOF_ID,
-    PHOTO,
-    SUPPORT_DOCS
+    PHOTO
   }
 
   private TypeEnum type;

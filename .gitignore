@@ -15,7 +15,8 @@
 *.iws
 *.iml
 *.ipr
-yarn.lock
+*.sublime-project
+*.sublime-workspace
 
 ### NetBeans ###
 /nbproject/private/
