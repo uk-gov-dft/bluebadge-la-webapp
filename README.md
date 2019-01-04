@@ -200,8 +200,15 @@ $ cd /Users/YOUR_USER/YOUR_DIR/valtech-dft-workspace
 $ git pull
 $ vagrant reload (Sometimes you may need to do that if there are changes in dev-env)
 $ vagrant up
+$ ssh-add -k
 $ vagrant ssh 
-$Vagrant cd /home/vagrant/valtech-dft-workspace/solution/dev-env
+$Vagrant cd  /home/vagrant
+$Vagrant git clone git@github.com:uk-gov-dft/valtech-dft-workspace.git
+$Vagrant sudo apt install -y ansible
+$Vagrant sudo apt update
+$Vagrant cd  /home/vagrant/valtech-dft-workspace/
+$Vagrant make build
+$Vagrant cd /home/vagrant/solution/dev-env
 $Vagrant git pull
 $Vagrant git checkout develop
 $Vagrant vi ./env-feature.sh

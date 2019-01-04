@@ -34,6 +34,11 @@
 					<a sec:authorize-url="GET /manage-users" data-uipath="sidebar-nav.manage-users"
 						href="/manage-users"
 						th:class="${currentPage == 'manage-users'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.manageUsers}"/>
+
+					<a sec:authorize-url="GET /manage-local-authorities" data-uipath="sidebar-nav.manage-local-authorities"
+					   href="/manage-local-authorities"
+					   th:class="${currentPage == 'manage-local-authorities'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.manageLocalAuthorities}"/>
+
 				</nav>
 
 			</div>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{manageLocalAuthorityPage.title} + ' ' + #{common.title.suffix}"></title>
+</head>
+<body>
+
+    <main layout:fragment="content">
+
+        <section class="dft-content-container--full">
+
+            <h1 class="govuk-heading-l" data-uipath="title">
+                <span th:text="#{manageLocalAuthorityPage.title}"/>
+                <span class="dft-badge dft-badge--heading" th:text="${localAuthorities.size()}" />
+            </h1>
+
+            <table class="govuk-table" th:if="${localAuthorities != null && localAuthorities.size() > 0}">
+                <thead class="govuk-table__head" data-uipath="table.head">
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="col">Name</th>
+                    </tr>
+                </thead>
+
+                <tbody class="govuk-table__body" data-uipath="table.body">
+                    <tr class="govuk-table__row" th:each="localAuthority : ${localAuthorities}">
+                        <td class="govuk-table__cell" th:text="${localAuthority.description}" />
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+    </main>
+
+</body>
+</html>

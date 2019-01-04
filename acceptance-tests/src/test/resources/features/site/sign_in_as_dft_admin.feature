@@ -15,7 +15,7 @@ Feature: Dft BlueBadge LA Sign In Page - User with DFT admin role
     And I should see username as "Dr. Pamela Lillian Isley"
     And I should see signout link
 
-  Scenario: Verify Dft Admin sees only manage users link in the nav bar
+  Scenario: Verify Dft Admin sees only manage users link and manage local authorities in the nav bar
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     And I type username "dft_admin@dft.gov.uk" and  ***REMOVED***
@@ -25,4 +25,6 @@ Feature: Dft BlueBadge LA Sign In Page - User with DFT admin role
     And I should not see the left navigation menu item "Order a badge"
     And I should not see the left navigation menu item "Find a badge"
     And I should see the left navigation menu item "Manage users"
+    And I should see the left navigation menu item "Manage local authorities"
+
 

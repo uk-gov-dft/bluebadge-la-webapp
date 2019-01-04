@@ -358,6 +358,9 @@ public class SiteSteps extends AbstractSpringSteps {
       case "New applications":
         uiPath = "sidebar-nav.new-applications";
         break;
+      case "Manage local authorities":
+        uiPath = "sidebar-nav.manage-local-authorities";
+        break;
       default:
         uiPath = "sidebar-nav";
         break;

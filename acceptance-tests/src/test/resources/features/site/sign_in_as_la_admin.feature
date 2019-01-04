@@ -26,4 +26,6 @@ Feature: Dft BlueBadge LA Sign In Page - User with LA admin role
     And I should see the left navigation menu item "Order a badge"
     And I should see the left navigation menu item "Find a badge"
     And I should see the left navigation menu item "Manage users"
+    And I should not see the left navigation menu item "Manage local authorities"
+
 
