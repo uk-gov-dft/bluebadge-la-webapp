@@ -383,8 +383,10 @@ public class ReferenceDataServiceTest {
 
   @Test
   public void retrieveBadgeReferenceDataList() {
-    List<ReferenceData> expectedResult = Lists.newArrayList(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
-    List<ReferenceData> result = referenceDataService.retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
+    List<ReferenceData> expectedResult =
+        Lists.newArrayList(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
+    List<ReferenceData> result =
+        referenceDataService.retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
     assertThat(result).isEqualTo(expectedResult);
   }
 }
