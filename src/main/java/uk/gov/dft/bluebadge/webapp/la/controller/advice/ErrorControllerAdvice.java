@@ -6,13 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import uk.gov.dft.bluebadge.common.api.CommonResponseEntityExceptionHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ClientApiException;
 import uk.gov.dft.bluebadge.webapp.la.controller.ErrorHandlerController;
 
 @Slf4j
 @ControllerAdvice
-public class ErrorControllerAdvice extends CommonResponseEntityExceptionHandler {
+public class ErrorControllerAdvice {
 
   private final ObjectMapper objectMapper;
   private static final String REDIRECT_URL = "redirect:" + ErrorHandlerController.ERROR_500_URL;
