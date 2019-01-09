@@ -39,6 +39,10 @@ public class Application {
     return getArtifactsByType(Artifact.TypeEnum.PHOTO);
   }
 
+  public List<Artifact> getSupportDocsArtifacts() {
+    return getArtifactsByType(Artifact.TypeEnum.SUPPORT_DOCS);
+  }
+
   public List<Artifact> getArtifactsByType(Artifact.TypeEnum artifactType) {
     if (null == artifacts) {
       return Collections.emptyList();

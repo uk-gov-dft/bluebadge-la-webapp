@@ -134,10 +134,12 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
+                            <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
+                                <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
 
@@ -145,10 +147,12 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfAddress}"/>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
+                            <ul th:if="${app.proofOfAddressArtifacts}" class="govuk-list">
+                                <li th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
 
@@ -156,9 +160,11 @@
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
                         <dd class="dft-data-list__dd">
-                            <span th:each="artifact: ${app.badgePhotoArtifacts}" th:remove="tag">
-                                <img th:src="${artifact.link}" alt=""/><br/>
-                            </span>
+                            <ul th:if="${app.badgePhotoArtifacts}" class="govuk-list">
+                                <li th:each="artifact: ${app.badgePhotoArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank" class="govuk-link"><img th:src="${artifact.link}" th:alt="#{application.details.artifacts.label.badgePhotoOf} + ' ' + ${app.party.person.badgeHolderName}"/></a><br/>
+                                </li>
+                            </ul>
                         </dd>
                     </div>
                 </div>
@@ -241,6 +247,7 @@
                             </ul>
                         </dd>
                     </div>
+
                     <div class="dft-data-list__item" th:if="${walking.medications}">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.medications}"/>
@@ -277,16 +284,6 @@
                         <dd class="dft-data-list__dd" th:unless="${arms.isAdaptedVehicle}"
                             data-uipath="eligibility.arms.isnotadaptedvehicle"
                             th:text="#{application.details.isNotAdaptedVehicle}"/>
-                    </div>
-                    <div class="dft-data-list__item" th:if="${!app.proofOfEligibilityArtifacts.empty}">
-                        <dt class="dft-data-list__dt"
-                            th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle}"/>
-                        <dd class="dft-data-list__dd">
-                            <span th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}" th:remove="tag">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfEligibility.vehicle} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </span>
-                        </dd>
                     </div>
                 </div>
 
@@ -328,6 +325,19 @@
                     </dd>
                 </div>
 
+                <div class="dft-data-list__item" th:if="${!app.proofOfEligibilityArtifacts.empty}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.artifacts.label.proofOfEligibility.benefit}"/>
+                    <dd class="dft-data-list__dd">
+                        <ul th:if="${app.proofOfEligibilityArtifacts}" class="govuk-list">
+                            <li th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.artifacts.label.proofOfEligibility.benefit} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </li>
+                        </ul>
+                    </dd>
+                </div>
+
                 <!-- COMMON ELIGIBILITY FIELDS -->
                 <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
                     <dt class="dft-data-list__dt"
@@ -336,6 +346,18 @@
                         th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
                         <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">
                             <li th:each="condition: ${conditions}" th:text="${condition}">
+                        </ul>
+                    </dd>
+                </div>
+                <div class="dft-data-list__item" th:if="${!app.supportDocsArtifacts.empty}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.eligibility.walkingDifficulty.label.supportDocs}"/>
+                    <dd class="dft-data-list__dd">
+                        <ul th:if="${app.supportDocsArtifacts}" class="govuk-list">
+                            <li th:each="artifact, iterStat: ${app.supportDocsArtifacts}">
+                                <a th:href="${artifact.link}" target="_blank"
+                                   th:text="#{application.details.eligibility.walkingDifficulty.label.supportDoc} + ' ' + ${iterStat.index + 1}"></a><br/>
+                            </li>
                         </ul>
                     </dd>
                 </div>

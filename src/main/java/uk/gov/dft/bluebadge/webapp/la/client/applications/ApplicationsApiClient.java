@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
@@ -31,12 +30,13 @@ public class ApplicationsApiClient extends BaseApiClient {
     this.restTemplate = restTemplate;
   }
 
-  public List<ApplicationSummary> find(
+  public ApplicationSummaryResponse find(
       Optional<String> name,
       Optional<String> postcode,
       Optional<LocalDateTime> from,
       Optional<LocalDateTime> to,
-      Optional<ApplicationTypeCodeField> applicationTypeCode) {
+      Optional<ApplicationTypeCodeField> applicationTypeCode,
+      PagingInfo pageInfo) {
     log.debug(
         "find applications with name=[{}], postcode=[{}], from=[{}], to=[{}], applicationTypeCode=[{}]",
         name,
@@ -50,7 +50,7 @@ public class ApplicationsApiClient extends BaseApiClient {
             || from.isPresent()
             || to.isPresent()
             || applicationTypeCode.isPresent(),
-        "Either name or postcode or from or to or applicationTypeCode should be non empty");
+        "Either name or postcode or from or to or applicationTypeCode or pagingInfo should be non empty");
 
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT);
@@ -60,8 +60,8 @@ public class ApplicationsApiClient extends BaseApiClient {
     to.ifPresent(value -> builder.queryParam("to", value));
     applicationTypeCode.ifPresent(value -> builder.queryParam("applicationTypeCode", value));
 
-    // Hard code the page size to 200.
-    builder.queryParam("pageSize", 200);
+    builder.queryParam("pageSize", pageInfo.getPageSize());
+    builder.queryParam("pageNum", pageInfo.getPageNum());
 
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     try {
@@ -72,7 +72,7 @@ public class ApplicationsApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
 
-    return response.getData();
+    return response;
   }
 
   public Application retrieve(String applicationId) {

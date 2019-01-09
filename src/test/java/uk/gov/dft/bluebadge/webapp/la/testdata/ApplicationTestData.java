@@ -5,9 +5,12 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
@@ -63,6 +66,7 @@ public class ApplicationTestData {
   protected static final List<ApplicationSummary> ORDERED_APPLICATION_SUMMARIES =
       Lists.newArrayList(
           APPLICATION_SUMMARY_3, APPLICATION_SUMMARY_2, APPLICATION_SUMMARY_PERSON_1);
+
   protected static final List<ApplicationSummary> APPLICATION_SUMMARIES =
       UNORDERED_APPLICATION_SUMMARIES;
 
@@ -190,4 +194,70 @@ public class ApplicationTestData {
 
   public static final List<ApplicationSummaryViewModel> applicationsForSearchByNameView =
       Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW, APPLICATION_LITTLEJOHN_VIEW);
+
+  public static final PagingInfo validPaging = validPaging();
+
+  public static final PagingInfo invalidPaging = invalidPaging();
+
+  public static final ApplicationSummaryResponse allNewApplications = allNewApplications();
+
+  public static final ApplicationSummaryResponse noNewApplications = noNewApplications();
+
+  public static final ApplicationSummaryResponse newApplicationsByName = newApplicationsByName();
+
+  public static final ApplicationSummaryResponse unorderedApplications = unorderedApplications();
+
+  private static ApplicationSummaryResponse unorderedApplications() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(unorderedApplicationsForSearchByName);
+    validPaging.setTotal(3L);
+    response.setPagingInfo(validPaging);
+
+    return response;
+  }
+
+  private static ApplicationSummaryResponse allNewApplications() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(Lists.newArrayList(APPLICATION_SUMMARY_PERSON_1));
+    validPaging.setTotal(1L);
+    response.setPagingInfo(validPaging);
+
+    return response;
+  }
+
+  private static ApplicationSummaryResponse noNewApplications() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(Collections.emptyList());
+    validPaging.setTotal(0L);
+    response.setPagingInfo(validPaging);
+
+    return response;
+  }
+
+  private static ApplicationSummaryResponse newApplicationsByName() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(applicationsForSearchByName);
+    validPaging.setTotal(3L);
+    response.setPagingInfo(validPaging);
+
+    return response;
+  }
+
+  private static PagingInfo validPaging() {
+    PagingInfo paging = new PagingInfo();
+    paging.setTotal(500L);
+    paging.setPageSize(50);
+    paging.setPageNum(1);
+
+    return paging;
+  }
+
+  private static PagingInfo invalidPaging() {
+    PagingInfo paging = new PagingInfo();
+    paging.setTotal(500L);
+    paging.setPageSize(500);
+    paging.setPageNum(1);
+
+    return paging;
+  }
 }

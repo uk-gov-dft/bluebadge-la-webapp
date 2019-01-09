@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
@@ -45,33 +47,50 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
-    when(applicationServiceMock.findAllNew())
-        .thenReturn(ApplicationTestData.APPLICATION_SUMMARIES_ONE_ITEM);
+
+    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    mockMvc
+        .perform(get("/new-applications?pageNum=1&pageSize=50"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("new-applications/index"))
+        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
+        .andExpect(model().attributeExists("pagingInfo"));
+  }
+
+  @Test
+  public void show_shouldDisplayApplications_whenThereAreApplications_withDefaultPaging()
+      throws Exception {
+
+    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
     mockMvc
         .perform(get("/new-applications"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM));
+        .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
+        .andExpect(model().attributeExists("pagingInfo"));
   }
 
   @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
-    when(applicationServiceMock.findNewApplicationsByName("anyone"))
-        .thenReturn(Collections.emptyList());
+    when(applicationServiceMock.findNewApplicationsByName(any(), any()))
+        .thenReturn(noNewApplications);
+    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
 
     mockMvc
-        .perform(get("/new-applications?searchBy=name&searchTerm=anyone"))
+        .perform(get("/new-applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
-        .andExpect(model().attribute("applications", Collections.emptyList()));
+        .andExpect(model().attribute("applications", Collections.emptyList()))
+        .andExpect(model().attributeExists("pagingInfo"));
   }
 
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-    when(applicationServiceMock.findNewApplicationsByName("john"))
-        .thenReturn(applicationsForSearchByName);
+    when(applicationServiceMock.findNewApplicationsByName(any(), any()))
+        .thenReturn(newApplicationsByName);
+    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
         .thenReturn(applicationsForSearchByNameView.get(0));
@@ -81,9 +100,16 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .thenReturn(applicationsForSearchByNameView.get(2));
 
     mockMvc
-        .perform(get("/new-applications?searchBy=name&searchTerm=john"))
+        .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("new-applications/index"))
         .andExpect(model().attribute("applications", applicationsForSearchByNameView));
+  }
+
+  @Test
+  public void findByName_shouldReturnBadRequest_whenPagingIsWrong() throws Exception {
+    mockMvc
+        .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=500"))
+        .andExpect(status().isBadRequest());
   }
 }
