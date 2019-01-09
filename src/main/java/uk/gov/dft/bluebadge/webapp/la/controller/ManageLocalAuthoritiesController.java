@@ -18,12 +18,13 @@ public class ManageLocalAuthoritiesController {
 
   public static final String TEMPLATE = "manage-local-authorities";
 
-  private static Comparator<ReferenceData> referenceDataDescriptionAlphabeticalAscendingComparator = new Comparator<ReferenceData>() {
-    @Override
-    public int compare(ReferenceData rd1, ReferenceData rd2) {
-      return rd1.getDescription().compareTo(rd2.getDescription());
-    }
-  };
+  private static Comparator<ReferenceData> referenceDataDescriptionAlphabeticalAscendingComparator =
+      new Comparator<ReferenceData>() {
+        @Override
+        public int compare(ReferenceData rd1, ReferenceData rd2) {
+          return rd1.getDescription().compareTo(rd2.getDescription());
+        }
+      };
 
   private ReferenceDataService referenceDataService;
 
