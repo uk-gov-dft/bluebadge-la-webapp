@@ -11,6 +11,7 @@ import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 
 @Data
 @Builder
+@SuppressWarnings("squid:S1948")
 public class FindApplicationFormRequest implements Serializable {
   private transient Optional<String> searchBy = Optional.empty();
 
