@@ -121,7 +121,7 @@ public class ReferenceDataService {
   }
 
   // BADGE
-  private List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
+  public List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }

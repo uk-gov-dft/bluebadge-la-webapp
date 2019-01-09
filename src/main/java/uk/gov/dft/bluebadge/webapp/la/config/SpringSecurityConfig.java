@@ -96,6 +96,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .hasAuthority(Permissions.FIND_BADGES.getPermissionName())
         .antMatchers("/manage-users", "/manage-users/**")
         .hasAuthority(Permissions.FIND_USERS.getPermissionName())
+        .antMatchers("/manage-local-authorities", "/manage-local-authorities/**")
+        .hasAuthority(Permissions.MANAGE_LOCAL_AUTHORITIES.getPermissionName())
         .anyRequest()
         .fullyAuthenticated()
         .and()
