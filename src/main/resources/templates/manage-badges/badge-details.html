@@ -44,7 +44,7 @@
 
             <details class="govuk-details" sec:authorize="hasAuthority('PERM_DELETE_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)">
                 <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text" th:text="#{badgeDetails.label.delete}"></span>
+                    <span class="govuk-details__summary-text" data-uipath="deleteBadgeCTA" th:text="#{badgeDetails.label.delete}"></span>
                 </summary>
 
                 <div class="govuk-details__text">
