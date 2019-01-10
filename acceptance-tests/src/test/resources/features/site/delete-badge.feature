@@ -1,4 +1,4 @@
-@DeleteBadge
+@DeleteBadge @UsersRolesAndPermissionsScripts
 Feature: Dft BlueBadge LA delete a Badge
 
   As a Blue Badge team member
