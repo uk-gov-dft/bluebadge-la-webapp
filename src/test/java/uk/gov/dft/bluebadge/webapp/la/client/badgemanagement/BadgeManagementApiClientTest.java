@@ -227,4 +227,46 @@ public class BadgeManagementApiClientTest {
 
     client.cancelBadge(BADGE_NUMBER, CANCEL_REASON_CODE);
   }
+
+  @Test
+  public void deleteBadge() {
+    String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER;
+
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.DELETE))
+        .andRespond(withSuccess());
+
+    client.deleteBadge(BADGE_NUMBER);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteBadge_exceptionIfBadgeNumberNotSet() {
+    client.deleteBadge(null);
+  }
+
+  @Test
+  public void deleteBadge_ShouldThrowException_When404() throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+    mockServer
+        .expect(once(), requestTo(BADGES_ENDPOINT + "/" + BADGE_NUMBER))
+        .andExpect(method(HttpMethod.DELETE))
+        .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+
+    try {
+      client.deleteBadge(BADGE_NUMBER);
+    } catch (BadRequestException ex) {
+      assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
+    }
+  }
+
+  @Test(expected = HttpServerErrorException.class)
+  public void deleteBadge_ShouldThrowException_When500() {
+    mockServer
+        .expect(once(), requestTo(BADGES_ENDPOINT + "/" + BADGE_NUMBER))
+        .andExpect(method(HttpMethod.DELETE))
+        .andRespond(withServerError());
+    client.deleteBadge(BADGE_NUMBER);
+  }
 }

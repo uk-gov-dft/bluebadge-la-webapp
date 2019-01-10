@@ -186,4 +186,15 @@ public class BadgeServiceTest {
         .cancelBadge(any(), any());
     badgeService.cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
   }
+
+  @Test
+  public void deleteBadge_shouldCallApiClient() {
+    badgeService.deleteBadge(BADGE_NUMBER);
+    verify(badgeManagementApiClientMock).deleteBadge(BADGE_NUMBER);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteBadge_exceptionWhenBadgeNumberNotSet() {
+    badgeService.deleteBadge(null);
+  }
 }
