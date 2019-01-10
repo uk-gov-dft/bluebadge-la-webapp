@@ -15,7 +15,6 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToBadgeDetailsViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.BadgeDetailsViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
@@ -61,16 +60,7 @@ public class BadgeDetailsController {
   @PreAuthorize("hasAuthority('PERM_DELETE_BADGE')")
   @DeleteMapping(URL_DELETE_BADGE)
   public String deleteUser(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
-    try {
-      badgeService.deleteBadge(badgeNumber);
-      return REDIRECT_URL_MANAGE_BADGES;
-    } catch (Exception ex) {
-      TemplateModelUtils.addCustomError(
-          "error.deleteUser.generalError.title",
-          "error.deleteUser.generalError.description",
-          model);
-      model.addAttribute(PARAM_BADGE_NUMBER, badgeNumber);
-      return "redirect:" + URL;
-    }
+    badgeService.deleteBadge(badgeNumber);
+    return REDIRECT_URL_MANAGE_BADGES;
   }
 }
