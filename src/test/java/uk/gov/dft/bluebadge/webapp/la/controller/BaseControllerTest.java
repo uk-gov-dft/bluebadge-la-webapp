@@ -10,6 +10,7 @@ abstract class BaseControllerTest {
   static final String URL_REQUEST_PASSWORD_RESET = "/manage-users/request***REMOVED***-reset/";
 
   static final String URL_BADGE_DETAILS = "/manage-badges/";
+  static final String URL_DELETE_BADGE = "/manage-badges/delete-badge/";
 
   static final String MODEL_FORM_REQUEST = "formRequest";
 

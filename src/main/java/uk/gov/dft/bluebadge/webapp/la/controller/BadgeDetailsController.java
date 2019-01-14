@@ -1,10 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static uk.gov.dft.bluebadge.webapp.la.controller.FindBadgeController.URL_FIND_BADGE;
+
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -18,6 +22,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 @Controller
 public class BadgeDetailsController {
   public static final String URL = "/manage-badges/{badgeNumber}";
+  private static final String URL_DELETE_BADGE = "/manage-badges/delete-badge/{badgeNumber}";
+  public static final String REDIRECT_URL_MANAGE_BADGES = "redirect:" + URL_FIND_BADGE;
 
   private static final String TEMPLATE = "manage-badges/badge-details";
 
@@ -49,5 +55,12 @@ public class BadgeDetailsController {
     model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
     model.addAttribute("badge", viewModel);
     return TEMPLATE;
+  }
+
+  @PreAuthorize("hasAuthority('PERM_DELETE_BADGE')")
+  @DeleteMapping(URL_DELETE_BADGE)
+  public String deleteUser(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
+    badgeService.deleteBadge(badgeNumber);
+    return REDIRECT_URL_MANAGE_BADGES;
   }
 }

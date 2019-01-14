@@ -4,8 +4,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -92,5 +94,15 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
     controller.show(BADGE_NUMBER, modelMock);
 
     verify(badgeToBadgeDetailsViewModelMock, times(0)).convert(any());
+  }
+
+  @Test
+  public void deleteBadge_shouldRedirectToFindBadges() throws Exception {
+    mockMvc
+        .perform(delete(URL_DELETE_BADGE + BADGE_NUMBER))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/manage-badges"));
+
+    verify(badgeServiceMock, times(1)).deleteBadge(BADGE_NUMBER);
   }
 }

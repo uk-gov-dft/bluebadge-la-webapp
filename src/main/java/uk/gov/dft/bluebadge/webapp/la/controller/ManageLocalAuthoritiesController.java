@@ -31,7 +31,7 @@ public class ManageLocalAuthoritiesController {
         referenceDataService
             .retrieveBadgeReferenceDataList(RefDataGroupEnum.LA)
             .stream()
-          .sorted((rd1, rd2) -> rd1.getDescription().compareTo(rd2.getDescription()))
+            .sorted(Comparator.comparing(ReferenceData::getDescription))
             .collect(Collectors.toList());
     model.addAttribute("localAuthorities", allLocalAuthorities);
     return TEMPLATE;
