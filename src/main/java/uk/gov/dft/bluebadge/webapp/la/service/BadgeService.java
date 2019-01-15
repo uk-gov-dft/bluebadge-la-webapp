@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.service;
 import com.google.common.collect.Lists;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -85,5 +86,15 @@ public class BadgeService {
   public void deleteBadge(String badgeNumber) {
     Assert.notNull(badgeNumber, "Badge number should not be null");
     badgeManagementApiClient.deleteBadge(badgeNumber);
+  }
+
+  public String replaceBadge(
+      String badgeNumber, String reason, String deliverTo, String deliveryOption) {
+    Objects.requireNonNull(badgeNumber, "Badge number should not be null");
+    Objects.requireNonNull(reason, "Replacement reason should not be null");
+    Objects.requireNonNull(deliverTo, "Deliver to should not be null");
+    Objects.requireNonNull(deliveryOption, "Delivery option should not be null");
+
+    return badgeManagementApiClient.replaceBadge(badgeNumber, reason, deliverTo, deliveryOption);
   }
 }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{replaceBadge.html.title} + ' ' + ${badgeNumber} + ' ' + #{common.title.suffix}"></title>
+</head>
+
+<body>
+
+<div layout:fragment="headline">
+    <div class="dft-headline-wrapper">
+        <a th:href="'/manage-badges/'+${badgeNumber}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+           th:text="#{common.button.back}"/>
+    </div>
+</div>
+
+<main layout:fragment="content">
+
+    <section class="dft-content-container" th:with="noValue=#{value.not.provided}">
+
+        <h1 class="govuk-heading-l" data-uipath="title">
+            <span class="govuk-caption-m" th:text="${badgeNumber}"></span>
+            <span th:text="#{replaceBadge.title}" th:remove="tag"></span>
+        </h1>
+
+        <div class="dft-width-two-thirds">
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
+        </div>
+
+        <form th:action="@{/manage-badges/replace-badge/}+${badgeNumber}" th:object="${formRequest}" method="post" novalidate>
+            <span class="govuk-label" th:text="#{replaceBadge.warning}" th:remove="tag"></span>
+
+            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
+
+            <div th:class="${#fields.hasErrors('deliverTo')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
+                <fieldset class="govuk-fieldset" th:id="deliverTo">
+
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-heading-s" data-uipath="deliverTo.label"
+                            th:text="#{orderbadge.processing.label.deliverTo}"></h2>
+                    </legend>
+
+                    <span class="govuk-error-message"
+                          data-uipath="deliverTo.error"
+                          id="deliverTo-hint"
+                          th:if="${#fields.hasErrors('deliverTo')}"
+                          th:errors="*{__deliverTo__}"></span>
+                    <div class="govuk-radios  govuk-radios--conditional" data-module="radios">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="deliverTo_home"
+                                   name="deliverTo"
+                                   type="radio"
+                                   value="HOME"
+                                   th:field="*{deliverTo}"
+                                   data-uipath="deliverTo_home"
+                                   data-aria-controls="conditional-deliverTo_home"/>
+
+                            <label class="govuk-label govuk-radios__label" for="deliverTo_home"
+                                   th:text="#{orderbadge.processing.label.deliverto.home}"></label>
+                        </div>
+
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                             id="conditional-deliverTo_home">
+                            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-internationalized(#{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"></div>
+                        </div>
+
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="deliverTo_council"
+                                   name="deliverTo"
+                                   type="radio"
+                                   value="COUNCIL"
+                                   th:field="*{deliverTo}"
+                                   data-uipath="deliverTo_council"
+                                   data-aria-controls="conditional-deliverTo_council"/>
+
+                            <label class="govuk-label govuk-radios__label" for="deliverTo_council"
+                                   th:text="${localAuthorityName}"></label>
+                        </div>
+
+                        <div class="govuk-label govuk-radios__conditional govuk-radios__conditional--hidden"
+                             id="conditional-deliverTo_council">
+                            <span th:text="#{orderbadge.processing.label.sent.to.council} + ' ' + ${localAuthorityName} + '.'"></span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <input th:value="#{replaceBadge.button.label}" type="submit" data-uipath="replace.badge.button" class="govuk-button">
+        </form>
+
+    </section>
+
+</main>
+</body>
+
+</html>

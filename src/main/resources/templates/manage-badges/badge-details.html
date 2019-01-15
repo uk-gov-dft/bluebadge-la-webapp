@@ -22,13 +22,27 @@
         <section class="dft-content-container--full" th:with="noValue=#{value.not.provided}">
 
             <header class="dft-content-heading dft-content-heading--with-cta">
-                <h1 class="govuk-heading-l" data-uipath="title">
-                    <span class="govuk-caption-m" th:text="${badge.badgeNumber}"></span>
-                    <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
-                </h1>
-
-                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${canBeCancelled}">
-                    <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19">Cancel badge</a>
+                <div class="govuk-grid-row">
+	                <div class="govuk-grid-column govuk-grid-column-two-thirds">
+		                <h1 class="govuk-heading-l" data-uipath="title">
+		                    <span class="govuk-caption-m" th:text="${badge.badgeNumber}"></span>
+		                    <span th:remove="tag" th:text="#{viewBadge.html.title}"></span>
+		                </h1>
+	                </div>
+	                <div class="govuk-grid-column govuk-grid-column-one-third">
+		                	<ul class="govuk-list right-aligned">
+						    	<li>
+				                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${canBeCancelled}" th:remove="tag">
+				                    <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19" th:text="#{badgeDetails.label.cancel}"></a>
+				                </div>
+						    	</li>
+						    	<li>
+				                <div sec:authorize="hasAuthority('PERM_REPLACE_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${canBeReplaced}" th:remove="tag">
+				                    <a th:href="'/manage-badges/replace-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19" th:text="#{badgeDetails.label.replace}" data-uipath="replaceBadgeCTA"></a>
+				                </div>
+						    	</li>
+					    </ul>
+	                </div>
                 </div>
             </header>
 
