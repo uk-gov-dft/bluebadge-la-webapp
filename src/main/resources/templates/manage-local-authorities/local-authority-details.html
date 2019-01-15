@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        layout:decorate="~{layouts/master.html}">
+<head>
+    <title th:text="#{localAuthorityDetailPage.title} + ' ' +  #{common.title.suffix}"></title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--two-thirds">
+            <h1 class="govuk-heading-l" data-uipath="title" th:text="#{localAuthorityDetailPage.title}"/>
+
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" ></div>
+        </div>
+    </div>
+
+    <div class="dft-grid-row">
+        <div class="dft-grid-col dft-grid-col--half">
+
+            <form th:action="@{/manage-local-authorities/local-authority-details/{shortCode}(shortCode=${shortCode})}" th:object="${formRequest}" method="post" novalidate>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.differentServiceSignpostUrl.name}, 'differentServiceSignpostUrl', null, 'text') }"></div>
+
+                <input th:value="#{localAuthorityDetailPage.updateDetails.button}" type="submit" data-uipath="updateDetails" class="govuk-button">
+            </form>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

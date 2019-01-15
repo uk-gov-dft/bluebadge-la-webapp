@@ -80,9 +80,12 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
   @ModelAttribute("applicantTypeOptions")
   public List<ReferenceData> applicantTypeOptions() {
     ReferenceData person =
-        new ReferenceData().description("A person").shortCode(APPLICANT_TYPE_PERSON);
+        ReferenceData.builder().description("A person").shortCode(APPLICANT_TYPE_PERSON).build();
     ReferenceData organisation =
-        new ReferenceData().description("An organisation").shortCode(APPLICANT_TYPE_ORGANISATION);
+        ReferenceData.builder()
+            .description("An organisation")
+            .shortCode(APPLICANT_TYPE_ORGANISATION)
+            .build();
     return Lists.newArrayList(person, organisation);
   }
 }

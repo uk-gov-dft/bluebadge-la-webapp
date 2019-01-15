@@ -26,7 +26,9 @@
 
                 <tbody class="govuk-table__body" data-uipath="table.body">
                     <tr class="govuk-table__row" th:each="localAuthority : ${localAuthorities}">
-                        <td class="govuk-table__cell" th:text="${localAuthority.description}" />
+                        <td class="govuk-table__cell">
+                            <a href="update.html" th:href="@{/manage-local-authorities/local-authority-details/{shortCode}(shortCode=${localAuthority.shortCode})}" th:text="${localAuthority.description}" />
+                        </td>
                     </tr>
                 </tbody>
             </table>

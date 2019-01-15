@@ -20,12 +20,6 @@ public class ErrorControllerAdvice {
     this.objectMapper = objectMapper;
   }
 
-  @ExceptionHandler(Exception.class)
-  public String handleException(Exception ex, HttpServletRequest req) {
-    log.error("Request: {} raised {}.", req.getRequestURL(), ex.toString(), ex);
-    return REDIRECT_URL;
-  }
-
   @ExceptionHandler(ClientApiException.class)
   public String handleClientApiException(ClientApiException ex, HttpServletRequest req) {
 
@@ -39,6 +33,12 @@ public class ErrorControllerAdvice {
       log.warn("Failed to convert common response from exception.", e);
     }
 
+    return REDIRECT_URL;
+  }
+
+  @ExceptionHandler(Exception.class)
+  public String handleException(Exception ex, HttpServletRequest req) {
+    log.error("Request: {} raised {}.", req.getRequestURL(), ex.toString(), ex);
     return REDIRECT_URL;
   }
 }

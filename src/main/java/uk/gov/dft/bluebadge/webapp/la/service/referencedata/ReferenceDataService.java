@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.common.security.Permissions;
 import uk.gov.dft.bluebadge.common.security.Role;
@@ -60,7 +62,7 @@ public class ReferenceDataService {
   }
 
   private Map<String, List<ReferenceData>> initDataList(RefDataDomainEnum domain) {
-    List<ReferenceData> referenceDataList = referenceDataApiClient.retrieveReferenceData(domain);
+    List<ReferenceData> referenceDataList = referenceDataApiClient.retrieve(domain);
     return referenceDataList
         .stream()
         .collect(Collectors.groupingBy(ReferenceData::getGroupShortCode));
@@ -120,20 +122,28 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
   }
 
-  // BADGE
-  public List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
-    if (!isLoaded.get()) {
-      init();
-    }
-    return badgeGroupedReferenceDataList.get(referenceDataGroup.getGroupKey());
-  }
-
   private List<ReferenceData> retrieveApplicationReferenceDataList(
       RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }
     return applicationGroupedReferenceDataList.get(referenceDataGroup.getGroupKey());
+  }
+
+  // BADGE
+  private List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
+    if (!isLoaded.get()) {
+      init();
+    }
+    return badgeGroupedReferenceDataList.get(referenceDataGroup.getGroupKey());
+  }
+
+  public Optional<ReferenceData> retrieveBadgeReferenceDataItem(
+      RefDataGroupEnum referenceDataGroup, String shortCode) {
+    return retrieveBadgeReferenceDataList(referenceDataGroup)
+        .stream()
+        .filter(rd -> rd.getShortCode().equalsIgnoreCase(shortCode))
+        .findFirst();
   }
 
   public String retrieveBadgeEligibilityDisplayValue(String key) {
@@ -254,20 +264,33 @@ public class ReferenceDataService {
 
   public List<ReferenceData> displayedUserRoles() {
     ReferenceData admin =
-        new ReferenceData().description("Administrator").shortCode(Role.LA_ADMIN.name());
+        ReferenceData.builder()
+            .description("Administrator")
+            .shortCode(Role.LA_ADMIN.name())
+            .build();
     ReferenceData editor =
-        new ReferenceData().description("Editor").shortCode(Role.LA_EDITOR.name());
+        ReferenceData.builder().description("Editor").shortCode(Role.LA_EDITOR.name()).build();
     ReferenceData viewer =
-        new ReferenceData().description("View only").shortCode(Role.LA_READ.name());
+        ReferenceData.builder().description("View only").shortCode(Role.LA_READ.name()).build();
 
     List<ReferenceData> roles = Lists.newArrayList(viewer, editor, admin);
 
     if (securityUtils.isPermitted(Permissions.CREATE_DFT_USER)) {
       ReferenceData dftAdmin =
-          new ReferenceData().description("DfT Administrator").shortCode(DFT_ADMIN.name());
+          ReferenceData.builder()
+              .description("DfT Administrator")
+              .shortCode(DFT_ADMIN.name())
+              .build();
       roles.add(dftAdmin);
     }
 
     return roles;
+  }
+
+  public void updateLocalAuthority(String shortCode, String differentServiceSignpostUrl) {
+    log.debug("Updating local authority with shortCode [{}]", shortCode);
+    Assert.notNull(shortCode, "shortCode should not be null");
+
+    referenceDataApiClient.updateLocalAuthority(shortCode, differentServiceSignpostUrl);
   }
 }
