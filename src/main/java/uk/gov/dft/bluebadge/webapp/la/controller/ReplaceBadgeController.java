@@ -1,7 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.ReplaceBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
@@ -23,7 +28,7 @@ public class ReplaceBadgeController {
   private static final String TEMPLATE_REPLACE_BADGE = "manage-badges/replace-badge";
 
   private static final String URL_BADGE_REPLACED = "/manage-badges/replacement-ordered/";
-  private static final String TEMPLATE_BADGE_REPLACED = "manage-badges/badge-replaced";
+  private static final String TEMPLATE_BADGE_REPLACED = "manage-badges/replacement-ordered";
   private static final String REDIRECT_URL_BADGE_REPLACED = "redirect:" + URL_BADGE_REPLACED;
 
   private static final String PARAM_BADGE_NUMBER = "badgeNumber";
@@ -56,6 +61,15 @@ public class ReplaceBadgeController {
 
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    // Must have delivery option if sent to badge holder.
+    // Is always standard if sent to council.
+    if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
+        && null == formRequest.getDeliveryOptions()) {
+      bindingResult.rejectValue("deliveryOptions", "NotNull");
+    } else if (DeliverToCodeField.COUNCIL == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
+      formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
+    }
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE_REPLACE_BADGE;
     }
@@ -64,14 +78,14 @@ public class ReplaceBadgeController {
         badgeService.replaceBadge(
             badgeNumber,
             formRequest.getReason(),
-            formRequest.getDeliverTo().name(),
-            formRequest.getDeliveryOption().name());
+            formRequest.getDeliverTo(),
+            formRequest.getDeliveryOptions());
 
     return REDIRECT_URL_BADGE_REPLACED + newBadgeNumber;
   }
 
   @PreAuthorize("hasAuthority('PERM_REPLACE_BADGE')")
-  @GetMapping(URL_BADGE_REPLACED)
+  @GetMapping(URL_BADGE_REPLACED + "{badgeNumber}")
   public String showBadgeReplaced(
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     model.addAttribute(PARAM_BADGE_NUMBER, badgeNumber);
@@ -79,7 +93,7 @@ public class ReplaceBadgeController {
   }
 
   @ModelAttribute("reasonOptions")
-  private List<ReferenceData> replaceReasons(Model model) {
+  public List<ReferenceData> replaceReasons(Model model) {
     return referenceDataService.retrieveBadgeReplaceReasons();
   }
 
