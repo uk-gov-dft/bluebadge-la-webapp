@@ -380,4 +380,13 @@ public class ReferenceDataServiceTest {
     result = referenceDataService.retrieveBadgeStatusDisplayValue(badge);
     assertThat(result).isEqualTo("Cancelled (No longer needed)");
   }
+
+  @Test
+  public void retrieveBadgeReferenceDataList() {
+    List<ReferenceData> expectedResult =
+        Lists.newArrayList(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
+    List<ReferenceData> result =
+        referenceDataService.retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
+    assertThat(result).isEqualTo(expectedResult);
+  }
 }
