@@ -1,9 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,15 +19,23 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 public class ReferenceDataApiClientTest {
-  public static final String TEST_URI = "http://justtesting:8787/test/";
+  private static final String TEST_URI = "http://justtesting:8787/test/";
 
   private static final String BASE_ENDPOINT = TEST_URI + "reference-data";
+  private static final String AUTHORITIES_PATH = "/authorities/";
+
+  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_FIELD = "differentServiceSignpostUrl";
+  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_VALUE = "http://localhost:8080";
+  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE = "invalid";
+  private static final String SHORT_CODE_VALUE = "ABERD";
 
   private ReferenceDataApiClient client;
 
@@ -56,7 +67,38 @@ public class ReferenceDataApiClientTest {
         .andExpect(method(HttpMethod.GET))
         .andRespond(withSuccess(responseBody, MediaType.APPLICATION_JSON));
 
-    List<ReferenceData> result = client.retrieveReferenceData(RefDataDomainEnum.BADGE);
+    List<ReferenceData> result = client.retrieve(RefDataDomainEnum.BADGE);
     assertThat(result).isEqualTo(referenceDataList);
+  }
+
+  @Test
+  public void updateLocalAuthority_shouldUpdateLocalAuthority() throws Exception {
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + AUTHORITIES_PATH + SHORT_CODE_VALUE))
+        .andExpect(method(HttpMethod.PUT))
+        .andExpect(
+            jsonPath(
+                DIFFERENT_SERVICE_SIGNPOST_URL_FIELD,
+                equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_VALUE)))
+        .andRespond(withSuccess());
+
+    client.updateLocalAuthority(SHORT_CODE_VALUE, DIFFERENT_SERVICE_SIGNPOST_URL_VALUE);
+  }
+
+  @Test(expected = BadRequestException.class)
+  public void updateLocalAuthority_shouldThrowBadRequestException_WhenBadRequest()
+      throws Exception {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + AUTHORITIES_PATH + SHORT_CODE_VALUE))
+        .andExpect(method(HttpMethod.PUT))
+        .andExpect(
+            jsonPath(
+                DIFFERENT_SERVICE_SIGNPOST_URL_FIELD,
+                equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE)))
+        .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+
+    client.updateLocalAuthority(SHORT_CODE_VALUE, DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE);
   }
 }

@@ -4,16 +4,22 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 @Slf4j
 @Service
-public class ReferenceDataApiClient {
+public class ReferenceDataApiClient extends BaseApiClient {
 
   private final RestTemplate restTemplate;
 
@@ -28,7 +34,7 @@ public class ReferenceDataApiClient {
    *
    * @return List of reference data items.
    */
-  public List<ReferenceData> retrieveReferenceData(RefDataDomainEnum referenceDataDomain) {
+  public List<ReferenceData> retrieve(RefDataDomainEnum referenceDataDomain) {
     log.debug("Loading reference data.");
 
     ReferenceDataResponse response =
@@ -42,5 +48,29 @@ public class ReferenceDataApiClient {
             .getBody();
 
     return response.getData();
+  }
+
+  /**
+   * Updates a local authority.
+   *
+   * @param shortCode identifier of the local authority to update.
+   * @param differentServiceSignpostUrl the value to update.
+   */
+  public void updateLocalAuthority(String shortCode, String differentServiceSignpostUrl) {
+
+    String uri =
+        UriComponentsBuilder.fromUriString("/reference-data/authorities/{shortCode}")
+            .build()
+            .toUriString();
+
+    LocalAuthority localAuthority =
+        new LocalAuthority().differentServiceSignpostUrl(differentServiceSignpostUrl);
+    HttpEntity<LocalAuthority> httpRequest = new HttpEntity<>(localAuthority);
+
+    try {
+      restTemplate.exchange(uri, HttpMethod.PUT, httpRequest, CommonResponse.class, shortCode);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
   }
 }
