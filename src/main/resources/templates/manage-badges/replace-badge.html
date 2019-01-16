@@ -30,7 +30,7 @@
         </div>
 
         <form th:action="@{/manage-badges/replace-badge/}+${badgeNumber}" th:object="${formRequest}" method="post" novalidate>
-            <span class="govuk-label" th:text="#{replaceBadge.warning}" th:remove="tag"></span>
+            <p class="govuk-body" th:text="#{replaceBadge.warning}"></p>
 
             <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
 

@@ -1,9 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -66,7 +63,8 @@ public class ReplaceBadgeController {
     if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
         && null == formRequest.getDeliveryOptions()) {
       bindingResult.rejectValue("deliveryOptions", "NotNull");
-    } else if (DeliverToCodeField.COUNCIL == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
+    } else if (DeliverToCodeField.COUNCIL
+        == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
       formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
     }
 
