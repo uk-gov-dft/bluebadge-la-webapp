@@ -1,9 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -63,23 +61,28 @@ public class ReplaceBadgeController {
 
     // Must have delivery option if sent to badge holder.
     // Is always standard if sent to council.
-    if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
-        && null == formRequest.getDeliveryOptions()) {
-      bindingResult.rejectValue("deliveryOptions", "NotNull");
-    } else if (DeliverToCodeField.COUNCIL == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
-      formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
+    if (null != formRequest.getDeliverTo()) {
+      if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
+          && null == formRequest.getDeliveryOptions()) {
+        bindingResult.rejectValue("deliveryOptions", "NotBlank");
+      } else if (DeliverToCodeField.COUNCIL
+          == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
+        formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
+      }
     }
 
     if (bindingResult.hasErrors()) {
       return TEMPLATE_REPLACE_BADGE;
     }
 
-    String newBadgeNumber =
-        badgeService.replaceBadge(
+    BadgeReplaceRequest request =
+        new BadgeReplaceRequest(
             badgeNumber,
-            formRequest.getReason(),
             formRequest.getDeliverTo(),
-            formRequest.getDeliveryOptions());
+            formRequest.getDeliveryOptions(),
+            formRequest.getReason());
+
+    String newBadgeNumber = badgeService.replaceBadge(request);
 
     return REDIRECT_URL_BADGE_REPLACED + newBadgeNumber;
   }

@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +55,8 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
             .build();
 
     badge = new Badge();
+    badge.setStatusCode("ISSUED");
+    badge.setExpiryDate(LocalDate.now().plusYears(1));
     badgeViewModel = BadgeDetailsViewModel.builder().build();
   }
 

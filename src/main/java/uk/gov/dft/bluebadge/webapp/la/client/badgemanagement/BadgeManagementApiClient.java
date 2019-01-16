@@ -160,20 +160,14 @@ public class BadgeManagementApiClient extends BaseApiClient {
     }
   }
 
-  public String replaceBadge(
-      String badgeNumber, String reason, String deliverTo, String deliveryOption) {
+  public String replaceBadge(BadgeReplaceRequest request) {
 
     String uri = UriComponentsBuilder.fromUriString(REPLACE_ENDPOINT).build().toUriString();
 
-    BadgeReplaceRequest request = new BadgeReplaceRequest();
-    request.setBadgeNumber(badgeNumber);
-    request.setDeliverToCode(deliverTo);
-    request.setDeliveryOptionCode(deliveryOption);
-    request.setReplaceReasonCode(reason);
-
     try {
       return Objects.requireNonNull(
-              restTemplate.postForObject(uri, request, BadgeNumberResponse.class, badgeNumber))
+              restTemplate.postForObject(
+                  uri, request, BadgeNumberResponse.class, request.getBadgeNumber()))
           .getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
