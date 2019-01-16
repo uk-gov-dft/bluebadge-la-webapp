@@ -30,7 +30,7 @@
 		                </h1>
 	                </div>
 	                <div class="govuk-grid-column govuk-grid-column-one-third">
-		                	<ul class="govuk-list right-aligned">
+		                	<ul class="govuk-list right-aligned right-aligned--reset-on-mobile">
 						    	<li>
 				                <div sec:authorize="hasAuthority('PERM_CANCEL_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)" class="cta" th:if="${canBeCancelled}" th:remove="tag">
 				                    <a th:href="'/manage-badges/cancel-badge/'+${badge.badgeNumber}" class="govuk-!-font-size-19" th:text="#{badgeDetails.label.cancel}"></a>

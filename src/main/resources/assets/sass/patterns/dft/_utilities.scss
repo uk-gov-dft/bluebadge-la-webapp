@@ -8,4 +8,10 @@
 
 .right-aligned {
 	text-align: right;
+
+	&--reset-on-mobile {
+		@include govuk-media-query($until: tablet) {
+			text-align: left;
+		}
+	}
 }

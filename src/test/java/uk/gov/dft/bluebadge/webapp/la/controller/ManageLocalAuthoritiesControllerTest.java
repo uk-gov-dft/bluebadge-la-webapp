@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class ManageLocalAuthoritiesControllerTest {
@@ -44,12 +43,11 @@ public class ManageLocalAuthoritiesControllerTest {
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
 
-    ReferenceData rd1 = new ReferenceData().description("La 1");
-    ReferenceData rd2 = new ReferenceData().description("La 2");
-    ReferenceData rd3 = new ReferenceData().description("La 3");
+    ReferenceData rd1 = ReferenceData.builder().description("La 1").build();
+    ReferenceData rd2 = ReferenceData.builder().description("La 2").build();
+    ReferenceData rd3 = ReferenceData.builder().description("La 3").build();
     localAuthorities = Lists.newArrayList(rd1, rd2, rd3);
-    when(referenceDataServiceMock.retrieveBadgeReferenceDataList(RefDataGroupEnum.LA))
-        .thenReturn(localAuthorities);
+    when(referenceDataServiceMock.retrieveBadgeLocalAuthorities()).thenReturn(localAuthorities);
   }
 
   @Test
@@ -59,6 +57,6 @@ public class ManageLocalAuthoritiesControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("manage-local-authorities"))
         .andExpect(model().attribute("localAuthorities", localAuthorities));
-    verify(referenceDataServiceMock, times(1)).retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
+    verify(referenceDataServiceMock, times(1)).retrieveBadgeLocalAuthorities();
   }
 }
