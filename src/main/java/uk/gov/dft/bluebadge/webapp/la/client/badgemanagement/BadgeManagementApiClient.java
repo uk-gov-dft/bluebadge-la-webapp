@@ -161,7 +161,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
   }
 
   public String replaceBadge(BadgeReplaceRequest request) {
-
     String uri = UriComponentsBuilder.fromUriString(REPLACE_ENDPOINT).build().toUriString();
 
     try {
