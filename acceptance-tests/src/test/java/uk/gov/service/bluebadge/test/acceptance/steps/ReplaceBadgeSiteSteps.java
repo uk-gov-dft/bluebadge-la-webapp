@@ -1,14 +1,12 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 
 public class ReplaceBadgeSiteSteps {
@@ -30,8 +28,8 @@ public class ReplaceBadgeSiteSteps {
 
   @Then("^I should see the badge replaced page$")
   public void iShouldSeeTheBadgeReplacedPage() throws Throwable {
-	String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
-	String uiBadgeNumber = sitePage.findElementWithUiPath("badge.replaced.num").getText();
+    String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
+    String uiBadgeNumber = sitePage.findElementWithUiPath("badge.replaced.num").getText();
     String pageTitle = "Replacement Ordered " + uiBadgeNumber + " - GOV.UK Manage Blue Badges";
 
     assertThat(uiBadgeNumber, not(badgeNumber));

@@ -80,8 +80,7 @@ public class ReplaceBadgeController {
             badgeNumber,
             formRequest.getReason(),
             formRequest.getDeliverTo(),
-            formRequest.getDeliveryOptions()
-            );
+            formRequest.getDeliveryOptions());
 
     String newBadgeNumber = badgeService.replaceBadge(request);
 
