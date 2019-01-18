@@ -25,7 +25,7 @@ public class ErrorHandlingUtils {
         bindingResult.rejectValue(errorItem.getField(), errorItem.getMessage());
       }
     } catch (NullPointerException npe) {
-      log.error("bindBadRequestException called with empty error list.");
+      log.warn("bindBadRequestException called with empty error list. BindRequestException:{}", c);
     }
   }
 
