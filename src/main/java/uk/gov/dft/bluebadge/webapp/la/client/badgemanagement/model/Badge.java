@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.Status;
 
 /** Badge */
 @Validated
@@ -428,10 +429,11 @@ public class Badge {
   }
 
   public boolean canBeReplaced() {
-    return this.statusCode.equals("ISSUED") && this.expiryDate.isAfter(LocalDate.now());
+    return this.statusCode.equals(Status.ISSUED.name()) && this.expiryDate.isAfter(LocalDate.now());
   }
 
   public boolean canBeCancelled() {
-    return this.statusCode.equals("ISSUED") || this.statusCode.equals("ORDERED");
+    return this.statusCode.equals(Status.ISSUED.name())
+        || this.statusCode.equals(Status.ORDERED.name());
   }
 }
