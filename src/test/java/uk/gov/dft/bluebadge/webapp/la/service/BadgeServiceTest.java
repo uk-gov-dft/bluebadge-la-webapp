@@ -214,7 +214,7 @@ public class BadgeServiceTest {
     assertEquals(NEW_BADGE_NUMBER, newBadgeNumber);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void replaceBadge_byPassingNullParameters_shouldThrowIllegalArgumentException() {
     badgeService.replaceBadge(new BadgeReplaceRequest(null, null, null, null));
   }

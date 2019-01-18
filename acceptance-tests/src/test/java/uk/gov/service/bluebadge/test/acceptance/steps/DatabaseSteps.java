@@ -60,14 +60,14 @@ public class DatabaseSteps {
 
   @Before("@ReplaceBadgeScripts")
   public void executeCreateBadgesDBScript() throws SQLException {
-	  dbUtils.runScript("scripts/badges/create-badges.sql");
+    dbUtils.runScript("scripts/badges/create-badges.sql");
   }
 
   @After("@ReplaceBadgeScripts")
   public void executeDeleteBadgesDBScript() throws SQLException {
-	  dbUtils.runScript("scripts/badges/delete-badges.sql");
+    dbUtils.runScript("scripts/badges/delete-badges.sql");
   }
-  
+
   public void runScript(String scriptPath) throws SQLException {
     dbUtils.runScript(scriptPath);
   }

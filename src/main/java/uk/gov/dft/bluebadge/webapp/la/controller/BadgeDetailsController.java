@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.FindBadgeController.URL_FIND_BADGE;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +46,8 @@ public class BadgeDetailsController {
 
     Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
 
-    Boolean canBeCancelled =
-        "ISSUED".equals(badgeDetails.getStatusCode())
-            || "ORDERED".equals(badgeDetails.getStatusCode());
-    model.addAttribute("canBeCancelled", canBeCancelled);
-    model.addAttribute("canBeReplaced", canBeReplaced(badgeDetails));
+    model.addAttribute("canBeCancelled", badgeDetails.canBeCancelled());
+    model.addAttribute("canBeReplaced", badgeDetails.canBeReplaced());
 
     BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
     model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
@@ -64,9 +60,5 @@ public class BadgeDetailsController {
   public String deleteBadge(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     badgeService.deleteBadge(badgeNumber);
     return REDIRECT_URL_MANAGE_BADGES;
-  }
-
-  private boolean canBeReplaced(Badge badge) {
-    return badge.getStatusCode().equals("ISSUED") && badge.getExpiryDate().isAfter(LocalDate.now());
   }
 }

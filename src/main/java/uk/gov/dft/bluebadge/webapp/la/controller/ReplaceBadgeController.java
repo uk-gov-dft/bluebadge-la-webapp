@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
 import javax.validation.Valid;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +26,11 @@ public class ReplaceBadgeController {
   private static final String URL_REPLACE_BADGE = "/manage-badges/replace-badge/{badgeNumber}";
   private static final String TEMPLATE_REPLACE_BADGE = "manage-badges/replace-badge";
 
-  private static final String URL_BADGE_REPLACED = "/manage-badges/replacement-ordered/";
+  private static final String URL_BADGE_REPLACED =
+      "/manage-badges/replacement-ordered/{badgeNumber}";
   private static final String TEMPLATE_BADGE_REPLACED = "manage-badges/replacement-ordered";
-  private static final String REDIRECT_URL_BADGE_REPLACED = "redirect:" + URL_BADGE_REPLACED;
+  private static final String REDIRECT_URL_BADGE_REPLACED =
+      "redirect:" + "/manage-badges/replacement-ordered/";
 
   private static final String PARAM_BADGE_NUMBER = "badgeNumber";
   private static final String FORM_REQUEST = "formRequest";
@@ -61,9 +64,10 @@ public class ReplaceBadgeController {
 
     // Must have delivery option if sent to badge holder.
     // Is always standard if sent to council.
-    if (null != formRequest.getDeliverTo()) {
+
+    if (StringUtils.isNotBlank(formRequest.getDeliverTo())) {
       if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
-          && null == formRequest.getDeliveryOptions()) {
+          && !StringUtils.isNotBlank(formRequest.getDeliveryOptions())) {
         bindingResult.rejectValue("deliveryOptions", "NotBlank");
       } else if (DeliverToCodeField.COUNCIL
           == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
@@ -80,8 +84,7 @@ public class ReplaceBadgeController {
             badgeNumber,
             formRequest.getReason(),
             formRequest.getDeliverTo(),
-            formRequest.getDeliveryOptions()
-            );
+            formRequest.getDeliveryOptions());
 
     String newBadgeNumber = badgeService.replaceBadge(request);
 
@@ -89,7 +92,7 @@ public class ReplaceBadgeController {
   }
 
   @PreAuthorize("hasAuthority('PERM_REPLACE_BADGE')")
-  @GetMapping(URL_BADGE_REPLACED + "{badgeNumber}")
+  @GetMapping(URL_BADGE_REPLACED)
   public String showBadgeReplaced(
       @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     model.addAttribute(PARAM_BADGE_NUMBER, badgeNumber);

@@ -426,4 +426,12 @@ public class Badge {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public boolean canBeReplaced() {
+    return this.statusCode.equals("ISSUED") && this.expiryDate.isAfter(LocalDate.now());
+  }
+
+  public boolean canBeCancelled() {
+    return this.statusCode.equals("ISSUED") || this.statusCode.equals("ORDERED");
+  }
 }
