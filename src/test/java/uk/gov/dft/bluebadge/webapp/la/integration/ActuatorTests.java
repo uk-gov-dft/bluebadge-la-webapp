@@ -8,14 +8,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.dft.bluebadge.webapp.la.BaseIntegrationNoRedisTest;
 
 @RunWith(SpringRunner.class)
-public class ActuatorTests extends IntegrationTestsBase {
+public class ActuatorTests extends BaseIntegrationNoRedisTest {
+
+  protected String baseUrl;
 
   @Before
   public void setup() {
+    RestAssured.baseURI = "http://localhost";
     RestAssured.basePath = "/manage/actuator";
     RestAssured.port = managementPort;
+
+    baseUrl = RestAssured.baseURI + ":" + RestAssured.port + RestAssured.basePath;
   }
 
   @Test
@@ -25,7 +31,7 @@ public class ActuatorTests extends IntegrationTestsBase {
 
   @Test
   public void givenNoAuth_whenActuatorHealthRequested_thenSuccess() {
-    get("health").then().log().all().statusCode(200).body("status", equalTo("UP"));
+    get("health").then().log().all().statusCode(503).body("status", equalTo("DOWN"));
   }
 
   @Test

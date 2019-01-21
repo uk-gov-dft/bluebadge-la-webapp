@@ -295,6 +295,6 @@ public class ReferenceDataService {
     log.debug("Updating local authority with shortCode [{}]", shortCode);
     Assert.notNull(shortCode, "shortCode should not be null");
 
-    referenceDataApiClient.updateLocalAuthority(shortCode, differentServiceSignpostUrl);
+    referenceDataApiClient.updateLocalAuthority(shortCode, differentServiceSignpostUrl.trim());
   }
 }

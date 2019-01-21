@@ -16,10 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.dft.bluebadge.webapp.la.BaseSpringBootTest;
+import uk.gov.dft.bluebadge.webapp.la.BaseIntegrationNoRedisTest;
 
 @RunWith(SpringRunner.class)
-public class SignInTests extends BaseSpringBootTest {
+public class SignInTests extends BaseIntegrationNoRedisTest {
 
   private static final String VALID_USERNAME_1 = "abc@dft.gov.uk";
   private static final String USERNAME_1_PASSWORD = "password";
@@ -84,6 +84,6 @@ public class SignInTests extends BaseSpringBootTest {
         .perform(
             post("/sign-in").param("username", VALID_USERNAME_1).param(USERNAME_1_PASSWORD, "xxx"))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/something-went-wrong"));
+        .andExpect(redirectedUrl("/sign-in"));
   }
 }
