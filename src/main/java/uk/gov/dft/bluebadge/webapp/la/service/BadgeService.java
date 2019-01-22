@@ -81,4 +81,9 @@ public class BadgeService {
     Assert.notNull(reason, "cancellation reason should not be null");
     badgeManagementApiClient.cancelBadge(badgeNumber, reason.getValue());
   }
+
+  public void deleteBadge(String badgeNumber) {
+    Assert.notNull(badgeNumber, "Badge number should not be null");
+    badgeManagementApiClient.deleteBadge(badgeNumber);
+  }
 }

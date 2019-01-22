@@ -8,15 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
 public class ManageLocalAuthoritiesController {
 
-  public static final String URL = "manage-local-authorities";
+  public static final String URL = "/manage-local-authorities";
 
-  public static final String TEMPLATE = "manage-local-authorities";
+  private static final String TEMPLATE = "manage-local-authorities";
 
   private ReferenceDataService referenceDataService;
 
@@ -29,9 +28,9 @@ public class ManageLocalAuthoritiesController {
   public String show(Model model) {
     List<ReferenceData> allLocalAuthorities =
         referenceDataService
-            .retrieveBadgeReferenceDataList(RefDataGroupEnum.LA)
+            .retrieveBadgeLocalAuthorities()
             .stream()
-          .sorted((rd1, rd2) -> rd1.getDescription().compareTo(rd2.getDescription()))
+            .sorted(Comparator.comparing(ReferenceData::getDescription))
             .collect(Collectors.toList());
     model.addAttribute("localAuthorities", allLocalAuthorities);
     return TEMPLATE;

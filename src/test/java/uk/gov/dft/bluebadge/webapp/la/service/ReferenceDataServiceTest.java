@@ -1,10 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -54,6 +58,7 @@ public class ReferenceDataServiceTest {
   private static final String WALKING_SPEED_2_SHORTCODE = "SAME";
   private static final String WALKING_SPEED_1 = "Slower";
   private static final String WALKING_SPEED_2 = "About the same";
+  private static final String DIFFERENT_SIGNPOST_SERVICE_URL = "http://localhost";
 
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
   @Mock private SecurityUtils securityUtilsMock;
@@ -71,20 +76,23 @@ public class ReferenceDataServiceTest {
   private ReferenceData referenceDataDeliveryOptions1;
   private ReferenceData referenceDataDeliveryOptions2;
   private ReferenceData statusNew =
-      new ReferenceData()
+      ReferenceData.builder()
           .shortCode("NEW")
           .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
-          .description("New");
+          .description("New")
+          .build();
   private ReferenceData statusCancelled =
-      new ReferenceData()
+      ReferenceData.builder()
           .shortCode("CANCELLED")
           .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
-          .description("Cancelled");
+          .description("Cancelled")
+          .build();
   private ReferenceData statusReplaced =
-      new ReferenceData()
+      ReferenceData.builder()
           .shortCode("REPLACED")
           .groupShortCode(RefDataGroupEnum.STATUS.getGroupKey())
-          .description("Replaced");
+          .description("Replaced")
+          .build();
   private ReferenceData referenceDataLocalAuthority1;
   private ReferenceData referenceDataLocalAuthority2;
   private ReferenceData referenceDataWalkingDifficulty1;
@@ -100,71 +108,71 @@ public class ReferenceDataServiceTest {
         new ReferenceDataService(referenceDataManagementApiClientMock, securityUtilsMock);
 
     referenceDataEligibility1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
-            .shortCode(ELIGIBILITY_1_SHORTCODE)
-            .description(ELIGIBILITY_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1);
+    referenceDataEligibility1.setShortCode(ELIGIBILITY_1_SHORTCODE);
+    referenceDataEligibility1.setDescription(ELIGIBILITY_1);
     referenceDataEligibility2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2)
-            .shortCode(ELIGIBILITY_2_SHORTCODE)
-            .description(ELIGIBILITY_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2);
+    referenceDataEligibility2.setShortCode(ELIGIBILITY_2_SHORTCODE);
+    referenceDataEligibility2.setDescription(ELIGIBILITY_2);
     referenceDataGender1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3)
-            .shortCode(GENDER_1_SHORTCODE)
-            .description(GENDER_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3);
+    referenceDataGender1.setShortCode(GENDER_1_SHORTCODE);
+    referenceDataGender1.setDescription(GENDER_1);
     referenceDataGender2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4)
-            .shortCode(GENDER_2_SHORTCODE)
-            .description(GENDER_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
+    referenceDataGender2.setShortCode(GENDER_2_SHORTCODE);
+    referenceDataGender2.setDescription(GENDER_2);
     referenceDataApplicationChannel1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 5)
-            .shortCode(APPLICATION_CHANNEL_1_SHORTCODE)
-            .description(APPLICATION_CHANNEL_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 5);
+    referenceDataApplicationChannel1.setShortCode(APPLICATION_CHANNEL_1_SHORTCODE);
+    referenceDataApplicationChannel1.setDescription(APPLICATION_CHANNEL_1);
     referenceDataApplicationChannel2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 6)
-            .shortCode(APPLICATION_CHANNEL_2_SHORTCODE)
-            .description(APPLICATION_CHANNEL_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.APP_SOURCE.getGroupKey(), 6);
+    referenceDataApplicationChannel2.setShortCode(APPLICATION_CHANNEL_2_SHORTCODE);
+    referenceDataApplicationChannel2.setDescription(APPLICATION_CHANNEL_2);
     referenceDataDeliverTo1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 7)
-            .shortCode(DELIVER_TO_1_SHORTCODE)
-            .description(DELIVER_TO_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 7);
+    referenceDataDeliverTo1.setShortCode(DELIVER_TO_1_SHORTCODE);
+    referenceDataDeliverTo1.setDescription(DELIVER_TO_1);
     referenceDataDeliverTo2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 8)
-            .shortCode(DELIVER_TO_2_SHORTCODE)
-            .description(DELIVER_TO_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVER_TO.getGroupKey(), 8);
+    referenceDataDeliverTo2.setShortCode(DELIVER_TO_2_SHORTCODE);
+    referenceDataDeliverTo2.setDescription(DELIVER_TO_2);
     referenceDataDeliveryOptions1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 9)
-            .shortCode(DELIVERY_OPTIONS_1_SHORTCODE)
-            .description(DELIVERY_OPTIONS_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 9);
+    referenceDataDeliveryOptions1.setShortCode(DELIVERY_OPTIONS_1_SHORTCODE);
+    referenceDataDeliveryOptions1.setDescription(DELIVERY_OPTIONS_1);
     referenceDataDeliveryOptions2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10)
-            .shortCode(DELIVERY_OPTIONS_2_SHORTCODE)
-            .description(DELIVERY_OPTIONS_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.DELIVERY_OPTIONS.getGroupKey(), 10);
+    referenceDataDeliveryOptions2.setShortCode(DELIVERY_OPTIONS_2_SHORTCODE);
+    referenceDataDeliveryOptions2.setDescription(DELIVERY_OPTIONS_2);
     referenceDataLocalAuthority1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 13)
-            .shortCode(LA_1_SHORTCODE)
-            .description(LA_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 13);
+    referenceDataLocalAuthority1.setShortCode(LA_1_SHORTCODE);
+    referenceDataLocalAuthority1.setDescription(LA_1);
     referenceDataLocalAuthority2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 14)
-            .shortCode(LA_2_SHORTCODE)
-            .description(LA_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.LA.getGroupKey(), 14);
+    referenceDataLocalAuthority2.setShortCode(LA_2_SHORTCODE);
+    referenceDataLocalAuthority2.setDescription(LA_2);
     referenceDataWalkingDifficulty1 =
         ReferenceDataUtils.buildReferenceData(
-                RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 15)
-            .shortCode(WALKING_DIFFICULTY_1_SHORTCODE)
-            .description(WALKING_DIFFICULTY_1);
+            RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 15);
+    referenceDataWalkingDifficulty1.setShortCode(WALKING_DIFFICULTY_1_SHORTCODE);
+    referenceDataWalkingDifficulty1.setDescription(WALKING_DIFFICULTY_1);
     referenceDataWalkingDifficulty2 =
         ReferenceDataUtils.buildReferenceData(
-                RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 16)
-            .shortCode(WALKING_DIFFICULTY_2_SHORTCODE)
-            .description(WALKING_DIFFICULTY_2);
+            RefDataGroupEnum.WALKING_DIFFICULTIES.getGroupKey(), 16);
+    referenceDataWalkingDifficulty2.setShortCode(WALKING_DIFFICULTY_2_SHORTCODE);
+    referenceDataWalkingDifficulty2.setDescription(WALKING_DIFFICULTY_2);
     ReferenceData referenceDataWalkingSpeed1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 17)
-            .shortCode(WALKING_SPEED_1_SHORTCODE)
-            .description(WALKING_SPEED_1);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 17);
+    referenceDataWalkingSpeed1.setShortCode(WALKING_SPEED_1_SHORTCODE);
+    referenceDataWalkingSpeed1.setDescription(WALKING_SPEED_1);
     ReferenceData referenceDataWalkingSpeed2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 18)
-            .shortCode(WALKING_SPEED_2_SHORTCODE)
-            .description(WALKING_SPEED_2);
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.WALKING_SPEED.getGroupKey(), 18);
+    referenceDataWalkingSpeed2.setShortCode(WALKING_SPEED_2_SHORTCODE);
+    referenceDataWalkingSpeed2.setDescription(WALKING_SPEED_2);
     List<ReferenceData> badgeReferenceDataList =
         Lists.newArrayList(
             referenceDataEligibility1,
@@ -182,14 +190,16 @@ public class ReferenceDataServiceTest {
             statusReplaced,
             referenceDataLocalAuthority1,
             referenceDataLocalAuthority2,
-            new ReferenceData()
+            ReferenceData.builder()
                 .shortCode("NOLONG")
                 .groupShortCode(RefDataGroupEnum.CANCEL.getGroupKey())
-                .description("No longer needed"),
-            new ReferenceData()
+                .description("No longer needed")
+                .build(),
+            ReferenceData.builder()
                 .shortCode("LOST")
                 .groupShortCode(RefDataGroupEnum.REPLACE.getGroupKey())
-                .description("Lost"));
+                .description("Lost")
+                .build());
 
     List<ReferenceData> applicationReferenceDataList =
         Lists.newArrayList(
@@ -201,9 +211,9 @@ public class ReferenceDataServiceTest {
             referenceDataWalkingDifficulty2,
             referenceDataWalkingSpeed1,
             referenceDataWalkingSpeed2);
-    when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.BADGE))
+    when(referenceDataManagementApiClientMock.retrieve(RefDataDomainEnum.BADGE))
         .thenReturn(badgeReferenceDataList);
-    when(referenceDataManagementApiClientMock.retrieveReferenceData(RefDataDomainEnum.APP))
+    when(referenceDataManagementApiClientMock.retrieve(RefDataDomainEnum.APP))
         .thenReturn(applicationReferenceDataList);
   }
 
@@ -385,8 +395,28 @@ public class ReferenceDataServiceTest {
   public void retrieveBadgeReferenceDataList() {
     List<ReferenceData> expectedResult =
         Lists.newArrayList(referenceDataLocalAuthority1, referenceDataLocalAuthority2);
-    List<ReferenceData> result =
-        referenceDataService.retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
+    List<ReferenceData> result = referenceDataService.retrieveBadgeLocalAuthorities();
     assertThat(result).isEqualTo(expectedResult);
+  }
+
+  @Test
+  public void retrieveBadgeReferenceDataItem() {
+    Optional<ReferenceData> referenceData =
+        referenceDataService.retrieveBadgeReferenceDataItem(RefDataGroupEnum.LA, LA_1_SHORTCODE);
+    Optional<ReferenceData> expectedReferenceData = Optional.of(referenceDataLocalAuthority1);
+    assertThat(referenceData).isEqualTo(expectedReferenceData);
+  }
+
+  @Test
+  public void updateLocalAuthority_WhenShortCodeIsValid_ThenShouldUpdateLocalAuthority() {
+    referenceDataService.updateLocalAuthority(LA_1_SHORTCODE, DIFFERENT_SIGNPOST_SERVICE_URL);
+    verify(referenceDataManagementApiClientMock, times(1))
+        .updateLocalAuthority(LA_1_SHORTCODE, DIFFERENT_SIGNPOST_SERVICE_URL);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void updateLocalAuthority_WhenShortCodeIsInvalid_ThenShouldUpdateLocalAuthority() {
+    referenceDataService.updateLocalAuthority(null, DIFFERENT_SIGNPOST_SERVICE_URL);
+    verify(referenceDataManagementApiClientMock, times(0)).updateLocalAuthority(any(), any());
   }
 }

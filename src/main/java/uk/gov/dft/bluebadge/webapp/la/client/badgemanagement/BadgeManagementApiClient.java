@@ -28,6 +28,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
   public static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
+  public static final String DELETE_ENDPOINT = "/badges/{badgeNumber}";
 
   private final RestTemplate restTemplate;
 
@@ -141,6 +142,15 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     try {
       restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+  }
+
+  public void deleteBadge(String badgeNumber) {
+    Assert.notNull(badgeNumber, "delete badge, badge number not provided");
+    try {
+      restTemplate.delete(DELETE_ENDPOINT, badgeNumber);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

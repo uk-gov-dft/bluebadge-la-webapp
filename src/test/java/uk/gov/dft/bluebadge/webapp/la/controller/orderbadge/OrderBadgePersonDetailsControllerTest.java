@@ -62,23 +62,23 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
 
     // Mock Data
     rdEligibility1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1)
-            .subgroupShortCode("ELIG_AUTO");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1);
+    rdEligibility1.setSubgroupShortCode("ELIG_AUTO");
     rdEligibility2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2)
-            .subgroupShortCode("ELIG_AUTO");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2);
+    rdEligibility2.setSubgroupShortCode("ELIG_AUTO");
     rdEligibility3 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3)
-            .subgroupShortCode("ELIG_AUTO");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3);
+    rdEligibility3.setSubgroupShortCode("ELIG_AUTO");
     rdEligibility4 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4)
-            .subgroupShortCode("ELIG_FURTH");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4);
+    rdEligibility4.setSubgroupShortCode("ELIG_FURTH");
     rdEligibility5 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5)
-            .subgroupShortCode("ELIG_FURTH");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5);
+    rdEligibility5.setSubgroupShortCode("ELIG_FURTH");
     rdEligibility6 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6)
-            .subgroupShortCode("ELIG_FURTH");
+        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6);
+    rdEligibility6.setSubgroupShortCode("ELIG_FURTH");
 
     referenceDataEligibilityList =
         Lists.newArrayList(
