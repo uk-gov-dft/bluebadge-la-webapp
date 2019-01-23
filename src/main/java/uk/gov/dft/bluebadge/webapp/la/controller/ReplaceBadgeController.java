@@ -68,7 +68,7 @@ public class ReplaceBadgeController {
     if (StringUtils.isNotBlank(formRequest.getDeliverTo())) {
       if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
           && !StringUtils.isNotBlank(formRequest.getDeliveryOptions())) {
-        bindingResult.rejectValue("deliveryOptions", "NotBlank");
+        bindingResult.rejectValue("deliveryOptions", "NotNull.badge.deliveryOption");
       } else if (DeliverToCodeField.COUNCIL
           == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
         formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
