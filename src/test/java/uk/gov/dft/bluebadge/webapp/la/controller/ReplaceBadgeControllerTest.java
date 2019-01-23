@@ -140,7 +140,9 @@ public class ReplaceBadgeControllerTest {
         .andExpect(view().name(TEMPLATE_REPLACE_BADGE))
         .andExpect(model().errorCount(1))
         .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", "deliveryOptions", "NotBlank"));
+            model()
+                .attributeHasFieldErrorCode(
+                    "formRequest", "deliveryOptions", "NotNull.badge.deliveryOption"));
 
     verify(badgeServiceMock, never()).replaceBadge(any());
   }
