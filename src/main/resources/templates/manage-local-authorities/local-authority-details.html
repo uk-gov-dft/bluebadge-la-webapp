@@ -23,6 +23,41 @@
         <div class="dft-grid-col dft-grid-col--half">
 
             <form th:action="@{/manage-local-authorities/local-authority-details/{shortCode}(shortCode=${shortCode})}" th:object="${formRequest}" method="post" novalidate>
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.description.name}, 'description', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.welshDescription.name}, 'welshDescription', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.nameLine2.name}, 'nameLine2', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.addressLine1.name}, 'addressLine1', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.addressLine2.name}, 'addressLine2', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.addressLine3.name}, 'addressLine3', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.addressLine4.name}, 'addressLine4', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.town.name}, 'town', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.county.name}, 'county', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.postcode.name}, 'postcode', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.country.name}, 'country', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.nation.name}, 'nation', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.contactNumber.name}, 'contactNumber', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.websiteUrl.name}, 'websiteUrl', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.emailAddress.name}, 'emailAddress', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, 'text') }"></div>
+
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline(#{localAuthorityDetailPage.paymentsEnabled.name}, 'paymentsEnabled', null, ${paymentsEnabledOptions}) }"></div>
+
+                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.badgeCost.name}, 'badgeCost', null, 'text') }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.differentServiceSignpostUrl.name}, 'differentServiceSignpostUrl', null, 'text') }"></div>
 

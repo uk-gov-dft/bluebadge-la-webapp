@@ -25,6 +25,7 @@ import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
 @Service
@@ -291,10 +292,11 @@ public class ReferenceDataService {
     return roles;
   }
 
-  public void updateLocalAuthority(String shortCode, String differentServiceSignpostUrl) {
+  public void updateLocalAuthority(String shortCode, LocalAuthority localAuthority) {
     log.debug("Updating local authority with shortCode [{}]", shortCode);
     Assert.notNull(shortCode, "shortCode should not be null");
+    Assert.notNull(localAuthority, "localAuthority should not be null");
 
-    referenceDataApiClient.updateLocalAuthority(shortCode, differentServiceSignpostUrl);
+    referenceDataApiClient.updateLocalAuthority(shortCode, localAuthority);
   }
 }
