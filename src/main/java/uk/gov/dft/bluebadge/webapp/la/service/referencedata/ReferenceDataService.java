@@ -117,6 +117,10 @@ public class ReferenceDataService {
     return retrieveBadgeReferenceDataList(RefDataGroupEnum.LA);
   }
 
+  public List<ReferenceData> retrieveBadgeReplaceReasons() {
+    return retrieveBadgeReferenceDataList(RefDataGroupEnum.REPLACE);
+  }
+
   // APPLICATION
   public List<ReferenceData> retrieveApplicationWalkingDifficulties() {
     return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
@@ -214,7 +218,7 @@ public class ReferenceDataService {
   }
 
   /*
-   * Used directly by template.  Do not delete.
+   * Used directly by template. Do not delete.
    */
   @SuppressWarnings("WeakerAccess")
   public String retrieveAppEnumDisplayValueByString(String group, String key) {
@@ -237,7 +241,7 @@ public class ReferenceDataService {
   }
 
   /*
-   * Used directly by template.  Do not delete.
+   * Used directly by template. Do not delete.
    */
   @SuppressWarnings("unused")
   public String retrieveAppEnumDisplayValue(String group, Enum<?> key) {
