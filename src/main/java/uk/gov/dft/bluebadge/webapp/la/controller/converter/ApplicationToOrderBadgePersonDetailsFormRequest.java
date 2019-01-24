@@ -8,6 +8,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 
+import java.time.LocalDate;
+
 @Component
 public class ApplicationToOrderBadgePersonDetailsFormRequest implements Converter<Application, OrderBadgePersonDetailsFormRequest> {
 
@@ -17,11 +19,7 @@ public class ApplicationToOrderBadgePersonDetailsFormRequest implements Converte
 
     AppPerson appPerson = source.getParty().getPerson();
     AppContact appContact = source.getParty().getContact();
-
-    String[] dobArray = appPerson.getDob().toString().split("-");
-    Integer dobYear = Integer.parseInt(dobArray[0]);
-    Integer dobMonth = Integer.parseInt(dobArray[1]);
-    Integer dobDay =  Integer.parseInt(dobArray[2]);
+    LocalDate dob = appPerson.getDob();
 
     return OrderBadgePersonDetailsFormRequest.builder()
           // Personal data
@@ -29,9 +27,9 @@ public class ApplicationToOrderBadgePersonDetailsFormRequest implements Converte
             .nino(appPerson.getNino())
             .gender(appPerson.getGenderCode().toString())
             .eligibility(source.getEligibility().getTypeCode().toString())
-            .dobDay(dobDay)
-            .dobMonth(dobMonth)
-            .dobYear(dobYear)
+            .dobDay(dob.getDayOfMonth())
+            .dobMonth(dob.getMonthValue())
+            .dobYear(dob.getYear())
             // Address
             .buildingAndStreet(appContact.getBuildingStreet())
             .optionalAddressField(appContact.getLine2())

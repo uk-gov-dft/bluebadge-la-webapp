@@ -14,6 +14,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeF
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseDetailsController;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexController;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeOrganisationDetailsController;
@@ -40,14 +41,17 @@ public class ApplicationDetailsController {
   private ApplicationService applicationService;
   private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest;
   private ApplicationToOrderBadgePersonDetailsFormRequest applicationToOrderBadgePersonDetailsFormRequest;
+  private ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest;
 
   @Autowired
   public ApplicationDetailsController(ApplicationService applicationService,
                                       ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest,
-                                      ApplicationToOrderBadgePersonDetailsFormRequest applicationToOrderBadgePersonDetailsFormRequest) {
+                                      ApplicationToOrderBadgePersonDetailsFormRequest applicationToOrderBadgePersonDetailsFormRequest,
+                                      ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest) {
     this.applicationService = applicationService;
     this.applicationToOrderBadgeIndexFormRequest = applicationToOrderBadgeIndexFormRequest;
     this.applicationToOrderBadgePersonDetailsFormRequest = applicationToOrderBadgePersonDetailsFormRequest;
+    this.applicationToOrderBadgeProcessingFormRequest = applicationToOrderBadgeProcessingFormRequest;
   }
 
   @GetMapping(URL)
@@ -70,7 +74,7 @@ public class ApplicationDetailsController {
 
     session.setAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
     session.setAttribute(OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST, applicationToOrderBadgePersonDetailsFormRequest.convert(application));
-    session.setAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST, null);
+    session.setAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST, applicationToOrderBadgeProcessingFormRequest.convert(application));
 
     if (orderBadgeIndexFormRequest.getApplicantType().equals(PartyTypeCodeField.ORG)) {
       return REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION;
