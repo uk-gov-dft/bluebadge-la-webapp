@@ -61,6 +61,7 @@ public class ApplicationDetailsController {
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
     model.addAttribute("uuid", uuid);
+    model.addAttribute("renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
 
     return TEMPLATE;
   }

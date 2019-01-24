@@ -411,7 +411,7 @@
             </dl>
         </div>
 
-        <div>
+        <div th:if="${renderOrderBadgeButton}">
             <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
                 <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="order" class="govuk-button">
             </form>
