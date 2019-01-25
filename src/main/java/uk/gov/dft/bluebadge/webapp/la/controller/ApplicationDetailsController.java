@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.UUID;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeProcessing
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 @Slf4j
 public class ApplicationDetailsController {
@@ -33,25 +32,30 @@ public class ApplicationDetailsController {
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
-  private static final String REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION=
-          "redirect:" + OrderBadgePersonDetailsController.URL;
-  private static final String REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION=
-          "redirect:" + OrderBadgeOrganisationDetailsController.URL;
+  private static final String REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION =
+      "redirect:" + OrderBadgePersonDetailsController.URL;
+  private static final String REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION =
+      "redirect:" + OrderBadgeOrganisationDetailsController.URL;
 
   private ApplicationService applicationService;
   private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest;
-  private ApplicationToOrderBadgePersonDetailsFormRequest applicationToOrderBadgePersonDetailsFormRequest;
+  private ApplicationToOrderBadgePersonDetailsFormRequest
+      applicationToOrderBadgePersonDetailsFormRequest;
   private ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest;
 
   @Autowired
-  public ApplicationDetailsController(ApplicationService applicationService,
-                                      ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest,
-                                      ApplicationToOrderBadgePersonDetailsFormRequest applicationToOrderBadgePersonDetailsFormRequest,
-                                      ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest) {
+  public ApplicationDetailsController(
+      ApplicationService applicationService,
+      ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest,
+      ApplicationToOrderBadgePersonDetailsFormRequest
+          applicationToOrderBadgePersonDetailsFormRequest,
+      ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest) {
     this.applicationService = applicationService;
     this.applicationToOrderBadgeIndexFormRequest = applicationToOrderBadgeIndexFormRequest;
-    this.applicationToOrderBadgePersonDetailsFormRequest = applicationToOrderBadgePersonDetailsFormRequest;
-    this.applicationToOrderBadgeProcessingFormRequest = applicationToOrderBadgeProcessingFormRequest;
+    this.applicationToOrderBadgePersonDetailsFormRequest =
+        applicationToOrderBadgePersonDetailsFormRequest;
+    this.applicationToOrderBadgeProcessingFormRequest =
+        applicationToOrderBadgeProcessingFormRequest;
   }
 
   @GetMapping(URL)
@@ -61,21 +65,29 @@ public class ApplicationDetailsController {
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
     model.addAttribute("uuid", uuid);
-    model.addAttribute("renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
+    model.addAttribute(
+        "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
 
     return TEMPLATE;
   }
 
   @PostMapping(URL)
-  public String orderABadgeForApplication(@PathVariable(PARAM_ID) UUID uuid, Model model, HttpSession session) {
+  public String orderABadgeForApplication(
+      @PathVariable(PARAM_ID) UUID uuid, Model model, HttpSession session) {
     Application application = applicationService.retrieve(uuid.toString());
     model.addAttribute("app", application);
 
-    OrderBadgeIndexFormRequest orderBadgeIndexFormRequest = applicationToOrderBadgeIndexFormRequest.convert(application);
+    OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
+        applicationToOrderBadgeIndexFormRequest.convert(application);
 
-    session.setAttribute(OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
-    session.setAttribute(OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST, applicationToOrderBadgePersonDetailsFormRequest.convert(application));
-    session.setAttribute(OrderBadgeProcessingController.SESSION_FORM_REQUEST, applicationToOrderBadgeProcessingFormRequest.convert(application));
+    session.setAttribute(
+        OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
+    session.setAttribute(
+        OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST,
+        applicationToOrderBadgePersonDetailsFormRequest.convert(application));
+    session.setAttribute(
+        OrderBadgeProcessingController.SESSION_FORM_REQUEST,
+        applicationToOrderBadgeProcessingFormRequest.convert(application));
 
     if (orderBadgeIndexFormRequest.getApplicantType().equals(PartyTypeCodeField.ORG)) {
       return REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION;

@@ -8,7 +8,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeFie
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
 @Component
-public class ApplicationToOrderBadgeIndexFormRequest implements Converter<Application, OrderBadgeIndexFormRequest> {
+public class ApplicationToOrderBadgeIndexFormRequest
+    implements Converter<Application, OrderBadgeIndexFormRequest> {
 
   @Override
   public OrderBadgeIndexFormRequest convert(Application source) {
@@ -18,8 +19,6 @@ public class ApplicationToOrderBadgeIndexFormRequest implements Converter<Applic
 
     String applicantType = partyTypeCode.equals(PartyTypeCodeField.ORG) ? "organisation" : "person";
 
-    return OrderBadgeIndexFormRequest.builder()
-        .applicantType(applicantType)
-        .build();
+    return OrderBadgeIndexFormRequest.builder().applicantType(applicantType).build();
   }
 }
