@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
@@ -85,5 +86,14 @@ public class BadgeService {
   public void deleteBadge(String badgeNumber) {
     Assert.notNull(badgeNumber, "Badge number should not be null");
     badgeManagementApiClient.deleteBadge(badgeNumber);
+  }
+
+  public String replaceBadge(BadgeReplaceRequest request) {
+    Assert.notNull(request.getBadgeNumber(), "replace badge, badge number not provided");
+    Assert.notNull(request.getDeliverToCode(), "replace badge, deliver to not provided");
+    Assert.notNull(request.getDeliveryOptionCode(), "replace badge, delivery option not provided");
+    Assert.notNull(request.getReplaceReasonCode(), "replace badge,reason code not provided");
+
+    return badgeManagementApiClient.replaceBadge(request);
   }
 }
