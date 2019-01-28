@@ -19,6 +19,6 @@ public class ApplicationToOrderBadgePersonDetailsFormRequestTest extends Applica
     @Test
     public void convert_shouldWork() {
         OrderBadgePersonDetailsFormRequest formRequest = converter.convert(APPLICATION);
-        assertThat(formRequest).isEqualTo(FORM_REQUEST_INDEX);
+        assertThat(formRequest).isEqualTo(FORM_REQUEST_PERSON_DETAILS);
     }
 }
