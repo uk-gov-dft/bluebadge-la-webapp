@@ -283,7 +283,7 @@ public class OrderBadgeTestData {
           .postCode(POSTCODE)
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
-  private static final Person PERSON =
+  protected static final Person PERSON =
       new Person()
           .genderCode(GENDER_SHORTCODE)
           .badgeHolderName(NAME)
@@ -339,7 +339,4 @@ public class OrderBadgeTestData {
           .address(VIEW_MODEL_ADDRESS)
           .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL)
           .build();
-
-    protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX =
-            OrderBadgeIndexFormRequest.builder().applicantType(PARTY_PERSON.getTypeCode()).build();
 }
