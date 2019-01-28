@@ -12,6 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeFie
 import uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -30,6 +31,7 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
     private static final String EXISTING_BADGE_NO = "ABCDEF";
     private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
     protected static final Eligibility APPLICANT_ELIGIBILITY = new Eligibility().typeCode(EligibilityCodeField.fromValue(ELIGIBILITY.toUpperCase()));
+    protected static final String APPLICATION_CHANNEL_SHORTCODE = "ONLINE";
 
     // APPLICANT PERSON
     protected static final AppPerson APP_PERSON =
@@ -66,13 +68,13 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
                     .build();
 
     // FORM REQUESTS
-    protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX =
+    protected static final OrderBadgeIndexFormRequest APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST =
             OrderBadgeIndexFormRequest
                     .builder()
                     .applicantType(PartyTypeCodeField.PERSON.toString().toLowerCase())
                     .build();
 
-    protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
+    protected static final OrderBadgePersonDetailsFormRequest APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST =
             OrderBadgePersonDetailsFormRequest
                     .builder()
                     .name(NAME)
@@ -88,5 +90,17 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
                     .contactDetailsName(NAME)
                     .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
                     .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+                    .build();
+
+    protected static final OrderBadgeProcessingFormRequest APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST =
+            OrderBadgeProcessingFormRequest
+                    .builder()
+                    .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
+                    .applicationDateDay(Integer.parseInt(APPLICATION_DATE_DAY))
+                    .applicationDateMonth(Integer.parseInt(APPLICATION_DATE_MONTH))
+                    .applicationDateYear(Integer.parseInt(APPLICATION_DATE_YEAR))
+                    .applicationDateDay(SUBMISSION_DATE.getDayOfMonth())
+                    .applicationDateMonth(SUBMISSION_DATE.getMonthValue())
+                    .applicationDateYear(SUBMISSION_DATE.getYear())
                     .build();
 }
