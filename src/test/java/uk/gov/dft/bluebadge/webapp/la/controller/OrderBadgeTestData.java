@@ -15,6 +15,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptio
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Organisation;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
@@ -155,6 +156,7 @@ public class OrderBadgeTestData {
   protected static final String BADGE_EXPIRY_DATE_YEAR_WRONG = "2018";
 
   // form requests
+
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
       OrderBadgePersonDetailsFormRequest.builder()
           .buildingAndStreet(BUILDING_AND_STREET)
@@ -337,4 +339,7 @@ public class OrderBadgeTestData {
           .address(VIEW_MODEL_ADDRESS)
           .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL)
           .build();
+
+    protected static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX =
+            OrderBadgeIndexFormRequest.builder().applicantType(PARTY_PERSON.getTypeCode()).build();
 }
