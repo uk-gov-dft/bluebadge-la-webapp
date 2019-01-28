@@ -32,6 +32,7 @@ import uk.gov.dft.bluebadge.webapp.la.security.UserDetailsTokenService;
 @Order(52)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   private static final String LANDING_PAGE_URL = "/";
+  private static final String SIGN_IN_URL = "/sign-in";
 
   @Value("${blue-badge.auth-server.url}")
   private String authServerUrl;
@@ -86,7 +87,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.antMatcher("/**")
         .authorizeRequests()
-        .antMatchers("/sign-in", "/css/**", "/images/**", "/js/**", "/govuk/**")
+        .antMatchers(SIGN_IN_URL, "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
         .antMatchers("/new-applications", "/new-applications/**")
         .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
@@ -102,7 +103,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .fullyAuthenticated()
         .and()
         .formLogin()
-        .loginPage("/sign-in")
+        .loginPage(SIGN_IN_URL)
         .permitAll()
         .defaultSuccessUrl(LANDING_PAGE_URL, true)
         .and()
@@ -114,7 +115,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .exceptionHandling()
         .accessDeniedPage("/something-went-wrong")
-        .accessDeniedHandler(accessDeniedHandler());
+        .accessDeniedHandler(accessDeniedHandler())
+        .and()
+        .sessionManagement()
+        .invalidSessionUrl(SIGN_IN_URL);
   }
 
   @Bean
