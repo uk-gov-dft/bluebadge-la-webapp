@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppContact;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
@@ -19,9 +19,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
-public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestData {
-
-    private ApplicationToOrderBadgeIndexFormRequest converter;
+public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
 
     // Mock application data
     private static final UUID APPLICATION_ID = UUID.randomUUID();
@@ -54,8 +52,10 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
     // APPLICANT PARTY
     private static final AppParty APP_PARTY = new AppParty().contact(APP_CONTACT).person(APP_PERSON).organisation(null).typeCode(PartyTypeCodeField.PERSON);
 
+
+
     // APPLICATION
-    protected static final Application APPLICATION =
+    public static final Application APPLICATION =
             Application.builder()
                     .applicationId(APPLICATION_ID.toString())
                     .applicationTypeCode(APPLICATION_TYPE)
@@ -68,13 +68,13 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
                     .build();
 
     // FORM REQUESTS
-    protected static final OrderBadgeIndexFormRequest APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST =
+    public static final OrderBadgeIndexFormRequest APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST =
             OrderBadgeIndexFormRequest
                     .builder()
                     .applicantType(PartyTypeCodeField.PERSON.toString().toLowerCase())
                     .build();
 
-    protected static final OrderBadgePersonDetailsFormRequest APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST =
+    public static final OrderBadgePersonDetailsFormRequest APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST =
             OrderBadgePersonDetailsFormRequest
                     .builder()
                     .name(NAME)
@@ -92,7 +92,7 @@ public class ApplicationToOrderBadgeBaseFormRequestTest extends OrderBadgeTestDa
                     .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
                     .build();
 
-    protected static final OrderBadgeProcessingFormRequest APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST =
+    public static final OrderBadgeProcessingFormRequest APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST =
             OrderBadgeProcessingFormRequest
                     .builder()
                     .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)

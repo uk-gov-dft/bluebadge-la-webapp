@@ -72,28 +72,23 @@ public class ApplicationDetailsController {
   }
 
   @PostMapping(URL)
-  public String orderABadgeForApplication(
-      @PathVariable(PARAM_ID) UUID uuid, Model model, HttpSession session) {
-    Application application = applicationService.retrieve(uuid.toString());
-    model.addAttribute("app", application);
+  public String orderABadgeForApplication(@PathVariable(PARAM_ID) UUID uuid, HttpSession session) {
+      Application application = applicationService.retrieve(uuid.toString());
 
-    OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
-        applicationToOrderBadgeIndexFormRequest.convert(application);
+      OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
+              applicationToOrderBadgeIndexFormRequest.convert(application);
+      session.setAttribute(
+              OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
 
-    session.setAttribute(
-        OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
-    session.setAttribute(
+      session.setAttribute(
         OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST,
         applicationToOrderBadgePersonDetailsFormRequest.convert(application));
-    session.setAttribute(
+
+      session.setAttribute(
         OrderBadgeProcessingController.SESSION_FORM_REQUEST,
         applicationToOrderBadgeProcessingFormRequest.convert(application));
 
-    if (orderBadgeIndexFormRequest.getApplicantType().equals(PartyTypeCodeField.ORG)) {
-      return REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION;
-    }
-
-    return REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION;
+      return REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION;
   }
 
   @DeleteMapping(URL)
