@@ -41,6 +41,11 @@ public class LocalAuthorityRefData extends ReferenceData {
   }
 
   @JsonIgnore
+  public BigDecimal getBadgeCost() {
+    return getLocalAuthorityMetaData().map(LocalAuthorityMetaData::getBadgeCost).orElse(null);
+  }
+
+  @JsonIgnore
   public String getDifferentServiceSignpostUrl() {
     return getLocalAuthorityMetaData()
         .map(LocalAuthorityMetaData::getDifferentServiceSignpostUrl)

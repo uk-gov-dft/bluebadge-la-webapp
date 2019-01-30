@@ -73,8 +73,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest
     LocalAuthorityRefData referenceData = new LocalAuthorityRefData();
     referenceData.setShortCode(SHORT_CODE);
     LocalAuthorityRefData.LocalAuthorityMetaData metadata =
-        LocalAuthorityRefData.LocalAuthorityMetaData.builder().build();
-    metadata.setDifferentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL);
+        LocalAuthorityRefData.LocalAuthorityMetaData.builder().differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL).build();
     referenceData.setLocalAuthorityMetaData(metadata);
     when(referenceDataServiceMock.retrieveBadgeReferenceDataItem(RefDataGroupEnum.LA, SHORT_CODE))
         .thenReturn(Optional.of(referenceData));

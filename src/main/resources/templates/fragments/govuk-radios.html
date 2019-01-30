@@ -67,7 +67,7 @@ for id and attaching label to the input field.
 
         <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
 
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s" th:if="${label}">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" th:if="${label}">
                 <h2 class="govuk-heading-s" th:data-uipath="${name} + '.label'" th:text="${label}"></h2>
             </legend>
 
