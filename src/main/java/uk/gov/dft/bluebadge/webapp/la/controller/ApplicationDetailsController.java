@@ -34,9 +34,7 @@ public class ApplicationDetailsController {
       "redirect:" + NewApplicationsController.URL;
   private static final String REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION =
       "redirect:" + OrderBadgePersonDetailsController.URL;
-  private static final String REDIRECT_URL_ORDER_BADGE_FOR_ORGANISATION_APPLICATION =
-      "redirect:" + OrderBadgeOrganisationDetailsController.URL;
-
+    
   private ApplicationService applicationService;
   private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest;
   private ApplicationToOrderBadgePersonDetailsFormRequest
