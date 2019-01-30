@@ -15,7 +15,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptio
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Organisation;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Party;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
