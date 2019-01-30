@@ -9,7 +9,6 @@ blue-badge:
 spring:
   session:
     store-type: none
-  autoconfigure.exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 management:
   endpoint:
     health:
