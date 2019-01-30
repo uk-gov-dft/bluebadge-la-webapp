@@ -209,7 +209,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I click on Continue button$")
   public void iClickOnContinueButton() throws Throwable {
-    sitePage.findPageElementById("submit").click();
+    sitePage.findElementWithUiPath("continue").click();
   }
 
   @And("^I select No$")
