@@ -55,7 +55,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline(#{localAuthorityDetailPage.paymentsEnabled.name}, 'paymentsEnabled', null, ${paymentsEnabledOptions}) }"></div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.paymentsEnabled.name}, 'paymentsEnabled', null, ${paymentsEnabledOptions}) }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.badgeCost.name}, 'badgeCost', null, 'text') }"></div>
 
