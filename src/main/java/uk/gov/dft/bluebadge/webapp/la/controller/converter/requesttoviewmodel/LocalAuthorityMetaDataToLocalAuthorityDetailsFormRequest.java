@@ -24,7 +24,7 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest
         .addressLine4(metadata.getAddressLine4())
         .paymentsEnabled(metadata.getPaymentsEnabled())
         .badgeCost(metadata.getBadgeCost())
-        .badgePackType(metadata.getBadgePackType())
+        .badgePackType(metadata.getClockType())
         .contactNumber(metadata.getContactNumber())
         .country(metadata.getCountry())
         .county(metadata.getCounty())

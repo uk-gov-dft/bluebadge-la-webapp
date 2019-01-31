@@ -160,7 +160,7 @@ public interface LocalAuthorityTestData {
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
           .county(COUNTY)
           .contactNumber(CONTACT_NUMBER)
-          .badgePackType(BADGE_PACK_TYPE)
+          .clockType(BADGE_PACK_TYPE)
           .paymentsEnabled(PAYMENTS_ENABLED)
           .badgeCost(BADGE_COST)
           .postcode(POSTCODE)
