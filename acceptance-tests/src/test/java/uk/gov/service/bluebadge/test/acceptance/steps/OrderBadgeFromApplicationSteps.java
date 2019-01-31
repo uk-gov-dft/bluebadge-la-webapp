@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -27,6 +28,11 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
   public void iCanSeeOrderBadgeButton() throws Throwable {
       assertNotNull("Can see element", sitePage.findElementWithUiPath("order"));
   }
+
+    @And("^I cannot see the \"Order badge\" button$")
+    public void iCannotSeeOrderBadgeButton() throws Throwable {
+        assertNull("Cannot see element", sitePage.findElementWithUiPath("order"));
+    }
 
     @When("^I click the \"Order badge\" button$")
     public void iClickOrderBadgeButton() throws Throwable {
@@ -88,11 +94,11 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
 
   @Before("@OrderBadgeFromApplicationScripts")
   public void executeInsertApplicationsDBScript() throws SQLException {
-    databaseSteps.runScript("scripts/new-applications/details/create-application-details.sql");
+    databaseSteps.runScript("scripts/create-applications-for-ordering-badges-from.sql");
   }
 
   @After("@OrderBadgeFromApplicationScripts")
   public void executeDeleteApplicationsDBScript() throws SQLException {
-    databaseSteps.runScript("scripts/new-applications/details/delete-application-details.sql");
+    databaseSteps.runScript("scripts/delete-applications-for-ordering-badges-from.sql");
   }
 }
