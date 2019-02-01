@@ -284,7 +284,7 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
 
   @Test
   public void
-      orderABadgeForApplication_shouldCreateFormRequestsOnSessionAndRedirectToOrderABadgeStep2()
+    orderABadgeForApplication_shouldCreateFormRequestsOnSessionAndRedirectToOrderABadgeStepPersonDetails()
           throws Exception {
     when(applicationServiceMock.retrieve(
             ApplicationToOrderBadgeTestData.APPLICATION.getApplicationId()))
