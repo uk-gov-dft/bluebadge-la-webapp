@@ -41,6 +41,7 @@ public interface LocalAuthorityTestData {
   static final String COUNTRY = "United Kingdom";
   static final String NATION_PARAM = "nation";
   static final String NATION = "ENG";
+  static final String NATION_INVALID = "invalid";
   static final String TOWN_PARAM = "town";
   static final String TOWN = "London";
   static final String COUNTY_PARAM = "county";

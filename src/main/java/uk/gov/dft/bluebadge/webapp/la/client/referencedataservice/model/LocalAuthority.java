@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.validation.annotation.Validated;
 
@@ -295,6 +296,7 @@ public class LocalAuthority {
    */
   @ApiModelProperty(example = "ENG", required = true, value = "ENG, WLS, SCO or NIR")
   @NotBlank
+  @Pattern(regexp = "^(\\s*|ENG|SCO|WLS|NIR)$")
   public String getNation() {
     return nation;
   }
