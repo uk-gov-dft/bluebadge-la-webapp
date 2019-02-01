@@ -4,6 +4,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 

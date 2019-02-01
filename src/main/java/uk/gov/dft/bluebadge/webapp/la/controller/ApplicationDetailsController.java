@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgeIndexFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.ApplicationToOrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseDetailsController;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexController;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgePersonDetailsController;
@@ -27,12 +27,12 @@ import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 @Controller
 @Slf4j
 public class ApplicationDetailsController {
-  private static final String PARAM_ID = "uuid";
+  private static final String PARAM_UUID = "uuid";
   private static final String URL = "/new-applications/{uuid}";
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
-  private static final String REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION =
+  private static final String REDIRECT_URL_ORDER_BADGE_PERSON_DETAILS =
       "redirect:" + OrderBadgePersonDetailsController.URL;
 
   private ApplicationService applicationService;
@@ -57,7 +57,7 @@ public class ApplicationDetailsController {
   }
 
   @GetMapping(URL)
-  public String show(@PathVariable(PARAM_ID) UUID uuid, Model model) {
+  public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
@@ -70,7 +70,7 @@ public class ApplicationDetailsController {
   }
 
   @PostMapping(URL)
-  public String orderABadgeForApplication(@PathVariable(PARAM_ID) UUID uuid, HttpSession session) {
+  public String orderABadgeForApplication(@PathVariable(PARAM_UUID) UUID uuid, HttpSession session) {
     Application application = applicationService.retrieve(uuid.toString());
 
     OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
@@ -88,11 +88,11 @@ public class ApplicationDetailsController {
         OrderBadgeProcessingController.SESSION_FORM_REQUEST,
         orderBadgeProcessingFormRequest);
 
-    return REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION;
+    return REDIRECT_URL_ORDER_BADGE_PERSON_DETAILS;
   }
 
   @DeleteMapping(URL)
-  public String delete(@PathVariable(PARAM_ID) UUID uuid, Model model) {
+  public String delete(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;
   }

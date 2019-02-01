@@ -1,4 +1,4 @@
-package uk.gov.dft.bluebadge.webapp.la.controller.converter;
+package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
