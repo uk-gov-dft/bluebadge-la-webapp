@@ -38,12 +38,8 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
     sitePage.findElementWithUiPath("order").click();
   }
 
-  @Then("^I should see the \"Order a badge\" page where the relevant application type is pre-set$")
-  public void iShouldSeeOrderABadgePagePrefilledWithApplicationDetails() throws Throwable {
-    assertThat(
-        "I should see page titled.",
-        sitePage.getDocumentTitle(),
-        is("Order a badge - GOV.UK Manage Blue Badges"));
+  @Then("^I should see the \"Order a badge\" page form pre-filled$")
+  public void iShouldSeeOrderABadgePagePrefilled() throws Throwable {
     assertThat(
         "Application type should be ...",
         sitePage.findElementWithUiPath("applicantType.option.person").getAttribute("checked"),
@@ -51,13 +47,8 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
   }
 
   @Then(
-      "^I should see the \"Personal Details\" page where the form is pre-filled with the application's relevant data$")
-  public void iShouldSeePersonalDetailsPagePrefilledWithApplicationDetails() throws Throwable {
-    assertThat(
-        "I should see page titled.",
-        sitePage.getDocumentTitle(),
-        is("Personal Details - GOV.UK Manage Blue Badges"));
-
+      "^I should see the \"Personal Details\" page form pre-filled$")
+  public void iShouldSeePersonalDetailsPagePrefilled() throws Throwable {
     // Personal details
     assertThat(
         "Name field should contain ...",
@@ -121,13 +112,8 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
   }
 
   @Then(
-      "^I should see the \"Processing\" page where the form is pre-filled with the application's relevant data$")
-  public void iShouldSeeProcessingPagePrefilledWithApplicationDetails() throws Throwable {
-    assertThat(
-        "I should see page titled.",
-        sitePage.getDocumentTitle(),
-        is("Processing - GOV.UK Manage Blue Badges"));
-
+      "^I should see the \"Processing\" page form pre-filled$")
+  public void iShouldSeeProcessingPagePrefilled() throws Throwable {
     assertThat(
         "Gender should be ...",
         sitePage.findElementWithUiPath("applicationChannel.option.ONLINE").getAttribute("checked"),

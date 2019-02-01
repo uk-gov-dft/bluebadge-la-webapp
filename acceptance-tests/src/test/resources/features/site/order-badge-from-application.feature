@@ -19,11 +19,14 @@ Feature: Dft BlueBadge Order a Badge - order badge from application
     When I click the "Order badge" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When I can click on element "back-link" link
-    Then I should see the "Order a badge" page where the relevant application type is pre-set
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    And I should see the "Order a badge" page form pre-filled
     When I click on Continue button
-    Then I should see the "Personal Details" page where the form is pre-filled with the application's relevant data
+    Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
+    And I should see the "Personal Details" page form pre-filled
     When I click on Continue button
-    Then I should see the "Processing" page where the form is pre-filled with the application's relevant data
+    Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
+    And I should see the "Processing" page form pre-filled
     When I click on Continue button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
 
