@@ -83,7 +83,7 @@ public class ApplicationDetailsController {
         applicationToOrderBadgePersonDetailsFormRequest.convert(application));
 
     OrderBadgeProcessingFormRequest orderBadgeProcessingFormRequest = applicationToOrderBadgeProcessingFormRequest.convert(application);
-    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE");
+    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE"); 
     session.setAttribute(
         OrderBadgeProcessingController.SESSION_FORM_REQUEST,
         orderBadgeProcessingFormRequest);
