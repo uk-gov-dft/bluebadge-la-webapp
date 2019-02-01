@@ -46,10 +46,8 @@ public class BadgeDetailsController {
 
     Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
 
-    Boolean canBeCancelled =
-        "ISSUED".equals(badgeDetails.getStatusCode())
-            || "ORDERED".equals(badgeDetails.getStatusCode());
-    model.addAttribute("canBeCancelled", canBeCancelled);
+    model.addAttribute("canBeCancelled", badgeDetails.canBeCancelled());
+    model.addAttribute("canBeReplaced", badgeDetails.canBeReplaced());
 
     BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
     model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
@@ -59,7 +57,7 @@ public class BadgeDetailsController {
 
   @PreAuthorize("hasAuthority('PERM_DELETE_BADGE')")
   @DeleteMapping(URL_DELETE_BADGE)
-  public String deleteUser(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
+  public String deleteBadge(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
     badgeService.deleteBadge(badgeNumber);
     return REDIRECT_URL_MANAGE_BADGES;
   }

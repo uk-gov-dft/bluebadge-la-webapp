@@ -1,12 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -14,6 +18,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import lombok.SneakyThrows;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +35,10 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumberResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
@@ -268,5 +275,47 @@ public class BadgeManagementApiClientTest {
         .andExpect(method(HttpMethod.DELETE))
         .andRespond(withServerError());
     client.deleteBadge(BADGE_NUMBER);
+  }
+
+  @Test
+  @SneakyThrows
+  public void replaceBadge() {
+    String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
+    String NEW_BADGE_NUMBER = "ABC";
+
+    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+    String requestBody = objectMapper.writeValueAsString(request);
+
+    BadgeNumberResponse badgeResponse =
+        BadgeNumberResponse.builder().data(NEW_BADGE_NUMBER).build();
+    String response = objectMapper.writeValueAsString(badgeResponse);
+
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.POST))
+        .andExpect(content().json(requestBody))
+        .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+    String newBadgeNumber = client.replaceBadge(request);
+    assertEquals(NEW_BADGE_NUMBER, newBadgeNumber);
+  }
+
+  @Test(expected = BadRequestException.class)
+  @SneakyThrows
+  public void replaceBadge_throwException_whenNoRequestBodyIsPassed() {
+    String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
+
+    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+
+    String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
+
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.POST))
+        .andExpect(header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andRespond(
+            withBadRequest().body(commonResponseBody).contentType(MediaType.APPLICATION_JSON));
+
+    client.replaceBadge(request);
   }
 }

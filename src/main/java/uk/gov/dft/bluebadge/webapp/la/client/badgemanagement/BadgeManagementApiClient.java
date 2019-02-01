@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -15,8 +16,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumberResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
@@ -29,6 +32,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private static final String BADGES_BASE_ENDPOINT = "badges";
   public static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
   public static final String DELETE_ENDPOINT = "/badges/{badgeNumber}";
+  public static final String REPLACE_ENDPOINT = "/badges/{badgeNumber}/replacements";
 
   private final RestTemplate restTemplate;
 
@@ -154,5 +158,24 @@ public class BadgeManagementApiClient extends BaseApiClient {
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
+  }
+
+  public String replaceBadge(BadgeReplaceRequest request) {
+    Assert.notNull(request.getBadgeNumber(), "replace badge, badge number not provided");
+    Assert.notNull(request.getDeliverToCode(), "replace badge, deliver to not provided");
+    Assert.notNull(request.getDeliveryOptionCode(), "replace badge, delivery option not provided");
+    Assert.notNull(request.getReplaceReasonCode(), "replace badge,reason code not provided");
+    String uri = UriComponentsBuilder.fromUriString(REPLACE_ENDPOINT).build().toUriString();
+
+    try {
+      return Objects.requireNonNull(
+              restTemplate.postForObject(
+                  uri, request, BadgeNumberResponse.class, request.getBadgeNumber()))
+          .getData();
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+
+    return StringUtils.EMPTY;
   }
 }
