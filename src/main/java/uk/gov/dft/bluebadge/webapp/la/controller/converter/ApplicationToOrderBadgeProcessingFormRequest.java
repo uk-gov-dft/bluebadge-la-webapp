@@ -11,8 +11,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePr
 public class ApplicationToOrderBadgeProcessingFormRequest
     implements Converter<Application, OrderBadgeProcessingFormRequest> {
 
-  private static final String DEFAULT_APPLICATION_CHANNEL = "ONLINE";
-
   @Override
   public OrderBadgeProcessingFormRequest convert(Application source) {
     Assert.notNull(source, "Source cannot be null");
@@ -23,7 +21,6 @@ public class ApplicationToOrderBadgeProcessingFormRequest
         .applicationDateDay(submissionDate.getDayOfMonth())
         .applicationDateMonth(submissionDate.getMonthValue())
         .applicationDateYear(submissionDate.getYear())
-        .applicationChannel(DEFAULT_APPLICATION_CHANNEL)
         .build();
   }
 }

@@ -30,7 +30,6 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
   private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
   protected static final Eligibility APPLICANT_ELIGIBILITY =
       new Eligibility().typeCode(EligibilityCodeField.fromValue(ELIGIBILITY.toUpperCase()));
-  protected static final String APPLICATION_CHANNEL_SHORTCODE = "ONLINE";
 
   // APPLICANT PERSON
   protected static final AppPerson APP_PERSON =
@@ -98,7 +97,6 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
   public static final OrderBadgeProcessingFormRequest
       APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST =
           OrderBadgeProcessingFormRequest.builder()
-              .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
               .applicationDateDay(Integer.parseInt(APPLICATION_DATE_DAY))
               .applicationDateMonth(Integer.parseInt(APPLICATION_DATE_MONTH))
               .applicationDateYear(Integer.parseInt(APPLICATION_DATE_YEAR))

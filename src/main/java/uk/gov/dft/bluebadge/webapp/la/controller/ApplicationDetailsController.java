@@ -21,6 +21,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexContr
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgePersonDetailsController;
 import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeProcessingController;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
@@ -81,9 +82,11 @@ public class ApplicationDetailsController {
         OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST,
         applicationToOrderBadgePersonDetailsFormRequest.convert(application));
 
+    OrderBadgeProcessingFormRequest orderBadgeProcessingFormRequest = applicationToOrderBadgeProcessingFormRequest.convert(application);
+    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE");
     session.setAttribute(
         OrderBadgeProcessingController.SESSION_FORM_REQUEST,
-        applicationToOrderBadgeProcessingFormRequest.convert(application));
+        orderBadgeProcessingFormRequest);
 
     return REDIRECT_URL_ORDER_BADGE_FOR_PERSON_APPLICATION;
   }
