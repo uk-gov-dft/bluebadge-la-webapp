@@ -1,16 +1,15 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
 
 public class DatabaseSteps {
 
@@ -58,6 +57,7 @@ public class DatabaseSteps {
   public void executeInsertUsersDBScript() throws SQLException {
     dbUtils.runScript("scripts/create_users.sql");
   }
+
   @After("@UsersRolesAndPermissionsScripts")
   public void executeDeleteUsersDBScript() throws SQLException {
     dbUtils.runScript("scripts/delete_users.sql");

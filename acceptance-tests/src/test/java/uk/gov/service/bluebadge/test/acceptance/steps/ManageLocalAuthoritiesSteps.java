@@ -13,7 +13,7 @@ public class ManageLocalAuthoritiesSteps {
   @Autowired protected ScenarioContext scenarioContext;
 
   @When("^I click on the first name link from local authorities table$")
-  public void iClickOnTheFirstNameLinkFromUsersTable() throws Throwable {
+  public void iClickOnTheFirstNameLinkFromLocalAuthoritiesTable() throws Throwable {
     sitePage.findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(1)>a").click();
   }
 
@@ -24,5 +24,11 @@ public class ManageLocalAuthoritiesSteps {
     sitePage
         .findPageElementById("differentServiceSignpostUrl")
         .sendKeys(differentServiceSignpostUrl);
+  }
+
+  @And("^I type on field \"([^\"]+)\" value \"([^\"]*)\"$")
+  public void andITypeOnFieldValue(String fieldName, String value) throws Throwable {
+    sitePage.findPageElementById(fieldName).clear();
+    sitePage.findPageElementById(fieldName).sendKeys(value);
   }
 }

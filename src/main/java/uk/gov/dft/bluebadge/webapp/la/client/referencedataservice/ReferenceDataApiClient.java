@@ -54,17 +54,14 @@ public class ReferenceDataApiClient extends BaseApiClient {
    * Updates a local authority.
    *
    * @param shortCode identifier of the local authority to update.
-   * @param differentServiceSignpostUrl the value to update.
+   * @param localAuthority objects with values to update.
    */
-  public void updateLocalAuthority(String shortCode, String differentServiceSignpostUrl) {
-
+  public void updateLocalAuthority(String shortCode, LocalAuthority localAuthority) {
     String uri =
         UriComponentsBuilder.fromUriString("/reference-data/authorities/{shortCode}")
             .build()
             .toUriString();
 
-    LocalAuthority localAuthority =
-        new LocalAuthority().differentServiceSignpostUrl(differentServiceSignpostUrl);
     HttpEntity<LocalAuthority> httpRequest = new HttpEntity<>(localAuthority);
 
     try {
