@@ -73,7 +73,7 @@ public class LocalAuthorityRefData extends ReferenceData {
     private Nation nation;
     private String contactNumber;
     private String emailAddress;
-    private String badgePackType;
+    private String clockType;
     private Boolean paymentsEnabled;
     private BigDecimal badgeCost;
     private String differentServiceSignpostUrl;

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
@@ -38,6 +39,10 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   private String country;
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.nation}")
+  @Pattern(
+    regexp = "^(\\s*|ENG|SCO|WLS|NIR)$",
+    message = "{Pattern.localAuthorityDetailPage.nation}"
+  )
   private String nation;
 
   private String contactNumber;
