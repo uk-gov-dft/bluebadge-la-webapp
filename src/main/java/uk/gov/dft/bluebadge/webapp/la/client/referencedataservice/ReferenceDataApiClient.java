@@ -5,12 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
@@ -66,14 +64,14 @@ public class ReferenceDataApiClient extends BaseApiClient {
     HttpEntity<LocalAuthority> httpRequest = new HttpEntity<>(localAuthority);
 
     try {
-      restTemplate.put(uri, HttpMethod.PUT, httpRequest, shortCode);
+      restTemplate.put(uri, httpRequest, shortCode);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
   }
 
   /**
-   * Updates a local authority.
+   * Updates a local council.
    *
    * @param shortCode identifier of the local council to update.
    * @param localCouncil objects with values to update.

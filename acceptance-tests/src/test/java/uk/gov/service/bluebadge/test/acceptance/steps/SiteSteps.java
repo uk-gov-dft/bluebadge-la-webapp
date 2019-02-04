@@ -1,27 +1,5 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,6 +13,27 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.slf4j.LoggerFactory.getLogger;
+
+import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
+import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
+import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
+import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
 
@@ -100,8 +99,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should(?: also)? see \"([^\"]+)\" with:")
-  public void thenIShouldSeeItemsOf(String pageElementName, final DataTable elementItems)
-      {
+  public void thenIShouldSeeItemsOf(String pageElementName, final DataTable elementItems) {
     WebElement pageElement = sitePage.findPageElement(pageElementName);
 
     assertNotNull("I should find page element: " + pageElementName, pageElement);
@@ -234,9 +232,7 @@ public class SiteSteps extends AbstractSpringSteps {
   @And("^I should see signout link$")
   public void iShouldSeeSignoutLink() {
     assertThat(
-        "Sign out link expected",
-        sitePage.findElementWithUiPath("topbar.signout"),
-        notNullValue());
+        "Sign out link expected", sitePage.findElementWithUiPath("topbar.signout"), notNullValue());
     assertThat(
         "Sign out link expected",
         sitePage.findElementWithUiPath("topbar.signout").getAttribute("value"),
@@ -359,6 +355,9 @@ public class SiteSteps extends AbstractSpringSteps {
       case "Manage local authorities":
         uiPath = "sidebar-nav.manage-local-authorities";
         break;
+      case "Manage local councils":
+        uiPath = "sidebar-nav.manage-local-councils";
+        break;
       default:
         uiPath = "sidebar-nav";
         break;
@@ -434,8 +433,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
-  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle)
-      {
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle) {
     String uiPath = navTitleToUiPath(navTitle);
     iShouldSeeElementWithUiPath(visible, uiPath);
   }
@@ -557,5 +555,10 @@ public class SiteSteps extends AbstractSpringSteps {
         .getText()
         .contains(System.getProperty("email")));
     assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
+  }
+
+  @And("^I clear the field \"([^\"]*)\"$")
+  public void iClearTheField(String fieldName) {
+    sitePage.findPageElementById(fieldName).clear();
   }
 }

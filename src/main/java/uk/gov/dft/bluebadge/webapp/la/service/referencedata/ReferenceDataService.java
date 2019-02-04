@@ -301,7 +301,7 @@ public class ReferenceDataService {
     referenceDataApiClient.updateLocalAuthority(shortCode, localAuthority);
   }
 
-  public void updateLocalCouncil(String shortCode, LocalCouncil localCouncil){
+  public void updateLocalCouncil(String shortCode, LocalCouncil localCouncil) {
     Assert.notNull(shortCode, "Short code required to update LC.");
     Assert.notNull(localCouncil, "Council details required to update LC");
 

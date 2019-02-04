@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,19 +16,16 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncilRefData;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
 public class LocalCouncilDetailsController extends BaseController {
 
-  public static final String URL = "/manage-local-councils/local-council-details/{shortCode}";
+  static final String URL = "/manage-local-councils/local-council-details/{shortCode}";
 
-  private static final String TEMPLATE = "manage-local-councils/local-council-details";
+  static final String TEMPLATE = "manage-local-councils/local-council-details";
 
   private static final String REDIRECT_URL_MANAGE_LOCAL_COUNCILS =
       "redirect:" + ManageLocalCouncilsController.URL;

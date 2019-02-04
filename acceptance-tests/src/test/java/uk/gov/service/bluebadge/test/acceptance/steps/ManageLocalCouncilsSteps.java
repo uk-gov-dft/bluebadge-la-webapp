@@ -1,6 +1,5 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
