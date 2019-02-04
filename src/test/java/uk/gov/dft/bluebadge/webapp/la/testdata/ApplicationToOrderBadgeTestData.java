@@ -1,9 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.UUID;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppContact;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
@@ -18,13 +14,18 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIn
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.UUID;
+
 public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
 
   // Mock application data
   private static final UUID APPLICATION_ID = UUID.randomUUID();
   private static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
-  private static final OffsetDateTime SUBMISSION_DATE =
+  public static final OffsetDateTime SUBMISSION_DATE =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
   private static final String EXISTING_BADGE_NO = "ABCDEF";
   private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
@@ -104,4 +105,16 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
               .applicationDateMonth(SUBMISSION_DATE.getMonthValue())
               .applicationDateYear(SUBMISSION_DATE.getYear())
               .build();
+
+  public static final OrderBadgeProcessingFormRequest
+    APPLICATION_TO_ORDER_BADGE_PROCESSING_WITH_APPLICATION_CHANNEL_FORM_REQUEST =
+    OrderBadgeProcessingFormRequest.builder()
+      .applicationChannel("ONLINE")
+      .applicationDateDay(Integer.parseInt(APPLICATION_DATE_DAY))
+      .applicationDateMonth(Integer.parseInt(APPLICATION_DATE_MONTH))
+      .applicationDateYear(Integer.parseInt(APPLICATION_DATE_YEAR))
+      .applicationDateDay(SUBMISSION_DATE.getDayOfMonth())
+      .applicationDateMonth(SUBMISSION_DATE.getMonthValue())
+      .applicationDateYear(SUBMISSION_DATE.getYear())
+      .build();
 }
