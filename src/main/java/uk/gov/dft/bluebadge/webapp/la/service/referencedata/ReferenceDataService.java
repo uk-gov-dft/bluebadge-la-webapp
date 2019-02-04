@@ -26,6 +26,7 @@ import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
 @Service
@@ -136,7 +137,7 @@ public class ReferenceDataService {
   }
 
   // BADGE
-  private List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
+  public List<ReferenceData> retrieveBadgeReferenceDataList(RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
     }
@@ -298,5 +299,12 @@ public class ReferenceDataService {
     Assert.notNull(localAuthority, "localAuthority should not be null");
 
     referenceDataApiClient.updateLocalAuthority(shortCode, localAuthority);
+  }
+
+  public void updateLocalCouncil(String shortCode, LocalCouncil localCouncil){
+    Assert.notNull(shortCode, "Short code required to update LC.");
+    Assert.notNull(localCouncil, "Council details required to update LC");
+
+    referenceDataApiClient.updateLocalCouncil(shortCode, localCouncil);
   }
 }
