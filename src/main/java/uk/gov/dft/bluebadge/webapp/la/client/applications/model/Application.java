@@ -21,6 +21,7 @@ public class Application {
   private String existingBadgeNumber;
   private AppParty party;
   private Eligibility eligibility;
+  private String paymentReference;
   private List<Artifact> artifacts;
 
   public List<Artifact> getProofOfIdentityArtifacts() {
