@@ -72,7 +72,7 @@ public class OrderBadgeProcessingController {
     // Is always standard if sent to council.
     if (DeliverToCodeField.HOME == formRequest.getDeliverTo()
         && null == formRequest.getDeliveryOptions()) {
-      bindingResult.rejectValue("deliveryOptions", "NotNull");
+      bindingResult.rejectValue("deliveryOptions", "NotNull.badge");
     } else if (DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()) {
       formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
     }
