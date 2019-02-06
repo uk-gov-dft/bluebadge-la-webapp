@@ -411,6 +411,12 @@
             </dl>
         </div>
 
+        <div th:if="${renderOrderBadgeButton}">
+            <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
+                <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="order" class="govuk-button">
+            </form>
+        </div>
+
         <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text" data-uipath="removeApplicationSummaryText"

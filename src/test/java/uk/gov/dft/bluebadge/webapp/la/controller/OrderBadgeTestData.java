@@ -155,6 +155,7 @@ public class OrderBadgeTestData {
   protected static final String BADGE_EXPIRY_DATE_YEAR_WRONG = "2018";
 
   // form requests
+
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
       OrderBadgePersonDetailsFormRequest.builder()
           .buildingAndStreet(BUILDING_AND_STREET)
@@ -281,7 +282,7 @@ public class OrderBadgeTestData {
           .postCode(POSTCODE)
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
-  private static final Person PERSON =
+  protected static final Person PERSON =
       new Person()
           .genderCode(GENDER_SHORTCODE)
           .badgeHolderName(NAME)

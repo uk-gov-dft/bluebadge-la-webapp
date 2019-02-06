@@ -1,5 +1,22 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,41 +29,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.slf4j.LoggerFactory.getLogger;
-
-import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
 
-  private static final Logger log = getLogger(SiteSteps.class);
-
-  protected LocalDateGenerator ldg = new LocalDateGenerator();
-  protected PostCodeGenerator pcg = new PostCodeGenerator();
-
   @Autowired protected SitePage sitePage;
-
-  @Autowired private AcceptanceTestProperties acceptanceTestProperties;
-
-  @Autowired private TestContentUrls urlLookup;
 
   @Autowired protected ScenarioContext scenarioContext;
 
@@ -84,7 +70,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @Then("^I should (?:also )?see:?$")
   public void thenIShouldAlsoSee(final DataTable pageSections) {
-    String elementName = null;
+    String elementName;
     for (List<String> elementsContent : pageSections.raw()) {
       elementName = elementsContent.get(0);
       WebElement pageElement = sitePage.findPageElement(elementName);
@@ -136,7 +122,7 @@ public class SiteSteps extends AbstractSpringSteps {
     Thread.sleep(sec * 1000);
   }
 
-  public static Matcher<String> getMatcherForText(String text) {
+  static Matcher<String> getMatcherForText(String text) {
     if (text.endsWith(" ...")) {
       return startsWith(text.substring(0, text.length() - 4));
     }
@@ -205,7 +191,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @And("^I click on Continue button$")
   public void iClickOnContinueButton() {
-    sitePage.findPageElementById("submit").click();
+    sitePage.findElementWithUiPath("continue").click();
   }
 
   @And("^I select No$")
@@ -267,26 +253,37 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
   public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) {
     String uiPath;
-    if (arg0.equals("invalid email")) {
-      uiPath = "emailAddress.summary-error";
-    } else if (arg0.equals("sign in invalid email")) {
-      uiPath = "error.form.field.signin.email.invalid";
-    } else if (arg0.equals("invalid email or password")) {
-      uiPath = "error.form.global.accessDenied.description";
-    } else if (arg0.equals("sign in account locked title")) {
-      uiPath = "error.form.field.signin.locked.title";
-    } else if (arg0.equals("sign in account locked")) {
-      uiPath = "error.form.field.signin.locked.description";
-    } else if (arg0.equals("invalid name")) {
-      uiPath = "name.summary-error";
-    } else if (arg0.equals("blank permissions")) {
-      uiPath = "role.summary-error";
-    } else if (arg0.equals("blank Local authority")) {
-      uiPath = "localAuthorityShortCode.summary-error";
-    } else if (arg0.equals("password_reset_password_error")) {
-      uiPath = "password.error";
-    } else {
-      uiPath = arg0;
+    switch (arg0) {
+      case "invalid email":
+        uiPath = "emailAddress.summary-error";
+        break;
+      case "sign in invalid email":
+        uiPath = "error.form.field.signin.email.invalid";
+        break;
+      case "invalid email or password":
+        uiPath = "error.form.global.accessDenied.description";
+        break;
+      case "sign in account locked title":
+        uiPath = "error.form.field.signin.locked.title";
+        break;
+      case "sign in account locked":
+        uiPath = "error.form.field.signin.locked.description";
+        break;
+      case "invalid name":
+        uiPath = "name.summary-error";
+        break;
+      case "blank permissions":
+        uiPath = "role.summary-error";
+        break;
+      case "blank Local authority":
+        uiPath = "localAuthorityShortCode.summary-error";
+        break;
+      case "password_reset_password_error":
+        uiPath = "password.error";
+        break;
+      default:
+        uiPath = arg0;
+        break;
     }
 
     WebElement errorElement = sitePage.findElementWithUiPath(uiPath);
@@ -395,7 +392,7 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+    assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
   @Then("^I should see only results where postcode \"([^\"]*)\"$")
@@ -416,7 +413,7 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+    assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
   @And("^I can click \"([^\"]*)\" button$")
@@ -457,7 +454,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
     WebElement displayCount =
         sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
-    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
+    assertEquals((int) Integer.valueOf(displayCount.getText()), records.size());
   }
 
   @And("^I can see first page of paged records$")
@@ -465,7 +462,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 50);
+    assertEquals(50, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -485,7 +482,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 50);
+    assertEquals(50, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -505,7 +502,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 20);
+    assertEquals(20, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -541,7 +538,7 @@ public class SiteSteps extends AbstractSpringSteps {
             .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals("0 Results:"));
+    assertEquals("0 Results:", displayCount.getText());
   }
 
   @Then("^I should see the newly created user's permission as \"([^\"]*)\"$")
