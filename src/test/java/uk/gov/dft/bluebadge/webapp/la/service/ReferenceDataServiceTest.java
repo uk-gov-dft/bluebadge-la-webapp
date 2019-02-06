@@ -19,6 +19,7 @@ import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
@@ -421,5 +422,19 @@ public class ReferenceDataServiceTest {
   public void updateLocalAuthority_WhenShortCodeIsInvalid_ThenShouldUpdateLocalAuthority() {
     referenceDataService.updateLocalAuthority(null, LOCAL_AUTHORITY);
     verify(referenceDataManagementApiClientMock, times(0)).updateLocalAuthority(any(), any());
+  }
+
+  @Test
+  public void updateLocalCouncil_WhenShortCodeIsValid_ThenShouldUpdateLocalAuthority() {
+    LocalCouncil lc = LocalCouncil.builder().description("desc").build();
+    referenceDataService.updateLocalCouncil("LC1", lc);
+    verify(referenceDataManagementApiClientMock, times(1)).updateLocalCouncil("LC1", lc);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void updateLocalCouncil_WhenShortCodeIsInvalid_ThenShouldUpdateLocalAuthority() {
+    referenceDataService.updateLocalCouncil(
+        null, LocalCouncil.builder().description("ABC").build());
+    verify(referenceDataManagementApiClientMock, times(0)).updateLocalCouncil(any(), any());
   }
 }

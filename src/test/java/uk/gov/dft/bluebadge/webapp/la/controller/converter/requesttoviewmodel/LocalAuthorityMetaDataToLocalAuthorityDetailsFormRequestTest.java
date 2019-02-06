@@ -19,6 +19,7 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest
 
   @Test
   public void convert_shouldWork_whenAllFieldsArePopulated() {
+    LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.setDescription(null);
     LocalAuthorityDetailsFormRequest formRequest =
         converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_ALL_FIELDS);
     assertThat(formRequest).isEqualTo(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS);

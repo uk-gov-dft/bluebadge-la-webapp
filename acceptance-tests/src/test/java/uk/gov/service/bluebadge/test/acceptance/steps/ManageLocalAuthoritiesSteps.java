@@ -7,27 +7,16 @@ import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 
 public class ManageLocalAuthoritiesSteps {
 
-  @Autowired protected SiteSteps siteSteps;
-  @Autowired protected DatabaseSteps databaseSteps;
   @Autowired protected SitePage sitePage;
   @Autowired protected ScenarioContext scenarioContext;
 
   @When("^I click on the first name link from local authorities table$")
-  public void iClickOnTheFirstNameLinkFromLocalAuthoritiesTable() throws Throwable {
+  public void iClickOnTheFirstNameLinkFromLocalAuthoritiesTable() {
     sitePage.findElementWithCssSelector("table>tbody>tr:nth-child(1)>td:nth-child(1)>a").click();
   }
 
-  @And("^I type different service signpost url \"([^\"]+)\"$")
-  public void andITypeDifferentServiceSignpostUrl(String differentServiceSignpostUrl)
-      throws Throwable {
-    sitePage.findPageElementById("differentServiceSignpostUrl").clear();
-    sitePage
-        .findPageElementById("differentServiceSignpostUrl")
-        .sendKeys(differentServiceSignpostUrl);
-  }
-
   @And("^I type on field \"([^\"]+)\" value \"([^\"]*)\"$")
-  public void andITypeOnFieldValue(String fieldName, String value) throws Throwable {
+  public void andITypeOnFieldValue(String fieldName, String value) {
     sitePage.findPageElementById(fieldName).clear();
     sitePage.findPageElementById(fieldName).sendKeys(value);
   }

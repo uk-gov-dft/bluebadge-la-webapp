@@ -12,6 +12,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.util.List;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
@@ -32,6 +34,7 @@ public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
 
   private static final String BASE_ENDPOINT = TEST_URI + "reference-data";
   private static final String AUTHORITIES_PATH = "/authorities/";
+  private static final String COUNCILS_PATH = "/councils/";
 
   private static final String SHORT_CODE_VALUE = "ABERD";
 
@@ -42,7 +45,7 @@ public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
   private ObjectMapper objectMapper = new ObjectMapper();
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
@@ -70,7 +73,7 @@ public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
   }
 
   @Test
-  public void updateLocalAuthority_shouldUpdateLocalAuthority() throws Exception {
+  public void updateLocalAuthority_shouldUpdateLocalAuthority() {
     mockServer
         .expect(once(), requestTo(BASE_ENDPOINT + AUTHORITIES_PATH + SHORT_CODE_VALUE))
         .andExpect(method(HttpMethod.PUT))
@@ -86,8 +89,8 @@ public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
   }
 
   @Test(expected = BadRequestException.class)
-  public void updateLocalAuthority_shouldThrowBadRequestException_WhenBadRequest()
-      throws Exception {
+  @SneakyThrows
+  public void updateLocalAuthority_shouldThrowBadRequestException_WhenBadRequest() {
     CommonResponse commonResponse = new CommonResponse();
     String body = objectMapper.writeValueAsString(commonResponse);
     mockServer
@@ -104,5 +107,34 @@ public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
         .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 
     client.updateLocalAuthority(SHORT_CODE_VALUE, LOCAL_AUTHORITY_INVALID_VALUE);
+  }
+
+  @Test
+  public void updateLocalCouncil_shouldUpdateLocalCouncil() {
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + COUNCILS_PATH + SHORT_CODE_VALUE))
+        .andExpect(method(HttpMethod.PUT))
+        .andExpect(jsonPath("description", equalTo("a description")))
+        .andExpect(jsonPath("welshDescription", equalTo("Welsh")))
+        .andRespond(withSuccess());
+
+    client.updateLocalCouncil(
+        SHORT_CODE_VALUE,
+        LocalCouncil.builder().description("a description").welshDescription("Welsh").build());
+  }
+
+  @Test(expected = BadRequestException.class)
+  @SneakyThrows
+  public void updateLocalCouncil_shouldThrowBadRequestException_WhenBadRequest() {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+    mockServer
+        .expect(once(), requestTo(BASE_ENDPOINT + COUNCILS_PATH + SHORT_CODE_VALUE))
+        .andExpect(method(HttpMethod.PUT))
+        .andExpect(jsonPath("description", equalTo("description invalid")))
+        .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+
+    client.updateLocalCouncil(
+        SHORT_CODE_VALUE, LocalCouncil.builder().description("description invalid").build());
   }
 }

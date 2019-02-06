@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
 
 	<aside th:fragment="dft-sidebar"
@@ -38,6 +38,10 @@
 					<a sec:authorize-url="GET /manage-local-authorities" data-uipath="sidebar-nav.manage-local-authorities"
 					   href="/manage-local-authorities"
 					   th:class="${currentPage == 'manage-local-authorities'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.manageLocalAuthorities}"/>
+
+					<a sec:authorize-url="GET /manage-local-councils" data-uipath="sidebar-nav.manage-local-councils"
+					   href="/manage-local-councils"
+					   th:class="${currentPage == 'manage-local-councils'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.manageLocalCouncils}"/>
 
 				</nav>
 
