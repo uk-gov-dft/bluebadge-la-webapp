@@ -1,5 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.UUID;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppContact;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
@@ -14,26 +18,21 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIn
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.UUID;
-
 public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
 
   // Mock application data
   private static final UUID APPLICATION_ID = UUID.randomUUID();
   private static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
-  public static final OffsetDateTime SUBMISSION_DATE =
+  private static final OffsetDateTime SUBMISSION_DATE =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
   private static final String EXISTING_BADGE_NO = "ABCDEF";
   private static final LocalDate DOB = LocalDate.of(1980, 3, 15);
-  protected static final Eligibility APPLICANT_ELIGIBILITY =
+  private static final Eligibility APPLICANT_ELIGIBILITY =
       new Eligibility().typeCode(EligibilityCodeField.fromValue(ELIGIBILITY.toUpperCase()));
 
   // APPLICANT PERSON
-  protected static final AppPerson APP_PERSON =
+  private static final AppPerson APP_PERSON =
       new AppPerson()
           .genderCode(GenderCodeField.fromValue(GENDER_SHORTCODE))
           .badgeHolderName(NAME)
@@ -59,17 +58,18 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
           .typeCode(PartyTypeCodeField.PERSON);
 
   // APPLICATION
-  public static final Application APPLICATION =
-      Application.builder()
-          .applicationId(APPLICATION_ID.toString())
-          .applicationTypeCode(APPLICATION_TYPE)
-          .localAuthorityCode(LOCAL_AUTHORITY_SHORT_CODE)
-          .eligibility(APPLICANT_ELIGIBILITY)
-          .paymentTaken(false)
-          .submissionDate(SUBMISSION_DATE)
-          .existingBadgeNumber(EXISTING_BADGE_NO)
-          .party(APP_PARTY)
-          .build();
+  public static Application getApplication() {
+    return Application.builder()
+        .applicationId(APPLICATION_ID.toString())
+        .applicationTypeCode(APPLICATION_TYPE)
+        .localAuthorityCode(LOCAL_AUTHORITY_SHORT_CODE)
+        .eligibility(APPLICANT_ELIGIBILITY)
+        .paymentTaken(false)
+        .submissionDate(SUBMISSION_DATE)
+        .existingBadgeNumber(EXISTING_BADGE_NO)
+        .party(APP_PARTY)
+        .build();
+  }
 
   // FORM REQUESTS
   public static final OrderBadgeIndexFormRequest APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST =
@@ -107,14 +107,14 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
               .build();
 
   public static final OrderBadgeProcessingFormRequest
-    APPLICATION_TO_ORDER_BADGE_PROCESSING_WITH_APPLICATION_CHANNEL_FORM_REQUEST =
-    OrderBadgeProcessingFormRequest.builder()
-      .applicationChannel("ONLINE")
-      .applicationDateDay(Integer.parseInt(APPLICATION_DATE_DAY))
-      .applicationDateMonth(Integer.parseInt(APPLICATION_DATE_MONTH))
-      .applicationDateYear(Integer.parseInt(APPLICATION_DATE_YEAR))
-      .applicationDateDay(SUBMISSION_DATE.getDayOfMonth())
-      .applicationDateMonth(SUBMISSION_DATE.getMonthValue())
-      .applicationDateYear(SUBMISSION_DATE.getYear())
-      .build();
+      APPLICATION_TO_ORDER_BADGE_PROCESSING_WITH_APPLICATION_CHANNEL_FORM_REQUEST =
+          OrderBadgeProcessingFormRequest.builder()
+              .applicationChannel("ONLINE")
+              .applicationDateDay(Integer.parseInt(APPLICATION_DATE_DAY))
+              .applicationDateMonth(Integer.parseInt(APPLICATION_DATE_MONTH))
+              .applicationDateYear(Integer.parseInt(APPLICATION_DATE_YEAR))
+              .applicationDateDay(SUBMISSION_DATE.getDayOfMonth())
+              .applicationDateMonth(SUBMISSION_DATE.getMonthValue())
+              .applicationDateYear(SUBMISSION_DATE.getYear())
+              .build();
 }

@@ -1,4 +1,5 @@
 blue-badge:
+  thumbnail-height-px: 300
   auth-server:
     url: http://localhost:8380/bb_auth
     client-id: bb_la_web_app_id

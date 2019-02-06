@@ -136,15 +136,14 @@ public interface LocalAuthorityTestData {
           .websiteUrl(WEB_SITE_URL)
           .build();
 
-  LocalAuthorityDetailsFormRequest
-      LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS =
-          LocalAuthorityDetailsFormRequest.builder()
-              .description(DESCRIPTION)
-              .postcode(POSTCODE)
-              .country(COUNTRY)
-              .nation(NATION)
-              .websiteUrl(WEB_SITE_URL)
-              .build();
+  LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS =
+      LocalAuthorityDetailsFormRequest.builder()
+          .description(DESCRIPTION)
+          .postcode(POSTCODE)
+          .country(COUNTRY)
+          .nation(NATION)
+          .websiteUrl(WEB_SITE_URL)
+          .build();
 
   LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_ALL_FIELDS =
       LocalAuthorityRefData.LocalAuthorityMetaData.builder()
