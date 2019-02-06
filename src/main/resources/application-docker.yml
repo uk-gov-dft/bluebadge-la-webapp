@@ -18,6 +18,11 @@ spring:
     banner-mode: "off"
   redis:
     host: redis
+  resources:
+    cache:
+      cachecontrol:
+        max-age: 315360000
+        no-store: false
 
 
 
