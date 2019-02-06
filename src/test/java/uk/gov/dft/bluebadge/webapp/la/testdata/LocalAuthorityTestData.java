@@ -11,59 +11,59 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFo
 public interface LocalAuthorityTestData {
 
   // Dft admin user signed-in
-  static final String EMAIL_ADDRESS = "joeblogs@joe.com";
-  static final String NAME = "joeblogs";
-  static final int ROLE_DFT_ID = Role.DFT_ADMIN.getRoleId();
-  static final String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
-  static final UUID USER_ID = UUID.randomUUID();
+  String EMAIL_ADDRESS = "joeblogs@joe.com";
+  String NAME = "joeblogs";
+  int ROLE_DFT_ID = Role.DFT_ADMIN.getRoleId();
+  String LOCAL_AUTHORITY_SHORT_CODE = "BIRM";
+  UUID USER_ID = UUID.randomUUID();
 
   // Fields
-  static final String SHORT_CODE_PARAM = "shortCode";
-  static final String SHORT_CODE = "ABERD";
-  static final String DESCRIPTION_PARAM = "description";
-  static final String DESCRIPTION = "local authority description";
-  static final String WELSH_DESCRIPTION_PARAM = "welshDescription";
-  static final String WELSH_DESCRIPTION = "Cymraeg";
-  static final String NAME_LINE2_PARAM = "nameLine2";
-  static final String NAME_LINE2 = "name line 2";
-  static final String ADDRESS_LINE1_PARAM = "addressLine1";
-  static final String ADDRESS_LINE1 = "address 1";
-  static final String ADDRESS_LINE2_PARAM = "addressLine2";
-  static final String ADDRESS_LINE2 = "address 2";
-  static final String ADDRESS_LINE3_PARAM = "addressLine3";
-  static final String ADDRESS_LINE3 = "address 3";
-  static final String ADDRESS_LINE4_PARAM = "addressLine4";
-  static final String ADDRESS_LINE4 = "address 4";
-  static final String EMAIL_ADDRESS_PARAM = "emailAddress";
-  static final String POSTCODE_PARAM = "postcode";
-  static final String POSTCODE = "ABC123";
-  static final String COUNTRY_PARAM = "country";
-  static final String COUNTRY = "United Kingdom";
-  static final String NATION_PARAM = "nation";
-  static final String NATION = "ENG";
-  static final String NATION_INVALID = "invalid";
-  static final String TOWN_PARAM = "town";
-  static final String TOWN = "London";
-  static final String COUNTY_PARAM = "county";
-  static final String COUNTY = "westminster";
-  static final String CONTACT_NUMBER_PARAM = "contactNumber";
-  static final String CONTACT_NUMBER = "010101010101101";
-  static final String BADGE_PACK_TYPE_PARAM = "badgePackType";
-  static final String BADGE_PACK_TYPE = "STANDARD";
-  static final String WEB_SITE_URL_PARAM = "websiteUrl";
-  static final String WEB_SITE_URL = "http://localhost";
-  static final String WEB_SITE_URL_INVALID = "invalid";
-  static final String PAYMENTS_ENABLED_PARAM = "paymentsEnabled";
-  static final boolean PAYMENTS_ENABLED = false;
-  static final String BADGE_COST_PARAM = "badgeCost";
-  static final BigDecimal BADGE_COST = new BigDecimal(10.10);
-  static final BigDecimal BADGE_COST_INVALID = new BigDecimal(1000);
-  static final String DIFFERENT_SERVICE_SIGNPOST_URL_PARAM = "differentServiceSignpostUrl";
-  static final String DIFFERENT_SERVICE_SIGNPOST_URL = "http://localhost:1111";
-  static final String DIFFERENT_SERVICE_SIGNPOST_URL_INVALID = "invalid";
+  String SHORT_CODE_PARAM = "shortCode";
+  String SHORT_CODE = "ABERD";
+  String DESCRIPTION_PARAM = "description";
+  String DESCRIPTION = "local authority description";
+  String WELSH_DESCRIPTION_PARAM = "welshDescription";
+  String WELSH_DESCRIPTION = "Cymraeg";
+  String NAME_LINE2_PARAM = "nameLine2";
+  String NAME_LINE2 = "name line 2";
+  String ADDRESS_LINE1_PARAM = "addressLine1";
+  String ADDRESS_LINE1 = "address 1";
+  String ADDRESS_LINE2_PARAM = "addressLine2";
+  String ADDRESS_LINE2 = "address 2";
+  String ADDRESS_LINE3_PARAM = "addressLine3";
+  String ADDRESS_LINE3 = "address 3";
+  String ADDRESS_LINE4_PARAM = "addressLine4";
+  String ADDRESS_LINE4 = "address 4";
+  String EMAIL_ADDRESS_PARAM = "emailAddress";
+  String POSTCODE_PARAM = "postcode";
+  String POSTCODE = "ABC123";
+  String COUNTRY_PARAM = "country";
+  String COUNTRY = "United Kingdom";
+  String NATION_PARAM = "nation";
+  String NATION = "ENG";
+  String NATION_INVALID = "invalid";
+  String TOWN_PARAM = "town";
+  String TOWN = "London";
+  String COUNTY_PARAM = "county";
+  String COUNTY = "westminster";
+  String CONTACT_NUMBER_PARAM = "contactNumber";
+  String CONTACT_NUMBER = "010101010101101";
+  String BADGE_PACK_TYPE_PARAM = "badgePackType";
+  String BADGE_PACK_TYPE = "STANDARD";
+  String WEB_SITE_URL_PARAM = "websiteUrl";
+  String WEB_SITE_URL = "http://localhost";
+  String WEB_SITE_URL_INVALID = "invalid";
+  String PAYMENTS_ENABLED_PARAM = "paymentsEnabled";
+  boolean PAYMENTS_ENABLED = false;
+  String BADGE_COST_PARAM = "badgeCost";
+  BigDecimal BADGE_COST = new BigDecimal("10.10");
+  BigDecimal BADGE_COST_INVALID = new BigDecimal("1000");
+  String DIFFERENT_SERVICE_SIGNPOST_URL_PARAM = "differentServiceSignpostUrl";
+  String DIFFERENT_SERVICE_SIGNPOST_URL = "http://localhost:1111";
+  String DIFFERENT_SERVICE_SIGNPOST_URL_INVALID = "invalid";
 
   // LocalAuthority
-  static final LocalAuthority LOCAL_AUTHORITY =
+  LocalAuthority LOCAL_AUTHORITY =
       new LocalAuthority()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
@@ -71,15 +71,15 @@ public interface LocalAuthorityTestData {
           .postcode(POSTCODE)
           .nation(NATION)
           .contactUrl(WEB_SITE_URL);
-  static final LocalAuthority LOCAL_AUTHORITY_EMPTY = new LocalAuthority();
-  static final LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS =
+  LocalAuthority LOCAL_AUTHORITY_EMPTY = new LocalAuthority();
+  LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS =
       new LocalAuthority()
           .description(DESCRIPTION)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
           .contactUrl(WEB_SITE_URL);
-  static final LocalAuthority LOCAL_AUTHORITY_ALL_FIELDS =
+  LocalAuthority LOCAL_AUTHORITY_ALL_FIELDS =
       new LocalAuthority()
           .description(DESCRIPTION)
           .welshDescription(WELSH_DESCRIPTION)
@@ -101,7 +101,7 @@ public interface LocalAuthorityTestData {
           .contactNumber(CONTACT_NUMBER)
           .emailAddress(EMAIL_ADDRESS)
           .town(TOWN);
-  static final LocalAuthority LOCAL_AUTHORITY_INVALID_VALUE =
+  LocalAuthority LOCAL_AUTHORITY_INVALID_VALUE =
       new LocalAuthority()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
@@ -110,11 +110,10 @@ public interface LocalAuthorityTestData {
           .nation(NATION)
           .contactUrl(WEB_SITE_URL);
 
-  // LocalAuthorityDetailsFormRequest
-  static final LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS =
+  LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS =
       LocalAuthorityDetailsFormRequest.builder().build();
 
-  static final LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS =
+  LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS =
       LocalAuthorityDetailsFormRequest.builder()
           .description(DESCRIPTION)
           .welshDescription(WELSH_DESCRIPTION)
@@ -137,7 +136,7 @@ public interface LocalAuthorityTestData {
           .websiteUrl(WEB_SITE_URL)
           .build();
 
-  static final LocalAuthorityDetailsFormRequest
+  LocalAuthorityDetailsFormRequest
       LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS =
           LocalAuthorityDetailsFormRequest.builder()
               .description(DESCRIPTION)
@@ -147,8 +146,7 @@ public interface LocalAuthorityTestData {
               .websiteUrl(WEB_SITE_URL)
               .build();
 
-  // LocalAuthorityRefData.LocalAuthorityMetaData
-  static final LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_ALL_FIELDS =
+  LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_ALL_FIELDS =
       LocalAuthorityRefData.LocalAuthorityMetaData.builder()
           .welshDescription(WELSH_DESCRIPTION)
           .nameLine2(NAME_LINE2)
@@ -169,6 +167,6 @@ public interface LocalAuthorityTestData {
           .nation(Nation.forValue(NATION))
           .contactUrl(WEB_SITE_URL)
           .build();
-  static final LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_EMPTY_FIELDS =
+  LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_EMPTY_FIELDS =
       LocalAuthorityRefData.LocalAuthorityMetaData.builder().build();
 }

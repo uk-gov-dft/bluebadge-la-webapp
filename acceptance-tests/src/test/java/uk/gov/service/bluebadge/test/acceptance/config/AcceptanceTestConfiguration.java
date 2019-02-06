@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.service.bluebadge.test.acceptance.pages.PageHelper;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.ManageUsersPage;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 import uk.gov.service.bluebadge.test.acceptance.steps.ScenarioContext;
 import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
@@ -89,17 +87,6 @@ public class AcceptanceTestConfiguration {
   @Bean
   public SitePage sitePage(final WebDriverProvider webDriverProvider, final PageHelper pageHelper) {
     return new SitePage(webDriverProvider, pageHelper);
-  }
-
-  @Bean
-  public SignInPage signInPage(final WebDriverProvider webDriverProvider, PageHelper helper) {
-    return new SignInPage(webDriverProvider, helper);
-  }
-
-  @Bean
-  public ManageUsersPage manageUsersPage(
-      final WebDriverProvider webDriverProvider, PageHelper helper) {
-    return new ManageUsersPage(webDriverProvider, helper);
   }
 
   @Bean

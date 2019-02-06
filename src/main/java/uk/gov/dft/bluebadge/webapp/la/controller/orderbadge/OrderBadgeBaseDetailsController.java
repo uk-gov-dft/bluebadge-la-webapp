@@ -13,7 +13,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 @SuppressWarnings("squid:S00119")
 public abstract class OrderBadgeBaseDetailsController<
     FormRequest extends OrderBadgeBaseDetailsFormRequest> {
-  static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
+  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-details";
 
   public String show(FormRequest formRequest, HttpSession session, Model model) {
     Object sessionFormRequest = session.getAttribute(SESSION_FORM_REQUEST);

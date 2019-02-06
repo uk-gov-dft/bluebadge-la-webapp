@@ -90,7 +90,7 @@ public class FindBadgeController {
         break;
       default:
         log.error(
-            "Attempting to find a badge by:{}, expected values are (badgeN?umber, postcode or name)",
+            "Attempting to find a badge by:{}, expected values are (badgeNumber, postcode or name)",
             findBadgeBy);
         break;
     }

@@ -1,5 +1,22 @@
 package uk.gov.service.bluebadge.test.acceptance.steps;
 
+import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,82 +29,48 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.slf4j.LoggerFactory.getLogger;
-
-import cucumber.api.DataTable;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import uk.gov.service.bluebadge.test.acceptance.config.AcceptanceTestProperties;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.SignInPage;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
-import uk.gov.service.bluebadge.test.acceptance.util.LocalDateGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.PostCodeGenerator;
-import uk.gov.service.bluebadge.test.acceptance.util.TestContentUrls;
 
 public class SiteSteps extends AbstractSpringSteps {
 
-  private static final Logger log = getLogger(SiteSteps.class);
-
-  protected LocalDateGenerator ldg = new LocalDateGenerator();
-  protected PostCodeGenerator pcg = new PostCodeGenerator();
-
   @Autowired protected SitePage sitePage;
-
-  @Autowired private SignInPage signInPage;
-
-  @Autowired private AcceptanceTestProperties acceptanceTestProperties;
-
-  @Autowired private TestContentUrls urlLookup;
 
   @Autowired protected ScenarioContext scenarioContext;
 
   @Given("^I navigate to (?:the )?\"([^\"]+)\" (?:.* )?page$")
-  public void givenINavigateToPage(String pageName) throws Throwable {
+  public void givenINavigateToPage(String pageName) {
     sitePage.openByPageName(pageName);
   }
 
   @When("^I (?:can )?click on(?: the| link)? \"([^\"]+)\"(?: link| button)?$")
-  public void whenIClickOn(String linkTitle) throws Throwable {
+  public void whenIClickOn(String linkTitle) {
     sitePage.findElementWithText(linkTitle).click();
   }
 
   @Then("^I (?:can )?see \"([^\"]+)\" (?:link|button|image)$")
-  public void thenISeeLink(String linkTitle) throws Throwable {
+  public void thenISeeLink(String linkTitle) {
     assertNotNull("Can see element", sitePage.findElementWithTitle(linkTitle));
   }
 
   @Then("^I (?:can )?see labelled element \"([^\"]+)\" with content \"([^\"]+)\"$")
-  public void thenISeeElementWithUiPathAndContent(String uiPath, String content) throws Throwable {
+  public void thenISeeElementWithUiPathAndContent(String uiPath, String content) {
     assertNotNull(
         "Can see element with data-uipath: " + uiPath, sitePage.findElementWithUiPath(uiPath));
     assertThat(sitePage.findElementWithUiPath(uiPath).getText(), containsString(content));
   }
 
   @Then("^I should see (?:.* )?page titled \"([^\"]+)\"$")
-  public void thenIShouldSeePageTitled(String pageTitle) throws Throwable {
+  public void thenIShouldSeePageTitled(String pageTitle) {
     assertThat("I should see page titled.", sitePage.getDocumentTitle(), is(pageTitle));
   }
 
   @Then("^I should see the content \"([^\"]*)\"$")
-  public void thenIShouldSeeTheContent(String content) throws Throwable {
+  public void thenIShouldSeeTheContent(String content) {
     assertThat(sitePage.getPageContent(), containsString(content));
   }
 
   @Then("^I should (?:also )?see:?$")
-  public void thenIShouldAlsoSee(final DataTable pageSections) throws Throwable {
-    String elementName = null;
+  public void thenIShouldAlsoSee(final DataTable pageSections) {
+    String elementName;
     for (List<String> elementsContent : pageSections.raw()) {
       elementName = elementsContent.get(0);
       WebElement pageElement = sitePage.findPageElement(elementName);
@@ -102,8 +85,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should(?: also)? see \"([^\"]+)\" with:")
-  public void thenIShouldSeeItemsOf(String pageElementName, final DataTable elementItems)
-      throws Throwable {
+  public void thenIShouldSeeItemsOf(String pageElementName, final DataTable elementItems) {
     WebElement pageElement = sitePage.findPageElement(pageElementName);
 
     assertNotNull("I should find page element: " + pageElementName, pageElement);
@@ -119,7 +101,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should not see headers?:$")
-  public void thenIShouldNotSeeHeaders(DataTable headersTable) throws Throwable {
+  public void thenIShouldNotSeeHeaders(DataTable headersTable) {
     List<String> headers = headersTable.asList(String.class);
     for (String header : headers) {
       assertNull("Header should not be displayed", sitePage.findElementWithText(header));
@@ -127,7 +109,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should see headers?:$")
-  public void thenIShouldSeeHeaders(DataTable headersTable) throws Throwable {
+  public void thenIShouldSeeHeaders(DataTable headersTable) {
     List<String> headers = headersTable.asList(String.class);
     for (String header : headers) {
       assertNotNull("Header should be displayed: " + header, sitePage.findElementWithText(header));
@@ -140,7 +122,7 @@ public class SiteSteps extends AbstractSpringSteps {
     Thread.sleep(sec * 1000);
   }
 
-  public static Matcher<String> getMatcherForText(String text) {
+  static Matcher<String> getMatcherForText(String text) {
     if (text.endsWith(" ...")) {
       return startsWith(text.substring(0, text.length() - 4));
     }
@@ -165,137 +147,146 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should not see element with title \"([^\"]*)\"$")
-  public void thenIShouldNotSeeElementTitled(String title) throws Throwable {
+  public void thenIShouldNotSeeElementTitled(String title) {
     assertNull("Element is not on page", sitePage.findElementWithTitle(title));
   }
 
   @And("^I type username \"([^\"]+)\" and  ***REMOVED***)
-  public void andITypeUsernameAndPassword(String username, String password) throws Throwable {
-    signInPage.findPageElementById("username").sendKeys(username);
-    signInPage.findPageElementById("password").sendKeys(password);
+  public void andITypeUsernameAndPassword(String username, String password) {
+    sitePage.findPageElementById("username").sendKeys(username);
+    sitePage.findPageElementById("password").sendKeys(password);
   }
 
   @And("^I can click Sign in button$")
-  public void andICanClickSignInButton() throws Throwable {
-    signInPage.findElementWithUiPath("button").click();
+  public void andICanClickSignInButton() {
+    sitePage.findElementWithUiPath("button").click();
   }
 
   @And("^I sign in as new user with  ***REMOVED***)
-  public void andISignInAsNewUser(String password) throws Throwable {
+  public void andISignInAsNewUser(String password) {
     andITypeUsernameAndPassword(System.getProperty("email"), password);
     andICanClickSignInButton();
   }
 
   @Then("^I should see the title \"([^\"]*)\"$")
-  public void iShouldSeeTheTitle(String title) throws Throwable {
+  public void iShouldSeeTheTitle(String title) {
     assertThat("Incorrect page title", sitePage.getH1Tag(), getMatcherForText(title));
   }
 
   @When("^I click on Start now button$")
-  public void iClickOnStartNowButton() throws Throwable {
+  public void iClickOnStartNowButton() {
     sitePage.findPageElementById("get-started");
   }
 
   @And("^I select an option \"([^\"]*)\"$")
-  public void iSelectAnOption(String value) throws Throwable {
+  public void iSelectAnOption(String value) {
     sitePage.findPageElementById(value).click();
   }
 
   @And("^I select an option \"([^\"]*)\" on \"([^\"]*)\"$")
-  public void iSelectAnOption(String value, String selectId) throws Throwable {
+  public void iSelectAnOption(String value, String selectId) {
     Select select = new Select(sitePage.findPageElementById(selectId));
     select.selectByVisibleText(value);
   }
 
   @And("^I click on Continue button$")
-  public void iClickOnContinueButton() throws Throwable {
-    sitePage.findPageElementById("submit").click();
+  public void iClickOnContinueButton() {
+    sitePage.findElementWithUiPath("continue").click();
   }
 
   @And("^I select No$")
-  public void iSelectNo() throws Throwable {
+  public void iSelectNo() {
     sitePage.findPageElementById("renewal-or-new-application-new").click();
   }
 
   @And("^I should see LA name as \"([^\"]*)\"$")
-  public void iShouldSeeLANameAs(String la) throws Throwable {
+  public void iShouldSeeLANameAs(String la) {
     assertThat(
         "LA name expected",
-        signInPage.findElementWithUiPath("topbar.title").getText(),
+        sitePage.findElementWithUiPath("topbar.title").getText(),
         getMatcherForText(la));
   }
 
   @And("^I should see username as \"([^\"]*)\"$")
-  public void iShouldSeeUsernameAs(String username) throws Throwable {
+  public void iShouldSeeUsernameAs(String username) {
     assertThat(
         "Username expected",
-        signInPage.findElementWithUiPath("topbar.username").getText(),
+        sitePage.findElementWithUiPath("topbar.username").getText(),
         getMatcherForText(username));
   }
 
   @And("^I should see signout link$")
-  public void iShouldSeeSignoutLink() throws Throwable {
+  public void iShouldSeeSignoutLink() {
+    assertThat(
+        "Sign out link expected", sitePage.findElementWithUiPath("topbar.signout"), notNullValue());
     assertThat(
         "Sign out link expected",
-        signInPage.findElementWithUiPath("topbar.signout"),
-        notNullValue());
-    assertThat(
-        "Sign out link expected",
-        signInPage.findElementWithUiPath("topbar.signout").getAttribute("value"),
+        sitePage.findElementWithUiPath("topbar.signout").getAttribute("value"),
         getMatcherForText("Sign out"));
   }
 
   @And("^I can click Sign out button$")
-  public void andICanClickSignOutButton() throws Throwable {
+  public void andICanClickSignOutButton() {
     sitePage.findElementWithUiPath("topbar.signout").click();
   }
 
   @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field$")
-  public void whenItypeTextForField(String text, String field) throws Throwable {
-    signInPage.findPageElementById(field).sendKeys(text);
+  public void whenItypeTextForField(String text, String field) {
+    sitePage.findPageElementById(field).sendKeys(text);
   }
 
   @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field by uipath$")
-  public void whenItypeTextForFieldUiPath(String text, String fieldUiPath) throws Throwable {
-    signInPage.findElementWithUiPath(fieldUiPath).sendKeys(text);
+  public void whenItypeTextForFieldUiPath(String text, String fieldUiPath) {
+    sitePage.findElementWithUiPath(fieldUiPath).sendKeys(text);
   }
 
   @And("^I should see \"([^\"]*)\" text on the page$")
-  public void iShouldSeeTextOnPage(String content) throws Throwable {
+  public void iShouldSeeTextOnPage(String content) {
     assertTrue(sitePage.getPageContent().contains(content));
   }
 
   @And("^I should not see \"([^\"]*)\" text on the page$")
-  public void iShouldNotSeeTextOnPage(String content) throws Throwable {
+  public void iShouldNotSeeTextOnPage(String content) {
     assertFalse(sitePage.getPageContent().contains(content));
   }
 
   @Then("^I should see the validation message for \"([^\"]*)\" as \"([^\"]*)\"$")
-  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) throws Throwable {
+  public void iShouldSeeTheValidationMessageForAs(String arg0, String arg1) {
     String uiPath;
-    if (arg0.equals("invalid email")) {
-      uiPath = "emailAddress.summary-error";
-    } else if (arg0.equals("sign in invalid email")) {
-      uiPath = "error.form.field.signin.email.invalid";
-    } else if (arg0.equals("invalid email or password")) {
-      uiPath = "error.form.global.accessDenied.description";
-    } else if (arg0.equals("sign in account locked title")) {
-      uiPath = "error.form.field.signin.locked.title";
-    } else if (arg0.equals("sign in account locked")) {
-      uiPath = "error.form.field.signin.locked.description";
-    } else if (arg0.equals("invalid name")) {
-      uiPath = "name.summary-error";
-    } else if (arg0.equals("blank permissions")) {
-      uiPath = "role.summary-error";
-    } else if (arg0.equals("blank Local authority")) {
-      uiPath = "localAuthorityShortCode.summary-error";
-    } else if (arg0.equals("password_reset_password_error")) {
-      uiPath = "password.error";
-    } else {
-      uiPath = arg0;
+    switch (arg0) {
+      case "invalid email":
+        uiPath = "emailAddress.summary-error";
+        break;
+      case "sign in invalid email":
+        uiPath = "error.form.field.signin.email.invalid";
+        break;
+      case "invalid email or password":
+        uiPath = "error.form.global.accessDenied.description";
+        break;
+      case "sign in account locked title":
+        uiPath = "error.form.field.signin.locked.title";
+        break;
+      case "sign in account locked":
+        uiPath = "error.form.field.signin.locked.description";
+        break;
+      case "invalid name":
+        uiPath = "name.summary-error";
+        break;
+      case "blank permissions":
+        uiPath = "role.summary-error";
+        break;
+      case "blank Local authority":
+        uiPath = "localAuthorityShortCode.summary-error";
+        break;
+      case "password_reset_password_error":
+        uiPath = "password.error";
+        break;
+      default:
+        uiPath = arg0;
+        break;
     }
 
-    WebElement errorElement = signInPage.findElementWithUiPath(uiPath);
+    WebElement errorElement = sitePage.findElementWithUiPath(uiPath);
     assertThat(
         "Failed to find element with ui path: '" + uiPath + "' for validation check '" + arg0 + "'",
         errorElement,
@@ -304,13 +295,13 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @When("^I search for newly create user using email address$")
-  public void iSearchForNewlyCreateUserUsingEmailAddress() throws Throwable {
+  public void iSearchForNewlyCreateUserUsingEmailAddress() {
     sitePage.findPageElementById("search").sendKeys(System.getProperty("email"));
     sitePage.findElementWithUiPath("search.button").click();
   }
 
   @Then("^I should see the search results with newly created user$")
-  public void iShouldSeeTheSearchResultsWithNewlyCreatedUser() throws Throwable {
+  public void iShouldSeeTheSearchResultsWithNewlyCreatedUser() {
     assertThat(
         "Only 1 result is expected",
         sitePage.findElementWithUiPath("search.count").getText(),
@@ -322,23 +313,23 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @When("^I search for newly create user using full name$")
-  public void iSearchForNewlyCreateUserUsingFullName() throws Throwable {
+  public void iSearchForNewlyCreateUserUsingFullName() {
     sitePage.findPageElementById("search").sendKeys(System.getProperty("fullname"));
     sitePage.findElementWithUiPath("search.button").click();
   }
 
   @And("^I can click on the \"([^\"]*)\" button on manage user page$")
-  public void iCanClickOnTheButtonOnManageUserPage(String arg0) throws Throwable {
+  public void iCanClickOnTheButtonOnManageUserPage(String arg0) {
     sitePage.findElementWithUiPath("createUserButton").click();
   }
 
   @And("^I (?:can )?click on element \"([^\"]+)\"(?: link| button)?$")
-  public void andICanClickOnElement(String uiPath) throws Throwable {
+  public void andICanClickOnElement(String uiPath) {
     sitePage.findElementWithUiPath(uiPath).click();
   }
 
   @And("^I can click on the \"([^\"]*)\" link on left navigation$")
-  public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) throws Throwable {
+  public void iCanClickOnTheLinkOnLeftNavigation(String linkTitle) {
     String uiPath = navTitleToUiPath(linkTitle);
     sitePage.findElementWithUiPath(uiPath).click();
   }
@@ -361,6 +352,9 @@ public class SiteSteps extends AbstractSpringSteps {
       case "Manage local authorities":
         uiPath = "sidebar-nav.manage-local-authorities";
         break;
+      case "Manage local councils":
+        uiPath = "sidebar-nav.manage-local-councils";
+        break;
       default:
         uiPath = "sidebar-nav";
         break;
@@ -369,7 +363,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @When("^I select option \"([^\"]*)\"$")
-  public void iSelectOption(String arg0) throws Throwable {
+  public void iSelectOption(String arg0) {
     sitePage.findElementWithUiPath(arg0).click();
   }
 
@@ -398,7 +392,7 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+    assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
   @Then("^I should see only results where postcode \"([^\"]*)\"$")
@@ -419,16 +413,16 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals(records.size() + " Results:"));
+    assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
   @And("^I can click \"([^\"]*)\" button$")
-  public void iCanClickButton(String uiPath) throws Throwable {
+  public void iCanClickButton(String uiPath) {
     sitePage.findElementWithUiPath(uiPath).click();
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? element with ui path \"([^\"]*)\"$")
-  public void iShouldSeeElementWithUiPath(String visible, String uiPath) throws Throwable {
+  public void iShouldSeeElementWithUiPath(String visible, String uiPath) {
     WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
     assertThat(
         elementWithUiPath,
@@ -436,8 +430,7 @@ public class SiteSteps extends AbstractSpringSteps {
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
-  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle)
-      throws Throwable {
+  public void iShouldSeeTheLeftNavigationMenuItem(String visible, String navTitle) {
     String uiPath = navTitleToUiPath(navTitle);
     iShouldSeeElementWithUiPath(visible, uiPath);
   }
@@ -461,7 +454,7 @@ public class SiteSteps extends AbstractSpringSteps {
 
     WebElement displayCount =
         sitePage.findElementWithUiPath("title").findElement(By.tagName("span"));
-    assertTrue(Integer.valueOf(displayCount.getText()).equals(records.size()));
+    assertEquals((int) Integer.valueOf(displayCount.getText()), records.size());
   }
 
   @And("^I can see first page of paged records$")
@@ -469,7 +462,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 50);
+    assertEquals(50, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -489,7 +482,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 50);
+    assertEquals(50, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -509,7 +502,7 @@ public class SiteSteps extends AbstractSpringSteps {
     List<WebElement> records =
         sitePage.findElementWithUiPath("table.body").findElements(By.className("govuk-table__row"));
 
-    assertTrue(records.size() == 20);
+    assertEquals(20, records.size());
 
     String pageSize = sitePage.findElementWithUiPath("pagination.pageSize").getText();
     assertTrue(pageSize.contains("Results per page: 50"));
@@ -545,11 +538,11 @@ public class SiteSteps extends AbstractSpringSteps {
             .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
-    assertTrue(displayCount.getText().equals("0 Results:"));
+    assertEquals("0 Results:", displayCount.getText());
   }
 
   @Then("^I should see the newly created user's permission as \"([^\"]*)\"$")
-  public void iShouldSeeTheNewlyCreatedUserSPermissionAs(String permission) throws Throwable {
+  public void iShouldSeeTheNewlyCreatedUserSPermissionAs(String permission) {
     assertThat(
         "Only 1 result is expected",
         sitePage.findElementWithUiPath("search.count").getText(),
@@ -559,5 +552,10 @@ public class SiteSteps extends AbstractSpringSteps {
         .getText()
         .contains(System.getProperty("email")));
     assert (sitePage.findElementWithUiPath("table.body").getText().contains(permission));
+  }
+
+  @And("^I clear the field \"([^\"]*)\"$")
+  public void iClearTheField(String fieldName) {
+    sitePage.findPageElementById(fieldName).clear();
   }
 }

@@ -27,7 +27,7 @@ public class OrderBadgeProcessingController {
   static final String URL_PERSON_PROCESSING = "/order-a-badge/person/processing";
   static final String URL_ORGANISATION_PROCESSING = "/order-a-badge/organisation/processing";
 
-  static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
+  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
 
   private static final String TEMPLATE = "order-a-badge/processing";
 
@@ -72,7 +72,7 @@ public class OrderBadgeProcessingController {
     // Is always standard if sent to council.
     if (DeliverToCodeField.HOME == formRequest.getDeliverTo()
         && null == formRequest.getDeliveryOptions()) {
-      bindingResult.rejectValue("deliveryOptions", "NotNull");
+      bindingResult.rejectValue("deliveryOptions", "NotNull.badge");
     } else if (DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()) {
       formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
     }
