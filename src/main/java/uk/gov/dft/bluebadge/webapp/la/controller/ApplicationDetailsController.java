@@ -70,7 +70,8 @@ public class ApplicationDetailsController {
   }
 
   @PostMapping(URL)
-  public String orderABadgeForApplication(@PathVariable(PARAM_UUID) UUID uuid, HttpSession session) {
+  public String orderABadgeForApplication(
+      @PathVariable(PARAM_UUID) UUID uuid, HttpSession session) {
     Application application = applicationService.retrieve(uuid.toString());
 
     OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
@@ -82,11 +83,11 @@ public class ApplicationDetailsController {
         OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST,
         applicationToOrderBadgePersonDetailsFormRequest.convert(application));
 
-    OrderBadgeProcessingFormRequest orderBadgeProcessingFormRequest = applicationToOrderBadgeProcessingFormRequest.convert(application);
-    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE"); 
+    OrderBadgeProcessingFormRequest orderBadgeProcessingFormRequest =
+        applicationToOrderBadgeProcessingFormRequest.convert(application);
+    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE");
     session.setAttribute(
-        OrderBadgeProcessingController.SESSION_FORM_REQUEST,
-        orderBadgeProcessingFormRequest);
+        OrderBadgeProcessingController.SESSION_FORM_REQUEST, orderBadgeProcessingFormRequest);
 
     return REDIRECT_URL_ORDER_BADGE_PERSON_DETAILS;
   }

@@ -46,8 +46,7 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
         is("true"));
   }
 
-  @Then(
-      "^I should see the \"Personal Details\" page form pre-filled$")
+  @Then("^I should see the \"Personal Details\" page form pre-filled$")
   public void iShouldSeePersonalDetailsPagePrefilled() throws Throwable {
     // Personal details
     assertThat(
@@ -111,8 +110,7 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
         is("WALKD"));
   }
 
-  @Then(
-      "^I should see the \"Processing\" page form pre-filled$")
+  @Then("^I should see the \"Processing\" page form pre-filled$")
   public void iShouldSeeProcessingPagePrefilled() throws Throwable {
     assertThat(
         "Gender should be ...",
