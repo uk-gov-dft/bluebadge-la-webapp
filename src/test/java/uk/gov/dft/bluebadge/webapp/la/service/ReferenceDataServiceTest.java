@@ -18,6 +18,7 @@ import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
@@ -59,6 +60,8 @@ public class ReferenceDataServiceTest {
   private static final String WALKING_SPEED_1 = "Slower";
   private static final String WALKING_SPEED_2 = "About the same";
   private static final String DIFFERENT_SIGNPOST_SERVICE_URL = "http://localhost";
+  private static final LocalAuthority LOCAL_AUTHORITY =
+      new LocalAuthority().differentServiceSignpostUrl(DIFFERENT_SIGNPOST_SERVICE_URL);
 
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
   @Mock private SecurityUtils securityUtilsMock;
@@ -409,14 +412,14 @@ public class ReferenceDataServiceTest {
 
   @Test
   public void updateLocalAuthority_WhenShortCodeIsValid_ThenShouldUpdateLocalAuthority() {
-    referenceDataService.updateLocalAuthority(LA_1_SHORTCODE, DIFFERENT_SIGNPOST_SERVICE_URL);
+    referenceDataService.updateLocalAuthority(LA_1_SHORTCODE, LOCAL_AUTHORITY);
     verify(referenceDataManagementApiClientMock, times(1))
-        .updateLocalAuthority(LA_1_SHORTCODE, DIFFERENT_SIGNPOST_SERVICE_URL);
+        .updateLocalAuthority(LA_1_SHORTCODE, LOCAL_AUTHORITY);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void updateLocalAuthority_WhenShortCodeIsInvalid_ThenShouldUpdateLocalAuthority() {
-    referenceDataService.updateLocalAuthority(null, DIFFERENT_SIGNPOST_SERVICE_URL);
+    referenceDataService.updateLocalAuthority(null, LOCAL_AUTHORITY);
     verify(referenceDataManagementApiClientMock, times(0)).updateLocalAuthority(any(), any());
   }
 }

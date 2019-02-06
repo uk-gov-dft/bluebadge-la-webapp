@@ -25,16 +25,14 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
+import uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData;
 
-public class ReferenceDataApiClientTest {
+public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
   private static final String TEST_URI = "http://justtesting:8787/test/";
 
   private static final String BASE_ENDPOINT = TEST_URI + "reference-data";
   private static final String AUTHORITIES_PATH = "/authorities/";
 
-  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_FIELD = "differentServiceSignpostUrl";
-  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_VALUE = "http://localhost:8080";
-  private static final String DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE = "invalid";
   private static final String SHORT_CODE_VALUE = "ABERD";
 
   private ReferenceDataApiClient client;
@@ -77,12 +75,14 @@ public class ReferenceDataApiClientTest {
         .expect(once(), requestTo(BASE_ENDPOINT + AUTHORITIES_PATH + SHORT_CODE_VALUE))
         .andExpect(method(HttpMethod.PUT))
         .andExpect(
-            jsonPath(
-                DIFFERENT_SERVICE_SIGNPOST_URL_FIELD,
-                equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_VALUE)))
+            jsonPath(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, equalTo(DIFFERENT_SERVICE_SIGNPOST_URL)))
+        .andExpect(jsonPath(COUNTRY_PARAM, equalTo(COUNTRY)))
+        .andExpect(jsonPath(POSTCODE_PARAM, equalTo(POSTCODE)))
+        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION)))
+        .andExpect(jsonPath("contactUrl", equalTo(WEB_SITE_URL)))
         .andRespond(withSuccess());
 
-    client.updateLocalAuthority(SHORT_CODE_VALUE, DIFFERENT_SERVICE_SIGNPOST_URL_VALUE);
+    client.updateLocalAuthority(SHORT_CODE_VALUE, LOCAL_AUTHORITY);
   }
 
   @Test(expected = BadRequestException.class)
@@ -95,10 +95,14 @@ public class ReferenceDataApiClientTest {
         .andExpect(method(HttpMethod.PUT))
         .andExpect(
             jsonPath(
-                DIFFERENT_SERVICE_SIGNPOST_URL_FIELD,
-                equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE)))
+                DIFFERENT_SERVICE_SIGNPOST_URL_PARAM,
+                equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)))
+        .andExpect(jsonPath(COUNTRY_PARAM, equalTo(COUNTRY)))
+        .andExpect(jsonPath(POSTCODE_PARAM, equalTo(POSTCODE)))
+        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION)))
+        .andExpect(jsonPath("contactUrl", equalTo(WEB_SITE_URL)))
         .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 
-    client.updateLocalAuthority(SHORT_CODE_VALUE, DIFFERENT_SERVICE_SIGNPOST_URL_INVALID_VALUE);
+    client.updateLocalAuthority(SHORT_CODE_VALUE, LOCAL_AUTHORITY_INVALID_VALUE);
   }
 }

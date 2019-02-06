@@ -1,16 +1,23 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.MapSession;
+import org.springframework.session.Session;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
@@ -28,8 +35,9 @@ public class UserServiceTest {
   @SuppressWarnings("squid:S2068")
   private static final String PASSWORD = "lckxjvlkv";
 
-  @Mock private UserManagementApiClient userManagementServiceMock;
+  @Mock private UserManagementApiClient userManagementApiClientMock;
   @Mock private SetPasswordApiClient setPasswordApiClientMock;
+  @Mock private FindByIndexNameSessionRepository sessionRepositoryMock;
 
   private UserService userService;
 
@@ -41,7 +49,9 @@ public class UserServiceTest {
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    userService = new UserService(userManagementServiceMock, setPasswordApiClientMock);
+    userService =
+        new UserService(
+            userManagementApiClientMock, setPasswordApiClientMock, sessionRepositoryMock);
 
     user = User.builder().uuid(USER_UUID_1).emailAddress(EMAIL_ADDRESS).name(NAME).build();
   }
@@ -86,7 +96,7 @@ public class UserServiceTest {
             .build();
     List<User> usersFromClient = Arrays.asList(user1, user2, user3, user4, user5);
 
-    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY_ID, ""))
+    when(userManagementApiClientMock.getUsersForAuthority(LOCAL_AUTHORITY_ID, ""))
         .thenReturn(usersFromClient);
     List<User> users = userService.find(LOCAL_AUTHORITY_ID);
     List<User> expectedUsers = Arrays.asList(user3, user2, user5, user4, user1);
@@ -98,7 +108,7 @@ public class UserServiceTest {
     final String LOCAL_AUTHORITY = "BIRM";
     List<User> usersFromClient = Arrays.asList();
 
-    when(userManagementServiceMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
+    when(userManagementApiClientMock.getUsersForAuthority(LOCAL_AUTHORITY, ""))
         .thenReturn(usersFromClient);
     List<User> users = userService.find(LOCAL_AUTHORITY);
     List<User> expectedUsers = Arrays.asList();
@@ -107,38 +117,50 @@ public class UserServiceTest {
 
   @Test
   public void retrieve_ShouldReturnUser() {
-    when(userManagementServiceMock.getByUuid(USER_UUID_1)).thenReturn(user);
+    when(userManagementApiClientMock.getByUuid(USER_UUID_1)).thenReturn(user);
     User userRetrieved = userService.retrieve(USER_UUID_1);
     assertThat(userRetrieved).isEqualTo(user);
-    verify(userManagementServiceMock).getByUuid(USER_UUID_1);
+    verify(userManagementApiClientMock).getByUuid(USER_UUID_1);
   }
 
   @Test
   public void create_ShouldCreateAUser() {
-    when(userManagementServiceMock.createUser(user)).thenReturn(user);
+    when(userManagementApiClientMock.createUser(user)).thenReturn(user);
     User userCreated = userService.create(user);
     assertThat(userCreated).isEqualTo(user);
-    verify(userManagementServiceMock).createUser(user);
+    verify(userManagementApiClientMock).createUser(user);
   }
 
   @Test
   public void update_ShouldUpdateAUser() {
-    when(userManagementServiceMock.updateUser(user)).thenReturn(user);
+    when(userManagementApiClientMock.updateUser(user)).thenReturn(user);
     User userUpdated = userService.update(user);
     assertThat(userUpdated).isEqualTo(user);
-    verify(userManagementServiceMock).updateUser(user);
+    verify(userManagementApiClientMock).updateUser(user);
   }
 
   @Test
   public void delete_ShouldDeleteAUser() {
     userService.delete(USER_UUID_1);
-    verify(userManagementServiceMock).deleteUser(USER_UUID_1);
+    verify(userManagementApiClientMock).deleteUser(USER_UUID_1);
   }
 
   @Test
-  public void requestPasswordReset_ShouldDeleteAUser() {
+  public void requestPasswordReset_ShouldRequestAPasswordReset() {
+    when(userManagementApiClientMock.getByUuid(USER_UUID_1)).thenReturn(user);
+    Map<String, Session> sessions = new HashMap<>();
+    Session session1 = new MapSession();
+    Session session2 = new MapSession();
+    sessions.put("session1", session1);
+    sessions.put("session2", session2);
+    when(sessionRepositoryMock.findByPrincipalName(EMAIL_ADDRESS)).thenReturn(sessions);
+
     userService.requestPasswordReset(USER_UUID_1);
-    verify(userManagementServiceMock).requestPasswordReset(USER_UUID_1);
+
+    verify(userManagementApiClientMock).requestPasswordReset(USER_UUID_1);
+    verify(sessionRepositoryMock).deleteById(session1.getId());
+    verify(sessionRepositoryMock).deleteById(session2.getId());
+    verify(sessionRepositoryMock, times(2)).deleteById(any());
   }
 
   @Test

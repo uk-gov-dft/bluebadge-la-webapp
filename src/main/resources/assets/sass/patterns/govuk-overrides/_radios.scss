@@ -10,3 +10,11 @@
 		padding-bottom: 0;
 	}
 }
+
+.govuk-radios--inline {
+	.govuk-radios__item {
+		@include govuk-media-query($from: desktop) {
+			margin-bottom: 0;
+		}
+	}
+}

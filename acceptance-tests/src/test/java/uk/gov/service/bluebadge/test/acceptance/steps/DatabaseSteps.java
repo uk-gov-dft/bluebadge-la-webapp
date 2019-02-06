@@ -7,6 +7,7 @@ import cucumber.api.java.Before;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import uk.gov.service.bluebadge.test.acceptance.util.DbUtils;
 
@@ -17,12 +18,16 @@ public class DatabaseSteps {
   private final DbUtils dbUtils;
 
   public DatabaseSteps() {
-    Map<String, Object> settings = new HashMap<>();
 
+    String dbHost = System.getProperty("dbHost");
+    if (StringUtils.isBlank(dbHost)) {
+      dbHost = "localhost";
+    }
+    Map<String, Object> settings = new HashMap<>();
     settings.put("username", "developer");
     settings.put(" ***REMOVED***);
     settings.put(
-        "url", "jdbc:postgresql://localhost:5432/bb_dev?currentSchema=applicationmanagement");
+        "url", "jdbc:postgresql://" + dbHost + ":5432/bb_dev?currentSchema=applicationmanagement");
     settings.put("driverClassName", "org.postgresql.Driver");
 
     dbUtils = new DbUtils(settings);
