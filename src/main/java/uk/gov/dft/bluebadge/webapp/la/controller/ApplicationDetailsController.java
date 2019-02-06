@@ -1,8 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import java.net.URL;
-import java.util.UUID;
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +22,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeProcessing
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+
+import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(path = "/new-applications/{uuid}")
