@@ -27,7 +27,7 @@ public class OrderBadgeProcessingController {
   static final String URL_PERSON_PROCESSING = "/order-a-badge/person/processing";
   static final String URL_ORGANISATION_PROCESSING = "/order-a-badge/organisation/processing";
 
-  static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
+  public static final String SESSION_FORM_REQUEST = "formRequest-order-a-badge-processing";
 
   private static final String TEMPLATE = "order-a-badge/processing";
 

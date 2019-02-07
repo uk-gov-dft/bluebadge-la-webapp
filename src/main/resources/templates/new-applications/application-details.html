@@ -395,9 +395,9 @@
                 </div>
                 <div class="dft-data-list__item" th:if="${app.paymentTaken != null}">
                     <dt class="dft-data-list__dt"
-                        th:text="#{application.details.paymentTaken}"/>
-                    <dd class="dft-data-list__dd" th:if="${app.paymentTaken}" data-uipath="application.paymentistaken"
-                        th:text="#{application.details.isPaymentTaken}"/>
+                        th:text="#{application.details.payment}"/>
+                    <dd class="dft-data-list__dd" th:if="${app.paymentTaken}" data-uipath="application.payment"
+                        th:text="${app.paymentReference}"/>
                     <dd class="dft-data-list__dd" th:unless="${app.paymentTaken}"
                         data-uipath="application.paymentisnottaken"
                         th:text="#{application.details.isNotPaymentTaken}"/>
@@ -409,6 +409,12 @@
                         th:text="${app.existingBadgeNumber}"/>
                 </div>
             </dl>
+        </div>
+
+        <div th:if="${renderOrderBadgeButton}">
+            <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
+                <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="order" class="govuk-button">
+            </form>
         </div>
 
         <details class="govuk-details">
