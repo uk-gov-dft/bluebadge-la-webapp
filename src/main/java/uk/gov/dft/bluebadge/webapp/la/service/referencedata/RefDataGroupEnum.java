@@ -13,7 +13,8 @@ public enum RefDataGroupEnum {
   CANCEL("CANCEL"),
   WALKING_DIFFICULTIES("WALKDIFF"),
   WALKING_SPEED("WALKSPEED"),
-  REPLACE("REPLACE");
+  REPLACE("REPLACE"),
+  LC("LC");
 
   public String getGroupKey() {
     return groupKey;

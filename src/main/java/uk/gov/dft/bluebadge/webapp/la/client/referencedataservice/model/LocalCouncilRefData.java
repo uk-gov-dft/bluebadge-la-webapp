@@ -20,6 +20,11 @@ public class LocalCouncilRefData extends ReferenceData {
         .orElse(null);
   }
 
+  @JsonIgnore
+  public String getWelshDescription() {
+    return getLocalCouncilMetaData().map(LocalCouncilMetaData::getWelshDescription).orElse(null);
+  }
+
   public Optional<LocalCouncilMetaData> getLocalCouncilMetaData() {
     return Optional.ofNullable(localCouncilMetaData);
   }
@@ -27,5 +32,6 @@ public class LocalCouncilRefData extends ReferenceData {
   @Data
   public static class LocalCouncilMetaData implements Serializable {
     private String issuingAuthorityShortCode;
+    private String welshDescription;
   }
 }
