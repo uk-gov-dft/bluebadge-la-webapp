@@ -74,6 +74,13 @@ spring:
     host: localhost
   main:
     allow-bean-definition-overriding: true
+  resources:
+    chain:
+      enabled: true
+      strategy:
+        content:
+          enabled: true
+      cache: true
 
 server:
   port: 8080

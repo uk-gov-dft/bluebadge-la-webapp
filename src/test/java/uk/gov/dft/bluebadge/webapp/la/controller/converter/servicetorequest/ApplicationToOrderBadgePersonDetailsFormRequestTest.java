@@ -2,7 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;

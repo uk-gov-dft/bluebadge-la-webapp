@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData;
 
-public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest
-    implements LocalAuthorityTestData {
+public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest {
 
   private LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest converter;
 
@@ -19,17 +19,18 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest
 
   @Test
   public void convert_shouldWork_whenAllFieldsArePopulated() {
-    LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.setDescription(null);
+    LocalAuthorityDetailsFormRequest la =
+        LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields();
+    la.setDescription(null);
     LocalAuthorityDetailsFormRequest formRequest =
         converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_ALL_FIELDS);
-    assertThat(formRequest).isEqualTo(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS);
+    assertThat(formRequest).isEqualTo(la);
   }
 
   @Test
   public void convert_shouldWork_whenAllFieldsAreEmpty() {
     LocalAuthorityDetailsFormRequest formRequest =
-        converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_EMPTY_FIELDS);
-    LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.setDescription(null);
-    assertThat(formRequest).isEqualTo(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS);
+        converter.convert(LocalAuthorityRefData.LocalAuthorityMetaData.builder().build());
+    assertThat(formRequest).isEqualTo(LocalAuthorityDetailsFormRequest.builder().build());
   }
 }
