@@ -11,7 +11,7 @@ public class S3Helper {
 
   private final String applicationBucket =
       null == System.getenv("bb_env")
-          ? "uk-gov-dft-dev-applications"
+          ? "uk-gov-dft-ci-applications"
           : "uk-gov-dft-" + System.getenv("bb_env") + "-applications";
 
   public S3Helper() {
