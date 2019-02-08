@@ -16,6 +16,7 @@ buildscript {
 }
 
 dependencies {
+    compile('com.amazonaws:aws-java-sdk-s3:1.11.385')
     compile group: 'commons-io', name: 'commons-io', version:'2.6'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'

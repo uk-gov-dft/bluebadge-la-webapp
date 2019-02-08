@@ -19,7 +19,7 @@ public class ApplicationToOrderBadgeProcessingFormRequestTest
 
   @Test
   public void convert_shouldWork() {
-    OrderBadgeProcessingFormRequest formRequest = converter.convert(APPLICATION);
+    OrderBadgeProcessingFormRequest formRequest = converter.convert(getApplication());
     assertThat(formRequest).isEqualTo(APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST);
   }
 }

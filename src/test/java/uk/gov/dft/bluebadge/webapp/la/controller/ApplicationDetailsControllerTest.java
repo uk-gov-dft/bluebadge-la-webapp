@@ -289,15 +289,15 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
       orderABadgeForApplication_shouldCreateFormRequestsOnSessionAndRedirectToOrderABadgeStepPersonDetails()
           throws Exception {
     when(applicationServiceMock.retrieve(
-            ApplicationToOrderBadgeTestData.APPLICATION.getApplicationId()))
-        .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION);
+            ApplicationToOrderBadgeTestData.getApplication().getApplicationId()))
+        .thenReturn(ApplicationToOrderBadgeTestData.getApplication());
 
     when(applicationToOrderBadgeIndexFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
 
     when(applicationToOrderBadgePersonDetailsFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(
             ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
 
@@ -308,7 +308,7 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
         ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST,
         expectedProcessingForm);
     when(applicationToOrderBadgeProcessingFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(expectedProcessingForm);
 
     HttpSession session =
@@ -316,7 +316,7 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
             .perform(
                 post(
                     "/new-applications/"
-                        + ApplicationToOrderBadgeTestData.APPLICATION.getApplicationId()))
+                        + ApplicationToOrderBadgeTestData.getApplication().getApplicationId()))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/order-a-badge/person/details"))
             .andReturn()
