@@ -72,7 +72,7 @@ public class Contact {
    */
   @ApiModelProperty(example = "65 Basil Chambers", required = true, value = "")
   @NotNull
-  @Size(max = 100)
+  @Size(max = 50)
   public String getBuildingStreet() {
     return buildingStreet;
   }
@@ -92,7 +92,7 @@ public class Contact {
    * @return line2
    */
   @ApiModelProperty(example = "Northern Quarter", value = "")
-  @Size(max = 100)
+  @Size(max = 40)
   public String getLine2() {
     return line2;
   }
@@ -113,7 +113,7 @@ public class Contact {
    */
   @ApiModelProperty(example = "Manchester", required = true, value = "")
   @NotNull
-  @Size(max = 100)
+  @Size(max = 40)
   public String getTownCity() {
     return townCity;
   }
