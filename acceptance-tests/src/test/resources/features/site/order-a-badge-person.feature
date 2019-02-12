@@ -165,4 +165,3 @@ Feature: Dft BlueBadge LA Order a Badge (Person)
     Then I should see the validation message for "buildingAndStreet.error" as "Building and street field must be between 1 and 50 characters"
     And I should see the validation message for "optionalAddressField.error" as "Optional address field must be between 1 and 40 characters"
     And I should see the validation message for "townOrCity.error" as "Town or city field must be between 1 and 40 characters"
-    
