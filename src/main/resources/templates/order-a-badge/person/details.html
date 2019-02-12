@@ -88,7 +88,9 @@
                           th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
 
                     <label class="govuk-label" th:attr="for=photo">Upload a file</label>
-                    <p class="govuk-body" th:if="${formRequest.thumbBase64}">You have already uploaded a photo</p>
+                    <div th:if="${formRequest.thumbBase64}" class="govuk-!-margin-top-5">
+                        <p class="govuk-body">You have already uploaded a photo</p>
+                    </div>
                     <input type="file" data-uipath="photo.field" class="govuk-file-upload" th:field="*{photo}">
                 </div>
             </div>

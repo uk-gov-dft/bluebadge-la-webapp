@@ -5,14 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
@@ -65,7 +64,28 @@ public class ReferenceDataApiClient extends BaseApiClient {
     HttpEntity<LocalAuthority> httpRequest = new HttpEntity<>(localAuthority);
 
     try {
-      restTemplate.exchange(uri, HttpMethod.PUT, httpRequest, CommonResponse.class, shortCode);
+      restTemplate.put(uri, httpRequest, shortCode);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+  }
+
+  /**
+   * Updates a local council.
+   *
+   * @param shortCode identifier of the local council to update.
+   * @param localCouncil objects with values to update.
+   */
+  public void updateLocalCouncil(String shortCode, LocalCouncil localCouncil) {
+    String uri =
+        UriComponentsBuilder.fromUriString("/reference-data/councils/{shortCode}")
+            .build()
+            .toUriString();
+
+    HttpEntity<LocalCouncil> httpRequest = new HttpEntity<>(localCouncil);
+
+    try {
+      restTemplate.put(uri, httpRequest, shortCode);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

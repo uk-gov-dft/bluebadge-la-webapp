@@ -1,4 +1,5 @@
 blue-badge:
+  thumbnail-height-px: 300
   auth-server:
     url: http://localhost:8380/bb_auth
     client-id: bb_la_web_app_id
@@ -73,6 +74,13 @@ spring:
     host: localhost
   main:
     allow-bean-definition-overriding: true
+  resources:
+    chain:
+      enabled: true
+      strategy:
+        content:
+          enabled: true
+      cache: true
 
 server:
   port: 8080

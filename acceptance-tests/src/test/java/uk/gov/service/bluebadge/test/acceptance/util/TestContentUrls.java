@@ -2,7 +2,7 @@ package uk.gov.service.bluebadge.test.acceptance.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import uk.gov.service.bluebadge.test.acceptance.pages.site.AbstractSitePage;
+import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 
 public class TestContentUrls {
 
@@ -17,14 +17,14 @@ public class TestContentUrls {
     if (url == null) {
       throw new RuntimeException("Unknown pageName: " + pageName);
     }
-    return AbstractSitePage.URL + url;
+    return SitePage.URL + url;
   }
 
   public static String lookupUrlUnmapped(String pageName) {
     if (pageName.startsWith("/")) {
-      return AbstractSitePage.URL + pageName;
+      return SitePage.URL + pageName;
     } else {
-      return AbstractSitePage.URL + "/" + pageName;
+      return SitePage.URL + "/" + pageName;
     }
   }
 

@@ -59,8 +59,6 @@ public class LocalAuthorityRefData extends ReferenceData {
   @Data
   @Builder
   public static class LocalAuthorityMetaData implements Serializable {
-    private String issuingAuthorityShortCode;
-    private String issuingAuthorityName;
     private String contactUrl;
     private String welshDescription;
     private String nameLine2;

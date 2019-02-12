@@ -10,7 +10,7 @@ VALUES
  'NEW', 
  false, 
  '2011-01-01 03:00:00'::TIMESTAMP , 
- 'PERSON', 
+ 'PERSON',
  'Contact Name', 
  'Contact Building Street', 
  'Contact Town City', 

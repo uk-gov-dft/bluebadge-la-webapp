@@ -1,6 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 abstract class BaseControllerTest {
   static final String TEMPLATE_USER_DETAILS = "manage-users/user-details";
@@ -21,4 +29,24 @@ abstract class BaseControllerTest {
   static final String MODEL_FORM_REQUEST = "formRequest";
 
   MockMvc mockMvc;
+
+  public static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
+      String fieldName, String error) {
+    return flash()
+        .attribute(
+            "org.springframework.validation.BindingResult.formRequest",
+            hasProperty(
+                "fieldErrors",
+                hasItem(
+                    allOf(
+                        hasProperty("field", equalTo(fieldName)),
+                        hasProperty("code", equalTo(error))))));
+  }
+
+  public static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount) {
+    return flash()
+        .attribute(
+            "org.springframework.validation.BindingResult.formRequest",
+            hasProperty("fieldErrors", hasSize(expectedErrorCount)));
+  }
 }

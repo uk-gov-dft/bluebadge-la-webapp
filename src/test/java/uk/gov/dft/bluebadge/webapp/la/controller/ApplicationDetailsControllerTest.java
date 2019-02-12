@@ -1,22 +1,26 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,12 +28,32 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.dft.bluebadge.webapp.la.BaseSpringBootTest;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeIndexFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgePersonDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeProcessingFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
+import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
   @Mock private ApplicationService applicationServiceMock;
+  @Mock private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequestMock;
+
+  @Mock
+  private ApplicationToOrderBadgePersonDetailsFormRequest
+      applicationToOrderBadgePersonDetailsFormRequestMock;
+
+  @Mock
+  private ApplicationToOrderBadgeProcessingFormRequest
+      applicationToOrderBadgeProcessingFormRequestMock;
+
+  private static final String SESSION_INDEX_FORM_REQUEST = "formRequest-order-a-badge-index";
+  private static final String SESSION_PERSON_DETAILS_FORM_REQUEST =
+      "formRequest-order-a-badge-details";
+  private static final String SESSION_PROCESSING_FORM_REQUEST =
+      "formRequest-order-a-badge-processing";
 
   @SuppressWarnings("unused")
   @Autowired
@@ -258,5 +282,55 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/new-applications"));
     verify(applicationServiceMock).delete(ApplicationDetailsTestData.ModelValues.UUID.toString());
+  }
+
+  @Test
+  public void
+      orderABadgeForApplication_shouldCreateFormRequestsOnSessionAndRedirectToOrderABadgeStepPersonDetails()
+          throws Exception {
+    when(applicationServiceMock.retrieve(
+            ApplicationToOrderBadgeTestData.getApplication().getApplicationId()))
+        .thenReturn(ApplicationToOrderBadgeTestData.getApplication());
+
+    when(applicationToOrderBadgeIndexFormRequestMock.convert(
+            ApplicationToOrderBadgeTestData.getApplication()))
+        .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
+
+    when(applicationToOrderBadgePersonDetailsFormRequestMock.convert(
+            ApplicationToOrderBadgeTestData.getApplication()))
+        .thenReturn(
+            ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
+
+    OrderBadgeProcessingFormRequest expectedProcessingForm =
+        OrderBadgeProcessingFormRequest.builder().build();
+
+    BeanUtils.copyProperties(
+        ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST,
+        expectedProcessingForm);
+    when(applicationToOrderBadgeProcessingFormRequestMock.convert(
+            ApplicationToOrderBadgeTestData.getApplication()))
+        .thenReturn(expectedProcessingForm);
+
+    HttpSession session =
+        mockMvc
+            .perform(
+                post(
+                    "/new-applications/"
+                        + ApplicationToOrderBadgeTestData.getApplication().getApplicationId()))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/order-a-badge/person/details"))
+            .andReturn()
+            .getRequest()
+            .getSession();
+
+    assertThat(session.getAttribute(SESSION_INDEX_FORM_REQUEST))
+        .isEqualTo(ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
+    assertThat(session.getAttribute(SESSION_PERSON_DETAILS_FORM_REQUEST))
+        .isEqualTo(
+            ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
+    assertThat(session.getAttribute(SESSION_PROCESSING_FORM_REQUEST))
+        .isEqualTo(
+            ApplicationToOrderBadgeTestData
+                .APPLICATION_TO_ORDER_BADGE_PROCESSING_WITH_APPLICATION_CHANNEL_FORM_REQUEST);
   }
 }
