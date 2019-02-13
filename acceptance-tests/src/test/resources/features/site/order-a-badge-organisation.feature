@@ -151,6 +151,6 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     And I type "This string is just over forty characters" for "optionalAddressField.field" field by uipath
     And I type "This string is just over forty characters" for "townOrCity.field" field by uipath
     When I click on Continue button
-    Then I should see the validation message for "buildingAndStreet.error" as "Building and street field must be between 1 and 50 characters"
-    And I should see the validation message for "optionalAddressField.error" as "Optional address field must be between 1 and 40 characters"
-    And I should see the validation message for "townOrCity.error" as "Town or city field must be between 1 and 40 characters"
+    Then I should see the validation message for "buildingAndStreet.error" as "Building and street must be 50 characters or less"
+    And I should see the validation message for "optionalAddressField.error" as "Optional address line must be 40 characters or less"
+    And I should see the validation message for "townOrCity.error" as "Town or City must be 40 characters or less"
