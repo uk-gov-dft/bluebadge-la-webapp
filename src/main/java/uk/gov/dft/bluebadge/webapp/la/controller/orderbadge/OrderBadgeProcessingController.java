@@ -69,6 +69,7 @@ public class OrderBadgeProcessingController extends OrderBadgeBaseController {
     }
 
     if (bindingResult.hasErrors()) {
+      addApplicantTypeToModel(session, model);
       model.addAttribute("errorSummary", new ErrorViewModel());
       return TEMPLATE;
     }
