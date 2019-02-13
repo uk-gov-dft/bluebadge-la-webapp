@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FlowForm;

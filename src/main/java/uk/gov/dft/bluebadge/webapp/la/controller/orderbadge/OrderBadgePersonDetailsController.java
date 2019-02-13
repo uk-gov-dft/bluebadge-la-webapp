@@ -38,9 +38,6 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
   static final String ORDER_A_BADGE_PERSON_DETAILS_URL = "/order-a-badge/person/details";
   private static final String TEMPLATE = "order-a-badge/person/details";
 
-  private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
-
   private static final String FORM_REQUEST = "formRequest";
 
   private ReferenceDataService referenceDataService;

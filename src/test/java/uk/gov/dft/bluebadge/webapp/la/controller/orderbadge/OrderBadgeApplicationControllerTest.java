@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,16 +60,16 @@ public class OrderBadgeApplicationControllerTest extends OrderBadgeBaseControlle
   @Test
   @SneakyThrows
   public void show_shouldDisplayBadgeOrderedTemplateWithBadgeNumber() {
-    String applicationId = ApplicationToOrderBadgeTestData.APPLICATION.getApplicationId();
+    String applicationId = ApplicationToOrderBadgeTestData.getApplication().getApplicationId();
     when(applicationServiceMock.retrieve(applicationId))
-        .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION);
+        .thenReturn(ApplicationToOrderBadgeTestData.getApplication());
 
     when(applicationToOrderBadgeIndexFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
 
     when(applicationToOrderBadgePersonDetailsFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(
             ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
 
@@ -81,7 +80,7 @@ public class OrderBadgeApplicationControllerTest extends OrderBadgeBaseControlle
         ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST,
         expectedProcessingForm);
     when(applicationToOrderBadgeProcessingFormRequestMock.convert(
-            ApplicationToOrderBadgeTestData.APPLICATION))
+            ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(expectedProcessingForm);
 
     HttpSession session =
