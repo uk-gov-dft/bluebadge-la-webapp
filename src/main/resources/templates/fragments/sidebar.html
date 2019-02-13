@@ -24,7 +24,7 @@
 					   th:class="${currentPage == 'new-applications'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.newApplications}"/>
 
 					<a sec:authorize-url="GET /order-a-badge" data-uipath="sidebar-nav.order-a-badge"
-					   href="/order-a-badge/?action=reset"
+					   href="/order-a-badge?action=reset"
 					   th:class="${currentPage == 'order-a-badge'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.orderABadge}"/>
 
 					<a sec:authorize-url="GET /manage-badges" data-uipath="sidebar-nav.manage-badges"

@@ -125,7 +125,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest
   @Test
   public void submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValid()
       throws Exception {
-    when(toLocalAuthorityMock.convert(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS))
+    when(toLocalAuthorityMock.convert(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.build()))
         .thenReturn(LOCAL_AUTHORITY_ALL_FIELDS);
 
     mockMvc
@@ -154,7 +154,9 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(
-            model().attribute(MODEL_FORM_REQUEST, LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS));
+            model()
+                .attribute(
+                    MODEL_FORM_REQUEST, LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.build()));
 
     verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY_ALL_FIELDS);
   }

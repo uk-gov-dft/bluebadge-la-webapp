@@ -113,38 +113,37 @@ public interface LocalAuthorityTestData {
   LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS =
       LocalAuthorityDetailsFormRequest.builder().build();
 
-  LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS =
+  LocalAuthorityDetailsFormRequest.LocalAuthorityDetailsFormRequestBuilder
+      LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS =
+          LocalAuthorityDetailsFormRequest.builder()
+              .description(DESCRIPTION)
+              .welshDescription(WELSH_DESCRIPTION)
+              .nameLine2(NAME_LINE2)
+              .addressLine1(ADDRESS_LINE1)
+              .addressLine2(ADDRESS_LINE2)
+              .addressLine3(ADDRESS_LINE3)
+              .addressLine4(ADDRESS_LINE4)
+              .town(TOWN)
+              .emailAddress(EMAIL_ADDRESS)
+              .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
+              .county(COUNTY)
+              .contactNumber(CONTACT_NUMBER)
+              .badgePackType(BADGE_PACK_TYPE)
+              .paymentsEnabled(PAYMENTS_ENABLED)
+              .badgeCost(BADGE_COST)
+              .postcode(POSTCODE)
+              .country(COUNTRY)
+              .nation(NATION)
+              .websiteUrl(WEB_SITE_URL);
+
+  LocalAuthorityDetailsFormRequest LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS =
       LocalAuthorityDetailsFormRequest.builder()
           .description(DESCRIPTION)
-          .welshDescription(WELSH_DESCRIPTION)
-          .nameLine2(NAME_LINE2)
-          .addressLine1(ADDRESS_LINE1)
-          .addressLine2(ADDRESS_LINE2)
-          .addressLine3(ADDRESS_LINE3)
-          .addressLine4(ADDRESS_LINE4)
-          .town(TOWN)
-          .emailAddress(EMAIL_ADDRESS)
-          .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
-          .county(COUNTY)
-          .contactNumber(CONTACT_NUMBER)
-          .badgePackType(BADGE_PACK_TYPE)
-          .paymentsEnabled(PAYMENTS_ENABLED)
-          .badgeCost(BADGE_COST)
           .postcode(POSTCODE)
           .country(COUNTRY)
           .nation(NATION)
           .websiteUrl(WEB_SITE_URL)
           .build();
-
-  LocalAuthorityDetailsFormRequest
-      LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS =
-          LocalAuthorityDetailsFormRequest.builder()
-              .description(DESCRIPTION)
-              .postcode(POSTCODE)
-              .country(COUNTRY)
-              .nation(NATION)
-              .websiteUrl(WEB_SITE_URL)
-              .build();
 
   LocalAuthorityRefData.LocalAuthorityMetaData LOCAL_AUTHORITY_META_DATA_ALL_FIELDS =
       LocalAuthorityRefData.LocalAuthorityMetaData.builder()

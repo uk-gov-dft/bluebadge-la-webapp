@@ -20,6 +20,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.service.ImageProcessingUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -29,14 +31,10 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 
 @Slf4j
 @Controller
-public class OrderBadgePersonDetailsController
-    extends OrderBadgeBaseDetailsController<OrderBadgePersonDetailsFormRequest> {
-  public static final String URL = "/order-a-badge/person/details";
-
+@RequestMapping(OrderBadgePersonDetailsController.ORDER_A_BADGE_PERSON_DETAILS_URL)
+public class OrderBadgePersonDetailsController extends OrderBadgeBaseController {
+  static final String ORDER_A_BADGE_PERSON_DETAILS_URL = "/order-a-badge/person/details";
   private static final String TEMPLATE = "order-a-badge/person/details";
-
-  private static final String REDIRECT_ORDER_BADGE_PROCESSING =
-      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
 
   private static final int THUMB_IMAGE_HEIGHT = 300;
   private static final String FORM_REQUEST = "formRequest";
@@ -48,16 +46,18 @@ public class OrderBadgePersonDetailsController
     this.referenceDataService = referenceDataService;
   }
 
-  @GetMapping(URL)
-  public String showPersonDetails(
+  @GetMapping
+  public String showDetails(
       @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
-      Model model) {
+      Model model,
+      @RequestParam(name = "fid") String flowId) {
     log.debug("Show person details page.");
-    return super.show(formRequest, session, model);
+    super.setupPageModel(session, model, DETAILS_SESSION_ATTR, formRequest, flowId);
+    return TEMPLATE;
   }
 
-  @PostMapping(URL)
+  @PostMapping
   public String submitPersonDetails(
       @Valid @ModelAttribute(FORM_REQUEST) final OrderBadgePersonDetailsFormRequest formRequest,
       BindingResult bindingResult,
@@ -65,7 +65,7 @@ public class OrderBadgePersonDetailsController
       HttpSession session) {
 
     log.info("Submit person details");
-    model.addAttribute("errorSummary", new ErrorViewModel());
+    checkFlow(session, formRequest);
 
     log.info(
         "Submit:check hasPhoto and !photoValid:{},{}",
@@ -90,21 +90,23 @@ public class OrderBadgePersonDetailsController
     }
 
     log.info("Submit, set form request");
-    session.setAttribute(SESSION_FORM_REQUEST, formRequest);
+    session.setAttribute(DETAILS_SESSION_ATTR, formRequest);
 
     if (bindingResult.hasErrors()) {
       log.info("Submit, have binding errors");
-      return getTemplate();
+      // TODO Redirect maybe
+      model.addAttribute("errorSummary", new ErrorViewModel());
+      return TEMPLATE;
     }
 
     log.info("Submit, redirecting");
-    return getProcessingRedirectUrl();
+    return redirectFlow(formRequest, OrderBadgeProcessingController.ORDER_A_BADGE_PROCESSING_URL);
   }
 
   private void augmentWithExistingSessionPhoto(
       OrderBadgePersonDetailsFormRequest formRequest, HttpSession session) {
     OrderBadgePersonDetailsFormRequest formSession =
-        (OrderBadgePersonDetailsFormRequest) session.getAttribute(SESSION_FORM_REQUEST);
+        (OrderBadgePersonDetailsFormRequest) session.getAttribute(DETAILS_SESSION_ATTR);
 
     if (formSession != null) {
       formRequest.setThumbBase64(formSession.getThumbBase64());
@@ -164,15 +166,5 @@ public class OrderBadgePersonDetailsController
                 Collectors.groupingBy(
                     ref ->
                         "ELIG_AUTO".equals(ref.getSubgroupShortCode()) ? "Automatic" : "Further")));
-  }
-
-  @Override
-  protected String getTemplate() {
-    return TEMPLATE;
-  }
-
-  @Override
-  protected String getProcessingRedirectUrl() {
-    return REDIRECT_ORDER_BADGE_PROCESSING;
   }
 }

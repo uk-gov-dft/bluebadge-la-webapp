@@ -49,7 +49,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
   public void show_shouldDisplayOrderABadgeProcessingTemplate() throws Exception {
     mockMvc
         .perform(
-            get("/order-a-badge/person/processing")
+            get("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
@@ -63,7 +63,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
 
     mockMvc
         .perform(
-            get("/order-a-badge/person/processing")
+            get("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
@@ -79,7 +79,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
 
     mockMvc
         .perform(
-            get("/order-a-badge/person/processing")
+            get("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
@@ -93,7 +93,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            get("/order-a-badge/person/processing")
+            get("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .sessionAttr(
@@ -109,9 +109,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -126,7 +127,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(DELIVERY_OPTIONS_FIELD, DELIVERY_OPTIONS_SHORTCODE)
                 .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
+        .andExpect(redirectedUrl("/order-a-badge/check-order?fid=" + FLOW_ID));
   }
 
   @Test
@@ -135,9 +136,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -154,7 +156,7 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
                 .param(NUMBER_OF_BADGES_FIELD, String.valueOf(NUMBER_OF_BADGES_ORGANISATION)))
         //.param(NUMBER_OF_BADGES_FIELD, NUMBER_OF_BADGES_ORGANISATION))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/person/check-order"));
+        .andExpect(redirectedUrl("/order-a-badge/check-order?fid=" + FLOW_ID));
   }
 
   @Test
@@ -162,9 +164,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
       throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/processing"))
         .andExpect(
@@ -189,9 +192,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
       throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY_WRONG)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH_WRONG)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR_WRONG)
@@ -230,9 +234,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, "32")
                 .param(APPLICATION_DATE_MONTH_FIELD, "13")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2017")
@@ -261,9 +266,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, "1")
                 .param(APPLICATION_DATE_MONTH_FIELD, "12")
                 .param(APPLICATION_DATE_YEAR_FIELD, "2100")
@@ -292,9 +298,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -323,9 +330,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -354,9 +362,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -385,9 +394,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)
@@ -416,9 +426,10 @@ public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseController
           throws Exception {
     mockMvc
         .perform(
-            post("/order-a-badge/person/processing")
+            post("/order-a-badge/processing?fid=" + FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
+                .param("flowId", FLOW_ID)
                 .param(APPLICATION_DATE_DAY_FIELD, APPLICATION_DATE_DAY)
                 .param(APPLICATION_DATE_MONTH_FIELD, APPLICATION_DATE_MONTH)
                 .param(APPLICATION_DATE_YEAR_FIELD, APPLICATION_DATE_YEAR)

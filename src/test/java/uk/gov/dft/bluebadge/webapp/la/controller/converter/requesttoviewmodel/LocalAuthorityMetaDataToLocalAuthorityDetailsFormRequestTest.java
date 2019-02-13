@@ -19,17 +19,18 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest
 
   @Test
   public void convert_shouldWork_whenAllFieldsArePopulated() {
-    LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.setDescription(null);
+    LocalAuthorityDetailsFormRequest expected =
+        LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.build();
+    expected.setDescription(null);
     LocalAuthorityDetailsFormRequest formRequest =
         converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_ALL_FIELDS);
-    assertThat(formRequest).isEqualTo(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS);
+    assertThat(formRequest).isEqualTo(expected);
   }
 
   @Test
   public void convert_shouldWork_whenAllFieldsAreEmpty() {
     LocalAuthorityDetailsFormRequest formRequest =
         converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_EMPTY_FIELDS);
-    LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.setDescription(null);
     assertThat(formRequest).isEqualTo(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS);
   }
 }

@@ -6,12 +6,15 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
 @Builder
 public class OrderBadgeOrganisationDetailsFormRequest
     implements OrderBadgeBaseDetailsFormRequest, Serializable {
+  private String flowId;
+
   @NotBlank(message = "{NotNull.user.name}")
   @Size(max = 100)
   private String name;

@@ -20,7 +20,8 @@ public class LocalAuthorityDetailsFormRequestToLocalAuthorityTest
   @Test
   public void convert_shouldWork_whenAllFieldsArePopulated() {
     LocalAuthority localAuthority =
-        converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS);
+        converter.convert(
+            LocalAuthorityTestData.LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_ALL_FIELDS.build());
     assertThat(localAuthority).isEqualTo(LOCAL_AUTHORITY_ALL_FIELDS);
   }
 

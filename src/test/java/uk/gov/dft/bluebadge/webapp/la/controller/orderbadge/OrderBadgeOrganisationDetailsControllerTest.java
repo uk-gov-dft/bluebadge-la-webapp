@@ -38,7 +38,8 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
     mockMvc
         .perform(
             get("/order-a-badge/organisation/details")
-                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("fid", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"));
   }
@@ -51,7 +52,8 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
         .perform(
             get("/order-a-badge/organisation/details")
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
-                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_ORGANISATION_DETAILS))
+                .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_ORGANISATION_DETAILS)
+                .param("fid", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"))
         .andExpect(model().attribute("formRequest", FORM_REQUEST_ORGANISATION_DETAILS));
@@ -64,14 +66,16 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
     mockMvc
         .perform(
             post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/organisation/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
   }
 
   @Test
@@ -81,10 +85,12 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
     mockMvc
         .perform(
             post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -94,14 +100,17 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/organisation/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
   }
 
   @Test
   public void submit_shouldRedirectToDetailsPageAndDisplayErrors_WhenNoFieldsAreSet()
       throws Exception {
     mockMvc
-        .perform(post("/order-a-badge/organisation/details"))
+        .perform(
+            post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
@@ -110,7 +119,7 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
                 .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIELD, "NotBlank"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "NotBlank"))
@@ -128,10 +137,12 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
     mockMvc
         .perform(
             post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -152,14 +163,17 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
         .andExpect(model().errorCount(2));
   }
 
+  @Test
   public void submit_shouldRedirectToDetailsPage_WhenAllFieldsAreWrong() throws Exception {
     mockMvc
         .perform(
             post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME_WRONG)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_WRONG)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_WRONG)
-                .param(POSTCODE_FIED, POSTCODE_WRONG)
+                .param(POSTCODE_FIELD, POSTCODE_WRONG)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_WRONG)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -169,23 +183,17 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeBaseC
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/organisation/details"))
-        .andExpect(view().name("order-a-badge/organisation/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIELD, "Pattern"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
-                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
-        .andExpect(
-            model()
-                .attributeHasFieldErrorCode(
-                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", NINO_FIELD, "Pattern"))
+                    "formRequest", CONTACT_DETAILS_CONTACT_NUMBER_FIELD, "Pattern"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode("formRequest", CONTACT_DETAILS_NAME_FIELD, "Pattern"))

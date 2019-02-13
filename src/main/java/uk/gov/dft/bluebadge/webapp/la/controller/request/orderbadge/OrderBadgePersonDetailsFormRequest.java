@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
@@ -16,6 +17,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 @Builder
 public class OrderBadgePersonDetailsFormRequest
     implements OrderBadgeBaseDetailsFormRequest, Serializable {
+  private String flowId;
+
   private Integer numberOfBadges;
 
   @NotBlank(message = "{NotNull.user.name}")
@@ -93,11 +96,12 @@ public class OrderBadgePersonDetailsFormRequest
   private String eligibility;
 
   public Boolean hasPhoto() {
-    return getPhoto().getSize() > 0;
+    return null != getPhoto() && getPhoto().getSize() > 0;
   }
 
   public Boolean isPhotoValid() {
-    return Arrays.asList(ALLOWED_FILE_TYPES).contains(getPhoto().getContentType().toLowerCase());
+    return null != getPhoto()
+        && Arrays.asList(ALLOWED_FILE_TYPES).contains(getPhoto().getContentType().toLowerCase());
   }
 
   public String getNino() {
