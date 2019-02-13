@@ -266,7 +266,7 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
   public void
       orderABadgeForApplication_shouldCreateFormRequestsOnSessionAndRedirectToOrderABadgeStepPersonDetails()
           throws Exception {
-    String applicationId = ApplicationToOrderBadgeTestData.APPLICATION.getApplicationId();
+    String applicationId = ApplicationToOrderBadgeTestData.getApplication().getApplicationId();
 
     mockMvc
         .perform(post("/new-applications/" + applicationId))

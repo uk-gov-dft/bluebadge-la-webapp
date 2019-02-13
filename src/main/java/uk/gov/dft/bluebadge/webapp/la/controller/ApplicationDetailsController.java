@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
@@ -18,10 +19,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeFie
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
+@RequestMapping(path = "/new-applications/{uuid}")
 @Slf4j
 public class ApplicationDetailsController {
   private static final String PARAM_UUID = "uuid";
-  private static final String URL = "/new-applications/{uuid}";
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
@@ -33,7 +34,7 @@ public class ApplicationDetailsController {
     this.applicationService = applicationService;
   }
 
-  @GetMapping(URL)
+  @GetMapping()
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
@@ -46,14 +47,14 @@ public class ApplicationDetailsController {
     return TEMPLATE;
   }
 
-  @PostMapping(URL)
+  @PostMapping()
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
     return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
   }
 
-  @DeleteMapping(URL)
+  @DeleteMapping()
   public String delete(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;

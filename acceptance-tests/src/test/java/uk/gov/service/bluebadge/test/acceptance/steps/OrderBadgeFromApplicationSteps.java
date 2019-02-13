@@ -4,42 +4,46 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
+import uk.gov.service.bluebadge.test.acceptance.util.S3Helper;
 
 public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
-
-  private static final Logger log = getLogger(SiteSteps.class);
 
   @Autowired protected SitePage sitePage;
   @Autowired protected DatabaseSteps databaseSteps;
 
+  @Before("@OrderBadgeFromApplication")
+  public void putPhotoInS3() throws URISyntaxException {
+    S3Helper s3Helper = new S3Helper();
+    s3Helper.putApplicationObject("/small.png", "applicationTestPhoto.png");
+  }
+
   @And("^I can see the \"Order badge\" button$")
-  public void iCanSeeOrderBadgeButton() throws Throwable {
+  public void iCanSeeOrderBadgeButton() {
     assertNotNull("Can see element", sitePage.findElementWithUiPath("order"));
   }
 
   @And("^I cannot see the \"Order badge\" button$")
-  public void iCannotSeeOrderBadgeButton() throws Throwable {
+  public void iCannotSeeOrderBadgeButton() {
     assertNull("Cannot see element", sitePage.findElementWithUiPath("order"));
   }
 
   @When("^I click the \"Order badge\" button$")
-  public void iClickOrderBadgeButton() throws Throwable {
+  public void iClickOrderBadgeButton() {
     sitePage.findElementWithUiPath("order").click();
   }
 
   @Then("^I should see the \"Order a badge\" page form pre-filled$")
-  public void iShouldSeeOrderABadgePagePrefilled() throws Throwable {
+  public void iShouldSeeOrderABadgePagePrefilled() {
     assertThat(
         "Application type should be ...",
         sitePage.findElementWithUiPath("applicantType.option.person").getAttribute("checked"),
@@ -47,7 +51,7 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should see the \"Personal Details\" page form pre-filled$")
-  public void iShouldSeePersonalDetailsPagePrefilled() throws Throwable {
+  public void iShouldSeePersonalDetailsPagePrefilled() {
     // Personal details
     assertThat(
         "Name field should contain ...",
@@ -111,7 +115,7 @@ public class OrderBadgeFromApplicationSteps extends AbstractSpringSteps {
   }
 
   @Then("^I should see the \"Processing\" page form pre-filled$")
-  public void iShouldSeeProcessingPagePrefilled() throws Throwable {
+  public void iShouldSeeProcessingPagePrefilled() {
     assertThat(
         "Gender should be ...",
         sitePage.findElementWithUiPath("applicationChannel.option.ONLINE").getAttribute("checked"),

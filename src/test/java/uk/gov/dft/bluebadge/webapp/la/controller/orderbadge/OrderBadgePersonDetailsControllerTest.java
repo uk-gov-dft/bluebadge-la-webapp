@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 
@@ -28,26 +29,16 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
 
   private MockMvc mockMvc;
 
-  private OrderBadgePersonDetailsController controller;
-
-  private ReferenceData rdEligibility1;
-  private ReferenceData rdEligibility2;
-  private ReferenceData rdEligibility3;
-  private ReferenceData rdEligibility4;
-  private ReferenceData rdEligibility5;
-  private ReferenceData rdEligibility6;
-  private ReferenceData rdGender1;
-  private ReferenceData rdGender2;
-  private List<ReferenceData> referenceDataEligibilityList;
-  private List<ReferenceData> referenceDataGenderList;
-
   @Before
   public void setup() {
 
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    controller = new OrderBadgePersonDetailsController(referenceDataServiceMock);
+    GeneralConfig generalConfig = new GeneralConfig();
+    generalConfig.setThumbnailHeight(300);
+    OrderBadgePersonDetailsController controller =
+        new OrderBadgePersonDetailsController(referenceDataServiceMock, generalConfig);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -61,26 +52,26 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
           throws Exception {
 
     // Mock Data
-    rdEligibility1 =
+    ReferenceData rdEligibility1 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1);
     rdEligibility1.setSubgroupShortCode("ELIG_AUTO");
-    rdEligibility2 =
+    ReferenceData rdEligibility2 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2);
     rdEligibility2.setSubgroupShortCode("ELIG_AUTO");
-    rdEligibility3 =
+    ReferenceData rdEligibility3 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3);
     rdEligibility3.setSubgroupShortCode("ELIG_AUTO");
-    rdEligibility4 =
+    ReferenceData rdEligibility4 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4);
     rdEligibility4.setSubgroupShortCode("ELIG_FURTH");
-    rdEligibility5 =
+    ReferenceData rdEligibility5 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5);
     rdEligibility5.setSubgroupShortCode("ELIG_FURTH");
-    rdEligibility6 =
+    ReferenceData rdEligibility6 =
         ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6);
     rdEligibility6.setSubgroupShortCode("ELIG_FURTH");
 
-    referenceDataEligibilityList =
+    List<ReferenceData> referenceDataEligibilityList =
         Lists.newArrayList(
             rdEligibility1,
             rdEligibility2,
@@ -89,9 +80,9 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
             rdEligibility5,
             rdEligibility6);
 
-    rdGender1 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3);
-    rdGender2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
-    referenceDataGenderList = Lists.newArrayList(rdGender1, rdGender2);
+    ReferenceData rdGender1 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3);
+    ReferenceData rdGender2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
+    List<ReferenceData> referenceDataGenderList = Lists.newArrayList(rdGender1, rdGender2);
 
     when(referenceDataServiceMock.retrieveBadgeEligilities())
         .thenReturn(referenceDataEligibilityList);
@@ -190,8 +181,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param("byteImage", "thumbnail"))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
-        .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge"))
         .andExpect(model().errorCount(1));
   }
 
@@ -299,8 +289,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
             model()
                 .attributeHasFieldErrorCode(
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
-        .andExpect(
-            model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge.photo"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", PHOTO_FIELD, "NotValid.badge"))
         .andExpect(model().errorCount(5));
   }
 

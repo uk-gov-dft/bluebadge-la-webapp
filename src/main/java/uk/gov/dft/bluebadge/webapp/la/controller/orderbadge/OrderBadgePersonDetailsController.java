@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.service.ImageProcessingUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
@@ -36,14 +38,19 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
   static final String ORDER_A_BADGE_PERSON_DETAILS_URL = "/order-a-badge/person/details";
   private static final String TEMPLATE = "order-a-badge/person/details";
 
-  private static final int THUMB_IMAGE_HEIGHT = 300;
+  private static final String REDIRECT_ORDER_BADGE_PROCESSING =
+      "redirect:" + OrderBadgeProcessingController.URL_PERSON_PROCESSING;
+
   private static final String FORM_REQUEST = "formRequest";
 
   private ReferenceDataService referenceDataService;
+  private GeneralConfig generalConfig;
 
   @Autowired
-  public OrderBadgePersonDetailsController(ReferenceDataService referenceDataService) {
+  OrderBadgePersonDetailsController(
+      ReferenceDataService referenceDataService, GeneralConfig generalConfig) {
     this.referenceDataService = referenceDataService;
+    this.generalConfig = generalConfig;
   }
 
   @GetMapping
@@ -64,42 +71,30 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
       Model model,
       HttpSession session) {
 
-    log.info("Submit person details");
     checkFlow(session, formRequest);
 
-    log.info(
-        "Submit:check hasPhoto and !photoValid:{},{}",
-        formRequest.hasPhoto(),
-        !formRequest.isPhotoValid());
     if (formRequest.hasPhoto() && !formRequest.isPhotoValid()) {
-      bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
+      bindingResult.rejectValue("photo", "NotValid.badge");
     }
 
     if (formRequest.isPhotoValid()) {
-      log.info("Submit photo processing");
       try {
         processImage(formRequest);
       } catch (IOException | IllegalArgumentException e) {
         log.info("Error uploading image:{}", e.getCause());
-        bindingResult.rejectValue("photo", "NotValid.badge.photo", "Select a valid photo");
+        bindingResult.rejectValue("photo", "NotValid.badge");
       }
     } else {
-      log.info("Submit, start augment session photo");
       augmentWithExistingSessionPhoto(formRequest, session);
-      log.info("Submit, end augment session photo");
     }
 
-    log.info("Submit, set form request");
     session.setAttribute(DETAILS_SESSION_ATTR, formRequest);
 
     if (bindingResult.hasErrors()) {
-      log.info("Submit, have binding errors");
-      // TODO Redirect maybe
       model.addAttribute("errorSummary", new ErrorViewModel());
       return TEMPLATE;
     }
 
-    log.info("Submit, redirecting");
     return redirectFlow(formRequest, OrderBadgeProcessingController.ORDER_A_BADGE_PROCESSING_URL);
   }
 
@@ -114,24 +109,10 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
     }
   }
 
-  private String generateThumbnail(BufferedImage imageBuffer, String contentType)
-      throws IOException {
-    InputStream stream =
-        ImageProcessingUtils.getInputStreamForSizedBufferedImage(imageBuffer, THUMB_IMAGE_HEIGHT);
-
-    byte[] bytes = convertInputStreamToBytesArray(stream);
-
-    String thumbBase64 = "data:" + contentType + ";base64, ";
-
-    return thumbBase64 + Base64.getEncoder().encodeToString(bytes);
-  }
-
   private void processImage(OrderBadgePersonDetailsFormRequest formRequest) throws IOException {
 
     MultipartFile photo = formRequest.getPhoto();
-
-    InputStream stream = photo.getInputStream();
-    byte[] imageByteArray = convertInputStreamToBytesArray(stream);
+    byte[] imageByteArray = IOUtils.toByteArray(photo.getInputStream());
 
     formRequest.setByteImage(imageByteArray);
 
@@ -140,15 +121,14 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
     if (sourceImageBuffer == null) {
       throw new IllegalArgumentException("Invalid image.");
     }
+    InputStream stream =
+        ImageProcessingUtils.getInputStreamForSizedBufferedImage(
+            sourceImageBuffer, generalConfig.getThumbnailHeight());
 
-    formRequest.setThumbBase64(generateThumbnail(sourceImageBuffer, photo.getContentType()));
-  }
-
-  private byte[] convertInputStreamToBytesArray(InputStream stream) throws IOException {
-    byte[] bytes = new byte[stream.available()];
-    int bytesRead = stream.read(bytes);
-    log.debug("Read {} bytes.", bytesRead);
-    return bytes;
+    String thumbBase64 =
+        "data:image/jpeg;base64, "
+            + Base64.getEncoder().encodeToString(IOUtils.toByteArray(stream));
+    formRequest.setThumbBase64(thumbBase64);
   }
 
   @ModelAttribute("genderOptions")

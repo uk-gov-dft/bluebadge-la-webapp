@@ -56,13 +56,13 @@ public class OrderBadgePersonDetailsFormRequest
   private String nino;
 
   @NotBlank(message = "{NotNull.badge.buildingAndStreet}")
-  @Size(max = 100, min = 1, message = "{Size.badge.buildingAndStreet}")
+  @Size(max = 100, message = "{Size.badge.buildingAndStreet}")
   private String buildingAndStreet;
 
   @Size(max = 100, message = "{Size.badge.optionalAddressField}")
   private String optionalAddressField;
 
-  @Size(max = 100, min = 1, message = "{Size.badge.townOrCity}")
+  @Size(max = 100, message = "{Size.badge.townOrCity}")
   @NotBlank(message = "{NotNull.badge.townOrCity}")
   private String townOrCity;
 
@@ -95,12 +95,12 @@ public class OrderBadgePersonDetailsFormRequest
   @NotBlank(message = "{NotNull.badge.eligibility}")
   private String eligibility;
 
-  public Boolean hasPhoto() {
+  public boolean hasPhoto() {
     return null != getPhoto() && getPhoto().getSize() > 0;
   }
 
-  public Boolean isPhotoValid() {
-    return null != getPhoto()
+  public boolean isPhotoValid() {
+    return hasPhoto()
         && Arrays.asList(ALLOWED_FILE_TYPES).contains(getPhoto().getContentType().toLowerCase());
   }
 

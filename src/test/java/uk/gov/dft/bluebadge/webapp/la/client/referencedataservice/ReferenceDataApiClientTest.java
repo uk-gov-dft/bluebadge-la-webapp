@@ -8,6 +8,18 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTRY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTRY_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_INVALID_VALUE;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NATION;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NATION_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WEB_SITE_URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -27,9 +39,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceDataResponse;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
-import uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData;
 
-public class ReferenceDataApiClientTest implements LocalAuthorityTestData {
+public class ReferenceDataApiClientTest {
   private static final String TEST_URI = "http://justtesting:8787/test/";
 
   private static final String BASE_ENDPOINT = TEST_URI + "reference-data";
