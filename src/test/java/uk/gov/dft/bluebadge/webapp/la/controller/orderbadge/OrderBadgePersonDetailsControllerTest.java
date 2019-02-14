@@ -354,6 +354,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
         .perform(
             multipart("/order-a-badge/person/details")
                 .file(PHOTO())
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -362,7 +364,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_OVERSIZE)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_OVERSIZE)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
