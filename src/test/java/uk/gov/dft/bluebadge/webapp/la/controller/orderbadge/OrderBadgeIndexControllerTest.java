@@ -20,7 +20,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.advice.ErrorControllerAdvice;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 
-public class OrderBadgeIndexControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeIndexControllerTest extends OrderBadgeControllerTestData {
   private static final String SESSION_FORM_REQUEST_INDEX = "formRequest-order-a-badge-index";
   private static final String SESSION_FORM_REQUEST_DETAILS = "formRequest-order-a-badge-details";
   private static final String SESSION_FORM_REQUEST_PROCESSING =

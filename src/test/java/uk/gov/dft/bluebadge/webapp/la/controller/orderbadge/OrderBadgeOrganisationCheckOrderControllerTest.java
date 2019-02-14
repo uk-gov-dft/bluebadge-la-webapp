@@ -19,7 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgeOrganisationFormsToBadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class OrderBadgeOrganisationCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeOrganisationCheckOrderControllerTest extends OrderBadgeControllerTestData {
 
   private OrderBadgeCheckOrderController controller;
 

@@ -29,9 +29,8 @@ public class OrderBadgeOrganisationDetailsController extends OrderBadgeBaseContr
   public String showOrganisationDetails(
       @ModelAttribute("formRequest") OrderBadgeOrganisationDetailsFormRequest formRequest,
       HttpSession session,
-      Model model,
       @RequestParam(name = "fid") String flowId) {
-    super.setupPageModel(session, model, DETAILS_SESSION_ATTR, formRequest, flowId);
+    super.setupPageModel(session, DETAILS_SESSION_ATTR, formRequest, flowId);
     return TEMPLATE;
   }
 

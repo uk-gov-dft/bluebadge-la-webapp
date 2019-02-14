@@ -44,7 +44,7 @@ public class OrderBadgeProcessingController extends OrderBadgeBaseController {
       Model model,
       @RequestParam(name = "fid") String flowId) {
     log.debug("Processing, begin get/show.");
-    super.setupPageModel(session, model, PROCESSING_SESSION_ATTR, formRequest, flowId);
+    super.setupPageModel(session, PROCESSING_SESSION_ATTR, formRequest, flowId);
     addApplicantTypeToModel(session, model);
     log.debug("Processing, show template.");
     return TEMPLATE;

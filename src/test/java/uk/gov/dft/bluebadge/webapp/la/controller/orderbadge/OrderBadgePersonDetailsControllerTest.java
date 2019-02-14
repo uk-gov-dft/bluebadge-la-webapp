@@ -25,7 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 
-public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerTestData {
 
   private MockMvc mockMvc;
 

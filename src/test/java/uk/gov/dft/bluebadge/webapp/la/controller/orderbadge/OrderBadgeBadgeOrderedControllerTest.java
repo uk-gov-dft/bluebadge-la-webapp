@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.advice.ErrorControllerAdvice;
 
-public class OrderBadgeBadgeOrderedControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeBadgeOrderedControllerTest extends OrderBadgeControllerTestData {
 
   private static final String BADGE_NUMBER = "KKKKH4";
 

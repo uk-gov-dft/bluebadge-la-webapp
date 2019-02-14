@@ -54,10 +54,9 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
   public String showDetails(
       @ModelAttribute(FORM_REQUEST) OrderBadgePersonDetailsFormRequest formRequest,
       HttpSession session,
-      Model model,
       @RequestParam(name = "fid") String flowId) {
     log.debug("Show person details page.");
-    super.setupPageModel(session, model, DETAILS_SESSION_ATTR, formRequest, flowId);
+    super.setupPageModel(session, DETAILS_SESSION_ATTR, formRequest, flowId);
     return TEMPLATE;
   }
 

@@ -20,7 +20,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class OrderBadgeProcessingControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeProcessingControllerTest extends OrderBadgeControllerTestData {
 
   private MockMvc mockMvc;
 

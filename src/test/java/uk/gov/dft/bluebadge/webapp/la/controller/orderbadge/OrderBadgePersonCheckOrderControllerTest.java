@@ -21,7 +21,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgePersonFormsToBadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeControllerTestData {
 
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
   private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);

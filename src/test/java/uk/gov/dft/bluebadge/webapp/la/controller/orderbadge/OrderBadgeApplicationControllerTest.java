@@ -25,7 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePr
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
-public class OrderBadgeApplicationControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgeApplicationControllerTest extends OrderBadgeControllerTestData {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequestMock;
 

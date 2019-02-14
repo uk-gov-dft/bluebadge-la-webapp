@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,8 +37,7 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
       @RequestParam(name = "action", required = false) String action,
       @RequestParam(name = "fid", required = false) String flowId,
       @ModelAttribute("formRequest") OrderBadgeIndexFormRequest formRequest,
-      HttpSession session,
-      Model model) {
+      HttpSession session) {
     if (StringUtils.isBlank(flowId)) {
       flowId = UUID.randomUUID().toString();
     }
@@ -51,7 +49,7 @@ public class OrderBadgeIndexController extends OrderBadgeBaseController {
       return "redirect:/order-a-badge?fid=" + flowId;
     }
 
-    setupPageModel(session, model, APP_TYPE_FORM_SESSION_ATTR, formRequest, flowId);
+    setupPageModel(session, APP_TYPE_FORM_SESSION_ATTR, formRequest, flowId);
     return TEMPLATE;
   }
 

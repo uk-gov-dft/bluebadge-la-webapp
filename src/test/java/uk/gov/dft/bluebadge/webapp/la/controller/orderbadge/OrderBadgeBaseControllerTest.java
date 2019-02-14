@@ -1,105 +1,219 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseController.APP_TYPE_FORM_SESSION_ATTR;
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseController.DETAILS_SESSION_ATTR;
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseController.PROCESSING_SESSION_ATTR;
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexController.ORDER_BADGE_RESET_URL;
+
+import java.util.UUID;
+import javax.servlet.http.HttpSession;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
-import org.springframework.test.web.servlet.MockMvc;
-import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
-import uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData;
+import org.mockito.MockitoAnnotations;
+import uk.gov.dft.bluebadge.webapp.la.controller.exceptions.InvalidSessionException;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public abstract class OrderBadgeBaseControllerTest extends OrderBadgeTestData {
+public class OrderBadgeBaseControllerTest {
 
-  static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX_PERSON =
-      OrderBadgeIndexFormRequest.builder().applicantType("person").build();
-  static final OrderBadgeIndexFormRequest FORM_REQUEST_INDEX_ORG =
-      OrderBadgeIndexFormRequest.builder().applicantType("organisation").build();
+  private static final String FLOW_ID = UUID.randomUUID().toString();
 
-  static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE =
-      OrderBadgePersonDetailsFormRequest.builder()
-          .flowId(FLOW_ID)
-          .buildingAndStreet(BUILDING_AND_STREET)
-          .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-          .contactDetailsName(CONTACT_DETAILS_NAME)
-          .dobDay(Integer.valueOf(DOB_DAY))
-          .dobMonth(Integer.valueOf(DOB_MONTH))
-          .dobYear(Integer.valueOf(DOB_YEAR))
-          .eligibility(ELIGIBILITY)
-          .name(NAME)
-          .nino(NINO)
-          .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
-          .postcode(POSTCODE)
-          .townOrCity(TOWN_OR_CITY)
-          .photo(PHOTO())
-          .thumbBase64("thumbnail")
-          .byteImage("thumbnail".getBytes())
-          .build();
+  private OrderBadgeBaseController controller;
+  @Mock private HttpSession mockSession;
 
-  static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE =
-      OrderBadgePersonDetailsFormRequest.builder()
-          .flowId(FLOW_ID)
-          .buildingAndStreet(BUILDING_AND_STREET)
-          .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-          .contactDetailsName(CONTACT_DETAILS_NAME)
-          .dobDay(Integer.valueOf(DOB_DAY))
-          .dobMonth(Integer.valueOf(DOB_MONTH))
-          .dobYear(Integer.valueOf(DOB_YEAR))
-          .eligibility(ELIGIBILITY)
-          .name(NAME)
-          .nino(NINO)
-          .optionalAddressField(OPTIONAL_ADDRESS_FIELD)
-          .postcode(POSTCODE)
-          .townOrCity(TOWN_OR_CITY)
-          .photo(EMPTY_PHOTO)
-          .build();
+  private OrderBadgeIndexFormRequest indexForm;
+  private OrderBadgePersonDetailsFormRequest detailsForm;
+  private OrderBadgeProcessingFormRequest processingForm;
 
-  static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
-      OrderBadgeProcessingFormRequest.builder()
-          .flowId(FLOW_ID)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
-          .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
-          .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
-          .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-          .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
-          .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
-          .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
-          .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
-          .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
-          .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-          .deliverTo(DeliverToCodeField.HOME)
-          .deliveryOptions(DeliveryOptionCodeField.FAST)
-          .numberOfBadges(NUMBER_OF_BADGES_PERSON)
-          .build();
+  @Before
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+    controller = new OrderBadgeBaseController() {};
 
-  static final OrderBadgeProcessingFormRequest FORM_REQUEST_ORGANISATION_PROCESSING =
-      OrderBadgeProcessingFormRequest.builder()
-          .flowId(FLOW_ID)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
-          .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
-          .applicationDateYear(Integer.valueOf(APPLICATION_DATE_YEAR))
-          .localAuthorityReferenceNumber(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-          .badgeStartDateDay(Integer.valueOf(BADGE_START_DATE_DAY))
-          .badgeStartDateMonth(Integer.valueOf(BADGE_START_DATE_MONTH))
-          .badgeStartDateYear(Integer.valueOf(BADGE_START_DATE_YEAR))
-          .badgeExpiryDateDay(Integer.valueOf(BADGE_EXPIRY_DATE_DAY))
-          .badgeExpiryDateMonth(Integer.valueOf(BADGE_EXPIRY_DATE_MONTH))
-          .badgeExpiryDateYear(Integer.valueOf(BADGE_EXPIRY_DATE_YEAR))
-          .deliverTo(DeliverToCodeField.HOME)
-          .deliveryOptions(DeliveryOptionCodeField.FAST)
-          .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION)
-          .build();
+    indexForm = OrderBadgeIndexFormRequest.builder().flowId(FLOW_ID).build();
+    detailsForm = OrderBadgePersonDetailsFormRequest.builder().flowId(FLOW_ID).build();
+    processingForm = OrderBadgeProcessingFormRequest.builder().flowId(FLOW_ID).build();
+  }
 
-  protected MockMvc mockMvc;
+  @Test
+  public void finishSession() {
+    controller.finishSession(mockSession);
 
-  @Mock protected SecurityUtils securityUtilsMock;
-  @Mock protected ReferenceDataService referenceDataServiceMock;
-  @Mock protected BadgeService badgeServiceMock;
+    verify(mockSession).removeAttribute(APP_TYPE_FORM_SESSION_ATTR);
+    verify(mockSession).removeAttribute(DETAILS_SESSION_ATTR);
+    verify(mockSession).removeAttribute(PROCESSING_SESSION_ATTR);
+  }
+
+  @Test
+  public void getApplicantType_indexFormPresent() {
+    indexForm.setApplicantType("test type");
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+
+    String applicantType = controller.getApplicantType(mockSession);
+    assertThat(applicantType).isEqualTo("test type");
+  }
+
+  @Test
+  public void getApplicantType_indexFormPresent_appTypeNotSet() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+
+    try {
+      controller.getApplicantType(mockSession);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void getApplicantType_indexFormNotPresent() {
+    try {
+      controller.getApplicantType(mockSession);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void addApplicantTypeToModel() {}
+
+  @Test
+  public void setupPageModel() {}
+
+  @Test
+  public void redirectFlow() {
+    String result = OrderBadgeBaseController.redirectFlow(indexForm, "/redirect/here");
+    assertThat(result).isEqualTo("redirect:/redirect/here?fid=" + FLOW_ID);
+  }
+
+  @Test
+  public void checkFlow_fullSessionAllSameFlow_allOk() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    controller.checkFlow(mockSession, FLOW_ID);
+  }
+
+  @Test
+  public void checkFlow_emptySession_thenRedirectToOrderBadgeStart() {
+    try {
+      controller.checkFlow(mockSession, UUID.randomUUID().toString());
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isPresent();
+      assertThat(e.getRedirectUrl().get()).isEqualTo(ORDER_BADGE_RESET_URL);
+    }
+  }
+
+  @Test
+  public void checkFlow_onlyIndexSessionForm_andSameFlow_thenOk() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    controller.checkFlow(mockSession, FLOW_ID);
+  }
+
+  @Test
+  public void checkFlow_onlyIndexSessionForm_andDifferentFlow_thenException() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+
+    try {
+      controller.checkFlow(mockSession, UUID.randomUUID().toString());
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void checkFlow_fullSessionAllDifferentFlow() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    try {
+      controller.checkFlow(mockSession, UUID.randomUUID().toString());
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void checkFlow_fullSessionIndexFormDifferentFlow() {
+    indexForm.setFlowId(UUID.randomUUID().toString());
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    try {
+      controller.checkFlow(mockSession, FLOW_ID);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void checkFlow_fullSessionDetailsFormDifferentFlow() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    detailsForm.setFlowId(UUID.randomUUID().toString());
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    try {
+      controller.checkFlow(mockSession, FLOW_ID);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void checkFlow_fullSessionProcessingFormDifferentFlow() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    processingForm.setFlowId(UUID.randomUUID().toString());
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    try {
+      controller.checkFlow(mockSession, FLOW_ID);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
+
+  @Test
+  public void checkFlow_sessionAllSameFlowAsForm() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    OrderBadgeIndexFormRequest newIndexForm =
+        OrderBadgeIndexFormRequest.builder().flowId(FLOW_ID).build();
+    controller.checkFlow(mockSession, newIndexForm);
+  }
+
+  @Test
+  public void checkFlow_sessionDifferentFlowAsForm() {
+    when(mockSession.getAttribute(APP_TYPE_FORM_SESSION_ATTR)).thenReturn(indexForm);
+    when(mockSession.getAttribute(DETAILS_SESSION_ATTR)).thenReturn(detailsForm);
+    when(mockSession.getAttribute(PROCESSING_SESSION_ATTR)).thenReturn(processingForm);
+
+    OrderBadgeIndexFormRequest newIndexForm =
+        OrderBadgeIndexFormRequest.builder().flowId("different").build();
+    try {
+      controller.checkFlow(mockSession, newIndexForm);
+      fail("No exception thrown");
+    } catch (InvalidSessionException e) {
+      assertThat(e.getRedirectUrl()).isNotPresent();
+    }
+  }
 }

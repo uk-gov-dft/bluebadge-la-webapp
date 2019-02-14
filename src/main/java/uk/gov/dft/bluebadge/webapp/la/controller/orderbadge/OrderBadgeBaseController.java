@@ -3,7 +3,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller.orderbadge;
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexController.ORDER_BADGE_RESET_URL;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Objects;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;
@@ -42,7 +41,7 @@ abstract class OrderBadgeBaseController {
   }
 
   void setupPageModel(
-      HttpSession session, Model model, String sessionAttr, FlowForm formRequest, String flowId) {
+      HttpSession session, String sessionAttr, FlowForm formRequest, String flowId) {
     checkFlow(session, flowId);
     Object sessionFormRequest = session.getAttribute(sessionAttr);
     if (sessionFormRequest != null) {
@@ -64,20 +63,15 @@ abstract class OrderBadgeBaseController {
    * forms at all, then redirect back to start.
    */
   void checkFlow(HttpSession session, final String flowId) {
-    FLOWS_SESSION_ATTR
-        .stream()
-        .map(session::getAttribute)
-        .filter(Objects::nonNull)
-        .map(ff -> checkFlow((FlowForm) ff, flowId))
-        .findAny()
-        .orElseThrow(
-            () ->
-                new InvalidSessionException(
-                    "No badge order session attributes", ORDER_BADGE_RESET_URL));
-    //
-    //    checkFlow((FlowForm) session.getAttribute(APP_TYPE_FORM_SESSION_ATTR), flowId);
-    //    checkFlow((FlowForm) session.getAttribute(DETAILS_SESSION_ATTR), flowId);
-    //    checkFlow((FlowForm) session.getAttribute(PROCESSING_SESSION_ATTR), flowId);
+    boolean foundForm = false;
+    for (String sessAttr : FLOWS_SESSION_ATTR) {
+      FlowForm flowForm = (FlowForm) session.getAttribute(sessAttr);
+      foundForm |= null != flowForm;
+      checkFlow(flowForm, flowId);
+    }
+    if (!foundForm) {
+      throw new InvalidSessionException("No badge order session attributes", ORDER_BADGE_RESET_URL);
+    }
   }
 
   void checkFlow(HttpSession session, final FlowForm flowForm) {
