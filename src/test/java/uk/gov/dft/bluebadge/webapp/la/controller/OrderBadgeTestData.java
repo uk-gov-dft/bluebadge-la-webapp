@@ -331,23 +331,4 @@ public class OrderBadgeTestData {
       String.valueOf(NUMBER_OF_BADGES_PERSON);
   private static final String NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL =
       String.valueOf(NUMBER_OF_BADGES_ORGANISATION);
-
-  //  protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
-  //      OrderBadgeCheckOrderViewModel.builder()
-  //          .deliveryOptions(DELIVERY_OPTIONS)
-  //          .applicationChannel(APPLICATION_CHANNEL)
-  //          .applicationDate(VIEW_MODEL_APPLICATION_DATE)
-  //          .applicationChannel(APPLICATION_CHANNEL)
-  //          .deliverTo(DELIVER_TO)
-  //          .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
-  //          .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
-  //          .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-  //          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-  //          .contactFullName(CONTACT_DETAILS_NAME)
-  //          .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-  //          .secondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-  //          .fullName(NAME)
-  //          .address(VIEW_MODEL_ADDRESS)
-  //          .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL)
-  //          .build();
 }
