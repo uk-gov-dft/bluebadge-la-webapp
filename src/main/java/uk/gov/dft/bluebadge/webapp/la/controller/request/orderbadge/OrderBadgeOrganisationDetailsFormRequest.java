@@ -19,13 +19,13 @@ public class OrderBadgeOrganisationDetailsFormRequest
   private String name;
 
   @NotBlank(message = "{NotNull.badge.buildingAndStreet}")
-  @Size(min = 1, max = 100, message = "{Size.badge.buildingAndStreet}")
+  @Size(min = 1, max = 50, message = "{Size.badge.buildingAndStreet}")
   private String buildingAndStreet;
 
-  @Size(max = 100, message = "{Size.badge.optionalAddressField}")
+  @Size(max = 40, message = "{Size.badge.optionalAddressField}")
   private String optionalAddressField;
 
-  @Size(min = 1, max = 100, message = "{Size.badge.townOrCity}")
+  @Size(min = 1, max = 40, message = "{Size.badge.townOrCity}")
   @NotBlank(message = "{NotNull.badge.townOrCity}")
   private String townOrCity;
 

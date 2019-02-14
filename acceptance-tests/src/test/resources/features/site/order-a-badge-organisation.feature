@@ -135,3 +135,22 @@ Feature: Dft BlueBadge LA Order a Badge (Organisation)
     Then I should see the page titled "Processing - GOV.UK Manage Blue Badges"
     When I can click "continue" button
     Then I should see the page titled "Check order - GOV.UK Manage Blue Badges"
+
+  Scenario: Verify validation errors when character limits of address fields are exceeded
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "Order a badge" link on left navigation
+    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When I select option "applicantType.option.organisation"
+    And I click on element "continue" button
+    Then I should see the page titled "Organisation details - GOV.UK Manage Blue Badges"
+    And I type "I am pretty sure this string is way over fifty characters" for "buildingAndStreet.field" field by uipath
+    And I type "This string is just over forty characters" for "optionalAddressField.field" field by uipath
+    And I type "This string is just over forty characters" for "townOrCity.field" field by uipath
+    When I click on Continue button
+    Then I should see the validation message for "buildingAndStreet.error" as "Building and street must be 50 characters or less"
+    And I should see the validation message for "optionalAddressField.error" as "Optional address line must be 40 characters or less"
+    And I should see the validation message for "townOrCity.error" as "Town or City must be 40 characters or less"

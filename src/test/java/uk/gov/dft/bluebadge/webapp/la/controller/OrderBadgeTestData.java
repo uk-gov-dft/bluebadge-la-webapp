@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
@@ -89,6 +90,12 @@ public class OrderBadgeTestData {
 
   protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
       new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
+
+  protected static final String BUILDING_AND_STREET_OVERSIZE =
+      RandomStringUtils.randomAlphanumeric(51);
+  protected static final String OPTIONAL_ADDRESS_FIELD_OVERSIZE =
+      RandomStringUtils.randomAlphanumeric(41);
+  protected static final String TOWN_OR_CITY_OVERSIZE = RandomStringUtils.randomAlphanumeric(41);
 
   public static MockMultipartFile PHOTO() {
     try {

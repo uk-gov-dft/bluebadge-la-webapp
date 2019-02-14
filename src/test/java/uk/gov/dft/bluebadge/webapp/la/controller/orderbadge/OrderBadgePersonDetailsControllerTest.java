@@ -344,4 +344,41 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
                     "formRequest", CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, "Pattern"))
         .andExpect(model().errorCount(12));
   }
+
+  @Test
+  public void
+      submit_shouldRedirectToDetailsPageWithErrors_WhenAllFieldsArePassedAndSizeLimitedFieldsAreWrong()
+          throws Exception {
+
+    mockMvc
+        .perform(
+            multipart("/order-a-badge/person/details")
+                .file(PHOTO())
+                .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
+                .param(DOB_DAY_FIELD, DOB_DAY)
+                .param(DOB_MONTH_FIELD, DOB_MONTH)
+                .param(DOB_YEAR_FIELD, DOB_YEAR)
+                .param(DOB_FIELD, DOB)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_OVERSIZE)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_OVERSIZE)
+                .param(POSTCODE_FIED, POSTCODE)
+                .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY)
+                .param(NINO_FIELD, NINO)
+                .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD_OVERSIZE)
+                .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
+                .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/person/details"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "Size"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", OPTIONAL_ADDRESS_FIELD_FIELD, "Size"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "Size"))
+        .andExpect(model().errorCount(3));
+  }
 }
