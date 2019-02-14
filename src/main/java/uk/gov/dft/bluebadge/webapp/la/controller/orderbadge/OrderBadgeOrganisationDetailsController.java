@@ -44,7 +44,6 @@ public class OrderBadgeOrganisationDetailsController extends OrderBadgeBaseContr
     checkFlow(session, formRequest);
     session.setAttribute(DETAILS_SESSION_ATTR, formRequest);
     if (bindingResult.hasErrors()) {
-      // TODO Redirect to show - maybe?
       model.addAttribute("errorSummary", new ErrorViewModel());
       return TEMPLATE;
     }
