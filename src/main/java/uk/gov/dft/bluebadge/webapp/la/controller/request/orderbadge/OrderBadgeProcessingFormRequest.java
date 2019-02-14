@@ -12,13 +12,16 @@ import lombok.Builder;
 import lombok.Data;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.FlowForm;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInThePastDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
 
 @Data
 @Builder
-public class OrderBadgeProcessingFormRequest implements Serializable {
+public class OrderBadgeProcessingFormRequest implements FlowForm, Serializable {
+  private String flowId;
+
   private Integer applicationDateDay;
   private Integer applicationDateMonth;
   private Integer applicationDateYear;
@@ -53,6 +56,11 @@ public class OrderBadgeProcessingFormRequest implements Serializable {
   private Integer badgeExpiryDateDay;
   private Integer badgeExpiryDateMonth;
   private Integer badgeExpiryDateYear;
+
+  public String getBadgeExpiryDate() {
+    return DateValidationUtils.buildDateStringIfValidNullIfInvalid(
+        badgeExpiryDateDay, badgeExpiryDateMonth, badgeExpiryDateYear);
+  }
 
   // In practice this is validation code which should not be here. This is just a trick to implement
   // cross-parameter validation in a way

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/master.html}">
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{orderbadge.checkorder.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
@@ -11,7 +11,9 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+        <a th:href="@{/order-a-badge/processing?fid={flowId}(flowId=${flowId})}"
+           th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link"
+           th:text="#{common.button.back}"/>
     </div>
 </div>
 
@@ -26,71 +28,75 @@
                 <h2 th:if="${isPerson}" class="govuk-heading-m dft-check-answers__title" data-uipath="personalDetails.title" th:text="#{orderbadge.checkorder.personalDetails.title}"></h2>
                 <h2 th:if="${isOrganisation}" class="govuk-heading-m dft-check-answers__title" data-uipath="organisationDetails.title" th:text="#{orderbadge.checkorder.organisationDetails.title}"></h2>
                 <a class="dft-check-answers__cta" th:aria-label="${isPerson} ? #{orderbadge.processing.arialabel.changePersonDetails} : #{orderbadge.processing.arialabel.changeOrganisationDetails}"
-                   data-uipath="details.change" th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
+                   data-uipath="details.change" th:text="#{common.button.change}"
+                   th:href="@{/order-a-badge/{applicantType}/details?fid={flowId}(applicantType=${applicantType}, flowId=${flowId})}" />
             </div>
+
 
             <dl class="dft-data-list" data-uipath="details.answers">
                 <div class="dft-data-list__item">
                     <dt th:if="${isPerson}" class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.fullName}"/>
                     <dt th:if="${isOrganisation}" class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.organisationName}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.fullName}"/>
+                    <dd class="dft-data-list__dd" th:text="${details.name}"/>
                 </div>
 
                 <span th:if="${isPerson}" th:remove="tag">
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.gender}"/>
-                        <dd class="dft-data-list__dd" th:text="${data.gender}"/>
+                        <dd class="dft-data-list__dd" th:text="${genderMap.get(details.gender)}"/>
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.dob}"/>
-                        <dd class="dft-data-list__dd" th:text="${data.dob}"/>
+                        <dd class="dft-data-list__dd" th:text="${details.dob}"/>
                     </div>
 
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.nino}"/>
-                        <dd class="dft-data-list__dd" th:with="ref=${data.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                        <dd class="dft-data-list__dd" th:with="ref=${details.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
                     </div>
                 </span>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.address}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.address}"/>
+                    <dd class="dft-data-list__dd" th:text="${details.address}"/>
                 </div>
 
                 <div th:if="${isOrganisation}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactFullName}"/>
-                    <dd class="dft-data-list__dd" th:with="ref=${data.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    <dd class="dft-data-list__dd" th:with="ref=${details.contactDetailsName}" th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.contactNumber}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.contactNumber}"/>
+                    <dd class="dft-data-list__dd" th:text="${details.contactDetailsContactNumber}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.secondaryContactNumber}"/>
-                    <dd class="dft-data-list__dd"  th:with="ref=${data.secondaryContactNumber}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    <dd class="dft-data-list__dd"  th:with="ref=${details.contactDetailsSecondaryContactNumber}" th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.emailAddress}"/>
-                    <dd class="dft-data-list__dd" th:with="ref=${data.emailAddress}"
+                    <dd class="dft-data-list__dd" th:with="ref=${details.contactDetailsEmailAddress}"
                         th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
-                <div th:if="${isPerson}" class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.eligibility}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.eligibility}"/>
-                </div>
+                <th:block th:if="${isPerson}">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.eligibility}"/>
+                        <dd class="dft-data-list__dd" th:text="${eligibilityMap.get(details.eligibility)}"/>
+                    </div>
 
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
-                    <dd class="dft-data-list__dd">
-                        <img th:if="${data.photo}" th:src="${data.photo}" th:alt="'Photo of ' + ${data.fullName}" />
-                        <span th:unless="${data.photo}" th:text="${noValue}"></span>
-                    </dd>
-                </div>
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.photo}"></dt>
+                        <dd class="dft-data-list__dd">
+                            <img th:if="${details.thumbBase64}" th:src="${details.thumbBase64}" th:alt="'Photo of ' + ${details.name}" />
+                            <span th:unless="${details.thumbBase64}" th:text="${noValue}"></span>
+                        </dd>
+                    </div>
+                </th:block>
             </dl>
         </article>
 
@@ -98,54 +104,55 @@
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="processing.title" th:text="#{orderbadge.checkorder.processing.title}"></h2>
                 <a class="dft-check-answers__cta" th:aria-label="#{orderbadge.processing.arialabel.changeProcessingDetails}" data-uipath="processing.change"
-                   th:href="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}" th:text="#{common.button.change}"/>
+                   th:href="@{/order-a-badge/processing?fid={flowId}(flowId=${flowId})}" th:text="#{common.button.change}"/>
             </div>
 
             <dl class="dft-data-list" data-uipath="processing.answers">
                 <div class="dft-data-list__item" th:if="${isOrganisation}">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.numberOfBadges}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.numberOfBadges}"/>
+                    <dd class="dft-data-list__dd" th:text="${processing.numberOfBadges}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.localAuthorityReference}"/>
-                    <dd class="dft-data-list__dd" th:with="ref=${data.localAuthorityReference}"
+                    <dd class="dft-data-list__dd" th:with="ref=${processing.localAuthorityReferenceNumber}"
                         th:text="${ref} ? ${ref} : ${noValue}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.badgeStartDate}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.badgeStartDate}"/>
+                    <dd class="dft-data-list__dd" th:text="${processing.badgeStartDate}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.badgeExpiryDate}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.badgeExpiryDate}"/>
+                    <dd class="dft-data-list__dd" th:text="${processing.badgeExpiryDate}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationDate}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.applicationDate}"/>
+                    <dd class="dft-data-list__dd" th:text="${processing.applicationDate}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationChannel}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.applicationChannel}"/>
+                    <dd class="dft-data-list__dd" th:text="${applicationChannelMap.get(processing.applicationChannel)}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.deliverTo}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.deliverTo}"/>
+                    <dd class="dft-data-list__dd" th:text="${deliverToMap.get(processing.deliverTo.name())}"/>
                 </div>
 
                 <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.deliveryOptions}"/>
-                    <dd class="dft-data-list__dd" th:text="${data.deliveryOptions}"/>
+                    <dd class="dft-data-list__dd" th:text="${deliveryOptionMap.get(processing.deliveryOptions.name())}"/>
                 </div>
             </dl>
         </article>
 
-        <form th:action="@{/order-a-badge/{applicantType}/check-order(applicantType=${applicantType})}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/check-order}" method="post" novalidate>
+            <input type="hidden" name="flowId" th:value="${flowId}"/>
             <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="orderBadge.button" class="govuk-button">
         </form>
 

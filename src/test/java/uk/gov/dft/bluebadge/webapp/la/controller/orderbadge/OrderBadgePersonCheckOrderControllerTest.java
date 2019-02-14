@@ -19,37 +19,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.OrderBadgePersonFormsToBadgeOrderRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
-public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeControllerTestData {
 
   private static final String BADGE_NUMBER = "MyBadgeNumber123";
   private static final List<String> BADGE_NUMBERS = Lists.newArrayList(BADGE_NUMBER);
 
-  private static final OrderBadgeCheckOrderViewModel VIEW_MODEL =
-      OrderBadgeCheckOrderViewModel.builder()
-          .gender(GENDER)
-          .deliveryOptions(DELIVERY_OPTIONS)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .applicationDate(VIEW_MODEL_APPLICATION_DATE)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .deliverTo(DELIVER_TO_SHORTCODE)
-          .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
-          .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
-          .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-          .eligibility(ELIGIBILITY)
-          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-          .contactFullName(CONTACT_DETAILS_NAME)
-          .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .dob(VIEW_MODEL_DOB)
-          .fullName(NAME)
-          .address(VIEW_MODEL_ADDRESS)
-          .nino(NINO)
-          .build();
-
   @Mock private OrderBadgePersonFormsToBadgeOrderRequest converterToServiceModelMock;
-  @Mock private OrderBadgePersonFormsToOrderBadgeCheckOrderViewModel converterToViewModelMock;
+  @Mock private ReferenceDataService referenceDataServiceMock;
 
   @Before
   public void setup() {
@@ -57,9 +35,9 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
     // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
-    OrderBadgeBaseController controller =
-        new OrderBadgePersonCheckOrderController(
-            badgeServiceMock, converterToServiceModelMock, converterToViewModelMock);
+    OrderBadgeCheckOrderController controller =
+        new OrderBadgeCheckOrderController(
+            badgeServiceMock, referenceDataServiceMock, null, converterToServiceModelMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -70,33 +48,34 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   @Test
   public void show_shouldDisplayCheckOrderTemplateWithDataPopulated() throws Exception {
 
-    when(converterToViewModelMock.convert(any(), any())).thenReturn(VIEW_MODEL);
-
     mockMvc
         .perform(
-            get("/order-a-badge/person/check-order")
+            get("/order-a-badge/check-order")
+                .sessionAttr("formRequest-order-a-badge-index", FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(
                     "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
-                .sessionAttr(
-                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING)
+                .param("fid", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/check-order"))
-        .andExpect(model().attribute("data", VIEW_MODEL));
+        .andExpect(model().attribute("details", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
+        .andExpect(model().attribute("processing", FORM_REQUEST_PERSON_PROCESSING))
+        .andExpect(model().attribute("flowId", FLOW_ID));
   }
 
   @Test
-  public void submit_shouldRedirectToHomePageAndCreateABadge() throws Exception {
+  public void submit_shouldRedirectToOrderedPageAndCreateABadge() throws Exception {
     when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
-
     when(converterToServiceModelMock.convert(any(), any())).thenReturn(BADGE_ORDER_REQUEST_PERSON);
 
     mockMvc
         .perform(
-            post("/order-a-badge/person/check-order")
+            post("/order-a-badge/check-order")
+                .sessionAttr("formRequest-order-a-badge-index", FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(
                     "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITHOUT_IMAGE)
-                .sessionAttr(
-                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING)
+                .param("flowId", FLOW_ID))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
 
@@ -104,7 +83,8 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
   }
 
   @Test
-  public void submit_withImageUploaded_shouldRedirectToHomePageAndCreateABadge() throws Exception {
+  public void submit_withImageUploaded_shouldRedirectToOrderedPageAndCreateABadge()
+      throws Exception {
     when(badgeServiceMock.orderABadge(any())).thenReturn(BADGE_NUMBERS);
 
     when(converterToServiceModelMock.convert(any(), any()))
@@ -112,11 +92,12 @@ public class OrderBadgePersonCheckOrderControllerTest extends OrderBadgeBaseCont
 
     mockMvc
         .perform(
-            post("/order-a-badge/person/check-order")
+            post("/order-a-badge/check-order")
+                .sessionAttr("formRequest-order-a-badge-index", FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(
                     "formRequest-order-a-badge-details", FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE)
-                .sessionAttr(
-                    "formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING))
+                .sessionAttr("formRequest-order-a-badge-processing", FORM_REQUEST_PERSON_PROCESSING)
+                .param("flowId", FLOW_ID))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(OrderBadgeBadgeOrderedController.URL));
 

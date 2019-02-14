@@ -11,7 +11,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/{applicantType}/details(applicantType=${applicantType})}"
+        <a th:href="@{/order-a-badge/{applicantType}/details?fid={flowId}(applicantType=${applicantType}, flowId=${formRequest.flowId})}"
            th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link"
            class="govuk-back-link" th:text="#{common.button.back}"></a>
     </div>
@@ -28,9 +28,9 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"></div>
         </div>
 
-        <form th:action="@{/order-a-badge/{applicantType}/processing(applicantType=${applicantType})}"
+        <form th:action="@{/order-a-badge/processing}"
               th:object="${formRequest}" method="post" novalidate>
-
+            <input type="hidden" th:field="*{flowId}"/>
             <h2 class="govuk-heading-m" th:text="#{orderbadge.processing.h2.applicationDetails}"></h2>
 
             <div class="dft-width-one-half" th:with="isPerson=${applicantType=='person'}">

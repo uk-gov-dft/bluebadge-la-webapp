@@ -10,7 +10,8 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/order-a-badge/}" th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
+        <a th:href="@{/order-a-badge?fid={flowId}(flowId=${formRequest.flowId})}"
+           th:aria-label="#{common.button.arialabel.back}" data-uipath="back-link" class="govuk-back-link" th:text="#{common.button.back}"/>
     </div>
 </div>
 
@@ -27,7 +28,7 @@
         </div>
 
         <form th:action="@{/order-a-badge/person/details}" th:object="${formRequest}" method="post" novalidate enctype="multipart/form-data">
-
+            <input type="hidden" th:field="*{flowId}"/>
             <div class="dft-width-one-half">
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{common.label.fullname}, 'name', null, 'text') }"/>
 

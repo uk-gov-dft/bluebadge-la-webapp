@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ClientApiException;
 import uk.gov.dft.bluebadge.webapp.la.controller.ErrorHandlerController;
+import uk.gov.dft.bluebadge.webapp.la.controller.exceptions.InvalidSessionException;
 
 @Slf4j
 @ControllerAdvice
@@ -34,6 +35,13 @@ public class ErrorControllerAdvice {
     }
 
     return REDIRECT_URL;
+  }
+
+  @ExceptionHandler(InvalidSessionException.class)
+  public String handleException(InvalidSessionException ex, HttpServletRequest req) {
+    String redirectUrl = ex.getRedirectUrl().orElse(ErrorHandlerController.START_AGAIN_URL);
+    log.info("Request: {}, had invalid session: {}.", req.getRequestURL(), ex.getMessage());
+    return "redirect:" + redirectUrl;
   }
 
   @ExceptionHandler(Exception.class)

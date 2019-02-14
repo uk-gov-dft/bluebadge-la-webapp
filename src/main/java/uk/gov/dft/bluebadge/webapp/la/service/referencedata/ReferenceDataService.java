@@ -156,20 +156,40 @@ public class ReferenceDataService {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.ELIGIBILITY, key);
   }
 
+  public Map<String, String> retrieveBadgeEligibilityMap() {
+    return retrieveBadgeReferenceDataMap(RefDataGroupEnum.ELIGIBILITY);
+  }
+
   public String retrieveBadgeGenderDisplayValue(String key) {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.GENDER, key);
+  }
+
+  public Map<String, String> retrieveBadgeGenderMap() {
+    return retrieveBadgeReferenceDataMap(RefDataGroupEnum.GENDER);
   }
 
   public String retrieveBadgeApplicationChannelDisplayValue(String key) {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.APP_SOURCE, key);
   }
 
+  public Map<String, String> retrieveBadgeApplicationChannelMap() {
+    return retrieveBadgeReferenceDataMap(RefDataGroupEnum.APP_SOURCE);
+  }
+
   public String retrieveBadgeDeliverToDisplayValue(String key) {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.DELIVER_TO, key);
   }
 
+  public Map<String, String> retrieveBadgeDeliverToMap() {
+    return retrieveBadgeReferenceDataMap(RefDataGroupEnum.DELIVER_TO);
+  }
+
   public String retrieveBadgeDeliveryOptionDisplayValue(String key) {
     return retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum.DELIVERY_OPTIONS, key);
+  }
+
+  public Map<String, String> retrieveBadgeDeliveryOptionMap() {
+    return retrieveBadgeReferenceDataMap(RefDataGroupEnum.DELIVERY_OPTIONS);
   }
 
   public String retrieveBadgeStatusDisplayValue(String key) {
@@ -254,11 +274,15 @@ public class ReferenceDataService {
     return retrieveAppEnumDisplayValueByString(group, key.name());
   }
 
-  private String retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
+  private Map<String, String> retrieveBadgeReferenceDataMap(RefDataGroupEnum group) {
     if (!isLoaded.get()) {
       init();
     }
-    return badgeGroupedReferenceDataMap.get(group.getGroupKey()).get(key);
+    return badgeGroupedReferenceDataMap.get(group.getGroupKey());
+  }
+
+  private String retrieveBadgeReferenceDataDisplayValue(RefDataGroupEnum group, String key) {
+    return retrieveBadgeReferenceDataMap(group).get(key);
   }
 
   private String retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum group, String key) {

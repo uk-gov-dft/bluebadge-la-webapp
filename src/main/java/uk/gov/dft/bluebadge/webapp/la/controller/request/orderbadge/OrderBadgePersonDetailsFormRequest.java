@@ -16,6 +16,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 @Builder
 public class OrderBadgePersonDetailsFormRequest
     implements OrderBadgeBaseDetailsFormRequest, Serializable {
+  private String flowId;
+
   private Integer numberOfBadges;
 
   @NotBlank(message = "{NotNull.user.name}")

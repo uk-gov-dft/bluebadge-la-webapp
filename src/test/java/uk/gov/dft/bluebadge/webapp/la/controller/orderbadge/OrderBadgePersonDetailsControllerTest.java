@@ -25,7 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 
-public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControllerTest {
+public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerTestData {
 
   private MockMvc mockMvc;
 
@@ -100,6 +100,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     mockMvc
         .perform(
             get("/order-a-badge/person/details")
+                .param("fid", FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
@@ -114,6 +115,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     mockMvc
         .perform(
             get("/order-a-badge/person/details")
+                .param("fid", FLOW_ID)
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
                 .sessionAttr(SESSION_FORM_REQUEST_DETAILS, FORM_REQUEST_PERSON_DETAILS_WITH_IMAGE))
         .andExpect(status().isOk())
@@ -129,6 +131,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             multipart("/order-a-badge/person/details")
                 .file(EMPTY_PHOTO)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -137,14 +141,14 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
                 .param(ELIGIBILITY_FIELD, ELIGIBILITY))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/person/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
   }
 
   @Test
@@ -153,6 +157,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             multipart("/order-a-badge/person/details")
                 .file(PHOTO_CONTENT_WRONG)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -161,7 +167,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -188,6 +194,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             multipart("/order-a-badge/person/details")
                 .file(PHOTO())
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -196,7 +204,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -207,7 +215,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/order-a-badge/person/processing"));
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
   }
 
   @Test
@@ -215,7 +223,11 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
       throws Exception {
 
     mockMvc
-        .perform(multipart("/order-a-badge/person/details").file(EMPTY_PHOTO))
+        .perform(
+            multipart("/order-a-badge/person/details")
+                .file(EMPTY_PHOTO)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
@@ -226,7 +238,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIELD, "NotBlank"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -243,6 +255,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             MockMvcRequestBuilders.multipart("/order-a-badge/person/details")
                 .file(PHOTO_WRONG)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -251,7 +265,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -284,6 +298,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
     mockMvc
         .perform(
             post("/order-a-badge/person/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME_WRONG)
                 .param(DOB_DAY_FIELD, DOB_DAY_WRONG)
                 .param(DOB_MONTH_FIELD, DOB_MONTH_WRONG)
@@ -291,7 +307,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB_WRONG)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_WRONG)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_WRONG)
-                .param(POSTCODE_FIED, POSTCODE_WRONG)
+                .param(POSTCODE_FIELD, POSTCODE_WRONG)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_WRONG)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
@@ -303,7 +319,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS_WRONG))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "Pattern"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", NAME_FIELD, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", GENDER_FIELD, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", DOB_FIELD, "CannotBeInTheFutureDate"))
@@ -312,7 +328,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .attributeHasFieldErrorCode("formRequest", BUILDING_AND_STREET_FIELD, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode("formRequest", TOWN_OR_CITY_FIELD, "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIED, "Pattern"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", POSTCODE_FIELD, "Pattern"))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
@@ -338,6 +354,8 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
         .perform(
             multipart("/order-a-badge/person/details")
                 .file(PHOTO())
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
                 .param(NAME_FIELD, NAME)
                 .param(GENDER_FIELD, GENDER)
                 .param(DOB_DAY_FIELD, DOB_DAY)
@@ -346,7 +364,7 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeBaseControl
                 .param(DOB_FIELD, DOB)
                 .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET_OVERSIZE)
                 .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY_OVERSIZE)
-                .param(POSTCODE_FIED, POSTCODE)
+                .param(POSTCODE_FIELD, POSTCODE)
                 .param(CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER)
                 .param(
                     CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
