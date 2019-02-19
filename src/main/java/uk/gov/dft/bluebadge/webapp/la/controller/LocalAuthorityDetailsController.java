@@ -24,6 +24,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.Lo
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -85,6 +86,13 @@ public class LocalAuthorityDetailsController {
     ReferenceData yesOption = ReferenceData.builder().description("Yes").shortCode("true").build();
     ReferenceData noOption = ReferenceData.builder().description("No").shortCode("false").build();
     return Lists.newArrayList(yesOption, noOption);
+  }
+
+  @ModelAttribute("clockTypeOptions")
+  public List<ReferenceData> clockTypeOptions() {
+    ReferenceData standardOption = ReferenceData.builder().description(ClockType.STANDARD.getCode()).shortCode(ClockType.STANDARD.name()).build();
+    ReferenceData walletOption = ReferenceData.builder().description(ClockType.WALLET.getCode()).shortCode(ClockType.WALLET.name()).build();
+    return Lists.newArrayList(standardOption, walletOption);
   }
 
   @PostMapping(URL)
