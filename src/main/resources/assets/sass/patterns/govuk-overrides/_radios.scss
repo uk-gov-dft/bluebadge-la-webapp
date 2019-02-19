@@ -18,3 +18,13 @@
 		}
 	}
 }
+
+.govuk-form-group--inline-radios {
+	margin-bottom: 15px;
+
+	.govuk-radios--inline {	
+		.govuk-radios__item {
+			margin-bottom: 15px;
+		}
+	}
+}

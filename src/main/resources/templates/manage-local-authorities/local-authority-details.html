@@ -45,7 +45,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.country.name}, 'country', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.nation.name}, 'nation', null, 'text') }"></div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.nation.name}, 'nation', null, ${nationOptions}) }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.contactNumber.name}, 'contactNumber', null, 'text') }"></div>
 

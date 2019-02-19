@@ -54,10 +54,6 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   private String country;
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.nation}")
-  @Pattern(
-    regexp = "^(\\s*|ENG|SCO|WLS|NIR)$",
-    message = "{Pattern.localAuthorityDetailPage.nation}"
-  )
   private String nation;
 
   @Pattern(

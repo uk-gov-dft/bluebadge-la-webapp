@@ -25,6 +25,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFo
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -93,6 +94,15 @@ public class LocalAuthorityDetailsController {
     ReferenceData standardOption = ReferenceData.builder().description(ClockType.STANDARD.getCode()).shortCode(ClockType.STANDARD.name()).build();
     ReferenceData walletOption = ReferenceData.builder().description(ClockType.WALLET.getCode()).shortCode(ClockType.WALLET.name()).build();
     return Lists.newArrayList(standardOption, walletOption);
+  }
+
+  @ModelAttribute("nationOptions")
+  public List<ReferenceData> nationOptions() {
+    ReferenceData englandOption = ReferenceData.builder().description(Nation.ENG.getCode()).shortCode(Nation.ENG.name()).build();
+    ReferenceData walesOption = ReferenceData.builder().description(Nation.WLS.getCode()).shortCode(Nation.WLS.name()).build();
+    ReferenceData scotlandOption = ReferenceData.builder().description(Nation.SCO.getCode()).shortCode(Nation.SCO.name()).build();
+    ReferenceData northernIrelandOption = ReferenceData.builder().description(Nation.NIR.getCode()).shortCode(Nation.NIR.name()).build();
+    return Lists.newArrayList(englandOption, walesOption, scotlandOption, northernIrelandOption);
   }
 
   @PostMapping(URL)
