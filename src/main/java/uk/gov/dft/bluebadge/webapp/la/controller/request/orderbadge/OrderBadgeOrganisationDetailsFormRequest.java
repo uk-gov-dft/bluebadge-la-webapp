@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
+import uk.gov.dft.bluebadge.common.util.ValidationPattern;
 
 @Data
 @Builder
@@ -31,28 +31,28 @@ public class OrderBadgeOrganisationDetailsFormRequest
 
   @NotBlank(message = "{NotNull.badge.postcode}")
   @Pattern(
-    regexp = ValidationPatterns.POSTCODE_CASE_INSENSITIVE,
+    regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
     message = "{Pattern.badge.postcode}"
   )
   private String postcode;
 
   @NotBlank(message = "{NotNull.user.name}")
-  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPattern.PERSON_NAME, message = "{Pattern.user.name}")
   private String contactDetailsName;
 
   @NotBlank(message = "{NotNull.badge.contactDetailsContactNumber}")
   @Pattern(
-    regexp = ValidationPatterns.PHONE_NUMBER,
+    regexp = ValidationPattern.PHONE_NUMBER,
     message = "{Pattern.badge.contactDetailsContactNumber}"
   )
   private String contactDetailsContactNumber;
 
   @Pattern(
-    regexp = ValidationPatterns.PHONE_NUMBER,
+    regexp = ValidationPattern.PHONE_NUMBER,
     message = "{Pattern.badge.contactDetailsSecondaryContactNumber}"
   )
   private String contactDetailsSecondaryContactNumber;
 
-  @Pattern(regexp = ValidationPatterns.EMAIL, message = "{NotNull.user.emailAddress}")
+  @Pattern(regexp = ValidationPattern.EMAIL, message = "{NotNull.user.emailAddress}")
   private String contactDetailsEmailAddress;
 }
