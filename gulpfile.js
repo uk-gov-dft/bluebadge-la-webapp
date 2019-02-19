@@ -3,17 +3,17 @@ const del = require('del');
 const sass = require('gulp-sass');
 const gulpIf = require('gulp-if');
 const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
 const eslint = require('gulp-eslint');
-const buffer = require('vinyl-buffer');
-const rollup = require('rollup-stream');
 const sassLint = require('gulp-sass-lint');
-const babel = require('rollup-plugin-babel');
-const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
-const commonJs = require('rollup-plugin-commonjs');
+
+const eol = require('gulp-eol');
+const rollup = require('gulp-better-rollup');
+const babel = require('rollup-plugin-babel');
+const commonJS = require('rollup-plugin-commonjs');
 const resolve = require('rollup-plugin-node-resolve');
+const uglify = require('gulp-uglify-es').default;
 
 
 const BASE_PATH = './src/main/resources';
@@ -21,7 +21,7 @@ const PATH = {
 	sourceAssets: {
 		sass: `${BASE_PATH}/assets/sass/**/*.scss`,
 		js: `${BASE_PATH}/assets/js/main.js`,
-		images: `${BASE_PATH}/assets/images`,
+		images: `${BASE_PATH}/assets/images/**/*.*`,
 		govuk_assets: './node_modules/govuk-frontend/assets/**/*',
 		html5_shiv: './node_modules/html5shiv/dist/html5shiv.min.js',
 	},
@@ -29,16 +29,19 @@ const PATH = {
 	compiledAssets: {
 		css: `${BASE_PATH}/static/css`,
 		js: `${BASE_PATH}/static/js`,
-		images: `${BASE_PATH}/static`,
+		images: `${BASE_PATH}/static/images`,
 		govuk_assets: `${BASE_PATH}/static/govuk`,
 	},
 };
 
-const babelConfig = {
-	presets: [['es2015', { modules: false }]],
-	plugins: ['external-helpers'],
-	babelrc: false,
-	exclude: 'node_modules/**',
+const rollupInputOptions = {
+  plugins: [resolve(), commonJS({ include: 'node_modules/**' }), babel()],
+};
+
+const rollupOutputOptions = {
+  name: 'DFT',
+  legacy: true,
+  format: 'umd',
 };
 
 const getEnv = () => {
@@ -116,24 +119,14 @@ gulp.task('js-lint', () => {
 });
 
 gulp.task('js', ['clean:js', 'js-lint', 'html5-shiv'], () => {
-	rollup({
-		format: 'umd',
-		legacy: true,
-		sourcemap: true,
-		input: PATH.sourceAssets.js,
-		plugins: [
-			resolve(),
-			babel(babelConfig),
-			commonJs(),
-		],
-	})
-	.pipe(source(PATH.sourceAssets.js))
-	.pipe(buffer())
-	.pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
-	.pipe(rename('main.js'))
-	.pipe(gulpIf(isProd, uglify()))
-	.pipe(gulpIf(isDev, sourcemaps.write('.')))
-	.pipe(gulp.dest(PATH.compiledAssets.js));
+  gulp.src(PATH.sourceAssets.js)
+    .pipe(gulpIf(isDev, sourcemaps.init({ loadMaps: true })))
+    .pipe(rollup(rollupInputOptions, rollupOutputOptions))
+    .pipe(rename({ basename: 'dft-admin-frontend', extname: '.js' }))
+    .pipe(gulpIf(isDev, sourcemaps.write('.')))
+    .pipe(gulpIf(isProd, uglify()))
+    .pipe(eol())
+    .pipe(gulp.dest(PATH.compiledAssets.js));
 });
 
 gulp.task('default', ['sass', 'js', 'images', 'govuk-assets'], () => {

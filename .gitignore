@@ -33,6 +33,7 @@ package-lock.json
 node_modules/
 gradle/*
 .vscode
+.DS_Store
 
 target
 target/*
@@ -40,8 +41,6 @@ target/*
 *.bak
 acceptance-tests/screenshot/
 acceptance-tests/output/
-acceptance-tests/.DS_Store
-
 
 src/main/resources/static/js/*
 src/main/resources/static/css/*
