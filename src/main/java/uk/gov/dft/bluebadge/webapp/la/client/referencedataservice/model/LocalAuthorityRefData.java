@@ -46,7 +46,7 @@ public class LocalAuthorityRefData extends ReferenceData {
   }
 
   @JsonIgnore
-  public BigDecimal getBadgeCost() {
+  public String getBadgeCost() {
     return getLocalAuthorityMetaData().map(LocalAuthorityMetaData::getBadgeCost).orElse(null);
   }
 
@@ -80,7 +80,7 @@ public class LocalAuthorityRefData extends ReferenceData {
     private String emailAddress;
     private String clockType;
     private Boolean paymentsEnabled;
-    private BigDecimal badgeCost;
+    private String badgeCost;
     private String differentServiceSignpostUrl;
   }
 }

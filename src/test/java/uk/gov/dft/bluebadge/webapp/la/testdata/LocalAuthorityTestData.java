@@ -54,8 +54,8 @@ public final class LocalAuthorityTestData {
   public static String PAYMENTS_ENABLED_PARAM = "paymentsEnabled";
   public static boolean PAYMENTS_ENABLED = false;
   public static String BADGE_COST_PARAM = "badgeCost";
-  public static BigDecimal BADGE_COST = new BigDecimal("10.10");
-  public static BigDecimal BADGE_COST_INVALID = new BigDecimal("1000");
+  public static String BADGE_COST = "10.10";
+  public static String BADGE_COST_INVALID = "1000";
   public static String DIFFERENT_SERVICE_SIGNPOST_URL_PARAM = "differentServiceSignpostUrl";
   public static String DIFFERENT_SERVICE_SIGNPOST_URL = "http://localhost:1111";
   public static String DIFFERENT_SERVICE_SIGNPOST_URL_INVALID = "invalid";

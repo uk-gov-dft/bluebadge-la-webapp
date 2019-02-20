@@ -65,7 +65,7 @@ public class LocalAuthority implements Serializable {
   private String badgePackType = null;
 
   @JsonProperty("badgeCost")
-  private BigDecimal badgeCost = null;
+  private String badgeCost = null;
 
   @JsonProperty("paymentsEnabled")
   private Boolean paymentsEnabled = null;
@@ -384,7 +384,7 @@ public class LocalAuthority implements Serializable {
     this.badgePackType = badgePackType;
   }
 
-  public LocalAuthority badgeCost(BigDecimal badgeCost) {
+  public LocalAuthority badgeCost(String badgeCost) {
     this.badgeCost = badgeCost;
     return this;
   }
@@ -396,13 +396,11 @@ public class LocalAuthority implements Serializable {
    */
   @ApiModelProperty(example = "100.0", value = "badge cost")
   @Valid
-  @DecimalMin("0.0")
-  @DecimalMax("999.99")
-  public BigDecimal getBadgeCost() {
+  public String getBadgeCost() {
     return badgeCost;
   }
 
-  public void setBadgeCost(BigDecimal badgeCost) {
+  public void setBadgeCost(String badgeCost) {
     this.badgeCost = badgeCost;
   }
 

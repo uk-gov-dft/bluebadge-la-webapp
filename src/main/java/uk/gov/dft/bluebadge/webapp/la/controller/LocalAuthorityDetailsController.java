@@ -1,10 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Optional;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +26,10 @@ import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -106,6 +108,18 @@ public class LocalAuthorityDetailsController {
       Model model) {
     log.info("Submit local authority details");
     model.addAttribute("errorSummary", new ErrorViewModel());
+
+    if (formRequest.arePaymentsEnabled()) {
+      String badgeCost = formRequest.getBadgeCost();
+      if (StringUtils.isEmpty(badgeCost)) {
+        bindingResult.rejectValue("badgeCost", "NotNull.localAuthorityDetailPage.badgeCost");
+      } else {
+        String pattern = "^(\\d{1,3}+(?:[\\.\\,]\\d{1,2})?)$";
+        if (!badgeCost.matches(pattern)) {
+          bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
+        }
+      }
+    }
 
     if (bindingResult.hasErrors()) {
       log.debug("Submit, have binding errors.");

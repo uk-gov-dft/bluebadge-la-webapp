@@ -1,9 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -74,11 +71,13 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
 
   private String badgePackType;
 
-  @DecimalMin(value = "0.0", message = "{Range.localAuthorityDetailPage.badgeCost}")
-  @DecimalMax(value = "999.99", message = "{Range.localAuthorityDetailPage.badgeCost}")
-  private BigDecimal badgeCost;
-
   private Boolean paymentsEnabled;
+
+  public Boolean arePaymentsEnabled() {
+    return (Boolean.TRUE.equals(paymentsEnabled));
+  }
+
+  private String badgeCost;
 
   @URL(message = "{URL.localAuthority.differentServiceSignpostUrl}")
   private String differentServiceSignpostUrl;
