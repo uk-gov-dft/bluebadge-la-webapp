@@ -82,13 +82,6 @@ public class LocalAuthorityDetailsController {
     return TEMPLATE;
   }
 
-  @ModelAttribute("paymentsEnabledOptions")
-  public List<ReferenceData> paymentEnabledOptions() {
-    ReferenceData yesOption = ReferenceData.builder().description("Yes").shortCode("true").build();
-    ReferenceData noOption = ReferenceData.builder().description("No").shortCode("false").build();
-    return Lists.newArrayList(yesOption, noOption);
-  }
-
   @ModelAttribute("clockTypeOptions")
   public List<ReferenceData> clockTypeOptions() {
     ReferenceData standardOption = ReferenceData.builder().description(ClockType.STANDARD.getCode()).shortCode(ClockType.STANDARD.name()).build();

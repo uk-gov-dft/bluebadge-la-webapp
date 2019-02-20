@@ -16,6 +16,10 @@
 		@include govuk-media-query($from: desktop) {
 			margin-bottom: 0;
 		}
+
+		& + .govuk-radios__conditional {
+			clear: both;
+		}
 	}
 }
 
