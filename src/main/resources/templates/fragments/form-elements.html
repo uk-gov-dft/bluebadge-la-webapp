@@ -26,7 +26,7 @@
         <span class="govuk-hint"
               th:if="${hint}"
               th:text="${hint}"
-              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'"
+              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
         <span class="govuk-error-message"
@@ -41,7 +41,7 @@
                th:name="${name}"
                th:type="${type}"
                th:field="*{__${name}__}"
-               th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint') : null " />
+               th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint') : null " />
 
     </div><!-- govuk-o-form-group -->
 
@@ -69,7 +69,7 @@
         <span class="govuk-hint"
               th:if="${hint}"
               th:text="${hint}"
-              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint'"
+              th:id="${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
         <span class="govuk-error-message"
@@ -83,7 +83,7 @@
                th:id="${name}"
                th:name="${name}"
                th:field="*{__${name}__}"
-               th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint ' + ${name} + '-error' : ${name} + '-hint') : null"
+               th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint') : null"
                type="text"
                pattern="[0-9]{10}" />
 
