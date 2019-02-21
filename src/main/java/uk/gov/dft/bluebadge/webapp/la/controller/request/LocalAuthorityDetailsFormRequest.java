@@ -38,7 +38,6 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   @Size(min = 1, max = 40, message = "{Size.localAuthorityDetailPage.county}")
   private String county;
 
-  @NotBlank(message = "{NotBlank.localAuthorityDetailPage.postcode}")
   @Pattern(
     regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
     message = "{Pattern.localAuthorityDetailPage.postcode}"
@@ -46,10 +45,14 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   private String postcode;
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.country}")
-  @Size(min = 1, max = 40, message = "{Size.localAuthorityDetailPage.country}")
+  @Size(max = 40, message = "{Size.localAuthorityDetailPage.country}")
   private String country;
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.nation}")
+  @Pattern(
+    regexp = "^(\\s*|ENG|SCO|WLS|NIR)$",
+    message = "{Pattern.localAuthorityDetailPage.nation}"
+  )
   private String nation;
 
   @Pattern(
@@ -68,6 +71,7 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   )
   private String emailAddress;
 
+  @Pattern(regexp = "^(\\s*|STANDARD|WALLET)$")
   private String badgePackType;
 
   private Boolean paymentsEnabled;

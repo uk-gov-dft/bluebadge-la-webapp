@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -143,10 +142,11 @@ public class LocalAuthorityDetailsController {
         if (!badgeCost.matches(pattern)) {
           bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
         } else {
-          BigDecimal MIN_COST = new BigDecimal("0.01");
+          BigDecimal MIN_COST = new BigDecimal("1.00");
           BigDecimal MAX_COST = new BigDecimal("999.99");
           BigDecimal badgeCostBigDecimal = new BigDecimal(badgeCost);
-          if (badgeCostBigDecimal.compareTo(MIN_COST) < 0 || badgeCostBigDecimal.compareTo(MAX_COST) > 0) {
+          if (badgeCostBigDecimal.compareTo(MIN_COST) < 0
+              || badgeCostBigDecimal.compareTo(MAX_COST) > 0) {
             bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
           }
         }
