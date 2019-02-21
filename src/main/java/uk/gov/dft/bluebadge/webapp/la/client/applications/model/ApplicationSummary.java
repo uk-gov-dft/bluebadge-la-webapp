@@ -33,6 +33,9 @@ public class ApplicationSummary {
   @JsonProperty("eligibilityCode")
   private EligibilityCodeField eligibilityCode = null;
 
+  @JsonProperty("applicationStatus")
+  private ApplicationStatusField applicationStatus;
+
   public ApplicationSummary applicationId(String applicationId) {
     this.applicationId = applicationId;
     return this;
@@ -181,6 +184,19 @@ public class ApplicationSummary {
     this.eligibilityCode = eligibilityCode;
   }
 
+  public ApplicationSummary applicationStatus(ApplicationStatusField applicationStatus) {
+    this.applicationStatus = applicationStatus;
+    return this;
+  }
+
+  public ApplicationStatusField getApplicationStatus() {
+    return applicationStatus;
+  }
+
+  public void setApplicationStatus(ApplicationStatusField applicationStatus) {
+    this.applicationStatus = applicationStatus;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -196,7 +212,8 @@ public class ApplicationSummary {
         && Objects.equals(this.nino, applicationSummary.nino)
         && Objects.equals(this.name, applicationSummary.name)
         && Objects.equals(this.submissionDate, applicationSummary.submissionDate)
-        && Objects.equals(this.eligibilityCode, applicationSummary.eligibilityCode);
+        && Objects.equals(this.eligibilityCode, applicationSummary.eligibilityCode)
+        && Objects.equals(this.applicationStatus, applicationSummary.applicationStatus);
   }
 
   @Override
@@ -208,7 +225,8 @@ public class ApplicationSummary {
         nino,
         name,
         submissionDate,
-        eligibilityCode);
+        eligibilityCode,
+        applicationStatus);
   }
 
   @Override
@@ -225,6 +243,7 @@ public class ApplicationSummary {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    submissionDate: ").append(toIndentedString(submissionDate)).append("\n");
     sb.append("    eligibilityCode: ").append(toIndentedString(eligibilityCode)).append("\n");
+    sb.append("    applicationStatus: ").append(toIndentedString(applicationStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

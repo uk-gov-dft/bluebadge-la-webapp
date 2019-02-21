@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
 @Slf4j
@@ -96,6 +98,29 @@ public class ApplicationsApiClient extends BaseApiClient {
         UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT, applicationId);
     try {
       restTemplate.delete(builder.toUriString());
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+  }
+
+  public void update(ApplicationUpdate applicationUpdateRequest) {
+    UUID applicationId = applicationUpdateRequest.getApplicationId();
+    Assert.notNull(applicationUpdateRequest, "applicationUpdateRequest must be not null");
+    Assert.notNull(applicationId, "applicationId must be not null");
+    Assert.notNull(
+        applicationUpdateRequest.getApplicationStatus(), "applicationStatus must be not null");
+
+    log.debug(
+        "update application {} to status {}",
+        applicationId,
+        applicationUpdateRequest.getApplicationStatus().name());
+
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance()
+            .path("/")
+            .pathSegment(BASE_ENDPOINT, applicationId.toString());
+    try {
+      restTemplate.put(builder.toUriString(), applicationUpdateRequest);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

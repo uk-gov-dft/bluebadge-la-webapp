@@ -21,7 +21,8 @@
 
                     <div class="dft-search__container govuk-h-clearfix">
 
-                        <label class="govuk-label" for="search.dropdown" th:text="#{search.filterResults.label}"></label>
+                        <label class="govuk-label" for="search.dropdown"
+                               th:text="#{search.filterResults.label}"></label>
                         <select id="search.dropdown" name="searchBy" data-uipath="searchFilter.dropdown"
                                 class="govuk-select dft-search__select">
                             <option th:each="option: ${searchByOptions}"
@@ -32,14 +33,16 @@
 
                         <div class="dft-search__field">
                             <label for="searchTerm" class="dft-search__label" th:text="#{search.label}"></label>
-                            <input data-uipath="search.field" id="searchTerm" name="searchTerm" type="text" th:placeholder="#{search.label}"
+                            <input data-uipath="search.field" id="searchTerm" name="searchTerm" type="text"
+                                   th:placeholder="#{search.label}"
                                    class="dft-search__input" th:value="${searchTerm}">
                             <button type="submit" data-uipath="search.button" class="dft-search__button">
                                 <span class="govuk-visually-hidden" th:text="#{search.label}"/>
                             </button>
                         </div>
 
-                        <span class="dft-search__result" th:if="${searchTerm != null && filteredApplicationCount != null}">
+                        <span class="dft-search__result"
+                              th:if="${searchTerm != null && filteredApplicationCount != null}">
                             <span data-uipath="search.count"
                                   th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' ' + #{search.result.label} : ${filteredApplicationCount} + ' ' + #{search.results.label}"></span>
 
@@ -63,6 +66,7 @@
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.nino.label}"/>
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.eligibility.label}"/>
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.submittedDate.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{newapplications.status.label}"/>
             </tr>
             </thead>
 
@@ -74,18 +78,22 @@
                 <td class="govuk-table__cell" th:text="${app.nino}">
                 <td class="govuk-table__cell" th:text="${app.eligibility}">
                 <td class="govuk-table__cell" th:text="${app.submittedDate}">
+                <td class="govuk-table__cell">
+                    <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{'application.details.status.' + ${app.status}}"></strong>
+                </td>
             </tr>
             </tbody>
         </table>
 
-        <th:block th:if="${searchTerm != null && filteredApplicationCount > 0} OR ${searchTerm == null && applicationCount > 0}">
+        <th:block
+                th:if="${searchTerm != null && filteredApplicationCount > 0} OR ${searchTerm == null && applicationCount > 0}">
             <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}) }"></div>
         </th:block>
 
         <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
 
             <span th:if="${searchTerm}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
-                <strong th:text="${searchTerm}"></strong>
+            <strong th:text="${searchTerm}"></strong>
             </span>
 
             <span th:unless="${searchTerm}" th:text="#{message.noResultsFound}" th:remove="tag"></span>

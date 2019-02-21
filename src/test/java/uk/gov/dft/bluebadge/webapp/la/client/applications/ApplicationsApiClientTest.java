@@ -1,8 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -22,8 +25,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
@@ -43,6 +48,12 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   private static final String FIND_PARAM_TO_API = "2018-04-27T11:42";
 
   private static final String APPLICATION_ID = UUID.randomUUID().toString();
+
+  private static final ApplicationUpdate APPLICATION_UPDATE =
+      ApplicationUpdate.builder()
+          .applicationId(UUID.fromString(APPLICATION_ID))
+          .applicationStatus(ApplicationStatusField.IN_PROGRESS)
+          .build();
 
   private ApplicationsApiClient client;
 
@@ -200,5 +211,20 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
         .andExpect(method(HttpMethod.DELETE))
         .andRespond(withSuccess());
     client.delete(APPLICATION_ID);
+  }
+
+  @Test
+  @SneakyThrows
+  public void update_ShouldReturn_WhenOK() {
+    CommonResponse commonResponse = new CommonResponse();
+    String responseBody = objectMapper.writeValueAsString(commonResponse);
+
+    mockServer
+        .expect(once(), requestTo(APPLICATIONS_ENDPOINT + "/" + APPLICATION_ID))
+        .andExpect(method(HttpMethod.PUT))
+        .andExpect(jsonPath("applicationStatus", equalTo("IN_PROGRESS")))
+        .andRespond(
+            withSuccess(objectMapper.writeValueAsString(responseBody), MediaType.APPLICATION_JSON));
+    client.update(APPLICATION_UPDATE);
   }
 }

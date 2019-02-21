@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
@@ -39,8 +40,9 @@ public class ApplicationTestData {
           .name(NAME)
           .nino(NINO)
           .partyTypeCode(PartyTypeCodeField.PERSON)
+          .applicationStatus(ApplicationStatusField.COMPLETED)
           .submissionDate(SUBMISSION_DATE_1);
-  private static final ApplicationSummary APPLICATION_SUMMARY_2 =
+  private static final ApplicationSummary APPLICATION_SUMMARY_PERSON_2 =
       new ApplicationSummary()
           .applicationId("2")
           .applicationTypeCode(ApplicationTypeCodeField.NEW)
@@ -48,8 +50,9 @@ public class ApplicationTestData {
           .name("name2")
           .nino("AA0000A2")
           .partyTypeCode(PartyTypeCodeField.PERSON)
+          .applicationStatus(ApplicationStatusField.IN_PROGRESS)
           .submissionDate(SUBMISSION_DATE_2);
-  private static final ApplicationSummary APPLICATION_SUMMARY_3 =
+  private static final ApplicationSummary APPLICATION_SUMMARY_PERSON_3 =
       new ApplicationSummary()
           .applicationId("3")
           .applicationTypeCode(ApplicationTypeCodeField.NEW)
@@ -57,15 +60,16 @@ public class ApplicationTestData {
           .name("name3")
           .nino("AA0000A3")
           .partyTypeCode(PartyTypeCodeField.PERSON)
+          .applicationStatus(ApplicationStatusField.TODO)
           .submissionDate(SUBMISSION_DATE_3);
   protected static final List<ApplicationSummary> APPLICATION_SUMMARIES_ONE_ITEM =
       Lists.newArrayList(APPLICATION_SUMMARY_PERSON_1);
   protected static final List<ApplicationSummary> UNORDERED_APPLICATION_SUMMARIES =
       Lists.newArrayList(
-          APPLICATION_SUMMARY_PERSON_1, APPLICATION_SUMMARY_2, APPLICATION_SUMMARY_3);
+          APPLICATION_SUMMARY_PERSON_1, APPLICATION_SUMMARY_PERSON_2, APPLICATION_SUMMARY_PERSON_3);
   protected static final List<ApplicationSummary> ORDERED_APPLICATION_SUMMARIES =
       Lists.newArrayList(
-          APPLICATION_SUMMARY_3, APPLICATION_SUMMARY_2, APPLICATION_SUMMARY_PERSON_1);
+          APPLICATION_SUMMARY_PERSON_3, APPLICATION_SUMMARY_PERSON_2, APPLICATION_SUMMARY_PERSON_1);
 
   protected static final List<ApplicationSummary> APPLICATION_SUMMARIES =
       UNORDERED_APPLICATION_SUMMARIES;
@@ -78,6 +82,7 @@ public class ApplicationTestData {
           .name(NAME)
           .nino(NINO)
           .partyTypeCode(PartyTypeCodeField.ORG)
+          .applicationStatus(ApplicationStatusField.COMPLETED)
           .submissionDate(SUBMISSION_DATE_1);
 
   // Application View Model fields
@@ -91,6 +96,7 @@ public class ApplicationTestData {
           .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
+          .status(ApplicationStatusField.COMPLETED.name())
           .build();
   protected static final List<ApplicationSummaryViewModel> APPLICATION_VIEW_MODELS_ONE_ITEM =
       Lists.newArrayList(APPLICATION_PERSON_VIEW_MODEL_1);
@@ -102,6 +108,7 @@ public class ApplicationTestData {
           .nino(NINO)
           .eligibility("Organisation")
           .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
+          .status(ApplicationStatusField.COMPLETED.name())
           .build();
 
   // Application fields
