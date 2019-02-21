@@ -147,3 +147,40 @@ Feature: Dft BlueBadge LA Manage local authorities
     And I should see the validation message for "county.summary-error" as "County must be 40 characters or less"
     And I should see the validation message for "contactNumber.summary-error" as "Enter a valid contact number"
     And I should see the validation message for "emailAddress.summary-error" as "Enter a valid email address (max length 100)"
+
+  Scenario: Verify Manage local authorities (validate payment options and badge cost scenarios)
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "dft_admin@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I can click on the "Manage local authorities" link on left navigation
+    Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
+    When I click on the first name link from local authorities table
+    Then I should see the page titled "Manage local authority - GOV.UK Manage Blue Badges"
+
+    When I select option "paymentsEnabled.option.true"
+    Then I type "" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the validation message for "badgeCost.summary-error" as "Badge cost cannot be empty"
+
+    Then I type "MEH FOO BAR" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the validation message for "badgeCost.summary-error" as "Enter a badge cost between 1.00 and 999.99"
+
+    Then I type "0.99" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the validation message for "badgeCost.summary-error" as "Enter a badge cost between 1.00 and 999.99"
+
+    Then I type "1000" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the validation message for "badgeCost.summary-error" as "Enter a badge cost between 1.00 and 999.99"
+
+    Then I type "20.000" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the validation message for "badgeCost.summary-error" as "Enter a badge cost between 1.00 and 999.99"
+
+    Then I type "20.00" for "badgeCost.field" field by uipath
+    And I can click on element "updateDetails" button
+    Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
+    
