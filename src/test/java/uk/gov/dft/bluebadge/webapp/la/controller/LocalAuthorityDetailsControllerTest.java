@@ -253,7 +253,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             .description("")
             .country("")
             .postcode("")
-            .nation("")
+            .nation(NATION)
             .websiteUrl("")
             .build();
 
@@ -264,19 +264,18 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, "")
                 .param(COUNTRY_PARAM, "")
                 .param(POSTCODE_PARAM, "")
-                .param(NATION_PARAM, "")
+                .param(NATION_PARAM, NATION)
                 .param(WEB_SITE_URL_PARAM, ""))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_LOCAL_AUTHORITY_DETAILS))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest))
-        .andExpect(model().errorCount(5))
+        .andExpect(model().errorCount(4))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, DESCRIPTION_PARAM, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, COUNTRY_PARAM, "NotBlank"))
-        .andExpect(
-            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, POSTCODE_PARAM, "Pattern"))
-        .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, NATION_PARAM, "NotBlank"))
+            .andExpect(
+            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, POSTCODE_PARAM, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "NotBlank"));
     verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());

@@ -38,8 +38,9 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   @Size(min = 1, max = 40, message = "{Size.localAuthorityDetailPage.county}")
   private String county;
 
+  @NotBlank(message = "{NotBlank.localAuthorityDetailPage.postcode}")
   @Pattern(
-    regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
+    regexp = ValidationPattern.EMPTY_OR_POSTCODE_CASE_INSENSITIVE,
     message = "{Pattern.localAuthorityDetailPage.postcode}"
   )
   private String postcode;
@@ -50,7 +51,7 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.nation}")
   @Pattern(
-    regexp = "^(\\s*|ENG|SCO|WLS|NIR)$",
+    regexp = "^(ENG|SCO|WLS|NIR)$",
     message = "{Pattern.localAuthorityDetailPage.nation}"
   )
   private String nation;
