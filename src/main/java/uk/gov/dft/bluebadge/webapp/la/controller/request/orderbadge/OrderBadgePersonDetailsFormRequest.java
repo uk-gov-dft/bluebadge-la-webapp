@@ -8,9 +8,9 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import uk.gov.dft.bluebadge.common.util.ValidationPattern;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.CannotBeInTheFutureDate;
 import uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils;
-import uk.gov.dft.bluebadge.webapp.la.controller.validation.ValidationPatterns;
 
 @Data
 @Builder
@@ -21,7 +21,7 @@ public class OrderBadgePersonDetailsFormRequest
   private Integer numberOfBadges;
 
   @NotBlank(message = "{NotNull.user.name}")
-  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPattern.PERSON_NAME, message = "{Pattern.user.name}")
   @Size(max = 100)
   private String name;
 
@@ -51,7 +51,7 @@ public class OrderBadgePersonDetailsFormRequest
     return DateValidationUtils.buildDateStringIfValidNullIfInvalid(dobDay, dobMonth, dobYear);
   }
 
-  @Pattern(regexp = ValidationPatterns.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
+  @Pattern(regexp = ValidationPattern.NINO_CASE_INSENSITIVE, message = "{Pattern.badge.nino}")
   private String nino;
 
   @NotBlank(message = "{NotNull.badge.buildingAndStreet}")
@@ -67,28 +67,28 @@ public class OrderBadgePersonDetailsFormRequest
 
   @NotBlank(message = "{NotNull.badge.postcode}")
   @Pattern(
-    regexp = ValidationPatterns.POSTCODE_CASE_INSENSITIVE,
+    regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
     message = "{Pattern.badge.postcode}"
   )
   private String postcode;
 
-  @Pattern(regexp = ValidationPatterns.PERSON_NAME, message = "{Pattern.user.name}")
+  @Pattern(regexp = ValidationPattern.PERSON_NAME, message = "{Pattern.user.name}")
   private String contactDetailsName;
 
   @NotBlank(message = "{NotNull.badge.contactDetailsContactNumber}")
   @Pattern(
-    regexp = ValidationPatterns.PHONE_NUMBER,
+    regexp = ValidationPattern.PHONE_NUMBER,
     message = "{Pattern.badge.contactDetailsContactNumber}"
   )
   private String contactDetailsContactNumber;
 
   @Pattern(
-    regexp = ValidationPatterns.PHONE_NUMBER,
+    regexp = ValidationPattern.PHONE_NUMBER,
     message = "{Pattern.badge.contactDetailsSecondaryContactNumber}"
   )
   private String contactDetailsSecondaryContactNumber;
 
-  @Pattern(regexp = ValidationPatterns.EMAIL, message = "{NotNull.user.emailAddress}")
+  @Pattern(regexp = ValidationPattern.EMAIL, message = "{NotNull.user.emailAddress}")
   private String contactDetailsEmailAddress;
 
   @NotBlank(message = "{NotNull.badge.eligibility}")

@@ -151,7 +151,7 @@
             </dl>
         </article>
 
-        <form th:action="@{/order-a-badge/check-order}" method="post" novalidate>
+        <form th:action="@{/order-a-badge/check-order}" data-prevent-double-submission method="post" novalidate>
             <input type="hidden" name="flowId" th:value="${flowId}"/>
             <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="orderBadge.button" class="govuk-button">
         </form>
