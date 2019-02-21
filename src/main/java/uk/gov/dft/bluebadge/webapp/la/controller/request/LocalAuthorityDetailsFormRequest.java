@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
@@ -41,11 +40,11 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
 
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.postcode}")
   @Pattern(
-          regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
-          message = "{Pattern.localAuthorityDetailPage.postcode}"
+    regexp = ValidationPattern.POSTCODE_CASE_INSENSITIVE,
+    message = "{Pattern.localAuthorityDetailPage.postcode}"
   )
   private String postcode;
-  
+
   @NotBlank(message = "{NotBlank.localAuthorityDetailPage.country}")
   @Size(min = 1, max = 40, message = "{Size.localAuthorityDetailPage.country}")
   private String country;
@@ -54,8 +53,8 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   private String nation;
 
   @Pattern(
-          regexp = ValidationPattern.PHONE_NUMBER,
-          message = "{Pattern.localAuthorityDetailPage.contactNumber}"
+    regexp = ValidationPattern.PHONE_NUMBER,
+    message = "{Pattern.localAuthorityDetailPage.contactNumber}"
   )
   private String contactNumber;
 
@@ -64,8 +63,8 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   private String websiteUrl;
 
   @Pattern(
-          regexp = ValidationPattern.EMAIL,
-          message = "{Pattern.localAuthorityDetailPage.emailAddress}"
+    regexp = ValidationPattern.EMAIL,
+    message = "{Pattern.localAuthorityDetailPage.emailAddress}"
   )
   private String emailAddress;
 

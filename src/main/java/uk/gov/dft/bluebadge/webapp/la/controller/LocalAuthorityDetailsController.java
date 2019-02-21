@@ -1,6 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +31,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -86,17 +87,41 @@ public class LocalAuthorityDetailsController {
 
   @ModelAttribute("clockTypeOptions")
   public List<ReferenceData> clockTypeOptions() {
-    ReferenceData standardOption = ReferenceData.builder().description(ClockType.STANDARD.getCode()).shortCode(ClockType.STANDARD.name()).build();
-    ReferenceData walletOption = ReferenceData.builder().description(ClockType.WALLET.getCode()).shortCode(ClockType.WALLET.name()).build();
+    ReferenceData standardOption =
+        ReferenceData.builder()
+            .description(ClockType.STANDARD.getCode())
+            .shortCode(ClockType.STANDARD.name())
+            .build();
+    ReferenceData walletOption =
+        ReferenceData.builder()
+            .description(ClockType.WALLET.getCode())
+            .shortCode(ClockType.WALLET.name())
+            .build();
     return Lists.newArrayList(standardOption, walletOption);
   }
 
   @ModelAttribute("nationOptions")
   public List<ReferenceData> nationOptions() {
-    ReferenceData englandOption = ReferenceData.builder().description(Nation.ENG.getCode()).shortCode(Nation.ENG.name()).build();
-    ReferenceData walesOption = ReferenceData.builder().description(Nation.WLS.getCode()).shortCode(Nation.WLS.name()).build();
-    ReferenceData scotlandOption = ReferenceData.builder().description(Nation.SCO.getCode()).shortCode(Nation.SCO.name()).build();
-    ReferenceData northernIrelandOption = ReferenceData.builder().description(Nation.NIR.getCode()).shortCode(Nation.NIR.name()).build();
+    ReferenceData englandOption =
+        ReferenceData.builder()
+            .description(Nation.ENG.getCode())
+            .shortCode(Nation.ENG.name())
+            .build();
+    ReferenceData walesOption =
+        ReferenceData.builder()
+            .description(Nation.WLS.getCode())
+            .shortCode(Nation.WLS.name())
+            .build();
+    ReferenceData scotlandOption =
+        ReferenceData.builder()
+            .description(Nation.SCO.getCode())
+            .shortCode(Nation.SCO.name())
+            .build();
+    ReferenceData northernIrelandOption =
+        ReferenceData.builder()
+            .description(Nation.NIR.getCode())
+            .shortCode(Nation.NIR.name())
+            .build();
     return Lists.newArrayList(englandOption, walesOption, scotlandOption, northernIrelandOption);
   }
 
@@ -114,9 +139,16 @@ public class LocalAuthorityDetailsController {
       if (StringUtils.isEmpty(badgeCost)) {
         bindingResult.rejectValue("badgeCost", "NotNull.localAuthorityDetailPage.badgeCost");
       } else {
-        String pattern = "^(\\d{1,3}+(?:[\\.\\,]\\d{1,2})?)$";
+        String pattern = "^(\\d{1,3}+(?:[\\.]\\d{1,2})?)$";
         if (!badgeCost.matches(pattern)) {
           bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
+        } else {
+          BigDecimal MIN_COST = new BigDecimal("0.01");
+          BigDecimal MAX_COST = new BigDecimal("999.99");
+          BigDecimal badgeCostBigDecimal = new BigDecimal(badgeCost);
+          if (badgeCostBigDecimal.compareTo(MIN_COST) < 0 || badgeCostBigDecimal.compareTo(MAX_COST) > 0) {
+            bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
+          }
         }
       }
     }

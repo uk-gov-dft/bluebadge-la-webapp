@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
