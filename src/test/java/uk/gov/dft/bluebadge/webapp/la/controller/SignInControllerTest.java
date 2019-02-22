@@ -26,17 +26,14 @@ import uk.gov.dft.bluebadge.webapp.la.security.exceptions.InvalidEmailFormatExce
 @RunWith(SpringRunner.class)
 public class SignInControllerTest extends BaseSpringBootTest {
 
-  @Autowired
-  private  WebApplicationContext webApplicationContext;;
+  @Autowired private WebApplicationContext webApplicationContext;;
 
   private MockMvc mockMvc;
 
   @Before
   public void setup() {
     this.mockMvc =
-        MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .apply(springSecurity())
-            .build();
+        MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
   }
 
   @Test

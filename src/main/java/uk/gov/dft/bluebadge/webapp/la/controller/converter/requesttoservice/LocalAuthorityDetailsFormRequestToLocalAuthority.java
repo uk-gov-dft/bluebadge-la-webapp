@@ -1,12 +1,11 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice;
 
+import java.math.BigDecimal;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
-
-import java.math.BigDecimal;
 
 @Component
 public class LocalAuthorityDetailsFormRequestToLocalAuthority
@@ -22,7 +21,8 @@ public class LocalAuthorityDetailsFormRequestToLocalAuthority
         .addressLine2(formRequest.getAddressLine2())
         .addressLine3(formRequest.getAddressLine3())
         .addressLine4(formRequest.getAddressLine4())
-        .badgeCost(formRequest.getBadgeCost() != null ? new BigDecimal(formRequest.getBadgeCost()) : null)
+        .badgeCost(
+            formRequest.getBadgeCost() != null ? new BigDecimal(formRequest.getBadgeCost()) : null)
         .paymentsEnabled(formRequest.getPaymentsEnabled())
         .badgePackType(formRequest.getBadgePackType())
         .contactNumber(formRequest.getContactNumber())

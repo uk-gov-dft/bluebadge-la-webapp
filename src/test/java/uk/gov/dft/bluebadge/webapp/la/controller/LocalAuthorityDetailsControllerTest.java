@@ -274,7 +274,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, DESCRIPTION_PARAM, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, COUNTRY_PARAM, "NotBlank"))
-            .andExpect(
+        .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, POSTCODE_PARAM, "NotBlank"))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "NotBlank"));
