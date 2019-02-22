@@ -130,16 +130,21 @@
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${!app.proofOfIdentityArtifacts.empty}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
                         <dd class="dft-data-list__dd">
-                            <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
-                                <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
-                                    <a th:href="${artifact.link}" target="_blank"
-                                       th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
-                                </li>
-                            </ul>
+                            <div th:if="${!app.proofOfIdentityArtifacts.empty}" th:remove="tag">
+                                <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
+                                    <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
+                                        <a th:href="${artifact.link}" target="_blank"
+                                           th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:if="${app.proofOfIdentityArtifacts.empty}" th:remove="tag">
+                                [[#{common.label.notProvided}]]
+                            </div>
                         </dd>
                     </div>
 
