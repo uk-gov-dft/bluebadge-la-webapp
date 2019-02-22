@@ -133,7 +133,7 @@ public class LocalAuthorityDetailsController {
     log.info("Submit local authority details");
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    if (formRequest.getPaymentsEnabled()) {
+    if (Boolean.TRUE.equals(formRequest.getPaymentsEnabled())) {
       String badgeCost = formRequest.getBadgeCost();
       if (StringUtils.isEmpty(badgeCost)) {
         bindingResult.rejectValue("badgeCost", "NotNull.localAuthorityDetailPage.badgeCost");
