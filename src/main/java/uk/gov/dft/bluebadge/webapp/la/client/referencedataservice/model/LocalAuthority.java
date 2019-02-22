@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -62,7 +63,7 @@ public class LocalAuthority implements Serializable {
   private String badgePackType = null;
 
   @JsonProperty("badgeCost")
-  private String badgeCost = null;
+  private BigDecimal badgeCost = null;
 
   @JsonProperty("paymentsEnabled")
   private Boolean paymentsEnabled = null;
@@ -368,11 +369,11 @@ public class LocalAuthority implements Serializable {
   }
 
   /**
-   * badge pack type STANDARD, WALLET
+   * badge pack type Standard, Wallet
    *
    * @return badgePackType
    */
-  @ApiModelProperty(example = "STANDARD", value = "badge pack type STANDARD, WALLET")
+  @ApiModelProperty(example = "Standard", value = "badge pack type Standard, Wallet")
   public String getBadgePackType() {
     return badgePackType;
   }
@@ -381,23 +382,23 @@ public class LocalAuthority implements Serializable {
     this.badgePackType = badgePackType;
   }
 
-  public LocalAuthority badgeCost(String badgeCost) {
+  public LocalAuthority badgeCost(BigDecimal badgeCost) {
     this.badgeCost = badgeCost;
     return this;
   }
 
   /**
-   * badge cost minimum: 0.0 maximum: 999.99
+   * badge cost minimum: 1.00 maximum: 999.99
    *
    * @return badgeCost
    */
   @ApiModelProperty(example = "100.0", value = "badge cost")
   @Valid
-  public String getBadgeCost() {
+  public BigDecimal getBadgeCost() {
     return badgeCost;
   }
 
-  public void setBadgeCost(String badgeCost) {
+  public void setBadgeCost(BigDecimal badgeCost) {
     this.badgeCost = badgeCost;
   }
 

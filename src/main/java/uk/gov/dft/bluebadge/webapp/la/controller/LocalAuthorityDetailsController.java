@@ -89,12 +89,12 @@ public class LocalAuthorityDetailsController {
     ReferenceData standardOption =
         ReferenceData.builder()
             .description(ClockType.STANDARD.getCode())
-            .shortCode(ClockType.STANDARD.name())
+            .shortCode(ClockType.STANDARD.getCode())
             .build();
     ReferenceData walletOption =
         ReferenceData.builder()
             .description(ClockType.WALLET.getCode())
-            .shortCode(ClockType.WALLET.name())
+            .shortCode(ClockType.WALLET.getCode())
             .build();
     return Lists.newArrayList(standardOption, walletOption);
   }
@@ -133,7 +133,7 @@ public class LocalAuthorityDetailsController {
     log.info("Submit local authority details");
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    if (formRequest.arePaymentsEnabled()) {
+    if (formRequest.getPaymentsEnabled()) {
       String badgeCost = formRequest.getBadgeCost();
       if (StringUtils.isEmpty(badgeCost)) {
         bindingResult.rejectValue("badgeCost", "NotNull.localAuthorityDetailPage.badgeCost");

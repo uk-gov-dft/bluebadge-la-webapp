@@ -30,7 +30,7 @@ Feature: Dft BlueBadge LA Manage local authorities
     And I type on field "contactNumber" value "01224 522599"
     And I type on field "websiteUrl" value "http://localhost"
     And I type on field "emailAddress" value "disabledbadges@aberdeencity.gov.uk"
-    And I select option "badgePackType.option.STANDARD"
+    And I select option "badgePackType.option.Standard"
     And I select option "paymentsEnabled.option.false"
     And I type on field "differentServiceSignpostUrl" value "https://bluebadge.direct.gov.uk/bluebadge/why-are-you-here"
     And I can click on element "updateDetails" button

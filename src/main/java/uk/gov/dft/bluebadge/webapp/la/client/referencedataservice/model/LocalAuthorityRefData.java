@@ -3,6 +3,7 @@ package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +46,7 @@ public class LocalAuthorityRefData extends ReferenceData {
   }
 
   @JsonIgnore
-  public String getBadgeCost() {
+  public BigDecimal getBadgeCost() {
     return getLocalAuthorityMetaData().map(LocalAuthorityMetaData::getBadgeCost).orElse(null);
   }
 
@@ -79,7 +80,7 @@ public class LocalAuthorityRefData extends ReferenceData {
     private String emailAddress;
     private String clockType;
     private Boolean paymentsEnabled;
-    private String badgeCost;
+    private BigDecimal badgeCost;
     private String differentServiceSignpostUrl;
   }
 }

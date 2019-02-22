@@ -72,14 +72,10 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   )
   private String emailAddress;
 
-  @Pattern(regexp = "^(\\s*|STANDARD|WALLET)$")
+  @Pattern(regexp = "^(\\s*|Standard|Wallet)$")
   private String badgePackType;
 
   private Boolean paymentsEnabled;
-
-  public Boolean arePaymentsEnabled() {
-    return (Boolean.TRUE.equals(paymentsEnabled));
-  }
 
   private String badgeCost;
 

@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
@@ -59,7 +60,7 @@ public final class LocalAuthorityTestData {
   public static String CONTACT_NUMBER = "07812 345 678";
   public static String CONTACT_NUMBER_INVALID = "01010101010101010101";
   public static String BADGE_PACK_TYPE_PARAM = "badgePackType";
-  public static String BADGE_PACK_TYPE = "STANDARD";
+  public static String BADGE_PACK_TYPE = "Standard";
   public static String BADGE_PACK_TYPE_INVALID = "invalid";
   public static String WEB_SITE_URL_PARAM = "websiteUrl";
   public static String WEB_SITE_URL = "http://localhost";
@@ -98,7 +99,7 @@ public final class LocalAuthorityTestData {
           .nation(NATION)
           .contactUrl(WEB_SITE_URL)
           .paymentsEnabled(!PAYMENTS_ENABLED)
-          .badgeCost(BADGE_COST);
+          .badgeCost(new BigDecimal(BADGE_COST));
   public static LocalAuthority LOCAL_AUTHORITY_ALL_FIELDS =
       new LocalAuthority()
           .description(DESCRIPTION)
@@ -116,7 +117,7 @@ public final class LocalAuthorityTestData {
           .contactUrl(WEB_SITE_URL)
           .county(COUNTY)
           .paymentsEnabled(PAYMENTS_ENABLED)
-          .badgeCost(BADGE_COST)
+          .badgeCost(new BigDecimal(BADGE_COST))
           .badgePackType(BADGE_PACK_TYPE)
           .contactNumber(CONTACT_NUMBER)
           .emailAddress(EMAIL_ADDRESS)
@@ -182,7 +183,7 @@ public final class LocalAuthorityTestData {
           .contactNumber(CONTACT_NUMBER)
           .clockType(BADGE_PACK_TYPE)
           .paymentsEnabled(PAYMENTS_ENABLED)
-          .badgeCost(BADGE_COST)
+          .badgeCost(new BigDecimal(BADGE_COST))
           .postcode(POSTCODE)
           .country(COUNTRY)
           .nation(Nation.forValue(NATION))
