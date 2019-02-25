@@ -17,9 +17,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.AopTestUtils;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,7 +37,9 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
-  @Mock private ApplicationService applicationServiceMock;
+
+  @Mock
+  private ApplicationService applicationServiceMock;
 
   @SuppressWarnings("unused")
   @Autowired
@@ -39,7 +47,6 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
 
   MockMvc mockMvc;
 
-  @SuppressWarnings("unused")
   @Autowired
   @InjectMocks
   private ApplicationDetailsController controller;
@@ -48,6 +55,9 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    // Below is because the LoggingAspect proxies the applicationService and the real one is injected as default
+    ApplicationDetailsController innerController = AopTestUtils.getUltimateTargetObject(controller);
+    ReflectionTestUtils.setField(innerController, "applicationService", applicationServiceMock);
   }
 
   public void show_Org() throws Exception {
@@ -273,4 +283,5 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/application/" + applicationId));
   }
+
 }
