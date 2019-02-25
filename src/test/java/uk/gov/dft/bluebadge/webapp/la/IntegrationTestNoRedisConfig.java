@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Import;
 import uk.gov.dft.bluebadge.webapp.la.config.ActuatorSecurityConfig;
 import uk.gov.dft.bluebadge.webapp.la.config.ApiConfig;
 import uk.gov.dft.bluebadge.webapp.la.config.CustomTomcatConnectorConfiguration;
-import uk.gov.dft.bluebadge.webapp.la.config.EsapiConfig;
+import uk.gov.dft.bluebadge.webapp.la.config.FilterConfig;
 import uk.gov.dft.bluebadge.webapp.la.config.MessagesConfig;
 import uk.gov.dft.bluebadge.webapp.la.config.MethodSecurityConfig;
 import uk.gov.dft.bluebadge.webapp.la.config.OpenEndpointsSecurityConfig;
@@ -23,7 +23,7 @@ import uk.gov.dft.bluebadge.webapp.la.config.TemplateEngineAndResolverConfig;
   ActuatorSecurityConfig.class,
   ApiConfig.class,
   CustomTomcatConnectorConfiguration.class,
-  EsapiConfig.class,
+  FilterConfig.class,
   MessagesConfig.class,
   MethodSecurityConfig.class,
   OpenEndpointsSecurityConfig.class,

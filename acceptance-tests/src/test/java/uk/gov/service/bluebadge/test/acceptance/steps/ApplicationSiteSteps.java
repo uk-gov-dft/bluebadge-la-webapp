@@ -63,12 +63,12 @@ public class ApplicationSiteSteps {
   @Before("@UpdateApplication")
   public void executeInsertApplicationsForUpdateDBScript() throws SQLException {
     databaseSteps.runScript(
-      "scripts/new-applications/details/create-application-details-for-update.sql");
+        "scripts/new-applications/details/create-application-details-for-update.sql");
   }
 
   @After("@UpdateApplication")
   public void executeDeleteApplicationsForUpdateDBScript() throws SQLException {
     databaseSteps.runScript(
-      "scripts/new-applications/details/delete-application-details-for-update.sql");
+        "scripts/new-applications/details/delete-application-details-for-update.sql");
   }
 }
