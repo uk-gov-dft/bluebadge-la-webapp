@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.common.logging.LoggingAspect;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
 @Configuration
@@ -119,5 +120,10 @@ public class ApiConfig {
     // But this results in the user needing to request a new access token and hence essentially being logged out.
     result.setRetryBadAccessTokens(false);
     return result;
+  }
+
+  @Bean
+  LoggingAspect getControllerLoggingAspect() {
+    return new LoggingAspect();
   }
 }
