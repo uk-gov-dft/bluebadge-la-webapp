@@ -10,6 +10,6 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Builder
 public class ApplicationUpdate {
-  private ApplicationStatusField applicationStatus = null;
+  private ApplicationStatusField applicationStatus;
   private UUID applicationId;
 }

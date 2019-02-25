@@ -125,11 +125,4 @@ public class ApplicationDetailsController {
                     .build())
         .collect(Collectors.toList());
   }
-
-  @ModelAttribute("paymentsEnabledOptions")
-  public List<ReferenceData> paymentEnabledOptions() {
-    ReferenceData yesOption = ReferenceData.builder().description("Yes").shortCode("true").build();
-    ReferenceData noOption = ReferenceData.builder().description("No").shortCode("false").build();
-    return Lists.newArrayList(yesOption, noOption);
-  }
 }

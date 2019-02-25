@@ -20,7 +20,6 @@ public enum ApplicationStatusField {
     return String.valueOf(value);
   }
 
-  //  @JsonCreator
   public static ApplicationStatusField fromValue(String text) {
     for (ApplicationStatusField b : ApplicationStatusField.values()) {
       if (String.valueOf(b.value).equals(text)) {
