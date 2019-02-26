@@ -36,7 +36,7 @@
                 &nbsp;&nbsp;<strong class="govuk-tag govuk-phase-banner__content__tag" data-uipath="currentApplicationStatus" th:text="#{'application.details.status.' + ${app.applicationStatus}}"></strong>
             </div>
 
-            <div sec:authorize="hasAuthority('PERM_UPDATE_APPLICATION') and @applicationSecurity.isAuthorised(#vars.app.applicationId)" class="cta" th:remove="tag">
+            <div sec:authorize="hasAuthority('PERM_UPDATE_APPLICATION') and @securityUtils.isAuthorisedLACode(#vars.app.localAuthorityCode)" class="cta" th:remove="tag">
 
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
