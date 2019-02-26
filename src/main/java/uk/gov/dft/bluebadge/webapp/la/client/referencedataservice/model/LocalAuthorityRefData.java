@@ -36,6 +36,11 @@ public class LocalAuthorityRefData extends ReferenceData {
   }
 
   @JsonIgnore
+  public String getClockType() {
+    return getLocalAuthorityMetaData().map(LocalAuthorityMetaData::getClockType).orElse(null);
+  }
+
+  @JsonIgnore
   public Boolean getPaymentsEnabled() {
     return getLocalAuthorityMetaData().map(LocalAuthorityMetaData::getPaymentsEnabled).orElse(null);
   }

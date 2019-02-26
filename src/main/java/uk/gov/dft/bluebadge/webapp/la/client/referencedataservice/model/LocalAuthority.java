@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
@@ -371,11 +369,11 @@ public class LocalAuthority implements Serializable {
   }
 
   /**
-   * badge pack type STANDARD, WALLET
+   * badge pack type Standard, Wallet
    *
    * @return badgePackType
    */
-  @ApiModelProperty(example = "STANDARD", value = "badge pack type STANDARD, WALLET")
+  @ApiModelProperty(example = "Standard", value = "badge pack type Standard, Wallet")
   public String getBadgePackType() {
     return badgePackType;
   }
@@ -390,14 +388,12 @@ public class LocalAuthority implements Serializable {
   }
 
   /**
-   * badge cost minimum: 0.0 maximum: 999.99
+   * badge cost minimum: 1.00 maximum: 999.99
    *
    * @return badgeCost
    */
   @ApiModelProperty(example = "100.0", value = "badge cost")
   @Valid
-  @DecimalMin("0.0")
-  @DecimalMax("999.99")
   public BigDecimal getBadgeCost() {
     return badgeCost;
   }
