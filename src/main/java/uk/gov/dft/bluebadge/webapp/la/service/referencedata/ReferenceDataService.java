@@ -128,7 +128,7 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
   }
 
-  private List<ReferenceData> retrieveApplicationReferenceDataList(
+  public List<ReferenceData> retrieveApplicationReferenceDataList(
       RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();

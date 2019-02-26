@@ -50,7 +50,7 @@ public class ApplicationTestData {
           .name("name2")
           .nino("AA0000A2")
           .partyTypeCode(PartyTypeCodeField.PERSON)
-          .applicationStatus(ApplicationStatusField.IN_PROGRESS)
+          .applicationStatus(ApplicationStatusField.INPROGRESS)
           .submissionDate(SUBMISSION_DATE_2);
   private static final ApplicationSummary APPLICATION_SUMMARY_PERSON_3 =
       new ApplicationSummary()

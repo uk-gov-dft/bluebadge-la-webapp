@@ -176,7 +176,7 @@ public class ApplicationDetailsTestData {
     ApplicationBuilder setOrganisation() {
       application.getParty().setTypeCode(PartyTypeCodeField.ORG);
       addOrganisation();
-      application.setApplicationStatus(ApplicationStatusField.IN_PROGRESS);
+      application.setApplicationStatus(ApplicationStatusField.INPROGRESS);
       return this;
     }
 

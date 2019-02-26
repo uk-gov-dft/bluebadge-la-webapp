@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /** Gets or Sets ApplicationTypeCodeField */
 public enum ApplicationStatusField {
   TODO("TODO"),
-  IN_PROGRESS("IN_PROGRESS"),
+  INPROGRESS("INPROGRESS"),
   COMPLETED("COMPLETED");
 
   private String value;

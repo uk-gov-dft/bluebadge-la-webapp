@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +27,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeFie
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
 @RequestMapping(path = "/new-applications/{uuid}")
@@ -39,12 +40,16 @@ public class ApplicationDetailsController {
       "redirect:" + NewApplicationsController.URL;
 
   private ApplicationService applicationService;
+  private ReferenceDataService referenceDataService;
   private MessageSource messageSource;
 
   @Autowired
   public ApplicationDetailsController(
-      ApplicationService applicationService, MessageSource messageSource) {
+      ApplicationService applicationService,
+      ReferenceDataService referenceDataService,
+      MessageSource messageSource) {
     this.applicationService = applicationService;
+    this.referenceDataService = referenceDataService;
     this.messageSource = messageSource;
   }
 
@@ -111,17 +116,18 @@ public class ApplicationDetailsController {
 
   @ModelAttribute("applicationStatusOptions")
   public List<ReferenceData> applicationStatusOptions() {
-    return Lists.newArrayList(ApplicationStatusField.values())
+    return referenceDataService
+        .retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS)
         .stream()
         .map(
             status ->
                 ReferenceData.builder()
                     .description(
                         messageSource.getMessage(
-                            "application.details.status." + status.name(),
+                            "application.details.status." + status.getShortCode(),
                             null,
                             LocaleContextHolder.getLocale()))
-                    .shortCode(status.name())
+                    .shortCode(status.getShortCode())
                     .build())
         .collect(Collectors.toList());
   }

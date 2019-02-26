@@ -25,7 +25,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
   private static final ApplicationUpdate APPLICATION_UPDATE =
       ApplicationUpdate.builder()
           .applicationId(UUID.fromString(APPLICATION_ID))
-          .applicationStatus(ApplicationStatusField.IN_PROGRESS)
+          .applicationStatus(ApplicationStatusField.INPROGRESS)
           .build();
 
   @Mock private ApplicationsApiClient applicationsApiClientMock;
@@ -147,7 +147,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
             .applicationId(null)
-            .applicationStatus(ApplicationStatusField.IN_PROGRESS)
+            .applicationStatus(ApplicationStatusField.INPROGRESS)
             .build();
 
     applicationService.update(applicationUpdate);

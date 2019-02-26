@@ -34,11 +34,14 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdat
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
 public class ApplicationDetailsControllerTest {
   @Mock private ApplicationService applicationServiceMock;
+  @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private MessageSource messageSourceMock;
 
   MockMvc mockMvc;
@@ -50,7 +53,9 @@ public class ApplicationDetailsControllerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    controller = new ApplicationDetailsController(applicationServiceMock, messageSourceMock);
+    controller =
+        new ApplicationDetailsController(
+            applicationServiceMock, referenceDataServiceMock, messageSourceMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
@@ -58,7 +63,7 @@ public class ApplicationDetailsControllerTest {
     applicationStatusOptions =
         Lists.newArrayList(
             ReferenceData.builder().description("TO DO").shortCode("TODO").build(),
-            ReferenceData.builder().description("IN PROGRESS").shortCode("IN_PROGRESS").build(),
+            ReferenceData.builder().description("IN PROGRESS").shortCode("INPROGRESS").build(),
             ReferenceData.builder().description("COMPLETED").shortCode("COMPLETED").build());
 
     Locale englishLocale = new Locale("en");
@@ -67,9 +72,10 @@ public class ApplicationDetailsControllerTest {
         .thenReturn("TO DO");
     when(messageSourceMock.getMessage("application.details.status.COMPLETED", null, englishLocale))
         .thenReturn("COMPLETED");
-    when(messageSourceMock.getMessage(
-            "application.details.status.IN_PROGRESS", null, englishLocale))
+    when(messageSourceMock.getMessage("application.details.status.INPROGRESS", null, englishLocale))
         .thenReturn("IN PROGRESS");
+    when(referenceDataServiceMock.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS))
+        .thenReturn(applicationStatusOptions);
   }
 
   public void show_Org() throws Exception {

@@ -52,7 +52,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   private static final ApplicationUpdate APPLICATION_UPDATE =
       ApplicationUpdate.builder()
           .applicationId(UUID.fromString(APPLICATION_ID))
-          .applicationStatus(ApplicationStatusField.IN_PROGRESS)
+          .applicationStatus(ApplicationStatusField.INPROGRESS)
           .build();
 
   private ApplicationsApiClient client;
@@ -222,7 +222,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     mockServer
         .expect(once(), requestTo(APPLICATIONS_ENDPOINT + "/" + APPLICATION_ID))
         .andExpect(method(HttpMethod.PUT))
-        .andExpect(jsonPath("applicationStatus", equalTo("IN_PROGRESS")))
+        .andExpect(jsonPath("applicationStatus", equalTo("INPROGRESS")))
         .andRespond(
             withSuccess(objectMapper.writeValueAsString(responseBody), MediaType.APPLICATION_JSON));
     client.update(APPLICATION_UPDATE);
