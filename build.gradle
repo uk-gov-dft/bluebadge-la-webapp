@@ -140,8 +140,8 @@ configurations.all {
 }
 
 dependencies {
-    ext.commonVersion = '0.6.16-SNAPSHOT'
-    
+    ext.commonVersion = '0.6.18-SNAPSHOT'
+
     compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
     }
