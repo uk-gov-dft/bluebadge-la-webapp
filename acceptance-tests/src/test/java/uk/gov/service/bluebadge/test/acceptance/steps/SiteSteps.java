@@ -21,6 +21,8 @@ import cucumber.api.java.en.When;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang.StringUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
@@ -234,8 +236,9 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findPageElementById(field).sendKeys(text);
   }
 
-  @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field by uipath$")
+  @When("^I type \"([^\"]*)\" for \"([^\"]+)\" field by uipath$")
   public void whenItypeTextForFieldUiPath(String text, String fieldUiPath) {
+    sitePage.findElementWithUiPath(fieldUiPath).clear();
     sitePage.findElementWithUiPath(fieldUiPath).sendKeys(text);
   }
 

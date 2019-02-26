@@ -44,6 +44,10 @@ public class LocalAuthorityDetailsController {
 
   private static final String MODEL_FORM_REQUEST = "formRequest";
 
+  private static final BigDecimal MIN_COST = new BigDecimal("1.00");
+  private static final BigDecimal MAX_COST = new BigDecimal("999.99");
+  public static final String BADGE_COST_PARAM = "badgeCost";
+
   private ReferenceDataService referenceDataService;
   private LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthority;
   private LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequest;
@@ -136,18 +140,16 @@ public class LocalAuthorityDetailsController {
     if (Boolean.TRUE.equals(formRequest.getPaymentsEnabled())) {
       String badgeCost = formRequest.getBadgeCost();
       if (StringUtils.isEmpty(badgeCost)) {
-        bindingResult.rejectValue("badgeCost", "NotNull.localAuthorityDetailPage.badgeCost");
+        bindingResult.rejectValue(BADGE_COST_PARAM, "NotNull.localAuthorityDetailPage.badgeCost");
       } else {
         String pattern = "^(\\d{1,3}+(?:[\\.]\\d{1,2})?)$";
         if (!badgeCost.matches(pattern)) {
-          bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
+          bindingResult.rejectValue(BADGE_COST_PARAM, "Range.localAuthorityDetailPage.badgeCost");
         } else {
-          BigDecimal MIN_COST = new BigDecimal("1.00");
-          BigDecimal MAX_COST = new BigDecimal("999.99");
           BigDecimal badgeCostBigDecimal = new BigDecimal(badgeCost);
           if (badgeCostBigDecimal.compareTo(MIN_COST) < 0
               || badgeCostBigDecimal.compareTo(MAX_COST) > 0) {
-            bindingResult.rejectValue("badgeCost", "Range.localAuthorityDetailPage.badgeCost");
+            bindingResult.rejectValue(BADGE_COST_PARAM, "Range.localAuthorityDetailPage.badgeCost");
           }
         }
       }
