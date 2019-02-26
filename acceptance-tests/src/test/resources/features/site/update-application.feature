@@ -17,7 +17,7 @@ Feature: Dft BlueBadge LA New applications - update application
     Then I should see the page titled "New application - GOV.UK Manage Blue Badges"
     And I can see labelled element "currentApplicationStatus" with content "TO DO"
     When I can click "updateStatusSummary" button
-    When I select option "applicationStatus.option.IN_PROGRESS"
+    When I select option "applicationStatus.option.INPROGRESS"
     When I can click "updateStatusSummary" button
     When I can click "updateStatusSummary" button
     And I can click "updateApplicationStatusButton" button
