@@ -62,7 +62,7 @@ for id and attaching label to the input field.
     </div>
 
     <div th:fragment="govuk-radios-inline(label, name, hint, options)"
-         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"
+         th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'"
          th:with="headingTag=${heading}">
 
         <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
@@ -84,7 +84,7 @@ for id and attaching label to the input field.
     </div>
 
 <div th:fragment="govuk-radios-inline-no-main-question(label, name, hint, options)"
-     th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"
+     th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'"
      th:with="headingTag=${heading}">
 
     <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
