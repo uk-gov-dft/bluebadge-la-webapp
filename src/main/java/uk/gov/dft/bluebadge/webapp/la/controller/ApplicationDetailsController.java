@@ -7,8 +7,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,16 +39,12 @@ public class ApplicationDetailsController {
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
-  private MessageSource messageSource;
 
   @Autowired
   public ApplicationDetailsController(
-      ApplicationService applicationService,
-      ReferenceDataService referenceDataService,
-      MessageSource messageSource) {
+      ApplicationService applicationService, ReferenceDataService referenceDataService) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
-    this.messageSource = messageSource;
   }
 
   @GetMapping()
@@ -122,11 +116,7 @@ public class ApplicationDetailsController {
         .map(
             status ->
                 ReferenceData.builder()
-                    .description(
-                        messageSource.getMessage(
-                            "application.details.status." + status.getShortCode(),
-                            null,
-                            LocaleContextHolder.getLocale()))
+                    .description("application.details.status." + status.getShortCode())
                     .shortCode(status.getShortCode())
                     .build())
         .collect(Collectors.toList());

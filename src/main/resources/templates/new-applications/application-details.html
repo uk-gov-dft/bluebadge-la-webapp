@@ -47,7 +47,7 @@
 
                 <div class="govuk-details__text">
                     <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
-                        <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline(#{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
+                        <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
 
                         <input data-uipath="updateApplicationStatusButton"
                                th:value="#{application.details.applicationStatus.updateApplicationStatusButton}" type="submit" class="govuk-button">

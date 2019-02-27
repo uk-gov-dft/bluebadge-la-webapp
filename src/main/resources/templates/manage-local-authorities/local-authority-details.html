@@ -45,7 +45,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.country.name}, 'country', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.nation.name}, 'nation', null, ${nationOptions}) }"></div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline(#{localAuthorityDetailPage.nation.name}, 'nation', null, ${nationOptions}) }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.contactNumber.name}, 'contactNumber', null, 'text') }"></div>
 
@@ -53,7 +53,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.emailAddress.name}, 'emailAddress', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, ${clockTypeOptions}) }"></div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline(#{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, ${clockTypeOptions}) }"></div>
 
 
                 <div th:class="${#fields.hasErrors('paymentsEnabled')} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'">
