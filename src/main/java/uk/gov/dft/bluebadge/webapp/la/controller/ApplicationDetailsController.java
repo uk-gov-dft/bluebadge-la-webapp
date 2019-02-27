@@ -4,7 +4,6 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApp
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -110,15 +109,6 @@ public class ApplicationDetailsController {
 
   @ModelAttribute("applicationStatusOptions")
   public List<ReferenceData> applicationStatusOptions() {
-    return referenceDataService
-        .retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS)
-        .stream()
-        .map(
-            status ->
-                ReferenceData.builder()
-                    .description("application.details.status." + status.getShortCode())
-                    .shortCode(status.getShortCode())
-                    .build())
-        .collect(Collectors.toList());
+    return referenceDataService.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS);
   }
 }

@@ -16,15 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
@@ -42,7 +39,6 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 public class ApplicationDetailsControllerTest {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
-  @Mock private MessageSource messageSourceMock;
 
   MockMvc mockMvc;
 
@@ -53,27 +49,16 @@ public class ApplicationDetailsControllerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    controller =
-        new ApplicationDetailsController(
-            applicationServiceMock, referenceDataServiceMock, messageSourceMock);
+    controller = new ApplicationDetailsController(applicationServiceMock, referenceDataServiceMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
             .build();
     applicationStatusOptions =
         Lists.newArrayList(
-            ReferenceData.builder().description("TO DO").shortCode("TODO").build(),
-            ReferenceData.builder().description("IN PROGRESS").shortCode("INPROGRESS").build(),
-            ReferenceData.builder().description("COMPLETED").shortCode("COMPLETED").build());
-
-    Locale englishLocale = new Locale("en");
-    LocaleContextHolder.setLocale(englishLocale);
-    when(messageSourceMock.getMessage("application.details.status.TODO", null, englishLocale))
-        .thenReturn("TO DO");
-    when(messageSourceMock.getMessage("application.details.status.COMPLETED", null, englishLocale))
-        .thenReturn("COMPLETED");
-    when(messageSourceMock.getMessage("application.details.status.INPROGRESS", null, englishLocale))
-        .thenReturn("IN PROGRESS");
+            ReferenceData.builder().description("To do").shortCode("TODO").build(),
+            ReferenceData.builder().description("In progress").shortCode("INPROGRESS").build(),
+            ReferenceData.builder().description("Completed").shortCode("COMPLETED").build());
     when(referenceDataServiceMock.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS))
         .thenReturn(applicationStatusOptions);
   }

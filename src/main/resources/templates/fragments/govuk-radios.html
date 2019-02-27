@@ -30,7 +30,7 @@ for id and attaching label to the input field.
                th:class="${withHint} ? ${labelClass} + ' govuk-radios__label--bold' : ${labelClass}"
                th:data-uipath="${name} + '.label.' + ${option.shortCode}"
                th:for="${name} + '.' + ${option.shortCode}"
-               th:text="${internationalised} ? #{${option.description}}: ${option.description}"></label>
+               th:text="${internationalised} ? #{${name} + '.' + ${option.groupShortCode} + '.' + ${option.shortCode}}: ${option.description}"></label>
 
         <span th:if="${withHint}"
               th:id="${option.shortCode} + '-item-hint'" class="govuk-hint govuk-radios__hint"
