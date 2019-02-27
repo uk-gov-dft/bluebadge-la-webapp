@@ -5,6 +5,10 @@ Feature: Dft BlueBadge LA New applications - update application
   I want to be able to view the status of an application,
   So I can manage applications effectively
 
+  As an LA user,
+  I want to be able to update the status of an application,
+  So I can manage applications effectively
+
   Scenario: Update application
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
