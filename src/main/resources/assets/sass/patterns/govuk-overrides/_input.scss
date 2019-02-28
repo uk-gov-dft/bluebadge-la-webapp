@@ -1,0 +1,5 @@
+.govuk-input--currency {
+	@include govuk-media-query($from: mobile) {
+		width: 150px;
+	}
+}
