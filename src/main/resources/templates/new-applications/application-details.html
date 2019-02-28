@@ -18,8 +18,9 @@
 </div>
 
 <main layout:fragment="content">
-
     <section class="dft-content-container--full">
+
+        <span class="govuk-tag govuk-phase-banner__content__tag govuk-!-margin-bottom-5" th:text="${renderHCP}"></span>
 
         <header class="dft-content-heading dft-content-heading--with-cta">
             <h1 class="govuk-heading-l" data-uipath="title">
@@ -342,7 +343,7 @@
                 </div>
 
                 <!-- BLIND FIELDS -->
-                <div class="dft-data-list__item">
+                <div class="dft-data-list__item" th:if="${eligibility.typeCode.toString() == 'BLIND'}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.blind.label.registeredAtLaId}"/>
                     <dd th:if="${eligibility.blind?.registeredAtLaId}" class="dft-data-list__dd" data-uipath="eligibility.blind.registeredat"
@@ -365,7 +366,7 @@
                     </dd>
                 </div>
 
-                <div class="dft-data-list__item">
+                <div class="dft-data-list__item" th:if="${renderProofOfEligibility}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.artifacts.label.proofOfEligibility.benefit}"/>
                     <dd class="dft-data-list__dd">
@@ -394,7 +395,7 @@
                         </ul>
                     </dd>
                 </div>
-                <div class="dft-data-list__item">
+                <div class="dft-data-list__item" th:if="${renderSupportingDocs}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.walkingDifficulty.label.supportDocs}"/>
                     <dd class="dft-data-list__dd">
@@ -411,20 +412,22 @@
                         </div>
                     </dd>
                 </div>
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.label.healthcareProfessionals}"/>
-                    <dd class="dft-data-list__dd">
-                        <div th:if="${eligibility.healthcareProfessionals}" th:remove="tag">
-                            <ul class="govuk-list" data-uipath="eligibility.healthcareprofessional">
-                                <li th:each="pro: ${eligibility.healthcareProfessionals}"
-                                    th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}">
-                            </ul>
-                        </div>
-                        <div th:unless="${eligibility.healthcareProfessionals}" th:remove="tag">
-                            [[#{common.label.none}]]
-                        </div>
-                    </dd>
+                <div th:if="${renderHCP}" th:remove="tag">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.label.healthcareProfessionals}"/>
+                        <dd class="dft-data-list__dd">
+                            <div th:if="${eligibility.healthcareProfessionals}" th:remove="tag">
+                                <ul class="govuk-list" data-uipath="eligibility.healthcareprofessional">
+                                    <li th:each="pro: ${eligibility.healthcareProfessionals}"
+                                        th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}">
+                                </ul>
+                            </div>
+                            <div th:unless="${eligibility.healthcareProfessionals}" th:remove="tag">
+                                [[#{common.label.none}]]
+                            </div>
+                        </dd>
+                    </div>
                 </div>
             </dl>
         </div>
