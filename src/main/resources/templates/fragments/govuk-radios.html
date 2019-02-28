@@ -52,13 +52,13 @@ for id and attaching label to the input field.
 @internationalised: true or false, true will treat reference data's description as a key in messages.properties file
 @withHint: true or false, will display hints from the reference data (options param)
     -------------------------------------------------------------------------------- -->
-<div th:fragment="govuk-radios-base(layout, label, name, hint, options, internationalised, withHint)"
+<div th:fragment="govuk-radios-base(layout, label, name, hint, options, internationalised, withHint, withHeading)"
      th:class="' govuk-form-group ' + (${layout=='inline'} ? ' govuk-form-group--inline-radios ': '') + (${#fields.hasErrors(name)} ? ' govuk-form-group--error ' : '')">
 
     <fieldset class="govuk-fieldset" th:id="${name}" th:aria-describedby="${hint} ? ${name} + '-hint' : null">
 
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" th:if="${label}">
-            <h2 class="govuk-heading-s" th:data-uipath="${name} + '.label'" th:text="${label}"></h2>
+            <h2 th:class="${withHeading} ? 'govuk-heading-s': 'govuk-label'" th:data-uipath="${name} + '.label'" th:text="${label}"></h2>
         </legend>
 
         <span th:id="${name} + '-hint'" th:data-uipath="${name} + '.hint'" class="govuk-hint" th:if="${hint}"/>
@@ -74,19 +74,19 @@ for id and attaching label to the input field.
 </div>
 
 <div th:fragment="govuk-radios-stacked(label, name, hint, options)">
-    <div th:replace="~{ :: govuk-radios-base('stacked', ${label}, ${name}, ${hint}, ${options}, false, false) }"></div>
+    <div th:replace="~{ :: govuk-radios-base('stacked', ${label}, ${name}, ${hint}, ${options}, false, false, true) }"></div>
 </div>
 
 <div th:fragment="govuk-radios-stacked-with-hint(label, name, hint, options)">
-    <div th:replace="~{ :: govuk-radios-base('stacked', ${label}, ${name}, ${hint}, ${options}, false, true) }"></div>
+    <div th:replace="~{ :: govuk-radios-base('stacked', ${label}, ${name}, ${hint}, ${options}, false, true, true) }"></div>
 </div>
 
 <div th:fragment="govuk-radios-inline(label, name, hint, options)">
-    <div th:replace="~{ :: govuk-radios-base('inline', ${label}, ${name}, ${hint}, ${options}, false, false) }"></div>
+    <div th:replace="~{ :: govuk-radios-base('inline', ${label}, ${name}, ${hint}, ${options}, false, false, true) }"></div>
 </div>
 
 <div th:fragment="govuk-radio-group-internationalized(layout, label, name, hint, options)">
-    <div th:replace="~{ :: govuk-radios-base(${layout}, ${label}, ${name}, ${hint}, ${options}, true, false) }"></div>
+    <div th:replace="~{ :: govuk-radios-base(${layout}, ${label}, ${name}, ${hint}, ${options}, true, false, true) }"></div>
 </div>
 
 </body>
