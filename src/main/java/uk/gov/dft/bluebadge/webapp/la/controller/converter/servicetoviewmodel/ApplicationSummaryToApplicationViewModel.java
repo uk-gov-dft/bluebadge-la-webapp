@@ -48,7 +48,7 @@ public class ApplicationSummaryToApplicationViewModel
         .nino(source.getNino())
         .eligibility(eligibilityViewModel)
         .submittedDate(submittedDateViewModel)
-        .status(source.getApplicationStatus().name())
+        .status(source.getApplicationStatus() != null ? source.getApplicationStatus().name() : null)
         .build();
   }
 }

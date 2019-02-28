@@ -53,7 +53,10 @@ public class ApplicationDetailsController {
       @ModelAttribute("updateApplicationFormRequest")
           final UpdateApplicationFormRequest updateFormRequest) {
     Application application = applicationService.retrieve(uuid.toString());
-    updateFormRequest.setApplicationStatus(application.getApplicationStatus().name());
+    updateFormRequest.setApplicationStatus(
+        application.getApplicationStatus() != null
+            ? application.getApplicationStatus().name()
+            : null);
 
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);

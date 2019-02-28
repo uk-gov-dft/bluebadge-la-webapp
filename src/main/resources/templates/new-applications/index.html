@@ -79,7 +79,7 @@
                 <td class="govuk-table__cell" th:text="${app.eligibility}">
                 <td class="govuk-table__cell" th:text="${app.submittedDate}">
                 <td class="govuk-table__cell">
-                    <strong class="govuk-tag govuk-phase-banner__content__tag" th:text="#{'applicationStatus.APPSTATUS.' + ${app.status}}"></strong>
+                    <strong th:if="${app.status != null}" class="govuk-tag govuk-phase-banner__content__tag" th:text="#{'applicationStatus.APPSTATUS.' + ${app.status}}"></strong>
                 </td>
             </tr>
             </tbody>
