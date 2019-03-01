@@ -62,12 +62,12 @@ public class ApplicationDetailsController {
 
       model.addAttribute(
           "renderSupportingDocs",
-          SUPPORT_DOCS_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
+          SUPPORT_DOCS_ELIG_TYPES.contains(eligibilityTypeCodeField));
       model.addAttribute(
-          "renderHCP", HCP_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
+          "renderHCP", HCP_ELIG_TYPES.contains(eligibilityTypeCodeField));
       model.addAttribute(
           "renderBenefitUploads",
-          BENEFIT_UPLOAD_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
+          BENEFIT_UPLOAD_ELIG_TYPES.contains(eligibilityTypeCodeField));
     }
 
     return TEMPLATE;
