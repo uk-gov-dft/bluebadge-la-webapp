@@ -61,13 +61,10 @@ public class ApplicationDetailsController {
       EligibilityCodeField eligibilityTypeCodeField = application.getEligibility().getTypeCode();
 
       model.addAttribute(
-          "renderSupportingDocs",
-          SUPPORT_DOCS_ELIG_TYPES.contains(eligibilityTypeCodeField));
+          "renderSupportingDocs", SUPPORT_DOCS_ELIG_TYPES.contains(eligibilityTypeCodeField));
+      model.addAttribute("renderHCP", HCP_ELIG_TYPES.contains(eligibilityTypeCodeField));
       model.addAttribute(
-          "renderHCP", HCP_ELIG_TYPES.contains(eligibilityTypeCodeField));
-      model.addAttribute(
-          "renderBenefitUploads",
-          BENEFIT_UPLOAD_ELIG_TYPES.contains(eligibilityTypeCodeField));
+          "renderBenefitUploads", BENEFIT_UPLOAD_ELIG_TYPES.contains(eligibilityTypeCodeField));
     }
 
     return TEMPLATE;
