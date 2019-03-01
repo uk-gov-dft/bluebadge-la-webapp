@@ -460,11 +460,13 @@
                         data-uipath="application.paymentisnottaken"
                         th:text="#{application.details.isNotPaymentTaken}"/>
                 </div>
-                <div class="dft-data-list__item" th:if="${app.existingBadgeNumber}">
+                <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.existingBadgeNumber}"/>
-                    <dd class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
+                    <dd th:if="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
                         th:text="${app.existingBadgeNumber}"/>
+                    <dd th:unless="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
+                        th:text="#{common.label.notProvided}"/>
                 </div>
             </dl>
         </div>
