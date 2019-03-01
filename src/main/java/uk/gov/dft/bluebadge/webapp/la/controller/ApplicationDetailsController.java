@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Eligibility;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
 @RequestMapping(path = "/new-applications/{uuid}")
@@ -30,12 +28,10 @@ public class ApplicationDetailsController {
       "redirect:" + NewApplicationsController.URL;
 
   private ApplicationService applicationService;
-  private ReferenceDataService referenceDataService;
 
   @Autowired
-  public ApplicationDetailsController(ApplicationService applicationService, ReferenceDataService referenceDataService) {
+  public ApplicationDetailsController(ApplicationService applicationService) {
     this.applicationService = applicationService;
-    this.referenceDataService = referenceDataService;
   }
 
   @GetMapping()
