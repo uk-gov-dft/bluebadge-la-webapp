@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils.buildReferenceData;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.TreeMap;
 import org.junit.Before;
@@ -19,10 +21,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.service.enums.EligibilityType;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
-import uk.gov.dft.bluebadge.webapp.la.controller.utils.ReferenceDataUtils;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 
 public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerTestData {
@@ -46,39 +50,75 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
             .build();
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void
       show_shouldDisplayOrderABadgePersonDetailsTemplate_AndPopulateEligibiltiesAndGenderFieldsFromReferenceDataService()
           throws Exception {
 
-    // Mock Data
-    ReferenceData rdEligibility1 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 1);
-    rdEligibility1.setSubgroupShortCode("ELIG_AUTO");
-    ReferenceData rdEligibility2 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 2);
-    rdEligibility2.setSubgroupShortCode("ELIG_AUTO");
-    ReferenceData rdEligibility3 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 3);
-    rdEligibility3.setSubgroupShortCode("ELIG_AUTO");
-    ReferenceData rdEligibility4 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 4);
-    rdEligibility4.setSubgroupShortCode("ELIG_FURTH");
-    ReferenceData rdEligibility5 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 5);
-    rdEligibility5.setSubgroupShortCode("ELIG_FURTH");
-    ReferenceData rdEligibility6 =
-        ReferenceDataUtils.buildReferenceData(RefDataGroupEnum.ELIGIBILITY.getGroupKey(), 6);
-    rdEligibility6.setSubgroupShortCode("ELIG_FURTH");
+    List<ReferenceData> referenceDataEligibilityList = new ArrayList<>();
+    List<ReferenceData> eligibilityAutoList = new ArrayList<>();
+    List<ReferenceData> eligibilityFurtherEngNirList = new ArrayList<>();
+    List<ReferenceData> eligibilityFurtherScoList = new ArrayList<>();
+    List<ReferenceData> eligibilityFurtherWlsList = new ArrayList<>();
+    List<ReferenceData> eligibilityFurtherAllList = new ArrayList<>();
 
-    List<ReferenceData> referenceDataEligibilityList =
-        Lists.newArrayList(
-            rdEligibility1,
-            rdEligibility2,
-            rdEligibility3,
-            rdEligibility4,
-            rdEligibility5,
-            rdEligibility6);
+    EnumSet<EligibilityType> auto =
+        EnumSet.of(
+            EligibilityType.PIP,
+            EligibilityType.DLA,
+            EligibilityType.AFRFCS,
+            EligibilityType.WPMS,
+            EligibilityType.BLIND);
+    EnumSet<EligibilityType> discretionary = EnumSet.complementOf(auto);
+
+    auto.forEach(
+        t ->
+            eligibilityAutoList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_AUTO")
+                    .build()));
+    discretionary.forEach(
+        t -> {
+          eligibilityFurtherAllList.add(
+              ReferenceData.builder()
+                  .shortCode(t.name())
+                  .subgroupShortCode("ELIG_FURTHER")
+                  .build());
+          if (t == EligibilityType.COGNITIVE) {
+            eligibilityFurtherWlsList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_FURTHER")
+                    .build());
+          } else if (t == EligibilityType.TRAF_RISK) {
+            eligibilityFurtherScoList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_FURTHER")
+                    .build());
+          } else {
+            eligibilityFurtherWlsList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_FURTHER")
+                    .build());
+            eligibilityFurtherScoList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_FURTHER")
+                    .build());
+            eligibilityFurtherEngNirList.add(
+                ReferenceData.builder()
+                    .shortCode(t.name())
+                    .subgroupShortCode("ELIG_FURTHER")
+                    .build());
+          }
+        });
+
+    referenceDataEligibilityList.addAll(eligibilityAutoList);
+    referenceDataEligibilityList.addAll(eligibilityFurtherAllList);
 
     ReferenceData rdGender1 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 3);
     ReferenceData rdGender2 = buildReferenceData(RefDataGroupEnum.GENDER.getGroupKey(), 4);
@@ -87,16 +127,17 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
     when(referenceDataServiceMock.retrieveBadgeEligilities())
         .thenReturn(referenceDataEligibilityList);
     when(referenceDataServiceMock.retrieveBadgeGenders()).thenReturn(referenceDataGenderList);
+    LocalAuthorityRefData la = new LocalAuthorityRefData();
+    la.setLocalAuthorityMetaData(
+        LocalAuthorityRefData.LocalAuthorityMetaData.builder().nation(Nation.ENG).build());
+    when(referenceDataServiceMock.getUserLocalAuthority()).thenReturn(la);
 
     // Expected Result Shape
-    TreeMap<String, List<ReferenceData>> eligibilityMap = new TreeMap<>();
-    List<ReferenceData> automaticList =
-        Lists.newArrayList(rdEligibility1, rdEligibility2, rdEligibility3);
-    List<ReferenceData> furtherList =
-        Lists.newArrayList(rdEligibility4, rdEligibility5, rdEligibility6);
-    eligibilityMap.put("Automatic", automaticList);
-    eligibilityMap.put("Further", furtherList);
+    TreeMap<String, List<ReferenceData>> expectedEligibility = new TreeMap<>();
+    expectedEligibility.put("Automatic", eligibilityAutoList);
+    expectedEligibility.put("Further", eligibilityFurtherEngNirList);
 
+    // For an English la will not get COGNIT or TRAF_RISK
     mockMvc
         .perform(
             get("/order-a-badge/person/details")
@@ -104,7 +145,39 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
                 .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
         .andExpect(status().isOk())
         .andExpect(view().name("order-a-badge/person/details"))
-        .andExpect(model().attribute("eligibilityOptions", eligibilityMap))
+        .andExpect(model().attribute("eligibilityOptions", expectedEligibility))
+        .andExpect(model().attribute("genderOptions", referenceDataGenderList));
+
+    expectedEligibility = new TreeMap<>();
+    expectedEligibility.put("Automatic", eligibilityAutoList);
+    expectedEligibility.put("Further", eligibilityFurtherWlsList);
+    la.getLocalAuthorityMetaData().get().setNation(Nation.WLS);
+
+    // For an Wales la will get COGNIT
+    mockMvc
+        .perform(
+            get("/order-a-badge/person/details")
+                .param("fid", FLOW_ID)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/person/details"))
+        .andExpect(model().attribute("eligibilityOptions", expectedEligibility))
+        .andExpect(model().attribute("genderOptions", referenceDataGenderList));
+
+    expectedEligibility = new TreeMap<>();
+    expectedEligibility.put("Automatic", eligibilityAutoList);
+    expectedEligibility.put("Further", eligibilityFurtherScoList);
+    la.getLocalAuthorityMetaData().get().setNation(Nation.SCO);
+
+    // For Scotland la will get TRAF_RISK
+    mockMvc
+        .perform(
+            get("/order-a-badge/person/details")
+                .param("fid", FLOW_ID)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON))
+        .andExpect(status().isOk())
+        .andExpect(view().name("order-a-badge/person/details"))
+        .andExpect(model().attribute("eligibilityOptions", expectedEligibility))
         .andExpect(model().attribute("genderOptions", referenceDataGenderList));
   }
 

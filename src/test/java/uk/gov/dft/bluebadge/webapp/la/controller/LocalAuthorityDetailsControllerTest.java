@@ -111,7 +111,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, DESCRIPTION)
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
@@ -148,11 +148,11 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(COUNTY_PARAM, COUNTY)
                 .param(CONTACT_NUMBER_PARAM, CONTACT_NUMBER)
                 .param(BADGE_PACK_TYPE_PARAM, BADGE_PACK_TYPE)
-                .param(BADGE_COST_PARAM, BADGE_COST.toString())
+                .param(BADGE_COST_PARAM, BADGE_COST)
                 .param(PAYMENTS_ENABLED_PARAM, String.valueOf(PAYMENTS_ENABLED))
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
@@ -182,7 +182,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             .town(TOWN_INVALID)
             .county(COUNTY_INVALID)
             .country(COUNTRY_INVALID)
-            .nation(NATION_INVALID)
+            .nation(NATION)
             .contactNumber(CONTACT_NUMBER_INVALID)
             .emailAddress(EMAIL_ADDRESS_INVALID)
             .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
@@ -206,13 +206,13 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(COUNTRY_PARAM, COUNTRY_INVALID)
                 .param(CONTACT_NUMBER_PARAM, CONTACT_NUMBER_INVALID)
                 .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_INVALID)
-                .param(NATION_PARAM, NATION_INVALID)
+                .param(NATION_PARAM, NATION.name())
                 .param(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL_INVALID))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_LOCAL_AUTHORITY_DETAILS))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest))
-        .andExpect(model().errorCount(15))
+        .andExpect(model().errorCount(14))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(MODEL_FORM_REQUEST, BADGE_PACK_TYPE_PARAM, "Pattern"))
@@ -230,7 +230,6 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, POSTCODE_PARAM, "Pattern"))
         .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, COUNTRY_PARAM, "Size"))
-        .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, NATION_PARAM, "Pattern"))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, CONTACT_NUMBER_PARAM, "Pattern"))
         .andExpect(
@@ -253,7 +252,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             .description("")
             .country("")
             .postcode("")
-            .nation(NATION)
+            .nation(null)
             .websiteUrl("")
             .build();
 
@@ -264,12 +263,12 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, "")
                 .param(COUNTRY_PARAM, "")
                 .param(POSTCODE_PARAM, "")
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, "")
                 .param(WEB_SITE_URL_PARAM, ""))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_LOCAL_AUTHORITY_DETAILS))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest))
-        .andExpect(model().errorCount(4))
+        .andExpect(model().errorCount(5))
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, DESCRIPTION_PARAM, "NotBlank"))
         .andExpect(
@@ -277,7 +276,9 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
         .andExpect(
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, POSTCODE_PARAM, "NotBlank"))
         .andExpect(
-            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "NotBlank"));
+            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "NotBlank"))
+        .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, NATION_PARAM, "NotNull"));
+
     verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());
   }
 
@@ -317,7 +318,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, DESCRIPTION)
                 .param(COUNTRY_PARAM, COUNTRY)
                 .param(POSTCODE_PARAM, POSTCODE)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
                 .param(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, DIFFERENT_SERVICE_SIGNPOST_URL))
         .andExpect(status().isOk())
@@ -356,7 +357,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, DESCRIPTION)
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
                 .param(PAYMENTS_ENABLED_PARAM, String.valueOf(!PAYMENTS_ENABLED))
                 .param(BADGE_COST_PARAM, BADGE_COST))
@@ -389,7 +390,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, DESCRIPTION)
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
                 .param(PAYMENTS_ENABLED_PARAM, String.valueOf(!PAYMENTS_ENABLED)))
         .andExpect(status().isOk())
@@ -427,7 +428,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(DESCRIPTION_PARAM, DESCRIPTION)
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
-                .param(NATION_PARAM, NATION)
+                .param(NATION_PARAM, NATION.name())
                 .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
                 .param(PAYMENTS_ENABLED_PARAM, String.valueOf(!PAYMENTS_ENABLED))
                 .param(BADGE_COST_PARAM, BADGE_COST_INVALID))

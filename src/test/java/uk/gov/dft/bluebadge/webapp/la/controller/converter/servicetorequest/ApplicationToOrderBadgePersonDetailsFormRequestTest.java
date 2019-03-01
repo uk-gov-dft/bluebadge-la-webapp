@@ -26,7 +26,9 @@ public class ApplicationToOrderBadgePersonDetailsFormRequestTest
   @Test
   public void convert_shouldWork() {
     OrderBadgePersonDetailsFormRequest formRequest = converter.convert(getApplication());
-    assertThat(formRequest).isEqualTo(APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
+    assertThat(formRequest)
+        .isEqualTo(
+            ApplicationToOrderBadgeTestData.getApplicationToOrderBadgePersonDetailsFormRequest());
   }
 
   @Test

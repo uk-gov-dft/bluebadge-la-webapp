@@ -17,12 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.AopTestUtils;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -38,8 +34,7 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
 
-  @Mock
-  private ApplicationService applicationServiceMock;
+  @Mock private ApplicationService applicationServiceMock;
 
   @SuppressWarnings("unused")
   @Autowired
@@ -47,9 +42,7 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
 
   MockMvc mockMvc;
 
-  @Autowired
-  @InjectMocks
-  private ApplicationDetailsController controller;
+  @Autowired @InjectMocks private ApplicationDetailsController controller;
 
   @Before
   public void setUp() {
@@ -283,5 +276,4 @@ public class ApplicationDetailsControllerTest extends BaseSpringBootTest {
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/application/" + applicationId));
   }
-
 }
