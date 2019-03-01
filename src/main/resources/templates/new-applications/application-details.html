@@ -343,7 +343,7 @@
                 </div>
 
                 <!-- BLIND FIELDS -->
-                <div class="dft-data-list__item" th:if="${eligibility.typeCode.toString() == 'BLIND'}">
+                <div class="dft-data-list__item" th:if="${eligibility.typeCode.name() == 'BLIND'}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.blind.label.registeredAtLaId}"/>
                     <dd th:if="${eligibility.blind?.registeredAtLaId}" class="dft-data-list__dd" data-uipath="eligibility.blind.registeredat"
@@ -353,7 +353,7 @@
                 </div>
 
                 <!-- BENEFIT FIELDS -->
-                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}"
+                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.name() != 'WPMS'}"
                      th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
@@ -366,7 +366,7 @@
                     </dd>
                 </div>
 
-                <div class="dft-data-list__item" th:if="${renderProofOfEligibility}">
+                <div class="dft-data-list__item" th:if="${renderBenefitUploads}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.artifacts.label.proofOfEligibility.benefit}"/>
                     <dd class="dft-data-list__dd">

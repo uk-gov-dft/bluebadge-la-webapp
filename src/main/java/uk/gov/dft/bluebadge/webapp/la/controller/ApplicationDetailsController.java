@@ -1,7 +1,14 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.ARMS;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDBULK;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDVEHIC;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.DLA;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.PIP;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.WALKD;
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
+import java.util.EnumSet;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +34,13 @@ public class ApplicationDetailsController {
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
 
+  private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
+      EnumSet.of(PIP, DLA);
+  private static final EnumSet<EligibilityCodeField> HCP_ELIG_TYPES =
+      EnumSet.of(WALKD, CHILDBULK, CHILDVEHIC);
+  private static final EnumSet<EligibilityCodeField> SUPPORT_DOCS_ELIG_TYPES =
+      EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
+
   private ApplicationService applicationService;
 
   @Autowired
@@ -37,24 +51,23 @@ public class ApplicationDetailsController {
   @GetMapping()
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
-      model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
-      model.addAttribute("app", application);
-      model.addAttribute("uuid", uuid);
-      model.addAttribute(
+    model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
+    model.addAttribute("app", application);
+    model.addAttribute("uuid", uuid);
+    model.addAttribute(
         "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
 
     if (application.getEligibility() != null) {
-      String eligibilityTypeCode = application.getEligibility().getTypeCode().toString();
-      String supportingDocsEligibilityTypesPattern = "^(ARMS|WALKD|CHILDVEHIC|CHILDBULK)$";
-      String hcpEligibilityTypesPattern = "^(WALKD|CHILDVEHIC|CHILDBULK)$";
-      String proofOfEligibilityEligibilityTypesPattern = "^(PIP|DLA)$";
+      EligibilityCodeField eligibilityTypeCodeField = application.getEligibility().getTypeCode();
 
-      model.addAttribute("renderSupportingDocs", eligibilityTypeCode
-              .matches(supportingDocsEligibilityTypesPattern) ? true : false);
-      model.addAttribute("renderHCP", eligibilityTypeCode
-              .matches(hcpEligibilityTypesPattern) ? true : false);
-      model.addAttribute("renderProofOfEligibility", eligibilityTypeCode
-              .matches(proofOfEligibilityEligibilityTypesPattern) ? true : false);
+      model.addAttribute(
+          "renderSupportingDocs",
+          SUPPORT_DOCS_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
+      model.addAttribute(
+          "renderHCP", HCP_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
+      model.addAttribute(
+          "renderBenefitUploads",
+          BENEFIT_UPLOAD_ELIG_TYPES.contains(eligibilityTypeCodeField) ? true : false);
     }
 
     return TEMPLATE;
