@@ -55,7 +55,6 @@
 
                 <div th:replace="~{ fragments/govuk-radios :: govuk-radios-base('inline', #{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, ${clockTypeOptions}, false, false, false) }"></div>
 
-
                 <div th:class="${#fields.hasErrors('paymentsEnabled')} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'">
                     <fieldset class="govuk-fieldset" id="paymentsEnabled">
 

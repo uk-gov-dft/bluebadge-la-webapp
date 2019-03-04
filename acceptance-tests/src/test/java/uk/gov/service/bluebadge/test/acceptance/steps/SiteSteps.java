@@ -234,8 +234,9 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findPageElementById(field).sendKeys(text);
   }
 
-  @When("^I type \"([^\"]+)\" for \"([^\"]+)\" field by uipath$")
+  @When("^I type \"([^\"]*)\" for \"([^\"]+)\" field by uipath$")
   public void whenItypeTextForFieldUiPath(String text, String fieldUiPath) {
+    sitePage.findElementWithUiPath(fieldUiPath).clear();
     sitePage.findElementWithUiPath(fieldUiPath).sendKeys(text);
   }
 

@@ -12,6 +12,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppOrganisation;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Benefit;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Blind;
@@ -175,6 +176,7 @@ public class ApplicationDetailsTestData {
     ApplicationBuilder setOrganisation() {
       application.getParty().setTypeCode(PartyTypeCodeField.ORG);
       addOrganisation();
+      application.setApplicationStatus(ApplicationStatusField.INPROGRESS);
       return this;
     }
 
@@ -187,6 +189,7 @@ public class ApplicationDetailsTestData {
       person.setNameAtBirth(ModelValues.BADGE_HOLDER_NAME_AT_BIRTH);
       person.setNino(ModelValues.PERSON_NINO);
       application.getParty().setPerson(person);
+      application.setApplicationStatus(ApplicationStatusField.COMPLETED);
       return this;
     }
 

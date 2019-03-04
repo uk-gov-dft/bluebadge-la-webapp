@@ -11,14 +11,22 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
 public class ApplicationServiceTest extends ApplicationTestData {
 
   private static final String APPLICATION_ID = UUID.randomUUID().toString();
+
+  private static final ApplicationUpdate APPLICATION_UPDATE =
+      ApplicationUpdate.builder()
+          .applicationId(UUID.fromString(APPLICATION_ID))
+          .applicationStatus(ApplicationStatusField.INPROGRESS)
+          .build();
 
   @Mock private ApplicationsApiClient applicationsApiClientMock;
 
@@ -122,5 +130,37 @@ public class ApplicationServiceTest extends ApplicationTestData {
   @Test
   public void delete_shouldWork() {
     applicationService.delete(APPLICATION_ID);
+  }
+
+  @Test
+  public void update_shouldWork() {
+    applicationService.update(APPLICATION_UPDATE);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void update_shouldThrowIllegalArgumentException_whenApplicationUpdateRequestIsNull() {
+    applicationService.update(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void update_shouldThrowIllegalArgumentException_whenApplicationIdIsNull() {
+    ApplicationUpdate applicationUpdate =
+        ApplicationUpdate.builder()
+            .applicationId(null)
+            .applicationStatus(ApplicationStatusField.INPROGRESS)
+            .build();
+
+    applicationService.update(applicationUpdate);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void update_shouldThrowIllegalArgumentException_whenApplicationStatusIsNull() {
+    ApplicationUpdate applicationUpdate =
+        ApplicationUpdate.builder()
+            .applicationId(UUID.fromString(APPLICATION_ID))
+            .applicationStatus(null)
+            .build();
+
+    applicationService.update(applicationUpdate);
   }
 }

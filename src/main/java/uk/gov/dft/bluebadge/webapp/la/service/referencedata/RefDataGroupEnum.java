@@ -14,7 +14,8 @@ public enum RefDataGroupEnum {
   WALKING_DIFFICULTIES("WALKDIFF"),
   WALKING_SPEED("WALKSPEED"),
   REPLACE("REPLACE"),
-  LC("LC");
+  LC("LC"),
+  APPSTATUS("APPSTATUS");
 
   public String getGroupKey() {
     return groupKey;
