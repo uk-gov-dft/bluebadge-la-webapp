@@ -64,7 +64,7 @@
 
                         <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
                              id="conditional-deliverTo_home">
-                            <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked-internationalized(#{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"></div>
+                            <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('stacked', #{orderbadge.processing.label.deliveryOptions}, 'deliveryOptions', null, ${deliveryOptions}) }"></div>
                         </div>
 
                         <div class="govuk-radios__item">

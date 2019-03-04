@@ -2,6 +2,7 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{application.details.html.title} + ' ' + #{common.title.suffix}"></title>
@@ -27,6 +28,36 @@
                 <span th:remove="tag" th:text="#{application.details.title}"></span>
             </h1>
         </header>
+
+        <div class="dft-check-answers">
+            <div class="dft-check-answers__heading">
+                <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="applicationStatus.title"
+                    th:text="#{application.details.applicationStatus.title}"></h2>
+                &nbsp;&nbsp;<strong th:if="${app.applicationStatus != null}" class="govuk-tag govuk-phase-banner__content__tag" data-uipath="currentApplicationStatus" th:text="#{'applicationStatus.APPSTATUS.' + ${app.applicationStatus}}"></strong>
+            </div>
+
+            <div sec:authorize="hasAuthority('PERM_UPDATE_APPLICATION') and @securityUtils.isAuthorisedLACode(#vars.app.localAuthorityCode)" class="cta" th:remove="tag">
+
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text" data-uipath="updateStatusSummary"
+                          th:text="#{application.details.applicationStatus.updateStatusSummaryText}"></span>
+                </summary>
+
+
+                <div class="govuk-details__text">
+                    <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
+                        <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
+
+                        <input data-uipath="updateApplicationStatusButton"
+                               th:value="#{application.details.applicationStatus.updateApplicationStatusButton}" type="submit" class="govuk-button">
+                    </form>
+                </div>
+
+            </details>
+
+            </div>
+        </div>
 
         <div class="dft-check-answers">
             <div class="dft-check-answers__heading">

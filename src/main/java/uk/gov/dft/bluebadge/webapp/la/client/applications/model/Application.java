@@ -23,6 +23,7 @@ public class Application {
   private Eligibility eligibility;
   private String paymentReference;
   private List<Artifact> artifacts;
+  private ApplicationStatusField applicationStatus;
 
   public List<Artifact> getProofOfIdentityArtifacts() {
     return getArtifactsByType(Artifact.TypeEnum.PROOF_ID);

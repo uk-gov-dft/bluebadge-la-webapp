@@ -12,4 +12,5 @@ public class ApplicationSummaryViewModel implements Serializable {
   private String nino;
   private String eligibility;
   private String submittedDate;
+  private String status;
 }
