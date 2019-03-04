@@ -11,6 +11,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
 
@@ -101,6 +102,14 @@ public class ApplicationService {
             .build();
 
     return find(searchParams);
+  }
+
+  public void update(ApplicationUpdate applicationUpdateRequest) {
+    Assert.notNull(applicationUpdateRequest, "applicationUpdateRequest must be not null");
+    Assert.notNull(applicationUpdateRequest.getApplicationId(), "applicationId must be not null");
+    Assert.notNull(
+        applicationUpdateRequest.getApplicationStatus(), "applicationStatus must be not null");
+    applicationsApiClient.update(applicationUpdateRequest);
   }
 
   public void delete(String applicationId) {
