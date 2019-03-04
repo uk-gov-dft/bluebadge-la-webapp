@@ -16,5 +16,19 @@
 		@include govuk-media-query($from: desktop) {
 			margin-bottom: 0;
 		}
+
+		& + .govuk-radios__conditional {
+			clear: both;
+		}
+	}
+}
+
+.govuk-form-group--inline-radios {
+	margin-bottom: 15px;
+
+	.govuk-radios--inline {	
+		.govuk-radios__item {
+			margin-bottom: 15px;
+		}
 	}
 }

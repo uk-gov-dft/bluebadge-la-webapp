@@ -1,7 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
+
 import java.util.UUID;
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,18 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeIndexFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgePersonDetailsFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetorequest.ApplicationToOrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeBaseDetailsController;
-import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeIndexController;
-import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgePersonDetailsController;
-import uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeProcessingController;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeIndexFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 
 @Controller
@@ -33,28 +26,12 @@ public class ApplicationDetailsController {
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
-  private static final String REDIRECT_URL_ORDER_BADGE_PERSON_DETAILS =
-      "redirect:" + OrderBadgePersonDetailsController.URL;
 
   private ApplicationService applicationService;
-  private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest;
-  private ApplicationToOrderBadgePersonDetailsFormRequest
-      applicationToOrderBadgePersonDetailsFormRequest;
-  private ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest;
 
   @Autowired
-  public ApplicationDetailsController(
-      ApplicationService applicationService,
-      ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequest,
-      ApplicationToOrderBadgePersonDetailsFormRequest
-          applicationToOrderBadgePersonDetailsFormRequest,
-      ApplicationToOrderBadgeProcessingFormRequest applicationToOrderBadgeProcessingFormRequest) {
+  public ApplicationDetailsController(ApplicationService applicationService) {
     this.applicationService = applicationService;
-    this.applicationToOrderBadgeIndexFormRequest = applicationToOrderBadgeIndexFormRequest;
-    this.applicationToOrderBadgePersonDetailsFormRequest =
-        applicationToOrderBadgePersonDetailsFormRequest;
-    this.applicationToOrderBadgeProcessingFormRequest =
-        applicationToOrderBadgeProcessingFormRequest;
   }
 
   @GetMapping()
@@ -72,26 +49,9 @@ public class ApplicationDetailsController {
 
   @PostMapping()
   public String orderABadgeForApplication(
-      @PathVariable(PARAM_UUID) UUID uuid, HttpSession session) {
-    Application application = applicationService.retrieve(uuid.toString());
-    // Get photo
-
-    OrderBadgeIndexFormRequest orderBadgeIndexFormRequest =
-        applicationToOrderBadgeIndexFormRequest.convert(application);
-    session.setAttribute(
-        OrderBadgeIndexController.SESSION_FORM_REQUEST, orderBadgeIndexFormRequest);
-
-    session.setAttribute(
-        OrderBadgeBaseDetailsController.SESSION_FORM_REQUEST,
-        applicationToOrderBadgePersonDetailsFormRequest.convert(application));
-
-    OrderBadgeProcessingFormRequest orderBadgeProcessingFormRequest =
-        applicationToOrderBadgeProcessingFormRequest.convert(application);
-    orderBadgeProcessingFormRequest.setApplicationChannel("ONLINE");
-    session.setAttribute(
-        OrderBadgeProcessingController.SESSION_FORM_REQUEST, orderBadgeProcessingFormRequest);
-
-    return REDIRECT_URL_ORDER_BADGE_PERSON_DETAILS;
+      @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
+    ra.addAttribute("applicationId", uuid);
+    return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
   }
 
   @DeleteMapping()

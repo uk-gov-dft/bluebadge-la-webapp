@@ -4,9 +4,12 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.utils.TemplateModelUtils
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,12 @@ public class SignInController {
       HttpServletRequest request,
       @SessionAttribute(name = "SPRING_SECURITY_LAST_EXCEPTION", required = false)
           AuthenticationException signInException) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (null != auth && !(auth instanceof AnonymousAuthenticationToken)) {
+      return "redirect:" + HomeController.URL;
+    }
+
     model.addAttribute("formRequest", new SignInForm());
 
     if (null != request.getParameter("error") && null != signInException) {

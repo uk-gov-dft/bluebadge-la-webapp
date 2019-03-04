@@ -22,7 +22,8 @@
 
 		<div class="dft-grid-row">
 			<div class="dft-grid-col">
-				<form th:action="@{/order-a-badge/}" th:object="${formRequest}" method="post" novalidate>
+				<form th:action="@{/order-a-badge}" th:object="${formRequest}" method="post" novalidate>
+					<input type="hidden" th:field="*{flowId}"/>
 
 					<div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked(#{orderbadge.index.h2.applicantType}, 'applicantType', null, ${applicantTypeOptions}) }"/>
 					<input th:value="#{common.button.continue}" type="submit" data-uipath="continue" class="govuk-button">

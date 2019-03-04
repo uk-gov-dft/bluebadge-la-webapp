@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
@@ -18,10 +20,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Person;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeOrganisationDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgeProcessingFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.OrderBadgeCheckOrderViewModel;
 
 @Slf4j
 public class OrderBadgeTestData {
+  protected static final String FLOW_ID = UUID.randomUUID().toString();
 
   // details
   protected static final String NAME_FIELD = "name";
@@ -31,7 +33,7 @@ public class OrderBadgeTestData {
   protected static final String DOB_FIELD = "dob";
   protected static final String BUILDING_AND_STREET_FIELD = "buildingAndStreet";
   protected static final String TOWN_OR_CITY_FIELD = "townOrCity";
-  protected static final String POSTCODE_FIED = "postcode";
+  protected static final String POSTCODE_FIELD = "postcode";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER_FIELD =
       "contactDetailsContactNumber";
   protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD =
@@ -69,14 +71,14 @@ public class OrderBadgeTestData {
   protected static final MockMultipartFile EMPTY_PHOTO =
       new MockMultipartFile("photo", "", "", "".getBytes());
 
-  protected static final String NAME_WRONG = "  My Na me 2";
+  protected static final String NAME_WRONG = "     ";
   protected static final String DOB_DAY_WRONG = "32";
   protected static final String DOB_MONTH_WRONG = "13";
   protected static final String DOB_YEAR_WRONG = "2100";
-  protected static final String DOB_WRONG = "";
+  protected static final String DOB_WRONG = LocalDate.now().plusYears(2).toString();
   protected static final String NINO_WRONG = "BN10296";
-  protected static final String BUILDING_AND_STREET_WRONG = "";
-  protected static final String TOWN_OR_CITY_WRONG = "";
+  protected static final String BUILDING_AND_STREET_WRONG = "   ";
+  protected static final String TOWN_OR_CITY_WRONG = "   ";
   protected static final String POSTCODE_WRONG = "TF8 ";
   protected static final String CONTACT_DETAILS_NAME_WRONG = "   mu name 2";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER_WRONG = "07700900";
@@ -88,6 +90,12 @@ public class OrderBadgeTestData {
 
   protected static final MockMultipartFile PHOTO_CONTENT_WRONG =
       new MockMultipartFile("photo", "file.jpg", "image/jpeg", "pdfData".getBytes());
+
+  protected static final String BUILDING_AND_STREET_OVERSIZE =
+      RandomStringUtils.randomAlphanumeric(51);
+  protected static final String OPTIONAL_ADDRESS_FIELD_OVERSIZE =
+      RandomStringUtils.randomAlphanumeric(41);
+  protected static final String TOWN_OR_CITY_OVERSIZE = RandomStringUtils.randomAlphanumeric(41);
 
   public static MockMultipartFile PHOTO() {
     try {
@@ -158,6 +166,7 @@ public class OrderBadgeTestData {
 
   protected static final OrderBadgePersonDetailsFormRequest FORM_REQUEST_PERSON_DETAILS =
       OrderBadgePersonDetailsFormRequest.builder()
+          .flowId(FLOW_ID)
           .buildingAndStreet(BUILDING_AND_STREET)
           .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
           .contactDetailsName(CONTACT_DETAILS_NAME)
@@ -180,6 +189,7 @@ public class OrderBadgeTestData {
   protected static final OrderBadgeOrganisationDetailsFormRequest
       FORM_REQUEST_ORGANISATION_DETAILS =
           OrderBadgeOrganisationDetailsFormRequest.builder()
+              .flowId(FLOW_ID)
               .buildingAndStreet(BUILDING_AND_STREET)
               .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
               .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
@@ -193,6 +203,7 @@ public class OrderBadgeTestData {
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_PERSON_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()
+          .flowId(FLOW_ID)
           .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
           .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
@@ -211,6 +222,7 @@ public class OrderBadgeTestData {
 
   protected static final OrderBadgeProcessingFormRequest FORM_REQUEST_ORGANISATION_PROCESSING =
       OrderBadgeProcessingFormRequest.builder()
+          .flowId(FLOW_ID)
           .applicationChannel(APPLICATION_CHANNEL_SHORTCODE)
           .applicationDateDay(Integer.valueOf(APPLICATION_DATE_DAY))
           .applicationDateMonth(Integer.valueOf(APPLICATION_DATE_MONTH))
@@ -319,23 +331,4 @@ public class OrderBadgeTestData {
       String.valueOf(NUMBER_OF_BADGES_PERSON);
   private static final String NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL =
       String.valueOf(NUMBER_OF_BADGES_ORGANISATION);
-
-  protected static final OrderBadgeCheckOrderViewModel CHECK_ORDER_ORGANISATION_VIEW_MODEL =
-      OrderBadgeCheckOrderViewModel.builder()
-          .deliveryOptions(DELIVERY_OPTIONS)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .applicationDate(VIEW_MODEL_APPLICATION_DATE)
-          .applicationChannel(APPLICATION_CHANNEL)
-          .deliverTo(DELIVER_TO)
-          .badgeStartDate(VIEW_MODEL_BADGE_START_DATE)
-          .badgeExpiryDate(VIEW_MODEL_BADGE_EXPIRY_DATE)
-          .localAuthorityReference(LOCAL_AUTHORITY_REFERENCE_NUMBER)
-          .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-          .contactFullName(CONTACT_DETAILS_NAME)
-          .contactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .secondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
-          .fullName(NAME)
-          .address(VIEW_MODEL_ADDRESS)
-          .numberOfBadges(NUMBER_OF_BADGES_ORGANISATION_VIEW_MODEL)
-          .build();
 }
