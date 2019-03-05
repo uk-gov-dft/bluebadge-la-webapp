@@ -10,12 +10,11 @@
 <body>
 
 <main layout:fragment="content">
-
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--two-thirds">
             <h1 class="govuk-heading-l" data-uipath="title" th:text="#{localAuthorityDetailPage.title}"/>
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" ></div>
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"></div>
         </div>
     </div>
 
