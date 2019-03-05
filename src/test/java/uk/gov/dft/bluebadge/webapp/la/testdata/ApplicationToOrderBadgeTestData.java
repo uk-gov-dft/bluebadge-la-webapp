@@ -72,28 +72,30 @@ public class ApplicationToOrderBadgeTestData extends OrderBadgeTestData {
   }
 
   // FORM REQUESTS
-  public static final OrderBadgeIndexFormRequest APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST =
-      OrderBadgeIndexFormRequest.builder()
-          .applicantType(PartyTypeCodeField.PERSON.toString().toLowerCase())
-          .build();
+  public static final OrderBadgeIndexFormRequest getApplicationToOrderBadgeIndexFormRequest() {
+    return OrderBadgeIndexFormRequest.builder()
+        .applicantType(PartyTypeCodeField.PERSON.toString().toLowerCase())
+        .build();
+  }
 
-  public static final OrderBadgePersonDetailsFormRequest
-      APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST =
-          OrderBadgePersonDetailsFormRequest.builder()
-              .name(NAME)
-              .nino(NINO)
-              .gender(GENDER_SHORTCODE)
-              .eligibility(ELIGIBILITY_SHORTCODE)
-              .dobDay(Integer.parseInt(DOB_DAY))
-              .dobMonth(Integer.parseInt(DOB_MONTH))
-              .dobYear(Integer.parseInt(DOB_YEAR))
-              .buildingAndStreet(BUILDING_AND_STREET)
-              .postcode(POSTCODE)
-              .townOrCity(TOWN_OR_CITY)
-              .contactDetailsName(NAME)
-              .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-              .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
-              .build();
+  public static OrderBadgePersonDetailsFormRequest
+      getApplicationToOrderBadgePersonDetailsFormRequest() {
+    return OrderBadgePersonDetailsFormRequest.builder()
+        .name(NAME)
+        .nino(NINO)
+        .gender(GENDER_SHORTCODE)
+        .eligibility(ELIGIBILITY_SHORTCODE)
+        .dobDay(Integer.parseInt(DOB_DAY))
+        .dobMonth(Integer.parseInt(DOB_MONTH))
+        .dobYear(Integer.parseInt(DOB_YEAR))
+        .buildingAndStreet(BUILDING_AND_STREET)
+        .postcode(POSTCODE)
+        .townOrCity(TOWN_OR_CITY)
+        .contactDetailsName(NAME)
+        .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+        .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
+        .build();
+  }
 
   public static final OrderBadgeProcessingFormRequest
       APPLICATION_TO_ORDER_BADGE_PROCESSING_FORM_REQUEST =

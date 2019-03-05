@@ -7,9 +7,10 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.validation.annotation.Validated;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 
 /** LocalAuthority */
 @Validated
@@ -48,7 +49,7 @@ public class LocalAuthority implements Serializable {
   private String country = null;
 
   @JsonProperty("nation")
-  private String nation = null;
+  private Nation nation = null;
 
   @JsonProperty("contactNumber")
   private String contactNumber = null;
@@ -283,7 +284,7 @@ public class LocalAuthority implements Serializable {
     this.country = country;
   }
 
-  public LocalAuthority nation(String nation) {
+  public LocalAuthority nation(Nation nation) {
     this.nation = nation;
     return this;
   }
@@ -294,13 +295,12 @@ public class LocalAuthority implements Serializable {
    * @return nation
    */
   @ApiModelProperty(example = "ENG", required = true, value = "ENG, WLS, SCO or NIR")
-  @NotBlank
-  @Pattern(regexp = "^(\\s*|ENG|SCO|WLS|NIR)$")
-  public String getNation() {
+  @NotNull
+  public Nation getNation() {
     return nation;
   }
 
-  public void setNation(String nation) {
+  public void setNation(Nation nation) {
     this.nation = nation;
   }
 

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 
 @Data
 @ToString(callSuper = true)

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
@@ -25,9 +26,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.Loca
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
+import uk.gov.dft.bluebadge.webapp.la.controller.utils.Options;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
-import uk.gov.dft.bluebadge.webapp.la.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -105,27 +106,7 @@ public class LocalAuthorityDetailsController {
 
   @ModelAttribute("nationOptions")
   public List<ReferenceData> nationOptions() {
-    ReferenceData englandOption =
-        ReferenceData.builder()
-            .description(Nation.ENG.getCode())
-            .shortCode(Nation.ENG.name())
-            .build();
-    ReferenceData walesOption =
-        ReferenceData.builder()
-            .description(Nation.WLS.getCode())
-            .shortCode(Nation.WLS.name())
-            .build();
-    ReferenceData scotlandOption =
-        ReferenceData.builder()
-            .description(Nation.SCO.getCode())
-            .shortCode(Nation.SCO.name())
-            .build();
-    ReferenceData northernIrelandOption =
-        ReferenceData.builder()
-            .description(Nation.NIR.getCode())
-            .shortCode(Nation.NIR.name())
-            .build();
-    return Lists.newArrayList(englandOption, walesOption, scotlandOption, northernIrelandOption);
+    return Options.optionsFromEnum("NATION", Nation.class);
   }
 
   @PostMapping(URL)

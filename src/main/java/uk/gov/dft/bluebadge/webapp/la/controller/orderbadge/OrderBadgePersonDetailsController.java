@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import uk.gov.dft.bluebadge.common.service.EligibilityService;
 import uk.gov.dft.bluebadge.common.service.ImageProcessingUtils;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.config.GeneralConfig;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.orderbadge.OrderBadgePersonDetailsFormRequest;
@@ -134,10 +136,15 @@ public class OrderBadgePersonDetailsController extends OrderBadgeBaseController 
 
   @ModelAttribute("eligibilityOptions")
   public Map<String, List<ReferenceData>> eligibilities() {
+    LocalAuthorityRefData la = referenceDataService.getUserLocalAuthority();
     return new TreeMap<>(
         referenceDataService
             .retrieveBadgeEligilities()
             .stream()
+            .filter(
+                r ->
+                    EligibilityService.eligibilityValidForNation(
+                        r.getShortCode(), la.getNation().name()))
             .collect(
                 Collectors.groupingBy(
                     ref ->

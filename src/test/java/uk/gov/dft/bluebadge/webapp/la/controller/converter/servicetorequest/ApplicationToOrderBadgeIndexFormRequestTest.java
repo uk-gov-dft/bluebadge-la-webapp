@@ -19,6 +19,6 @@ public class ApplicationToOrderBadgeIndexFormRequestTest extends ApplicationToOr
   @Test
   public void convert_shouldWork() {
     OrderBadgeIndexFormRequest formRequest = converter.convert(getApplication());
-    assertThat(formRequest).isEqualTo(APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
+    assertThat(formRequest).isEqualTo(getApplicationToOrderBadgeIndexFormRequest());
   }
 }
