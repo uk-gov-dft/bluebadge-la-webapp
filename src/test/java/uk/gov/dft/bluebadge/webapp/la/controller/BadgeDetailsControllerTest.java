@@ -66,6 +66,8 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
     Party party = new Party();
     party.setTypeCode(BadgePartyTypeEnum.PERSON.getCode());
     badge.setParty(party);
+    badge.setStartDate(LocalDate.now().minusDays(10));
+    badge.setExpiryDate(LocalDate.now().plusDays(1));
 
     when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
     when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
@@ -73,7 +75,30 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
-        .andExpect(model().attribute("badge", badgeViewModel));
+        .andExpect(model().attribute("badge", badgeViewModel))
+        .andExpect(model().attribute("canBeReplaced", true))
+        .andExpect(model().attribute("canBeCancelled", true));
+  }
+
+  @Test
+  public void
+      show_shouldDisplayBadgeDetailsForPersonWithoutCancelAndReplaceOption_WhenBadgeIsExpired()
+          throws Exception {
+    Party party = new Party();
+    party.setTypeCode(BadgePartyTypeEnum.PERSON.getCode());
+    badge.setParty(party);
+    badge.setStartDate(LocalDate.now().minusDays(10));
+    badge.setExpiryDate(LocalDate.now().minusDays(5));
+
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
+    when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
+    mockMvc
+        .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
+        .andExpect(status().isOk())
+        .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
+        .andExpect(model().attribute("badge", badgeViewModel))
+        .andExpect(model().attribute("canBeReplaced", false))
+        .andExpect(model().attribute("canBeCancelled", false));
   }
 
   @Test
