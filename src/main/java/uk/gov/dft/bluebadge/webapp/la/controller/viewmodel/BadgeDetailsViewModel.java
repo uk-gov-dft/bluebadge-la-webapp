@@ -29,4 +29,7 @@ public class BadgeDetailsViewModel implements LocalAuthorityControlled, Serializ
   private String localAuthorityReference;
   private String applicationDate;
   private String applicationChannel;
+  private String orderDate;
+  private String issuedDate;
+  private String rejectedReason;
 }
