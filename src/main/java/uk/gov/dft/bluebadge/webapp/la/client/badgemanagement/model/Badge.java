@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.dft.bluebadge.common.util.ValidationPattern;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.Status;
@@ -39,8 +40,8 @@ public class Badge {
   @JsonProperty("issuedDate")
   private LocalDateTime issuedDate = null;
 
-  @JsonProperty("sentToPrinterDate")
-  private LocalDateTime sentToPrinterDate = null;
+  @JsonProperty("printDate")
+  private LocalDateTime printDate = null;
 
   @JsonProperty("startDate")
   private LocalDate startDate = null;
@@ -224,23 +225,23 @@ public class Badge {
   /**
    * The date that the batch corresponding to this badge was sent to printer.
    *
-   * @return sentToPrinterDate
+   * @return printDate
    */
   @ApiModelProperty(
     example = "2018-07-07",
     value = "The date that the batch that contains the badge was sent to printer."
   )
   @Valid
-  public LocalDateTime getSentToPrinterDate() {
-    return sentToPrinterDate;
+  public LocalDateTime getPrintDate() {
+    return printDate;
   }
 
-  public void setSentToPrinterDate(LocalDateTime sentToPrinterDate) {
-    this.sentToPrinterDate = sentToPrinterDate;
+  public void setPrintDate(LocalDateTime printDate) {
+    this.printDate = printDate;
   }
 
-  public Badge sentToPrinterDate(LocalDateTime sentToPrinterDate) {
-    this.sentToPrinterDate = sentToPrinterDate;
+  public Badge printDate(LocalDateTime printDate) {
+    this.printDate = printDate;
     return this;
   }
 
@@ -439,7 +440,7 @@ public class Badge {
   }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -447,23 +448,23 @@ public class Badge {
       return false;
     }
     Badge badge = (Badge) o;
-    return Objects.equals(this.badgeNumber, badge.badgeNumber)
-        && Objects.equals(this.party, badge.party)
-        && Objects.equals(this.localAuthorityShortCode, badge.localAuthorityShortCode)
-        && Objects.equals(this.localAuthorityRef, badge.localAuthorityRef)
-        && Objects.equals(this.applicationDate, badge.applicationDate)
-        && Objects.equals(this.applicationChannelCode, badge.applicationChannelCode)
-        && Objects.equals(this.orderDate, badge.orderDate)
-        && Objects.equals(this.issuedDate, badge.issuedDate)
-        && Objects.equals(this.sentToPrinterDate, badge.sentToPrinterDate)
-        && Objects.equals(this.startDate, badge.startDate)
-        && Objects.equals(this.expiryDate, badge.expiryDate)
-        && Objects.equals(this.eligibilityCode, badge.eligibilityCode)
-        && Objects.equals(this.imageLink, badge.imageLink)
-        && Objects.equals(this.cancelReasonCode, badge.cancelReasonCode)
-        && Objects.equals(this.replaceReasonCode, badge.replaceReasonCode)
-        && Objects.equals(this.rejectedReason, badge.rejectedReason)
-        && Objects.equals(this.statusCode, badge.statusCode);
+    return Objects.equals(badgeNumber, badge.badgeNumber)
+        && Objects.equals(party, badge.party)
+        && Objects.equals(localAuthorityShortCode, badge.localAuthorityShortCode)
+        && Objects.equals(localAuthorityRef, badge.localAuthorityRef)
+        && Objects.equals(applicationDate, badge.applicationDate)
+        && Objects.equals(applicationChannelCode, badge.applicationChannelCode)
+        && Objects.equals(orderDate, badge.orderDate)
+        && Objects.equals(issuedDate, badge.issuedDate)
+        && Objects.equals(printDate, badge.printDate)
+        && Objects.equals(startDate, badge.startDate)
+        && Objects.equals(expiryDate, badge.expiryDate)
+        && Objects.equals(eligibilityCode, badge.eligibilityCode)
+        && Objects.equals(imageLink, badge.imageLink)
+        && Objects.equals(cancelReasonCode, badge.cancelReasonCode)
+        && Objects.equals(replaceReasonCode, badge.replaceReasonCode)
+        && Objects.equals(rejectedReason, badge.rejectedReason)
+        && Objects.equals(statusCode, badge.statusCode);
   }
 
   @Override
@@ -477,7 +478,7 @@ public class Badge {
         applicationChannelCode,
         orderDate,
         issuedDate,
-        sentToPrinterDate,
+        printDate,
         startDate,
         expiryDate,
         eligibilityCode,
@@ -490,42 +491,25 @@ public class Badge {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Badge {\n");
-
-    sb.append("    badgeNumber: ").append(toIndentedString(badgeNumber)).append("\n");
-    sb.append("    party: ").append(toIndentedString(party)).append("\n");
-    sb.append("    localAuthorityShortCode: ")
-        .append(toIndentedString(localAuthorityShortCode))
-        .append("\n");
-    sb.append("    localAuthorityRef: ").append(toIndentedString(localAuthorityRef)).append("\n");
-    sb.append("    applicationDate: ").append(toIndentedString(applicationDate)).append("\n");
-    sb.append("    applicationChannelCode: ")
-        .append(toIndentedString(applicationChannelCode))
-        .append("\n");
-    sb.append("    orderDate: ").append(toIndentedString(orderDate)).append("\n");
-    sb.append("    issuedDate: ").append(toIndentedString(issuedDate)).append("\n");
-    sb.append("    sentToPrinterDate: ").append(toIndentedString(sentToPrinterDate)).append("\n");
-    sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
-    sb.append("    expiryDate: ").append(toIndentedString(expiryDate)).append("\n");
-    sb.append("    eligibilityCode: ").append(toIndentedString(eligibilityCode)).append("\n");
-    sb.append("    imageLink: ").append(toIndentedString(imageLink)).append("\n");
-    sb.append("    cancelReasonCode: ").append(toIndentedString(cancelReasonCode)).append("\n");
-    sb.append("    replaceReasonCode: ").append(toIndentedString(replaceReasonCode)).append("\n");
-    sb.append("    rejectedReason: ").append(toIndentedString(rejectedReason)).append("\n");
-    sb.append("    statusCode: ").append(toIndentedString(statusCode)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return new ToStringBuilder(this)
+        .append("badgeNumber", badgeNumber)
+        .append("party", party)
+        .append("localAuthorityShortCode", localAuthorityShortCode)
+        .append("localAuthorityRef", localAuthorityRef)
+        .append("applicationDate", applicationDate)
+        .append("applicationChannelCode", applicationChannelCode)
+        .append("orderDate", orderDate)
+        .append("issuedDate", issuedDate)
+        .append("printDate", printDate)
+        .append("startDate", startDate)
+        .append("expiryDate", expiryDate)
+        .append("eligibilityCode", eligibilityCode)
+        .append("imageLink", imageLink)
+        .append("cancelReasonCode", cancelReasonCode)
+        .append("replaceReasonCode", replaceReasonCode)
+        .append("rejectedReason", rejectedReason)
+        .append("statusCode", statusCode)
+        .toString();
   }
 
   public boolean canBeReplaced() {
