@@ -2,15 +2,16 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.dft.bluebadge.common.util.ValidationPattern;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.Status;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /** Badge */
 @Validated
@@ -136,9 +137,9 @@ public class Badge {
    * @return localAuthorityRef
    */
   @ApiModelProperty(
-    example = "YOURREF",
-    value = "A reference to enable local authorities to link this badge to records in other systems"
-  )
+      example = "YOURREF",
+      value =
+          "A reference to enable local authorities to link this badge to records in other systems")
   public String getLocalAuthorityRef() {
     return localAuthorityRef;
   }
@@ -158,9 +159,8 @@ public class Badge {
    * @return applicationDate
    */
   @ApiModelProperty(
-    example = "2017-07-21",
-    value = "The date that the initial application was received by the issuing local authority."
-  )
+      example = "2017-07-21",
+      value = "The date that the initial application was received by the issuing local authority.")
   @Valid
   public LocalDate getApplicationDate() {
     return applicationDate;
@@ -181,10 +181,9 @@ public class Badge {
    * @return applicationChannelCode
    */
   @ApiModelProperty(
-    example = "INPERSON",
-    value =
-        "A short code from the APPSOURCE group of reference data e.g. ONLINE, PAPER, PHONE or INPERSON."
-  )
+      example = "INPERSON",
+      value =
+          "A short code from the APPSOURCE group of reference data e.g. ONLINE, PAPER, PHONE or INPERSON.")
   public String getApplicationChannelCode() {
     return applicationChannelCode;
   }
@@ -204,9 +203,8 @@ public class Badge {
    * @return orderDate
    */
   @ApiModelProperty(
-    example = "2018-07-07",
-    value = "The date that the badge was issued by the issuing local authority."
-  )
+      example = "2018-07-07",
+      value = "The date that the badge was issued by the issuing local authority.")
   @Valid
   public LocalDateTime getIssuedDate() {
     return issuedDate;
@@ -227,9 +225,8 @@ public class Badge {
    * @return printDate
    */
   @ApiModelProperty(
-    example = "2018-07-07",
-    value = "The date that the batch that contains the badge was sent to printer."
-  )
+      example = "2018-07-07",
+      value = "The date that the batch that contains the badge was sent to printer.")
   @Valid
   public LocalDateTime getPrintDate() {
     return printDate;
@@ -250,9 +247,8 @@ public class Badge {
    * @return orderDate
    */
   @ApiModelProperty(
-    example = "2018-07-07",
-    value = "The date that the badge was ordered by the issuing local authority."
-  )
+      example = "2018-07-07",
+      value = "The date that the badge was ordered by the issuing local authority.")
   @Valid
   public LocalDate getOrderDate() {
     return orderDate;
@@ -313,9 +309,8 @@ public class Badge {
    * @return eligibilityCode
    */
   @ApiModelProperty(
-    example = "WALKD",
-    value = "A short code from the ELIGIBILIT group of reference data."
-  )
+      example = "WALKD",
+      value = "A short code from the ELIGIBILIT group of reference data.")
   @Size(max = 10)
   public String getEligibilityCode() {
     return eligibilityCode;
@@ -356,9 +351,8 @@ public class Badge {
    * @return cancelReasonCode
    */
   @ApiModelProperty(
-    example = "NOLONG",
-    value = "A short code from the CANCEL group of reference data."
-  )
+      example = "NOLONG",
+      value = "A short code from the CANCEL group of reference data.")
   @Size(max = 10)
   public String getCancelReasonCode() {
     return cancelReasonCode;
@@ -379,9 +373,8 @@ public class Badge {
    * @return replaceReasonCode
    */
   @ApiModelProperty(
-    example = "STOLE",
-    value = "A short code from the REPLACE group of reference data."
-  )
+      example = "STOLE",
+      value = "A short code from the REPLACE group of reference data.")
   @Size(max = 10)
   public String getReplaceReasonCode() {
     return replaceReasonCode;
@@ -402,9 +395,8 @@ public class Badge {
    * @return replaceReasonCode
    */
   @ApiModelProperty(
-    example = "TODO: STOLE",
-    value = "TODO: A short code from the REPLACE group of reference data."
-  )
+      example = "TODO: STOLE",
+      value = "TODO: A short code from the REPLACE group of reference data.")
   @Size(max = 10)
   public String getRejectedReason() {
     return rejectedReason;
@@ -426,10 +418,9 @@ public class Badge {
    * @return statusCode
    */
   @ApiModelProperty(
-    example = "CANCELLED",
-    value =
-        "A short code from the STATUS group of reference data. The current status of the badge e.g. ACTIVE, EXPIRED, CANCELLED."
-  )
+      example = "CANCELLED",
+      value =
+          "A short code from the STATUS group of reference data. The current status of the badge e.g. ACTIVE, EXPIRED, CANCELLED.")
   public String getStatusCode() {
     return statusCode;
   }
