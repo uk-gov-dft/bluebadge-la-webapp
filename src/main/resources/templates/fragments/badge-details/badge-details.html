@@ -12,7 +12,7 @@
 
         <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.status}"/>
-            <dd class="dft-data-list__dd" th:text="${badge.status}" />
+            <dd class="dft-data-list__dd" th:text="${badge.status == 'Rejected'}  ? ${badge.status} + '[' + ${badge.rejectedReason} + ']': ${badge.status}" />
         </div>
 
         <div class="dft-data-list__item">
@@ -52,7 +52,7 @@
             <dd class="dft-data-list__dd">
                 <dl class="dft-data-list dft-data-list--nested">
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"></dt>
-                    <dd class="dft-data-list__dd" th:text="${badge.applicationDate}></dd>
+                    <dd class="dft-data-list__dd" th:text="${badge.applicationDate}"></dd>
 
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.orderDate}"></dt>
                     <dd class="dft-data-list__dd" th:text="${badge.orderDate}"></dd>
@@ -60,11 +60,6 @@
                     <div th:if="${badge.issuedDate}" th:remove="tag">
                         <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.issuedDate}"></dt>
                         <dd class="dft-data-list__dd" th:text="${badge.issuedDate}"></dd>
-                    </div>
-
-                    <div th:if="${badge.rejectedReason}" th:remove="tag">
-                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.rejectedReason}"></dt>
-                        <dd class="dft-data-list__dd" th:text="${badge.rejectedReason}"></dd>
                     </div>
                 </dl>
             </dd>
