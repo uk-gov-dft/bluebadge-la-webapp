@@ -439,7 +439,7 @@ public class Badge {
   }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -447,23 +447,23 @@ public class Badge {
       return false;
     }
     Badge badge = (Badge) o;
-    return Objects.equals(this.badgeNumber, badge.badgeNumber)
-        && Objects.equals(this.party, badge.party)
-        && Objects.equals(this.localAuthorityShortCode, badge.localAuthorityShortCode)
-        && Objects.equals(this.localAuthorityRef, badge.localAuthorityRef)
-        && Objects.equals(this.applicationDate, badge.applicationDate)
-        && Objects.equals(this.applicationChannelCode, badge.applicationChannelCode)
-        && Objects.equals(this.orderDate, badge.orderDate)
-        && Objects.equals(this.issuedDate, badge.issuedDate)
-        && Objects.equals(this.printDate, badge.printDate)
-        && Objects.equals(this.startDate, badge.startDate)
-        && Objects.equals(this.expiryDate, badge.expiryDate)
-        && Objects.equals(this.eligibilityCode, badge.eligibilityCode)
-        && Objects.equals(this.imageLink, badge.imageLink)
-        && Objects.equals(this.cancelReasonCode, badge.cancelReasonCode)
-        && Objects.equals(this.replaceReasonCode, badge.replaceReasonCode)
-        && Objects.equals(this.rejectedReason, badge.rejectedReason)
-        && Objects.equals(this.statusCode, badge.statusCode);
+    return Objects.equals(badgeNumber, badge.badgeNumber)
+        && Objects.equals(party, badge.party)
+        && Objects.equals(localAuthorityShortCode, badge.localAuthorityShortCode)
+        && Objects.equals(localAuthorityRef, badge.localAuthorityRef)
+        && Objects.equals(applicationDate, badge.applicationDate)
+        && Objects.equals(applicationChannelCode, badge.applicationChannelCode)
+        && Objects.equals(orderDate, badge.orderDate)
+        && Objects.equals(issuedDate, badge.issuedDate)
+        && Objects.equals(printDate, badge.printDate)
+        && Objects.equals(startDate, badge.startDate)
+        && Objects.equals(expiryDate, badge.expiryDate)
+        && Objects.equals(eligibilityCode, badge.eligibilityCode)
+        && Objects.equals(imageLink, badge.imageLink)
+        && Objects.equals(cancelReasonCode, badge.cancelReasonCode)
+        && Objects.equals(replaceReasonCode, badge.replaceReasonCode)
+        && Objects.equals(rejectedReason, badge.rejectedReason)
+        && Objects.equals(statusCode, badge.statusCode);
   }
 
   @Override
@@ -490,35 +490,52 @@ public class Badge {
 
   @Override
   public String toString() {
-    return "Badge{" +
-      "badgeNumber='" + badgeNumber + '\'' +
-      ", party=" + party +
-      ", localAuthorityShortCode='" + localAuthorityShortCode + '\'' +
-      ", localAuthorityRef='" + localAuthorityRef + '\'' +
-      ", applicationDate=" + applicationDate +
-      ", applicationChannelCode='" + applicationChannelCode + '\'' +
-      ", orderDate=" + orderDate +
-      ", issuedDate=" + issuedDate +
-      ", printDate=" + printDate +
-      ", startDate=" + startDate +
-      ", expiryDate=" + expiryDate +
-      ", eligibilityCode='" + eligibilityCode + '\'' +
-      ", imageLink='" + imageLink + '\'' +
-      ", cancelReasonCode='" + cancelReasonCode + '\'' +
-      ", replaceReasonCode='" + replaceReasonCode + '\'' +
-      ", rejectedReason='" + rejectedReason + '\'' +
-      ", statusCode='" + statusCode + '\'' +
-      '}';
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return "Badge{"
+        + "badgeNumber='"
+        + badgeNumber
+        + '\''
+        + ", party="
+        + party
+        + ", localAuthorityShortCode='"
+        + localAuthorityShortCode
+        + '\''
+        + ", localAuthorityRef='"
+        + localAuthorityRef
+        + '\''
+        + ", applicationDate="
+        + applicationDate
+        + ", applicationChannelCode='"
+        + applicationChannelCode
+        + '\''
+        + ", orderDate="
+        + orderDate
+        + ", issuedDate="
+        + issuedDate
+        + ", printDate="
+        + printDate
+        + ", startDate="
+        + startDate
+        + ", expiryDate="
+        + expiryDate
+        + ", eligibilityCode='"
+        + eligibilityCode
+        + '\''
+        + ", imageLink='"
+        + imageLink
+        + '\''
+        + ", cancelReasonCode='"
+        + cancelReasonCode
+        + '\''
+        + ", replaceReasonCode='"
+        + replaceReasonCode
+        + '\''
+        + ", rejectedReason='"
+        + rejectedReason
+        + '\''
+        + ", statusCode='"
+        + statusCode
+        + '\''
+        + '}';
   }
 
   public boolean canBeReplaced() {
