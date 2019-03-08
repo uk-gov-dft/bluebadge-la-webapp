@@ -46,20 +46,29 @@
             <dd class="dft-data-list__dd" th:text="${badge.applicationChannel}"/>
         </div>
 
-        <dd class="dft-data-list__item">
+        <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationProcessing}"/>
+
             <dd class="dft-data-list__dd">
-                <p th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"/>
-                <p th:text="${badge.applicationDate}"/>
-                <p th:text="#{orderbadge.checkorder.label.orderDate}"/>
-                <p th:text="${badge.orderDate}"/>
-                <p th:if="${badge.issuedDate}" class="govuk-!-font-weight-bold" th:text="#{orderbadge.checkorder.label.issuedDate}"/>
-                <p th:if="${badge.issuedDate}" th:text="${badge.issuedDate}"/>
-                <p th:if="${badge.rejectedReason}" class="govuk-!-font-weight-bold" th:text="#{orderbadge.checkorder.label.rejectedReason}"/>
-                <p th:if="${badge.rejectedReason}" th:text="${badge.rejectedReason}"/>
+                <dl class="dft-data-list dft-data-list--nested">
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"></dt>
+                    <dd class="dft-data-list__dd" th:text="${badge.applicationDate}></dd>
+
+                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.orderDate}"></dt>
+                    <dd class="dft-data-list__dd" th:text="${badge.orderDate}"></dd>
+
+                    <div th:if="${badge.issuedDate}" th:remove="tag">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.issuedDate}"></dt>
+                        <dd class="dft-data-list__dd" th:text="${badge.issuedDate}"></dd>
+                    </div>
+
+                    <div th:if="${badge.rejectedReason}" th:remove="tag">
+                        <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.rejectedReason}"></dt>
+                        <dd class="dft-data-list__dd" th:text="${badge.rejectedReason}"></dd>
+                    </div>
+                </dl>
             </dd>
         </div>
-
     </dl>
 </article>
 
