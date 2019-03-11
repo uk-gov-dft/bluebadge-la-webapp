@@ -2,6 +2,7 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{application.details.html.title} + ' ' + #{common.title.suffix}"></title>
@@ -18,15 +19,43 @@
 </div>
 
 <main layout:fragment="content">
-
     <section class="dft-content-container--full">
-
         <header class="dft-content-heading dft-content-heading--with-cta">
             <h1 class="govuk-heading-l" data-uipath="title">
                 <!-- <span class="govuk-caption-m" th:text="${app.applicationId}"></span> -->
                 <span th:remove="tag" th:text="#{application.details.title}"></span>
             </h1>
         </header>
+
+        <div class="dft-check-answers">
+            <div class="dft-check-answers__heading">
+                <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="applicationStatus.title"
+                    th:text="#{application.details.applicationStatus.title}"></h2>
+                &nbsp;&nbsp;<strong th:if="${app.applicationStatus != null}" class="govuk-tag govuk-phase-banner__content__tag" data-uipath="currentApplicationStatus" th:text="#{'applicationStatus.APPSTATUS.' + ${app.applicationStatus}}"></strong>
+            </div>
+
+            <div sec:authorize="hasAuthority('PERM_UPDATE_APPLICATION') and @securityUtils.isAuthorisedLACode(#vars.app.localAuthorityCode)" class="cta" th:remove="tag">
+
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text" data-uipath="updateStatusSummary"
+                          th:text="#{application.details.applicationStatus.updateStatusSummaryText}"></span>
+                </summary>
+
+
+                <div class="govuk-details__text">
+                    <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
+                        <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
+
+                        <input data-uipath="updateApplicationStatusButton"
+                               th:value="#{application.details.applicationStatus.updateApplicationStatusButton}" type="submit" class="govuk-button">
+                    </form>
+                </div>
+
+            </details>
+
+            </div>
+        </div>
 
         <div class="dft-check-answers">
             <div class="dft-check-answers__heading">
@@ -97,10 +126,11 @@
                         <dd class="dft-data-list__dd" th:text="${@modelFormatUtils.localDateToDisplay(person.dob)}"
                             data-uipath="person.dob"/>
                     </div>
-                    <div class="dft-data-list__item" th:if="${person.nino}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.party.person.label.nino}"/>
-                        <dd class="dft-data-list__dd" th:text="${person.nino}" data-uipath="person.nino"/>
+                        <dd th:if="${person.nino}" class="dft-data-list__dd" th:text="${person.nino}" data-uipath="person.nino"/>
+                        <dd th:unless="${person.nino}" class="dft-data-list__dd" th:text="#{common.label.notProvided}" data-uipath="person.nino"/>
                     </div>
                 </div>
 
@@ -117,54 +147,76 @@
                             th:text="#{application.details.party.contact.label.contactDetails}"/>
                         <dd class="dft-data-list__dd">
                             <div th:if="${contact.fullName}" th:remove="tag">
-                                <span th:text="${contact.fullName}" th:remove="tag"/><br/>
+                                <span th:text="${contact.fullName}" th:remove="tag"/>
+                                <br/>
                             </div>
+
                             <div th:if="${contact.primaryPhoneNumber}" th:remove="tag">
-                                <span th:text="${contact.primaryPhoneNumber}" th:remove="tag"/><br/>
+                                <span th:if="${contact.primaryPhoneNumber}" th:text="${contact.primaryPhoneNumber}" th:remove="tag"/>
+                                <br/>
                             </div>
-                            <div th:if="${contact.secondaryPhoneNumber}" th:remove="tag">
-                                <span th:text="${contact.secondaryPhoneNumber}" th:remove="tag"/><br/>
-                            </div>
+
+                            <span th:if="${contact.secondaryPhoneNumber}" th:text="${contact.secondaryPhoneNumber}" th:remove="tag"/>
+                            <span th:unless="${contact.secondaryPhoneNumber}" th:text="'Secondary contact number not provided'" th:remove="tag"/>
+                            <br/>
+
                             <span th:if="${contact.emailAddress}" th:text="${contact.emailAddress}"
+                                  th:remove="tag"/>
+                            <span th:unless="${contact.emailAddress}" th:text="'Email address not provided'"
                                   th:remove="tag"/>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${!app.proofOfIdentityArtifacts.empty}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfIdentity}"/>
                         <dd class="dft-data-list__dd">
-                            <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
-                                <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
-                                    <a th:href="${artifact.link}" target="_blank"
-                                       th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
-                                </li>
-                            </ul>
+                            <div th:if="${!app.proofOfIdentityArtifacts.empty}" th:remove="tag">
+                                <ul th:if="${app.proofOfIdentityArtifacts}" class="govuk-list">
+                                    <li th:each="artifact,iterStat: ${app.proofOfIdentityArtifacts}">
+                                        <a th:href="${artifact.link}" target="_blank"
+                                           th:text="#{application.details.artifacts.label.proofOfIdentity} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:unless="${!app.proofOfIdentityArtifacts.empty}" th:remove="tag">
+                                [[#{common.label.notProvided}]]
+                            </div>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${!app.proofOfAddressArtifacts.empty}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.proofOfAddress}"/>
                         <dd class="dft-data-list__dd">
-                            <ul th:if="${app.proofOfAddressArtifacts}" class="govuk-list">
-                                <li th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}">
-                                    <a th:href="${artifact.link}" target="_blank"
-                                       th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
-                                </li>
-                            </ul>
+                            <div th:if="${!app.proofOfAddressArtifacts.empty}" th:remove="tag">
+                                <ul th:if="${app.proofOfAddressArtifacts}" class="govuk-list">
+                                    <li th:each="artifact, iterStat: ${app.proofOfAddressArtifacts}">
+                                        <a th:href="${artifact.link}" target="_blank"
+                                           th:text="#{application.details.artifacts.label.proofOfAddress} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:unless="${!app.proofOfAddressArtifacts.empty}" th:remove="tag">
+                                [[#{common.label.notProvided}]]
+                            </div>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${!app.badgePhotoArtifacts.empty}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.artifacts.label.badgePhotoUrl}"></dt>
                         <dd class="dft-data-list__dd">
-                            <ul th:if="${app.badgePhotoArtifacts}" class="govuk-list">
-                                <li th:each="artifact: ${app.badgePhotoArtifacts}">
-                                    <a th:href="${artifact.link}" target="_blank" class="govuk-link"><img th:src="${artifact.link}" th:alt="#{application.details.artifacts.label.badgePhotoOf} + ' ' + ${app.party.person.badgeHolderName}"/></a><br/>
-                                </li>
-                            </ul>
+                            <div th:if="${!app.badgePhotoArtifacts.empty}" th:remove="tag">
+                                <ul th:if="${app.badgePhotoArtifacts}" class="govuk-list">
+                                    <li th:each="artifact: ${app.badgePhotoArtifacts}">
+                                        <a th:href="${artifact.link}" target="_blank" class="govuk-link"><img th:src="${artifact.link}" th:alt="#{application.details.artifacts.label.badgePhotoOf} + ' ' + ${app.party.person.badgeHolderName}"/></a><br/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:unless="${!app.badgePhotoArtifacts.empty}" th:remove="tag">
+                                [[#{common.label.notProvided}]]
+                            </div>
                         </dd>
                     </div>
                 </div>
@@ -207,15 +259,20 @@
                         <dd class="dft-data-list__dd" data-uipath="walking.otherDescription"
                             th:text="${walking.otherDescription}"/>
                     </div>
-                    <div class="dft-data-list__item" th:if="${walking.walkingAids}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingAids}"/>
                         <dd class="dft-data-list__dd">
-                            <ul class="govuk-list" data-uipath="eligibility.walking.aids">
-                                <li th:each="aid: ${walking.walkingAids}"
-                                    th:with="howProvided=${@referenceDataService.retrieveAppEnumDisplayValue('WALKMOB', aid.howProvidedCode)}"
-                                    th:text="${@modelFormatUtils.toCommaSeparatedString(aid.description, howProvided, aid.usage)}">
-                            </ul>
+                            <div th:if="${walking.walkingAids}" th:remove="tag">
+                                <ul class="govuk-list" data-uipath="eligibility.walking.aids">
+                                    <li th:each="aid: ${walking.walkingAids}"
+                                        th:with="howProvided=${@referenceDataService.retrieveAppEnumDisplayValue('WALKMOB', aid.howProvidedCode)}"
+                                        th:text="${@modelFormatUtils.toCommaSeparatedString(aid.description, howProvided, aid.usage)}">
+                                </ul>
+                            </div>
+                            <div th:unless="${walking.walkingAids}" th:remove="tag">
+                                [[#{common.label.none}]]
+                            </div>
                         </dd>
                     </div>
 
@@ -237,26 +294,36 @@
                             th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKLEN', walking.walkingLengthOfTimeCode)}"/>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${walking.treatments}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.treatments}"/>
                         <dd class="dft-data-list__dd">
-                            <ul class="govuk-list" data-uipath="eligibility.walking.treatments">
-                                <li th:each="treatment: ${walking.treatments}"
-                                    th:text="${@modelFormatUtils.toCommaSeparatedString(treatment.description, treatment.time)}">
-                            </ul>
+                            <div th:if="${walking.treatments}" th:remove="tag">
+                                <ul class="govuk-list" data-uipath="eligibility.walking.treatments">
+                                    <li th:each="treatment: ${walking.treatments}"
+                                        th:text="${@modelFormatUtils.toCommaSeparatedString(treatment.description, treatment.time)}">
+                                </ul>
+                            </div>
+                            <div th:unless="${walking.treatments}" th:remove="tag">
+                                [[#{common.label.none}]]
+                            </div>
                         </dd>
                     </div>
 
-                    <div class="dft-data-list__item" th:if="${walking.medications}">
+                    <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.medications}"/>
                         <dd class="dft-data-list__dd">
-                            <ul class="govuk-list" data-uipath="eligibility.walking.medications">
-                                <li th:each="med: ${walking.medications}"
-                                    th:with="prescribed=#{${@modelFormatUtils.prescribedToMessageKey(med.isPrescribed)}}"
-                                    th:text="${@modelFormatUtils.toCommaSeparatedString(med.name, prescribed, med.quantity, med.frequency)}">
-                            </ul>
+                            <div th:if="${walking.medications}" th:remove="tag">
+                                <ul class="govuk-list" data-uipath="eligibility.walking.medications">
+                                    <li th:each="med: ${walking.medications}"
+                                        th:with="prescribed=#{${@modelFormatUtils.prescribedToMessageKey(med.isPrescribed)}}"
+                                        th:text="${@modelFormatUtils.toCommaSeparatedString(med.name, prescribed, med.quantity, med.frequency)}">
+                                </ul>
+                            </div>
+                            <div th:unless="${walking.medications}" th:remove="tag">
+                                [[#{common.label.none}]]
+                            </div>
                         </dd>
                     </div>
                 </div>
@@ -304,15 +371,17 @@
                 </div>
 
                 <!-- BLIND FIELDS -->
-                <div class="dft-data-list__item" th:if="${eligibility.blind?.registeredAtLaId}">
+                <div class="dft-data-list__item" th:if="${eligibility.typeCode.name() == 'BLIND'}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.blind.label.registeredAtLaId}"/>
-                    <dd class="dft-data-list__dd" data-uipath="eligibility.blind.registeredat"
+                    <dd th:if="${eligibility.blind?.registeredAtLaId}" class="dft-data-list__dd" data-uipath="eligibility.blind.registeredat"
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', eligibility.blind.registeredAtLaId)}"/>
+                    <dd th:unless="${eligibility.blind?.registeredAtLaId}" class="dft-data-list__dd" data-uipath="eligibility.blind.registeredat"
+                        th:text="'Not registered, or did not provide permission to contact the registered council'"/>
                 </div>
 
                 <!-- BENEFIT FIELDS -->
-                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.toString() != 'WPMS'}"
+                <div th:if="${eligibility.benefit} AND ${eligibility.typeCode.name() != 'WPMS'}"
                      th:with="ben=${eligibility.benefit}" class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.benefit.label.benefit}"></dt>
@@ -325,16 +394,21 @@
                     </dd>
                 </div>
 
-                <div class="dft-data-list__item" th:if="${!app.proofOfEligibilityArtifacts.empty}">
+                <div class="dft-data-list__item" th:if="${renderBenefitUploads}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.artifacts.label.proofOfEligibility.benefit}"/>
                     <dd class="dft-data-list__dd">
-                        <ul th:if="${app.proofOfEligibilityArtifacts}" class="govuk-list">
-                            <li th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.artifacts.label.proofOfEligibility.benefit} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </li>
-                        </ul>
+                        <div th:if="${!app.proofOfEligibilityArtifacts.empty}" th:remove="tag">
+                            <ul th:if="${app.proofOfEligibilityArtifacts}" class="govuk-list">
+                                <li th:each="artifact, iterStat: ${app.proofOfEligibilityArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.artifacts.label.proofOfEligibility.benefit} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:unless="${!app.proofOfEligibilityArtifacts.empty}" th:remove="tag">
+                            [[#{common.label.notProvided}]]
+                        </div>
                     </dd>
                 </div>
 
@@ -349,27 +423,39 @@
                         </ul>
                     </dd>
                 </div>
-                <div class="dft-data-list__item" th:if="${!app.supportDocsArtifacts.empty}">
+                <div class="dft-data-list__item" th:if="${renderSupportingDocs}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.walkingDifficulty.label.supportDocs}"/>
                     <dd class="dft-data-list__dd">
-                        <ul th:if="${app.supportDocsArtifacts}" class="govuk-list">
-                            <li th:each="artifact, iterStat: ${app.supportDocsArtifacts}">
-                                <a th:href="${artifact.link}" target="_blank"
-                                   th:text="#{application.details.eligibility.walkingDifficulty.label.supportDoc} + ' ' + ${iterStat.index + 1}"></a><br/>
-                            </li>
-                        </ul>
+                        <div th:if="${!app.supportDocsArtifacts.empty}" th:remove="tag">
+                            <ul th:if="${app.supportDocsArtifacts}" class="govuk-list">
+                                <li th:each="artifact, iterStat: ${app.supportDocsArtifacts}">
+                                    <a th:href="${artifact.link}" target="_blank"
+                                       th:text="#{application.details.eligibility.walkingDifficulty.label.supportDoc} + ' ' + ${iterStat.index + 1}"></a><br/>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:unless="${!app.supportDocsArtifacts.empty}" th:remove="tag">
+                            [[#{common.label.notProvided}]]
+                        </div>
                     </dd>
                 </div>
-                <div class="dft-data-list__item" th:if="${eligibility.healthcareProfessionals}">
-                    <dt class="dft-data-list__dt"
-                        th:text="#{application.details.eligibility.label.healthcareProfessionals}"/>
-                    <dd class="dft-data-list__dd">
-                        <ul class="govuk-list" data-uipath="eligibility.healthcareprofessional">
-                            <li th:each="pro: ${eligibility.healthcareProfessionals}"
-                                th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}">
-                        </ul>
-                    </dd>
+                <div th:if="${renderHCP}" th:remove="tag">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.label.healthcareProfessionals}"/>
+                        <dd class="dft-data-list__dd">
+                            <div th:if="${eligibility.healthcareProfessionals}" th:remove="tag">
+                                <ul class="govuk-list" data-uipath="eligibility.healthcareprofessional">
+                                    <li th:each="pro: ${eligibility.healthcareProfessionals}"
+                                        th:text="${@modelFormatUtils.toCommaSeparatedString(pro.name, pro.location)}">
+                                </ul>
+                            </div>
+                            <div th:unless="${eligibility.healthcareProfessionals}" th:remove="tag">
+                                [[#{common.label.none}]]
+                            </div>
+                        </dd>
+                    </div>
                 </div>
             </dl>
         </div>
@@ -402,11 +488,13 @@
                         data-uipath="application.paymentisnottaken"
                         th:text="#{application.details.isNotPaymentTaken}"/>
                 </div>
-                <div class="dft-data-list__item" th:if="${app.existingBadgeNumber}">
+                <div class="dft-data-list__item">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.existingBadgeNumber}"/>
-                    <dd class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
+                    <dd th:if="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
                         th:text="${app.existingBadgeNumber}"/>
+                    <dd th:unless="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
+                        th:text="#{common.label.notProvided}"/>
                 </div>
             </dl>
         </div>

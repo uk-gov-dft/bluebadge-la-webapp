@@ -31,7 +31,7 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest
         .differentServiceSignpostUrl(metadata.getDifferentServiceSignpostUrl())
         .emailAddress(metadata.getEmailAddress())
         .nameLine2(metadata.getNameLine2())
-        .nation((metadata.getNation() != null ? metadata.getNation().name() : null))
+        .nation((metadata.getNation()))
         .postcode(metadata.getPostcode())
         .town(metadata.getTown())
         .websiteUrl(metadata.getContactUrl())

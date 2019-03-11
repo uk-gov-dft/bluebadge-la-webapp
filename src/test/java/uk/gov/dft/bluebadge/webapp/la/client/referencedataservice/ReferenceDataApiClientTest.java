@@ -92,7 +92,7 @@ public class ReferenceDataApiClientTest {
             jsonPath(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, equalTo(DIFFERENT_SERVICE_SIGNPOST_URL)))
         .andExpect(jsonPath(COUNTRY_PARAM, equalTo(COUNTRY)))
         .andExpect(jsonPath(POSTCODE_PARAM, equalTo(POSTCODE)))
-        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION)))
+        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION.name())))
         .andExpect(jsonPath("contactUrl", equalTo(WEB_SITE_URL)))
         .andRespond(withSuccess());
 
@@ -113,7 +113,7 @@ public class ReferenceDataApiClientTest {
                 equalTo(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)))
         .andExpect(jsonPath(COUNTRY_PARAM, equalTo(COUNTRY)))
         .andExpect(jsonPath(POSTCODE_PARAM, equalTo(POSTCODE)))
-        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION)))
+        .andExpect(jsonPath(NATION_PARAM, equalTo(NATION.name())))
         .andExpect(jsonPath("contactUrl", equalTo(WEB_SITE_URL)))
         .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 

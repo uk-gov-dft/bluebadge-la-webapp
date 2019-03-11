@@ -26,6 +26,7 @@ import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.ReferenceDataApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 
@@ -38,6 +39,7 @@ public class ReferenceDataService {
   private Map<String, Map<String, String>> badgeGroupedReferenceDataMap = null;
   private Map<String, List<ReferenceData>> applicationGroupedReferenceDataList = null;
   private Map<String, Map<String, String>> applicationGroupedReferenceDataMap = null;
+  private Map<String, LocalAuthorityRefData> localAuthorityMap = new HashMap<>();
 
   private final ReferenceDataApiClient referenceDataApiClient;
   private final SecurityUtils securityUtils;
@@ -60,6 +62,7 @@ public class ReferenceDataService {
       applicationGroupedReferenceDataList = initDataList(RefDataDomainEnum.APP);
       badgeGroupedReferenceDataMap = initDataMap(badgeGroupedReferenceDataList);
       applicationGroupedReferenceDataMap = initDataMap(applicationGroupedReferenceDataList);
+      initLocalAuthorities(badgeGroupedReferenceDataList);
     }
   }
 
@@ -84,6 +87,18 @@ public class ReferenceDataService {
                         Collectors.toMap(
                             ReferenceData::getShortCode, ReferenceData::getDescription))));
     return groupedReferenceDataMap;
+  }
+
+  private void initLocalAuthorities(
+      Map<String, List<ReferenceData>> badgeGroupedReferenceDataList) {
+    badgeGroupedReferenceDataList
+        .get("LA")
+        .forEach(
+            (value) -> {
+              if (value instanceof LocalAuthorityRefData) {
+                localAuthorityMap.put(value.getShortCode(), (LocalAuthorityRefData) value);
+              }
+            });
   }
 
   // BADGE
@@ -128,7 +143,7 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
   }
 
-  private List<ReferenceData> retrieveApplicationReferenceDataList(
+  public List<ReferenceData> retrieveApplicationReferenceDataList(
       RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
       init();
@@ -330,5 +345,10 @@ public class ReferenceDataService {
     Assert.notNull(localCouncil, "Council details required to update LC");
 
     referenceDataApiClient.updateLocalCouncil(shortCode, localCouncil);
+  }
+
+  public LocalAuthorityRefData getUserLocalAuthority() {
+    init();
+    return localAuthorityMap.get(securityUtils.getCurrentLocalAuthorityShortCode());
   }
 }

@@ -433,7 +433,8 @@ public class Badge {
   }
 
   public boolean canBeCancelled() {
-    return this.statusCode.equals(Status.ISSUED.name())
-        || this.statusCode.equals(Status.ORDERED.name());
+    return (this.statusCode.equals(Status.ISSUED.name())
+            || this.statusCode.equals(Status.ORDERED.name()))
+        && this.expiryDate.isAfter(LocalDate.now());
   }
 }

@@ -183,4 +183,3 @@ Feature: Dft BlueBadge LA Manage local authorities
     Then I type "20.00" for "badgeCost.field" field by uipath
     And I can click on element "updateDetails" button
     Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
-    

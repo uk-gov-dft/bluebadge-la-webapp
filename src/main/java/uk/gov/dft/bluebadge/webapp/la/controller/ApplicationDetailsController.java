@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
 @RequestMapping(path = "/new-applications/{uuid}")
@@ -28,15 +37,26 @@ public class ApplicationDetailsController {
       "redirect:" + NewApplicationsController.URL;
 
   private ApplicationService applicationService;
+  private ReferenceDataService referenceDataService;
 
   @Autowired
-  public ApplicationDetailsController(ApplicationService applicationService) {
+  public ApplicationDetailsController(
+      ApplicationService applicationService, ReferenceDataService referenceDataService) {
     this.applicationService = applicationService;
+    this.referenceDataService = referenceDataService;
   }
 
   @GetMapping()
-  public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
+  public String show(
+      @PathVariable(PARAM_UUID) UUID uuid,
+      Model model,
+      @ModelAttribute("updateApplicationFormRequest")
+          final UpdateApplicationFormRequest updateFormRequest) {
     Application application = applicationService.retrieve(uuid.toString());
+    updateFormRequest.setApplicationStatus(
+        application.getApplicationStatus() != null
+            ? application.getApplicationStatus().name()
+            : null);
 
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
@@ -60,6 +80,23 @@ public class ApplicationDetailsController {
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
+  @PutMapping()
+  public String update(
+      @PathVariable(PARAM_UUID) UUID uuid,
+      Model model,
+      @ModelAttribute("updateApplicationFormRequest")
+          final UpdateApplicationFormRequest updateFormRequest) {
+
+    ApplicationUpdate applicationUpdate =
+        ApplicationUpdate.builder()
+            .applicationId(uuid)
+            .applicationStatus(
+                ApplicationStatusField.fromValue(updateFormRequest.getApplicationStatus()))
+            .build();
+    applicationService.update(applicationUpdate);
+    return this.show(uuid, model, updateFormRequest);
+  }
+
   @SuppressWarnings("squid:S2589")
   private boolean useAlternativeConditionLabel(Application application) {
 
@@ -71,5 +108,10 @@ public class ApplicationDetailsController {
 
     EligibilityCodeField typeCode = application.getEligibility().getTypeCode();
     return EligibilityCodeField.WALKD == typeCode || EligibilityCodeField.ARMS == typeCode;
+  }
+
+  @ModelAttribute("applicationStatusOptions")
+  public List<ReferenceData> applicationStatusOptions() {
+    return referenceDataService.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS);
   }
 }

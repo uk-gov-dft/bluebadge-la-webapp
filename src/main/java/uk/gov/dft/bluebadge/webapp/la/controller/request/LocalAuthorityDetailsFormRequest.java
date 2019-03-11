@@ -2,11 +2,13 @@ package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.common.util.ValidationPattern;
 
 @Data
@@ -49,9 +51,8 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
   @Size(max = 40, message = "{Size.localAuthorityDetailPage.country}")
   private String country;
 
-  @NotBlank(message = "{NotBlank.localAuthorityDetailPage.nation}")
-  @Pattern(regexp = "^(ENG|SCO|WLS|NIR)$", message = "{Pattern.localAuthorityDetailPage.nation}")
-  private String nation;
+  @NotNull(message = "{NotBlank.localAuthorityDetailPage.nation}")
+  private Nation nation;
 
   @Pattern(
     regexp = ValidationPattern.PHONE_NUMBER,

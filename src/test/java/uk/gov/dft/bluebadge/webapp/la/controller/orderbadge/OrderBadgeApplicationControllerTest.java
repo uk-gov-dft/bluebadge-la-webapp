@@ -66,12 +66,12 @@ public class OrderBadgeApplicationControllerTest extends OrderBadgeControllerTes
 
     when(applicationToOrderBadgeIndexFormRequestMock.convert(
             ApplicationToOrderBadgeTestData.getApplication()))
-        .thenReturn(ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST);
+        .thenReturn(ApplicationToOrderBadgeTestData.getApplicationToOrderBadgeIndexFormRequest());
 
     when(applicationToOrderBadgePersonDetailsFormRequestMock.convert(
             ApplicationToOrderBadgeTestData.getApplication()))
         .thenReturn(
-            ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST);
+            ApplicationToOrderBadgeTestData.getApplicationToOrderBadgePersonDetailsFormRequest());
 
     OrderBadgeProcessingFormRequest expectedProcessingForm =
         OrderBadgeProcessingFormRequest.builder().build();
@@ -94,11 +94,10 @@ public class OrderBadgeApplicationControllerTest extends OrderBadgeControllerTes
 
     assertThat(session.getAttribute("formRequest-order-a-badge-index"))
         .isEqualToIgnoringGivenFields(
-            ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_INDEX_FORM_REQUEST,
-            "flowId");
+            ApplicationToOrderBadgeTestData.getApplicationToOrderBadgeIndexFormRequest(), "flowId");
     assertThat(session.getAttribute("formRequest-order-a-badge-details"))
         .isEqualToIgnoringGivenFields(
-            ApplicationToOrderBadgeTestData.APPLICATION_TO_ORDER_BADGE_PERSON_DETAILS_FORM_REQUEST,
+            ApplicationToOrderBadgeTestData.getApplicationToOrderBadgePersonDetailsFormRequest(),
             "flowId");
     assertThat(session.getAttribute("formRequest-order-a-badge-processing"))
         .isEqualToIgnoringGivenFields(

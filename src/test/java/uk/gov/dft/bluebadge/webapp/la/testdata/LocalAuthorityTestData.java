@@ -2,9 +2,9 @@ package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
-import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Nation;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
 
 public final class LocalAuthorityTestData {
@@ -48,8 +48,7 @@ public final class LocalAuthorityTestData {
   public static String COUNTRY = "United Kingdom";
   public static String COUNTRY_INVALID = OVER_FORTY_LONG_STRING;
   public static String NATION_PARAM = "nation";
-  public static String NATION = "ENG";
-  public static String NATION_INVALID = "invalid";
+  public static Nation NATION = Nation.ENG;
   public static String TOWN_PARAM = "town";
   public static String TOWN = "London";
   public static String TOWN_INVALID = OVER_FORTY_LONG_STRING;
@@ -186,7 +185,7 @@ public final class LocalAuthorityTestData {
           .badgeCost(new BigDecimal(BADGE_COST))
           .postcode(POSTCODE)
           .country(COUNTRY)
-          .nation(Nation.forValue(NATION))
+          .nation(NATION)
           .contactUrl(WEB_SITE_URL)
           .build();
 }

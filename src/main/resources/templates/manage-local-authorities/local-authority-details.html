@@ -10,12 +10,11 @@
 <body>
 
 <main layout:fragment="content">
-
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--two-thirds">
             <h1 class="govuk-heading-l" data-uipath="title" th:text="#{localAuthorityDetailPage.title}"/>
 
-            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }" ></div>
+            <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"></div>
         </div>
     </div>
 
@@ -45,7 +44,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.country.name}, 'country', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.nation.name}, 'nation', null, ${nationOptions}) }"></div>
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{localAuthorityDetailPage.nation.name}, 'nation', null, ${nationOptions}) }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.contactNumber.name}, 'contactNumber', null, 'text') }"></div>
 
@@ -53,8 +52,7 @@
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.emailAddress.name}, 'emailAddress', null, 'text') }"></div>
 
-                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-inline-no-main-question(#{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, ${clockTypeOptions}) }"></div>
-
+                <div th:replace="~{ fragments/govuk-radios :: govuk-radios-base('inline', #{localAuthorityDetailPage.badgePackType.name}, 'badgePackType', null, ${clockTypeOptions}, false, false, false) }"></div>
 
                 <div th:class="${#fields.hasErrors('paymentsEnabled')} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'">
                     <fieldset class="govuk-fieldset" id="paymentsEnabled">
