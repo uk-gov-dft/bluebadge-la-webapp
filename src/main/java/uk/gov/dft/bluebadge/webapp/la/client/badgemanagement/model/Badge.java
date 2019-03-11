@@ -40,8 +40,8 @@ public class Badge {
   @JsonProperty("issuedDate")
   private LocalDateTime issuedDate = null;
 
-  @JsonProperty("printDate")
-  private LocalDateTime printDate = null;
+  @JsonProperty("printRequestDateTime")
+  private LocalDateTime printRequestDateTime = null;
 
   @JsonProperty("startDate")
   private LocalDate startDate = null;
@@ -225,23 +225,23 @@ public class Badge {
   /**
    * The date that the batch corresponding to this badge was sent to printer.
    *
-   * @return printDate
+   * @return printRequestDateTime
    */
   @ApiModelProperty(
     example = "2018-07-07",
     value = "The date that the batch that contains the badge was sent to printer."
   )
   @Valid
-  public LocalDateTime getPrintDate() {
-    return printDate;
+  public LocalDateTime getPrintRequestDateTime() {
+    return printRequestDateTime;
   }
 
-  public void setPrintDate(LocalDateTime printDate) {
-    this.printDate = printDate;
+  public void setPrintRequestDateTime(LocalDateTime printRequestDateTime) {
+    this.printRequestDateTime = printRequestDateTime;
   }
 
-  public Badge printDate(LocalDateTime printDate) {
-    this.printDate = printDate;
+  public Badge printRequestDateTime(LocalDateTime printRequestDateTime) {
+    this.printRequestDateTime = printRequestDateTime;
     return this;
   }
 
@@ -456,7 +456,7 @@ public class Badge {
         && Objects.equals(applicationChannelCode, badge.applicationChannelCode)
         && Objects.equals(orderDate, badge.orderDate)
         && Objects.equals(issuedDate, badge.issuedDate)
-        && Objects.equals(printDate, badge.printDate)
+        && Objects.equals(printRequestDateTime, badge.printRequestDateTime)
         && Objects.equals(startDate, badge.startDate)
         && Objects.equals(expiryDate, badge.expiryDate)
         && Objects.equals(eligibilityCode, badge.eligibilityCode)
@@ -478,7 +478,7 @@ public class Badge {
         applicationChannelCode,
         orderDate,
         issuedDate,
-        printDate,
+        printRequestDateTime,
         startDate,
         expiryDate,
         eligibilityCode,
@@ -500,7 +500,7 @@ public class Badge {
         .append("applicationChannelCode", applicationChannelCode)
         .append("orderDate", orderDate)
         .append("issuedDate", issuedDate)
-        .append("printDate", printDate)
+        .append("printRequestDateTime", printRequestDateTime)
         .append("startDate", startDate)
         .append("expiryDate", expiryDate)
         .append("eligibilityCode", eligibilityCode)
