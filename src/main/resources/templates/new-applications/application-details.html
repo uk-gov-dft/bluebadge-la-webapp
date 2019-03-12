@@ -247,8 +247,10 @@
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingDifficulty}"/>
                         <dd class="dft-data-list__dd">
                             <ul class="govuk-list" data-uipath="eligibility.walking.types">
-                                <li th:each="type: ${walking.typeCodes}"
-                                    th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
+                                <div th:each="type, iterStat: ${walking.typeCodes}" th:remove="tag">
+                                    <li th:unless="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)} + ','">
+                                    <li th:if="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
+                                </div>
                             </ul>
                         </dd>
                     </div>
