@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,6 +30,9 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String ELIGIBILITY = "PIP";
   private static final String EMAIL_ADDRESS = "aa@aa.com";
   private static final LocalDate EXPIRY_DATE = LocalDate.of(2099, 7, 9);
+  private static final LocalDate ORDER_DATE = LocalDate.of(2019, 1, 1);
+  private static final LocalDateTime ISSUED_DATE = LocalDateTime.of(2019, 1, 2, 0, 0, 0);
+  private static final String REJECTED_REASON = "any reason";
   private static final String GENDER = "MALE";
   private static final String IMAGE_LINK = "http://localhost/image";
   private static final String LINE2 = "address line 2";
@@ -48,6 +52,8 @@ public class BadgeToBadgeDetailsViewModelTest {
   private static final String DOB_VIEW_MODEL = "01 January 1930";
   private static final String ELIGIBILITY_VIEW_MODEL = "pip";
   private static final String EXPIRY_DATE_VIEW_MODEL = "09 July 2099";
+  private static final String ORDER_DATE_VIEW_MODEL = "01 January 2019";
+  private static final String ISSUED_DATE_VIEW_MODEL = "02 January 2019";
   private static final String GENDER_VIEW_MODEL = "male";
   private static final String LOCAL_AUTHORITY_VIEW_MODEL = "Barnsley MBC";
   private static final String START_DATE_VIEW_MODEL = "09 July 2096";
@@ -61,6 +67,9 @@ public class BadgeToBadgeDetailsViewModelTest {
           .badgeNumber(BADGE_NUMBER)
           .eligibilityCode(ELIGIBILITY)
           .expiryDate(EXPIRY_DATE)
+          .orderDate(ORDER_DATE)
+          .issuedDate(ISSUED_DATE)
+          .rejectedReason(REJECTED_REASON)
           .localAuthorityShortCode(LOCAL_AUTHORITY)
           .localAuthorityRef(LOCAL_AUTHORITY_REF)
           .party(
@@ -92,6 +101,9 @@ public class BadgeToBadgeDetailsViewModelTest {
           .badgeNumber(BADGE_NUMBER)
           .badgeExpiryDate(EXPIRY_DATE_VIEW_MODEL)
           .badgeStartDate(START_DATE_VIEW_MODEL)
+          .orderDate(ORDER_DATE_VIEW_MODEL)
+          .issuedDate(ISSUED_DATE_VIEW_MODEL)
+          .rejectedReason(REJECTED_REASON)
           .contactFullName(CONTACT_FULL_NAME)
           .contactNumber(CONTACT_NUMBER)
           .dob(DOB_VIEW_MODEL)

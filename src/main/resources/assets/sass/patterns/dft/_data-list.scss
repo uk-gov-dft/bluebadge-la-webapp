@@ -86,4 +86,27 @@
 		}
 	}
 
+	&--nested {
+		display: block;
+
+		.dft-data-list__dt,
+		.dft-data-list__dd {
+			display: block;
+			width: 100%;
+			border: 0;
+			margin: 0;
+			padding: 0;
+		}
+
+		.dft-data-list__dt {
+			@include govuk-font(16, bold);
+		}
+
+		.dft-data-list__dd {
+			&:not(:last-child) {
+				margin-bottom: govuk-spacing(2);
+			}
+		}
+	}
+
 }
