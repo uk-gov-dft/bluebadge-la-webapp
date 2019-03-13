@@ -30,9 +30,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 public class BadgeManagementApiClient extends BaseApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
-  public static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
-  public static final String DELETE_ENDPOINT = "/badges/{badgeNumber}";
-  public static final String REPLACE_ENDPOINT = "/badges/{badgeNumber}/replacements";
+  private static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
+  private static final String DELETE_ENDPOINT = "/badges/{badgeNumber}";
+  private static final String RETRIEVE_ENDPOINT = "/badges/{badgeNumber}";
+  private static final String REPLACE_ENDPOINT = "/badges/{badgeNumber}/replacements";
 
   private final RestTemplate restTemplate;
 
@@ -82,16 +83,13 @@ public class BadgeManagementApiClient extends BaseApiClient {
    * @return
    */
   public Badge retrieveBadge(String badgeNumber) {
-    log.debug("retrieveBadge with badgeNumber={}", badgeNumber);
 
     Assert.notNull(badgeNumber, "badgeNumber supplied must be not null");
 
-    UriComponentsBuilder builder =
-        UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT, badgeNumber);
     try {
-      log.info("retrieveBadge {}", builder.toUriString());
+      log.info("retrieveBadge {}", badgeNumber);
       BadgeResponse response =
-          restTemplate.getForObject(builder.toUriString(), BadgeResponse.class);
+          restTemplate.getForObject(RETRIEVE_ENDPOINT, BadgeResponse.class, badgeNumber);
       return response.getData();
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
