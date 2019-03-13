@@ -35,6 +35,14 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     String applicationDate = source.getApplicationDate().format(viewModelFieldDateFormatter);
     String expiryDate = source.getExpiryDate().format(viewModelFieldDateFormatter);
     String startDate = source.getStartDate().format(viewModelFieldDateFormatter);
+    String orderDate =
+        source.getOrderDate() != null
+            ? source.getOrderDate().format(viewModelFieldDateFormatter)
+            : null;
+    String issuedDate =
+        source.getIssuedDate() != null
+            ? source.getIssuedDate().format(viewModelFieldDateFormatter)
+            : null;
 
     String applicationChannelDisplayText =
         referenceDataService.retrieveBadgeApplicationChannelDisplayValue(
@@ -85,6 +93,9 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .localAuthorityShortCode(source.getLocalAuthorityShortCode())
         .localAuthorityReference(StringUtils.trimToNull(source.getLocalAuthorityRef()))
         .status(StringUtils.trimToNull(statusDisplayText))
+        .orderDate(StringUtils.trimToNull(orderDate))
+        .issuedDate(StringUtils.trimToNull(issuedDate))
+        .rejectedReason(StringUtils.trimToNull(source.getRejectedReason()))
         .build();
   }
 }

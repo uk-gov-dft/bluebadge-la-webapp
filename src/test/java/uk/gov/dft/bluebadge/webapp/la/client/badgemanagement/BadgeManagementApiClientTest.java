@@ -173,6 +173,9 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
+  public void exportBadgesByLa_shouldWork() {}
+
+  @Test
   public void findABadgeByName_ShouldRetrieveAListOfBadges() throws JsonProcessingException {
     BadgeSummary b1 = new BadgeSummary();
     List<BadgeSummary> badges = Lists.newArrayList(b1);
