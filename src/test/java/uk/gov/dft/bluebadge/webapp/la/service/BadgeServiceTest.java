@@ -170,6 +170,14 @@ public class BadgeServiceTest {
   }
 
   @Test
+  public void exportAllBadgesByLa_shouldWork() {
+    byte[] byteContent = "response".getBytes();
+    when(badgeManagementApiClientMock.exportBadgesByLa("ABERD")).thenReturn(byteContent);
+    byte[] byteContentResponse = badgeService.exportBadgesByLa("ABERD");
+    assertThat(byteContentResponse).isEqualTo(byteContent);
+  }
+
+  @Test
   public void cancelABadge_shouldNotThrowException() {
     doNothing()
         .when(badgeManagementApiClientMock)

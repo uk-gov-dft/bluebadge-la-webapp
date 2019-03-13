@@ -173,7 +173,34 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
-  public void exportBadgesByLa_shouldWork() {}
+  public void exportBadgesByLa_shouldReturnByteContent_WhenRequestIsSuccessful() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+
+    byte[] byteContent = "Any String".getBytes();
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andExpect(header("Accept", "application/zip"))
+        .andRespond(withSuccess(byteContent, MediaType.parseMediaType("application/zip")));
+
+    byte[] byteContentResponse = client.exportBadgesByLa("ABERD");
+    assertThat(byteContentResponse).isEqualTo(byteContent);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void exportBadgesByLa_shouldThrowIllegalArgumentExcepton_whenLaShortCodeIsNull() {
+    client.exportBadgesByLa(null);
+  }
+
+  @Test(expected = HttpServerErrorException.class)
+  public void exportBadgesByLa_ShouldThrowException_When500() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withServerError());
+    client.exportBadgesByLa("ABERD");
+  }
 
   @Test
   public void findABadgeByName_ShouldRetrieveAListOfBadges() throws JsonProcessingException {

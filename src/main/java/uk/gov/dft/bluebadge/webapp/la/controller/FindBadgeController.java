@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -112,8 +111,7 @@ public class FindBadgeController {
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
 
-  @PreAuthorize(
-      "hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')")
+  @PreAuthorize("hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')")
   @GetMapping(value = URL_EXPORT_ALL_LA_BADGES, produces = "application/zip")
   public void exportAllLaBadges(final HttpServletResponse response) throws IOException {
     String localAuthorityShortCode = securityUtils.getCurrentLocalAuthorityShortCode();

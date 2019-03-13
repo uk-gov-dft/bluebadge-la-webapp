@@ -2,6 +2,8 @@ package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import com.google.common.collect.Lists;
 import com.google.common.net.MediaType;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
-
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service

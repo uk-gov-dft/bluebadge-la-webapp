@@ -7,12 +7,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.google.common.collect.Lists;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
@@ -44,6 +47,7 @@ public class FindBadgeControllerTest {
       new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
   private static final FindBadgeSearchResultViewModel VIEW_MODEL =
       FindBadgeSearchResultViewModel.builder().badgeNumber(BADGE_NUMBER).build();
+  private static final String LA_SHORT_CODE = "ABERD";
 
   private MockMvc mockMvc;
 
@@ -238,5 +242,24 @@ public class FindBadgeControllerTest {
 
     assertThat(session.getAttribute("results")).isEqualTo(expectedResults);
     assertThat(session.getAttribute("searchTerm")).isEqualTo(NAME);
+  }
+
+  @Test
+  public void exportAllLaBadges_shouldReturnFile() throws Exception {
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LA_SHORT_CODE);
+    byte[] byteContent = "response".getBytes();
+    when(badgeServiceMock.exportBadgesByLa(LA_SHORT_CODE)).thenReturn(byteContent);
+
+    mockMvc
+        .perform(get("/manage-badges/export-all-la-badges"))
+        .andExpect(status().isOk())
+        .andExpect(
+            header()
+                .string(
+                    "Content-Disposition",
+                    "attachment;filename=" + LocalDate.now() + "_" + LA_SHORT_CODE + ".zip"))
+        .andExpect(header().string("Content-Type", "application/zip"))
+        .andExpect(content().bytes(byteContent))
+        .andReturn();
   }
 }
