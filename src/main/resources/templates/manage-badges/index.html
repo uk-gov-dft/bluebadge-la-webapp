@@ -63,7 +63,7 @@
 
             <div class="dft-width-three-quarters">
                 <details class="govuk-details"  sec:authorize-url="GET /manage-badges/export-all-la-badges" sec:authorize="hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')">
-                    <summary class="govuk-details__summary">
+                    <summary data-uipath="exportAllLABadgesDetails"  class="govuk-details__summary">
                         <span class="govuk-details__summary-text" data-uipath="updateStatusSummary"
                               th:text="#{findBadge.label.exportAllBadges.title}"></span>
                     </summary>
@@ -72,7 +72,7 @@
                         <form th:action="@{/manage-badges/export-all-la-badges}" th:method="get">
                             <p class="govuk-body" th:text="#{findBadge.label.exportAllBadges.body}"></p>
 
-                            <input data-uipath="exportAllBadgesButton"
+                            <input data-uipath="exportAllLABadgesButton"
                                    th:value="#{findBadge.label.exportAllBadges.button}" type="submit" class="govuk-button">
                         </form>
                     </div>
