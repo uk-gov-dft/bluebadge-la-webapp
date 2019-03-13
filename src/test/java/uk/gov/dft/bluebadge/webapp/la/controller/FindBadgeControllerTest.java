@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
@@ -50,6 +51,7 @@ public class FindBadgeControllerTest {
 
   @Mock BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
   @Mock BadgeSummaryToFindBadgeSearchResultViewModel badgeSummartyconverterToViewModelMock;
+  @Mock SecurityUtils securityUtilsMock;
 
   private FindBadgeController controller;
 
@@ -61,7 +63,10 @@ public class FindBadgeControllerTest {
 
     controller =
         new FindBadgeController(
-            badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
+            badgeServiceMock,
+            converterToViewModelMock,
+            badgeSummartyconverterToViewModelMock,
+            securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)

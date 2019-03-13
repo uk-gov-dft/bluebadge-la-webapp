@@ -77,6 +77,11 @@ public class BadgeService {
     return badgeManagementApiClient.findBadgeByName(name);
   }
 
+  public byte[] exportBadgesByLa(String localAuthorityShortCode) {
+    Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
+    return badgeManagementApiClient.exportBadgesByLa(localAuthorityShortCode);
+  }
+
   public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {
     Assert.notNull(badgeNumber, "Badge number should not be null");
     Assert.notNull(reason, "cancellation reason should not be null");

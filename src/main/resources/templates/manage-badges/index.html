@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/master.html}">
 
 <head>
@@ -53,7 +53,6 @@
                         </fieldset>
                     </div>
 
-
                     <div th:replace="~{ fragments/form-elements :: govuk-input('Enter keywords', 'searchTerm', null, 'text') }"/>
 
                     <input data-uipath="button" value="Search" type="submit" class="govuk-button">
@@ -61,6 +60,24 @@
                 </div>
             </form>
 
+
+            <div class="dft-width-three-quarters">
+                <details class="govuk-details"  sec:authorize-url="GET /manage-badges/export-all-la-badges" sec:authorize="hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text" data-uipath="updateStatusSummary"
+                              th:text="#{findBadge.label.exportAllBadges.title}"></span>
+                    </summary>
+
+                    <div class="govuk-details__text">
+                        <form th:action="@{/manage-badges/export-all-la-badges}" th:method="get">
+                            <p class="govuk-body" th:text="#{findBadge.label.exportAllBadges.body}"></p>
+
+                            <input data-uipath="exportAllBadgesButton"
+                                   th:value="#{findBadge.label.exportAllBadges.button}" type="submit" class="govuk-button">
+                        </form>
+                    </div>
+                </details>
+            </div>
 
         </div>
     </div>
