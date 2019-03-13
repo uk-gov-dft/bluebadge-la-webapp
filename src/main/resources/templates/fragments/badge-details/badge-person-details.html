@@ -7,7 +7,7 @@
     <dl class="dft-data-list" data-uipath="personalDetails.answers">
         <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.badgeStatus}"></dt>
-            <dd class="dft-data-list__dd" th:text="${badge.status}"></dd>
+            <dd class="dft-data-list__dd" th:text="${badge.status} + (${badge.rejectedReason}  ?  '(' + ${badge.rejectedReason} + ')': '')" />
         </div>
 
         <div class="dft-data-list__item">
