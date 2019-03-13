@@ -12,7 +12,7 @@
 
         <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.status}"/>
-            <dd class="dft-data-list__dd" th:text="${badge.status} + (${badge.rejectedReason}  ?  '[' + ${badge.rejectedReason} + ']': '')" />
+            <dd class="dft-data-list__dd" th:text="${badge.status} + (${badge.rejectedReason}  ?  '(' + ${badge.rejectedReason} + ')': '')" />
         </div>
 
         <div class="dft-data-list__item">
