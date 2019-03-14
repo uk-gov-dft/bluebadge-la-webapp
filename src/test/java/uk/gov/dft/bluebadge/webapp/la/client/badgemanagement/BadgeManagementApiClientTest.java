@@ -27,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -183,8 +184,8 @@ public class BadgeManagementApiClientTest {
         .andExpect(header("Accept", "application/zip"))
         .andRespond(withSuccess(byteContent, MediaType.parseMediaType("application/zip")));
 
-    byte[] byteContentResponse = client.exportBadgesByLa("ABERD");
-    assertThat(byteContentResponse).isEqualTo(byteContent);
+    ResponseEntity<byte[]> response = client.exportBadgesByLa("ABERD");
+    assertThat(response.getBody()).isEqualTo(byteContent);
   }
 
   @Test(expected = IllegalArgumentException.class)

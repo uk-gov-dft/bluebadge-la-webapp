@@ -1,25 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData.PHOTO;
-
 import com.google.common.collect.Lists;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import javax.imageio.ImageIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -30,6 +17,22 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceR
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData.PHOTO;
 
 public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
@@ -171,10 +174,11 @@ public class BadgeServiceTest {
 
   @Test
   public void exportAllBadgesByLa_shouldWork() {
-    byte[] byteContent = "response".getBytes();
-    when(badgeManagementApiClientMock.exportBadgesByLa("ABERD")).thenReturn(byteContent);
-    byte[] byteContentResponse = badgeService.exportBadgesByLa("ABERD");
-    assertThat(byteContentResponse).isEqualTo(byteContent);
+    ResponseEntity<byte[]> expectedResponse =
+        new ResponseEntity<byte[]>("response".getBytes(), HttpStatus.OK);
+    when(badgeManagementApiClientMock.exportBadgesByLa("ABERD")).thenReturn(expectedResponse);
+    ResponseEntity<byte[]> response = badgeService.exportBadgesByLa("ABERD");
+    assertThat(response).isEqualTo(expectedResponse);
   }
 
   @Test

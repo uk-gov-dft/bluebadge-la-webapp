@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -113,13 +112,9 @@ public class FindBadgeController {
 
   @PreAuthorize("hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')")
   @GetMapping(value = URL_EXPORT_ALL_LA_BADGES, produces = "application/zip")
-  public void exportAllLaBadges(final HttpServletResponse response) throws IOException {
+  public ResponseEntity<byte[]> exportAllLaBadges(final HttpServletResponse response) {
     String localAuthorityShortCode = securityUtils.getCurrentLocalAuthorityShortCode();
-    byte[] fileContents = badgeService.exportBadgesByLa(localAuthorityShortCode);
-    String filename = LocalDate.now() + "_" + localAuthorityShortCode + ".zip";
-    response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename);
-    response.setContentType("application/zip");
-    response.getOutputStream().write(fileContents);
+    return badgeService.exportBadgesByLa(localAuthorityShortCode);
   }
 
   private FindBadgeSearchResultViewModel findBadgeByNumber(String searchTerm) {

@@ -23,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
@@ -247,19 +249,13 @@ public class FindBadgeControllerTest {
   @Test
   public void exportAllLaBadges_shouldReturnFile() throws Exception {
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LA_SHORT_CODE);
-    byte[] byteContent = "response".getBytes();
-    when(badgeServiceMock.exportBadgesByLa(LA_SHORT_CODE)).thenReturn(byteContent);
+    ResponseEntity<byte[]> expectedResponse = new ResponseEntity("response".getBytes(), HttpStatus.OK);
+    when(badgeServiceMock.exportBadgesByLa(LA_SHORT_CODE)).thenReturn(expectedResponse);
 
     mockMvc
         .perform(get("/manage-badges/export-all-la-badges"))
         .andExpect(status().isOk())
-        .andExpect(
-            header()
-                .string(
-                    "Content-Disposition",
-                    "attachment;filename=" + LocalDate.now() + "_" + LA_SHORT_CODE + ".zip"))
-        .andExpect(header().string("Content-Type", "application/zip"))
-        .andExpect(content().bytes(byteContent))
+        .andExpect(content().bytes(expectedResponse.getBody()))
         .andReturn();
   }
 }

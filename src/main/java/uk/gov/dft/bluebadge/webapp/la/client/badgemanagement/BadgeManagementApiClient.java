@@ -134,7 +134,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     return response.getData();
   }
 
-  public byte[] exportBadgesByLa(String localAuthorityShortCode) {
+  public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {
     log.debug("exportBadgesByLa with la [{}]", localAuthorityShortCode);
     Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode supplied must not be null");
 
@@ -154,7 +154,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
       handleHttpClientException(cex);
     }
 
-    return response != null ? response.getBody() : null;
+    return response;
   }
 
   public void cancelBadge(String badgeNumber, String reason) {
