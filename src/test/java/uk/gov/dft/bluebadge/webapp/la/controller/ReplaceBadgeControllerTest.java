@@ -66,18 +66,14 @@ public class ReplaceBadgeControllerTest {
 
     List<ReferenceData> reasonOptions = Lists.newArrayList(ref1, ref2, ref3);
 
-    List<ReferenceData> deliverTo = Lists.newArrayList(ref1, ref2);
-
     when(referenceDataServiceMock.retrieveBadgeReplaceReasons()).thenReturn(reasonOptions);
-    when(referenceDataServiceMock.retrieveBadgeDeliverTos()).thenReturn(deliverTo);
 
     mockMvc
         .perform(get(URL_REPLACE_BADGE))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_REPLACE_BADGE))
         .andExpect(model().attribute("formRequest", formRequest))
-        .andExpect(model().attribute("reasonOptions", reasonOptions))
-        .andExpect(model().attribute("deliverToOptions", deliverTo));
+        .andExpect(model().attribute("reasonOptions", reasonOptions));
   }
 
   @Test
@@ -122,7 +118,7 @@ public class ReplaceBadgeControllerTest {
         .andExpect(view().name(TEMPLATE_REPLACE_BADGE))
         .andExpect(model().errorCount(2))
         .andExpect(model().attributeHasFieldErrorCode("formRequest", "reason", "NotBlank"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "deliverTo", "NotBlank"));
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "deliverTo", "NotNull"));
 
     verify(badgeServiceMock, never()).replaceBadge(any());
   }
@@ -140,9 +136,7 @@ public class ReplaceBadgeControllerTest {
         .andExpect(view().name(TEMPLATE_REPLACE_BADGE))
         .andExpect(model().errorCount(1))
         .andExpect(
-            model()
-                .attributeHasFieldErrorCode(
-                    "formRequest", "deliveryOptions", "NotNull.badge.deliveryOption"));
+            model().attributeHasFieldErrorCode("formRequest", "deliveryOptions", "NotNull.badge"));
 
     verify(badgeServiceMock, never()).replaceBadge(any());
   }

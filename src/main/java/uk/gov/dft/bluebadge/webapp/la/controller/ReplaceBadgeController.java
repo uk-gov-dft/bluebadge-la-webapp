@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import java.util.List;
 import javax.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +37,7 @@ public class ReplaceBadgeController {
   private ReferenceDataService referenceDataService;
   private BadgeService badgeService;
 
-  public ReplaceBadgeController(ReferenceDataService refDataService, BadgeService badgeService) {
+  ReplaceBadgeController(ReferenceDataService refDataService, BadgeService badgeService) {
     this.referenceDataService = refDataService;
     this.badgeService = badgeService;
   }
@@ -64,14 +63,12 @@ public class ReplaceBadgeController {
 
     // Must have delivery option if sent to badge holder.
     // Is always standard if sent to council.
-
-    if (StringUtils.isNotBlank(formRequest.getDeliverTo())) {
-      if (DeliverToCodeField.HOME == DeliverToCodeField.valueOf(formRequest.getDeliverTo())
-          && !StringUtils.isNotBlank(formRequest.getDeliveryOptions())) {
-        bindingResult.rejectValue("deliveryOptions", "NotNull.badge.deliveryOption");
-      } else if (DeliverToCodeField.COUNCIL
-          == DeliverToCodeField.valueOf(formRequest.getDeliverTo())) {
-        formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND.name());
+    if (null != formRequest.getDeliverTo()) {
+      if (DeliverToCodeField.HOME == formRequest.getDeliverTo()
+          && null == formRequest.getDeliveryOptions()) {
+        bindingResult.rejectValue("deliveryOptions", "NotNull.badge");
+      } else if (DeliverToCodeField.COUNCIL == formRequest.getDeliverTo()) {
+        formRequest.setDeliveryOptions(DeliveryOptionCodeField.STAND);
       }
     }
 
@@ -80,11 +77,12 @@ public class ReplaceBadgeController {
     }
 
     BadgeReplaceRequest request =
-        new BadgeReplaceRequest(
-            badgeNumber,
-            formRequest.getReason(),
-            formRequest.getDeliverTo(),
-            formRequest.getDeliveryOptions());
+        BadgeReplaceRequest.builder()
+            .badgeNumber(badgeNumber)
+            .replaceReasonCode(formRequest.getReason())
+            .deliverToCode(formRequest.getDeliverTo())
+            .deliveryOptionCode(formRequest.getDeliveryOptions())
+            .build();
 
     String newBadgeNumber = badgeService.replaceBadge(request);
 
@@ -107,11 +105,6 @@ public class ReplaceBadgeController {
   @ModelAttribute("deliveryOptions")
   public List<ReferenceData> deliveryOptions() {
     return referenceDataService.retrieveBadgeDeliveryOptions();
-  }
-
-  @ModelAttribute("deliverToOptions")
-  public List<ReferenceData> delivertoOptions() {
-    return referenceDataService.retrieveBadgeDeliverTos();
   }
 
   @ModelAttribute("localAuthorityName")

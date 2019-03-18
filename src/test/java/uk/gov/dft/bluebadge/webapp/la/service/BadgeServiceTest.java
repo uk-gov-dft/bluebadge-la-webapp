@@ -28,6 +28,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 
@@ -207,7 +209,13 @@ public class BadgeServiceTest {
   @Test
   public void replaceBadge_success() {
     String NEW_BADGE_NUMBER = "abc";
-    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "HOME", "FAST");
+    BadgeReplaceRequest request =
+        BadgeReplaceRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .replaceReasonCode("LOST")
+            .deliveryOptionCode(DeliveryOptionCodeField.STAND)
+            .deliverToCode(DeliverToCodeField.HOME)
+            .build();
 
     when(badgeManagementApiClientMock.replaceBadge(request)).thenReturn(NEW_BADGE_NUMBER);
     String newBadgeNumber = badgeService.replaceBadge(request);
@@ -216,6 +224,6 @@ public class BadgeServiceTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void replaceBadge_byPassingNullParameters_shouldThrowIllegalArgumentException() {
-    badgeService.replaceBadge(new BadgeReplaceRequest(null, null, null, null));
+    badgeService.replaceBadge(BadgeReplaceRequest.builder().build());
   }
 }
