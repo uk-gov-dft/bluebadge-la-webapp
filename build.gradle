@@ -131,6 +131,8 @@ artifactory {
 
 }
 
+archivesBaseName = "la-webapp"
+
 configurations.all {
     resolutionStrategy {
         // don't cache changing modules at all
