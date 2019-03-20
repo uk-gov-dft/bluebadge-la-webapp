@@ -152,3 +152,24 @@ VALUES
  null, 
  null
  );
+
+ INSERT INTO applicationmanagement.app_breathlessness_type(application_id,breathlessness_type_code)
+ VALUES(
+        '1087ac26-491a-46f0-9006-36187dc40764'::uuid,
+        'UPHILL'
+       ),
+       (
+        '1087ac26-491a-46f0-9006-36187dc40765'::uuid,
+        'KEEPUP'
+        ),
+
+        (
+         '1087ac26-491a-46f0-9006-36187dc40766'::uuid,
+         'OWNPACE'
+        ),
+        (
+          '1087ac26-491a-46f0-9006-36187dc40767'::uuid,
+          'DRESSED'
+         )
+ 
+ 

@@ -14,3 +14,5 @@ Feature: Dft BlueBadge LA New applications
     When I can click on the "Order a badge" link on left navigation
     And I can click on the "New applications" link on left navigation
     Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+
+

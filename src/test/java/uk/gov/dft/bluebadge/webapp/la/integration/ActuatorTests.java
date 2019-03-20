@@ -23,6 +23,7 @@ public class ActuatorTests extends BaseIntegrationNoRedisTest {
     RestAssured.port = managementPort;
 
     baseUrl = RestAssured.baseURI + ":" + RestAssured.port + RestAssured.basePath;
+    //baseUrl="http://dft.local:8080/sign-in";
   }
 
   @Test
