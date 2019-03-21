@@ -24,6 +24,8 @@ public class Application {
   private String paymentReference;
   private List<Artifact> artifacts;
   private ApplicationStatusField applicationStatus;
+  private String transferredLaFromCode;
+  private OffsetDateTime transferredFromLaDate;
 
   public List<Artifact> getProofOfIdentityArtifacts() {
     return getArtifactsByType(Artifact.TypeEnum.PROOF_ID);

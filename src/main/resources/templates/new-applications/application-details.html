@@ -473,6 +473,15 @@
                     <dd class="dft-data-list__dd" data-uipath="application.applicationtype"
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValue('APPTYPE', app.applicationTypeCode)}"/>
                 </div>
+                <div class="dft-data-list__item" th:if="${app.transferredLaFromCode}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.transferred}"/>
+                    <dd class="dft-data-list__dd" data-uipath="application.transferdetails">
+                        <span th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.transferredFromLaDate)}"/>
+                        <br/>
+                        <span th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', app.transferredLaFromCode)}"/>
+                    </dd>
+                </div>
                 <div class="dft-data-list__item" th:if="${app.submissionDate}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.submissionDate}"/>
