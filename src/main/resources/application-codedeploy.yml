@@ -35,7 +35,7 @@ spring:
     host:
     ssl: true
     cluster:
-      nodes: redis.elasticache-admin.${asg}.${bb_env}.${url}:6379
+      nodes: ${REDIS_HOSTNAME}:6379
   resources:
     cache:
       cachecontrol:
