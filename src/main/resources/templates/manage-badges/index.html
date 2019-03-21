@@ -69,11 +69,11 @@
                     </summary>
 
                     <div class="govuk-details__text">
-                        <form th:action="@{/manage-badges/export-all-la-badges}" th:method="get">
+                        <form th:action="@{/manage-badges/export-all-la-badges}" data-prevent-double-submission th:method="get">
                             <p class="govuk-body" th:text="#{findBadge.label.exportAllBadges.body}"></p>
 
                             <input data-uipath="exportAllLABadgesButton"
-                                   th:value="#{findBadge.label.exportAllBadges.button}" type="submit" class="govuk-button">
+                                   th:value="#{findBadge.label.exportAllBadges.button}" type="submit" class="govuk-button govuk-!-margin-bottom-0">
                         </form>
                     </div>
                 </details>
