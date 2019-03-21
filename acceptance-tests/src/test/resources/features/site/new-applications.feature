@@ -1,4 +1,4 @@
-@NewApplications
+@NewApplicationScripts
 Feature: Dft BlueBadge LA New applications
 
   As a Blue Badge team member
