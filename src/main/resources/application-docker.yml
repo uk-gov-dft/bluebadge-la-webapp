@@ -19,10 +19,11 @@ spring:
   redis:
     host: redis
   resources:
+    static-locations: classpath:/static/
     cache:
       cachecontrol:
-        max-age: 315360000
         no-store: false
+        max-age: 315360000
 
 
 

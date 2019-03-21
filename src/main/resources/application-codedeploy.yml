@@ -36,10 +36,11 @@ spring:
     cluster:
       nodes: redis.elasticache-admin.${asg}.${bb_env}.${url}:6379
   resources:
+    static-locations: classpath:/static/
     cache:
       cachecontrol:
-        max-age: 315360000
         no-store: false
+        max-age: 315360000
 
 server:
   port: ${bb_port:-8080}
