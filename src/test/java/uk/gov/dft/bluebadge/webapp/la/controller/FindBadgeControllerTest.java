@@ -8,14 +8,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.google.common.collect.Lists;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
@@ -249,7 +247,8 @@ public class FindBadgeControllerTest {
   @Test
   public void exportAllLaBadges_shouldReturnFile() throws Exception {
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LA_SHORT_CODE);
-    ResponseEntity<byte[]> expectedResponse = new ResponseEntity("response".getBytes(), HttpStatus.OK);
+    ResponseEntity<byte[]> expectedResponse =
+        new ResponseEntity("response".getBytes(), HttpStatus.OK);
     when(badgeServiceMock.exportBadgesByLa(LA_SHORT_CODE)).thenReturn(expectedResponse);
 
     mockMvc
