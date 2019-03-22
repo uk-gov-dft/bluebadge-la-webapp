@@ -3,6 +3,7 @@ package uk.gov.service.bluebadge.test.acceptance.pages.site;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import uk.gov.service.bluebadge.test.acceptance.pages.AbstractPage;
@@ -98,4 +99,41 @@ public class SitePage extends AbstractPage {
   public String getH1Tag() {
     return getWebDriver().findElement(By.tagName("h1")).getText();
   }
+
+private List<WebElement>ListOfNewApplications(){
+    return getWebDriver().findElements(By.xpath(".//tr[@class='govuk-table__row']/td/a"));
+}
+
+public   WebElement SelectSpecificNewApplication(String name){
+    List<WebElement>allApplications=ListOfNewApplications();
+    for(WebElement application:allApplications){
+      if(application.getText().equalsIgnoreCase(name)){
+        return application;
+      }
+    }
+    return  null;
+}
+  private List<WebElement> AllBreathlessnessAnswers(){
+    return getWebDriver().findElements(By.xpath(".//div[@class='dft-data-list__item' and contains(.,'When they get breathless')]//ul"));
+  }
+
+  private String FilterBreathlessAnswer(String x){
+
+    List<WebElement>breathlessAnswers=AllBreathlessnessAnswers();
+
+    for(WebElement breath: breathlessAnswers){
+
+      if(breath.getText().contains(x)){
+        return x;
+      }
+    }
+
+    return  null;
+  }
+
+  public  boolean ApplicationContainsBreathlessness(String answer){
+    return FilterBreathlessAnswer(answer)!=null;
+  }
+
+
 }

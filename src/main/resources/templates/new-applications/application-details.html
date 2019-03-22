@@ -247,8 +247,10 @@
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingDifficulty}"/>
                         <dd class="dft-data-list__dd">
                             <ul class="govuk-list" data-uipath="eligibility.walking.types">
-                                <li th:each="type: ${walking.typeCodes}"
-                                    th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
+                                <div th:each="type, iterStat: ${walking.typeCodes}" th:remove="tag">
+                                    <li th:unless="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)} + ','">
+                                    <li th:if="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
+                                </div>
                             </ul>
                         </dd>
                     </div>
@@ -259,6 +261,23 @@
                         <dd class="dft-data-list__dd" data-uipath="walking.otherDescription"
                             th:text="${walking.otherDescription}"/>
                     </div>
+
+                    <div class="dft-data-list__item" th:if="${walking.breathlessness.typeCodes}">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.eligibility.walkingDifficulty.label.whenTheyGetBreathless}"/>
+                        <dd class="dft-data-list__dd">
+                            <ul class="govuk-list" data-uipath="eligibility.walking.breathlessness.types">
+                                <div th:each="type, iterStat: ${walking.breathlessness.typeCodes}" th:remove="tag">
+                                    <li th:unless="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BREATHLESS', type)} + ','"></li>
+                                    <div th:if="${iterStat.last}" th:remove="tag">
+                                        <li th:unless="${walking.breathlessness.otherDescription}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BREATHLESS', type)}"></li>
+                                        <li th:if="${walking.breathlessness.otherDescription}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('BREATHLESS', type)} + ': ' + ${walking.breathlessness.otherDescription}"></li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </dd>
+                    </div>
+                    
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingAids}"/>
