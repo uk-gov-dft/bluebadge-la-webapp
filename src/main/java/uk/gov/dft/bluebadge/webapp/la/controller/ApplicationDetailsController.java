@@ -8,6 +8,7 @@ import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.Eligibili
 import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.WALKD;
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
@@ -52,12 +54,14 @@ public class ApplicationDetailsController {
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
+  private final SecurityUtils securityUtils;
 
   @Autowired
   public ApplicationDetailsController(
-      ApplicationService applicationService, ReferenceDataService referenceDataService) {
+      ApplicationService applicationService, ReferenceDataService referenceDataService, SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
+    this.securityUtils = securityUtils;
   }
 
   @GetMapping()
@@ -137,5 +141,18 @@ public class ApplicationDetailsController {
   @ModelAttribute("applicationStatusOptions")
   public List<ReferenceData> applicationStatusOptions() {
     return referenceDataService.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS);
+  }
+
+  @ModelAttribute("allOtherLocalAuthorities")
+  public List<ReferenceData> allOtherLocalAuthorities() {
+    String currentLocalAuthorityShortCode = securityUtils.getCurrentLocalAuthorityShortCode();
+    List<ReferenceData> las = new ArrayList<>();
+    referenceDataService
+            .retrieveApplicationReferenceDataList(RefDataGroupEnum.LA)
+              .forEach(c -> {
+                if (!currentLocalAuthorityShortCode.equals(c.getShortCode()))
+                las.add(c);
+              });
+    return las;
   }
 }

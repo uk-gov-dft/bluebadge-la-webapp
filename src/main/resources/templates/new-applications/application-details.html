@@ -534,6 +534,28 @@
             </div>
         </details>
 
+        <details class="govuk-details">
+            <div th:text="${#authentication.principal.localAuthorityShortCode}"></div>
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text" data-uipath="transferApplicationSummaryText"
+                      th:text="#{application.details.transfer.summary}"></span>
+            </summary>
+
+            <div class="govuk-details__text">
+                <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" method="post" novalidate>
+                    <div th:replace="~{ fragments/govuk-select :: govuk-select-flat(#{application.details.transfer.label}, 'transferToLaShortCode', null, ${allOtherLocalAuthorities}) }"/>
+
+                    <input data-uipath="transferApplicationButton"
+                           th:value="#{application.details.transfer.button}" type="submit" class="govuk-button">
+                </form>
+
+                <p class="govuk-body">
+                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotTransferApplicationLink"
+                       th:text="#{application.details.transfer.cancel.link}"></a>
+                </p>
+            </div>
+        </details>
+
 
     </section>
 </main>

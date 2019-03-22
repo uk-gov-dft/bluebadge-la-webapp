@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
@@ -39,6 +40,7 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 public class ApplicationDetailsControllerTest {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private SecurityUtils securityUtils;
 
   MockMvc mockMvc;
 
@@ -49,7 +51,7 @@ public class ApplicationDetailsControllerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    controller = new ApplicationDetailsController(applicationServiceMock, referenceDataServiceMock);
+    controller = new ApplicationDetailsController(applicationServiceMock, referenceDataServiceMock, securityUtils);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
