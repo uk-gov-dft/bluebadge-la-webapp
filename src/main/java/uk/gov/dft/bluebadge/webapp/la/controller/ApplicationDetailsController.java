@@ -145,14 +145,9 @@ public class ApplicationDetailsController {
 
   @ModelAttribute("allOtherLocalAuthorities")
   public List<ReferenceData> allOtherLocalAuthorities() {
-    String currentLocalAuthorityShortCode = securityUtils.getCurrentLocalAuthorityShortCode();
-    List<ReferenceData> las = new ArrayList<>();
-    referenceDataService
-            .retrieveApplicationReferenceDataList(RefDataGroupEnum.LA)
-              .forEach(c -> {
-                if (!currentLocalAuthorityShortCode.equals(c.getShortCode()))
-                las.add(c);
-              });
+    List<ReferenceData> las = referenceDataService
+            .retrieveBadgeLocalAuthorities();
+    las.removeIf(la -> la.getShortCode().equals(securityUtils.getCurrentLocalAuthorityShortCode()));
     return las;
   }
 }
