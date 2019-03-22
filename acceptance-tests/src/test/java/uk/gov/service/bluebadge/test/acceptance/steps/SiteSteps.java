@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -61,6 +62,19 @@ public class SiteSteps extends AbstractSpringSteps {
   public void thenIShouldSeePageTitled(String pageTitle) {
     assertThat("I should see page titled.", sitePage.getDocumentTitle(), is(pageTitle));
   }
+
+  @When("^I click on application with applicant name as \"([^\"]*)\"$")
+  public void i_click_on_application_with_applicant_name_as(String applicantName) throws Throwable {
+   sitePage.SelectSpecificNewApplication(applicantName).click();
+  }
+
+  @Then("^I should see that the application contains answer for \"([^\"]*)\"$")
+  public void i_should_see_that_the_application_contains_answer_for(String answer) throws Throwable {
+
+    assertTrue("application contains ",sitePage.ApplicationContainsBreathlessness(answer));
+  }
+
+
 
   @Then("^I should see the content \"([^\"]*)\"$")
   public void thenIShouldSeeTheContent(String content) {
