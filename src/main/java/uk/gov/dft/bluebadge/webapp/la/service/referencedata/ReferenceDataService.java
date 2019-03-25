@@ -143,6 +143,10 @@ public class ReferenceDataService {
     return retrieveApplicationReferenceDataList(RefDataGroupEnum.WALKING_DIFFICULTIES);
   }
 
+  public List<ReferenceData> retrieveApplicationBreathlessness() {
+    return retrieveApplicationReferenceDataList(RefDataGroupEnum.BREATHLESS);
+  }
+
   public List<ReferenceData> retrieveApplicationReferenceDataList(
       RefDataGroupEnum referenceDataGroup) {
     if (!isLoaded.get()) {
@@ -252,6 +256,10 @@ public class ReferenceDataService {
 
   public String retrieveApplicationWalkingSpeedDisplayValue(String key) {
     return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.WALKING_SPEED, key);
+  }
+
+  public String retrieveApplicationBreathlessnessDisplayValue(String key) {
+    return retrieveApplicationReferenceDataDisplayValue(RefDataGroupEnum.BREATHLESS, key);
   }
 
   /*
