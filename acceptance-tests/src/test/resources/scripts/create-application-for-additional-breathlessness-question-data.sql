@@ -15,7 +15,7 @@ VALUES
  'Contact Building Street', 
  'Contact Town City', 
  'SW11AA', 
- 'John The First',
+ 'BreathlessnessUPHillTest',
  null, 
  null, 
  '0502345678', 
@@ -52,7 +52,7 @@ VALUES
  'Contact Building Street', 
  'Contact Town City', 
  'SW11AA', 
- 'Alex Johnson',
+ 'BreathlessnessKeepUpTest',
  null, 
  null, 
  '0502345678', 
@@ -89,7 +89,7 @@ VALUES
  'Contact Building Street', 
  'Contact Town City', 
  'SE137GS', 
- 'David Littlejohnson',
+ 'BreathlessnessOwnPace',
  null, 
  null, 
  '0502345678', 
@@ -126,7 +126,7 @@ VALUES
  'Contact Building Street', 
  'Contact Town City', 
  'EC1A3BV', 
- 'Freddie Kruger',
+ 'BreathlessnessDressed',
  null, 
  null, 
  '0502345678', 
@@ -152,3 +152,24 @@ VALUES
  null, 
  null
  );
+
+ INSERT INTO applicationmanagement.app_breathlessness_type(application_id,breathlessness_type_code)
+ VALUES(
+        '1087ac26-491a-46f0-9006-36187dc40764'::uuid,
+        'UPHILL'
+       ),
+       (
+        '1087ac26-491a-46f0-9006-36187dc40765'::uuid,
+        'KEEPUP'
+        ),
+
+        (
+         '1087ac26-491a-46f0-9006-36187dc40766'::uuid,
+         'OWNPACE'
+        ),
+        (
+          '1087ac26-491a-46f0-9006-36187dc40767'::uuid,
+          'DRESSED'
+         )
+ 
+ 
