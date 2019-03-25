@@ -29,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -172,6 +173,36 @@ public class BadgeManagementApiClientTest {
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
+  }
+
+  @Test
+  public void exportBadgesByLa_shouldReturnByteContent_WhenRequestIsSuccessful() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+
+    byte[] byteContent = "Any String".getBytes();
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andExpect(header("Accept", "application/zip"))
+        .andRespond(withSuccess(byteContent, MediaType.parseMediaType("application/zip")));
+
+    ResponseEntity<byte[]> response = client.exportBadgesByLa("ABERD");
+    assertThat(response.getBody()).isEqualTo(byteContent);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void exportBadgesByLa_shouldThrowIllegalArgumentExcepton_whenLaShortCodeIsNull() {
+    client.exportBadgesByLa(null);
+  }
+
+  @Test(expected = HttpServerErrorException.class)
+  public void exportBadgesByLa_ShouldThrowException_When500() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withServerError());
+    client.exportBadgesByLa("ABERD");
   }
 
   @Test

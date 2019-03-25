@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import com.google.common.collect.Lists;
+import com.google.common.net.MediaType;
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
@@ -128,6 +132,29 @@ public class BadgeManagementApiClient extends BaseApiClient {
     }
 
     return response.getData();
+  }
+
+  public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {
+    log.debug("exportBadgesByLa with la [{}]", localAuthorityShortCode);
+    Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode supplied must not be null");
+
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
+    builder.queryParam("laShortCode", localAuthorityShortCode);
+    ResponseEntity<byte[]> response = null;
+
+    try {
+      HttpHeaders headers = new HttpHeaders();
+      headers.set("Accept", MediaType.ZIP.toString());
+      HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+      response =
+          restTemplate.exchange(
+              builder.build().toUriString(), HttpMethod.GET, requestEntity, byte[].class);
+    } catch (HttpClientErrorException cex) {
+      handleHttpClientException(cex);
+    }
+
+    return response;
   }
 
   public void cancelBadge(String badgeNumber, String reason) {

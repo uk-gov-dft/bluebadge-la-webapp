@@ -7,6 +7,7 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
@@ -75,6 +76,11 @@ public class BadgeService {
       return Lists.newArrayList();
     }
     return badgeManagementApiClient.findBadgeByName(name);
+  }
+
+  public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {
+    Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
+    return badgeManagementApiClient.exportBadgesByLa(localAuthorityShortCode);
   }
 
   public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {

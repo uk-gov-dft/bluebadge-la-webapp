@@ -20,6 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -169,6 +171,15 @@ public class BadgeServiceTest {
     when(badgeManagementApiClientMock.findBadgeByName(null)).thenReturn(badgesList);
     List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(null);
     assertThat(returnedBadges).isEqualTo(badgesList);
+  }
+
+  @Test
+  public void exportAllBadgesByLa_shouldWork() {
+    ResponseEntity<byte[]> expectedResponse =
+        new ResponseEntity<byte[]>("response".getBytes(), HttpStatus.OK);
+    when(badgeManagementApiClientMock.exportBadgesByLa("ABERD")).thenReturn(expectedResponse);
+    ResponseEntity<byte[]> response = badgeService.exportBadgesByLa("ABERD");
+    assertThat(response).isEqualTo(expectedResponse);
   }
 
   @Test

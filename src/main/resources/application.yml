@@ -80,7 +80,7 @@ spring:
       strategy:
         content:
           enabled: true
-      cache: true
+          paths: /js/**,/css/**
 
 server:
   port: 8080

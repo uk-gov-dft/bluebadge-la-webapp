@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,8 +21,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
@@ -43,6 +47,7 @@ public class FindBadgeControllerTest {
       new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
   private static final FindBadgeSearchResultViewModel VIEW_MODEL =
       FindBadgeSearchResultViewModel.builder().badgeNumber(BADGE_NUMBER).build();
+  private static final String LA_SHORT_CODE = "ABERD";
 
   private MockMvc mockMvc;
 
@@ -50,6 +55,7 @@ public class FindBadgeControllerTest {
 
   @Mock BadgeToFindBadgeSearchResultViewModel converterToViewModelMock;
   @Mock BadgeSummaryToFindBadgeSearchResultViewModel badgeSummartyconverterToViewModelMock;
+  @Mock SecurityUtils securityUtilsMock;
 
   private FindBadgeController controller;
 
@@ -61,7 +67,10 @@ public class FindBadgeControllerTest {
 
     controller =
         new FindBadgeController(
-            badgeServiceMock, converterToViewModelMock, badgeSummartyconverterToViewModelMock);
+            badgeServiceMock,
+            converterToViewModelMock,
+            badgeSummartyconverterToViewModelMock,
+            securityUtilsMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -233,5 +242,19 @@ public class FindBadgeControllerTest {
 
     assertThat(session.getAttribute("results")).isEqualTo(expectedResults);
     assertThat(session.getAttribute("searchTerm")).isEqualTo(NAME);
+  }
+
+  @Test
+  public void exportAllLaBadges_shouldReturnFile() throws Exception {
+    when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LA_SHORT_CODE);
+    ResponseEntity<byte[]> expectedResponse =
+        new ResponseEntity("response".getBytes(), HttpStatus.OK);
+    when(badgeServiceMock.exportBadgesByLa(LA_SHORT_CODE)).thenReturn(expectedResponse);
+
+    mockMvc
+        .perform(get("/manage-badges/export-all-la-badges"))
+        .andExpect(status().isOk())
+        .andExpect(content().bytes(expectedResponse.getBody()))
+        .andReturn();
   }
 }

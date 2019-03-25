@@ -94,7 +94,7 @@ public class ReferenceDataService {
     badgeGroupedReferenceDataList
         .get("LA")
         .forEach(
-            (value) -> {
+            value -> {
               if (value instanceof LocalAuthorityRefData) {
                 localAuthorityMap.put(value.getShortCode(), (LocalAuthorityRefData) value);
               }
