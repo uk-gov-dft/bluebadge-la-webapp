@@ -12,5 +12,5 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 @Builder
 public class BadgeNumberResponse extends CommonResponse {
   @JsonProperty("data")
-  private String data = null;
+  private String data;
 }
