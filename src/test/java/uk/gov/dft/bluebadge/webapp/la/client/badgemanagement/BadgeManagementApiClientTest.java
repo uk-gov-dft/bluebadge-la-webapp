@@ -14,6 +14,8 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField.COUNCIL;
+import static uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField.STAND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -314,7 +316,13 @@ public class BadgeManagementApiClientTest {
     String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
     String NEW_BADGE_NUMBER = "ABC";
 
-    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+    BadgeReplaceRequest request =
+        BadgeReplaceRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .replaceReasonCode("LOST")
+            .deliverToCode(COUNCIL)
+            .deliveryOptionCode(STAND)
+            .build();
     String requestBody = objectMapper.writeValueAsString(request);
 
     BadgeNumberResponse badgeResponse =
@@ -336,7 +344,13 @@ public class BadgeManagementApiClientTest {
   public void replaceBadge_throwException_whenNoRequestBodyIsPassed() {
     String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
 
-    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+    BadgeReplaceRequest request =
+        BadgeReplaceRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .replaceReasonCode("LOST")
+            .deliverToCode(COUNCIL)
+            .deliveryOptionCode(STAND)
+            .build();
 
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
