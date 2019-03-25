@@ -29,7 +29,6 @@ public class ApplicationsApiClient extends BaseApiClient {
   private static final String TRANSFER_ENDPOINT = "/applications/{uuid}/transfers";
 
   private final RestTemplate restTemplate;
-  private Class<CommonResponse> responseType;
 
   @Autowired
   public ApplicationsApiClient(@Qualifier("applicationsRestTemplate") RestTemplate restTemplate) {
