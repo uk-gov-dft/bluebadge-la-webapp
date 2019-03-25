@@ -28,8 +28,10 @@ import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
@@ -51,7 +53,9 @@ public class ApplicationDetailsControllerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    controller = new ApplicationDetailsController(applicationServiceMock, referenceDataServiceMock, securityUtils);
+    controller =
+        new ApplicationDetailsController(
+            applicationServiceMock, referenceDataServiceMock, securityUtils);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
@@ -385,6 +389,34 @@ public class ApplicationDetailsControllerTest {
             .applicationStatus(NEW_STATUS)
             .build();
     verify(applicationServiceMock).update(applicationUpdate);
+  }
+
+  @Test
+  @SneakyThrows
+  public void transfer_shouldTransferApplicationAndRedirectToNewApplications() {
+    Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
+    String applicationId = application.getApplicationId();
+    String LA_SHORTCODE = "ABERD";
+    String TRANSFER_TO_LA_SHORTCODE = "KENTCC";
+    when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
+
+    TransferApplicationFormRequest expectedTransferFormRequest =
+        TransferApplicationFormRequest.builder()
+            .transferToLaShortCode(TRANSFER_TO_LA_SHORTCODE)
+            .build();
+
+    mockMvc
+        .perform(
+            post("/new-applications/" + applicationId + "/transfers")
+                .param("transferToLaShortCode", TRANSFER_TO_LA_SHORTCODE))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/new-applications"))
+        .andExpect(
+            model().attribute("transferApplicationFormRequest", expectedTransferFormRequest));
+
+    ApplicationTransfer applicationTransfer =
+        ApplicationTransfer.builder().transferToLaShortCode(TRANSFER_TO_LA_SHORTCODE).build();
+    verify(applicationServiceMock).transfer(applicationId, applicationTransfer);
   }
 
   @Test

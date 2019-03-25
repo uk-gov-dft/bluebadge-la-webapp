@@ -496,9 +496,9 @@
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.transferred}"/>
                     <dd class="dft-data-list__dd" data-uipath="application.transferdetails">
-                        <span th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.transferredFromLaDate)}"/>
+                        <span th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.transferredFromLaDate)}" data-uipath="application.transferdetails.date"/>
                         <br/>
-                        <span th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', app.transferredLaFromCode)}"/>
+                        <span th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', app.transferredLaFromCode)}" data-uipath="application.transferdetails.la"/>
                     </dd>
                 </div>
                 <div class="dft-data-list__item" th:if="${app.submissionDate}">

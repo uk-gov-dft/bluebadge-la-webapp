@@ -8,7 +8,6 @@ import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.Eligibili
 import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.WALKD;
 import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
@@ -31,8 +30,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdat
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
@@ -58,7 +57,9 @@ public class ApplicationDetailsController {
 
   @Autowired
   public ApplicationDetailsController(
-      ApplicationService applicationService, ReferenceDataService referenceDataService, SecurityUtils securityUtils) {
+      ApplicationService applicationService,
+      ReferenceDataService referenceDataService,
+      SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
     this.securityUtils = securityUtils;
@@ -71,7 +72,7 @@ public class ApplicationDetailsController {
       @ModelAttribute("updateApplicationFormRequest")
           final UpdateApplicationFormRequest updateApplicationFormRequest,
       @ModelAttribute("transferApplicationFormRequest")
-      final TransferApplicationFormRequest transferApplicationFormRequest) {
+          final TransferApplicationFormRequest transferApplicationFormRequest) {
     Application application = applicationService.retrieve(uuid.toString());
     updateApplicationFormRequest.setApplicationStatus(
         application.getApplicationStatus() != null
@@ -106,14 +107,14 @@ public class ApplicationDetailsController {
 
   @PostMapping(path = "/new-applications/{uuid}/transfers")
   public String transferApplication(
-          @PathVariable(PARAM_UUID) UUID uuid,
-          @ModelAttribute("transferApplicationFormRequest")
+      @PathVariable(PARAM_UUID) UUID uuid,
+      @ModelAttribute("transferApplicationFormRequest")
           final TransferApplicationFormRequest transferFormRequest) {
 
     ApplicationTransfer applicationTransfer =
-            ApplicationTransfer.builder()
-                    .transferToLaShortCode(transferFormRequest.getTransferToLaShortCode())
-                    .build();
+        ApplicationTransfer.builder()
+            .transferToLaShortCode(transferFormRequest.getTransferToLaShortCode())
+            .build();
     applicationService.transfer(uuid.toString(), applicationTransfer);
     return REDIRECT_URL_NEW_APPLICATION;
   }
@@ -131,13 +132,14 @@ public class ApplicationDetailsController {
       @ModelAttribute("updateApplicationFormRequest")
           final UpdateApplicationFormRequest updateApplicationFormRequest,
       @ModelAttribute("transferApplicationFormRequest")
-      final TransferApplicationFormRequest transferApplicationFormRequest) {
+          final TransferApplicationFormRequest transferApplicationFormRequest) {
 
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
             .applicationId(uuid)
             .applicationStatus(
-                ApplicationStatusField.fromValue(updateApplicationFormRequest.getApplicationStatus()))
+                ApplicationStatusField.fromValue(
+                    updateApplicationFormRequest.getApplicationStatus()))
             .build();
     applicationService.update(applicationUpdate);
     return this.show(uuid, model, updateApplicationFormRequest, transferApplicationFormRequest);
@@ -163,8 +165,7 @@ public class ApplicationDetailsController {
 
   @ModelAttribute("allOtherLocalAuthorities")
   public List<ReferenceData> allOtherLocalAuthorities() {
-    List<ReferenceData> las = referenceDataService
-            .retrieveBadgeLocalAuthorities();
+    List<ReferenceData> las = referenceDataService.retrieveBadgeLocalAuthorities();
     las.removeIf(la -> la.getShortCode().equals(securityUtils.getCurrentLocalAuthorityShortCode()));
     return las;
   }

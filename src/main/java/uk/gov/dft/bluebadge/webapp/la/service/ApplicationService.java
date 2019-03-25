@@ -15,7 +15,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeC
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
 import uk.gov.dft.bluebadge.webapp.la.comparator.ApplicationSummaryComparatorBySubmittedDateDescendingOrder;
-import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 
 @Service
 @Slf4j
@@ -117,6 +116,9 @@ public class ApplicationService {
   public void transfer(String applicationId, ApplicationTransfer applicationTransferRequest) {
     Assert.notNull(applicationId, "applicationId must be not null");
     Assert.notNull(applicationTransferRequest, "applicationUpdateRequest must be not null");
+    Assert.notNull(
+        applicationTransferRequest.getTransferToLaShortCode(),
+        "transferToLaShortCode must be not null");
     applicationsApiClient.transfer(applicationId, applicationTransferRequest);
   }
 

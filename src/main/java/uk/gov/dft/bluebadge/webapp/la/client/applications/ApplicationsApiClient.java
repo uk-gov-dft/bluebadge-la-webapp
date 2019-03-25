@@ -28,7 +28,6 @@ public class ApplicationsApiClient extends BaseApiClient {
   private static final String BASE_ENDPOINT = "applications";
   private static final String TRANSFER_ENDPOINT = "/applications/{uuid}/transfers";
 
-
   private final RestTemplate restTemplate;
   private Class<CommonResponse> responseType;
 
@@ -138,12 +137,11 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     String uri = UriComponentsBuilder.fromUriString(TRANSFER_ENDPOINT).build().toUriString();
 
-    log.debug(
-            "transfer application {} to LA {}",
-            transferToLaShortCode);
+    log.debug("transfer application {} to LA {}", transferToLaShortCode);
 
     try {
-      restTemplate.postForEntity(uri, applicationTransferRequest, CommonResponse.class, applicationId);
+      restTemplate.postForEntity(
+          uri, applicationTransferRequest, CommonResponse.class, applicationId);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
