@@ -22,22 +22,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
-@RequestMapping(path = "/new-applications/{uuid}")
 @Slf4j
 public class ApplicationDetailsController {
   private static final String PARAM_UUID = "uuid";
@@ -64,14 +64,16 @@ public class ApplicationDetailsController {
     this.securityUtils = securityUtils;
   }
 
-  @GetMapping()
+  @GetMapping(path = "/new-applications/{uuid}")
   public String show(
       @PathVariable(PARAM_UUID) UUID uuid,
       Model model,
       @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateFormRequest) {
+          final UpdateApplicationFormRequest updateApplicationFormRequest,
+      @ModelAttribute("transferApplicationFormRequest")
+      final TransferApplicationFormRequest transferApplicationFormRequest) {
     Application application = applicationService.retrieve(uuid.toString());
-    updateFormRequest.setApplicationStatus(
+    updateApplicationFormRequest.setApplicationStatus(
         application.getApplicationStatus() != null
             ? application.getApplicationStatus().name()
             : null);
@@ -95,34 +97,50 @@ public class ApplicationDetailsController {
     return TEMPLATE;
   }
 
-  @PostMapping()
+  @PostMapping(path = "/new-applications/{uuid}")
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
     return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
   }
 
-  @DeleteMapping()
+  @PostMapping(path = "/new-applications/{uuid}/transfers")
+  public String transferApplication(
+          @PathVariable(PARAM_UUID) UUID uuid,
+          @ModelAttribute("transferApplicationFormRequest")
+          final TransferApplicationFormRequest transferFormRequest) {
+
+    ApplicationTransfer applicationTransfer =
+            ApplicationTransfer.builder()
+                    .transferToLaShortCode(transferFormRequest.getTransferToLaShortCode())
+                    .build();
+    applicationService.transfer(uuid.toString(), applicationTransfer);
+    return REDIRECT_URL_NEW_APPLICATION;
+  }
+
+  @DeleteMapping(path = "/new-applications/{uuid}")
   public String delete(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
-  @PutMapping()
+  @PutMapping(path = "/new-applications/{uuid}")
   public String update(
       @PathVariable(PARAM_UUID) UUID uuid,
       Model model,
       @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateFormRequest) {
+          final UpdateApplicationFormRequest updateApplicationFormRequest,
+      @ModelAttribute("transferApplicationFormRequest")
+      final TransferApplicationFormRequest transferApplicationFormRequest) {
 
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
             .applicationId(uuid)
             .applicationStatus(
-                ApplicationStatusField.fromValue(updateFormRequest.getApplicationStatus()))
+                ApplicationStatusField.fromValue(updateApplicationFormRequest.getApplicationStatus()))
             .build();
     applicationService.update(applicationUpdate);
-    return this.show(uuid, model, updateFormRequest);
+    return this.show(uuid, model, updateApplicationFormRequest, transferApplicationFormRequest);
   }
 
   @SuppressWarnings("squid:S2589")

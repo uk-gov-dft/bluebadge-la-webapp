@@ -11,10 +11,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
@@ -24,8 +26,11 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 public class ApplicationsApiClient extends BaseApiClient {
 
   private static final String BASE_ENDPOINT = "applications";
+  private static final String TRANSFER_ENDPOINT = "/applications/{uuid}/transfers";
+
 
   private final RestTemplate restTemplate;
+  private Class<CommonResponse> responseType;
 
   @Autowired
   public ApplicationsApiClient(@Qualifier("applicationsRestTemplate") RestTemplate restTemplate) {
@@ -121,6 +126,24 @@ public class ApplicationsApiClient extends BaseApiClient {
             .pathSegment(BASE_ENDPOINT, applicationId.toString());
     try {
       restTemplate.put(builder.toUriString(), applicationUpdateRequest);
+    } catch (HttpClientErrorException c) {
+      handleHttpClientException(c);
+    }
+  }
+
+  public void transfer(String applicationId, ApplicationTransfer applicationTransferRequest) {
+    String transferToLaShortCode = applicationTransferRequest.getTransferToLaShortCode();
+    Assert.notNull(applicationTransferRequest, "applicationTransferRequest must be not null");
+    Assert.notNull(transferToLaShortCode, "transferToLaShortCode must be not null");
+
+    String uri = UriComponentsBuilder.fromUriString(TRANSFER_ENDPOINT).build().toUriString();
+
+    log.debug(
+            "transfer application {} to LA {}",
+            transferToLaShortCode);
+
+    try {
+      restTemplate.postForEntity(uri, applicationTransferRequest, CommonResponse.class, applicationId);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }

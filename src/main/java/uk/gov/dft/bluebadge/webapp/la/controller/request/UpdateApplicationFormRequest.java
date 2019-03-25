@@ -8,5 +8,4 @@ import lombok.Data;
 @Builder
 public class UpdateApplicationFormRequest implements Serializable {
   private String applicationStatus;
-  private String transferToLaShortCode;
 }
