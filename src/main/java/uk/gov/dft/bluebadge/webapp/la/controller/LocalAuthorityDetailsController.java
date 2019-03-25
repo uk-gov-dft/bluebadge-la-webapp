@@ -34,6 +34,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 
 @Slf4j
 @Controller
+@SuppressWarnings("squid:S3776")
 public class LocalAuthorityDetailsController {
 
   public static final String URL = "/manage-local-authorities/local-authority-details/{shortCode}";

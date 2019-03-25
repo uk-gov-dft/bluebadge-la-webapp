@@ -78,8 +78,6 @@ public class DatabaseSteps {
     dbUtils.runScript("scripts/delete_application-for-additional-breathlessness-question-data.sql");
   }
 
-
-
   void runScript(String scriptPath) throws SQLException {
     dbUtils.runScript(scriptPath);
   }
