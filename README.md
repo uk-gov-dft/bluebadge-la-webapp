@@ -306,3 +306,4 @@ You have to trigger a rebuild with CMD+F9 and then reload the page.
 
 ### TESTING
 [Spring MVC Testing (to test the controllers)](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework)
+

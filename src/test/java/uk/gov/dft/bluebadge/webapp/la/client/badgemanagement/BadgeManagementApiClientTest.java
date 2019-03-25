@@ -14,6 +14,8 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField.COUNCIL;
+import static uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField.STAND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -173,6 +176,36 @@ public class BadgeManagementApiClientTest {
   }
 
   @Test
+  public void exportBadgesByLa_shouldReturnByteContent_WhenRequestIsSuccessful() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+
+    byte[] byteContent = "Any String".getBytes();
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andExpect(header("Accept", "application/zip"))
+        .andRespond(withSuccess(byteContent, MediaType.parseMediaType("application/zip")));
+
+    ResponseEntity<byte[]> response = client.exportBadgesByLa("ABERD");
+    assertThat(response.getBody()).isEqualTo(byteContent);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void exportBadgesByLa_shouldThrowIllegalArgumentExcepton_whenLaShortCodeIsNull() {
+    client.exportBadgesByLa(null);
+  }
+
+  @Test(expected = HttpServerErrorException.class)
+  public void exportBadgesByLa_ShouldThrowException_When500() {
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withServerError());
+    client.exportBadgesByLa("ABERD");
+  }
+
+  @Test
   public void findABadgeByName_ShouldRetrieveAListOfBadges() throws JsonProcessingException {
     BadgeSummary b1 = new BadgeSummary();
     List<BadgeSummary> badges = Lists.newArrayList(b1);
@@ -283,7 +316,13 @@ public class BadgeManagementApiClientTest {
     String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
     String NEW_BADGE_NUMBER = "ABC";
 
-    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+    BadgeReplaceRequest request =
+        BadgeReplaceRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .replaceReasonCode("LOST")
+            .deliverToCode(COUNCIL)
+            .deliveryOptionCode(STAND)
+            .build();
     String requestBody = objectMapper.writeValueAsString(request);
 
     BadgeNumberResponse badgeResponse =
@@ -305,7 +344,13 @@ public class BadgeManagementApiClientTest {
   public void replaceBadge_throwException_whenNoRequestBodyIsPassed() {
     String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/replacements";
 
-    BadgeReplaceRequest request = new BadgeReplaceRequest(BADGE_NUMBER, "LOST", "COUNCIL", "STAND");
+    BadgeReplaceRequest request =
+        BadgeReplaceRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .replaceReasonCode("LOST")
+            .deliverToCode(COUNCIL)
+            .deliveryOptionCode(STAND)
+            .build();
 
     String commonResponseBody = objectMapper.writeValueAsString(new CommonResponse());
 
