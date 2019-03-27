@@ -70,7 +70,7 @@ for id and attaching label to the input field.
           th:errors="*{__${name}__}"></span>
 
     <select class="govuk-select" th:field="*{__${name}__}" th:data-uipath="${name} + '.field'">
-        <option value="">Select one</option>
+        <option value="" disabled="disabled">Select one</option>
         <option th:each="option: ${options}"
                 th:value="${option.shortCode}"
                 th:text="${option.description}"></option>
