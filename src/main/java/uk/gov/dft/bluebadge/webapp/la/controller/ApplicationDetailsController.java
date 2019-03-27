@@ -12,9 +12,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,13 +34,16 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeFie
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
+import javax.validation.Valid;
+
 @Controller
 @Slf4j
-public class ApplicationDetailsController {
+public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
@@ -50,6 +55,7 @@ public class ApplicationDetailsController {
       EnumSet.of(WALKD, CHILDBULK, CHILDVEHIC);
   private static final EnumSet<EligibilityCodeField> SUPPORT_DOCS_ELIG_TYPES =
       EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
+  public static final String URL_NEW_APPLICATIONS_UUID = "/new-applications/{uuid}";
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
@@ -68,16 +74,12 @@ public class ApplicationDetailsController {
   @GetMapping(path = "/new-applications/{uuid}")
   public String show(
       @PathVariable(PARAM_UUID) UUID uuid,
-      Model model,
-      @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateApplicationFormRequest,
-      @ModelAttribute("transferApplicationFormRequest")
-          final TransferApplicationFormRequest transferApplicationFormRequest) {
+      Model model) {
     Application application = applicationService.retrieve(uuid.toString());
-    updateApplicationFormRequest.setApplicationStatus(
-        application.getApplicationStatus() != null
-            ? application.getApplicationStatus().name()
-            : null);
+//    updateApplicationFormRequest.setApplicationStatus(
+//        application.getApplicationStatus() != null
+//            ? application.getApplicationStatus().name()
+//            : null);
 
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
@@ -98,7 +100,7 @@ public class ApplicationDetailsController {
     return TEMPLATE;
   }
 
-  @PostMapping(path = "/new-applications/{uuid}")
+  @PostMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
@@ -108,14 +110,20 @@ public class ApplicationDetailsController {
   @PostMapping(path = "/new-applications/{uuid}/transfers")
   public String transferApplication(
       @PathVariable(PARAM_UUID) UUID uuid,
-      @ModelAttribute("transferApplicationFormRequest")
-          final TransferApplicationFormRequest transferFormRequest) {
+      @Valid @ModelAttribute("formRequest") final TransferApplicationFormRequest formRequest,
+      BindingResult bindingResult,
+      RedirectAttributes attr) {
+
+    if (bindingResult.hasErrors()) {
+      return redirectToOnBindingError("/new-applications/{uuid}", formRequest, bindingResult, attr);
+    }
 
     ApplicationTransfer applicationTransfer =
         ApplicationTransfer.builder()
-            .transferToLaShortCode(transferFormRequest.getTransferToLaShortCode())
+            .transferToLaShortCode(formRequest.getTransferToLaShortCode())
             .build();
     applicationService.transfer(uuid.toString(), applicationTransfer);
+
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
@@ -125,14 +133,12 @@ public class ApplicationDetailsController {
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
-  @PutMapping(path = "/new-applications/{uuid}")
+  @PutMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String update(
       @PathVariable(PARAM_UUID) UUID uuid,
       Model model,
       @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateApplicationFormRequest,
-      @ModelAttribute("transferApplicationFormRequest")
-          final TransferApplicationFormRequest transferApplicationFormRequest) {
+          final UpdateApplicationFormRequest updateApplicationFormRequest) {
 
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
@@ -142,7 +148,7 @@ public class ApplicationDetailsController {
                     updateApplicationFormRequest.getApplicationStatus()))
             .build();
     applicationService.update(applicationUpdate);
-    return this.show(uuid, model, updateApplicationFormRequest, transferApplicationFormRequest);
+    return TEMPLATE;
   }
 
   @SuppressWarnings("squid:S2589")

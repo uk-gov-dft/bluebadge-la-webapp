@@ -32,9 +32,10 @@ variable which comes from Thymleaf / Spring integration.
     <div th:if="${errorSummary} AND ${errorSummary.description}" th:data-uipath="${errorSummary.description}" id="error-summary-description"
          th:text="#{${errorSummary.description}}"
          class="govuk-error-summary__body" />
+    errorSummary [[${errorSummary} AND ${errorSummary.description}]]
 
     <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
-
+        fields [[${fields.hasErrors('formRequest.*')}]]
         <ul class="govuk-list govuk-error-summary__list">
 
             <li th:if="${err.isGlobal()}"
