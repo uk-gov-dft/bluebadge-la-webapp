@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -30,11 +31,11 @@ abstract class BaseControllerTest {
 
   MockMvc mockMvc;
 
-  public static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
-      String fieldName, String error) {
+  static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
+      String fieldName, String error, String modelAttributeName) {
     return flash()
         .attribute(
-            "org.springframework.validation.BindingResult.formRequest",
+            "org.springframework.validation.BindingResult." + modelAttributeName,
             hasProperty(
                 "fieldErrors",
                 hasItem(
@@ -43,10 +44,19 @@ abstract class BaseControllerTest {
                         hasProperty("code", equalTo(error))))));
   }
 
-  public static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount) {
+  static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
+      String fieldName, String error) {
+    return formRequestFlashAttributeHasFieldErrorCode(fieldName, error, "formRequest");
+  }
+
+  static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount) {
+    return formRequestFlashAttributeCount(expectedErrorCount, "formRequest");
+  }
+
+  static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount, String modelAttributeName) {
     return flash()
         .attribute(
-            "org.springframework.validation.BindingResult.formRequest",
+            "org.springframework.validation.BindingResult." + modelAttributeName,
             hasProperty("fieldErrors", hasSize(expectedErrorCount)));
   }
 }
