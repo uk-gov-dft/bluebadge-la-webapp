@@ -5,24 +5,28 @@ blue-badge:
      ***REMOVED***
   usermanagementservice:
     servicehost:
-      host: usermanagement-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}/user
       port: 443
       scheme: https
+      contextpath: /
   badgemanagementservice:
     servicehost:
-      host: badge-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}/badges
       port: 443
       scheme: https
+      contextpath: /
   referencedataservice:
     servicehost:
-      host: reference-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}/reference-data
       port: 443
       scheme: https
+      contextpath: /
   applicationsservice:
     servicehost:
-      host: application-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}/applications
       port: 443
       scheme: https
+      contextpath: /
 
 management:
   server:
