@@ -556,7 +556,7 @@
             </div>
         </details>
 
-        <details class="govuk-details">
+        <details class="govuk-details" th:open="${#fields.hasErrors('transferApplicationFormRequest.transferToLaShortCode')}">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text" data-uipath="transferApplicationSummaryText"
                       th:text="#{application.details.transfer.summary}"></span>
