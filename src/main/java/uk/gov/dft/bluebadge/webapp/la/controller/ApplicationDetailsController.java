@@ -42,8 +42,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "new-applications/application-details";
-  static final String REDIRECT_URL_NEW_APPLICATION = "redirect:" + NewApplicationsController.URL;
-  static final String APPLICATION_DETAILS_ENDPOINT = "/new-applications/{uuid}";
+  private static final String REDIRECT_URL_NEW_APPLICATION = "redirect:" + NewApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -51,7 +50,8 @@ public class ApplicationDetailsController extends BaseController {
       EnumSet.of(WALKD, CHILDBULK, CHILDVEHIC);
   private static final EnumSet<EligibilityCodeField> SUPPORT_DOCS_ELIG_TYPES =
       EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
-  private static final String URL_NEW_APPLICATIONS_UUID = "/new-applications/{uuid}";
+  static final String URL_NEW_APPLICATIONS_UUID = "/new-applications/{uuid}";
+  private static final String TRANSFER_APPLICATION_FORM_REQUEST = "transferApplicationFormRequest";
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
@@ -67,7 +67,7 @@ public class ApplicationDetailsController extends BaseController {
     this.securityUtils = securityUtils;
   }
 
-  @GetMapping(path = APPLICATION_DETAILS_ENDPOINT)
+  @GetMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
@@ -82,9 +82,9 @@ public class ApplicationDetailsController extends BaseController {
             .applicationStatus(application.getApplicationStatus())
             .build());
     // Can add a new transfer model.  1 field.  Only validation is notnull, so no data to preserve.
-    if (!model.containsAttribute("transferApplicationFormRequest")) {
+    if (!model.containsAttribute(TRANSFER_APPLICATION_FORM_REQUEST)) {
       model.addAttribute(
-          "transferApplicationFormRequest", TransferApplicationFormRequest.builder().build());
+          TRANSFER_APPLICATION_FORM_REQUEST, TransferApplicationFormRequest.builder().build());
     }
 
     if (application.getEligibility() != null) {
@@ -110,18 +110,18 @@ public class ApplicationDetailsController extends BaseController {
   @PostMapping(path = "/new-applications/{uuid}/transfers")
   public String transferApplication(
       @PathVariable(PARAM_UUID) UUID uuid,
-      @Valid @ModelAttribute("transferApplicationFormRequest")
+      @Valid @ModelAttribute(TRANSFER_APPLICATION_FORM_REQUEST)
           final TransferApplicationFormRequest formRequest,
       BindingResult bindingResult,
       RedirectAttributes attr) {
 
     if (bindingResult.hasErrors()) {
       return redirectToOnBindingError(
-          "/new-applications/{uuid}",
+          URL_NEW_APPLICATIONS_UUID,
           formRequest,
           bindingResult,
           attr,
-          "transferApplicationFormRequest");
+          TRANSFER_APPLICATION_FORM_REQUEST);
     }
 
     ApplicationTransfer applicationTransfer =
@@ -133,7 +133,7 @@ public class ApplicationDetailsController extends BaseController {
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
-  @DeleteMapping(path = "/new-applications/{uuid}")
+  @DeleteMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String delete(@PathVariable(PARAM_UUID) UUID uuid) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;
@@ -152,7 +152,7 @@ public class ApplicationDetailsController extends BaseController {
             .applicationStatus(updateApplicationFormRequest.getApplicationStatus())
             .build();
     applicationService.update(applicationUpdate);
-    return "redirect:" + APPLICATION_DETAILS_ENDPOINT;
+    return "redirect:" + URL_NEW_APPLICATIONS_UUID;
   }
 
   @SuppressWarnings("squid:S2589")

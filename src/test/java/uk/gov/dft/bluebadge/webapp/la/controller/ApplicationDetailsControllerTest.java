@@ -309,7 +309,7 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(
             redirectedUrl(
-                ApplicationDetailsController.APPLICATION_DETAILS_ENDPOINT.replace(
+                ApplicationDetailsController.URL_NEW_APPLICATIONS_UUID.replace(
                     "{uuid}", applicationId)))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions));
