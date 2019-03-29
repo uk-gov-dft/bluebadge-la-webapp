@@ -306,8 +306,11 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             put("/new-applications/" + applicationId).param("applicationStatus", NEW_STATUS.name()))
-        .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(
+            redirectedUrl(
+                ApplicationDetailsController.APPLICATION_DETAILS_ENDPOINT.replace(
+                    "{uuid}", applicationId)))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions));
 
