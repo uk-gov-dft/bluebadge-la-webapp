@@ -1,5 +1,17 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.ARMS;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDBULK;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDVEHIC;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.DLA;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.PIP;
+import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.WALKD;
+import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.UUID;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,19 +36,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRe
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
-
-import javax.validation.Valid;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.UUID;
-
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.ARMS;
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDBULK;
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.CHILDVEHIC;
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.DLA;
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.PIP;
-import static uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField.WALKD;
-import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApplicationController.ORDER_A_BADGE_APPLICATION_URL;
 
 @Controller
 @Slf4j
@@ -78,10 +77,14 @@ public class ApplicationDetailsController extends BaseController {
     model.addAttribute(
         "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
     model.addAttribute(
-        "updateApplicationFormRequest", UpdateApplicationFormRequest.builder().applicationStatus(application.getApplicationStatus()).build());
+        "updateApplicationFormRequest",
+        UpdateApplicationFormRequest.builder()
+            .applicationStatus(application.getApplicationStatus())
+            .build());
     // Can add a new transfer model.  1 field.  Only validation is notnull, so no data to preserve.
     if (!model.containsAttribute("transferApplicationFormRequest")) {
-      model.addAttribute("transferApplicationFormRequest", TransferApplicationFormRequest.builder().build());
+      model.addAttribute(
+          "transferApplicationFormRequest", TransferApplicationFormRequest.builder().build());
     }
 
     if (application.getEligibility() != null) {
@@ -107,12 +110,18 @@ public class ApplicationDetailsController extends BaseController {
   @PostMapping(path = "/new-applications/{uuid}/transfers")
   public String transferApplication(
       @PathVariable(PARAM_UUID) UUID uuid,
-      @Valid @ModelAttribute("transferApplicationFormRequest") final TransferApplicationFormRequest formRequest,
+      @Valid @ModelAttribute("transferApplicationFormRequest")
+          final TransferApplicationFormRequest formRequest,
       BindingResult bindingResult,
       RedirectAttributes attr) {
 
     if (bindingResult.hasErrors()) {
-      return redirectToOnBindingError("/new-applications/{uuid}", formRequest, bindingResult, attr, "transferApplicationFormRequest");
+      return redirectToOnBindingError(
+          "/new-applications/{uuid}",
+          formRequest,
+          bindingResult,
+          attr,
+          "transferApplicationFormRequest");
     }
 
     ApplicationTransfer applicationTransfer =
@@ -134,13 +143,13 @@ public class ApplicationDetailsController extends BaseController {
   public String update(
       @PathVariable(PARAM_UUID) UUID uuid,
       Model model,
-      @ModelAttribute("updateApplicationFormRequest") final UpdateApplicationFormRequest updateApplicationFormRequest) {
+      @ModelAttribute("updateApplicationFormRequest")
+          final UpdateApplicationFormRequest updateApplicationFormRequest) {
 
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
             .applicationId(uuid)
-            .applicationStatus(
-                updateApplicationFormRequest.getApplicationStatus())
+            .applicationStatus(updateApplicationFormRequest.getApplicationStatus())
             .build();
     applicationService.update(applicationUpdate);
     return TEMPLATE;

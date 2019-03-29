@@ -17,7 +17,8 @@ class BaseController {
       Object formRequest,
       BindingResult bindingResult,
       RedirectAttributes attr) {
-    return redirectToOnBindingError(currentFormUrl, formRequest, bindingResult, attr, "formRequest");
+    return redirectToOnBindingError(
+        currentFormUrl, formRequest, bindingResult, attr, "formRequest");
   }
 
   String redirectToOnBindingError(
