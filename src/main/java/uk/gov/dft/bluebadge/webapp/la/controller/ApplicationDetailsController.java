@@ -44,6 +44,7 @@ public class ApplicationDetailsController extends BaseController {
   private static final String TEMPLATE = "new-applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
       "redirect:" + NewApplicationsController.URL;
+  private static final String APPLICATION_DETAILS_ENDPOINT = "/new-applications/{uuid}";
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -67,7 +68,7 @@ public class ApplicationDetailsController extends BaseController {
     this.securityUtils = securityUtils;
   }
 
-  @GetMapping(path = "/new-applications/{uuid}")
+  @GetMapping(path = APPLICATION_DETAILS_ENDPOINT)
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 

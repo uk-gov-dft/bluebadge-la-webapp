@@ -42,7 +42,7 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 public class ApplicationDetailsControllerTest extends BaseControllerTest {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
-  @Mock private SecurityUtils securityUtils;
+  @Mock private SecurityUtils securityUtilsMock;
 
   MockMvc mockMvc;
 
@@ -55,7 +55,7 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
     controller =
         new ApplicationDetailsController(
-            applicationServiceMock, referenceDataServiceMock, securityUtils);
+            applicationServiceMock, referenceDataServiceMock, securityUtilsMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
