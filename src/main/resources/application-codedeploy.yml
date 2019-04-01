@@ -1,6 +1,6 @@
 blue-badge:
   auth-server:
-    url: https://api.${bb_env}.${url}/oauth
+    url: https://authorisation-service.${bb_env}.${url}/bb_auth
   usermanagementservice:
     servicehost:
       host: api.${bb_env}.${url}/user
