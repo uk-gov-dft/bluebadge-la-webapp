@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
@@ -27,6 +28,9 @@ public class ApplicationServiceTest extends ApplicationTestData {
           .applicationId(UUID.fromString(APPLICATION_ID))
           .applicationStatus(ApplicationStatusField.INPROGRESS)
           .build();
+
+  private static final ApplicationTransfer APPLICATION_TRANSFER =
+      ApplicationTransfer.builder().transferToLaShortCode("KENTCC").build();
 
   @Mock private ApplicationsApiClient applicationsApiClientMock;
 
@@ -162,5 +166,28 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .build();
 
     applicationService.update(applicationUpdate);
+  }
+
+  @Test
+  public void transfer_shouldWork() {
+    applicationService.transfer(APPLICATION_ID, APPLICATION_TRANSFER);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void transfer_shouldThrowIllegalArgumentException_whenApplicationIdIsNull() {
+    applicationService.transfer(null, APPLICATION_TRANSFER);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void transfer_shouldThrowIllegalArgumentException_whenApplicationTransferRequestIsNull() {
+    applicationService.transfer(APPLICATION_ID, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void transfer_shouldThrowIllegalArgumentException_whenTransferToLaShortCodeIsNull() {
+    ApplicationTransfer applicationTransfer =
+        ApplicationTransfer.builder().transferToLaShortCode(null).build();
+
+    applicationService.transfer(APPLICATION_ID, applicationTransfer);
   }
 }

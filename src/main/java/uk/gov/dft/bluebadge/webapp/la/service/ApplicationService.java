@@ -10,6 +10,7 @@ import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.ApplicationsApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.FindApplicationsParameters;
@@ -110,6 +111,15 @@ public class ApplicationService {
     Assert.notNull(
         applicationUpdateRequest.getApplicationStatus(), "applicationStatus must be not null");
     applicationsApiClient.update(applicationUpdateRequest);
+  }
+
+  public void transfer(String applicationId, ApplicationTransfer applicationTransferRequest) {
+    Assert.notNull(applicationId, "applicationId must be not null");
+    Assert.notNull(applicationTransferRequest, "applicationUpdateRequest must be not null");
+    Assert.notNull(
+        applicationTransferRequest.getTransferToLaShortCode(),
+        "transferToLaShortCode must be not null");
+    applicationsApiClient.transfer(applicationId, applicationTransferRequest);
   }
 
   public void delete(String applicationId) {

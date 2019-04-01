@@ -7,8 +7,7 @@ import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -27,6 +26,7 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.api.model.Error;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
@@ -35,7 +35,10 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 public class ApplicationsApiClientTest extends ApplicationTestData {
 
   private static final String TEST_URI = "http://justtesting:8787/test";
+  private static final String APPLICATION_ID = UUID.randomUUID().toString();
   private static final String APPLICATIONS_ENDPOINT = TEST_URI + "/applications";
+  private static final String APPLICATION_TRANSFER_ENDPOINT =
+      APPLICATIONS_ENDPOINT + "/" + APPLICATION_ID + "/transfers";
 
   private static final ApplicationTypeCodeField FIND_PARAM_APPLICATION_TYPE =
       ApplicationTypeCodeField.NEW;
@@ -47,13 +50,16 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
   private static final String FIND_PARAM_FROM_API = "2018-04-20T10:37";
   private static final String FIND_PARAM_TO_API = "2018-04-27T11:42";
 
-  private static final String APPLICATION_ID = UUID.randomUUID().toString();
-
   private static final ApplicationUpdate APPLICATION_UPDATE =
       ApplicationUpdate.builder()
           .applicationId(UUID.fromString(APPLICATION_ID))
           .applicationStatus(ApplicationStatusField.INPROGRESS)
           .build();
+  private static final ApplicationTransfer APPLICATION_TRANSFER =
+      ApplicationTransfer.builder().transferToLaShortCode("KENTCC").build();
+
+  private static final ApplicationTransfer APPLICATION_TRANSFER_INVALID =
+      ApplicationTransfer.builder().build();
 
   private ApplicationsApiClient client;
 
@@ -226,5 +232,16 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
         .andRespond(
             withSuccess(objectMapper.writeValueAsString(responseBody), MediaType.APPLICATION_JSON));
     client.update(APPLICATION_UPDATE);
+  }
+
+  @Test
+  @SneakyThrows
+  public void transfer_ShouldReturn_WhenOK() {
+    mockServer
+        .expect(once(), requestTo(APPLICATION_TRANSFER_ENDPOINT))
+        .andExpect(method(HttpMethod.POST))
+        .andExpect(jsonPath("transferToLaShortCode", equalTo("KENTCC")))
+        .andRespond(withSuccess());
+    client.transfer(APPLICATION_ID, APPLICATION_TRANSFER);
   }
 }

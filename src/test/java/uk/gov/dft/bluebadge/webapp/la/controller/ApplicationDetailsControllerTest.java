@@ -1,14 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,9 +25,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
@@ -36,20 +39,23 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
-public class ApplicationDetailsControllerTest {
+public class ApplicationDetailsControllerTest extends BaseControllerTest {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private SecurityUtils securityUtilsMock;
 
   MockMvc mockMvc;
 
   private ApplicationDetailsController controller;
 
-  List<ReferenceData> applicationStatusOptions;
+  private List<ReferenceData> applicationStatusOptions;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    controller = new ApplicationDetailsController(applicationServiceMock, referenceDataServiceMock);
+    controller =
+        new ApplicationDetailsController(
+            applicationServiceMock, referenceDataServiceMock, securityUtilsMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
@@ -63,13 +69,15 @@ public class ApplicationDetailsControllerTest {
         .thenReturn(applicationStatusOptions);
   }
 
-  public void show_Org() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_Org() {
     Application application = ApplicationDetailsTestData.getOrganisationApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -78,27 +86,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(
-                    containsString(ApplicationDetailsTestData.ModelValues.ORG_BADGE_HOLDER_NAME)))
-        .andExpect(
-            content().string(containsString(ApplicationDetailsTestData.ModelValues.ORG_CHARITY_NO)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(ApplicationDetailsTestData.DisplayValues.SUBMISSION_DATE_TIME)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_pip() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_pip() {
     Application application = ApplicationDetailsTestData.getPersonPipApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -107,25 +106,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_dla() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_dla() {
     Application application = ApplicationDetailsTestData.getPersonDlaApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -134,25 +126,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_afrfcs() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_afrfcs() {
     Application application = ApplicationDetailsTestData.getPersonAfrFcsApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -161,25 +146,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_wpms() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_wpms() {
     Application application = ApplicationDetailsTestData.getPersonWpmsApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -188,25 +166,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_blind() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_blind() {
     Application application = ApplicationDetailsTestData.getPersonBlindApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -215,25 +186,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_walking() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_walking() {
     Application application = ApplicationDetailsTestData.getPersonWalkingApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -242,25 +206,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_arms() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_arms() {
     Application application = ApplicationDetailsTestData.getPersonArmsApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -269,25 +226,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_childbulk() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_childbulk() {
     Application application = ApplicationDetailsTestData.getPersonChildbulkApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -296,25 +246,18 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
-  public void show_person_childvehicle() throws Exception {
+  @Test
+  @SneakyThrows
+  public void show_person_childvehicle() {
     Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
     when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
         .thenReturn(application);
     UpdateApplicationFormRequest expectedUpdateFormRequest =
         UpdateApplicationFormRequest.builder()
-            .applicationStatus(application.getApplicationStatus().name())
+            .applicationStatus(application.getApplicationStatus())
             .build();
 
     mockMvc
@@ -323,16 +266,7 @@ public class ApplicationDetailsControllerTest {
         .andExpect(view().name("new-applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
-        .andExpect(
-            content()
-                .string(containsString(ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME)))
-        .andExpect(
-            content()
-                .string(
-                    containsString(
-                        ApplicationDetailsTestData.ModelValues.BADGE_HOLDER_NAME_AT_BIRTH)))
-        .andExpect(content().string(containsString(ApplicationStatusField.COMPLETED.name())));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
   @Test
@@ -367,13 +301,16 @@ public class ApplicationDetailsControllerTest {
     when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
 
     UpdateApplicationFormRequest expectedUpdateFormRequest =
-        UpdateApplicationFormRequest.builder().applicationStatus(NEW_STATUS.name()).build();
+        UpdateApplicationFormRequest.builder().applicationStatus(NEW_STATUS).build();
 
     mockMvc
         .perform(
             put("/new-applications/" + applicationId).param("applicationStatus", NEW_STATUS.name()))
-        .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(
+            redirectedUrl(
+                ApplicationDetailsController.URL_NEW_APPLICATIONS_UUID.replace(
+                    "{uuid}", applicationId)))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions));
 
@@ -383,6 +320,47 @@ public class ApplicationDetailsControllerTest {
             .applicationStatus(NEW_STATUS)
             .build();
     verify(applicationServiceMock).update(applicationUpdate);
+  }
+
+  @Test
+  @SneakyThrows
+  public void transfer_shouldTransferApplicationAndRedirectToNewApplications() {
+    Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
+    String applicationId = application.getApplicationId();
+    String TRANSFER_TO_LA_SHORTCODE = "KENTCC";
+    when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
+
+    mockMvc
+        .perform(
+            post("/new-applications/" + applicationId + "/transfers")
+                .param("transferToLaShortCode", TRANSFER_TO_LA_SHORTCODE))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/new-applications"));
+
+    ApplicationTransfer applicationTransfer =
+        ApplicationTransfer.builder().transferToLaShortCode(TRANSFER_TO_LA_SHORTCODE).build();
+    verify(applicationServiceMock).transfer(applicationId, applicationTransfer);
+  }
+
+  @Test
+  @SneakyThrows
+  public void transfer_la_required() {
+    Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
+    String applicationId = UUID.randomUUID().toString();
+    application.setApplicationId(applicationId);
+    String TRANSFER_TO_LA_SHORTCODE = "KENTCC";
+    when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
+
+    mockMvc
+        .perform(post("/new-applications/" + applicationId + "/transfers"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/new-applications/" + applicationId + "#error"))
+        .andExpect(formRequestFlashAttributeCount(1, "transferApplicationFormRequest"))
+        .andExpect(
+            formRequestFlashAttributeHasFieldErrorCode(
+                "transferToLaShortCode", "NotBlank", "transferApplicationFormRequest"));
+
+    verify(applicationServiceMock, never()).transfer(eq(applicationId), any());
   }
 
   @Test
