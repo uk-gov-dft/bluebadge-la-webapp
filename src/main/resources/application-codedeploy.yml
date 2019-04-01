@@ -1,8 +1,6 @@
 blue-badge:
   auth-server:
-    url: https://authorisation-service.${bb_env}.${url}/bb_auth
-    client-id: bb_la_web_app_id
-     ***REMOVED***
+    url: https://api.${bb_env}.${url}/oauth
   usermanagementservice:
     servicehost:
       host: api.${bb_env}.${url}/user
