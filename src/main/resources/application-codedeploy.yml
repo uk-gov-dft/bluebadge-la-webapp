@@ -3,28 +3,28 @@ blue-badge:
     url: https://authorisation-service.${bb_env}.${url}/bb_auth
   usermanagementservice:
     servicehost:
-      host: api.${bb_env}.${url}/user
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /
+      contextpath: /user
   badgemanagementservice:
     servicehost:
-      host: api.${bb_env}.${url}/badges
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /
+      contextpath: /badges
   referencedataservice:
     servicehost:
-      host: api.${bb_env}.${url}/reference-data
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /
+      contextpath: /reference-data
   applicationsservice:
     servicehost:
-      host: api.${bb_env}.${url}/applications
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /
+      contextpath: /applications
 
 management:
   server:
