@@ -30,11 +30,11 @@ abstract class BaseControllerTest {
 
   MockMvc mockMvc;
 
-  public static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
-      String fieldName, String error) {
+  static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(
+      String fieldName, String error, String modelAttributeName) {
     return flash()
         .attribute(
-            "org.springframework.validation.BindingResult.formRequest",
+            "org.springframework.validation.BindingResult." + modelAttributeName,
             hasProperty(
                 "fieldErrors",
                 hasItem(
@@ -43,10 +43,19 @@ abstract class BaseControllerTest {
                         hasProperty("code", equalTo(error))))));
   }
 
-  public static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount) {
+  static ResultMatcher formRequestFlashAttributeHasFieldErrorCode(String fieldName, String error) {
+    return formRequestFlashAttributeHasFieldErrorCode(fieldName, error, "formRequest");
+  }
+
+  static ResultMatcher formRequestFlashAttributeCount(int expectedErrorCount) {
+    return formRequestFlashAttributeCount(expectedErrorCount, "formRequest");
+  }
+
+  static ResultMatcher formRequestFlashAttributeCount(
+      int expectedErrorCount, String modelAttributeName) {
     return flash()
         .attribute(
-            "org.springframework.validation.BindingResult.formRequest",
+            "org.springframework.validation.BindingResult." + modelAttributeName,
             hasProperty("fieldErrors", hasSize(expectedErrorCount)));
   }
 }

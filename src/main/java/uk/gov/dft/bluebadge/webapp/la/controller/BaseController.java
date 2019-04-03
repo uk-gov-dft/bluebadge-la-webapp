@@ -17,10 +17,20 @@ class BaseController {
       Object formRequest,
       BindingResult bindingResult,
       RedirectAttributes attr) {
+    return redirectToOnBindingError(
+        currentFormUrl, formRequest, bindingResult, attr, "formRequest");
+  }
+
+  String redirectToOnBindingError(
+      String currentFormUrl,
+      Object formRequest,
+      BindingResult bindingResult,
+      RedirectAttributes attr,
+      String modelAttributeName) {
     attr.addFlashAttribute("errorSummary", new ErrorViewModel());
     attr.addFlashAttribute(
-        "org.springframework.validation.BindingResult.formRequest", bindingResult);
-    attr.addFlashAttribute("formRequest", formRequest);
+        "org.springframework.validation.BindingResult." + modelAttributeName, bindingResult);
+    attr.addFlashAttribute(modelAttributeName, formRequest);
     return "redirect:" + currentFormUrl + ERROR_SUFFIX;
   }
 

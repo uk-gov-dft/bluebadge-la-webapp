@@ -11,37 +11,38 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApp
 import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
-import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
-@RequestMapping(path = "/new-applications/{uuid}")
 @Slf4j
-public class ApplicationDetailsController {
+public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "new-applications/application-details";
-  private static final String REDIRECT_URL_NEW_APPLICATION =
-      "redirect:" + NewApplicationsController.URL;
+  private static final String REDIRECT_URL_NEW_APPLICATION = "redirect:" + NewApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -49,34 +50,42 @@ public class ApplicationDetailsController {
       EnumSet.of(WALKD, CHILDBULK, CHILDVEHIC);
   private static final EnumSet<EligibilityCodeField> SUPPORT_DOCS_ELIG_TYPES =
       EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
+  static final String URL_NEW_APPLICATIONS_UUID = "/new-applications/{uuid}";
+  private static final String TRANSFER_APPLICATION_FORM_REQUEST = "transferApplicationFormRequest";
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
+  private final SecurityUtils securityUtils;
 
   @Autowired
-  public ApplicationDetailsController(
-      ApplicationService applicationService, ReferenceDataService referenceDataService) {
+  ApplicationDetailsController(
+      ApplicationService applicationService,
+      ReferenceDataService referenceDataService,
+      SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
+    this.securityUtils = securityUtils;
   }
 
-  @GetMapping()
-  public String show(
-      @PathVariable(PARAM_UUID) UUID uuid,
-      Model model,
-      @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateFormRequest) {
+  @GetMapping(path = URL_NEW_APPLICATIONS_UUID)
+  public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
-    updateFormRequest.setApplicationStatus(
-        application.getApplicationStatus() != null
-            ? application.getApplicationStatus().name()
-            : null);
 
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
     model.addAttribute("uuid", uuid);
     model.addAttribute(
         "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
+    model.addAttribute(
+        "updateApplicationFormRequest",
+        UpdateApplicationFormRequest.builder()
+            .applicationStatus(application.getApplicationStatus())
+            .build());
+    // Can add a new transfer model.  1 field.  Only validation is notnull, so no data to preserve.
+    if (!model.containsAttribute(TRANSFER_APPLICATION_FORM_REQUEST)) {
+      model.addAttribute(
+          TRANSFER_APPLICATION_FORM_REQUEST, TransferApplicationFormRequest.builder().build());
+    }
 
     if (application.getEligibility() != null) {
       EligibilityCodeField eligibilityTypeCodeField = application.getEligibility().getTypeCode();
@@ -91,34 +100,59 @@ public class ApplicationDetailsController {
     return TEMPLATE;
   }
 
-  @PostMapping()
+  @PostMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
     return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
   }
 
-  @DeleteMapping()
-  public String delete(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
+  @PostMapping(path = "/new-applications/{uuid}/transfers")
+  public String transferApplication(
+      @PathVariable(PARAM_UUID) UUID uuid,
+      @Valid @ModelAttribute(TRANSFER_APPLICATION_FORM_REQUEST)
+          final TransferApplicationFormRequest formRequest,
+      BindingResult bindingResult,
+      RedirectAttributes attr) {
+
+    if (bindingResult.hasErrors()) {
+      return redirectToOnBindingError(
+          URL_NEW_APPLICATIONS_UUID,
+          formRequest,
+          bindingResult,
+          attr,
+          TRANSFER_APPLICATION_FORM_REQUEST);
+    }
+
+    ApplicationTransfer applicationTransfer =
+        ApplicationTransfer.builder()
+            .transferToLaShortCode(formRequest.getTransferToLaShortCode())
+            .build();
+    applicationService.transfer(uuid.toString(), applicationTransfer);
+
+    return REDIRECT_URL_NEW_APPLICATION;
+  }
+
+  @DeleteMapping(path = URL_NEW_APPLICATIONS_UUID)
+  public String delete(@PathVariable(PARAM_UUID) UUID uuid) {
     applicationService.delete(uuid.toString());
     return REDIRECT_URL_NEW_APPLICATION;
   }
 
-  @PutMapping()
+  @PutMapping(path = URL_NEW_APPLICATIONS_UUID)
   public String update(
       @PathVariable(PARAM_UUID) UUID uuid,
       Model model,
       @ModelAttribute("updateApplicationFormRequest")
-          final UpdateApplicationFormRequest updateFormRequest) {
+          final UpdateApplicationFormRequest updateApplicationFormRequest) {
 
     ApplicationUpdate applicationUpdate =
         ApplicationUpdate.builder()
             .applicationId(uuid)
-            .applicationStatus(
-                ApplicationStatusField.fromValue(updateFormRequest.getApplicationStatus()))
+            .applicationStatus(updateApplicationFormRequest.getApplicationStatus())
             .build();
     applicationService.update(applicationUpdate);
-    return this.show(uuid, model, updateFormRequest);
+    return "redirect:" + URL_NEW_APPLICATIONS_UUID;
   }
 
   @SuppressWarnings("squid:S2589")
@@ -137,5 +171,12 @@ public class ApplicationDetailsController {
   @ModelAttribute("applicationStatusOptions")
   public List<ReferenceData> applicationStatusOptions() {
     return referenceDataService.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS);
+  }
+
+  @ModelAttribute("allOtherLocalAuthorities")
+  public List<ReferenceData> allOtherLocalAuthorities() {
+    List<ReferenceData> las = referenceDataService.retrieveBadgeLocalAuthorities();
+    las.removeIf(la -> la.getShortCode().equals(securityUtils.getCurrentLocalAuthorityShortCode()));
+    return las;
   }
 }

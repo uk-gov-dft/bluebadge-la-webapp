@@ -71,4 +71,16 @@ public class ApplicationSiteSteps {
     databaseSteps.runScript(
         "scripts/new-applications/details/delete-application-details-for-update.sql");
   }
+
+  @Before("@TransferApplication")
+  public void executeInsertApplicationsForTransferDBScript() throws SQLException {
+    databaseSteps.runScript(
+        "scripts/new-applications/details/create-application-details-for-transfer.sql");
+  }
+
+  @After("@TransferApplication")
+  public void executeDeleteApplicationsForTransferDBScript() throws SQLException {
+    databaseSteps.runScript(
+        "scripts/new-applications/details/delete-application-details-for-transfer.sql");
+  }
 }
