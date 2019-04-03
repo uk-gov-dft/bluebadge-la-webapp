@@ -4,6 +4,47 @@
 
 <body>
 
+<div th:fragment="govuk-error-summary-custom-form(errorSummary, formObjectName)" tabindex="-1" role="alert"
+     class="govuk-error-summary"
+     th:aria-labelledby="error-summary-title"
+     th:if="${errorSummary} OR ${#fields.hasErrors('__${formObjectName} + '.*'__')}">
+
+    <h2 class="govuk-error-summary__title"
+        th:if="${errorSummary} AND ${errorSummary.title}"
+        id="error-summary-title"
+        th:data-uipath="${errorSummary.title}"
+        th:text="#{${errorSummary.title}}"></h2>
+
+    <div th:if="${errorSummary} AND ${errorSummary.description}" th:data-uipath="${errorSummary.description}"
+         id="error-summary-description"
+         th:text="#{${errorSummary.description}}"
+         class="govuk-error-summary__body"></div>
+
+    <div th:if="${#fields.hasErrors('__${formObjectName} + '.*'__')}" class="govuk-c-error-summary__body">
+
+        <ul class="govuk-list govuk-error-summary__list">
+
+            <li th:if="${err.isGlobal()}"
+                th:each="err : ${#fields.detailedErrors('__${formObjectName}__')}">
+
+                <p th:text="${err.message}"/>
+
+            </li>
+
+            <li th:if="${!err.isGlobal()}"
+                th:each="err : ${#fields.detailedErrors('__${formObjectName} + '.*'__')}"
+                th:data-uipath="${err.fieldName} + '.summary-error'">
+
+                <a th:href="'#' + ${err.fieldName}" th:text="${err.message}"/>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
 /* ------------------------------------------------------------------------------
 
 * Error Summary
@@ -18,44 +59,8 @@ variable which comes from Thymleaf / Spring integration.
 
 -------------------------------------------------------------------------------- */
 
-<div th:fragment="govuk-error-summary(errorSummary)" tabindex="-1" role="alert"
-     class="govuk-error-summary"
-     th:aria-labelledby="error-summary-title"
-     th:if="${errorSummary} OR ${#fields.hasErrors('formRequest.*')}">
-
-    <h2 class="govuk-error-summary__title"
-        th:if="${errorSummary} AND ${errorSummary.title}"
-        id="error-summary-title"
-        th:data-uipath="${errorSummary.title}"
-        th:text="#{${errorSummary.title}}" />
-
-    <div th:if="${errorSummary} AND ${errorSummary.description}" th:data-uipath="${errorSummary.description}" id="error-summary-description"
-         th:text="#{${errorSummary.description}}"
-         class="govuk-error-summary__body" />
-
-    <div th:if="${#fields.hasErrors('formRequest.*')}" class="govuk-c-error-summary__body">
-
-        <ul class="govuk-list govuk-error-summary__list">
-
-            <li th:if="${err.isGlobal()}"
-                th:each="err : ${#fields.detailedErrors('formRequest')}">
-
-                <p th:text="${err.message}"/>
-
-            </li>
-
-            <li th:if="${!err.isGlobal()}"
-                th:each="err : ${#fields.detailedErrors('formRequest.*')}"
-                th:data-uipath="${err.fieldName} + '.summary-error'">
-
-                <a th:href="'#' + ${err.fieldName}" th:text="${err.message}"/>
-
-            </li>
-
-        </ul>
-
-    </div>
-
+<div th:fragment="govuk-error-summary(errorSummary)">
+    <div th:replace="~{ :: govuk-error-summary-custom-form(${errorSummary}, 'formRequest') }"></div>
 </div>
 
 <!--

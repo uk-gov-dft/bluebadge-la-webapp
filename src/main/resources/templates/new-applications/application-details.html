@@ -14,7 +14,7 @@
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
         <a th:href="@{/new-applications}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
-           th:text="#{common.button.back}"/>
+           th:text="#{common.button.back}"></a>
     </div>
 </div>
 
@@ -22,10 +22,13 @@
     <section class="dft-content-container--full">
         <header class="dft-content-heading dft-content-heading--with-cta">
             <h1 class="govuk-heading-l" data-uipath="title">
-                <!-- <span class="govuk-caption-m" th:text="${app.applicationId}"></span> -->
                 <span th:remove="tag" th:text="#{application.details.title}"></span>
             </h1>
         </header>
+
+        <div class="dft-width-two-thirds">
+            <div th:replace="~{ fragments/errors :: govuk-error-summary-custom-form(${errorSummary}, 'transferApplicationFormRequest') }"></div>
+        </div>
 
         <div class="dft-check-answers">
             <div class="dft-check-answers__heading">
@@ -70,19 +73,19 @@
                      th:with="organisation=${app.party.organisation}">
                     <div class="dft-data-list__item" th:if="${organisation.badgeHolderName}">
                         <dt class="dft-data-list__dt"
-                            th:text="#{application.details.party.organisation.label.badgeHolderName}"/>
+                            th:text="#{application.details.party.organisation.label.badgeHolderName}"></dt>
                         <dd class="dft-data-list__dd" th:text="${organisation.badgeHolderName}"
-                            data-uipath="org.badgeholdername"/>
+                            data-uipath="org.badgeholdername"></dd>
                     </div>
                     <div class="dft-data-list__item" th:if="${organisation.charityNumber}">
                         <dt class="dft-data-list__dt"
-                            th:text="#{application.details.party.organisation.label.charityNumber}"/>
+                            th:text="#{application.details.party.organisation.label.charityNumber}"></dt>
                         <dd class="dft-data-list__dd" th:text="${organisation.charityNumber}"
-                            data-uipath="org.charitynumber"/>
+                            data-uipath="org.charitynumber"></dd>
                     </div>
                     <div class="dft-data-list__item" th:if="${organisation.vehicles}">
                         <dt class="dft-data-list__dt"
-                            th:text="#{application.details.party.organisation.label.vehicles}"/>
+                            th:text="#{application.details.party.organisation.label.vehicles}"></dt>
                         <dd class="dft-data-list__dd">
                             <ul class="govuk-list" data-uipath="org.vehicleslist">
                                 <li th:each="vehicle: ${organisation.vehicles}"
@@ -277,7 +280,7 @@
                             </ul>
                         </dd>
                     </div>
-                    
+
                     <div class="dft-data-list__item">
                         <dt class="dft-data-list__dt"
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingAids}"/>
@@ -492,6 +495,15 @@
                     <dd class="dft-data-list__dd" data-uipath="application.applicationtype"
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValue('APPTYPE', app.applicationTypeCode)}"/>
                 </div>
+                <div class="dft-data-list__item" th:if="${app.transferredLaFromCode}">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.transferred}"/>
+                    <dd class="dft-data-list__dd" data-uipath="application.transferdetails">
+                        <span th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.transferredFromLaDate)}" data-uipath="application.transferdetails.date"/>
+                        <br/>
+                        <span th:text="${@referenceDataService.retrieveAppEnumDisplayValueByString('LA', app.transferredLaFromCode)}" data-uipath="application.transferdetails.la"/>
+                    </dd>
+                </div>
                 <div class="dft-data-list__item" th:if="${app.submissionDate}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.submissionDate}"/>
@@ -519,7 +531,7 @@
         </div>
 
         <div th:if="${renderOrderBadgeButton}">
-            <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" method="post" novalidate>
                 <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="order" class="govuk-button">
             </form>
         </div>
@@ -544,6 +556,28 @@
             </div>
         </details>
 
+        <details class="govuk-details" th:open="${#fields.hasErrors('transferApplicationFormRequest.transferToLaShortCode')}">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text" data-uipath="transferApplicationSummaryText"
+                      th:text="#{application.details.transfer.summary}"></span>
+            </summary>
+
+            <div class="govuk-details__text">
+                <form th:action="@{/new-applications/{uuid}/transfers(uuid=${uuid})}"
+                      th:object="${transferApplicationFormRequest}" method="post" novalidate>
+                    <div th:replace="~{ fragments/govuk-select ::
+                    govuk-select-flat(#{application.details.transfer.label}, 'transferToLaShortCode', null, ${allOtherLocalAuthorities}) }"/>
+
+                    <input data-uipath="transferApplicationButton"
+                           th:value="#{application.details.transfer.button}" type="submit" class="govuk-button">
+                </form>
+
+                <p class="govuk-body">
+                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotTransferApplicationLink"
+                       th:text="#{application.details.transfer.cancel.link}"></a>
+                </p>
+            </div>
+        </details>
 
     </section>
 </main>
