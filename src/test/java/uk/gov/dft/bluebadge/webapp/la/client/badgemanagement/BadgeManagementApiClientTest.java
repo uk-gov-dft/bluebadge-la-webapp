@@ -231,9 +231,9 @@ public class BadgeManagementApiClientTest {
 
     String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
     mockServer
-      .expect(once(), requestTo(uri))
-      .andExpect(method(HttpMethod.GET))
-      .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
     client.exportBadgesByLa("ABERD");
   }
 

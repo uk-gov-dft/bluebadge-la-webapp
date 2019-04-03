@@ -10,7 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.google.common.collect.Lists;
+import javax.servlet.http.HttpSession;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,8 +27,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-
-import javax.servlet.http.HttpSession;
 
 public class FindBadgeControllerTest {
 
@@ -71,7 +70,8 @@ public class FindBadgeControllerTest {
   }
 
   @Test
-  public void show_shouldDisplayFindBadgeTemplateWithEmptyValues() throws Exception {
+  @SneakyThrows
+  public void show_shouldDisplayFindBadgeTemplateWithEmptyValues() {
     FindBadgeFormRequest formRequest = FindBadgeFormRequest.builder().build();
     mockMvc
         .perform(get("/manage-badges"))
@@ -81,9 +81,9 @@ public class FindBadgeControllerTest {
   }
 
   @Test
+  @SneakyThrows
   public void
-      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithEmptyValues()
-          throws Exception {
+      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithEmptyValues() {
     mockMvc
         .perform(post("/manage-badges"))
         .andExpect(status().isOk())
@@ -93,9 +93,9 @@ public class FindBadgeControllerTest {
   }
 
   @Test
+  @SneakyThrows
   public void
-      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidBadgeNumber()
-          throws Exception {
+      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidBadgeNumber() {
     mockMvc
         .perform(
             post("/manage-badges")
@@ -108,27 +108,27 @@ public class FindBadgeControllerTest {
   }
 
   @Test
-  public void
-  submit_shouldRedirectToFindBadgeSearchResultsTemplate()
-    throws Exception {
+  @SneakyThrows
+  public void submit_shouldRedirectToFindBadgeSearchResultsTemplate() {
     HttpSession session =
-      mockMvc
-      .perform(
-        post("/manage-badges")
-          .param("findBadgeBy", "badgeNumber")
-          .param("searchTerm", BADGE_NUMBER))
-      .andExpect(status().isFound())
-      .andExpect(redirectedUrl("/manage-badges/search-results")).andReturn()
-        .getRequest()
-        .getSession();
+        mockMvc
+            .perform(
+                post("/manage-badges")
+                    .param("findBadgeBy", "badgeNumber")
+                    .param("searchTerm", BADGE_NUMBER))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
+            .andReturn()
+            .getRequest()
+            .getSession();
 
-    assertThat(session.getAttribute("findBadgeBy"))
-      .isEqualTo("badgeNumber");
+    assertThat(session.getAttribute("findBadgeBy")).isEqualTo("badgeNumber");
     assertThat(session.getAttribute("searchTerm")).isEqualTo(BADGE_NUMBER);
   }
 
   @Test
-  public void exportAllLaBadges_shouldReturnFile() throws Exception {
+  @SneakyThrows
+  public void exportAllLaBadges_shouldReturnFile() {
     when(securityUtilsMock.getCurrentLocalAuthorityShortCode()).thenReturn(LA_SHORT_CODE);
     ResponseEntity<byte[]> expectedResponse =
         new ResponseEntity("response".getBytes(), HttpStatus.OK);
