@@ -78,6 +78,16 @@ public class DatabaseSteps {
     dbUtils.runScript("scripts/delete_application-for-additional-breathlessness-question-data.sql");
   }
 
+  @Before("@FindBadgePaginationScripts")
+  public void executeCreateBadgesForFindBadgePaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/badges/create-badges-pagination.sql");
+  }
+
+  @After("@FindBadgePaginationScripts")
+  public void executeDeleteBadgesForFindBadgePaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/badges/delete-badges-pagination.sql");
+  }
+
   void runScript(String scriptPath) throws SQLException {
     dbUtils.runScript(scriptPath);
   }
