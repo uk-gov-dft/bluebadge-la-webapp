@@ -510,12 +510,12 @@
                     <dd class="dft-data-list__dd" data-uipath="application.submissiondate"
                         th:text="${@modelFormatUtils.offsetDateTimeToFieldDisplay(app.submissionDate)}"/>
                 </div>
-                <div class="dft-data-list__item" th:if="${app.paymentTaken != null}">
+                <div class="dft-data-list__item" th:if="${app.paymentTaken != null || app.paymentUnknown}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.payment}"/>
-                    <dd class="dft-data-list__dd" th:if="${app.paymentTaken}" data-uipath="application.payment"
+                    <dd class="dft-data-list__dd" th:if="${app.paymentUnknown || app.paymentTaken}" data-uipath="application.payment"
                         th:text="${app.paymentReference}"/>
-                    <dd class="dft-data-list__dd" th:unless="${app.paymentTaken}"
+                    <dd class="dft-data-list__dd" th:if="${!app.paymentUnknown && !app.paymentTaken}"
                         data-uipath="application.paymentisnottaken"
                         th:text="#{application.details.isNotPaymentTaken}"/>
                 </div>

@@ -61,8 +61,6 @@ public class FindBadgeControllerTest {
 
   @Before
   public void setup() {
-
-    // Process mock annotations
     MockitoAnnotations.initMocks(this);
 
     controller =
