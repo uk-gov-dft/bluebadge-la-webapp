@@ -6,29 +6,29 @@ blue-badge:
       host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /user1
+      contextpath: /
   badgemanagementservice:
     servicehost:
       host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /badges1
+      contextpath: /
   referencedataservice:
     servicehost:
       host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /reference-data1
+      contextpath: /
   applicationsservice:
     servicehost:
       host: api.${bb_env}.${url}
       port: 443
       scheme: https
-      contextpath: /applications1
+      contextpath: /
 
 management:
   server:
-    port: ${bb_health:-8081}
+    port: ${bb_health:8081}
 
 spring:
   main:
@@ -46,10 +46,7 @@ spring:
         max-age: 315360000
 
 server:
-  port: ${bb_port:-8080}
-  tomcat:
-    remote-ip-header: x-forwarded-for
-    protocol-header: x-forwarded-proto
+  port: ${bb_port:8080}
 
  # Google Analytics Code
 GACode:  ${GACODE:UA-124760983-5}
