@@ -58,6 +58,16 @@ public class DatabaseSteps {
     dbUtils.runScript("scripts/delete_users.sql");
   }
 
+  @Before("@ManageUsersScripts")
+  public void executeInsertUsersForUserManagementDBScript() throws SQLException {
+    dbUtils.runScript("scripts/create_users_for_user_management.sql");
+  }
+
+  @After("@ManageUsersScripts")
+  public void executeDeleteUsersForUserManagementDBScript() throws SQLException {
+    dbUtils.runScript("scripts/delete_users_for_user_management.sql");
+  }
+
   @Before("@ReplaceBadgeScripts")
   public void executeCreateBadgesDBScript() throws SQLException {
     dbUtils.runScript("scripts/badges/create-badges.sql");

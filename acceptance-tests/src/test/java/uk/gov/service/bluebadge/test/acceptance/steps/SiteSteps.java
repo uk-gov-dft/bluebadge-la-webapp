@@ -308,7 +308,12 @@ public class SiteSteps extends AbstractSpringSteps {
 
   @When("^I search for newly create user using email address$")
   public void iSearchForNewlyCreateUserUsingEmailAddress() {
-    sitePage.findPageElementById("search").sendKeys(System.getProperty("email"));
+    iSearchForUserWithEmailAddress(System.getProperty("email"));
+  }
+
+  @When("^I search for user with email \"([^\"]*)\"$")
+  public void iSearchForUserWithEmailAddress(String email) {
+    sitePage.findPageElementById("search").sendKeys(email);
     sitePage.findElementWithUiPath("search.button").click();
   }
 
