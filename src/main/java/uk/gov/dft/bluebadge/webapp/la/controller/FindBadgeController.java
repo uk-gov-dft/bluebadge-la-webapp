@@ -1,9 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -18,15 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeSummaryToFindBadgeSearchResultViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 @Slf4j
@@ -42,19 +32,11 @@ public class FindBadgeController {
       "redirect:" + FindBadgeSearchResultsController.URL;
 
   private BadgeService badgeService;
-  private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
-  private BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModelConvertor;
   private SecurityUtils securityUtils;
 
   @Autowired
-  public FindBadgeController(
-      BadgeService badgeService,
-      BadgeToFindBadgeSearchResultViewModel converterToViewModel,
-      BadgeSummaryToFindBadgeSearchResultViewModel badgeSummaryToViewModel,
-      SecurityUtils securityUtils) {
+  public FindBadgeController(BadgeService badgeService, SecurityUtils securityUtils) {
     this.badgeService = badgeService;
-    this.converterToViewModel = converterToViewModel;
-    this.badgeSummaryToViewModelConvertor = badgeSummaryToViewModel;
     this.securityUtils = securityUtils;
   }
 
@@ -83,28 +65,8 @@ public class FindBadgeController {
 
     String findBadgeBy = formRequest.getFindBadgeBy();
     String searchTerm = formRequest.getSearchTerm();
-    List<FindBadgeSearchResultViewModel> results = Lists.newArrayList();
-
-    switch (findBadgeBy) {
-      case "badgeNumber":
-        FindBadgeSearchResultViewModel badge = findBadgeByNumber(searchTerm);
-        if (badge != null) results.add(badge);
-        break;
-      case "postcode":
-        results.addAll(findBadgeByPostCode(searchTerm));
-        break;
-      case "name":
-        results.addAll(findBadgesByName(searchTerm));
-        break;
-      default:
-        log.error(
-            "Attempting to find a badge by:{}, expected values are (badgeNumber, postcode or name)",
-            findBadgeBy);
-        break;
-    }
-
+    session.setAttribute("findBadgeBy", findBadgeBy);
     session.setAttribute("searchTerm", searchTerm);
-    session.setAttribute("results", results);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
@@ -114,39 +76,5 @@ public class FindBadgeController {
   public ResponseEntity<byte[]> exportAllLaBadges(final HttpServletResponse response) {
     String localAuthorityShortCode = securityUtils.getCurrentLocalAuthorityShortCode();
     return badgeService.exportBadgesByLa(localAuthorityShortCode);
-  }
-
-  private FindBadgeSearchResultViewModel findBadgeByNumber(String searchTerm) {
-    Optional<Badge> result = badgeService.retrieve(searchTerm);
-
-    if (result.isPresent()) {
-      return converterToViewModel.convert(result.get());
-    }
-
-    return null;
-  }
-
-  private List<FindBadgeSearchResultViewModel> findBadgeByPostCode(String searchTerm) {
-
-    if (!StringUtils.isEmpty(searchTerm)) {
-      searchTerm = searchTerm.replaceAll("\\s+", "");
-      List<BadgeSummary> result = badgeService.findBadgeByPostcode(searchTerm);
-      return convertBadgeSummaryToViewModel(result);
-    }
-
-    return Lists.newArrayList();
-  }
-
-  private List<FindBadgeSearchResultViewModel> findBadgesByName(String searchTerm) {
-    List<BadgeSummary> result = badgeService.findBadgeByName(searchTerm);
-    return convertBadgeSummaryToViewModel(result);
-  }
-
-  private List<FindBadgeSearchResultViewModel> convertBadgeSummaryToViewModel(
-      List<BadgeSummary> badgeSummary) {
-    return badgeSummary
-        .stream()
-        .map(badge -> badgeSummaryToViewModelConvertor.convert(badge))
-        .collect(Collectors.toList());
   }
 }

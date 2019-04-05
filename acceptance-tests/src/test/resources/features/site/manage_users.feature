@@ -1,4 +1,4 @@
-@ManageUsers
+@ManageUsers @ManageUsersScripts
 Feature: Dft BlueBadge LA Manage Users
 
   As an admin user
@@ -180,6 +180,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Manage users" link on left navigation
+    And I search for user with email "usertoupdate@dft.gov.uk"
     When I click on the first name link from users table
     Then I should see the page titled "User details - GOV.UK Manage Blue Badges"
     Then I should see the title "User details"
