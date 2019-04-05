@@ -1,6 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import com.google.common.collect.Lists;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -10,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
 
@@ -64,18 +64,12 @@ public class BadgeService {
     }
   }
 
-  public List<BadgeSummary> findBadgeByPostcode(String postcode) {
-    if (StringUtils.isEmpty(postcode)) {
-      return Lists.newArrayList();
-    }
-    return badgeManagementApiClient.findBadgeByPostCode(postcode);
+  public BadgesResponse findBadgeByPostcode(String postcode, PagingInfo pageInfo) {
+    return badgeManagementApiClient.findBadgeByPostCode(postcode, pageInfo);
   }
 
-  public List<BadgeSummary> findBadgeByName(String name) {
-    if (StringUtils.isEmpty(name)) {
-      return Lists.newArrayList();
-    }
-    return badgeManagementApiClient.findBadgeByName(name);
+  public BadgesResponse findBadgeByName(String name, PagingInfo pageInfo) {
+    return badgeManagementApiClient.findBadgeByName(name, pageInfo);
   }
 
   public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {

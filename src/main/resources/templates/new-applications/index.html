@@ -87,7 +87,7 @@
 
         <th:block
                 th:if="${searchTerm != null && filteredApplicationCount > 0} OR ${searchTerm == null && applicationCount > 0}">
-            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}) }"></div>
+            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/new-applications') }"></div>
         </th:block>
 
         <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">

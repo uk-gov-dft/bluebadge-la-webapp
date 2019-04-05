@@ -42,7 +42,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "new-applications/application-details";
-  private static final String REDIRECT_URL_NEW_APPLICATION = "redirect:" + NewApplicationsController.URL;
+  private static final String REDIRECT_URL_NEW_APPLICATION =
+      "redirect:" + NewApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);

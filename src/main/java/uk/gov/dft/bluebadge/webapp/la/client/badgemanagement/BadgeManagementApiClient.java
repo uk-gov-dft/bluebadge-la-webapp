@@ -18,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumberResponse;
@@ -25,7 +26,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumbersR
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
@@ -101,19 +101,20 @@ public class BadgeManagementApiClient extends BaseApiClient {
     return null;
   }
 
-  public List<BadgeSummary> findBadgeByPostCode(String postcode) {
+  public BadgesResponse findBadgeByPostCode(String postcode, PagingInfo pageInfo) {
     Assert.notNull(postcode, "Post code supplied must not be null");
 
-    return findBadgeBy(FindBadgeAttribute.POSTCODE, postcode);
+    return findBadgeBy(FindBadgeAttribute.POSTCODE, postcode, pageInfo);
   }
 
-  public List<BadgeSummary> findBadgeByName(String name) {
+  public BadgesResponse findBadgeByName(String name, PagingInfo pageInfo) {
     Assert.notNull(name, "Name supplied must not be null");
 
-    return findBadgeBy(FindBadgeAttribute.NAME, name);
+    return findBadgeBy(FindBadgeAttribute.NAME, name, pageInfo);
   }
 
-  private List<BadgeSummary> findBadgeBy(FindBadgeAttribute attribute, String value) {
+  private BadgesResponse findBadgeBy(
+      FindBadgeAttribute attribute, String value, PagingInfo pageInfo) {
     log.debug("retrieveBadge with " + attribute, value);
     Assert.notNull(attribute, "Attribute supplied must not be null");
     Assert.notNull(value, "Value supplied must be not null");
@@ -121,9 +122,10 @@ public class BadgeManagementApiClient extends BaseApiClient {
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
     builder.queryParam(attribute.getDescription(), value);
+    builder.queryParam("pageSize", pageInfo.getPageSize());
+    builder.queryParam("pageNum", pageInfo.getPageNum());
 
-    BadgesResponse response = new BadgesResponse();
-    response.setData(Lists.newArrayList());
+    BadgesResponse response = new BadgesResponse().data(Lists.newArrayList());
 
     try {
       response = restTemplate.getForObject(builder.build().toUriString(), BadgesResponse.class);
@@ -131,7 +133,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
       handleHttpClientException(c);
     }
 
-    return response.getData();
+    return response;
   }
 
   public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {

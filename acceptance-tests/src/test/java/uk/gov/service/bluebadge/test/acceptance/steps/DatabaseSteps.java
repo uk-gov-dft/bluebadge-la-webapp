@@ -58,6 +58,16 @@ public class DatabaseSteps {
     dbUtils.runScript("scripts/delete_users.sql");
   }
 
+  @Before("@ManageUsersScripts")
+  public void executeInsertUsersForUserManagementDBScript() throws SQLException {
+    dbUtils.runScript("scripts/create_users_for_user_management.sql");
+  }
+
+  @After("@ManageUsersScripts")
+  public void executeDeleteUsersForUserManagementDBScript() throws SQLException {
+    dbUtils.runScript("scripts/delete_users_for_user_management.sql");
+  }
+
   @Before("@ReplaceBadgeScripts")
   public void executeCreateBadgesDBScript() throws SQLException {
     dbUtils.runScript("scripts/badges/create-badges.sql");
@@ -76,6 +86,16 @@ public class DatabaseSteps {
   @After("@Breathlessness")
   public void executeDeleteBreathlessnessSql() throws SQLException {
     dbUtils.runScript("scripts/delete_application-for-additional-breathlessness-question-data.sql");
+  }
+
+  @Before("@FindBadgePaginationScripts")
+  public void executeCreateBadgesForFindBadgePaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/badges/create-badges-pagination.sql");
+  }
+
+  @After("@FindBadgePaginationScripts")
+  public void executeDeleteBadgesForFindBadgePaginationDBScript() throws SQLException {
+    dbUtils.runScript("scripts/badges/delete-badges-pagination.sql");
   }
 
   void runScript(String scriptPath) throws SQLException {
