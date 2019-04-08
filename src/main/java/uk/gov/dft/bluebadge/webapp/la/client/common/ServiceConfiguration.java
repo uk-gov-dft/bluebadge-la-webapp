@@ -19,6 +19,8 @@ public class ServiceConfiguration {
 
   @NotNull private String contextpath;
 
+  private String versionaccept;
+
   public String getUrlPrefix() {
     return UriComponentsBuilder.newInstance()
         .scheme(scheme)

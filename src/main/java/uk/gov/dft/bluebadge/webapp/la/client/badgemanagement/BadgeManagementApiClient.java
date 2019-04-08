@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -40,6 +41,9 @@ public class BadgeManagementApiClient extends BaseApiClient {
   private static final String REPLACE_ENDPOINT = "/badges/{badgeNumber}/replacements";
 
   private final RestTemplate restTemplate;
+
+  @Value("${blue-badge.badgemanagementservice.servicehost.zipversionaccept}")
+  private String zipversionaccept;
 
   public enum FindBadgeAttribute {
     POSTCODE("postCode"),
@@ -137,6 +141,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
   }
 
   public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {
+    Assert.hasText(zipversionaccept, "Require zip accept header config for badge service.");
     log.debug("exportBadgesByLa with la [{}]", localAuthorityShortCode);
     Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode supplied must not be null");
 
@@ -147,7 +152,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
     try {
       HttpHeaders headers = new HttpHeaders();
-      headers.set("Accept", MediaType.ZIP.toString());
+      headers.set("Accept", zipversionaccept);
       HttpEntity<String> requestEntity = new HttpEntity<>(headers);
       response =
           restTemplate.exchange(

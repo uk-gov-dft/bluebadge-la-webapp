@@ -99,6 +99,13 @@ public class ApiConfig {
     // If a request is denied by the api, the default action is to clear the token and try again.
     // But this results in the user needing to request a new access token and hence essentially being logged out.
     oAuth2RestTemplate.setRetryBadAccessTokens(false);
+    oAuth2RestTemplate
+        .getInterceptors()
+        .add(
+            (request, body, execution) -> {
+              request.getHeaders().set("Accept", apiConfig.getVersionaccept());
+              return execution.execute(request, body);
+            });
     return oAuth2RestTemplate;
   }
 
