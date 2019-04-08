@@ -1,9 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
 import com.google.common.collect.Lists;
-import com.google.common.net.MediaType;
-import java.util.List;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
+import java.util.List;
+import java.util.Objects;
+
 @Slf4j
 @Service
 public class BadgeManagementApiClient extends BaseApiClient {
@@ -42,7 +42,6 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   private final RestTemplate restTemplate;
 
-  @Value("${blue-badge.badgemanagementservice.servicehost.zipversionaccept}")
   private String zipversionaccept;
 
   public enum FindBadgeAttribute {
@@ -62,8 +61,11 @@ public class BadgeManagementApiClient extends BaseApiClient {
 
   @Autowired
   public BadgeManagementApiClient(
-      @Qualifier("badgeManagementRestTemplate") RestTemplate restTemplate) {
+      @Qualifier("badgeManagementRestTemplate") RestTemplate restTemplate,
+      @Value("${blue-badge.badgemanagementservice.servicehost.zipversionaccept}")
+          String zipversionaccept) {
     this.restTemplate = restTemplate;
+    this.zipversionaccept = zipversionaccept;
   }
 
   public List<String> orderBlueBadges(BadgeOrderRequest badgeOrder) {
