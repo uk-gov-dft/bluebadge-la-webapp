@@ -12,11 +12,74 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static uk.gov.dft.bluebadge.webapp.la.controller.OrderBadgeTestData.LOCAL_AUTHORITY_SHORT_CODE;
-import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.*;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE1;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE1_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE1_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE2;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE2_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE2_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE3;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE3_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE3_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE4;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE4_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.ADDRESS_LINE4_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_COST;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_COST_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_COST_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_PACK_TYPE;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_PACK_TYPE_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.BADGE_PACK_TYPE_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.CONTACT_NUMBER;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.CONTACT_NUMBER_10_CHARACTERS;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.CONTACT_NUMBER_44_PREFIX;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.CONTACT_NUMBER_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.CONTACT_NUMBER_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTRY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTRY_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTRY_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTY_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.COUNTY_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DESCRIPTION;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DESCRIPTION_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIFFERENT_SERVICE_SIGNPOST_URL_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_ALL_FIELDS;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_MANDATORY_FIELDS;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_MANDATORY_FIELDS_WITH_PAYMENT;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NAME_LINE2;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NAME_LINE2_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NAME_LINE2_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NATION;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.NATION_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.PAYMENTS_ENABLED;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.PAYMENTS_ENABLED_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.SHORT_CODE;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.SHORT_CODE_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WEB_SITE_URL;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WEB_SITE_URL_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WEB_SITE_URL_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WELSH_DESCRIPTION;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WELSH_DESCRIPTION_PARAM;
 
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -28,6 +91,7 @@ import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.LocalAuthorityDetailsFormRequestToLocalAuthority;
@@ -163,6 +227,98 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                     LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields()));
 
     verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY_ALL_FIELDS);
+  }
+
+  @Test
+  @SneakyThrows
+  public void
+      submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValidAndContactNumberIs10Characters() {
+    LocalAuthority expectedLocalAuthority = new LocalAuthority();
+    BeanUtils.copyProperties(expectedLocalAuthority, LOCAL_AUTHORITY_ALL_FIELDS);
+    expectedLocalAuthority.setContactNumber(CONTACT_NUMBER_10_CHARACTERS);
+
+    LocalAuthorityDetailsFormRequest expectedFormRequest =
+        LocalAuthorityDetailsFormRequest.builder().build();
+    BeanUtils.copyProperties(
+        expectedFormRequest, LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields());
+    expectedFormRequest.setContactNumber(CONTACT_NUMBER_10_CHARACTERS);
+
+    when(toLocalAuthorityMock.convert(expectedFormRequest)).thenReturn(expectedLocalAuthority);
+
+    mockMvc
+        .perform(
+            post(URL_LOCAL_AUTHORITY_DETAILS + SHORT_CODE)
+                .sessionAttr("user", dftAdminUserSignedIn)
+                .param(DESCRIPTION_PARAM, DESCRIPTION)
+                .param(WELSH_DESCRIPTION_PARAM, WELSH_DESCRIPTION)
+                .param(NAME_LINE2_PARAM, NAME_LINE2)
+                .param(ADDRESS_LINE1_PARAM, ADDRESS_LINE1)
+                .param(ADDRESS_LINE2_PARAM, ADDRESS_LINE2)
+                .param(ADDRESS_LINE3_PARAM, ADDRESS_LINE3)
+                .param(ADDRESS_LINE4_PARAM, ADDRESS_LINE4)
+                .param(TOWN_PARAM, TOWN)
+                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS)
+                .param(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, DIFFERENT_SERVICE_SIGNPOST_URL)
+                .param(COUNTY_PARAM, COUNTY)
+                .param(CONTACT_NUMBER_PARAM, CONTACT_NUMBER_10_CHARACTERS)
+                .param(BADGE_PACK_TYPE_PARAM, BADGE_PACK_TYPE)
+                .param(BADGE_COST_PARAM, BADGE_COST)
+                .param(PAYMENTS_ENABLED_PARAM, String.valueOf(PAYMENTS_ENABLED))
+                .param(POSTCODE_PARAM, POSTCODE)
+                .param(COUNTRY_PARAM, COUNTRY)
+                .param(NATION_PARAM, NATION.name())
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
+        .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));
+
+    verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, expectedLocalAuthority);
+  }
+
+  @Test
+  @SneakyThrows
+  public void
+      submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValidAndContactNumberHas44Prefix() {
+    LocalAuthority expectedLocalAuthority = new LocalAuthority();
+    BeanUtils.copyProperties(expectedLocalAuthority, LOCAL_AUTHORITY_ALL_FIELDS);
+    expectedLocalAuthority.setContactNumber(CONTACT_NUMBER_44_PREFIX);
+
+    LocalAuthorityDetailsFormRequest expectedFormRequest =
+        LocalAuthorityDetailsFormRequest.builder().build();
+    BeanUtils.copyProperties(
+        expectedFormRequest, LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields());
+    expectedFormRequest.setContactNumber(CONTACT_NUMBER_44_PREFIX);
+
+    when(toLocalAuthorityMock.convert(expectedFormRequest)).thenReturn(expectedLocalAuthority);
+
+    mockMvc
+        .perform(
+            post(URL_LOCAL_AUTHORITY_DETAILS + SHORT_CODE)
+                .sessionAttr("user", dftAdminUserSignedIn)
+                .param(DESCRIPTION_PARAM, DESCRIPTION)
+                .param(WELSH_DESCRIPTION_PARAM, WELSH_DESCRIPTION)
+                .param(NAME_LINE2_PARAM, NAME_LINE2)
+                .param(ADDRESS_LINE1_PARAM, ADDRESS_LINE1)
+                .param(ADDRESS_LINE2_PARAM, ADDRESS_LINE2)
+                .param(ADDRESS_LINE3_PARAM, ADDRESS_LINE3)
+                .param(ADDRESS_LINE4_PARAM, ADDRESS_LINE4)
+                .param(TOWN_PARAM, TOWN)
+                .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS)
+                .param(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, DIFFERENT_SERVICE_SIGNPOST_URL)
+                .param(COUNTY_PARAM, COUNTY)
+                .param(CONTACT_NUMBER_PARAM, CONTACT_NUMBER_44_PREFIX)
+                .param(BADGE_PACK_TYPE_PARAM, BADGE_PACK_TYPE)
+                .param(BADGE_COST_PARAM, BADGE_COST)
+                .param(PAYMENTS_ENABLED_PARAM, String.valueOf(PAYMENTS_ENABLED))
+                .param(POSTCODE_PARAM, POSTCODE)
+                .param(COUNTRY_PARAM, COUNTRY)
+                .param(NATION_PARAM, NATION.name())
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
+        .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));
+
+    verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, expectedLocalAuthority);
   }
 
   @Test

@@ -57,6 +57,8 @@ public final class LocalAuthorityTestData {
   public static String COUNTY_INVALID = OVER_FORTY_LONG_STRING;
   public static String CONTACT_NUMBER_PARAM = "contactNumber";
   public static String CONTACT_NUMBER = "07812 345 678";
+  public static String CONTACT_NUMBER_10_CHARACTERS = "078 12 345 68";
+  public static String CONTACT_NUMBER_44_PREFIX = "+44 78 12 345 678";
   public static String CONTACT_NUMBER_INVALID = "01010101010101010101";
   public static String BADGE_PACK_TYPE_PARAM = "badgePackType";
   public static String BADGE_PACK_TYPE = "Standard";

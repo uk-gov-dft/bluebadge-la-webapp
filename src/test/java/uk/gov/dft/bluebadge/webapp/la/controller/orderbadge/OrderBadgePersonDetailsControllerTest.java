@@ -225,6 +225,65 @@ public class OrderBadgePersonDetailsControllerTest extends OrderBadgeControllerT
   }
 
   @Test
+  public void
+      submit_shouldRedirectToProcessingPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrorsWithPhoneNumbers10Characters()
+          throws Exception {
+    mockMvc
+        .perform(
+            multipart("/order-a-badge/person/details")
+                .file(EMPTY_PHOTO)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
+                .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
+                .param(DOB_DAY_FIELD, DOB_DAY)
+                .param(DOB_MONTH_FIELD, DOB_MONTH)
+                .param(DOB_YEAR_FIELD, DOB_YEAR)
+                .param(DOB_FIELD, DOB)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                .param(POSTCODE_FIELD, POSTCODE)
+                .param(
+                    CONTACT_DETAILS_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_CONTACT_NUMBER_10_CHARACTERS)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_10_CHARACTERS)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
+  }
+
+  @Test
+  public void
+      submit_shouldRedirectToProcessingPage_WhenOnlyMandatoryFieldsAreSetAndThereAreNoValidationErrorsWithPhoneNumbers44Prefix()
+          throws Exception {
+    mockMvc
+        .perform(
+            multipart("/order-a-badge/person/details")
+                .file(EMPTY_PHOTO)
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
+                .param(NAME_FIELD, NAME)
+                .param(GENDER_FIELD, GENDER)
+                .param(DOB_DAY_FIELD, DOB_DAY)
+                .param(DOB_MONTH_FIELD, DOB_MONTH)
+                .param(DOB_YEAR_FIELD, DOB_YEAR)
+                .param(DOB_FIELD, DOB)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                .param(POSTCODE_FIELD, POSTCODE)
+                .param(
+                    CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_44_PREFIX)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_44_PREFIX)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
+  }
+
+  @Test
   public void submit_shouldThrowContextValidation_WhenImageFileHasWrongContent() throws Exception {
     mockMvc
         .perform(
