@@ -6,18 +6,18 @@
 </head>
 <body>
 
-<div th:fragment="pagination(pagingInfo)" class="dft-pagination">
+<div th:fragment="pagination(pagingInfo, url)" class="dft-pagination">
 
     <p class="dft-pagination__results" th:data-uipath="pagination.pageSize" th:text="#{pagination.results} + ' ' + ${pagingInfo.pageSize}"></p>
 
     <div class="dft-pagination__paginate">
         <a th:if="${pagingInfo.pageNum != 1}"
-           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum - 1} + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.previous}" th:data-uipath="pagination.previous"></a>
+           th:href="${url} + '?pageNum=' + ${pagingInfo.pageNum - 1} + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.previous}" th:data-uipath="pagination.previous"></a>
 
         <span th:text="#{pagination.paginate(${pagingInfo.pageNum}, ${pagingInfo.pages}) }"  th:data-uipath="pagination.page.of.pages"></span>
 
         <a th:if="${pagingInfo.pageNum != pagingInfo.pages}"
-           th:href="'/new-applications?pageNum=' + ${pagingInfo.pageNum + 1}  + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.next}"  th:data-uipath="pagination.next"></a>
+           th:href="${url} + '?pageNum=' + ${pagingInfo.pageNum + 1}  + '&pageSize=' + ${pagingInfo.pageSize}" th:text="#{pagination.next}"  th:data-uipath="pagination.next"></a>
     </div>
 
 </div>

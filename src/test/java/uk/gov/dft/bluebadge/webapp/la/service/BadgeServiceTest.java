@@ -25,11 +25,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.BadgeManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
@@ -40,6 +42,12 @@ public class BadgeServiceTest {
   private static final List<String> BADGE_NUMBERS_FOR_PERSON = Lists.newArrayList(BADGE_NUMBER);
   private static final Badge BADGE = new Badge().badgeNumber(BADGE_NUMBER);
   public static final String NAME = "jason";
+  private static final PagingInfo PAGING_INFO = new PagingInfo();
+
+  static {
+    PAGING_INFO.setPageNum(1);
+    PAGING_INFO.setPageSize(50);
+  }
 
   @Mock private BadgeManagementApiClient badgeManagementApiClientMock;
 
@@ -122,27 +130,34 @@ public class BadgeServiceTest {
     BadgeSummary b1 = new BadgeSummary();
     BadgeSummary b2 = new BadgeSummary();
     List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
+    BadgesResponse response = new BadgesResponse().data(badgesList);
 
-    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode(POST_CODE);
-    assertThat(returnedBadges).isEqualTo(badgesList);
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE, PAGING_INFO))
+        .thenReturn(response);
+    BadgesResponse returnedBadgesResponse =
+        badgeService.findBadgeByPostcode(POST_CODE, PAGING_INFO);
+    assertThat(returnedBadgesResponse.getData()).isEqualTo(badgesList);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAListOfBadges_WhenNoPostcodeIsProvided() {
     List<BadgeSummary> badgesList = Lists.newArrayList();
+    BadgesResponse response = new BadgesResponse().data(badgesList);
 
-    when(badgeManagementApiClientMock.findBadgeByPostCode(null)).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgeByPostcode(null);
-    assertThat(returnedBadges).isEqualTo(badgesList);
+    when(badgeManagementApiClientMock.findBadgeByPostCode(null, PAGING_INFO)).thenReturn(response);
+    BadgesResponse returnedBadgesResponse = badgeService.findBadgeByPostcode(null, PAGING_INFO);
+    assertThat(returnedBadgesResponse).isEqualTo(response);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAnEmptyList_WhenPostCodeProvidedDoesNotExist() {
     List<BadgeSummary> emptyList = Lists.newArrayList();
-    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE)).thenReturn(emptyList);
-    List<BadgeSummary> badges = badgeService.findBadgeByPostcode(POST_CODE);
-    assertThat(badges).isEqualTo(emptyList);
+    BadgesResponse response = new BadgesResponse().data(emptyList);
+
+    when(badgeManagementApiClientMock.findBadgeByPostCode(POST_CODE, PAGING_INFO))
+        .thenReturn(response);
+    BadgesResponse badgesResponse = badgeService.findBadgeByPostcode(POST_CODE, PAGING_INFO);
+    assertThat(badgesResponse).isEqualTo(response);
   }
 
   @Test
@@ -150,27 +165,31 @@ public class BadgeServiceTest {
     BadgeSummary b1 = new BadgeSummary();
     BadgeSummary b2 = new BadgeSummary();
     List<BadgeSummary> badgesList = Lists.newArrayList(b1, b2);
+    BadgesResponse response = new BadgesResponse().data(badgesList);
 
-    when(badgeManagementApiClientMock.findBadgeByName(NAME)).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(NAME);
-    assertThat(returnedBadges).isEqualTo(badgesList);
+    when(badgeManagementApiClientMock.findBadgeByName(NAME, PAGING_INFO)).thenReturn(response);
+    BadgesResponse returnedBadgesResponse = badgeService.findBadgeByName(NAME, PAGING_INFO);
+    assertThat(returnedBadgesResponse).isEqualTo(response);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAnEmptyList_WhenUserNameDoesNotExists() {
     List<BadgeSummary> emptyList = Lists.newArrayList();
-    when(badgeManagementApiClientMock.findBadgeByName(NAME)).thenReturn(emptyList);
-    List<BadgeSummary> badges = badgeService.findBadgeByName(NAME);
-    assertThat(badges).isEqualTo(emptyList);
+    BadgesResponse response = new BadgesResponse().data(emptyList);
+
+    when(badgeManagementApiClientMock.findBadgeByName(NAME, PAGING_INFO)).thenReturn(response);
+    BadgesResponse badgesResponse = badgeService.findBadgeByName(NAME, PAGING_INFO);
+    assertThat(badgesResponse).isEqualTo(response);
   }
 
   @Test
   public void findABadge_ShouldRetrieveAListOfBadges_WhenNoUserNameIsProvided() {
     List<BadgeSummary> badgesList = Lists.newArrayList();
+    BadgesResponse response = new BadgesResponse().data(badgesList);
 
-    when(badgeManagementApiClientMock.findBadgeByName(null)).thenReturn(badgesList);
-    List<BadgeSummary> returnedBadges = badgeService.findBadgeByName(null);
-    assertThat(returnedBadges).isEqualTo(badgesList);
+    when(badgeManagementApiClientMock.findBadgeByName(null, PAGING_INFO)).thenReturn(response);
+    BadgesResponse returnedBadgesResponse = badgeService.findBadgeByName(null, PAGING_INFO);
+    assertThat(returnedBadgesResponse).isEqualTo(response);
   }
 
   @Test

@@ -13,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Builder
 public class Application {
+  private static final String PAYMENT_REFERENCE_UNKNOWN = "Unknown";
+
   private String applicationId;
   private ApplicationTypeCodeField applicationTypeCode;
   private String localAuthorityCode;
@@ -52,5 +54,9 @@ public class Application {
       return Collections.emptyList();
     }
     return artifacts.stream().filter(a -> artifactType == a.getType()).collect(Collectors.toList());
+  }
+
+  public boolean isPaymentUnknown() {
+    return PAYMENT_REFERENCE_UNKNOWN.equalsIgnoreCase(paymentReference);
   }
 }

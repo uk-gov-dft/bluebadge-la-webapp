@@ -36,6 +36,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
+import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeCancelRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeNumberResponse;
@@ -60,6 +61,14 @@ public class BadgeManagementApiClientTest {
   private static final String POST_CODE = "L329PA";
   private static final String NAME = "jason";
   private static final String CANCEL_REASON_CODE = "REVOKE";
+  private static final Integer PAGE_NUM = 2;
+  private static final Integer PAGE_SIZE = 14;
+  private static final PagingInfo PAGING_INFO = new PagingInfo();
+
+  static {
+    PAGING_INFO.setPageNum(PAGE_NUM);
+    PAGING_INFO.setPageSize(PAGE_SIZE);
+  }
 
   private BadgeManagementApiClient client;
 
@@ -154,11 +163,20 @@ public class BadgeManagementApiClientTest {
     String body = objectMapper.writeValueAsString(badgeResponse);
 
     mockServer
-        .expect(once(), requestTo(BADGES_ENDPOINT + "?postCode=" + POST_CODE))
+        .expect(
+            once(),
+            requestTo(
+                BADGES_ENDPOINT
+                    + "?postCode="
+                    + POST_CODE
+                    + "&pageSize="
+                    + PAGE_SIZE
+                    + "&pageNum="
+                    + PAGE_NUM))
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
 
-    List<BadgeSummary> retrievedBadges = client.findBadgeByPostCode(POST_CODE);
-    assertThat(retrievedBadges).isEqualTo(badges);
+    BadgesResponse retrievedBadgesResponse = client.findBadgeByPostCode(POST_CODE, PAGING_INFO);
+    assertThat(retrievedBadgesResponse.getData()).isEqualTo(badges);
   }
 
   @Test
@@ -205,6 +223,20 @@ public class BadgeManagementApiClientTest {
     client.exportBadgesByLa("ABERD");
   }
 
+  @Test(expected = BadRequestException.class)
+  @SneakyThrows
+  public void exportBadgesByLa_ShouldThrowException_When400() {
+    CommonResponse commonResponse = new CommonResponse();
+    String body = objectMapper.writeValueAsString(commonResponse);
+
+    String uri = BADGES_ENDPOINT + "?laShortCode=" + "ABERD";
+    mockServer
+        .expect(once(), requestTo(uri))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
+    client.exportBadgesByLa("ABERD");
+  }
+
   @Test
   public void findABadgeByName_ShouldRetrieveAListOfBadges() throws JsonProcessingException {
     BadgeSummary b1 = new BadgeSummary();
@@ -214,11 +246,20 @@ public class BadgeManagementApiClientTest {
     String body = objectMapper.writeValueAsString(badgeResponse);
 
     mockServer
-        .expect(once(), requestTo(BADGES_ENDPOINT + "?name=" + NAME))
+        .expect(
+            once(),
+            requestTo(
+                BADGES_ENDPOINT
+                    + "?name="
+                    + NAME
+                    + "&pageSize="
+                    + PAGE_SIZE
+                    + "&pageNum="
+                    + PAGE_NUM))
         .andRespond(withSuccess(body, MediaType.APPLICATION_JSON_UTF8));
 
-    List<BadgeSummary> retrievedBadges = client.findBadgeByName(NAME);
-    assertThat(retrievedBadges).isEqualTo(badges);
+    BadgesResponse retrievedBadgesResponse = client.findBadgeByName(NAME, PAGING_INFO);
+    assertThat(retrievedBadgesResponse.getData()).isEqualTo(badges);
   }
 
   @Test
@@ -228,10 +269,19 @@ public class BadgeManagementApiClientTest {
 
     try {
       mockServer
-          .expect(once(), requestTo(BADGES_ENDPOINT + "?name=" + NAME))
+          .expect(
+              once(),
+              requestTo(
+                  BADGES_ENDPOINT
+                      + "?name="
+                      + NAME
+                      + "&pageSize="
+                      + PAGE_SIZE
+                      + "&pageNum="
+                      + PAGE_NUM))
           .andRespond(withBadRequest().body(body).contentType(MediaType.APPLICATION_JSON_UTF8));
 
-      client.findBadgeByName(NAME);
+      client.findBadgeByName(NAME, PAGING_INFO);
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }
