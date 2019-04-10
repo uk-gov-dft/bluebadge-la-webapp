@@ -1,32 +1,34 @@
 blue-badge:
   auth-server:
-    url: https://authorisation-service.${bb_env}.${url}/bb_auth
-    client-id: bb_la_web_app_id
-     ***REMOVED***
+    url: https://api.${bb_env}.${url}/bb_auth
   usermanagementservice:
     servicehost:
-      host: usermanagement-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
+      contextpath: /
   badgemanagementservice:
     servicehost:
-      host: badge-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
+      contextpath: /
   referencedataservice:
     servicehost:
-      host: reference-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
+      contextpath: /
   applicationsservice:
     servicehost:
-      host: application-service.${bb_env}.${url}
+      host: api.${bb_env}.${url}
       port: 443
       scheme: https
+      contextpath: /
 
 management:
   server:
-    port: ${bb_health:-8081}
+    port: ${bb_health:8081}
 
 spring:
   main:
@@ -44,10 +46,7 @@ spring:
         max-age: 315360000
 
 server:
-  port: ${bb_port:-8080}
-  tomcat:
-    remote-ip-header: x-forwarded-for
-    protocol-header: x-forwarded-proto
+  port: ${bb_port:8080}
 
  # Google Analytics Code
-GACode:  ${GACODE:UA-124760983-5}
+GACode:  ${GACODE}
