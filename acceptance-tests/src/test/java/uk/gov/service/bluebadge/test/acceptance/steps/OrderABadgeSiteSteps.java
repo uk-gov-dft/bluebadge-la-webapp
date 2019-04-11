@@ -52,7 +52,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
-    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage
+        .findElementWithUiPath("contactDetailsContactNumber.field")
+        .sendKeys(" 020 7014 0 800 ");
 
     Select select = new Select(sitePage.findPageElementById("eligibility"));
     select.selectByVisibleText("PIP");
@@ -72,7 +74,9 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
     sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
-    sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
+    sitePage
+        .findElementWithUiPath("contactDetailsContactNumber.field")
+        .sendKeys("+44 20 7014 080 ");
   }
 
   @When("^I enter all valid personal details to order a badge$")

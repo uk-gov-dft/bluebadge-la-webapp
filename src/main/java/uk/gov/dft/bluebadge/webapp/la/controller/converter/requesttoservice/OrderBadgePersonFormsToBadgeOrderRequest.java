@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Contact;
@@ -52,8 +53,9 @@ public class OrderBadgePersonFormsToBadgeOrderRequest
         .townCity(details.getTownOrCity())
         .postCode(details.getPostcode())
         .fullName(details.getContactDetailsName())
-        .primaryPhoneNumber(details.getContactDetailsContactNumber())
-        .secondaryPhoneNumber(details.getContactDetailsSecondaryContactNumber())
+        .primaryPhoneNumber(StringUtils.trimAllWhitespace(details.getContactDetailsContactNumber()))
+        .secondaryPhoneNumber(
+            StringUtils.trimAllWhitespace(details.getContactDetailsSecondaryContactNumber()))
         .emailAddress(details.getContactDetailsEmailAddress());
   }
 }
