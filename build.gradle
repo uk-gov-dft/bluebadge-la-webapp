@@ -142,7 +142,7 @@ configurations.all {
 }
 
 dependencies {
-    ext.commonVersion = '0.7.8-feature_BBB-1348-accept-10-character-phone-numbers-for-applications-and-badges-SNAPSHOT'
+    ext.commonVersion = '0.7.8-SNAPSHOT'
 
     compile( group: 'uk.gov.dft.bluebadge', name: 'bluebadge-common', version: "${commonVersion}", changing: true ){
         exclude group: 'org.mybatis.spring.boot', module: 'mybatis-spring-boot-starter'
