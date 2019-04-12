@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
 
@@ -25,7 +26,7 @@ public class LocalAuthorityDetailsFormRequestToLocalAuthority
             formRequest.getBadgeCost() != null ? new BigDecimal(formRequest.getBadgeCost()) : null)
         .paymentsEnabled(formRequest.getPaymentsEnabled())
         .badgePackType(formRequest.getBadgePackType())
-        .contactNumber(formRequest.getContactNumber())
+        .contactNumber(StringUtils.trimAllWhitespace(formRequest.getContactNumber()))
         .contactUrl(formRequest.getWebsiteUrl())
         .country(formRequest.getCountry())
         .county(formRequest.getCounty())
