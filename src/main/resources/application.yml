@@ -12,7 +12,7 @@ blue-badge:
       connectiontimeout: 6000
       requesttimeout: 6000
       contextpath: /uk-gov-dft/user-management-service/1.0.0
-      versionaccept: application/vnd.bluebadge-api.v1+json, application/json
+      versionaccept: application/vnd.bluebadge-api.v1+json
   badgemanagementservice:
     servicehost:
       host: localhost
@@ -21,8 +21,7 @@ blue-badge:
       connectiontimeout: 6000
       requesttimeout: 6000
       contextpath: /uk-gov-dft/badge-management-service/1.0.0
-      versionaccept: application/vnd.bluebadge-api.v1+json, application/json
-      zipversionaccept: application/vnd.bluebadge-api.v1+json, application/zip
+      versionaccept: application/vnd.bluebadge-api.v1+json
   referencedataservice:
     servicehost:
       host: localhost
@@ -31,7 +30,7 @@ blue-badge:
       connectiontimeout: 6000
       requesttimeout: 6000
       contextpath: /uk-gov-dft/reference-data-service/1.0.0
-      versionaccept: application/vnd.bluebadge-api.v1+json, application/json
+      versionaccept: application/vnd.bluebadge-api.v1+json
 
   applicationsservice:
     servicehost:
@@ -41,7 +40,7 @@ blue-badge:
       connectiontimeout: 6000
       requesttimeout: 6000
       contextpath: /uk-gov-dft/application-management-service/1.0.0
-      versionaccept: application/vnd.bluebadge-api.v1+json, application/json
+      versionaccept: application/vnd.bluebadge-api.v1+json
   client-time-zone: Europe/London
   env:  ${bb_env:dev}
 
