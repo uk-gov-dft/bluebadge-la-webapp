@@ -84,7 +84,7 @@ public class BadgeManagementApiClientTest {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
-    client = new BadgeManagementApiClient(restTemplate, "application/zip");
+    client = new BadgeManagementApiClient(restTemplate);
   }
 
   @Test
@@ -311,7 +311,7 @@ public class BadgeManagementApiClientTest {
   @Test(expected = HttpClientErrorException.class)
   public void cancellingBadge_ShouldThrowException_whenNoRequestBodyIsPassed() {
 
-    client = new BadgeManagementApiClient(mockTemplate, "application/zip");
+    client = new BadgeManagementApiClient(mockTemplate);
     when(mockTemplate.postForEntity(any(), any(), eq(CommonResponse.class), eq(BADGE_NUMBER)))
         .thenThrow(new HttpClientErrorException(HttpStatus.GATEWAY_TIMEOUT));
 
