@@ -104,6 +104,59 @@ public class OrderBadgeOrganisationDetailsControllerTest extends OrderBadgeContr
   }
 
   @Test
+  public void
+      submit_shouldRedirectToProcessingPage_WhenAllFieldsAndPhoneNumberHas10CharactersAreSetAndThereAreNoValidationErrors()
+          throws Exception {
+    mockMvc
+        .perform(
+            post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
+                .param(NAME_FIELD, NAME)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                .param(POSTCODE_FIELD, POSTCODE)
+                .param(
+                    CONTACT_DETAILS_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_CONTACT_NUMBER_10_CHARACTERS)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_10_CHARACTERS)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY)
+                .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
+                .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
+                .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
+  }
+
+  @Test
+  public void
+      submit_shouldRedirectToProcessingPage_WhenAllFieldsAndPhoneNumberHas44PrefixAreSetAndThereAreNoValidationErrors()
+          throws Exception {
+    mockMvc
+        .perform(
+            post("/order-a-badge/organisation/details")
+                .sessionAttr(SESSION_FORM_REQUEST_INDEX, FORM_REQUEST_INDEX_PERSON)
+                .param("flowId", FLOW_ID)
+                .param(NAME_FIELD, NAME)
+                .param(BUILDING_AND_STREET_FIELD, BUILDING_AND_STREET)
+                .param(TOWN_OR_CITY_FIELD, TOWN_OR_CITY)
+                .param(POSTCODE_FIELD, POSTCODE)
+                .param(
+                    CONTACT_DETAILS_CONTACT_NUMBER_FIELD, CONTACT_DETAILS_CONTACT_NUMBER_44_PREFIX)
+                .param(
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_FIELD,
+                    CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_44_PREFIX)
+                .param(ELIGIBILITY_FIELD, ELIGIBILITY)
+                .param(OPTIONAL_ADDRESS_FIELD_FIELD, OPTIONAL_ADDRESS_FIELD)
+                .param(CONTACT_DETAILS_NAME_FIELD, CONTACT_DETAILS_NAME)
+                .param(CONTACT_DETAILS_EMAIL_ADDRESS_FIELD, CONTACT_DETAILS_EMAIL_ADDRESS))
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/order-a-badge/processing?fid=" + FLOW_ID));
+  }
+
+  @Test
   public void submit_shouldRedirectToDetailsPageAndDisplayErrors_WhenNoFieldsAreSet()
       throws Exception {
     mockMvc

@@ -61,8 +61,16 @@ public class OrderBadgeTestData {
   protected static final String TOWN_OR_CITY = "Town or city";
   protected static final String POSTCODE = "TF8 6GF";
   protected static final String CONTACT_DETAILS_NAME = "Contact details name";
-  protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "07700900077";
-  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "07700900099";
+  protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "077 009 000 77";
+  protected static final String CONTACT_DETAILS_CONTACT_NUMBER_TRIMMED = "07700900077";
+  protected static final String CONTACT_DETAILS_CONTACT_NUMBER_10_CHARACTERS = "07 70 09 00 07";
+  protected static final String CONTACT_DETAILS_CONTACT_NUMBER_44_PREFIX = "+44 71 70 09 00 07";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER = "07700 9 00099";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_TRIMMED = "07700900099";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_10_CHARACTERS =
+      "0770 090 009";
+  protected static final String CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_44_PREFIX =
+      "+44 77 0090 009";
   protected static final String CONTACT_DETAILS_EMAIL_ADDRESS = "joe@blogs.com";
   protected static final String ELIGIBILITY = "pip";
   protected static final String ELIGIBILITY_SHORTCODE = "PIP";
@@ -169,6 +177,7 @@ public class OrderBadgeTestData {
           .flowId(FLOW_ID)
           .buildingAndStreet(BUILDING_AND_STREET)
           .contactDetailsContactNumber(CONTACT_DETAILS_CONTACT_NUMBER)
+          .contactDetailsSecondaryContactNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER)
           .contactDetailsName(CONTACT_DETAILS_NAME)
           .contactDetailsEmailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
           .dobDay(Integer.valueOf(DOB_DAY))
@@ -263,8 +272,8 @@ public class OrderBadgeTestData {
           .line2(OPTIONAL_ADDRESS_FIELD)
           .postCode(POSTCODE)
           .townCity(TOWN_OR_CITY)
-          .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER)
-          .secondaryPhoneNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER);
+          .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER_TRIMMED)
+          .secondaryPhoneNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_TRIMMED);
   private static final Organisation organisation = new Organisation().badgeHolderName(NAME);
   private static final Party partyOrganisation =
       new Party()
@@ -293,7 +302,8 @@ public class OrderBadgeTestData {
           .line2(OPTIONAL_ADDRESS_FIELD)
           .postCode(POSTCODE)
           .townCity(TOWN_OR_CITY)
-          .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER);
+          .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER_TRIMMED)
+          .secondaryPhoneNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_TRIMMED);
   protected static final Person PERSON =
       new Person()
           .genderCode(GENDER_SHORTCODE)
