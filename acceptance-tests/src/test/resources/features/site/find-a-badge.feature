@@ -93,13 +93,20 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
-  Scenario: Verify Find a badge by post code for a non existing badge and present the results
+  Scenario: Verify Find a badge by post code for an empty search term first and then non existing badge and present no results
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
+    Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
+    When I select option "postcode.radio"
+    And I type "  " for "searchTerm.field" field by uipath
+    And I can click "button" button
+    Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
+    And I should see "No results found for " text on the page
+    When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
     And I type "1AB C23" for "searchTerm.field" field by uipath
@@ -137,7 +144,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
-  Scenario: Verify Find a badge by name for a non existing badge and present the results
+  Scenario: Verify Find a badge by name first with a blank search term and then for a non existing badge and present zero results
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -146,7 +153,15 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
+    And I type "  " for "searchTerm.field" field by uipath
+    And I can click "button" button
+    Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
+    And I should see "No results found for " text on the page
+    When I can click "back-link" button
+    Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
+    When I select option "name.radio"
     And I type "json" for "searchTerm.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
+
