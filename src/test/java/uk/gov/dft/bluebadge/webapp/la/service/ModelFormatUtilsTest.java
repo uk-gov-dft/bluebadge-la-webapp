@@ -1,16 +1,15 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import static org.junit.Assert.*;
-
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppOrganisation;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppParty;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.AppPerson;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
+
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 public class ModelFormatUtilsTest {
 

@@ -1,19 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.client.applications;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +19,20 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeC
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 public class ApplicationsApiClientTest extends ApplicationTestData {
 

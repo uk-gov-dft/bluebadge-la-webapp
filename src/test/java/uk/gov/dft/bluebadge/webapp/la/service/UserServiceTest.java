@@ -1,16 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -21,6 +10,18 @@ import org.springframework.session.Session;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.SetPasswordApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
