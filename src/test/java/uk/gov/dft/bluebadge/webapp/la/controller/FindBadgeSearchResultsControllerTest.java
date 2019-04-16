@@ -29,6 +29,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResult
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 public class FindBadgeSearchResultsControllerTest {
+  public static final String SEARCH_TERM_BLANK = "    ";
   private static String BADGE_NUMBER = "HAS67SDDS3";
 
   private static final String NAME = "Joe BLoggs";
@@ -187,7 +188,7 @@ public class FindBadgeSearchResultsControllerTest {
 
   @Test
   @SneakyThrows
-  public void show_shouldShowResultsWithValidationErrors_whenFindByPostcodeAndPostcodeIsBlank() {
+  public void show_shouldShowNoResults_whenFindByPostcodeAndPostcodeIsBlank() {
     when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
         .thenReturn(RESULTS_RESPONSE);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
@@ -196,11 +197,31 @@ public class FindBadgeSearchResultsControllerTest {
         .perform(
             get("/manage-badges/search-results")
                 .sessionAttr("findBadgeBy", "postcode")
-                .sessionAttr("searchTerm", ""))
+                .sessionAttr("searchTerm", SEARCH_TERM_BLANK))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-badges/search-results"))
         .andExpect(model().attribute("findBadgeBy", "postcode"))
-        .andExpect(model().attribute("searchTerm", ""))
+        .andExpect(model().attribute("searchTerm", SEARCH_TERM_BLANK))
+        .andExpect(model().attribute("results", Lists.newArrayList()))
+        .andExpect(model().attribute("pagingInfo", DEFAULT_PAGING_INFO));
+  }
+
+  @Test
+  @SneakyThrows
+  public void show_shouldShowNoResults_whenFindByNameAndNameIsBlank() {
+    when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
+        .thenReturn(RESULTS_RESPONSE);
+    when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
+        .thenReturn(RESULT_VIEW_MODEL);
+    mockMvc
+        .perform(
+            get("/manage-badges/search-results")
+                .sessionAttr("findBadgeBy", "name")
+                .sessionAttr("searchTerm", SEARCH_TERM_BLANK))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-badges/search-results"))
+        .andExpect(model().attribute("findBadgeBy", "name"))
+        .andExpect(model().attribute("searchTerm", SEARCH_TERM_BLANK))
         .andExpect(model().attribute("results", Lists.newArrayList()))
         .andExpect(model().attribute("pagingInfo", DEFAULT_PAGING_INFO));
   }
