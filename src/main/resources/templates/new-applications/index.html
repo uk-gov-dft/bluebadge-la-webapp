@@ -63,9 +63,10 @@
             <thead class="govuk-table__head" data-uipath="table.head">
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.name.label}"/>
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.nino.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{newapplications.dob.label}"/>
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.eligibility.label}"/>
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.submittedDate.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{newapplications.applicationType.label}"/>
                 <th class="govuk-table__header" scope="col" th:text="#{newapplications.status.label}"/>
             </tr>
             </thead>
@@ -75,9 +76,10 @@
                 <td class="govuk-table__cell">
                     <a th:href="@{/new-applications/__${app.applicationId}__}" th:text="${app.name}"></a>
                 </td>
-                <td class="govuk-table__cell" th:text="${app.nino}">
+                <td class="govuk-table__cell" th:text="${app.dob}">
                 <td class="govuk-table__cell" th:text="${app.eligibility}">
                 <td class="govuk-table__cell" th:text="${app.submittedDate}">
+                <td class="govuk-table__cell" th:text="${app.applicationType}">
                 <td class="govuk-table__cell">
                     <strong th:if="${app.status != null}" class="govuk-tag govuk-phase-banner__content__tag" th:text="#{'applicationStatus.APPSTATUS.' + ${app.status}}"></strong>
                 </td>

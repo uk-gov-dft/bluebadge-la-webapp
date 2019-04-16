@@ -1,5 +1,16 @@
 package uk.gov.dft.bluebadge.webapp.la.client.usermanagement;
 
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.CREATE_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.DELETE_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_BY_ID_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_CURRENT_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_USERS_FOR_AUTHORITY_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.REQUEST_RESET_EMAIL_ENDPOINT;
+import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.UPDATE_ENDPOINT;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -14,18 +25,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.CREATE_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.DELETE_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_BY_ID_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_CURRENT_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.GET_USERS_FOR_AUTHORITY_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.REQUEST_RESET_EMAIL_ENDPOINT;
-import static uk.gov.dft.bluebadge.webapp.la.client.usermanagement.UserManagementApiClient.Endpoints.UPDATE_ENDPOINT;
 
 @Service
 public class UserManagementApiClient extends BaseApiClient {

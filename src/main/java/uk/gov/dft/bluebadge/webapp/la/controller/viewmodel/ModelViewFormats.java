@@ -13,6 +13,8 @@ public class ModelViewFormats implements Serializable {
 
   private static final String VIEW_MODEL_FIELD_DATE_TIME_FORMAT = "dd MMMM yyyy 'at' HH:mm";
 
+  private static final String VIEW_MODEL_GRID_DOB_FORMAT = "d MMM yyyy";
+
   public static final DateTimeFormatter viewModelGridDateTimeFormatter =
       DateTimeFormatter.ofPattern(ModelViewFormats.VIEW_MODEL_GRID_DATE_TIME_FORMAT);
 
@@ -21,4 +23,7 @@ public class ModelViewFormats implements Serializable {
 
   public static final DateTimeFormatter viewModelFieldDateFormatter =
       DateTimeFormatter.ofPattern(ModelViewFormats.VIEW_MODEL_FIELD_DATE_FORMAT);
+
+  public static final DateTimeFormatter viewModelGridDobFormatter =
+      DateTimeFormatter.ofPattern(ModelViewFormats.VIEW_MODEL_GRID_DOB_FORMAT);
 }

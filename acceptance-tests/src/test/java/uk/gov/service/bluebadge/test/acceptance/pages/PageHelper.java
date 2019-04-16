@@ -1,5 +1,11 @@
 package uk.gov.service.bluebadge.test.acceptance.pages;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -10,13 +16,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverProvider;
-
-import java.time.Duration;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
-
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class PageHelper {
 

@@ -1,14 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.validation;
 
-import org.junit.Test;
-
-import java.time.LocalDate;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils.buildDateStringIfValidNullIfInvalid;
 import static uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils.dateShouldBeNull;
 import static uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils.isAnyDatePartMissing;
 import static uk.gov.dft.bluebadge.webapp.la.controller.validation.DateValidationUtils.validateAndBuildLocalDateIfValid;
+
+import java.time.LocalDate;
+import org.junit.Test;
 
 public class DateValidationUtilsTest {
 

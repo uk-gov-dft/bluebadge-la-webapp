@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
 import com.google.common.collect.Lists;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -21,11 +22,18 @@ public class ApplicationTestData {
   // Application Summary fields
   private static final UUID APPLICATION_ID = UUID.randomUUID();
   private static final ApplicationTypeCodeField APPLICATION_TYPE = ApplicationTypeCodeField.NEW;
+  private static final String APPLICATION_TYPE_VIEW_MODEL = "New";
   private static final EligibilityCodeField ELIGIBILITY_CODE = EligibilityCodeField.WALKD;
   protected static final String ELIGIBILITY_SHORT_CODE = EligibilityCodeField.WALKD.toString();
   protected static final String ELIGIBILITY_VIEW_MODEL = "Walking ability";
   protected static final String NAME = "name";
   private static final String NINO = "nino";
+  private static final LocalDate DOB1 = LocalDate.of(2000, 5, 11);
+  private static final String DOB1_VIEW_MODEL = "11 May 2000";
+  private static final LocalDate DOB2 = LocalDate.of(1990, 2, 7);
+  private static final String DOB2_VIEW_MODEL = "07 February 1990";
+  private static final LocalDate DOB3 = LocalDate.of(1998, 3, 25);
+  private static final String DOB3_VIEW_MODEL = "25 March 1998";
   protected static final ZoneId TIME_ZONE = ZoneId.of("Europe/Berlin");
   private static final java.time.OffsetDateTime SUBMISSION_DATE_1 =
       OffsetDateTime.of(2018, 6, 20, 10, 10, 0, 0, ZoneOffset.UTC);
@@ -39,6 +47,7 @@ public class ApplicationTestData {
           .eligibilityCode(ELIGIBILITY_CODE)
           .name(NAME)
           .nino(NINO)
+          .dob(DOB1)
           .partyTypeCode(PartyTypeCodeField.PERSON)
           .applicationStatus(ApplicationStatusField.COMPLETED)
           .submissionDate(SUBMISSION_DATE_1);
@@ -49,6 +58,7 @@ public class ApplicationTestData {
           .eligibilityCode(EligibilityCodeField.ARMS)
           .name("name2")
           .nino("AA0000A2")
+          .dob(DOB2)
           .partyTypeCode(PartyTypeCodeField.PERSON)
           .applicationStatus(ApplicationStatusField.INPROGRESS)
           .submissionDate(SUBMISSION_DATE_2);
@@ -59,6 +69,7 @@ public class ApplicationTestData {
           .eligibilityCode(EligibilityCodeField.CHILDBULK)
           .name("name3")
           .nino("AA0000A3")
+          .dob(DOB3)
           .partyTypeCode(PartyTypeCodeField.PERSON)
           .applicationStatus(ApplicationStatusField.TODO)
           .submissionDate(SUBMISSION_DATE_3);
@@ -81,6 +92,7 @@ public class ApplicationTestData {
           .eligibilityCode(null)
           .name(NAME)
           .nino(NINO)
+          .dob(null)
           .partyTypeCode(PartyTypeCodeField.ORG)
           .applicationStatus(ApplicationStatusField.COMPLETED)
           .submissionDate(SUBMISSION_DATE_1);
@@ -93,10 +105,11 @@ public class ApplicationTestData {
       ApplicationSummaryViewModel.builder()
           .applicationId(APPLICATION_ID.toString())
           .name(NAME)
-          .nino(NINO)
+          .dob(DOB1_VIEW_MODEL)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
           .status(ApplicationStatusField.COMPLETED.name())
+          .applicationType(APPLICATION_TYPE_VIEW_MODEL)
           .build();
   protected static final List<ApplicationSummaryViewModel> APPLICATION_VIEW_MODELS_ONE_ITEM =
       Lists.newArrayList(APPLICATION_PERSON_VIEW_MODEL_1);
@@ -105,10 +118,11 @@ public class ApplicationTestData {
       ApplicationSummaryViewModel.builder()
           .applicationId(APPLICATION_ID.toString())
           .name(NAME)
-          .nino(NINO)
+          .dob("")
           .eligibility("Organisation")
           .submittedDate(SUBMISSION_DATE_VIEW_MODEL_1)
           .status(ApplicationStatusField.COMPLETED.name())
+          .applicationType(APPLICATION_TYPE_VIEW_MODEL)
           .build();
 
   // Application fields
@@ -170,7 +184,6 @@ public class ApplicationTestData {
   public static final ApplicationSummaryViewModel APPLICATION_JOHN_VIEW =
       ApplicationSummaryViewModel.builder()
           .name("John Bates")
-          .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_1)
           .build();
@@ -178,7 +191,6 @@ public class ApplicationTestData {
   public static final ApplicationSummaryViewModel APPLICATION_JOHNSON_VIEW =
       ApplicationSummaryViewModel.builder()
           .name("Tom Johnson")
-          .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_1)
           .build();
@@ -186,7 +198,6 @@ public class ApplicationTestData {
   public static final ApplicationSummaryViewModel APPLICATION_LITTLEJOHN_VIEW =
       ApplicationSummaryViewModel.builder()
           .name("David Littlejohn")
-          .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_2)
           .build();
@@ -194,7 +205,6 @@ public class ApplicationTestData {
   public static final ApplicationSummaryViewModel APPLICATION_OTHER_VIEW =
       ApplicationSummaryViewModel.builder()
           .name("Maria Davis")
-          .nino(NINO)
           .eligibility(ELIGIBILITY_VIEW_MODEL)
           .submittedDate(SUBMISSION_DATE_VIEW_2)
           .build();

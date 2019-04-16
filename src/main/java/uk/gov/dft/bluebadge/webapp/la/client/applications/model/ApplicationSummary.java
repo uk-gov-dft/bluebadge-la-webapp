@@ -2,14 +2,13 @@ package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
 /** ApplicationSummary */
 @Validated
@@ -52,8 +51,9 @@ public class ApplicationSummary {
    * @return applicationId
    */
   @ApiModelProperty(
-      example = "12345678-1234-1234-1234-123412341234",
-      value = "The unique badge number for this application - a UUID")
+    example = "12345678-1234-1234-1234-123412341234",
+    value = "The unique badge number for this application - a UUID"
+  )
   public String getApplicationId() {
     return applicationId;
   }
@@ -114,8 +114,9 @@ public class ApplicationSummary {
    */
   @ApiModelProperty(example = "NS123458S", value = "The badgeholders national insurance number")
   @Pattern(
-      regexp =
-          "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$")
+    regexp =
+        "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$"
+  )
   public String getNino() {
     return nino;
   }
@@ -135,8 +136,9 @@ public class ApplicationSummary {
    * @return name
    */
   @ApiModelProperty(
-      example = "John Smith",
-      value = "The name of the badge holder Organisation or Person")
+    example = "John Smith",
+    value = "The name of the badge holder Organisation or Person"
+  )
   @Size(max = 100)
   public String getName() {
     return name;
