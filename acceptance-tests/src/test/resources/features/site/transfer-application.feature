@@ -15,7 +15,7 @@ Feature: Dft BlueBadge LA applications - transfer application
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     And I should see "John Spartan" text on the page
     When I click on application with name "John Spartan"
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     When I can click "transferApplicationSummaryText" button
     And I select option "ANGL" from dropdown "transferToLaShortCode.field"
     And I can click "transferApplicationButton" button
@@ -32,5 +32,5 @@ Feature: Dft BlueBadge LA applications - transfer application
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     And I should see "John Spartan" text on the page
     When I click on application with name "John Spartan"
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see labelled element "application.transferdetails.la" with content "Aberdeenshire council"

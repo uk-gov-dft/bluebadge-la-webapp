@@ -18,22 +18,22 @@ Feature: Dft BlueBadge LA applications - update application
     When I can click on the "Applications" link on left navigation
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with name "John The Second"
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see labelled element "currentApplicationStatus" with content "TO DO"
     When I can click "updateStatusSummary" button
     When I select option "applicationStatus.option.INPROGRESS"
     When I can click "updateStatusSummary" button
     When I can click "updateStatusSummary" button
     And I can click "updateApplicationStatusButton" button
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see labelled element "currentApplicationStatus" with content "IN PROGRESS"
     When I can click "updateStatusSummary" button
     When I select option "applicationStatus.option.COMPLETED"
     And I can click "updateApplicationStatusButton" button
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see labelled element "currentApplicationStatus" with content "COMPLETED"
     When I can click "updateStatusSummary" button
     When I select option "applicationStatus.option.TODO"
     And I can click "updateApplicationStatusButton" button
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see labelled element "currentApplicationStatus" with content "TO DO"

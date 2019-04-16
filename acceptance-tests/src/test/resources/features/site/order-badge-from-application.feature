@@ -14,7 +14,7 @@ Feature: Dft BlueBadge Order a Badge - order badge from application
     And I can click on the "Applications" link on left navigation
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with name "John The First"
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I can see the "Order badge" button
     When I click the "Order badge" button
     Then I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
@@ -39,5 +39,5 @@ Feature: Dft BlueBadge Order a Badge - order badge from application
     And I can click on the "Applications" link on left navigation
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with name "Freddie Kruger"
-    Then I should see the page titled "Application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I cannot see the "Order badge" button
