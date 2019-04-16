@@ -120,7 +120,7 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
   public void show_shouldThrowNotFoundException_WhenBadgeDoesNotExist() throws Exception {
     when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.empty());
 
-    controller.show(BADGE_NUMBER, modelMock);
+    controller.show(BADGE_NUMBER, modelMock, null);
 
     verify(badgeToBadgeDetailsViewModelMock, times(0)).convert(any());
   }
