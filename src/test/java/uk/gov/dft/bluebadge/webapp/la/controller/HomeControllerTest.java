@@ -37,7 +37,7 @@ public class HomeControllerTest {
 
   @Test
   public void
-      showHome_shouldDisplayManageBadgesPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaReadOnly()
+      show_shouldDisplayManageBadgesPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaReadOnly()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(false);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(true);
@@ -52,7 +52,7 @@ public class HomeControllerTest {
 
   @Test
   public void
-      showHome_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaEditor()
+      show_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaEditor()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(true);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(true);
@@ -67,7 +67,7 @@ public class HomeControllerTest {
 
   @Test
   public void
-      showHome_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaAdmin()
+      show_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaAdmin()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(true);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(true);
@@ -82,7 +82,7 @@ public class HomeControllerTest {
 
   @Test
   public void
-      showHome_shouldDisplayManageUsersPageAndAddEmailAttribute_WhenUserIsSignedInAndIsDftAdmin()
+      show_shouldDisplayManageUsersPageAndAddEmailAttribute_WhenUserIsSignedInAndIsDftAdmin()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(false);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(false);
