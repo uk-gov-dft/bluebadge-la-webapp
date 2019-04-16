@@ -13,7 +13,7 @@
 
 <div layout:fragment="headline">
     <div class="dft-headline-wrapper">
-        <a th:href="@{/new-applications}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
+        <a th:href="@{/applications}" aria-label="go back" data-uipath="back-link" class="govuk-back-link"
            th:text="#{common.button.back}"></a>
     </div>
 </div>
@@ -47,7 +47,7 @@
 
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
+                    <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
                         <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
 
                         <input data-uipath="updateApplicationStatusButton"
@@ -531,7 +531,7 @@
         </div>
 
         <div th:if="${renderOrderBadgeButton}">
-            <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" method="post" novalidate>
+            <form th:action="@{/applications/{uuid}(uuid=${uuid})}" method="post" novalidate>
                 <input th:value="#{orderbadge.checkorder.button.orderBadge}" type="submit" data-uipath="order" class="govuk-button">
             </form>
         </div>
@@ -543,14 +543,14 @@
             </summary>
 
             <div class="govuk-details__text">
-                <form th:action="@{/new-applications/{uuid}(uuid=${uuid})}" th:method="delete">
+                <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="delete">
                     <p class="govuk-body" th:text="#{application.details.text.confirmdelete.line1}"/>
                     <input data-uipath="removeApplicationButton"
                            th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
                 </form>
 
                 <p class="govuk-body">
-                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveApplicationButton"
+                    <a th:href="@{/applications/{uuid}(uuid=${uuid})}" data-uipath="doNotRemoveApplicationButton"
                        th:text="#{application.details.doNotRemoveApplicationButton}"></a>
                 </p>
             </div>
@@ -563,7 +563,7 @@
             </summary>
 
             <div class="govuk-details__text">
-                <form th:action="@{/new-applications/{uuid}/transfers(uuid=${uuid})}"
+                <form th:action="@{/applications/{uuid}/transfers(uuid=${uuid})}"
                       th:object="${transferApplicationFormRequest}" method="post" novalidate>
                     <div th:replace="~{ fragments/govuk-select ::
                     govuk-select-flat(#{application.details.transfer.label}, 'transferToLaShortCode', null, ${allOtherLocalAuthorities}) }"/>
@@ -573,7 +573,7 @@
                 </form>
 
                 <p class="govuk-body">
-                    <a th:href="@{/new-applications/{uuid}(uuid=${uuid})}" data-uipath="doNotTransferApplicationLink"
+                    <a th:href="@{/applications/{uuid}(uuid=${uuid})}" data-uipath="doNotTransferApplicationLink"
                        th:text="#{application.details.transfer.cancel.link}"></a>
                 </p>
             </div>

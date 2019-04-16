@@ -87,7 +87,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW),
             validPaging))
-        .thenReturn(noNewApplications);
+        .thenReturn(noApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(Lists.emptyList());
   }

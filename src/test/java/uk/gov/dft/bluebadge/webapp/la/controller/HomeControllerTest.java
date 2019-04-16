@@ -52,7 +52,7 @@ public class HomeControllerTest {
 
   @Test
   public void
-      showHome_shouldDisplayNewApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaEditor()
+      showHome_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaEditor()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(true);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(true);
@@ -62,12 +62,12 @@ public class HomeControllerTest {
     mockMvc
         .perform(get("/"))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/new-applications"));
+        .andExpect(redirectedUrl("/applications"));
   }
 
   @Test
   public void
-      showHome_shouldDisplayNewApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaAdmin()
+      showHome_shouldDisplayApplicationsPageAndAddEmailAttribute_WhenUserIsSignedInAndIsLaAdmin()
           throws Exception {
     when(securityUtilsMock.isPermitted(Permissions.FIND_APPLICATION)).thenReturn(true);
     when(securityUtilsMock.isPermitted(Permissions.FIND_BADGES)).thenReturn(true);

@@ -41,9 +41,9 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Slf4j
 public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
-  private static final String TEMPLATE = "new-applications/application-details";
+  private static final String TEMPLATE = "applications/application-details";
   private static final String REDIRECT_URL_NEW_APPLICATION =
-      "redirect:" + NewApplicationsController.URL;
+      "redirect:" + ApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -51,7 +51,7 @@ public class ApplicationDetailsController extends BaseController {
       EnumSet.of(WALKD, CHILDBULK, CHILDVEHIC);
   private static final EnumSet<EligibilityCodeField> SUPPORT_DOCS_ELIG_TYPES =
       EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
-  static final String URL_NEW_APPLICATIONS_UUID = "/new-applications/{uuid}";
+  static final String URL_NEW_APPLICATIONS_UUID = "/applications/{uuid}";
   private static final String TRANSFER_APPLICATION_FORM_REQUEST = "transferApplicationFormRequest";
 
   private ApplicationService applicationService;
@@ -108,7 +108,7 @@ public class ApplicationDetailsController extends BaseController {
     return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
   }
 
-  @PostMapping(path = "/new-applications/{uuid}/transfers")
+  @PostMapping(path = "/applications/{uuid}/transfers")
   public String transferApplication(
       @PathVariable(PARAM_UUID) UUID uuid,
       @Valid @ModelAttribute(TRANSFER_APPLICATION_FORM_REQUEST)

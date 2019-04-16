@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 
-public class NewApplicationsSteps extends AbstractSpringSteps {
+public class ApplicationsSteps extends AbstractSpringSteps {
 
   private static final Logger log = getLogger(SiteSteps.class);
 
@@ -55,12 +55,12 @@ public class NewApplicationsSteps extends AbstractSpringSteps {
     assertEquals(appId, displayedId);
   }
 
-  @Before("@NewApplicationDetailsScripts")
+  @Before("@ApplicationDetailsScripts")
   public void executeInsertApplicationsDBScript() throws SQLException {
     databaseSteps.runScript("scripts/new-applications/details/create-application-details.sql");
   }
 
-  @After("@NewApplicationDetailsScripts")
+  @After("@ApplicationDetailsScripts")
   public void executeDeleteApplicationsDBScript() throws SQLException {
     databaseSteps.runScript("scripts/new-applications/details/delete-application-details.sql");
   }

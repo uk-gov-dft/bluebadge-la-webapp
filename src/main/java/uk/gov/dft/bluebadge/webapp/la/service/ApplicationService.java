@@ -55,7 +55,7 @@ public class ApplicationService {
     return applicationsApiClient.retrieve(applicationId);
   }
 
-  public ApplicationSummaryResponse findNewApplicationsByName(String name, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByName(String name, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.of(name))
@@ -68,8 +68,7 @@ public class ApplicationService {
     return find(searchParams);
   }
 
-  public ApplicationSummaryResponse findNewApplicationsByPostCode(
-      String postcode, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByPostCode(String postcode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())

@@ -216,11 +216,11 @@ public class ApplicationTestData {
 
   public static final PagingInfo invalidPaging = invalidPaging();
 
-  public static final ApplicationSummaryResponse allNewApplications = allNewApplications();
+  public static final ApplicationSummaryResponse allApplications = allApplications();
 
-  public static final ApplicationSummaryResponse noNewApplications = noNewApplications();
+  public static final ApplicationSummaryResponse noApplications = noApplications();
 
-  public static final ApplicationSummaryResponse newApplicationsByName = newApplicationsByName();
+  public static final ApplicationSummaryResponse applicationsByName = applicationsByName();
 
   public static final ApplicationSummaryResponse unorderedApplications = unorderedApplications();
 
@@ -233,7 +233,7 @@ public class ApplicationTestData {
     return response;
   }
 
-  private static ApplicationSummaryResponse allNewApplications() {
+  private static ApplicationSummaryResponse allApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Lists.newArrayList(APPLICATION_SUMMARY_PERSON_1));
     validPaging.setTotal(1L);
@@ -242,7 +242,7 @@ public class ApplicationTestData {
     return response;
   }
 
-  private static ApplicationSummaryResponse noNewApplications() {
+  private static ApplicationSummaryResponse noApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Collections.emptyList());
     validPaging.setTotal(0L);
@@ -251,7 +251,7 @@ public class ApplicationTestData {
     return response;
   }
 
-  private static ApplicationSummaryResponse newApplicationsByName() {
+  private static ApplicationSummaryResponse applicationsByName() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(applicationsForSearchByName);
     validPaging.setTotal(3L);
