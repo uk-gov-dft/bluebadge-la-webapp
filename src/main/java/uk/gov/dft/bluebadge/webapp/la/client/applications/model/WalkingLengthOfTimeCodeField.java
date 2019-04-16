@@ -10,7 +10,11 @@ public enum WalkingLengthOfTimeCodeField {
 
   FEWMIN("FEWMIN"),
 
-  MORETEN("MORETEN");
+  MORETEN("MORETEN"),
+
+  ONEFIVE("ONEFIVE"),
+
+  FIVETEN("FIVETEN");
 
   private String value;
 

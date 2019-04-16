@@ -6,12 +6,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.thymeleaf.util.StringUtils;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
@@ -69,7 +69,7 @@ public class FindBadgeSearchResultsController {
         if (badge != null) results.add(badge);
         break;
       case "postcode":
-        if (!StringUtils.isEmpty(searchTerm)) {
+        if (!StringUtils.isBlank(searchTerm)) {
           searchTerm = searchTerm.replaceAll("\\s+", "");
           BadgesResponse result = badgeService.findBadgeByPostcode(searchTerm, pagingInfo);
           pagingInfo = result.getPagingInfo();
@@ -77,9 +77,11 @@ public class FindBadgeSearchResultsController {
         }
         break;
       case "name":
-        BadgesResponse result = badgeService.findBadgeByName(searchTerm, pagingInfo);
-        pagingInfo = result.getPagingInfo();
-        results.addAll(convertBadgeSummaryToViewModel(result.getData()));
+        if (!StringUtils.isBlank(searchTerm)) {
+          BadgesResponse result = badgeService.findBadgeByName(searchTerm, pagingInfo);
+          pagingInfo = result.getPagingInfo();
+          results.addAll(convertBadgeSummaryToViewModel(result.getData()));
+        }
         break;
       default:
         log.error(
