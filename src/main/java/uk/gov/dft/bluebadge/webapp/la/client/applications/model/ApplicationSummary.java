@@ -2,12 +2,14 @@ package uk.gov.dft.bluebadge.webapp.la.client.applications.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.OffsetDateTime;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.springframework.validation.annotation.Validated;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 
 /** ApplicationSummary */
 @Validated
@@ -26,6 +28,9 @@ public class ApplicationSummary {
 
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("dob")
+  private LocalDate dob = null;
 
   @JsonProperty("submissionDate")
   private OffsetDateTime submissionDate = null;
@@ -47,9 +52,8 @@ public class ApplicationSummary {
    * @return applicationId
    */
   @ApiModelProperty(
-    example = "12345678-1234-1234-1234-123412341234",
-    value = "The unique badge number for this application - a UUID"
-  )
+      example = "12345678-1234-1234-1234-123412341234",
+      value = "The unique badge number for this application - a UUID")
   public String getApplicationId() {
     return applicationId;
   }
@@ -110,9 +114,8 @@ public class ApplicationSummary {
    */
   @ApiModelProperty(example = "NS123458S", value = "The badgeholders national insurance number")
   @Pattern(
-    regexp =
-        "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$"
-  )
+      regexp =
+          "^(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)(?:[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z])(?:\\s*\\d\\s*){6}([A-D]|\\s)$")
   public String getNino() {
     return nino;
   }
@@ -132,9 +135,8 @@ public class ApplicationSummary {
    * @return name
    */
   @ApiModelProperty(
-    example = "John Smith",
-    value = "The name of the badge holder Organisation or Person"
-  )
+      example = "John Smith",
+      value = "The name of the badge holder Organisation or Person")
   @Size(max = 100)
   public String getName() {
     return name;
@@ -142,6 +144,26 @@ public class ApplicationSummary {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public ApplicationSummary dob(LocalDate dob) {
+    this.dob = dob;
+    return this;
+  }
+
+  /**
+   * Date of birth YYYY-MM-DD
+   *
+   * @return dob
+   */
+  @ApiModelProperty(example = "1970-05-29", required = true, value = "Date of birth YYYY-MM-DD")
+  @Valid
+  public LocalDate getDob() {
+    return dob;
+  }
+
+  public void setDob(LocalDate dob) {
+    this.dob = dob;
   }
 
   public ApplicationSummary submissionDate(OffsetDateTime submissionDate) {
@@ -198,7 +220,7 @@ public class ApplicationSummary {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -211,6 +233,7 @@ public class ApplicationSummary {
         && Objects.equals(this.applicationTypeCode, applicationSummary.applicationTypeCode)
         && Objects.equals(this.nino, applicationSummary.nino)
         && Objects.equals(this.name, applicationSummary.name)
+        && Objects.equals(this.dob, applicationSummary.dob)
         && Objects.equals(this.submissionDate, applicationSummary.submissionDate)
         && Objects.equals(this.eligibilityCode, applicationSummary.eligibilityCode)
         && Objects.equals(this.applicationStatus, applicationSummary.applicationStatus);
@@ -224,6 +247,7 @@ public class ApplicationSummary {
         applicationTypeCode,
         nino,
         name,
+        dob,
         submissionDate,
         eligibilityCode,
         applicationStatus);
@@ -241,6 +265,7 @@ public class ApplicationSummary {
         .append("\n");
     sb.append("    nino: ").append(toIndentedString(nino)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    dob: ").append(toIndentedString(dob)).append("\n");
     sb.append("    submissionDate: ").append(toIndentedString(submissionDate)).append("\n");
     sb.append("    eligibilityCode: ").append(toIndentedString(eligibilityCode)).append("\n");
     sb.append("    applicationStatus: ").append(toIndentedString(applicationStatus)).append("\n");
