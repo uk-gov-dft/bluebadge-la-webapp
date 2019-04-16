@@ -120,6 +120,9 @@ public class ApiConfig {
     result.setRequestFactory(requestFactory);
     result.setUriTemplateHandler(
         new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
+    result
+        .getInterceptors()
+        .add(new VersionHeaderRestTemplateInterceptor(userManagementApiConfig.getVersionaccept()));
     // If a request is denied by the api, the default action is to clear the token and try again.
     // But this results in the user needing to request a new access token and hence essentially being logged out.
     result.setRetryBadAccessTokens(false);
