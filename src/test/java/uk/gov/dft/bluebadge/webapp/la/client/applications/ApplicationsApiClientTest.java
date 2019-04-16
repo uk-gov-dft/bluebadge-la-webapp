@@ -77,15 +77,27 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     client = new ApplicationsApiClient(restTemplate);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void find_shouldThrowIllegalArgumentException_WhenNoParamIsSet() {
-    client.find(
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        validPaging);
+  @SneakyThrows
+  public void find_shouldReturnResults_WhenNoParamIsSet() {
+    ApplicationSummaryResponse applicationSummaryResponse =
+        new ApplicationSummaryResponse().data(APPLICATION_SUMMARIES);
+    String applicationResponseBody = objectMapper.writeValueAsString(applicationSummaryResponse);
+
+    mockServer
+        .expect(once(), requestTo(APPLICATIONS_ENDPOINT + "?pageSize=50" + "&pageNum=1"))
+        .andExpect(method(HttpMethod.GET))
+        .andRespond(withSuccess(applicationResponseBody, MediaType.APPLICATION_JSON));
+
+    ApplicationSummaryResponse result =
+        client.find(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            validPaging);
+
+    assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
 
   @Test

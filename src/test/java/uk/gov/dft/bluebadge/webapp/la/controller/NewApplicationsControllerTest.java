@@ -48,7 +48,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
 
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allNewApplications);
     mockMvc
         .perform(get("/new-applications?pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   public void show_shouldDisplayApplications_whenThereAreApplications_withDefaultPaging()
       throws Exception {
 
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allNewApplications);
     mockMvc
         .perform(get("/new-applications"))
         .andExpect(status().isOk())
@@ -75,7 +75,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
     when(applicationServiceMock.findNewApplicationsByName(any(), any()))
         .thenReturn(noNewApplications);
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allNewApplications);
 
     mockMvc
         .perform(get("/new-applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
@@ -90,7 +90,7 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
     when(applicationServiceMock.findNewApplicationsByName(any(), any()))
         .thenReturn(newApplicationsByName);
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allNewApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
         .thenReturn(applicationsForSearchByNameView.get(0));

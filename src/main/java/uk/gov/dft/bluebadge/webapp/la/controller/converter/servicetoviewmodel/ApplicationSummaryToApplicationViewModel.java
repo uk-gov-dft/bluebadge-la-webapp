@@ -44,7 +44,7 @@ public class ApplicationSummaryToApplicationViewModel
         source
             .getSubmissionDate()
             .atZoneSameInstant(dateTimeService.clientZoneId())
-            .format(ModelViewFormats.viewModelGridDateTimeFormatter);
+            .format(ModelViewFormats.viewModelFieldDateTimeFormatter);
 
     String applicationTypeViewModel =
         referenceDataService.retrieveAppEnumDisplayValueByString(

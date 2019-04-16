@@ -57,7 +57,7 @@ public class NewApplicationsController {
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
       }
     } else {
-      result = applicationService.findAllNew(formRequest.getPagingInfo());
+      result = applicationService.findAll(formRequest.getPagingInfo());
     }
 
     List<ApplicationSummary> applications = result.getData();
@@ -77,7 +77,7 @@ public class NewApplicationsController {
     pagingInfo.setPageSize(1);
     pagingInfo.setPageNum(1);
 
-    ApplicationSummaryResponse allNew = applicationService.findAllNew(pagingInfo);
+    ApplicationSummaryResponse allNew = applicationService.findAll(pagingInfo);
 
     return allNew.getPagingInfo().getTotal();
   }
