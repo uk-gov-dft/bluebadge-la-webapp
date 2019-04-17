@@ -32,17 +32,17 @@ public class OrderABadgeSiteSteps {
     this.scenarioContext = scenarioContext;
   }
 
-  @When("^I enter all the mandatory valid personal details to order a badge$")
-  public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge() {
+  @When("^I enter all the mandatory valid personal details to order a badge(?: for ?(.*) postcode)?$")
+  public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
 
     String dobDay = String.valueOf(date.getDayOfMonth());
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
-    String postcode = pcg.get_postcode();
+    String myPostcode = null == postcode ? pcg.get_postcode() : postcode;
     scenarioContext.setContext("name", name);
-    scenarioContext.setContext("postcode", postcode);
+    scenarioContext.setContext("postcode", myPostcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("gender.option.MALE").click();
@@ -51,7 +51,7 @@ public class OrderABadgeSiteSteps {
     sitePage.findPageElementById("dobYear").sendKeys(dobYear);
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(myPostcode);
     sitePage
         .findElementWithUiPath("contactDetailsContactNumber.field")
         .sendKeys(" 020 7014 0 800 ");
@@ -60,27 +60,27 @@ public class OrderABadgeSiteSteps {
     select.selectByVisibleText("PIP");
   }
 
-  @When("^I enter all the mandatory valid organisation details to order a badge$")
-  public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge() {
+  @When("^I enter all the mandatory valid organisation details to order a badge(?: for ?(.*) postcode)?$")
+  public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
 
-    String postcode = pcg.get_postcode();
+    String myPostcode = null == postcode ? pcg.get_postcode() : postcode;
     scenarioContext.setContext("name", name);
-    scenarioContext.setContext("postcode", postcode);
+    scenarioContext.setContext("postcode", myPostcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(myPostcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
     sitePage
         .findElementWithUiPath("contactDetailsContactNumber.field")
         .sendKeys("+44 20 7014 080 ");
   }
 
-  @When("^I enter all valid personal details to order a badge$")
-  public void iEnterAllValidPersonalDetailsToOrderABadge() {
+  @When("^I enter all valid personal details to order a badge(?: for ?(.*) postcode)?$")
+  public void iEnterAllValidPersonalDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
     LocalDate date = ldg.get_local_date();
@@ -89,9 +89,9 @@ public class OrderABadgeSiteSteps {
     String dobDay = String.valueOf(date.getDayOfMonth());
     String dobMonth = String.valueOf(date.getMonth().getValue());
     String dobYear = String.valueOf(date.getYear());
-    String postcode = pcg.get_postcode();
+    String myPostcode = null == postcode ? pcg.get_postcode() : postcode;
     scenarioContext.setContext("name", name);
-    scenarioContext.setContext("postcode", postcode);
+    scenarioContext.setContext("postcode", myPostcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("gender.option.MALE").click();
@@ -102,7 +102,7 @@ public class OrderABadgeSiteSteps {
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("optionalAddressField.field").sendKeys("second line of address");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(myPostcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
     sitePage
@@ -123,21 +123,21 @@ public class OrderABadgeSiteSteps {
     select.selectByVisibleText("PIP");
   }
 
-  @When("^I enter all valid organisation details to order a badge$")
-  public void iEnterAllValidOrganisationDetailsToOrderABadge() {
+  @When("^I enter all valid organisation details to order a badge(?: for ?(.*) postcode)?$")
+  public void iEnterAllValidOrganisationDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
     String email = ng.get_email(name);
 
-    String postcode = pcg.get_postcode();
+    String myPostcode = null == postcode ? pcg.get_postcode() : postcode;
     scenarioContext.setContext("name", name);
-    scenarioContext.setContext("postcode", postcode);
+    scenarioContext.setContext("postcode", myPostcode);
 
     sitePage.findPageElementById("name").sendKeys(name);
     sitePage.findElementWithUiPath("buildingAndStreet.field").sendKeys("building and street");
     sitePage.findElementWithUiPath("optionalAddressField.field").sendKeys("second line of address");
     sitePage.findElementWithUiPath("townOrCity.field").sendKeys("Town or city");
-    sitePage.findElementWithUiPath("postcode.field").sendKeys(postcode);
+    sitePage.findElementWithUiPath("postcode.field").sendKeys(myPostcode);
     sitePage.findElementWithUiPath("contactDetailsName.field").sendKeys(contactName);
     sitePage.findElementWithUiPath("contactDetailsContactNumber.field").sendKeys("020 7014 0800");
     sitePage
