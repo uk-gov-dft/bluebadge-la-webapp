@@ -42,8 +42,10 @@ public class BadgeDetailsController {
   }
 
   @GetMapping(URL)
-  public String show(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model,
-                     @RequestParam(name = "prev-step", required=false) String prevStep) {
+  public String show(
+      @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
+      Model model,
+      @RequestParam(name = "prev-step", required = false) String prevStep) {
     Optional<Badge> badge = badgeService.retrieve(badgeNumber);
 
     Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
@@ -55,8 +57,10 @@ public class BadgeDetailsController {
     model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
     model.addAttribute("badge", viewModel);
 
-    String backLink = null != prevStep && prevStep.equals("find-badge") ?
-            "/manage-badges" : "/manage-badges/search-results";
+    String backLink =
+        null != prevStep && prevStep.equals("find-badge")
+            ? "/manage-badges"
+            : "/manage-badges/search-results";
     model.addAttribute("backLink", backLink);
 
     return TEMPLATE;

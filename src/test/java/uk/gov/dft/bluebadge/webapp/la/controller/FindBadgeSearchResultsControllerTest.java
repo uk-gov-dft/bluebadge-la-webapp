@@ -89,12 +89,25 @@ public class FindBadgeSearchResultsControllerTest {
   }
 
   private static final List<FindBadgeSearchResultViewModel> RESULTS_VIEW_MODEL =
-      Lists.newArrayList(RESULT_VIEW_MODEL);
-  private static final List<BadgeSummary> RESULTS = Lists.newArrayList(BADGE_SUMMARY);
-  private static final BadgesResponse RESULTS_RESPONSE =
-      (BadgesResponse) new BadgesResponse().data(RESULTS).pagingInfo(DEFAULT_PAGING_INFO);
-  private static final BadgesResponse RESULTS_RESPONSE_WITH_PAGING_INFO =
-      (BadgesResponse) new BadgesResponse().data(RESULTS).pagingInfo(PAGING_INFO);
+      Lists.newArrayList(RESULT_VIEW_MODEL, RESULT_VIEW_MODEL);
+
+  static List<BadgeSummary> getBadgesResults() {
+    return Lists.newArrayList(BADGE_SUMMARY, BADGE_SUMMARY);
+  }
+
+  static BadgesResponse getBadgesResponse(Boolean withPagingInfo) {
+    List<BadgeSummary> badgesResults = getBadgesResults();
+    return (BadgesResponse)
+        new BadgesResponse()
+            .data(badgesResults)
+            .pagingInfo(withPagingInfo ? PAGING_INFO : DEFAULT_PAGING_INFO);
+  }
+
+  static BadgesResponse getSingleBadgeResponse(Boolean withPagingInfo) {
+    BadgesResponse response = getBadgesResponse(withPagingInfo);
+    response.getData().remove(0);
+    return response;
+  }
 
   private MockMvc mockMvc;
 
@@ -127,8 +140,10 @@ public class FindBadgeSearchResultsControllerTest {
   @SneakyThrows
   public void
       show_shouldShowResultsWithDefaultPaginationConfiguration_whenFindByNameAndPagingInfoIsNotProvided() {
+    BadgesResponse response = getBadgesResponse(false);
+
     when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
-        .thenReturn(RESULTS_RESPONSE);
+        .thenReturn(response);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
         .thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -148,8 +163,9 @@ public class FindBadgeSearchResultsControllerTest {
   @SneakyThrows
   public void
       show_shouldShowResultsWithPaginationConfiguration_whenFindByNameAndPagingInfoIsProvided() {
-    when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, PAGING_INFO))
-        .thenReturn(RESULTS_RESPONSE_WITH_PAGING_INFO);
+    BadgesResponse response = getBadgesResponse(true);
+
+    when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, PAGING_INFO)).thenReturn(response);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
         .thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -169,8 +185,10 @@ public class FindBadgeSearchResultsControllerTest {
   @SneakyThrows
   public void
       show_shouldShowResultsWithDefaultPaginationConfiguration_whenFindByPostcodeAndPagingInfoIsNotProvided() {
+    BadgesResponse response = getBadgesResponse(false);
+
     when(mockBadgeService.findBadgeByPostcode(SEARCH_TERM_POSTCODE, DEFAULT_PAGING_INFO))
-        .thenReturn(RESULTS_RESPONSE);
+        .thenReturn(response);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
         .thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -189,8 +207,10 @@ public class FindBadgeSearchResultsControllerTest {
   @Test
   @SneakyThrows
   public void show_shouldShowNoResults_whenFindByPostcodeAndPostcodeIsBlank() {
+    BadgesResponse response = getBadgesResponse(false);
+
     when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
-        .thenReturn(RESULTS_RESPONSE);
+        .thenReturn(response);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
         .thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -209,8 +229,10 @@ public class FindBadgeSearchResultsControllerTest {
   @Test
   @SneakyThrows
   public void show_shouldShowNoResults_whenFindByNameAndNameIsBlank() {
+    BadgesResponse response = getBadgesResponse(false);
+
     when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
-        .thenReturn(RESULTS_RESPONSE);
+        .thenReturn(response);
     when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
         .thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -228,8 +250,43 @@ public class FindBadgeSearchResultsControllerTest {
 
   @Test
   @SneakyThrows
-  public void
-      show_shouldShowResultsWithDefaultPaginationConfiguration_whenFindByBadgeNumberAndPagingInfoIsNotProvided() {
+  public void show_shouldRedirectToBadgeDetails_whenFindByNameAndPagingInfoIsNotProvided() {
+    BadgesResponse response = getSingleBadgeResponse(false);
+    when(mockBadgeService.findBadgeByName(SEARCH_TERM_NAME, DEFAULT_PAGING_INFO))
+        .thenReturn(response);
+    when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
+        .thenReturn(RESULT_VIEW_MODEL);
+    mockMvc
+        .perform(
+            get("/manage-badges/search-results")
+                .sessionAttr("findBadgeBy", "name")
+                .sessionAttr("searchTerm", SEARCH_TERM_NAME))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(
+            view().name("redirect:/manage-badges/" + BADGE_NUMBER + "?prev-step=find-badge"));
+  }
+
+  @Test
+  @SneakyThrows
+  public void show_shouldRedirectToBadgeDetails_whenFindByPostcodeAndPagingInfoIsNotProvided() {
+    BadgesResponse response = getSingleBadgeResponse(false);
+    when(mockBadgeService.findBadgeByPostcode(SEARCH_TERM_POSTCODE, DEFAULT_PAGING_INFO))
+        .thenReturn(response);
+    when(mockBadgeSummaryToFindBadgeSearchResultViewModel.convert(BADGE_SUMMARY))
+        .thenReturn(RESULT_VIEW_MODEL);
+    mockMvc
+        .perform(
+            get("/manage-badges/search-results")
+                .sessionAttr("findBadgeBy", "postcode")
+                .sessionAttr("searchTerm", SEARCH_TERM_POSTCODE))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(
+            view().name("redirect:/manage-badges/" + BADGE_NUMBER + "?prev-step=find-badge"));
+  }
+
+  @Test
+  @SneakyThrows
+  public void show_shouldRedirectToBadgeDetails_whenFindByBadgeNumberAndPagingInfoIsNotProvided() {
     when(mockBadgeService.retrieve(SEARCH_TERM_BADGE_NUMBER)).thenReturn(Optional.of(BADGE));
     when(mockBadgeToFindBadgeSearchResultViewModel.convert(BADGE)).thenReturn(RESULT_VIEW_MODEL);
     mockMvc
@@ -237,11 +294,8 @@ public class FindBadgeSearchResultsControllerTest {
             get("/manage-badges/search-results")
                 .sessionAttr("findBadgeBy", "badgeNumber")
                 .sessionAttr("searchTerm", SEARCH_TERM_BADGE_NUMBER))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-badges/search-results"))
-        .andExpect(model().attribute("findBadgeBy", "badgeNumber"))
-        .andExpect(model().attribute("searchTerm", SEARCH_TERM_BADGE_NUMBER))
-        .andExpect(model().attribute("results", RESULTS_VIEW_MODEL))
-        .andExpect(model().attribute("pagingInfo", DEFAULT_PAGING_INFO));
+        .andExpect(status().is3xxRedirection())
+        .andExpect(
+            view().name("redirect:/manage-badges/" + BADGE_NUMBER + "?prev-step=find-badge"));
   }
 }
