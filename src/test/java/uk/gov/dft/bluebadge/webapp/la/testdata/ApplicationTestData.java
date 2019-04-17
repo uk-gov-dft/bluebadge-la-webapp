@@ -98,7 +98,7 @@ public class ApplicationTestData {
           .submissionDate(SUBMISSION_DATE_1);
 
   // Application View Model fields
-  private static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20 June 2018 at 12:10";
+  private static final String SUBMISSION_DATE_VIEW_MODEL_1 = "20 Jun 2018 at 12:10";
 
   // Application View Model Objects
   protected static final ApplicationSummaryViewModel APPLICATION_PERSON_VIEW_MODEL_1 =

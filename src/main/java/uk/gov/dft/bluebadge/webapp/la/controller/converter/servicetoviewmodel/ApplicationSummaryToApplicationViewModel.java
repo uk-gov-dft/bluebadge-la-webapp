@@ -1,7 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
-import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelGridDobFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -38,13 +36,15 @@ public class ApplicationSummaryToApplicationViewModel
     }
 
     String dobViewModel =
-        source.getDob() == null ? "" : source.getDob().format(viewModelGridDobFormatter);
+        source.getDob() == null
+            ? ""
+            : source.getDob().format(ModelViewFormats.viewModelGridDateFormatter);
 
     String submittedDateViewModel =
         source
             .getSubmissionDate()
             .atZoneSameInstant(dateTimeService.clientZoneId())
-            .format(ModelViewFormats.viewModelFieldDateTimeFormatter);
+            .format(ModelViewFormats.viewModelGridDateTimeFormatter);
 
     String applicationTypeViewModel =
         referenceDataService.retrieveAppEnumDisplayValueByString(
