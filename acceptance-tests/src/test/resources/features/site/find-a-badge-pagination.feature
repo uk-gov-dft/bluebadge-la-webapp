@@ -1,5 +1,5 @@
 @FindBadgePaging @FindBadgePaginationScripts
-Feature: Dft BlueBadge LA New applications paging
+Feature: Dft BlueBadge LA applications paging
 
   As a Blue Badge team member,
   I want to view all badges that match my search criteria

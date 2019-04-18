@@ -1,5 +1,5 @@
 @Breathlessness
-Feature: Dft BlueBadge LA New applications
+Feature: Dft BlueBadge LA applications
 
   Scenario:Breathlessness Answers for UPHILL
     Given I navigate to the "home" page
@@ -7,8 +7,8 @@ Feature: Dft BlueBadge LA New applications
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with applicant name as "BreathlessnessUPHillTest"
     Then I should see that the application contains answer for "Walking up a slight hill"
 
@@ -18,8 +18,8 @@ Feature: Dft BlueBadge LA New applications
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with applicant name as "BreathlessnessKeepUpTest"
     Then I should see that the application contains answer for "Trying to keep up with others on level ground"
 
@@ -30,8 +30,8 @@ Feature: Dft BlueBadge LA New applications
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with applicant name as "BreathlessnessOwnPace"
     Then I should see that the application contains answer for "Walking on level ground at my own pace"
 
@@ -41,8 +41,8 @@ Feature: Dft BlueBadge LA New applications
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with applicant name as "BreathlessnessDressed"
     Then I should see that the application contains answer for "Getting dressed or trying to leave my home"
 

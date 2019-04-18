@@ -49,14 +49,6 @@ public class ApplicationsApiClient extends BaseApiClient {
         from,
         to,
         applicationTypeCode);
-    Assert.isTrue(
-        name.isPresent()
-            || postcode.isPresent()
-            || from.isPresent()
-            || to.isPresent()
-            || applicationTypeCode.isPresent(),
-        "Either name or postcode or from or to or applicationTypeCode or pagingInfo should be non empty");
-
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT);
     name.ifPresent(value -> builder.queryParam("name", value));

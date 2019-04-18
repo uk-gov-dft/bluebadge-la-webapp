@@ -19,9 +19,9 @@
 						th:with="menuItemClass='dft-nav__item',
 									activeClass=${menuItemClass} + ' ' + ${menuItemClass} + '--active'">
 
-					<a sec:authorize-url="GET /new-applications" data-uipath="sidebar-nav.new-applications"
-					   href="/new-applications"
-					   th:class="${currentPage == 'new-applications'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.newApplications}"/>
+					<a sec:authorize-url="GET /applications" data-uipath="sidebar-nav.applications"
+					   href="/applications"
+					   th:class="${currentPage == 'applications'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.applications}"/>
 
 					<a sec:authorize-url="GET /order-a-badge" data-uipath="sidebar-nav.order-a-badge"
 					   href="/order-a-badge?action=reset"

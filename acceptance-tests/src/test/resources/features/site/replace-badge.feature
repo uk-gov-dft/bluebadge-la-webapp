@@ -30,7 +30,7 @@ Feature: Dft BlueBadge LA delete a Badge
     And   I can click "button" button
     When  I click on the first badge of the table
     Then  I should see the badge details page without the "Order a replacement" link button
-    
+
   Scenario: Admin user from different LA  is not allowed to replace badge
     Given I navigate to the "home" page
     When  I can click on the "Sign in" link
@@ -62,7 +62,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I can click on the "Sign in" link
     When  I type username "aberdlaeditor@dft.gov.uk" and  ***REMOVED***
     And   I can click Sign in button
-    Then  I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then  I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When  I can click on the "Find a badge" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "badgeNumber.radio"
@@ -89,7 +89,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I can click on the "Sign in" link
     When  I type username "aberdlaeditor@dft.gov.uk" and  ***REMOVED***
     And   I can click Sign in button
-    Then  I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    Then  I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When  I can click on the "Find a badge" link on left navigation
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When  I select option "badgeNumber.radio"
@@ -97,4 +97,3 @@ Feature: Dft BlueBadge LA delete a Badge
     And   I can click "button" button
     When  I click on the first badge of the table
     Then  I should see the badge details page without the "Order a replacement" link button
- 

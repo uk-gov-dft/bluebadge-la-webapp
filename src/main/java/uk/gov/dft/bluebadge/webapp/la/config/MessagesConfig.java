@@ -19,7 +19,7 @@ public class MessagesConfig {
     messageSource.setBasenames(
         "classpath:messages",
         "classpath:order-a-badge-messages",
-        "classpath:new-applications",
+        "classpath:applications",
         "classpath:application-details");
     messageSource.setFallbackToSystemLocale(false);
     messageSource.setCacheSeconds(0);

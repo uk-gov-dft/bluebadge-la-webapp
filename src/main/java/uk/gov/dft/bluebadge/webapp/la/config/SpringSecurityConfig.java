@@ -89,7 +89,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(SIGN_IN_URL, "/css/**", "/images/**", "/js/**", "/govuk/**")
         .permitAll()
-        .antMatchers("/new-applications", "/new-applications/**")
+        .antMatchers("/applications", "/applications/**")
         .hasAuthority(Permissions.FIND_APPLICATION.getPermissionName())
         .antMatchers("/order-a-badge", "/order-a-badge/**")
         .hasAuthority(Permissions.ORDER_BADGE.getPermissionName())

@@ -43,14 +43,6 @@ public class ApplicationService {
         from,
         to,
         applicationTypeCode);
-    Assert.isTrue(
-        name.isPresent()
-            || postcode.isPresent()
-            || from.isPresent()
-            || to.isPresent()
-            || applicationTypeCode.isPresent(),
-        "Either name or postcode or from or to or applicationTypeCode should be non empty");
-
     ApplicationSummaryResponse response =
         this.applicationsApiClient.find(name, postcode, from, to, applicationTypeCode, pageInfo);
     if (!response.getData().isEmpty()) {
@@ -63,42 +55,41 @@ public class ApplicationService {
     return applicationsApiClient.retrieve(applicationId);
   }
 
-  public ApplicationSummaryResponse findNewApplicationsByName(String name, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByName(String name, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.of(name))
             .postcode(Optional.empty())
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .applicationTypeCode(Optional.empty())
             .pageInfo(pageInfo)
             .build();
     return find(searchParams);
   }
 
-  public ApplicationSummaryResponse findNewApplicationsByPostCode(
-      String postcode, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByPostCode(String postcode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
             .postcode(Optional.of(postcode))
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .applicationTypeCode(Optional.empty())
             .pageInfo(pageInfo)
             .build();
 
     return find(searchParams);
   }
 
-  public ApplicationSummaryResponse findAllNew(PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findAll(PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
             .postcode(Optional.empty())
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
+            .applicationTypeCode(Optional.empty())
             .pageInfo(pageInfo)
             .build();
 
