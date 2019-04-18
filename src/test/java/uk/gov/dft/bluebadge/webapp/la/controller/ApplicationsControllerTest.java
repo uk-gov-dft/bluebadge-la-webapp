@@ -20,7 +20,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.Ap
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
-public class NewApplicationsControllerTest extends ApplicationTestData {
+public class ApplicationsControllerTest extends ApplicationTestData {
 
   private MockMvc mockMvc;
 
@@ -28,13 +28,13 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
 
   @Mock private ApplicationSummaryToApplicationViewModel converterMock;
 
-  private NewApplicationsController controller;
+  private ApplicationsController controller;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    controller = new NewApplicationsController(applicationServiceMock, converterMock);
+    controller = new ApplicationsController(applicationServiceMock, converterMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -48,11 +48,11 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
 
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
     mockMvc
-        .perform(get("/new-applications?pageNum=1&pageSize=50"))
+        .perform(get("/applications?pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/index"))
+        .andExpect(view().name("applications/index"))
         .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
         .andExpect(model().attributeExists("pagingInfo"));
   }
@@ -61,11 +61,11 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   public void show_shouldDisplayApplications_whenThereAreApplications_withDefaultPaging()
       throws Exception {
 
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
     mockMvc
-        .perform(get("/new-applications"))
+        .perform(get("/applications"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/index"))
+        .andExpect(view().name("applications/index"))
         .andExpect(model().attribute("applications", APPLICATION_VIEW_MODELS_ONE_ITEM))
         .andExpect(model().attributeExists("pagingInfo"));
   }
@@ -73,14 +73,13 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
-    when(applicationServiceMock.findNewApplicationsByName(any(), any()))
-        .thenReturn(noNewApplications);
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findByName(any(), any())).thenReturn(noApplications);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
 
     mockMvc
-        .perform(get("/new-applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
+        .perform(get("/applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/index"))
+        .andExpect(view().name("applications/index"))
         .andExpect(model().attribute("applications", Collections.emptyList()))
         .andExpect(model().attributeExists("pagingInfo"));
   }
@@ -88,9 +87,8 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-    when(applicationServiceMock.findNewApplicationsByName(any(), any()))
-        .thenReturn(newApplicationsByName);
-    when(applicationServiceMock.findAllNew(any(PagingInfo.class))).thenReturn(allNewApplications);
+    when(applicationServiceMock.findByName(any(), any())).thenReturn(applicationsByName);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
         .thenReturn(applicationsForSearchByNameView.get(0));
@@ -100,16 +98,16 @@ public class NewApplicationsControllerTest extends ApplicationTestData {
         .thenReturn(applicationsForSearchByNameView.get(2));
 
     mockMvc
-        .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
+        .perform(get("/applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/index"))
+        .andExpect(view().name("applications/index"))
         .andExpect(model().attribute("applications", applicationsForSearchByNameView));
   }
 
   @Test
   public void findByName_shouldReturnBadRequest_whenPagingIsWrong() throws Exception {
     mockMvc
-        .perform(get("/new-applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=500"))
+        .perform(get("/applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=500"))
         .andExpect(status().isBadRequest());
   }
 }

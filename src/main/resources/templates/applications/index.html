@@ -4,20 +4,20 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/master.html}">
 <head>
-    <title th:text="#{newapplications.html.title} + ' ' + #{common.title.suffix}"></title>
+    <title th:text="#{applications.html.title} + ' ' + #{common.title.suffix}"></title>
 </head>
 <body>
 <div layout:fragment="content">
     <section class="dft-content-container--full">
 
         <h1 class="govuk-heading-l" data-uipath="title">
-            <span th:text="#{newapplications.html.title}" th:remove="tag"></span>
+            <span th:text="#{applications.html.title}" th:remove="tag"></span>
             <span class="dft-badge dft-badge--heading" th:text="${applicationCount}"/>
         </h1>
 
         <div role="toolbar" class="dft-actions-panel govuk-clearfix">
             <div class="dft-actions-panel__content">
-                <form action="/new-applications" method="GET" class="dft-search">
+                <form action="/applications" method="GET" class="dft-search">
 
                     <div class="dft-search__container govuk-h-clearfix">
 
@@ -46,7 +46,7 @@
                             <span data-uipath="search.count"
                                   th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' ' + #{search.result.label} : ${filteredApplicationCount} + ' ' + #{search.results.label}"></span>
 
-                            <a th:href="@{/new-applications}"
+                            <a th:href="@{/applications}"
                                role="button"
                                class="dft-search__clear-link"
                                aria-label="clear search input field"
@@ -62,22 +62,24 @@
         <table class="govuk-table" th:if="${applications != null && applications.size() > 0}">
             <thead class="govuk-table__head" data-uipath="table.head">
             <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.name.label}"/>
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.nino.label}"/>
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.eligibility.label}"/>
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.submittedDate.label}"/>
-                <th class="govuk-table__header" scope="col" th:text="#{newapplications.status.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.name.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.dob.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.eligibility.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.submittedDate.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.applicationType.label}"/>
+                <th class="govuk-table__header" scope="col" th:text="#{applications.status.label}"/>
             </tr>
             </thead>
 
             <tbody class="govuk-table__body" data-uipath="table.body">
             <tr class="govuk-table__row" th:each="app : ${applications}">
                 <td class="govuk-table__cell">
-                    <a th:href="@{/new-applications/__${app.applicationId}__}" th:text="${app.name}"></a>
+                    <a th:href="@{/applications/__${app.applicationId}__}" th:text="${app.name}"></a>
                 </td>
-                <td class="govuk-table__cell" th:text="${app.nino}">
+                <td class="govuk-table__cell" th:text="${app.dob}">
                 <td class="govuk-table__cell" th:text="${app.eligibility}">
                 <td class="govuk-table__cell" th:text="${app.submittedDate}">
+                <td class="govuk-table__cell" th:text="${app.applicationType}">
                 <td class="govuk-table__cell">
                     <strong th:if="${app.status != null}" class="govuk-tag govuk-phase-banner__content__tag" th:text="#{'applicationStatus.APPSTATUS.' + ${app.status}}"></strong>
                 </td>
@@ -87,7 +89,7 @@
 
         <th:block
                 th:if="${searchTerm != null && filteredApplicationCount > 0} OR ${searchTerm == null && applicationCount > 0}">
-            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/new-applications') }"></div>
+            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/applications') }"></div>
         </th:block>
 
         <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">

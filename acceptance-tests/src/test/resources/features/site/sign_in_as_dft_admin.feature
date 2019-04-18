@@ -21,7 +21,7 @@ Feature: Dft BlueBadge LA Sign In Page - User with DFT admin role
     And I type username "dft_admin@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should not see the left navigation menu item "New applications"
+    And I should not see the left navigation menu item "Applications"
     And I should not see the left navigation menu item "Order a badge"
     And I should not see the left navigation menu item "Find a badge"
     And I should see the left navigation menu item "Manage users"

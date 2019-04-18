@@ -9,8 +9,9 @@ import lombok.Data;
 public class ApplicationSummaryViewModel implements Serializable {
   private String applicationId;
   private String name;
-  private String nino;
+  private String dob;
   private String eligibility;
   private String submittedDate;
+  private String applicationType;
   private String status;
 }

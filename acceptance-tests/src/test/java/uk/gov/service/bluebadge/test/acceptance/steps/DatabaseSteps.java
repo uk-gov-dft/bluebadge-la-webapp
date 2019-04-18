@@ -28,22 +28,22 @@ public class DatabaseSteps {
     dbUtils = new DbUtils(settings);
   }
 
-  @Before("@NewApplicationScripts")
+  @Before("@ApplicationScripts")
   public void executeInsertApplicationsDBScript() throws SQLException {
     dbUtils.runScript("scripts/create_applications.sql");
   }
 
-  @After("@NewApplicationScripts")
+  @After("@ApplicationScripts")
   public void executeDeleteApplicationsDBScript() throws SQLException {
     dbUtils.runScript("scripts/delete_applications.sql");
   }
 
-  @Before("@NewApplicationPaginationScripts")
+  @Before("@ApplicationPaginationScripts")
   public void executeInsertApplicationsPaginationDBScript() throws SQLException {
     dbUtils.runScript("scripts/create_applications_pagination.sql");
   }
 
-  @After("@NewApplicationPaginationScripts")
+  @After("@ApplicationPaginationScripts")
   public void executeDeleteApplicationsPaginationDBScript() throws SQLException {
     dbUtils.runScript("scripts/delete_applications_pagination.sql");
   }

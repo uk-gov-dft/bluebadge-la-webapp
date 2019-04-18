@@ -14,7 +14,6 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 @Component
 public class ApplicationSummaryToApplicationViewModel
     implements Converter<ApplicationSummary, ApplicationSummaryViewModel> {
-
   private ReferenceDataService referenceDataService;
   private DateTimeService dateTimeService;
 
@@ -36,18 +35,28 @@ public class ApplicationSummaryToApplicationViewModel
           referenceDataService.retrieveApplicationEligibilityDisplayValue(eligility.toString());
     }
 
+    String dobViewModel =
+        source.getDob() == null
+            ? ""
+            : source.getDob().format(ModelViewFormats.viewModelGridDateFormatter);
+
     String submittedDateViewModel =
         source
             .getSubmissionDate()
             .atZoneSameInstant(dateTimeService.clientZoneId())
             .format(ModelViewFormats.viewModelGridDateTimeFormatter);
 
+    String applicationTypeViewModel =
+        referenceDataService.retrieveAppEnumDisplayValueByString(
+            "APPTYPE", source.getApplicationTypeCode().name());
+
     return ApplicationSummaryViewModel.builder()
         .applicationId(source.getApplicationId())
         .name(source.getName())
-        .nino(source.getNino())
+        .dob(dobViewModel)
         .eligibility(eligibilityViewModel)
         .submittedDate(submittedDateViewModel)
+        .applicationType(applicationTypeViewModel)
         .status(source.getApplicationStatus() != null ? source.getApplicationStatus().name() : null)
         .build();
   }

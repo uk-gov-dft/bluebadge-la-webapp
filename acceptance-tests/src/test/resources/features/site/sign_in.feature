@@ -15,7 +15,7 @@ Feature: Dft BlueBadge LA Sign In Page
     And I should see LA name as "Aberdeenshire council"
     And I should see username as "Bruce Wayne"
     And I should see signout link
-    And I should see the left navigation menu item "New applications"
+    And I should see the left navigation menu item "Applications"
     And I should see the left navigation menu item "Order a badge"
     And I should see the left navigation menu item "Find a badge"
     And I should see the left navigation menu item "Manage users"

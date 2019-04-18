@@ -1,7 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.service;
 
-import static org.junit.Assert.*;
-
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
