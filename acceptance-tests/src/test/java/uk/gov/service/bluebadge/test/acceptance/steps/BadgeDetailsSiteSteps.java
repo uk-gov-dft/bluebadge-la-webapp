@@ -37,6 +37,13 @@ public class BadgeDetailsSiteSteps {
     itemLink.click();
   }
 
+  @And("^I type the post code of the applicant who previously ordered a badge$")
+  public void iTypeThePostCodeOfTheApplicantWhoPreviouslyOrderedABadge() {
+    String postCode = (String) scenarioContext.getContext("postcode");
+    log.debug("Post code to be typed: [()]", postCode);
+    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(postCode);
+  }
+
   @And("^I should see the page title for Badge Details for that particular badge number$")
   public void iShouldSeeThePageTitleForBadgeDetailsForThatParticularBadgeNumber() {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
@@ -63,5 +70,13 @@ public class BadgeDetailsSiteSteps {
       assertNotNull(orgTitle);
       assertEquals(personalTitle, null);
     }*/
+  }
+
+  @And("^I should see the page title for Badge Details for \"([^\"$]+)\" badge number$")
+  public void iShouldSeeThePageTitleForBadgeDetailsForBadgeNumber(String badgeNumber) {
+    assertThat(
+        "I should see page titled.",
+        sitePage.getDocumentTitle(),
+        is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
   }
 }

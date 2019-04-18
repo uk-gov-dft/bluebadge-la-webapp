@@ -32,7 +32,8 @@ public class OrderABadgeSiteSteps {
     this.scenarioContext = scenarioContext;
   }
 
-  @When("^I enter all the mandatory valid personal details to order a badge(?: for ?(.*) postcode)?$")
+  @When(
+      "^I enter all the mandatory valid personal details to order a badge(?: for ?(.*) postcode)?$")
   public void iEnterAllMandatoryValidPersonalDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     LocalDate date = ldg.get_local_date();
@@ -60,7 +61,8 @@ public class OrderABadgeSiteSteps {
     select.selectByVisibleText("PIP");
   }
 
-  @When("^I enter all the mandatory valid organisation details to order a badge(?: for ?(.*) postcode)?$")
+  @When(
+      "^I enter all the mandatory valid organisation details to order a badge(?: for ?(.*) postcode)?$")
   public void iEnterAllMandatoryValidOrganisationDetailsToOrderABadge(String postcode) {
     String name = ng.get_full_name();
     String contactName = "Contact " + name;
