@@ -29,7 +29,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the first badge of the table
+    And   I should see the page title for Badge Details for that particular badge number
     Then  I click on "Cancel badge" link
     Then  I should see the page title for Cancel badge for that particular badge number
     When  I select the "reason.option.REVOKE" option
@@ -40,7 +40,6 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the first badge of the table
     Then  I should see the badge details page without the "Cancel badge" link button
 
   Scenario: Cancelling a badge without selecting a reason
@@ -48,11 +47,11 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I can click on the "Sign in" link
     When  I type username "abc@dft.gov.uk" and  ***REMOVED***
     And   I can click Sign in button
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    Then  I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And   I can click on the "Order a badge" link on left navigation
-    Then I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
-    When I select option "applicantType.option.person"
-    And I click on element "continue" button
+    Then  I should see the page titled "Order a badge - GOV.UK Manage Blue Badges"
+    When  I select option "applicantType.option.person"
+    And   I click on element "continue" button
     Then  I should see the page titled "Personal Details - GOV.UK Manage Blue Badges"
     When  I enter all the mandatory valid personal details to order a badge
     And   I can click "continue" button
@@ -68,7 +67,7 @@ Feature: Dft BlueBadge LA Cancel a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the first badge of the table
+    And   I should see the page title for Badge Details for that particular badge number
     Then  I click on "Cancel badge" link
     Then  I should see the page title for Cancel badge for that particular badge number
     And   I can click "cancel.badge.button" button

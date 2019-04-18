@@ -14,6 +14,6 @@ Feature: Dft BlueBadge LA applications - view application details
     And I can click on the "Applications" link on left navigation
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     When I click on application with name "John The First"
-    Then I should see the page titled "New application - GOV.UK Manage Blue Badges"
+    Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     When  I can click "back-link" button
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"

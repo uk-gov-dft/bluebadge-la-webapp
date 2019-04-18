@@ -1,4 +1,4 @@
-@FindABadge @FindABadgeScripts
+@FindABadge @CreateBadgesScripts
 Feature: Dft BlueBadge LA Find a Badge
 
   As a Blue Badge team member
