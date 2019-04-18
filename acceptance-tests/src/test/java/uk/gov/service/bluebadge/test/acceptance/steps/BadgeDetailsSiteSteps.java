@@ -54,21 +54,29 @@ public class BadgeDetailsSiteSteps {
         is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
   }
 
+  @And("^It is a badge for \"(ORGANISATION|PERSON)\"$")
+  public void itIsABadgeForAnOrganisationOrPerson(String partyType) {
+    if (null != partyType && (partyType.equals("PERSON") || partyType.equals("ORGANISATION"))) {
+      scenarioContext.setContext("typeCode", partyType);
+    }
+  }
+
   @And("^I should see correct details for organisation or person$")
   public void iShouldSeeCorrectDetailsForOrganisationOrPerson() throws Throwable {
     WebElement orgTitle = sitePage.findElementWithText("Organisation details");
     WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
 
-    // Waiting for Miguel's story to finish first
-    // check scenario context for type of application
-    // and then make assertion accordingly
+    // Rob: This test actually does nothing and we should make it test for existing elements or drop this test!
 
-    /*if(scenarioContext.getContext("typeCode") === "PERSON") {
+    /*System.out.println("[[[ orgTitle ]]]" + orgTitle);
+    System.out.println("[[[ personalTitle ]]]" + personalTitle);
+
+    if("PERSON" == scenarioContext.getContext("typeCode")) {
       assertNotNull(personalTitle);
-      assertEquals(orgTitle, null);
+      assertNull(orgTitle);
     } else {
       assertNotNull(orgTitle);
-      assertEquals(personalTitle, null);
+      assertNull(personalTitle);
     }*/
   }
 

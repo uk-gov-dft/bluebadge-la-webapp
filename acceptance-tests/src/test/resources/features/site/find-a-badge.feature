@@ -85,6 +85,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I type "DEL4" for "searchTerm.field" field by uipath
     And I can click "button" button
     And I should see the page title for Badge Details for "DEL4" badge number
+    And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
@@ -116,6 +117,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I type "AB333CC" for "searchTerm.field" field by uipath
     And I can click "button" button
     And I should see the page title for Badge Details for "DEL4" badge number
+    And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
@@ -131,6 +133,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I type "TEST DATA ROB" for "searchTerm.field" field by uipath
     And I can click "button" button
     And I should see the page title for Badge Details for "DEL4" badge number
+    And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
