@@ -28,6 +28,8 @@ public class ApplicationSummaryToApplicationViewModelTest extends ApplicationTes
             ELIGIBILITY_SHORT_CODE))
         .thenReturn(ELIGIBILITY_VIEW_MODEL);
     when(dateTimeServiceMock.clientZoneId()).thenReturn(TIME_ZONE);
+    when(referenceDataServiceMock.retrieveAppEnumDisplayValueByString("APPTYPE", "NEW"))
+        .thenReturn("New");
   }
 
   @Test

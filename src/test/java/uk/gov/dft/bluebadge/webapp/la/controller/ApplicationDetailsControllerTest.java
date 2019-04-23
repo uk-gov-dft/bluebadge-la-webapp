@@ -81,9 +81,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -101,9 +101,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -121,9 +121,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -141,9 +141,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -161,9 +161,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -181,9 +181,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -201,9 +201,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -221,9 +221,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -241,9 +241,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
@@ -261,21 +261,20 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc
-        .perform(get("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
         .andExpect(status().isOk())
-        .andExpect(view().name("new-applications/application-details"))
+        .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
         .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
   }
 
   @Test
-  public void delete_shouldRedirectToNewApplicationsPage() throws Exception {
+  public void delete_shouldRedirectToApplicationsPage() throws Exception {
     mockMvc
-        .perform(
-            delete("/new-applications/" + ApplicationDetailsTestData.ModelValues.UUID.toString()))
+        .perform(delete("/applications/" + ApplicationDetailsTestData.ModelValues.UUID.toString()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/new-applications"));
+        .andExpect(redirectedUrl("/applications"));
     verify(applicationServiceMock).delete(ApplicationDetailsTestData.ModelValues.UUID.toString());
   }
 
@@ -286,14 +285,14 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     String applicationId = ApplicationToOrderBadgeTestData.getApplication().getApplicationId();
 
     mockMvc
-        .perform(post("/new-applications/" + applicationId))
+        .perform(post("/applications/" + applicationId))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/order-a-badge/application/" + applicationId));
   }
 
   @Test
   @SneakyThrows
-  public void update_shouldUpdateAndRedirectToNewApplications() {
+  public void update_shouldUpdateAndRedirectToApplications() {
     ApplicationStatusField NEW_STATUS = ApplicationStatusField.TODO;
     Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
     application.setApplicationStatus(NEW_STATUS);
@@ -305,7 +304,7 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
 
     mockMvc
         .perform(
-            put("/new-applications/" + applicationId).param("applicationStatus", NEW_STATUS.name()))
+            put("/applications/" + applicationId).param("applicationStatus", NEW_STATUS.name()))
         .andExpect(status().is3xxRedirection())
         .andExpect(
             redirectedUrl(
@@ -332,10 +331,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
 
     mockMvc
         .perform(
-            post("/new-applications/" + applicationId + "/transfers")
+            post("/applications/" + applicationId + "/transfers")
                 .param("transferToLaShortCode", TRANSFER_TO_LA_SHORTCODE))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/new-applications"));
+        .andExpect(redirectedUrl("/applications"));
 
     ApplicationTransfer applicationTransfer =
         ApplicationTransfer.builder().transferToLaShortCode(TRANSFER_TO_LA_SHORTCODE).build();
@@ -352,9 +351,9 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
 
     mockMvc
-        .perform(post("/new-applications/" + applicationId + "/transfers"))
+        .perform(post("/applications/" + applicationId + "/transfers"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/new-applications/" + applicationId + "#error"))
+        .andExpect(redirectedUrl("/applications/" + applicationId + "#error"))
         .andExpect(formRequestFlashAttributeCount(1, "transferApplicationFormRequest"))
         .andExpect(
             formRequestFlashAttributeHasFieldErrorCode(

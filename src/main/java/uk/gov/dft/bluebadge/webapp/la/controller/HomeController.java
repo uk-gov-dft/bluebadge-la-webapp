@@ -28,7 +28,7 @@ public class HomeController {
 
     // plan b
     if (securityUtils.isPermitted(Permissions.FIND_APPLICATION)) {
-      return REDIRECT + NewApplicationsController.URL;
+      return REDIRECT + ApplicationsController.URL;
     }
 
     // have neither of the above permissions

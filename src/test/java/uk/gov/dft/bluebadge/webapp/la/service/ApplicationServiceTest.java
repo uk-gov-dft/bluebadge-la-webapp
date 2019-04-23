@@ -44,8 +44,8 @@ public class ApplicationServiceTest extends ApplicationTestData {
     applicationService = new ApplicationService(applicationsApiClientMock);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void find_shouldThrowIllegalArgumentException_WhenNoParamIsSet() {
+  @Test
+  public void find_shouldReturnResults_WhenNoParamIsSet() {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
@@ -56,7 +56,16 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .pageInfo(validPaging)
             .build();
 
-    applicationService.find(searchParams);
+    when(applicationsApiClientMock.find(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            validPaging))
+        .thenReturn(unorderedApplications);
+    ApplicationSummaryResponse result = applicationService.find(searchParams);
+    assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);
   }
 
   @Test
@@ -78,7 +87,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW),
             validPaging))
-        .thenReturn(noNewApplications);
+        .thenReturn(noApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(Lists.emptyList());
   }

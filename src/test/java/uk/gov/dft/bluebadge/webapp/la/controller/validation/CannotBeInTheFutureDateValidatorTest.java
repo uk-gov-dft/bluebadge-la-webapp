@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.validation;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertFalse;
 
 import java.time.LocalDate;

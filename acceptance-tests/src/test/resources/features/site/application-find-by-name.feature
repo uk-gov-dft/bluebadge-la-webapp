@@ -1,18 +1,18 @@
-@NewApplicationsFindByName @NewApplicationScripts
-Feature: Dft BlueBadge LA New applications find by name
+@ApplicationsFindByName @ApplicationScripts
+Feature: Dft BlueBadge LA applications find by name
 
   As a Blue Badge team member
   I want to filter the latest applications by name
   So that I can process applications
 
-  Scenario: Verify New Applications can be searched by name
+  Scenario: Verify Applications can be searched by name
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     And I can see all records
 
     When I select option "name" from dropdown "searchFilter.dropdown"
@@ -21,14 +21,14 @@ Feature: Dft BlueBadge LA New applications find by name
     Then I should see only results containing search term "john"
     And Search filter "searchFilter.dropdown" has value "Name" and search field "search.field" has value "john"
 
-  Scenario: Verify New Applications searched by non existing name will return no results
+  Scenario: Verify Applications searched by non existing name will return no results
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I can click on the "New applications" link on left navigation
-    Then I should see the page titled "New applications - GOV.UK Manage Blue Badges"
+    And I can click on the "Applications" link on left navigation
+    Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"
     And I can see all records
 
     When I select option "name" from dropdown "searchFilter.dropdown"
