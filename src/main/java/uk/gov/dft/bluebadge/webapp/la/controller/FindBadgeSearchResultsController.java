@@ -91,7 +91,7 @@ public class FindBadgeSearchResultsController {
     }
 
     // Redirect to the single badge if only one is returned
-    if (results.size() == 1) {
+    if (results.size() == 1 && pageNum == 1) {
       return "redirect:/manage-badges/" + results.get(0).getBadgeNumber() + "?prev-step=find-badge";
     }
 
