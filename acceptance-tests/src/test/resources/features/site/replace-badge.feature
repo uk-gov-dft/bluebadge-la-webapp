@@ -15,7 +15,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL1"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL1" badge number
+    And   I should see the page titled "Badge details DEL1 - GOV.UK Manage Blue Badges"
     When  I click on "Order a replacement" link
     Then  I should see the page title for Replace badge for that particular badge number
     When  I select the "reason.option.STOLE" option
@@ -28,7 +28,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL1"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL1" badge number
+    And I should see the page titled "Badge details DEL1 - GOV.UK Manage Blue Badges"
     Then  I should see the badge details page without the "Order a replacement" link button
 
   Scenario: Admin user from different LA  is not allowed to replace badge
@@ -42,7 +42,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL2"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL2" badge number
+    And I should see the page titled "Badge details DEL2 - GOV.UK Manage Blue Badges"
     Then  I should see the badge details page without the "Order a replacement" link button
 
   Scenario: Read only user is not allowed to replace badge
@@ -54,7 +54,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL2"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL2" badge number
+    And I should see the page titled "Badge details DEL2 - GOV.UK Manage Blue Badges"
     Then  I should see the badge details page without the "Order a replacement" link button
 
   Scenario: Editor user is allowed to replace badge
@@ -68,7 +68,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL2"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL2" badge number
+    And I should see the page titled "Badge details DEL2 - GOV.UK Manage Blue Badges"
     When  I click on "Order a replacement" link
     Then  I should see the page title for Replace badge for that particular badge number
     When  I select the "reason.option.STOLE" option
@@ -81,7 +81,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL2"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL2" badge number
+    And I should see the page titled "Badge details DEL2 - GOV.UK Manage Blue Badges"
     Then  I should see the badge details page without the "Order a replacement" link button
 
   Scenario: Expired badge can not be replaced
@@ -95,5 +95,5 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number "DEL3"
     And   I can click "button" button
-    And   I should see the page title for Badge Details for "DEL3" badge number
+    And I should see the page titled "Badge details DEL3 - GOV.UK Manage Blue Badges"
     Then  I should see the badge details page without the "Order a replacement" link button

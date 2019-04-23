@@ -84,7 +84,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I select option "badgeNumber.radio"
     And I type "DEL4" for "searchTerm.field" field by uipath
     And I can click "button" button
-    And I should see the page title for Badge Details for "DEL4" badge number
+    And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
@@ -102,7 +102,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     When I can click on the "DEL3" link
-    And I should see the page title for Badge Details for "DEL3" badge number
+    And I should see the page titled "Badge details DEL3 - GOV.UK Manage Blue Badges"
     When I can click "back-link" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
 
@@ -116,7 +116,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I select option "postcode.radio"
     And I type "AB333CC" for "searchTerm.field" field by uipath
     And I can click "button" button
-    And I should see the page title for Badge Details for "DEL4" badge number
+    And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
@@ -132,7 +132,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I select option "name.radio"
     And I type "TEST DATA ROB" for "searchTerm.field" field by uipath
     And I can click "button" button
-    And I should see the page title for Badge Details for "DEL4" badge number
+    And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
     And I should see correct details for organisation or person
     When I can click "back-link" button
@@ -150,6 +150,6 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     When I can click on the "DEL3" link
-    And I should see the page title for Badge Details for "DEL3" badge number
+    Then I should see the page titled "Badge details DEL3 - GOV.UK Manage Blue Badges"
     When I can click "back-link" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"

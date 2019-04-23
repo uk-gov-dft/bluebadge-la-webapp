@@ -66,7 +66,7 @@ public class BadgeDetailsSiteSteps {
     WebElement orgTitle = sitePage.findElementWithText("Organisation details");
     WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
 
-    // Rob: This test actually does nothing and we should make it test for existing elements or drop this test!
+    // TODO: Please make this work, so that we can truly test whether it's ORG or PERSON!
 
     /*System.out.println("[[[ orgTitle ]]]" + orgTitle);
     System.out.println("[[[ personalTitle ]]]" + personalTitle);
@@ -78,13 +78,5 @@ public class BadgeDetailsSiteSteps {
       assertNotNull(orgTitle);
       assertNull(personalTitle);
     }*/
-  }
-
-  @And("^I should see the page title for Badge Details for \"([^\"$]+)\" badge number$")
-  public void iShouldSeeThePageTitleForBadgeDetailsForBadgeNumber(String badgeNumber) {
-    assertThat(
-        "I should see page titled.",
-        sitePage.getDocumentTitle(),
-        is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
   }
 }
