@@ -86,7 +86,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
-    And I should see correct details for organisation or person
+    And I should see correct details for "PERSON" badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
@@ -118,7 +118,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
-    And I should see correct details for organisation or person
+    And I should see correct details for "PERSON" badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
@@ -134,7 +134,7 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
-    And I should see correct details for organisation or person
+    And I should see correct details for "PERSON" badge
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 

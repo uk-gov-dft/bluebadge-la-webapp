@@ -61,22 +61,24 @@ public class BadgeDetailsSiteSteps {
     }
   }
 
-  @And("^I should see correct details for organisation or person$")
-  public void iShouldSeeCorrectDetailsForOrganisationOrPerson() throws Throwable {
-    WebElement orgTitle = sitePage.findElementWithText("Organisation details");
-    WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
+  @And("^I should see correct details for \"(ORGANISATION|PERSON)\" badge$")
+  public void iShouldSeeCorrectDetailsForBadge(String partyType) throws Throwable {
 
-    // TODO: Please make this work, so that we can truly test whether it's ORG or PERSON!
+    if (partyType.equalsIgnoreCase("PERSON")) {
 
-    /*System.out.println("[[[ orgTitle ]]]" + orgTitle);
-    System.out.println("[[[ personalTitle ]]]" + personalTitle);
+      try {
+        WebElement genderElement = sitePage.findElementByXpath("//*[text()='Eligibility']");
+      } catch (Exception e) {
+        assertThat("Check if View badge details is for person", "False", is("True"));
+      }
 
-    if("PERSON" == scenarioContext.getContext("typeCode")) {
-      assertNotNull(personalTitle);
-      assertNull(orgTitle);
     } else {
-      assertNotNull(orgTitle);
-      assertNull(personalTitle);
-    }*/
+
+      try {
+        WebElement orgElement = sitePage.findElementByXpath("//*[text()='Organisation details']");
+      } catch (Exception e) {
+        assertThat("Check if View badge details is for Organisation", "False", is("True"));
+      }
+    }
   }
 }
