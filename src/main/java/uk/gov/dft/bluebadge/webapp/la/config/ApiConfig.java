@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.common.api.common.VersionHeaderRestTemplateInterceptor;
 import uk.gov.dft.bluebadge.common.logging.LoggingAspect;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
@@ -99,6 +100,9 @@ public class ApiConfig {
     // If a request is denied by the api, the default action is to clear the token and try again.
     // But this results in the user needing to request a new access token and hence essentially being logged out.
     oAuth2RestTemplate.setRetryBadAccessTokens(false);
+    oAuth2RestTemplate
+        .getInterceptors()
+        .add(new VersionHeaderRestTemplateInterceptor(apiConfig.getVersionaccept()));
     return oAuth2RestTemplate;
   }
 
@@ -116,6 +120,9 @@ public class ApiConfig {
     result.setRequestFactory(requestFactory);
     result.setUriTemplateHandler(
         new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
+    result
+        .getInterceptors()
+        .add(new VersionHeaderRestTemplateInterceptor(userManagementApiConfig.getVersionaccept()));
     // If a request is denied by the api, the default action is to clear the token and try again.
     // But this results in the user needing to request a new access token and hence essentially being logged out.
     result.setRetryBadAccessTokens(false);
