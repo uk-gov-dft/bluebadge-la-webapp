@@ -96,6 +96,7 @@ public class UserDetailsController {
       userService.delete(uuid);
       return REDIRECT_URL_MANAGE_USERS;
     } catch (Exception ex) {
+      log.error("Exception while trying to delete user. ", ex);
       TemplateModelUtils.addCustomError(
           "error.deleteUser.generalError.title",
           "error.deleteUser.generalError.description",
