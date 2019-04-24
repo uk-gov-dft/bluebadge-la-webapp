@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
@@ -41,7 +42,10 @@ public class BadgeDetailsController {
   }
 
   @GetMapping(URL)
-  public String show(@PathVariable(PARAM_BADGE_NUMBER) String badgeNumber, Model model) {
+  public String show(
+      @PathVariable(PARAM_BADGE_NUMBER) String badgeNumber,
+      Model model,
+      @RequestParam(name = "prev-step", required = false) String prevStep) {
     Optional<Badge> badge = badgeService.retrieve(badgeNumber);
 
     Badge badgeDetails = badge.orElseThrow(() -> new NotFoundException(new CommonResponse()));
@@ -52,6 +56,13 @@ public class BadgeDetailsController {
     BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
     model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
     model.addAttribute("badge", viewModel);
+
+    String backLink =
+        null != prevStep && prevStep.equals("find-badge")
+            ? "/manage-badges"
+            : "/manage-badges/search-results";
+    model.addAttribute("backLink", backLink);
+
     return TEMPLATE;
   }
 

@@ -77,7 +77,8 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
         .andExpect(model().attribute("badge", badgeViewModel))
         .andExpect(model().attribute("canBeReplaced", true))
-        .andExpect(model().attribute("canBeCancelled", true));
+        .andExpect(model().attribute("canBeCancelled", true))
+        .andExpect(model().attribute("backLink", "/manage-badges/search-results"));
   }
 
   @Test
@@ -98,7 +99,8 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
         .andExpect(model().attribute("badge", badgeViewModel))
         .andExpect(model().attribute("canBeReplaced", false))
-        .andExpect(model().attribute("canBeCancelled", false));
+        .andExpect(model().attribute("canBeCancelled", false))
+        .andExpect(model().attribute("backLink", "/manage-badges/search-results"));
   }
 
   @Test
@@ -113,14 +115,15 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
-        .andExpect(model().attribute("badge", badgeViewModel));
+        .andExpect(model().attribute("badge", badgeViewModel))
+        .andExpect(model().attribute("backLink", "/manage-badges/search-results"));
   }
 
   @Test(expected = NotFoundException.class)
   public void show_shouldThrowNotFoundException_WhenBadgeDoesNotExist() throws Exception {
     when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.empty());
 
-    controller.show(BADGE_NUMBER, modelMock);
+    controller.show(BADGE_NUMBER, modelMock, null);
 
     verify(badgeToBadgeDetailsViewModelMock, times(0)).convert(any());
   }
@@ -133,5 +136,24 @@ public class BadgeDetailsControllerTest extends BaseControllerTest {
         .andExpect(redirectedUrl("/manage-badges"));
 
     verify(badgeServiceMock, times(1)).deleteBadge(BADGE_NUMBER);
+  }
+
+  @Test
+  public void
+      show_shouldDisplayBadgeDetails_withBackLinkToFindABadge_whenFindBadgeReturnedOneResult()
+          throws Exception {
+    Party party = new Party();
+    party.setTypeCode(BadgePartyTypeEnum.ORGANISATION.getCode());
+    badge.setParty(party);
+
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(badge));
+    when(badgeToBadgeDetailsViewModelMock.convert(badge)).thenReturn(badgeViewModel);
+
+    mockMvc
+        .perform(get(URL_BADGE_DETAILS + BADGE_NUMBER + "?prev-step=find-badge"))
+        .andExpect(status().isOk())
+        .andExpect(view().name(TEMPLATE_BADGE_DETAILS))
+        .andExpect(model().attribute("badge", badgeViewModel))
+        .andExpect(model().attribute("backLink", "/manage-badges"));
   }
 }

@@ -37,6 +37,13 @@ public class BadgeDetailsSiteSteps {
     itemLink.click();
   }
 
+  @And("^I type the post code of the applicant who previously ordered a badge$")
+  public void iTypeThePostCodeOfTheApplicantWhoPreviouslyOrderedABadge() {
+    String postCode = (String) scenarioContext.getContext("postcode");
+    log.debug("Post code to be typed: [()]", postCode);
+    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(postCode);
+  }
+
   @And("^I should see the page title for Badge Details for that particular badge number$")
   public void iShouldSeeThePageTitleForBadgeDetailsForThatParticularBadgeNumber() {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
@@ -47,21 +54,31 @@ public class BadgeDetailsSiteSteps {
         is("Badge details " + badgeNumber + " - GOV.UK Manage Blue Badges"));
   }
 
-  @And("^I should see correct details for organisation or person$")
-  public void iShouldSeeCorrectDetailsForOrganisationOrPerson() throws Throwable {
-    WebElement orgTitle = sitePage.findElementWithText("Organisation details");
-    WebElement personalTitle = sitePage.findElementWithTitle("Personal details");
+  @And("^It is a badge for \"(ORGANISATION|PERSON)\"$")
+  public void itIsABadgeForAnOrganisationOrPerson(String partyType) {
+    if (null != partyType && (partyType.equals("PERSON") || partyType.equals("ORGANISATION"))) {
+      scenarioContext.setContext("typeCode", partyType);
+    }
+  }
 
-    // Waiting for Miguel's story to finish first
-    // check scenario context for type of application
-    // and then make assertion accordingly
+  @And("^I should see correct details for \"(ORGANISATION|PERSON)\" badge$")
+  public void iShouldSeeCorrectDetailsForBadge(String partyType) throws Throwable {
 
-    /*if(scenarioContext.getContext("typeCode") === "PERSON") {
-      assertNotNull(personalTitle);
-      assertEquals(orgTitle, null);
+    if (partyType.equalsIgnoreCase("PERSON")) {
+
+      try {
+        WebElement genderElement = sitePage.findElementByXpath("//*[text()='Eligibility']");
+      } catch (Exception e) {
+        assertThat("Check if View badge details is for person", "False", is("True"));
+      }
+
     } else {
-      assertNotNull(orgTitle);
-      assertEquals(personalTitle, null);
-    }*/
+
+      try {
+        WebElement orgElement = sitePage.findElementByXpath("//*[text()='Organisation details']");
+      } catch (Exception e) {
+        assertThat("Check if View badge details is for Organisation", "False", is("True"));
+      }
+    }
   }
 }

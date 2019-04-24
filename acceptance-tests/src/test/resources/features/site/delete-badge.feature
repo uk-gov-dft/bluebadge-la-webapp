@@ -29,7 +29,7 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the first badge of the table
+    Then  I should see the page title for Badge Details for that particular badge number
     When  I can click "deleteBadgeCTA" button
     And   I can click "deleteBadgeButton" button
     Then  I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
@@ -68,5 +68,5 @@ Feature: Dft BlueBadge LA delete a Badge
     When  I select option "badgeNumber.radio"
     And   I type the badge number of the applicant who previously ordered a badge
     And   I can click "button" button
-    When  I click on the first badge of the table
+    Then  I should see the page title for Badge Details for that particular badge number
     Then  I should not see element with ui path "deleteBadgeCTA"

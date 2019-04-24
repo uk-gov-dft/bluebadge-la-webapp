@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 
 public class CancelBadgeSiteSteps {
-  private static final Logger log = getLogger(FindABadgeSiteSteps.class);
+  private static final Logger log = getLogger(CancelBadgeSiteSteps.class);
 
   @Autowired protected SitePage sitePage;
 

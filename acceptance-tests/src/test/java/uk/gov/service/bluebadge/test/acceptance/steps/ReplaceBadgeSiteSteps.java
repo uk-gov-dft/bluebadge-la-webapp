@@ -16,10 +16,11 @@ public class ReplaceBadgeSiteSteps {
 
   @And("^I type the badge number \"([^\"]+)\"$")
   public void iTypeTheBadgeNumber(String badgeNumber) {
+    scenarioContext.setContext("badgeNumber", badgeNumber);
     sitePage.findElementWithUiPath("searchTerm.field").sendKeys(badgeNumber);
   }
 
-  @Then("^I should see the page title for Repalce badge for that particular badge number$")
+  @Then("^I should see the page title for Replace badge for that particular badge number$")
   public void iShouldSeeThePageTitleForReplaceBadge() throws Throwable {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
     String pageTitle = "Replace badge " + badgeNumber + " - GOV.UK Manage Blue Badges";
