@@ -88,6 +88,7 @@ public class ApplicationsController {
     formRequest.getSearchTerm().ifPresent(s -> model.addAttribute("searchTerm", s));
 
     model.addAttribute("searchByOptions", getSearchByOptions());
+    model.addAttribute("applicationTypeOptions", getApplicationTypeOptions());
     model.addAttribute("pagingInfo", info);
 
     model.addAttribute("applicationCount", getAllApplicationSize());
@@ -108,5 +109,29 @@ public class ApplicationsController {
     postcode.setDescription("Postcode");
 
     return Lists.newArrayList(name, postcode);
+  }
+
+  private List<ReferenceData> getApplicationTypeOptions() {
+    ReferenceData allAppTypes = new ReferenceData();
+    allAppTypes.setShortCode(null);
+    allAppTypes.setDescription("All applications");
+
+    ReferenceData newAppType = new ReferenceData();
+    newAppType.setShortCode("NEW");
+    newAppType.setDescription("New");
+
+    ReferenceData renewAppType = new ReferenceData();
+    renewAppType.setShortCode("RENEW");
+    renewAppType.setDescription("Renewed");
+
+    ReferenceData cancelAppType = new ReferenceData();
+    cancelAppType.setShortCode("CANCEL");
+    cancelAppType.setDescription("Cancelled");
+
+    ReferenceData replaceAppType = new ReferenceData();
+    replaceAppType.setShortCode("REPLACE");
+    replaceAppType.setDescription("Replaced");
+
+    return Lists.newArrayList(allAppTypes, newAppType, renewAppType, cancelAppType, replaceAppType);
   }
 }
