@@ -131,6 +131,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_JOHN =
       new ApplicationSummary()
+              .applicationTypeCode(ApplicationTypeCodeField.NEW)
           .applicationId("100")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -141,6 +142,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_JOHNSON =
       new ApplicationSummary()
+              .applicationTypeCode(ApplicationTypeCodeField.NEW)
           .applicationId("101")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -151,6 +153,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_LITTLEJOHN =
       new ApplicationSummary()
+              .applicationTypeCode(ApplicationTypeCodeField.RENEW)
           .applicationId("102")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -171,6 +174,9 @@ public class ApplicationTestData {
 
   public static final List<ApplicationSummary> applicationsForSearchByName =
       Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON, APPLICATION_LITTLEJOHN);
+
+  public static final List<ApplicationSummary> applicationsForSearchByNameAndFilteredByNewAppType =
+          Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON);
 
   public static final List<ApplicationSummary> unorderedApplicationsForSearchByName =
       Arrays.asList(APPLICATION_JOHN, APPLICATION_LITTLEJOHN, APPLICATION_JOHNSON);
@@ -212,6 +218,9 @@ public class ApplicationTestData {
   public static final List<ApplicationSummaryViewModel> applicationsForSearchByNameView =
       Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW, APPLICATION_LITTLEJOHN_VIEW);
 
+  public static final List<ApplicationSummaryViewModel> applicationsForSearchByNameFilterByNewAppTypeView =
+          Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW);
+
   public static final PagingInfo validPaging = validPaging();
 
   public static final PagingInfo invalidPaging = invalidPaging();
@@ -221,6 +230,8 @@ public class ApplicationTestData {
   public static final ApplicationSummaryResponse noApplications = noApplications();
 
   public static final ApplicationSummaryResponse applicationsByName = applicationsByName();
+
+  public static final ApplicationSummaryResponse applicationsByNameFilteredByNewAppType = applicationsByNameFilteredByNewAppType();
 
   public static final ApplicationSummaryResponse unorderedApplications = unorderedApplications();
 
@@ -254,6 +265,15 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse applicationsByName() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(applicationsForSearchByName);
+    validPaging.setTotal(3L);
+    response.setPagingInfo(validPaging);
+
+    return response;
+  }
+
+  private static ApplicationSummaryResponse applicationsByNameFilteredByNewAppType() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(applicationsForSearchByNameAndFilteredByNewAppType);
     validPaging.setTotal(3L);
     response.setPagingInfo(validPaging);
 

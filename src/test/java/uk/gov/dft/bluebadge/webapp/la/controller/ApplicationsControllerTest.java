@@ -105,6 +105,24 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   }
 
   @Test
+  public void findByName_andFilterByType_shouldReturnResult_whenNameDoesExist() throws Exception {
+
+    when(applicationServiceMock.findByName(any(), any(), any())).thenReturn(applicationsByNameFilteredByNewAppType);
+    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+
+    when(converterMock.convert(applicationsForSearchByName.get(0)))
+            .thenReturn(applicationsForSearchByNameView.get(0));
+    when(converterMock.convert(applicationsForSearchByName.get(1)))
+            .thenReturn(applicationsForSearchByNameView.get(1));
+
+    mockMvc
+            .perform(get("/applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("applications/index"))
+            .andExpect(model().attribute("applications", applicationsForSearchByNameFilterByNewAppTypeView));
+  }
+
+  @Test
   public void findByName_shouldReturnBadRequest_whenPagingIsWrong() throws Exception {
     mockMvc
         .perform(get("/applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=500"))
