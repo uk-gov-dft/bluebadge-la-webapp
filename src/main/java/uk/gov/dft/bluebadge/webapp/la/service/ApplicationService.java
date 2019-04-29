@@ -55,27 +55,27 @@ public class ApplicationService {
     return applicationsApiClient.retrieve(applicationId);
   }
 
-  public ApplicationSummaryResponse findByName(String name, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByName(String name, Optional <ApplicationTypeCodeField> applicationTypeCode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.of(name))
             .postcode(Optional.empty())
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.empty())
+                .applicationTypeCode(applicationTypeCode)
             .pageInfo(pageInfo)
             .build();
     return find(searchParams);
   }
 
-  public ApplicationSummaryResponse findByPostCode(String postcode, PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findByPostCode(String postcode, Optional <ApplicationTypeCodeField> applicationTypeCode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
             .postcode(Optional.of(postcode))
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.empty())
+                .applicationTypeCode(applicationTypeCode)
             .pageInfo(pageInfo)
             .build();
 

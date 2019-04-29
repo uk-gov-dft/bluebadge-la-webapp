@@ -6,6 +6,10 @@
 		}
 	}
 
+	&__results {
+		clear: left;
+	}
+
 	&__field {
 		position: relative;
 
@@ -57,8 +61,7 @@
 
 	&__result {
 		@include govuk-font(16, regular);
-		margin-left: 10px;
-		margin-top: 13px;
+		margin-top: 20px;
 		display: none;
 
 		@include govuk-media-query($from: tablet) {

@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 
 @Data
 @Builder
@@ -16,6 +17,8 @@ public class FindApplicationFormRequest implements Serializable {
   private transient Optional<String> searchBy = Optional.empty();
 
   private Optional<String> searchTerm = Optional.empty();
+
+  private Optional<ApplicationTypeCodeField> applicationTypeCode = Optional.empty();
 
   @Min(1)
   private Integer pageNum = 1;

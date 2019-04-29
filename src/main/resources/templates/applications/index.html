@@ -18,7 +18,7 @@
         <div role="toolbar" class="dft-actions-panel">
             <div class="dft-actions-panel__content">
 
-                <form action="/applications" method="GET" class="dft-filter-bar">
+                <form action="/applications" th:object="${formRequest}" method="GET" class="dft-filter-bar">
                     <div class="dft-filter-bar__container">
 
                         <div class="dft-filter-bar__field">
@@ -40,10 +40,9 @@
 
                         <div class="dft-filter-bar__field">
                             <label class="dft-filter-bar__label" for="applicationType.dropdown" th:text="#{search.type.label}"></label>
-                            <select id="applicationType.dropdown" name="applicationType" data-uipath="searchFilter.applicationType.dropdown"
+                            <select id="applicationType.dropdown" th:field="*{applicationTypeCode}" data-uipath="searchFilter.applicationType.dropdown"
                                     class="dft-filter-bar__select">
                                 <option th:each="option: ${applicationTypeOptions}"
-                                        th:selected="${applicationType == option.getShortCode()}"
                                         th:value="${option.getShortCode()}"
                                         th:text="${option.getDescription()}"></option>
                             </select>
@@ -56,7 +55,7 @@
                         </div>
 
 
-                        <div>
+                        <div class="dft-filter-bar__results">
                             <span class="dft-filter-bar__result"
                                       th:if="${searchTerm != null && filteredApplicationCount != null}">
                                 <span data-uipath="search.count"

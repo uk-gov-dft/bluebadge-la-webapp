@@ -73,7 +73,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
-    when(applicationServiceMock.findByName(any(), any())).thenReturn(noApplications);
+    when(applicationServiceMock.findByName(any(), any(), any())).thenReturn(noApplications);
     when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
 
     mockMvc
@@ -87,7 +87,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
-    when(applicationServiceMock.findByName(any(), any())).thenReturn(applicationsByName);
+    when(applicationServiceMock.findByName(any(), any(), any())).thenReturn(applicationsByName);
     when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))

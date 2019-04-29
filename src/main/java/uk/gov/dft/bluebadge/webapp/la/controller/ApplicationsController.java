@@ -43,12 +43,13 @@ public class ApplicationsController {
     if (formRequest.getSearchTerm().isPresent()) {
       String searchTerm = formRequest.getSearchTerm().map(t -> t).orElse("");
       String searchBy = formRequest.getSearchBy().map(w -> w).orElse("");
+
       switch (searchBy) {
         case "name":
-          result = applicationService.findByName(searchTerm, formRequest.getPagingInfo());
+          result = applicationService.findByName(searchTerm, formRequest.getApplicationTypeCode(), formRequest.getPagingInfo());
           break;
         case "postcode":
-          result = applicationService.findByPostCode(searchTerm, formRequest.getPagingInfo());
+          result = applicationService.findByPostCode(searchTerm, formRequest.getApplicationTypeCode(), formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
@@ -87,6 +88,8 @@ public class ApplicationsController {
     formRequest.getSearchBy().ifPresent(s -> model.addAttribute("searchBy", s));
     formRequest.getSearchTerm().ifPresent(s -> model.addAttribute("searchTerm", s));
 
+    model.addAttribute("formRequest", formRequest);
+
     model.addAttribute("searchByOptions", getSearchByOptions());
     model.addAttribute("applicationTypeOptions", getApplicationTypeOptions());
     model.addAttribute("pagingInfo", info);
@@ -122,16 +125,8 @@ public class ApplicationsController {
 
     ReferenceData renewAppType = new ReferenceData();
     renewAppType.setShortCode("RENEW");
-    renewAppType.setDescription("Renewed");
+    renewAppType.setDescription("Reapplication");
 
-    ReferenceData cancelAppType = new ReferenceData();
-    cancelAppType.setShortCode("CANCEL");
-    cancelAppType.setDescription("Cancelled");
-
-    ReferenceData replaceAppType = new ReferenceData();
-    replaceAppType.setShortCode("REPLACE");
-    replaceAppType.setDescription("Replaced");
-
-    return Lists.newArrayList(allAppTypes, newAppType, renewAppType, cancelAppType, replaceAppType);
+    return Lists.newArrayList(allAppTypes, newAppType, renewAppType);
   }
 }
