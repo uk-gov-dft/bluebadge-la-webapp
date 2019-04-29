@@ -546,6 +546,15 @@ public class SiteSteps extends AbstractSpringSteps {
     assertEquals(fieldValue, fieldElement.getAttribute("value"));
   }
 
+  @And(
+          "^Search filter \"([^\"]*)\" has text \"([^\"]*)\"$")
+  public void searchFilterHasValue(
+          String searchFilter, String filterValue) {
+    WebElement dropElement = sitePage.findElementWithUiPath(searchFilter);
+    Select dropdown = new Select(dropElement);
+    assertEquals(filterValue, dropdown.getFirstSelectedOption().getText());
+  }
+
   @Then("^I see no records returned for the search term \"([^\"]*)\"$")
   public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
     assertTrue(
