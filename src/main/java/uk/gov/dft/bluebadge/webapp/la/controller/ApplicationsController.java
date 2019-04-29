@@ -2,6 +2,7 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindApplicationFormRequest;
@@ -38,22 +40,22 @@ public class ApplicationsController {
 
   @GetMapping(URL)
   public String show(@ModelAttribute @Valid FindApplicationFormRequest formRequest, Model model) {
-
+    ApplicationTypeCodeField applicationTypeCode = formRequest.getApplicationTypeCode();
     ApplicationSummaryResponse result = null;
-    if (formRequest.getSearchTerm().isPresent()) {
-      String searchTerm = formRequest.getSearchTerm().map(t -> t).orElse("");
-      String searchBy = formRequest.getSearchBy().map(w -> w).orElse("");
+    if (!formRequest.isSearchTermEmpty()) {
+      String searchTerm = formRequest.getSearchTerm();
+      String searchBy = formRequest.getSearchBy();
 
       switch (searchBy) {
         case "name":
           result =
               applicationService.findByName(
-                  searchTerm, formRequest.getApplicationTypeCode(), formRequest.getPagingInfo());
+                      searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         case "postcode":
           result =
               applicationService.findByPostCode(
-                  searchTerm, formRequest.getApplicationTypeCode(), formRequest.getPagingInfo());
+                      searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
@@ -89,8 +91,6 @@ public class ApplicationsController {
       FindApplicationFormRequest formRequest,
       PagingInfo info,
       List<ApplicationSummaryViewModel> applicationsView) {
-    formRequest.getSearchBy().ifPresent(s -> model.addAttribute("searchBy", s));
-    formRequest.getSearchTerm().ifPresent(s -> model.addAttribute("searchTerm", s));
 
     model.addAttribute("formRequest", formRequest);
 

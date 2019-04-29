@@ -56,14 +56,14 @@ public class ApplicationService {
   }
 
   public ApplicationSummaryResponse findByName(
-      String name, Optional<ApplicationTypeCodeField> applicationTypeCode, PagingInfo pageInfo) {
+      String name, ApplicationTypeCodeField applicationTypeCode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
-            .name(Optional.of(name))
+            .name(Optional.ofNullable(name))
             .postcode(Optional.empty())
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(applicationTypeCode)
+            .applicationTypeCode(Optional.ofNullable(applicationTypeCode))
             .pageInfo(pageInfo)
             .build();
     return find(searchParams);
@@ -71,15 +71,15 @@ public class ApplicationService {
 
   public ApplicationSummaryResponse findByPostCode(
       String postcode,
-      Optional<ApplicationTypeCodeField> applicationTypeCode,
+      ApplicationTypeCodeField applicationTypeCode,
       PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
-            .postcode(Optional.of(postcode))
+            .postcode(Optional.ofNullable(postcode))
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(applicationTypeCode)
+                .applicationTypeCode(Optional.ofNullable(applicationTypeCode))
             .pageInfo(pageInfo)
             .build();
 

@@ -14,11 +14,11 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeC
 @Builder
 @SuppressWarnings("squid:S1948")
 public class FindApplicationFormRequest implements Serializable {
-  private transient Optional<String> searchBy = Optional.empty();
+  private transient String searchBy;
 
-  private Optional<String> searchTerm = Optional.empty();
+  private String searchTerm;
 
-  private Optional<ApplicationTypeCodeField> applicationTypeCode = Optional.empty();
+  private ApplicationTypeCodeField applicationTypeCode;
 
   @Min(1)
   private Integer pageNum = 1;
@@ -36,10 +36,10 @@ public class FindApplicationFormRequest implements Serializable {
   }
 
   public boolean isSearchTermEmpty() {
-    return !searchTerm.isPresent() || searchTerm.get().isEmpty();
+    return StringUtils.isBlank(searchTerm) && null == applicationTypeCode;
   }
 
-  public Optional<String> getSearchTerm() {
-    return searchTerm.map(StringUtils::trimToNull);
+  public String getSearchTerm() {
+    return StringUtils.trimToNull(searchTerm);
   }
 }

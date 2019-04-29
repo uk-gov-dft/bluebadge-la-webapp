@@ -23,10 +23,9 @@
 
                         <div class="dft-filter-bar__field">
                             <label class="dft-filter-bar__label" for="search.dropdown" th:text="#{search.searchBy.label}"></label>
-                            <select id="search.dropdown" name="searchBy" data-uipath="searchFilter.dropdown"
+                            <select id="search.dropdown" th:field="*{searchBy}" data-uipath="searchFilter.dropdown"
                                     class="dft-filter-bar__select">
                                 <option th:each="option: ${searchByOptions}"
-                                        th:selected="${searchBy == option.getShortCode()}"
                                         th:value="${option.getShortCode()}"
                                         th:text="${option.getDescription()}"></option>
                             </select>
@@ -34,8 +33,8 @@
 
                         <div class="dft-filter-bar__field">
                             <label class="dft-filter-bar__label" for="searchTerm" th:text="#{search.keyWords.label}"></label>
-                            <input data-uipath="search.field" id="searchTerm" name="searchTerm" type="text"
-                                   class="dft-filter-bar__input" th:value="${searchTerm}">
+                            <input id="searchTerm" th:field="*{searchTerm}" data-uipath="search.field" type="text"
+                                   class="dft-filter-bar__input">
                         </div>
 
                         <div class="dft-filter-bar__field">
