@@ -43,6 +43,10 @@
 					   href="/manage-local-councils"
 					   th:class="${currentPage == 'manage-local-councils'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.manageLocalCouncils}"/>
 
+					<a sec:authorize-url="GET /credentials" data-uipath="sidebar-nav.credentials"
+					   href="/credentials"
+					   th:class="${currentPage == 'credentials'} ? ${activeClass} : ${menuItemClass}" th:text="#{sidebar.menuItem.credentials}"/>
+
 				</nav>
 
 			</div>

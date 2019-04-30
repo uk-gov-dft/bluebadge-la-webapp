@@ -31,7 +31,6 @@ blue-badge:
       requesttimeout: 6000
       contextpath: /uk-gov-dft/reference-data-service/1.0.0
       versionaccept: application/vnd.bluebadge-api.v1+json
-
   applicationsservice:
     servicehost:
       host: localhost
@@ -40,6 +39,24 @@ blue-badge:
       connectiontimeout: 6000
       requesttimeout: 6000
       contextpath: /uk-gov-dft/application-management-service/1.0.0
+      versionaccept: application/vnd.bluebadge-api.v1+json
+  paymentservice:
+    servicehost:
+      host: localhost
+      port: 8980
+      scheme: http
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/payment-service/1.0.0
+      versionaccept: application/vnd.bluebadge-api.v1+json
+  messageservice:
+    servicehost:
+      host: localhost
+      port: 8480
+      scheme: http
+      connectiontimeout: 6000
+      requesttimeout: 6000
+      contextpath: /uk-gov-dft/message-service/1.0.0
       versionaccept: application/vnd.bluebadge-api.v1+json
   client-time-zone: Europe/London
   env:  ${bb_env:dev}

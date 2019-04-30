@@ -60,6 +60,20 @@ public class ApiConfig {
     return new ServiceConfiguration();
   }
 
+  @ConfigurationProperties("blue-badge.paymentservice.servicehost")
+  @Bean
+  @Validated
+  public ServiceConfiguration paymentApiConfig() {
+    return new ServiceConfiguration();
+  }
+
+  @ConfigurationProperties("blue-badge.messageservice.servicehost")
+  @Bean
+  @Validated
+  public ServiceConfiguration messageApiConfig() {
+    return new ServiceConfiguration();
+  }
+
   @Bean("userManagementRestTemplate")
   OAuth2RestTemplate userManagementRestTemplate(
       ResourceOwnerPasswordResourceDetails resourceDetails,
@@ -86,6 +100,18 @@ public class ApiConfig {
       ResourceOwnerPasswordResourceDetails resourceDetails,
       ServiceConfiguration referenceDataManagementApiConfig) {
     return createOAuthRestTemplate(resourceDetails, referenceDataManagementApiConfig);
+  }
+
+  @Bean("paymentServiceRestTemplate")
+  OAuth2RestTemplate paymentServiceRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails, ServiceConfiguration paymentApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, paymentApiConfig);
+  }
+
+  @Bean("messageServiceRestTemplate")
+  OAuth2RestTemplate messageServiceRestTemplate(
+      ResourceOwnerPasswordResourceDetails resourceDetails, ServiceConfiguration messageApiConfig) {
+    return createOAuthRestTemplate(resourceDetails, messageApiConfig);
   }
 
   private OAuth2RestTemplate createOAuthRestTemplate(
