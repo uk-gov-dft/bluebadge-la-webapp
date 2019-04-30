@@ -56,9 +56,9 @@
 
                         <div class="dft-filter-bar__results">
                             <span class="dft-filter-bar__result"
-                                      th:if="${searchTerm != null && filteredApplicationCount != null}">
+                                      th:if="${pagingInfo.count > 0}">
                                 <span data-uipath="search.count"
-                                      th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' ' + #{search.result.label} : ${filteredApplicationCount} + ' ' + #{search.results.label}"></span>
+                                      th:text="${pagingInfo.count == 1} ? ${pagingInfo.count} + ' ' + #{search.result.label} : ${pagingInfo.count} + ' ' + #{search.results.label}"></span>
 
                                 <a th:href="@{/applications}"
                                    role="button"
