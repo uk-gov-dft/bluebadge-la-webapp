@@ -48,7 +48,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   @Test
   public void show_shouldDisplayApplications_whenThereAreApplications() throws Exception {
 
-    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+    when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
     mockMvc
         .perform(get("/applications?pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   public void show_shouldDisplayApplications_whenThereAreApplications_withDefaultPaging()
       throws Exception {
 
-    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+    when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
     mockMvc
         .perform(get("/applications"))
         .andExpect(status().isOk())
@@ -74,7 +74,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   public void findByName_shouldReturnEmptyResult_whenNameDoesntExist() throws Exception {
 
     when(applicationServiceMock.findByName(any(), any(), any())).thenReturn(noApplications);
-    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+    when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
 
     mockMvc
         .perform(get("/applications?searchBy=name&searchTerm=anyone&pageNum=1&pageSize=50"))
@@ -88,7 +88,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   public void findByName_shouldReturnResult_whenNameDoesExist() throws Exception {
 
     when(applicationServiceMock.findByName(any(), any(), any())).thenReturn(applicationsByName);
-    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+    when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
         .thenReturn(applicationsForSearchByNameView.get(0));
@@ -109,7 +109,7 @@ public class ApplicationsControllerTest extends ApplicationTestData {
 
     when(applicationServiceMock.findByName(any(), any(), any()))
         .thenReturn(applicationsByNameFilteredByNewAppType);
-    when(applicationServiceMock.findAll(any(PagingInfo.class))).thenReturn(allApplications);
+    when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
 
     when(converterMock.convert(applicationsForSearchByName.get(0)))
         .thenReturn(applicationsForSearchByNameView.get(0));

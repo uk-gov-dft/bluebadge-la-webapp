@@ -1,7 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
 import java.io.Serializable;
-import java.util.Optional;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.Builder;
@@ -36,7 +35,11 @@ public class FindApplicationFormRequest implements Serializable {
   }
 
   public boolean isSearchTermEmpty() {
-    return StringUtils.isBlank(searchTerm) && null == applicationTypeCode;
+    return StringUtils.isBlank(searchTerm);
+  }
+
+  public boolean isApplicationTypeCodeAll() {
+    return null == applicationTypeCode;
   }
 
   public String getSearchTerm() {

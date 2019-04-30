@@ -2,7 +2,6 @@ package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,18 +49,18 @@ public class ApplicationsController {
         case "name":
           result =
               applicationService.findByName(
-                      searchTerm, applicationTypeCode, formRequest.getPagingInfo());
+                  searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         case "postcode":
           result =
               applicationService.findByPostCode(
-                      searchTerm, applicationTypeCode, formRequest.getPagingInfo());
+                  searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
       }
     } else {
-      result = applicationService.findAll(formRequest.getPagingInfo());
+      result = applicationService.findAll(applicationTypeCode, formRequest.getPagingInfo());
     }
 
     List<ApplicationSummary> applications = result.getData();
@@ -81,7 +80,7 @@ public class ApplicationsController {
     pagingInfo.setPageSize(1);
     pagingInfo.setPageNum(1);
 
-    ApplicationSummaryResponse allNew = applicationService.findAll(pagingInfo);
+    ApplicationSummaryResponse allNew = applicationService.findAll(null, pagingInfo);
 
     return allNew.getPagingInfo().getTotal();
   }
@@ -92,18 +91,22 @@ public class ApplicationsController {
       PagingInfo info,
       List<ApplicationSummaryViewModel> applicationsView) {
 
-    model.addAttribute("formRequest", formRequest);
+    // Total application count - unfiltered
+    int allApplicationSize = getAllApplicationSize().intValue();
+    int resultsSize = allApplicationSize;
 
+    // Filtered application count
+    if (applicationsView.size() < allApplicationSize) {
+      resultsSize = applicationsView.size();
+    }
+
+    model.addAttribute("formRequest", formRequest);
     model.addAttribute("searchByOptions", getSearchByOptions());
     model.addAttribute("applicationTypeOptions", getApplicationTypeOptions());
     model.addAttribute("pagingInfo", info);
-
-    model.addAttribute("applicationCount", getAllApplicationSize());
-
     model.addAttribute("applications", applicationsView);
-    if (!formRequest.isSearchTermEmpty()) {
-      model.addAttribute("filteredApplicationCount", applicationsView.size());
-    }
+    model.addAttribute("applicationCount", allApplicationSize);
+    model.addAttribute("resultsSize", resultsSize);
   }
 
   private List<ReferenceData> getSearchByOptions() {

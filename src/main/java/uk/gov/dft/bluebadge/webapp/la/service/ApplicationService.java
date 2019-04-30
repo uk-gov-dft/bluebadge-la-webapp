@@ -70,30 +70,29 @@ public class ApplicationService {
   }
 
   public ApplicationSummaryResponse findByPostCode(
-      String postcode,
-      ApplicationTypeCodeField applicationTypeCode,
-      PagingInfo pageInfo) {
+      String postcode, ApplicationTypeCodeField applicationTypeCode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
             .postcode(Optional.ofNullable(postcode))
             .from(Optional.empty())
             .to(Optional.empty())
-                .applicationTypeCode(Optional.ofNullable(applicationTypeCode))
+            .applicationTypeCode(Optional.ofNullable(applicationTypeCode))
             .pageInfo(pageInfo)
             .build();
 
     return find(searchParams);
   }
 
-  public ApplicationSummaryResponse findAll(PagingInfo pageInfo) {
+  public ApplicationSummaryResponse findAll(
+      ApplicationTypeCodeField applicationTypeCode, PagingInfo pageInfo) {
     FindApplicationsParameters searchParams =
         FindApplicationsParameters.builder()
             .name(Optional.empty())
             .postcode(Optional.empty())
             .from(Optional.empty())
             .to(Optional.empty())
-            .applicationTypeCode(Optional.empty())
+            .applicationTypeCode(Optional.ofNullable(applicationTypeCode))
             .pageInfo(pageInfo)
             .build();
 
