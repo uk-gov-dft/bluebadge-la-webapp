@@ -95,7 +95,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.empty(),
-            validPaging);
+            validPaging());
 
     assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
@@ -126,7 +126,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.of(FIND_PARAM_APPLICATION_TYPE),
-            validPaging);
+            validPaging());
 
     assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
@@ -164,7 +164,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
             Optional.of(FIND_PARAM_FROM),
             Optional.of(FIND_PARAM_TO),
             Optional.of(FIND_PARAM_APPLICATION_TYPE),
-            validPaging);
+            validPaging());
 
     assertThat(result.getData()).containsExactlyElementsOf(APPLICATION_SUMMARIES);
   }
@@ -192,7 +192,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
           Optional.empty(),
           Optional.empty(),
           Optional.empty(),
-          validPaging);
+          validPaging());
     } catch (BadRequestException ex) {
       assertThat(ex.getCommonResponse()).isEqualTo(commonResponse);
     }

@@ -222,10 +222,6 @@ public class ApplicationTestData {
       applicationsForSearchByNameFilterByNewAppTypeView =
           Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW);
 
-  public static final PagingInfo validPaging = validPaging();
-
-  public static final PagingInfo invalidPaging = invalidPaging();
-
   public static final ApplicationSummaryResponse allApplications = allApplications();
 
   public static final ApplicationSummaryResponse noApplications = noApplications();
@@ -240,8 +236,7 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse unorderedApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(unorderedApplicationsForSearchByName);
-    validPaging.setTotal(3L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(3L));
 
     return response;
   }
@@ -249,8 +244,7 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse allApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Lists.newArrayList(APPLICATION_SUMMARY_PERSON_1));
-    validPaging.setTotal(1L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(1L));
 
     return response;
   }
@@ -258,17 +252,14 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse noApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Collections.emptyList());
-    validPaging.setTotal(0L);
-    response.setPagingInfo(validPaging);
-
+    response.setPagingInfo(validPaging(0L));
     return response;
   }
 
   private static ApplicationSummaryResponse applicationsByName() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(applicationsForSearchByName);
-    validPaging.setTotal(3L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(3L));
 
     return response;
   }
@@ -276,18 +267,21 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse applicationsByNameFilteredByNewAppType() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(applicationsForSearchByNameAndFilteredByNewAppType);
-    validPaging.setTotal(3L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(3L));
 
     return response;
   }
 
-  private static PagingInfo validPaging() {
+  protected static PagingInfo validPaging() {
+    return validPaging(500L);
+  }
+
+  private static PagingInfo validPaging(Long total) {
     PagingInfo paging = new PagingInfo();
-    paging.setTotal(500L);
+    paging.setTotal(total);
+    paging.setCount(total > 50 ? 50 : total.intValue());
     paging.setPageSize(50);
     paging.setPageNum(1);
-
     return paging;
   }
 

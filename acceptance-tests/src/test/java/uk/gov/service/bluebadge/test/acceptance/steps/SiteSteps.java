@@ -409,6 +409,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -430,6 +432,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -562,6 +566,8 @@ public class SiteSteps extends AbstractSpringSteps {
             .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals("0 Results:", displayCount.getText());
   }
 
