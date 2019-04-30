@@ -105,19 +105,21 @@ public class ApplicationsControllerTest extends ApplicationTestData {
   }
 
   @Test
-  public void findByName_andFilterByType_shouldReturnResult_whenNameDoesExist() throws Exception {
-
+  public void findByName_andFilterByNewType_shouldReturnResult_whenNameDoesExist()
+      throws Exception {
     when(applicationServiceMock.findByName(any(), any(), any()))
         .thenReturn(applicationsByNameFilteredByNewAppType);
     when(applicationServiceMock.findAll(any(), any(PagingInfo.class))).thenReturn(allApplications);
 
-    when(converterMock.convert(applicationsForSearchByName.get(0)))
-        .thenReturn(applicationsForSearchByNameView.get(0));
-    when(converterMock.convert(applicationsForSearchByName.get(1)))
-        .thenReturn(applicationsForSearchByNameView.get(1));
+    when(converterMock.convert(applicationsForSearchByNameAndFilteredByNewAppType.get(0)))
+        .thenReturn(applicationsForSearchByNameFilterByNewAppTypeView.get(0));
+    when(converterMock.convert(applicationsForSearchByNameAndFilteredByNewAppType.get(1)))
+        .thenReturn(applicationsForSearchByNameFilterByNewAppTypeView.get(1));
 
     mockMvc
-        .perform(get("/applications?searchBy=name&searchTerm=john&pageNum=1&pageSize=50"))
+        .perform(
+            get(
+                "/applications?searchBy=name&searchTerm=john&applicationTypeCode=CANCEL&pageNum=1&pageSize=50"))
         .andExpect(status().isOk())
         .andExpect(view().name("applications/index"))
         .andExpect(

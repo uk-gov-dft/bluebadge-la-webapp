@@ -38,10 +38,6 @@ public class FindApplicationFormRequest implements Serializable {
     return StringUtils.isBlank(searchTerm);
   }
 
-  public boolean isApplicationTypeCodeAll() {
-    return null == applicationTypeCode;
-  }
-
   public String getSearchTerm() {
     return StringUtils.trimToNull(searchTerm);
   }
