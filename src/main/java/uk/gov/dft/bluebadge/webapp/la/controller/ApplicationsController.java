@@ -91,22 +91,12 @@ public class ApplicationsController {
       PagingInfo info,
       List<ApplicationSummaryViewModel> applicationsView) {
 
-    // Total application count - unfiltered
-    int allApplicationSize = getAllApplicationSize().intValue();
-    int resultsSize = allApplicationSize;
-
-    // Filtered application count
-    if (applicationsView.size() < allApplicationSize) {
-      resultsSize = applicationsView.size();
-    }
-
     model.addAttribute("formRequest", formRequest);
     model.addAttribute("searchByOptions", getSearchByOptions());
     model.addAttribute("applicationTypeOptions", getApplicationTypeOptions());
     model.addAttribute("pagingInfo", info);
     model.addAttribute("applications", applicationsView);
-    model.addAttribute("applicationCount", allApplicationSize);
-    model.addAttribute("resultsSize", resultsSize);
+    model.addAttribute("applicationCount", getAllApplicationSize());
   }
 
   private List<ReferenceData> getSearchByOptions() {

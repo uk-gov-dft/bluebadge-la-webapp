@@ -102,12 +102,11 @@
             </tbody>
         </table>
 
-        <th:block th:if="${resultsSize > 0}">
+        <th:block th:if="${pagingInfo.count > 0}">
             <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/applications') }"></div>
         </th:block>
 
-        <p th:if="${resultsSize == 0}" data-uipath="search.term">
-
+        <p th:unless="${pagingInfo.count > 0}" data-uipath="search.term">
             <span th:if="${searchTerm}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
             <strong th:text="${searchTerm}"></strong>
             </span>
