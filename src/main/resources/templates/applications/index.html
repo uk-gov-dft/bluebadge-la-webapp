@@ -56,7 +56,7 @@
 
                         <div class="dft-filter-bar__results">
                             <span class="dft-filter-bar__result"
-                                      th:if="${pagingInfo.count > 0}">
+                                      th:if="${!formRequest.isSearchTermEmpty() || !formRequest.isApplicationTypeCodeNull()}">
                                 <span data-uipath="search.count"
                                       th:text="${pagingInfo.count == 1} ? ${pagingInfo.count} + ' ' + #{search.result.label} : ${pagingInfo.count} + ' ' + #{search.results.label}"></span>
 
@@ -106,12 +106,12 @@
             <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/applications') }"></div>
         </th:block>
 
-        <p th:unless="${pagingInfo.count > 0}" data-uipath="search.term">
-            <span th:if="${searchTerm}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
-            <strong th:text="${searchTerm}"></strong>
+        <p th:if="${pagingInfo.count == 0}" data-uipath="search.term">
+            <span th:if="${!formRequest.isSearchTermEmpty()}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
+            <strong th:text="${formRequest.getSearchTerm()}"></strong>
             </span>
 
-            <span th:unless="${searchTerm}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
+            <span th:if="${formRequest.isSearchTermEmpty()}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
 
         </p>
 

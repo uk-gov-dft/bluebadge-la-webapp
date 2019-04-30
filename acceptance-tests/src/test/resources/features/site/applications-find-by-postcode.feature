@@ -53,7 +53,7 @@ Feature: Dft BlueBadge LA applications find by postcode
     And I type the search term "sw11aa" in the field "search.field"
     And I select option "RENEW" from dropdown "searchFilter.applicationType.dropdown"
     And I can click "search.button" button
-    Then I should see only results where postcode "sw11aa"
+    Then I see no records returned for the search term "sw11aa"
     And Search filter "searchFilter.dropdown" has value "Postcode" and search field "search.field" has value "sw11aa"
     And Search filter "searchFilter.applicationType.dropdown" has text "Reapplication"
 
