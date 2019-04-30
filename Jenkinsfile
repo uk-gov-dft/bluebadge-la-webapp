@@ -102,7 +102,7 @@ node {
             )
 
             timeout(time: 20, unit: 'MINUTES') {
-                withEnv(["BASE_SELENIUM_URL=http://localhost:8080"]) {
+                withEnv(["BASE_SELENIUM_URL=http://localhost:8080", "BASE_MANAGEMENT_URL=http://localhost:8081"]) {
                   withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                     try {
                         sh '''
