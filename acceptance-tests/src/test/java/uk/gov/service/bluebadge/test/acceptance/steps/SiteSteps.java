@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -444,6 +445,18 @@ public class SiteSteps extends AbstractSpringSteps {
     assertThat(
         elementWithUiPath,
         "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+  }
+
+  @And("^I should see \"([^\"]*)\" element with content \"([^\"]*)\"$")
+  public void iShouldSeeElementWithUiPathAndContent(String uiPath, String content) {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertEquals(elementWithUiPath.getText(), content);
+  }
+
+  @And("^I should not see \"([^\"]*)\" element with content \"([^\"]*)\"$")
+  public void iShouldNotSeeElementWithUiPathAndContent(String uiPath, String content) {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertNotEquals(elementWithUiPath.getText(), content);
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
