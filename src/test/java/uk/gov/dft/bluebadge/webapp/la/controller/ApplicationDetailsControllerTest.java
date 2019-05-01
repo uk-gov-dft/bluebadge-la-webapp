@@ -32,8 +32,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatu
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
@@ -42,6 +44,8 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 public class ApplicationDetailsControllerTest extends BaseControllerTest {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private BadgeService badgeServiceMock;
+  @Mock private BadgeToFindBadgeSearchResultViewModel badgeToFindBadgeSearchResultViewModelMock;
   @Mock private SecurityUtils securityUtilsMock;
 
   MockMvc mockMvc;
@@ -55,7 +59,11 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
     controller =
         new ApplicationDetailsController(
-            applicationServiceMock, referenceDataServiceMock, securityUtilsMock);
+            applicationServiceMock,
+            referenceDataServiceMock,
+            badgeServiceMock,
+            badgeToFindBadgeSearchResultViewModelMock,
+            securityUtilsMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())

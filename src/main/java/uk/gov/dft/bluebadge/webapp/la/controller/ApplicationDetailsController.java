@@ -10,6 +10,7 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApp
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,14 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTrans
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -56,15 +61,21 @@ public class ApplicationDetailsController extends BaseController {
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
+  private BadgeService badgeService;
+  private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
   private final SecurityUtils securityUtils;
 
   @Autowired
   ApplicationDetailsController(
       ApplicationService applicationService,
       ReferenceDataService referenceDataService,
+      BadgeService badgeService,
+      BadgeToFindBadgeSearchResultViewModel converterToViewModel,
       SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
+    this.badgeService = badgeService;
+    this.converterToViewModel = converterToViewModel;
     this.securityUtils = securityUtils;
   }
 
@@ -72,8 +83,14 @@ public class ApplicationDetailsController extends BaseController {
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
+    FindBadgeSearchResultViewModel existingBadge =
+        null != application.getExistingBadgeNumber()
+            ? findBadgeByNumber(application.getExistingBadgeNumber())
+            : null;
+
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
+    model.addAttribute("existingBadge", existingBadge);
     model.addAttribute("uuid", uuid);
     model.addAttribute(
         "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
@@ -179,5 +196,15 @@ public class ApplicationDetailsController extends BaseController {
     List<ReferenceData> las = referenceDataService.retrieveBadgeLocalAuthorities();
     las.removeIf(la -> la.getShortCode().equals(securityUtils.getCurrentLocalAuthorityShortCode()));
     return las;
+  }
+
+  private FindBadgeSearchResultViewModel findBadgeByNumber(String searchTerm) {
+    Optional<Badge> result = badgeService.retrieve(searchTerm);
+
+    if (result.isPresent()) {
+      return converterToViewModel.convert(result.get());
+    }
+
+    return null;
   }
 }
