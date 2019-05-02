@@ -13,17 +13,17 @@ public class CredentialsFormRequest implements Serializable {
   private String service;
 
 
-//  private Boolean servicePayApiKey;
+  private Boolean servicePayApiKey;
 
   @Size(max = 200, message = "{Size.credentialsPage.payApiKey}")
   private String payApiKey;
 
-//  private Boolean serviceNotifyApiKey;
+  private Boolean serviceNotifyApiKey;
 
   @Size(max = 200, message = "{Size.credentialsPage.notifyApiKey}")
   private String notifyApiKey;
 
-//  private Boolean serviceApplicationSubmittedTemplateId;
+  private Boolean serviceApplicationSubmittedTemplateId;
 
   @Size(max = 200, message = "{Size.credentialsPage.applicationSubmittedTemplateId}")
   private String applicationSubmittedTemplateId;
