@@ -4,8 +4,7 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -61,6 +60,20 @@ public class SiteSteps extends AbstractSpringSteps {
   public void thenIShouldSeePageTitled(String pageTitle) {
     assertThat("I should see page titled.", sitePage.getDocumentTitle(), is(pageTitle));
   }
+
+  @Then("^I should see a link named \"([^\"]*)\"$")
+  public void i_should_see_a_link_named(String Link)  {
+    WebElement MenuItem=sitePage.findElementWithUiPath(Link);
+    assertTrue("I should see a link named.",sitePage.ElementIsDisplayed(MenuItem));
+  }
+
+  @Then("^I should not see the link named \"([^\"]*)\"$")
+  public void i_should_not_see_the_link_named(String Link)  {
+    WebElement MenuItem=sitePage.findElementWithUiPath(Link);
+    assertTrue("I should not see a link titled.",!sitePage.ElementIsDisplayed(MenuItem));
+  }
+
+
 
   @When("^I click on application with applicant name as \"([^\"]*)\"$")
   public void i_click_on_application_with_applicant_name_as(String applicantName) throws Throwable {
@@ -172,6 +185,7 @@ public class SiteSteps extends AbstractSpringSteps {
   public void andICanClickSignInButton() {
     sitePage.findElementWithUiPath("button").click();
   }
+
 
   @And("^I sign in as new user with  ***REMOVED***)
   public void andISignInAsNewUser(String password) {
