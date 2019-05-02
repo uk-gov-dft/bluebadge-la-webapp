@@ -36,7 +36,6 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToLookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.LookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
@@ -59,8 +58,6 @@ public class ApplicationDetailsController extends BaseController {
       EnumSet.of(WALKD, ARMS, CHILDBULK, CHILDVEHIC);
   static final String URL_NEW_APPLICATIONS_UUID = "/applications/{uuid}";
   private static final String TRANSFER_APPLICATION_FORM_REQUEST = "transferApplicationFormRequest";
-
-
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;

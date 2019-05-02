@@ -1,9 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.viewmodel;
 
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
 
 @Data
 @Builder
