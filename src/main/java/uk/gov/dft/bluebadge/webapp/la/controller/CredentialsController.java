@@ -65,15 +65,25 @@ public class CredentialsController {
       return TEMPLATE;
     }
 
-    /*
-    if (!formRequest.getServiceApplicationSubmittedTemplateId()
-        && !formRequest.getServiceNotifyApiKey()
-        && !formRequest.getServicePayApiKey()) {
-      bindingResult.rejectValue("service", "Select a service TODO");
-    }*/
-
     BBPrincipal authUser = securityUtils.getCurrentAuth();
     String localAuthorityShortCode = authUser.getLocalAuthorityShortCode();
+
+    if (Boolean.TRUE.equals(formRequest.getServicePayApiKey())
+        && StringUtils.isBlank(formRequest.getPayApiKey())) {
+      bindingResult.rejectValue("payApiKey", "NotBlank.credentialsPage.payApiKey");
+    }
+
+    if (Boolean.TRUE.equals(formRequest.getServiceNotifyApiKey())
+        && StringUtils.isBlank(formRequest.getNotifyApiKey())) {
+      bindingResult.rejectValue("notifyApiKey", "NotBlank.credentialsPage.notifyApiKey");
+    }
+
+    if (Boolean.TRUE.equals(formRequest.getServiceApplicationSubmittedTemplateId())
+        && StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())) {
+      bindingResult.rejectValue(
+          "applicationSubmittedTemplateId",
+          "NotBlank.credentialsPage.applicationSubmittedTemplateId");
+    }
 
     if (!StringUtils.isBlank(formRequest.getPayApiKey())) {
       GovPayProfile payProfile = GovPayProfile.builder().apiKey(formRequest.getPayApiKey()).build();
