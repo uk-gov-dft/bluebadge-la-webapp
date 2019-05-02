@@ -5,7 +5,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import uk.gov.service.bluebadge.test.acceptance.AcceptanceTest;
 import uk.gov.service.bluebadge.test.acceptance.pages.PageHelper;
 import uk.gov.service.bluebadge.test.acceptance.pages.site.SitePage;
 import uk.gov.service.bluebadge.test.acceptance.steps.ScenarioContext;
@@ -18,6 +20,7 @@ import uk.gov.service.bluebadge.test.acceptance.webdriver.WebDriverServiceProvid
  * injection.
  */
 @Configuration
+@ComponentScan(basePackageClasses = AcceptanceTest.class)
 public class AcceptanceTestConfiguration {
 
   private static final Logger log = getLogger(AcceptanceTestConfiguration.class);
