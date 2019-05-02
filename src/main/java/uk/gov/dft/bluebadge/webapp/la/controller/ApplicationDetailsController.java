@@ -33,10 +33,11 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeF
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
-import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToLookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.LookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
@@ -59,10 +60,12 @@ public class ApplicationDetailsController extends BaseController {
   static final String URL_NEW_APPLICATIONS_UUID = "/applications/{uuid}";
   private static final String TRANSFER_APPLICATION_FORM_REQUEST = "transferApplicationFormRequest";
 
+
+
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
   private BadgeService badgeService;
-  private BadgeToFindBadgeSearchResultViewModel converterToViewModel;
+  private BadgeToLookupBadgeViewModel converterToViewModel;
   private final SecurityUtils securityUtils;
 
   @Autowired
@@ -70,7 +73,7 @@ public class ApplicationDetailsController extends BaseController {
       ApplicationService applicationService,
       ReferenceDataService referenceDataService,
       BadgeService badgeService,
-      BadgeToFindBadgeSearchResultViewModel converterToViewModel,
+      BadgeToLookupBadgeViewModel converterToViewModel,
       SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
@@ -83,7 +86,7 @@ public class ApplicationDetailsController extends BaseController {
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
-    FindBadgeSearchResultViewModel existingBadge =
+    LookupBadgeViewModel existingBadge =
         null != application.getExistingBadgeNumber()
             ? findBadgeByNumber(application.getExistingBadgeNumber())
             : null;
@@ -198,7 +201,7 @@ public class ApplicationDetailsController extends BaseController {
     return las;
   }
 
-  private FindBadgeSearchResultViewModel findBadgeByNumber(String searchTerm) {
+  private LookupBadgeViewModel findBadgeByNumber(String searchTerm) {
     Optional<Badge> result = badgeService.retrieve(searchTerm);
 
     if (result.isPresent()) {

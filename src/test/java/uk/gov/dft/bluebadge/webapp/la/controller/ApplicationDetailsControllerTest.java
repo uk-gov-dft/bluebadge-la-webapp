@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -31,9 +32,12 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToFindBadgeSearchResultViewModel;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToLookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.LookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
@@ -42,10 +46,14 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
 public class ApplicationDetailsControllerTest extends BaseControllerTest {
+  private static final String BADGE_NUMBER = "123";
+  private static final Badge BADGE = new Badge().badgeNumber(BADGE_NUMBER);
+
+
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
   @Mock private BadgeService badgeServiceMock;
-  @Mock private BadgeToFindBadgeSearchResultViewModel badgeToFindBadgeSearchResultViewModelMock;
+  @Mock private BadgeToLookupBadgeViewModel badgeToLookupViewModelMock;
   @Mock private SecurityUtils securityUtilsMock;
 
   MockMvc mockMvc;
@@ -62,7 +70,7 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             applicationServiceMock,
             referenceDataServiceMock,
             badgeServiceMock,
-            badgeToFindBadgeSearchResultViewModelMock,
+            badgeToLookupViewModelMock,
             securityUtilsMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -355,7 +363,6 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
     String applicationId = UUID.randomUUID().toString();
     application.setApplicationId(applicationId);
-    String TRANSFER_TO_LA_SHORTCODE = "KENTCC";
     when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
 
     mockMvc
@@ -374,5 +381,24 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
   public void applicationStatusOptions_shouldReturnApplicationStatusOptions() {
     List<ReferenceData> options = controller.applicationStatusOptions();
     assertThat(options).isEqualTo(applicationStatusOptions);
+  }
+
+  @Test
+  public void findBadgeByNumber_shouldReturnBadge_whenExists() throws Exception {
+    Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
+    String applicationId = UUID.randomUUID().toString();
+    application.setApplicationId(applicationId);
+    application.setExistingBadgeNumber(BADGE_NUMBER);
+    LookupBadgeViewModel viewModel = LookupBadgeViewModel.builder().badgeNumber(BADGE_NUMBER).build();
+
+    when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(BADGE));
+    when(badgeToLookupViewModelMock.convert(BADGE)).thenReturn(viewModel);
+
+    mockMvc
+      .perform(get("/applications/" + applicationId))
+      .andExpect(status().isOk());
+
+    // verify(applicationServiceMock, never()).transfer(eq(applicationId), any());
   }
 }
