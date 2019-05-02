@@ -12,7 +12,6 @@ public class CredentialsFormRequest implements Serializable {
   @NotNull(message = "{NotNull.credentialsPage.service}")
   private String service;
 
-
   private Boolean servicePayApiKey;
 
   @Size(max = 200, message = "{Size.credentialsPage.payApiKey}")

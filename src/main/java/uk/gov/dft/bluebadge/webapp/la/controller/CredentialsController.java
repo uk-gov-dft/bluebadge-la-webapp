@@ -74,13 +74,15 @@ public class CredentialsController {
     }
 
     if (Boolean.TRUE.equals(formRequest.getServiceNotifyApiKey())
-      && StringUtils.isBlank(formRequest.getNotifyApiKey())) {
+        && StringUtils.isBlank(formRequest.getNotifyApiKey())) {
       bindingResult.rejectValue("notifyApiKey", "NotBlank.credentialsPage.notifyApiKey");
     }
 
     if (Boolean.TRUE.equals(formRequest.getServiceApplicationSubmittedTemplateId())
-      && StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())) {
-      bindingResult.rejectValue("applicationSubmittedTemplateId", "NotBlank.credentialsPage.applicationSubmittedTemplateId");
+        && StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())) {
+      bindingResult.rejectValue(
+          "applicationSubmittedTemplateId",
+          "NotBlank.credentialsPage.applicationSubmittedTemplateId");
     }
 
     if (!StringUtils.isBlank(formRequest.getPayApiKey())) {
