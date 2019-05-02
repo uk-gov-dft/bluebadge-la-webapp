@@ -1,0 +1,63 @@
+// Remove this fix once Thymleaf 3.0.19 is released
+// https://github.com/thymeleaf/thymeleaf-spring/issues/178
+
+@import "govuk-frontend/settings/all";
+
+$govuk-checkboxes-size: govuk-spacing(7);
+$govuk-checkboxes-label-padding-left-right: govuk-spacing(3);
+
+.govuk-checkboxes__input {
+	&.dft-checkbox-fix {
+		+ input {
+			@extend .govuk-checkboxes__input;
+
+			+ .govuk-checkboxes__label {
+				@extend .govuk-checkboxes__label;
+
+				&::before {
+					content: "";
+					box-sizing: border-box;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: $govuk-checkboxes-size;
+					height: $govuk-checkboxes-size;
+					border: $govuk-border-width-form-element solid currentColor;
+					background: transparent;
+				}
+
+				&::after {
+					content: "";
+					position: absolute;
+					top: 11px;
+					left: 9px;
+					width: 18px;
+					height: 7px;
+					transform: rotate(-45deg);
+					border: solid;
+					border-width: 0 0 $govuk-border-width $govuk-border-width;
+					border-top-color: transparent;
+					opacity: 0;
+					background: transparent;
+				}
+			}
+		}
+
+		&:focus {
+			+ input + .govuk-checkboxes__label {
+				&::before {
+					outline: $govuk-focus-width solid transparent;
+					outline-offset: $govuk-focus-width;
+					box-shadow: 0 0 0 $govuk-focus-width $govuk-focus-colour;
+				}
+			}
+		}
+
+		&:checked + input + .govuk-checkboxes__label {
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
+
+}

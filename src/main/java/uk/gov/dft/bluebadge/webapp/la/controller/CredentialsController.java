@@ -65,6 +65,13 @@ public class CredentialsController {
       return TEMPLATE;
     }
 
+    /*
+    if (!formRequest.getServiceApplicationSubmittedTemplateId()
+        && !formRequest.getServiceNotifyApiKey()
+        && !formRequest.getServicePayApiKey()) {
+      bindingResult.rejectValue("service", "Select a service TODO");
+    }*/
+
     BBPrincipal authUser = securityUtils.getCurrentAuth();
     String localAuthorityShortCode = authUser.getLocalAuthorityShortCode();
 
@@ -85,7 +92,7 @@ public class CredentialsController {
             .apiKey(StringUtils.trimToNull(formRequest.getNotifyApiKey()))
             .templates(templates)
             .build();
-    if (notifyProfile.getApiKey() != null || !notifyProfile.getTemplates().isEmpty()) {
+    if (notifyProfile.getApiKey() != null || notifyProfile.getTemplates() != null) {
       messageService.updateLocalNotifySecret(localAuthorityShortCode, notifyProfile);
     }
 
