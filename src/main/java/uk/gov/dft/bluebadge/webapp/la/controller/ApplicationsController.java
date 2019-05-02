@@ -97,6 +97,16 @@ public class ApplicationsController {
     model.addAttribute("pagingInfo", info);
     model.addAttribute("applications", applicationsView);
     model.addAttribute("applicationCount", getAllApplicationSize());
+
+    // Pass in the search params for the pagination fragment
+    String searchParams = "&searchBy=" + formRequest.getSearchBy();
+    if (!formRequest.isSearchTermEmpty()) {
+      searchParams += "&searchTerm=" + formRequest.getSearchTerm();
+    }
+    if (null != formRequest.getApplicationTypeCode()) {
+      searchParams += "&applicationTypeCode=" + formRequest.getApplicationTypeCode();
+    }
+    model.addAttribute("searchParams", searchParams);
   }
 
   private List<ReferenceData> getSearchByOptions() {
