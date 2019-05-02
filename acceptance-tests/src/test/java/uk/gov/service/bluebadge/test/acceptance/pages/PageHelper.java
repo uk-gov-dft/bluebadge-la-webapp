@@ -27,7 +27,7 @@ public class PageHelper {
     this.webDriverProvider = webDriverProvider;
   }
 
-  private WebDriver getWebDriver() {
+  public WebDriver getWebDriver() {
     return webDriverProvider.getWebDriver();
   }
 
