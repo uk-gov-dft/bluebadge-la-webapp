@@ -138,8 +138,8 @@ public class SitePage extends AbstractPage {
     return FilterBreathlessAnswer(answer) != null;
   }
 
-  public  boolean ElementIsDisplayed(WebElement element){
+  public boolean ElementIsDisplayed(WebElement element) {
 
-    return  element.isDisplayed();
+    return element.isDisplayed();
   }
 }

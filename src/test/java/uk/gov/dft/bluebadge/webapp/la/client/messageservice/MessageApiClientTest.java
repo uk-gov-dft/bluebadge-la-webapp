@@ -1,5 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.client.messageservice;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.client.ExpectedCount.once;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
 import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -12,14 +20,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.TemplateName;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 public class MessageApiClientTest {
   private static final String TEST_URI = "http://justtesting:7777/test";
