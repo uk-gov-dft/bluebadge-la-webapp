@@ -29,7 +29,7 @@ public class CredentialsController {
   public static final String URL = "/credentials";
 
   private static final String REDIRECT_URL_CREDENTIALS_UPDATED =
-      "redirect:" + CredentialsUpdatedController.URL;
+      "redirect:" + CredentialsStoredController.URL;
   private static final String TEMPLATE = "credentials";
 
   private static final String MODEL_FORM_REQUEST = "formRequest";
@@ -49,8 +49,7 @@ public class CredentialsController {
   }
 
   @GetMapping(URL)
-  public String show(
-      @ModelAttribute(MODEL_FORM_REQUEST) final CredentialsFormRequest formRequest, Model model) {
+  public String show(@ModelAttribute(MODEL_FORM_REQUEST) final CredentialsFormRequest formRequest) {
     return TEMPLATE;
   }
 
@@ -61,6 +60,20 @@ public class CredentialsController {
       Model model) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    if (formRequest.shouldContainPayApiKeyValue()) {
+      bindingResult.rejectValue("payApiKey", "NotBlank.credentialsPage.payApiKey");
+    }
+
+    if (formRequest.shouldContainNotifyApiKeyValue()) {
+      bindingResult.rejectValue("notifyApiKey", "NotBlank.credentialsPage.notifyApiKey");
+    }
+
+    if (formRequest.shouldContainApplicationSubmittedTemplateIdValue()) {
+      bindingResult.rejectValue(
+          "applicationSubmittedTemplateId",
+          "NotBlank.credentialsPage.applicationSubmittedTemplateId");
+    }
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
@@ -68,24 +81,7 @@ public class CredentialsController {
     BBPrincipal authUser = securityUtils.getCurrentAuth();
     String localAuthorityShortCode = authUser.getLocalAuthorityShortCode();
 
-    if (Boolean.TRUE.equals(formRequest.getServicePayApiKey())
-        && StringUtils.isBlank(formRequest.getPayApiKey())) {
-      bindingResult.rejectValue("payApiKey", "NotBlank.credentialsPage.payApiKey");
-    }
-
-    if (Boolean.TRUE.equals(formRequest.getServiceNotifyApiKey())
-        && StringUtils.isBlank(formRequest.getNotifyApiKey())) {
-      bindingResult.rejectValue("notifyApiKey", "NotBlank.credentialsPage.notifyApiKey");
-    }
-
-    if (Boolean.TRUE.equals(formRequest.getServiceApplicationSubmittedTemplateId())
-        && StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())) {
-      bindingResult.rejectValue(
-          "applicationSubmittedTemplateId",
-          "NotBlank.credentialsPage.applicationSubmittedTemplateId");
-    }
-
-    if (!StringUtils.isBlank(formRequest.getPayApiKey())) {
+    if (formRequest.isPayApiKeyIsPassed()) {
       GovPayProfile payProfile = GovPayProfile.builder().apiKey(formRequest.getPayApiKey()).build();
       paymentService.updateLocalAuthoritySecret(localAuthorityShortCode, payProfile);
     }
@@ -102,7 +98,8 @@ public class CredentialsController {
             .apiKey(StringUtils.trimToNull(formRequest.getNotifyApiKey()))
             .templates(templates)
             .build();
-    if (notifyProfile.getApiKey() != null || notifyProfile.getTemplates() != null) {
+    if (formRequest.notifyApiKeyShouldBeUpdated(notifyProfile)
+        || formRequest.applicationSubmittedTemplateShouldBeUpdated(notifyProfile)) {
       messageService.updateLocalNotifySecret(localAuthorityShortCode, notifyProfile);
     }
 

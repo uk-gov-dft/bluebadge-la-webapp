@@ -56,10 +56,7 @@ public class BadgeServiceTest {
 
   @Before
   public void setup() {
-
-    // Process mock annotations
     MockitoAnnotations.initMocks(this);
-
     badgeService = new BadgeService(badgeManagementApiClientMock);
   }
 

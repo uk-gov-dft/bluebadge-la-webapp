@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
 @Controller
-public class CredentialsUpdatedController {
+public class CredentialsStoredController {
 
-  public static final String URL = "/credentials/updated";
+  public static final String URL = "/credentials/stored";
 
-  private static final String TEMPLATE = "credentials/updated";
+  private static final String TEMPLATE = "credentials/stored";
 
   @GetMapping(URL)
   public String show() {

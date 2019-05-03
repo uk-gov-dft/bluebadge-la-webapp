@@ -21,6 +21,7 @@ public class MessageService {
   public void updateLocalNotifySecret(
       final String localAuthorityShortCode, final NotifyProfile notifyProfile) {
     log.debug("Update local authority gov uk notify secret.");
+    Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
     Assert.notNull(notifyProfile, "notifyProfile should not be null");
     messageApiClient.updateLocalNotifySecret(localAuthorityShortCode, notifyProfile);
   }

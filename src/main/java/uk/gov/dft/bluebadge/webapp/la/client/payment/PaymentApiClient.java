@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
@@ -16,30 +16,39 @@ import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
 @Service
 public class PaymentApiClient extends BaseApiClient {
 
+  static class Endpoints {
+    private Endpoints() {}
+
+    static final String UPDATE_LOCAL_AUTHORITY_SECRET_ENDPOINT =
+        "/payments/localAuthorities/{shortCode}";
+  }
+
   private final RestTemplate restTemplate;
 
   @Autowired
-  public PaymentApiClient(
-      @Qualifier("paymentServiceRestTemplate") RestTemplate paymentServiceRestTemplate) {
-    this.restTemplate = paymentServiceRestTemplate;
+  public PaymentApiClient(@Qualifier("paymentServiceRestTemplate") RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 
   /**
    * Upload local authority gov uk pay secret
    *
-   * @param request contains a new value for the gov uk pay secret.
+   * @param payProfile contains a new value for the gov uk pay secret.
    */
   public void updateLocalAuthoritySecret(
-      final String localAuthorityShortCode, final GovPayProfile request) {
+      final String localAuthorityShortCode, final GovPayProfile payProfile) {
     log.debug("Update local authority gov uk pay secret.");
+    Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
+    Assert.notNull(payProfile, "payProfile should not be null");
 
-    String uri =
-        UriComponentsBuilder.fromUriString("/localAuthorities/{shortCode}").build().toUriString();
-
-    HttpEntity<GovPayProfile> httpRequest = new HttpEntity<>(request);
+    HttpEntity<GovPayProfile> httpRequest = new HttpEntity<>(payProfile);
 
     try {
-      restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, localAuthorityShortCode);
+      restTemplate.postForEntity(
+          PaymentApiClient.Endpoints.UPDATE_LOCAL_AUTHORITY_SECRET_ENDPOINT,
+          httpRequest,
+          CommonResponse.class,
+          localAuthorityShortCode);
     } catch (HttpClientErrorException c) {
       handleHttpClientException(c);
     }
