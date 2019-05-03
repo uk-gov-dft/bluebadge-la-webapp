@@ -81,7 +81,7 @@ public class CredentialsController {
     BBPrincipal authUser = securityUtils.getCurrentAuth();
     String localAuthorityShortCode = authUser.getLocalAuthorityShortCode();
 
-    if (formRequest.isPayApiKeyIsPassed()) {
+    if (formRequest.payApiKeyShouldBeUpdated()) {
       GovPayProfile payProfile = GovPayProfile.builder().apiKey(formRequest.getPayApiKey()).build();
       paymentService.updateLocalAuthoritySecret(localAuthorityShortCode, payProfile);
     }
@@ -99,7 +99,7 @@ public class CredentialsController {
             .templates(templates)
             .build();
     if (formRequest.notifyApiKeyShouldBeUpdated(notifyProfile)
-        || formRequest.applicationSubmittedTemplateShouldBeUpdated(notifyProfile)) {
+        || formRequest.applicationSubmittedTemplateIdShouldBeUpdated(notifyProfile)) {
       messageService.updateLocalNotifySecret(localAuthorityShortCode, notifyProfile);
     }
 
