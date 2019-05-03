@@ -1,3 +1,5 @@
-.govuk-checkboxes__label::after {
-	box-sizing: initial;
+.govuk-checkboxes__label {
+	&::after {
+		box-sizing: initial;
+	}
 }
