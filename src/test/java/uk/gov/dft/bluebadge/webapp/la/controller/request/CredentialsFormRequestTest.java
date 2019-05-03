@@ -1,13 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.TemplateName;
-
-import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class CredentialsFormRequestTest {
   private static final String SERVICE_APPLICATION_SUBMITTED_TEMPLATE_ID =
@@ -86,7 +86,9 @@ public class CredentialsFormRequestTest {
   public void
       notifyApiKeyShouldBeUpdated_shouldReturnFalse_whenCheckboxIsProvidedButValueIsMissing() {
     CredentialsFormRequest formRequest =
-        CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY)).build();
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY))
+            .build();
     NotifyProfile notifyProfile = NotifyProfile.builder().build();
     assertThat(formRequest.notifyApiKeyShouldBeUpdated(notifyProfile)).isFalse();
   }
@@ -126,38 +128,63 @@ public class CredentialsFormRequestTest {
   }
 
   @Test
-  public void shouldContainApplicationSubmittedTemplateIdValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_APPLICATION_SUBMITTED_TEMPLATE_ID)).build();
+  public void
+      shouldContainApplicationSubmittedTemplateIdValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_APPLICATION_SUBMITTED_TEMPLATE_ID))
+            .build();
     assertThat(formRequest.shouldContainApplicationSubmittedTemplateIdValue()).isTrue();
   }
 
   @Test
-  public void shouldContainApplicationSubmittedTemplateIdValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_APPLICATION_SUBMITTED_TEMPLATE_ID)).applicationSubmittedTemplateId(TEMPLATE_ID).build();
+  public void
+      shouldContainApplicationSubmittedTemplateIdValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_APPLICATION_SUBMITTED_TEMPLATE_ID))
+            .applicationSubmittedTemplateId(TEMPLATE_ID)
+            .build();
     assertThat(formRequest.shouldContainApplicationSubmittedTemplateIdValue()).isFalse();
   }
 
   @Test
-  public void shouldContainNotifyApiKeyValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY)).build();
+  public void
+      shouldContainNotifyApiKeyValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY))
+            .build();
     assertThat(formRequest.shouldContainNotifyApiKeyValue()).isTrue();
   }
 
   @Test
-  public void shouldContainNotifyApiKeyValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY)).notifyApiKey(NOTIFY_API_KEY).build();
+  public void
+      shouldContainNotifyApiKeyValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_NOTIFY_API_KEY))
+            .notifyApiKey(NOTIFY_API_KEY)
+            .build();
     assertThat(formRequest.shouldContainNotifyApiKeyValue()).isFalse();
   }
 
   @Test
-  public void shouldContainPayApiKeyValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_PAY_API_KEY)).build();
+  public void
+      shouldContainPayApiKeyValue_shouldReturnTrue_whenServiceIsTickedButValueIsNotProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_PAY_API_KEY)).build();
     assertThat(formRequest.shouldContainPayApiKeyValue()).isTrue();
   }
 
   @Test
-  public void shouldContainPayApiKeyValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
-    CredentialsFormRequest formRequest = CredentialsFormRequest.builder().service(Lists.newArrayList(SERVICE_PAY_API_KEY)).payApiKey(PAY_API_KEY).build();
+  public void
+      shouldContainPayApiKeyValue_shouldReturnFalse_whenServiceIsTickedButValueIsProvided() {
+    CredentialsFormRequest formRequest =
+        CredentialsFormRequest.builder()
+            .service(Lists.newArrayList(SERVICE_PAY_API_KEY))
+            .payApiKey(PAY_API_KEY)
+            .build();
     assertThat(formRequest.shouldContainPayApiKeyValue()).isFalse();
   }
 }
