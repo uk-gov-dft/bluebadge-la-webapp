@@ -409,6 +409,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -430,6 +432,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -546,6 +550,13 @@ public class SiteSteps extends AbstractSpringSteps {
     assertEquals(fieldValue, fieldElement.getAttribute("value"));
   }
 
+  @And("^Search filter \"([^\"]*)\" has text \"([^\"]*)\"$")
+  public void searchFilterHasValue(String searchFilter, String filterValue) {
+    WebElement dropElement = sitePage.findElementWithUiPath(searchFilter);
+    Select dropdown = new Select(dropElement);
+    assertEquals(filterValue, dropdown.getFirstSelectedOption().getText());
+  }
+
   @Then("^I see no records returned for the search term \"([^\"]*)\"$")
   public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
     assertTrue(
@@ -555,6 +566,8 @@ public class SiteSteps extends AbstractSpringSteps {
             .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals("0 Results:", displayCount.getText());
   }
 

@@ -131,6 +131,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_JOHN =
       new ApplicationSummary()
+          .applicationTypeCode(ApplicationTypeCodeField.NEW)
           .applicationId("100")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -141,6 +142,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_JOHNSON =
       new ApplicationSummary()
+          .applicationTypeCode(ApplicationTypeCodeField.NEW)
           .applicationId("101")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -151,6 +153,7 @@ public class ApplicationTestData {
 
   public static final ApplicationSummary APPLICATION_LITTLEJOHN =
       new ApplicationSummary()
+          .applicationTypeCode(ApplicationTypeCodeField.RENEW)
           .applicationId("102")
           .applicationTypeCode(APPLICATION_TYPE)
           .eligibilityCode(ELIGIBILITY_CODE)
@@ -171,6 +174,9 @@ public class ApplicationTestData {
 
   public static final List<ApplicationSummary> applicationsForSearchByName =
       Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON, APPLICATION_LITTLEJOHN);
+
+  public static final List<ApplicationSummary> applicationsForSearchByNameAndFilteredByNewAppType =
+      Arrays.asList(APPLICATION_JOHN, APPLICATION_JOHNSON);
 
   public static final List<ApplicationSummary> unorderedApplicationsForSearchByName =
       Arrays.asList(APPLICATION_JOHN, APPLICATION_LITTLEJOHN, APPLICATION_JOHNSON);
@@ -212,9 +218,9 @@ public class ApplicationTestData {
   public static final List<ApplicationSummaryViewModel> applicationsForSearchByNameView =
       Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW, APPLICATION_LITTLEJOHN_VIEW);
 
-  public static final PagingInfo validPaging = validPaging();
-
-  public static final PagingInfo invalidPaging = invalidPaging();
+  public static final List<ApplicationSummaryViewModel>
+      applicationsForSearchByNameFilterByNewAppTypeView =
+          Arrays.asList(APPLICATION_JOHN_VIEW, APPLICATION_JOHNSON_VIEW);
 
   public static final ApplicationSummaryResponse allApplications = allApplications();
 
@@ -222,13 +228,15 @@ public class ApplicationTestData {
 
   public static final ApplicationSummaryResponse applicationsByName = applicationsByName();
 
+  public static final ApplicationSummaryResponse applicationsByNameFilteredByNewAppType =
+      applicationsByNameFilteredByNewAppType();
+
   public static final ApplicationSummaryResponse unorderedApplications = unorderedApplications();
 
   private static ApplicationSummaryResponse unorderedApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(unorderedApplicationsForSearchByName);
-    validPaging.setTotal(3L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(3L));
 
     return response;
   }
@@ -236,8 +244,7 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse allApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Lists.newArrayList(APPLICATION_SUMMARY_PERSON_1));
-    validPaging.setTotal(1L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(1L));
 
     return response;
   }
@@ -245,27 +252,36 @@ public class ApplicationTestData {
   private static ApplicationSummaryResponse noApplications() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(Collections.emptyList());
-    validPaging.setTotal(0L);
-    response.setPagingInfo(validPaging);
-
+    response.setPagingInfo(validPaging(0L));
     return response;
   }
 
   private static ApplicationSummaryResponse applicationsByName() {
     ApplicationSummaryResponse response = new ApplicationSummaryResponse();
     response.data(applicationsForSearchByName);
-    validPaging.setTotal(3L);
-    response.setPagingInfo(validPaging);
+    response.setPagingInfo(validPaging(3L));
 
     return response;
   }
 
-  private static PagingInfo validPaging() {
+  private static ApplicationSummaryResponse applicationsByNameFilteredByNewAppType() {
+    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
+    response.data(applicationsForSearchByNameAndFilteredByNewAppType);
+    response.setPagingInfo(validPaging(3L));
+
+    return response;
+  }
+
+  protected static PagingInfo validPaging() {
+    return validPaging(500L);
+  }
+
+  private static PagingInfo validPaging(Long total) {
     PagingInfo paging = new PagingInfo();
-    paging.setTotal(500L);
+    paging.setTotal(total);
+    paging.setCount(total > 50 ? 50 : total.intValue());
     paging.setPageSize(50);
     paging.setPageNum(1);
-
     return paging;
   }
 

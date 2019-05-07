@@ -5,7 +5,7 @@ Feature: Dft BlueBadge LA applications paging
   I want to navigate through pages when viewing applications
   So that I can see all applications
 
-  Scenario: Verify Applications can be navigate by mouse/touchpade
+  Scenario: Verify Applications can be navigate by mouse/touchpad
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
