@@ -1,0 +1,17 @@
+.dft-conditionally-visible {
+	display: block;
+	position: relative;
+	box-sizing: border-box;
+
+	&--on-mobile {
+		@include govuk-media-query($from: tablet) {
+			display: none;
+		}
+	}
+
+	&--on-desktop {
+		@include govuk-media-query($until: tablet) {
+			display: none;
+		}
+	}
+}

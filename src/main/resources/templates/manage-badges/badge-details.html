@@ -46,40 +46,46 @@
                 </div>
             </header>
 
-            <div th:if="${partyTypeCode  == 'PERSON'}" th:remove="tag">
-                <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
+            <div class="dft-conditionally-visible dft-conditionally-visible--on-mobile">
+                MOBILE DETAILS
             </div>
 
-            <div th:if="${partyTypeCode == 'ORG'}" th:remove="tag">
-                <article th:replace="~{ fragments/badge-details/badge-organisation-details :: badgeOrganisationDetails(${badge}) }" />
-            </div>
-
-            <article th:replace="~{ fragments/badge-details/badge-details :: badgeDetails(${badge}) }" />
-
-            <details class="govuk-details" sec:authorize="hasAuthority('PERM_DELETE_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text" data-uipath="deleteBadgeCTA" th:text="#{badgeDetails.label.delete}"></span>
-                </summary>
-
-                <div class="govuk-details__text">
-                    <form th:action="@{/manage-badges/delete-badge/{badgeNumber}(badgeNumber=${badgeNumber})}" th:method="delete">
-                        <div class="govuk-warning-text">
-                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                            <strong class="govuk-warning-text__text">
-                                <span class="govuk-warning-text__assistive" th:text="#{badgeDetails.delete.reader}">Warning</span>
-                                <span th:text="#{badgeDetails.delete.warn1}"></span>
-                                <br>
-                                <span th:text="#{badgeDetails.delete.warn2}"></span>
-                            </strong>
-                        </div>
-                        <input data-uipath="deleteBadgeButton" th:value="#{badgeDetails.delete.button}" type="submit" class="govuk-button">
-                    </form>
-
-                    <p class="govuk-body">
-                        <a th:href="@{''}" data-uipath="doNotDeleteButton" th:text="#{badgeDetails.delete.cancel}"></a>
-                    </p>
+            <div class="dft-conditionally-visible dft-conditionally-visible--on-desktop">
+                <div th:if="${partyTypeCode  == 'PERSON'}" th:remove="tag">
+                    <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
                 </div>
-            </details>
+
+                <div th:if="${partyTypeCode == 'ORG'}" th:remove="tag">
+                    <article th:replace="~{ fragments/badge-details/badge-organisation-details :: badgeOrganisationDetails(${badge}) }" />
+                </div>
+
+                <article th:replace="~{ fragments/badge-details/badge-details :: badgeDetails(${badge}) }" />
+
+                <details class="govuk-details" sec:authorize="hasAuthority('PERM_DELETE_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text" data-uipath="deleteBadgeCTA" th:text="#{badgeDetails.label.delete}"></span>
+                    </summary>
+
+                    <div class="govuk-details__text">
+                        <form th:action="@{/manage-badges/delete-badge/{badgeNumber}(badgeNumber=${badgeNumber})}" th:method="delete">
+                            <div class="govuk-warning-text">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                    <span class="govuk-warning-text__assistive" th:text="#{badgeDetails.delete.reader}">Warning</span>
+                                    <span th:text="#{badgeDetails.delete.warn1}"></span>
+                                    <br>
+                                    <span th:text="#{badgeDetails.delete.warn2}"></span>
+                                </strong>
+                            </div>
+                            <input data-uipath="deleteBadgeButton" th:value="#{badgeDetails.delete.button}" type="submit" class="govuk-button">
+                        </form>
+
+                        <p class="govuk-body">
+                            <a th:href="@{''}" data-uipath="doNotDeleteButton" th:text="#{badgeDetails.delete.cancel}"></a>
+                        </p>
+                    </div>
+                </details>
+            </div>
 
         </section>
     </main>
