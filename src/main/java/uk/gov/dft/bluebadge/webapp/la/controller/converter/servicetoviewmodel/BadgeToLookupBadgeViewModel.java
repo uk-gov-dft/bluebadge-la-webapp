@@ -26,9 +26,7 @@ public class BadgeToLookupBadgeViewModel implements Converter<Badge, LookupBadge
     String statusDisplayText =
         referenceDataService.retrieveBadgeStatusDisplayValue(source.getStatusCode());
 
-    LookupBadgeViewModel.LookupBadgeViewModelBuilder viewModel = LookupBadgeViewModel.builder();
-
-    return viewModel
+    return LookupBadgeViewModel.builder()
         .badgeNumber(source.getBadgeNumber())
         .expiryDate(source.getExpiryDate().format(viewModelFieldDateFormatter))
         .status(statusDisplayText)
