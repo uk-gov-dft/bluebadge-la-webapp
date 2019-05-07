@@ -43,8 +43,7 @@ public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "applications/application-details";
   private static final String REDIRECT = "redirect:";
-  private static final String REDIRECT_URL_NEW_APPLICATION =
-    REDIRECT + ApplicationsController.URL;
+  private static final String REDIRECT_URL_NEW_APPLICATION = REDIRECT + ApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
