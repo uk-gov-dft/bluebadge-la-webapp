@@ -45,6 +45,18 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithText(linkTitle).click();
   }
 
+  @When("^I click the update button$")
+  public void i_click_the_update_button() throws Throwable {
+   sitePage.findElementWithUiPath("update").click();
+  }
+
+  @Then("^I should get an error message that says \"([^\"]*)\"$")
+  public void i_should_get_an_error_message_that_says(String error) throws Throwable {
+   WebElement serviceError= sitePage.findElementWithText(error);
+     assertTrue("Select a service error is displayed",sitePage.ElementIsDisplayed(serviceError));
+  }
+
+
   @Then("^I (?:can )?see \"([^\"]+)\" (?:link|button|image)$")
   public void thenISeeLink(String linkTitle) {
     assertNotNull("Can see element", sitePage.findElementWithTitle(linkTitle));
@@ -72,7 +84,22 @@ public class SiteSteps extends AbstractSpringSteps {
   public void i_should_not_see_the_link_named(String Link) {
     WebElement MenuItem = sitePage.findElementWithUiPath(Link);
     assertTrue("I should not see a link titled.", !sitePage.ElementIsDisplayed(MenuItem));
+
   }
+
+  @Then("^I select \"([^\"]*)\" service$")
+  public void i_select_service(String uiPath) throws Throwable {
+   sitePage.findElementWithUiPath(uiPath).click();
+
+  }
+
+  @When("^I enter a value more than two hundred characters for the \"([^\"]*)\"$")
+  public void i_enter_a_value_more_than_two_hundred_characters_for_the(String service) throws Throwable {
+    WebElement payApiKeyField=sitePage.findElementWithUiPath(service);
+    payApiKeyField.sendKeys("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum");
+
+  }
+
 
   @When("^I click on application with applicant name as \"([^\"]*)\"$")
   public void i_click_on_application_with_applicant_name_as(String applicantName) throws Throwable {

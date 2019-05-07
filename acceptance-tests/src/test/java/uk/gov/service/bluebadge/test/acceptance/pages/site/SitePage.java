@@ -139,7 +139,6 @@ public class SitePage extends AbstractPage {
   }
 
   public boolean ElementIsDisplayed(WebElement element) {
-
     return element.isDisplayed();
   }
 
