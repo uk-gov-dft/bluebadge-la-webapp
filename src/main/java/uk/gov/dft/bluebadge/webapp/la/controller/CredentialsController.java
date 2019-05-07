@@ -1,8 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,9 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.MessageService;
 import uk.gov.dft.bluebadge.webapp.la.service.PaymentService;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -86,20 +87,20 @@ public class CredentialsController {
       paymentService.updateLocalAuthoritySecret(localAuthorityShortCode, payProfile);
     }
 
-    Map<TemplateName, String> templates =
-        StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())
-            ? null
-            : ImmutableMap.of(
-                TemplateName.APPLICATION_SUBMITTED,
-                formRequest.getApplicationSubmittedTemplateId());
+    if (formRequest.notifyApiKeyShouldBeUpdated()
+        || formRequest.applicationSubmittedTemplateIdShouldBeUpdated()) {
+      Map<TemplateName, String> templates =
+          StringUtils.isBlank(formRequest.getApplicationSubmittedTemplateId())
+              ? null
+              : ImmutableMap.of(
+                  TemplateName.APPLICATION_SUBMITTED,
+                  formRequest.getApplicationSubmittedTemplateId());
 
-    NotifyProfile notifyProfile =
-        NotifyProfile.builder()
-            .apiKey(StringUtils.trimToNull(formRequest.getNotifyApiKey()))
-            .templates(templates)
-            .build();
-    if (formRequest.notifyApiKeyShouldBeUpdated(notifyProfile)
-        || formRequest.applicationSubmittedTemplateIdShouldBeUpdated(notifyProfile)) {
+      NotifyProfile notifyProfile =
+          NotifyProfile.builder()
+              .apiKey(StringUtils.trimToNull(formRequest.getNotifyApiKey()))
+              .templates(templates)
+              .build();
       messageService.updateLocalNotifySecret(localAuthorityShortCode, notifyProfile);
     }
 

@@ -39,7 +39,7 @@ public class MessageServiceTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void
-      updateLocalNotifySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShoutCodeIsNull() {
+      updateLocalNotifySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShortCodeIsNull() {
     messageService.updateLocalNotifySecret(null, NOTIFY_PROFILE);
   }
 

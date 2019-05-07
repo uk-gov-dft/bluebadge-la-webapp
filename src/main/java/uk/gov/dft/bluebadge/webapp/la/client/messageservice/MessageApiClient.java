@@ -37,7 +37,9 @@ public class MessageApiClient extends BaseApiClient {
    */
   public void updateLocalNotifySecret(
       final String localAuthorityShortCode, final NotifyProfile notifyProfile) {
-    log.debug("Update local authority gov uk notify secret.");
+    log.debug(
+        "Update gov uk notify secret for local authority with shortcode {}.",
+        localAuthorityShortCode);
     Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
     Assert.notNull(notifyProfile, "notifyProfile should not be null");
 

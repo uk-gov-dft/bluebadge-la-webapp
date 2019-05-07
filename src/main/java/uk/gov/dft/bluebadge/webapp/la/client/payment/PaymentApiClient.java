@@ -37,7 +37,7 @@ public class PaymentApiClient extends BaseApiClient {
    */
   public void updateLocalAuthoritySecret(
       final String localAuthorityShortCode, final GovPayProfile payProfile) {
-    log.debug("Update local authority gov uk pay secret.");
+    log.debug("Update gov uk pay secret for local authority {}.", localAuthorityShortCode);
     Assert.notNull(localAuthorityShortCode, "localAuthorityShortCode should not be null");
     Assert.notNull(payProfile, "payProfile should not be null");
 
