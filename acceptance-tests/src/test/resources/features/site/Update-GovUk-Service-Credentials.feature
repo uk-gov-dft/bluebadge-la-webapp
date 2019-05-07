@@ -3,7 +3,7 @@ Feature: Dft BlueBadge LA Manage Users
 
   As an admin user
   I update service credentials
-
+@kc
   Scenario: Verify New Api Credential Visible for Admin users
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -21,7 +21,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should not see the link named "sidebar-nav.api-credentials"
 
-    @kc
+
   Scenario: Display Error if no service is selected
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -30,7 +30,7 @@ Feature: Dft BlueBadge LA Manage Users
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.api-credentials"
     And I click on "Api credentials" link
-    And I unselect all the services
+    And I un-select all the API services
     When I click the update button
     Then I should get an error message that says "select service"
 

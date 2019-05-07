@@ -115,9 +115,9 @@ public class SitePage extends AbstractPage {
 
   private List<WebElement> AllBreathlessnessAnswers() {
     return getWebDriver()
-        .findElements(
-            By.xpath(
-                ".//div[@class='dft-data-list__item' and contains(.,'When they get breathless')]//ul"));
+            .findElements(
+                    By.xpath(
+                            ".//div[@class='dft-data-list__item' and contains(.,'When they get breathless')]//ul"));
   }
 
   private String FilterBreathlessAnswer(String x) {
@@ -141,5 +141,17 @@ public class SitePage extends AbstractPage {
   public boolean ElementIsDisplayed(WebElement element) {
 
     return element.isDisplayed();
+  }
+
+
+  private List<WebElement> GetAllGroupedCheckBoxElements(By identifier) {
+    return getWebDriver().findElements(identifier);
+  }
+
+  private String GetCheckBoxElement(By identifier, String checkbox) {
+    List<WebElement> groupedCheckbox = GetAllGroupedCheckBoxElements(identifier);
+   return null;
+    //  for(WebElement oneCheckbox:groupedCheckbox)
+
   }
 }
