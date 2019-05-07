@@ -67,7 +67,7 @@ public class PaymentApiClientTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void
-      updateLocalPaySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShoutCodeIsNull() {
+      updateLocalPaySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShortCodeIsNull() {
     client.updateLocalAuthoritySecret(null, PAY_PROFILE);
   }
 

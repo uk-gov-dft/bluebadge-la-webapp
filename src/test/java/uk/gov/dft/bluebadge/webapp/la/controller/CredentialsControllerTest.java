@@ -1,16 +1,5 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
@@ -30,12 +19,22 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.MessageService;
 import uk.gov.dft.bluebadge.webapp.la.service.PaymentService;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 public class CredentialsControllerTest extends BaseControllerTest {
   private static final String LOCAL_AUTHORITY_SHORT_CODE = "ABERD";
   private static final String OVER_200_STRING = StringUtils.rightPad("", 201, "a");
-  private static final String PAY_API_KEY = "payApiKey1";
-  private static final String NOTIFY_API_KEY = "notifyApiKey1";
-  private static final String TEMPLATE_ID = "templateId";
+  private static final String PAY_API_KEY_VALUE = "payApiKey1";
+  private static final String NOTIFY_API_KEY_VALUE = "notifyApiKey1";
+  private static final String TEMPLATE_ID_VALUE = "templateId";
 
   @Mock private PaymentService paymentServiceMock;
   @Mock private MessageService messageServiceMock;
@@ -91,6 +90,8 @@ public class CredentialsControllerTest extends BaseControllerTest {
         .andExpect(view().name("credentials"))
         .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, "service", "NotEmpty"))
         .andExpect(model().errorCount(1));
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -99,9 +100,11 @@ public class CredentialsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             post("/credentials")
-                .param("service", "PayApiKey")
-                .param("service", "NotifyApiKey")
-                .param("service", "ApplicationSubmittedTemplateId")
+                .param("service", CredentialsFormRequest.FieldToUpdate.PAY_API_KEY.name())
+                .param("service", CredentialsFormRequest.FieldToUpdate.NOTIFY_API_KEY.name())
+                .param(
+                    "service",
+                    CredentialsFormRequest.FieldToUpdate.APPLICATION_SUBMITTED_TEMPLATE_ID.name())
                 .param("payApiKey", "")
                 .param("notifyApiKey", "")
                 .param("applicationSubmittedTemplateId", ""))
@@ -122,6 +125,8 @@ public class CredentialsControllerTest extends BaseControllerTest {
                     "applicationSubmittedTemplateId",
                     "NotBlank.credentialsPage.applicationSubmittedTemplateId"))
         .andExpect(model().errorCount(3));
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -131,9 +136,11 @@ public class CredentialsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             post("/credentials")
-                .param("service", "PayApiKey")
-                .param("service", "NotifyApiKey")
-                .param("service", "ApplicationSubmittedTemplateId")
+                .param("service", CredentialsFormRequest.FieldToUpdate.PAY_API_KEY.name())
+                .param("service", CredentialsFormRequest.FieldToUpdate.NOTIFY_API_KEY.name())
+                .param(
+                    "service",
+                    CredentialsFormRequest.FieldToUpdate.APPLICATION_SUBMITTED_TEMPLATE_ID.name())
                 .param("payApiKey", OVER_200_STRING)
                 .param("notifyApiKey", OVER_200_STRING)
                 .param("applicationSubmittedTemplateId", OVER_200_STRING))
@@ -146,20 +153,24 @@ public class CredentialsControllerTest extends BaseControllerTest {
                 .attributeHasFieldErrorCode(
                     MODEL_FORM_REQUEST, "applicationSubmittedTemplateId", "Size"))
         .andExpect(model().errorCount(3));
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
   @SneakyThrows
   public void submit_shouldUpdatePayKey_whenPayKeyIsProvided() {
     mockMvc
-        .perform(post("/credentials").param("service", "PayApiKey").param("payApiKey", PAY_API_KEY))
+        .perform(
+            post("/credentials")
+                .param("service", CredentialsFormRequest.FieldToUpdate.PAY_API_KEY.name())
+                .param("payApiKey", PAY_API_KEY_VALUE))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/credentials/stored"));
 
-    GovPayProfile payProfile = GovPayProfile.builder().apiKey(PAY_API_KEY).build();
+    GovPayProfile payProfile = GovPayProfile.builder().apiKey(PAY_API_KEY_VALUE).build();
     verify(paymentServiceMock).updateLocalAuthoritySecret(LOCAL_AUTHORITY_SHORT_CODE, payProfile);
-    verify(messageServiceMock, never()).updateLocalNotifySecret(any(), any());
-    ;
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -168,13 +179,13 @@ public class CredentialsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             post("/credentials")
-                .param("service", "NotifyApiKey")
-                .param("notifyApiKey", NOTIFY_API_KEY))
+                .param("service", CredentialsFormRequest.FieldToUpdate.NOTIFY_API_KEY.name())
+                .param("notifyApiKey", NOTIFY_API_KEY_VALUE))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/credentials/stored"));
 
-    NotifyProfile notifyProfile = NotifyProfile.builder().apiKey(NOTIFY_API_KEY).build();
-    verify(paymentServiceMock, never()).updateLocalAuthoritySecret(any(), any());
+    NotifyProfile notifyProfile = NotifyProfile.builder().apiKey(NOTIFY_API_KEY_VALUE).build();
+    verifyZeroInteractions(paymentServiceMock);
     verify(messageServiceMock).updateLocalNotifySecret(LOCAL_AUTHORITY_SHORT_CODE, notifyProfile);
   }
 
@@ -184,16 +195,18 @@ public class CredentialsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             post("/credentials")
-                .param("service", "ApplicationSubmittedTemplateId")
-                .param("applicationSubmittedTemplateId", TEMPLATE_ID))
+                .param(
+                    "service",
+                    CredentialsFormRequest.FieldToUpdate.APPLICATION_SUBMITTED_TEMPLATE_ID.name())
+                .param("applicationSubmittedTemplateId", TEMPLATE_ID_VALUE))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/credentials/stored"));
 
     NotifyProfile notifyProfile =
         NotifyProfile.builder()
-            .templates(ImmutableMap.of(TemplateName.APPLICATION_SUBMITTED, TEMPLATE_ID))
+            .templates(ImmutableMap.of(TemplateName.APPLICATION_SUBMITTED, TEMPLATE_ID_VALUE))
             .build();
-    verify(paymentServiceMock, never()).updateLocalAuthoritySecret(any(), any());
+    verifyZeroInteractions(paymentServiceMock);
     verify(messageServiceMock).updateLocalNotifySecret(LOCAL_AUTHORITY_SHORT_CODE, notifyProfile);
   }
 
@@ -203,20 +216,22 @@ public class CredentialsControllerTest extends BaseControllerTest {
     mockMvc
         .perform(
             post("/credentials")
-                .param("service", "PayApiKey")
-                .param("service", "NotifyApiKey")
-                .param("service", "ApplicationSubmittedTemplateId")
-                .param("payApiKey", PAY_API_KEY)
-                .param("notifyApiKey", NOTIFY_API_KEY)
-                .param("applicationSubmittedTemplateId", TEMPLATE_ID))
+                .param("service", CredentialsFormRequest.FieldToUpdate.PAY_API_KEY.name())
+                .param("service", CredentialsFormRequest.FieldToUpdate.NOTIFY_API_KEY.name())
+                .param(
+                    "service",
+                    CredentialsFormRequest.FieldToUpdate.APPLICATION_SUBMITTED_TEMPLATE_ID.name())
+                .param("payApiKey", PAY_API_KEY_VALUE)
+                .param("notifyApiKey", NOTIFY_API_KEY_VALUE)
+                .param("applicationSubmittedTemplateId", TEMPLATE_ID_VALUE))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/credentials/stored"));
 
-    GovPayProfile payProfile = GovPayProfile.builder().apiKey(PAY_API_KEY).build();
+    GovPayProfile payProfile = GovPayProfile.builder().apiKey(PAY_API_KEY_VALUE).build();
     NotifyProfile notifyProfile =
         NotifyProfile.builder()
-            .apiKey(NOTIFY_API_KEY)
-            .templates(ImmutableMap.of(TemplateName.APPLICATION_SUBMITTED, TEMPLATE_ID))
+            .apiKey(NOTIFY_API_KEY_VALUE)
+            .templates(ImmutableMap.of(TemplateName.APPLICATION_SUBMITTED, TEMPLATE_ID_VALUE))
             .build();
 
     verify(paymentServiceMock).updateLocalAuthoritySecret(LOCAL_AUTHORITY_SHORT_CODE, payProfile);

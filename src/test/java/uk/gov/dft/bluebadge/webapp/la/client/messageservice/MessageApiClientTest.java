@@ -78,7 +78,7 @@ public class MessageApiClientTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void
-      updateLocalNotifySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShoutCodeIsNull() {
+      updateLocalNotifySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShortCodeIsNull() {
     client.updateLocalNotifySecret(null, NOTIFY_PROFILE);
   }
 

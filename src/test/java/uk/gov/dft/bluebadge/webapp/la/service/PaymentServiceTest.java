@@ -31,7 +31,7 @@ public class PaymentServiceTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void
-      updateLocalAuthoritySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShoutCodeIsNull() {
+      updateLocalAuthoritySecret_shouldThrowIllegalArgumentException_whenLocalAuthorityShortCodeIsNull() {
     paymentService.updateLocalAuthoritySecret(null, PAY_PROFILE);
   }
 
