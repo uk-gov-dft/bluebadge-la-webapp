@@ -47,7 +47,7 @@
             </header>
 
             <div class="dft-conditionally-visible dft-conditionally-visible--on-mobile">
-                MOBILE DETAILS
+                <article th:replace="~{ fragments/badge-details/badge-details :: badgeMobileDetailsSummary(${badge}) }" />
             </div>
 
             <div class="dft-conditionally-visible dft-conditionally-visible--on-desktop">
@@ -85,6 +85,10 @@
                         </p>
                     </div>
                 </details>
+            </div>
+
+            <div class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+                <a href="/manage-badges" class="govuk-!-font-size-19" th:text="#{badgeDetails.label.findAnotherBadge}" data-uipath="findAnotherBadgesCTA"></a>
             </div>
 
         </section>

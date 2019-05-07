@@ -2,6 +2,7 @@
 	display: block;
 	position: relative;
 	box-sizing: border-box;
+	margin-bottom: 40px;
 
 	&--on-mobile {
 		@include govuk-media-query($from: tablet) {

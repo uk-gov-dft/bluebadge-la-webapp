@@ -67,5 +67,70 @@
     </dl>
 </article>
 
+<article th:fragment="badgeMobileDetailsSummary(badge)">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column govuk-grid-column--full">
+            <div class="dft-float-box govuk-!-margin-5 govuk-!-margin-bottom-7">
+                <div th:if="${badge.photoUrl}" class="dft-float-box__column dft-float-box__column--one-half govuk-!-padding-right-5">
+                    <img th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
+                </div>
+                <div class="dft-float-box__column dft-float-box__column--one-half">
+                    <dl class="dft-mobile-badge-details-list" data-uipath="badgeDetails.mobileSummary.sup">
+                        <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.age">
+                            <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.age}"/>
+                            <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.age}"/>
+                        </div>
+                        <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.expiry">
+                            <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.expiry}"/>
+                            <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.badgeExpiryDate}"/>
+                        </div>
+                        <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.status">
+                            <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.status}"/>
+                            <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.status}"/>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column govuk-grid-column-two-thirds">
+            <dl class="dft-mobile-badge-details-list" data-uipath="badgeDetails.mobileSummary.sub">
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.dob">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.holderName}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.fullName}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.mainContactNumber">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.mainContactNumber}"/>
+                    <dd class="dft-mobile-badge-details-list__dd">
+                        <a th:href="${'tel:' + badge.contactNumber}" th:text="${badge.contactNumber}"></a>
+                    </dd>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.address">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.address}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.address}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.emailAddress">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.emailAddress}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.emailAddress}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.dob">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.dob}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.dob}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.fullBadgeNumber">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.badgeNumber}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.badgeNumber}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.issuedBy">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.issuedBy}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.issuedBy}"/>
+                </div>
+            </dl>
+        </div>
+    </div>
+</article>
+
 </body>
 </html>

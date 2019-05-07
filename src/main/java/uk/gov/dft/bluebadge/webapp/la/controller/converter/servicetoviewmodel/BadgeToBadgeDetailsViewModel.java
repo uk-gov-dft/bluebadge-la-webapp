@@ -2,6 +2,8 @@ package uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel;
 
 import static uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ModelViewFormats.viewModelFieldDateFormatter;
 
+import java.time.LocalDate;
+import java.time.Period;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -61,12 +63,14 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
 
     if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
       Person person = source.getParty().getPerson();
-      String dob = source.getParty().getPerson().getDob().format(viewModelFieldDateFormatter);
+      LocalDate dob = person.getDob();
+      String dobDisplayString = dob.format(viewModelFieldDateFormatter);
       String genderDisplayText =
           referenceDataService.retrieveBadgeGenderDisplayValue(
               source.getParty().getPerson().getGenderCode());
       badgeView
-          .dob(dob)
+          .dob(dobDisplayString)
+          .age(Integer.toString(Period.between(dob, LocalDate.now()).getYears()))
           .fullName(StringUtils.trimToNull(person.getBadgeHolderName()))
           .gender(StringUtils.trimToNull(genderDisplayText))
           .nino(StringUtils.trimToNull(person.getNino()))

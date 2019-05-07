@@ -11,6 +11,7 @@ public class BadgeDetailsViewModel implements LocalAuthorityControlled, Serializ
   private String nino;
   private String fullName;
   private String dob;
+  private String age;
   private String address;
   private String contactFullName;
   private String contactNumber;
