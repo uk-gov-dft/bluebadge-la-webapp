@@ -57,11 +57,13 @@ public class ApplicationsSteps extends AbstractSpringSteps {
 
   @Before("@ApplicationDetailsScripts")
   public void executeInsertApplicationsDBScript() throws SQLException {
+    databaseSteps.runScript("scripts/badges/create-badges.sql");
     databaseSteps.runScript("scripts/new-applications/details/create-application-details.sql");
   }
 
   @After("@ApplicationDetailsScripts")
   public void executeDeleteApplicationsDBScript() throws SQLException {
+    databaseSteps.runScript("scripts/badges/delete-badges.sql");
     databaseSteps.runScript("scripts/new-applications/details/delete-application-details.sql");
   }
 }

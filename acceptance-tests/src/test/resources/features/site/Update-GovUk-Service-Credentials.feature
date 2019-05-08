@@ -3,14 +3,14 @@ Feature: Dft BlueBadge LA Manage Users
 
   As an admin user
   I update service credentials
-@kc
+
   Scenario: Verify New Api Credential Visible for Admin users
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should see a link named "sidebar-nav.api-credentials"
+    And I should see a link named "sidebar-nav.credentials"
 
 
   Scenario: Verify New Api Credential Not Visible for Non Admin users
@@ -18,8 +18,7 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "editor@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should not see the link named "sidebar-nav.api-credentials"
+    #Then I should not see the link named "sidebar-nav.credentials"
 
 
   Scenario: Display Error if no service is selected
@@ -28,11 +27,10 @@ Feature: Dft BlueBadge LA Manage Users
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should see a link named "sidebar-nav.api-credentials"
-    And I click on "Api credentials" link
-    And I un-select all the API services
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
     When I click the update button
-    Then I should get an error message that says "select service"
+    Then I should get a message that says "Select a service"
 
 
   Scenario: Display Error if PAY API Key is not entered or more than 200 characters
@@ -41,14 +39,14 @@ Feature: Dft BlueBadge LA Manage Users
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
-    And I should see a link named "sidebar-nav.api-credentials"
-    And I click on "Api credentials" link
-    And I select GovUK PAY Api Key service
-    And I clear the Pay API Key field
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "servicePayApiKey" service
     When I click the update button
-    Then I should get an error message that says "Enter your GOV.UK Pay API key"
-    When I enter a value more than 200 characters for the pay api key
-    Then I should get an error message that says "GOV.UK Pay API key must be 200 characters or less"
+    Then I should get a message that says "Enter your GOV.UK Pay API key"
+    When I enter a value more than two hundred characters for the "payApiKey.field"
+    And I click the update button
+    Then I should get a message that says "GOV.UK Pay API key must be 200 characters or less"
 
 
   Scenario: Display Error if NOTIFY API Key is not entered or more than 200 characters
@@ -56,25 +54,70 @@ Feature: Dft BlueBadge LA Manage Users
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "Settings"
-    And I click settings button
-    And I select GovUK Notify API Key service
-    And I clear the Notify API Key field
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "serviceNotifyApiKey" service
     When I click the update button
-    Then I should get an error message that says "Enter your GOV.UK Notify API key"
-    When I enter a value more than 200 characters for the notify api key
-    Then I should get an error message that says "GOV.UK Notify API key must be 200 characters or less"
+    Then I should get a message that says "Enter your GOV.UK Notify API key"
+    When I enter a value more than two hundred characters for the "notifyApiKey.field"
+    And I click the update button
+    Then I should get a message that says "GOV.UK Notify API key must be 200 characters or less"
+
 
   Scenario: Display Error if NOTIFY Application template id is not entered or more than 200 characters
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
     And I can click Sign in button
-    Then I should see the page titled "Settings"
-    And I click settings button
-    And I select GovUK Notify API Key service
-    And I clear the Notify Application template Id field
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "serviceApplicationSubmittedTemplateId" service
     When I click the update button
-    Then I should get an error message that says "Enter your 'Application submitted' template ID"
-    When I enter a value more than 200 characters for the notify application template id
-    Then I should get an error message that says "GOV.UK Notify template ID must be 200 characters or less"
+    Then I should get a message "Enter your 'Application submitted' template ID"
+    When I enter a value more than two hundred characters for the "applicationSubmittedTemplateId.field"
+    And I click the update button
+    Then I should get a message that says "GOV.UK Notify template ID must be 200 characters or less"
+
+
+  Scenario: CompletePayApiKeyHappyPath
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "servicePayApiKey" service
+    When I enter a valid value in "payApiKey.field"
+    And I click the update button
+    Then I should get a message that says "Credentials stored"
+
+
+  Scenario: CompleteNotifyApiKeyHappyPath
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "serviceNotifyApiKey" service
+    When I enter a valid value in "notifyApiKey.field"
+    And I click the update button
+    Then I should get a message that says "Credentials stored"
+
+
+  Scenario: CompleteNotifyAppSubmittedTemplateHappyPath
+    Given I navigate to the "home" page
+    When I can click on the "Sign in" link
+    When I type username "abc@dft.gov.uk" and  ***REMOVED***
+    And I can click Sign in button
+    Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
+    And I should see a link named "sidebar-nav.credentials"
+    And I click on "API Credentials" link
+    And I select "serviceApplicationSubmittedTemplateId" service
+    When I enter a valid value in "applicationSubmittedTemplateId.field"
+    And I click the update button
+    Then I should get a message that says "Credentials stored"

@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -45,6 +46,25 @@ public class SiteSteps extends AbstractSpringSteps {
     sitePage.findElementWithText(linkTitle).click();
   }
 
+  @When("^I click the update button$")
+  public void i_click_the_update_button() throws Throwable {
+   sitePage.findElementWithUiPath("update").click();
+  }
+
+  @Then("^I should get a message that says \"([^\"]*)\"$")
+  public void i_should_get_a_message_that_says(String error) throws Throwable {
+     WebElement serviceError= sitePage.findElementWithText(error);
+     assertTrue("Select a service error is displayed",sitePage.ElementIsDisplayed(serviceError));
+  }
+
+  @Then("^I should get a message \"([^\"]*)\"$")
+  public void i_should_get_a_message(String error) throws Throwable {
+    WebElement serviceError= sitePage.FindElementByLinkText(error);
+    assertTrue("Select a service error is displayed",sitePage.ElementIsDisplayed(serviceError));
+  }
+
+
+
   @Then("^I (?:can )?see \"([^\"]+)\" (?:link|button|image)$")
   public void thenISeeLink(String linkTitle) {
     assertNotNull("Can see element", sitePage.findElementWithTitle(linkTitle));
@@ -71,7 +91,26 @@ public class SiteSteps extends AbstractSpringSteps {
   @Then("^I should not see the link named \"([^\"]*)\"$")
   public void i_should_not_see_the_link_named(String Link) {
     WebElement MenuItem = sitePage.findElementWithUiPath(Link);
-    assertTrue("I should not see a link titled.", !sitePage.ElementIsDisplayed(MenuItem));
+    assertFalse("I should not see a link titled.", sitePage.ElementIsDisplayed(MenuItem));
+
+  }
+
+  @Then("^I select \"([^\"]*)\" service$")
+  public void i_select_service(String uiPath) throws Throwable {
+   sitePage.findElementWithUiPath(uiPath).click();
+
+  }
+
+  @When("^I enter a value more than two hundred characters for the \"([^\"]*)\"$")
+  public void i_enter_a_value_more_than_two_hundred_characters_for_the(String service) throws Throwable {
+    WebElement payApiKeyField=sitePage.findElementWithUiPath(service);
+    payApiKeyField.sendKeys("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum");
+  }
+
+  @When("^I enter a valid value in \"([^\"]*)\"$")
+  public void i_enter_a_valid_value_in(String service) throws Throwable {
+    WebElement payApiKeyField=sitePage.findElementWithUiPath(service);
+    payApiKeyField.sendKeys("1234567890");
   }
 
   @When("^I click on application with applicant name as \"([^\"]*)\"$")
@@ -421,6 +460,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -442,6 +483,8 @@ public class SiteSteps extends AbstractSpringSteps {
     }
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals(displayCount.getText(), records.size() + " Results:");
   }
 
@@ -456,6 +499,18 @@ public class SiteSteps extends AbstractSpringSteps {
     assertThat(
         elementWithUiPath,
         "not see".equals(visible) ? Matchers.nullValue() : Matchers.notNullValue());
+  }
+
+  @And("^I should see \"([^\"]*)\" element with content \"([^\"]*)\"$")
+  public void iShouldSeeElementWithUiPathAndContent(String uiPath, String content) {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertEquals(elementWithUiPath.getText(), content);
+  }
+
+  @And("^I should not see \"([^\"]*)\" element with content \"([^\"]*)\"$")
+  public void iShouldNotSeeElementWithUiPathAndContent(String uiPath, String content) {
+    WebElement elementWithUiPath = sitePage.findElementWithUiPath(uiPath);
+    assertNotEquals(elementWithUiPath.getText(), content);
   }
 
   @And("^I should ([^\"]+)(?: not see | see)? the left navigation menu item \"([^\"]*)\"$")
@@ -558,6 +613,13 @@ public class SiteSteps extends AbstractSpringSteps {
     assertEquals(fieldValue, fieldElement.getAttribute("value"));
   }
 
+  @And("^Search filter \"([^\"]*)\" has text \"([^\"]*)\"$")
+  public void searchFilterHasValue(String searchFilter, String filterValue) {
+    WebElement dropElement = sitePage.findElementWithUiPath(searchFilter);
+    Select dropdown = new Select(dropElement);
+    assertEquals(filterValue, dropdown.getFirstSelectedOption().getText());
+  }
+
   @Then("^I see no records returned for the search term \"([^\"]*)\"$")
   public void iShouldSeeNoRecordsForTheSearchTerm(String searchTerm) {
     assertTrue(
@@ -567,6 +629,8 @@ public class SiteSteps extends AbstractSpringSteps {
             .contains("There are no results for " + searchTerm));
 
     WebElement displayCount = sitePage.findElementWithUiPath("search.count");
+    assertNotNull(
+        "Failed to find display count. Expected element with UI path 'search.count'", displayCount);
     assertEquals("0 Results:", displayCount.getText());
   }
 

@@ -1,0 +1,116 @@
+.dft-filter-bar {
+	&__container {
+		@include govuk-clearfix;
+		@include govuk-media-query($from: tablet) {
+			display: inline-block;
+		}
+	}
+
+	&__results {
+		clear: left;
+	}
+
+	&__field {
+		position: relative;
+
+		&:not(:last-child) {
+			margin-bottom: 15px;
+		}
+
+		@include govuk-media-query(tablet) {
+			width: 200px;
+			float: left;
+
+			&:not(:last-child) {
+				margin-bottom: 0;
+				margin-right: 15px;
+			}
+		}
+	}
+
+	&__label {
+		@extend .govuk-label;
+	}
+
+	&__button {
+		@extend .dft-button;
+	}
+
+	&__select,
+	&__input {
+		width: 100%;
+		margin: 0;
+		display: block;
+		border: 2px solid govuk-colour("grey-3");
+	}
+
+	&__select {
+		@extend .govuk-select;
+		@include govuk-font(16, regular);
+	}
+
+	&__input {
+		@include govuk-font(16, regular);
+		@include govuk-focusable;
+		padding: 9px 32px 6px 12px;
+
+		&:focus {
+			outline-width: 2px;
+		}
+	}
+
+	&__result {
+		@include govuk-font(16, regular);
+		margin-top: 20px;
+		display: none;
+
+		@include govuk-media-query($from: tablet) {
+			display: inline-block;
+		}
+	}
+
+	&__clear-link {
+		@extend .govuk-link;
+		@include govuk-font(16, regular);
+		margin: 0;
+		padding: 0;
+		border: 0;
+		cursor: pointer;
+		text-decoration: underline;
+		background-color: transparent;
+	}
+}
+
+.dft-actions-panel {
+	.dft-filter-bar {
+		&__button {
+			margin-top: 25px;
+
+			@media screen and (max-width: 767px) {
+				margin-top: 15px;
+			}
+		}
+
+		@media screen and (min-width: 768px) and (max-width: 954px),
+			screen and (min-width: 1024px) and (max-width: 1314px) {
+				&__field {
+					&:nth-child(3) {
+						clear: left;
+					}
+
+					&:nth-child(3),
+					&:nth-child(4) {
+						margin-top: 20px;
+					}
+
+					&:not(:last-child) {
+						margin-right: 15px;
+					}
+				}
+
+				&__button {
+					width: 200px;
+				}
+			}
+	}
+}
