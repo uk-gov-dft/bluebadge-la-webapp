@@ -1,6 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,6 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.MessageService;
 import uk.gov.dft.bluebadge.webapp.la.service.PaymentService;
-
-import javax.validation.Valid;
-import java.util.Map;
 
 @Slf4j
 @Controller
