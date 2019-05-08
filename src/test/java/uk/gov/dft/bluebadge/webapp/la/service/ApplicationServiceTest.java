@@ -53,7 +53,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .from(Optional.empty())
             .to(Optional.empty())
             .applicationTypeCode(Optional.empty())
-            .pageInfo(validPaging)
+            .pageInfo(validPaging())
             .build();
 
     when(applicationsApiClientMock.find(
@@ -62,7 +62,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.empty(),
-            validPaging))
+            validPaging()))
         .thenReturn(unorderedApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);
@@ -77,7 +77,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .from(Optional.empty())
             .to(Optional.empty())
             .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
-            .pageInfo(validPaging)
+            .pageInfo(validPaging())
             .build();
 
     when(applicationsApiClientMock.find(
@@ -86,7 +86,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging))
+            validPaging()))
         .thenReturn(noApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(Lists.emptyList());
@@ -101,7 +101,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .from(Optional.empty())
             .to(Optional.empty())
             .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
-            .pageInfo(validPaging)
+            .pageInfo(validPaging())
             .build();
 
     when(applicationsApiClientMock.find(
@@ -110,7 +110,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging))
+            validPaging()))
         .thenReturn(unorderedApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);
@@ -126,7 +126,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             .from(Optional.empty())
             .to(Optional.empty())
             .applicationTypeCode(Optional.of(ApplicationTypeCodeField.NEW))
-            .pageInfo(validPaging)
+            .pageInfo(validPaging())
             .build();
     when(applicationsApiClientMock.find(
             Optional.of(NAME_SEARCH_BY),
@@ -134,7 +134,7 @@ public class ApplicationServiceTest extends ApplicationTestData {
             Optional.empty(),
             Optional.empty(),
             Optional.of(ApplicationTypeCodeField.NEW),
-            validPaging))
+            validPaging()))
         .thenReturn(unorderedApplications);
     ApplicationSummaryResponse result = applicationService.find(searchParams);
     assertThat(result.getData()).isEqualTo(orderdApplicationsForSearchByName);

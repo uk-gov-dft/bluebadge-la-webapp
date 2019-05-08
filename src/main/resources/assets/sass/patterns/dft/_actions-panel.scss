@@ -16,7 +16,7 @@
 		margin-top: 10px;
 	}
 
-	&__content {
+	&__content--floating {
 		@include govuk-media-query(tablet) {
 			float: left;
 		}
