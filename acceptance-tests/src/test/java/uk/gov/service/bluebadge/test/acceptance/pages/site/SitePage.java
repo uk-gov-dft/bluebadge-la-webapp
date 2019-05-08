@@ -134,6 +134,10 @@ public class SitePage extends AbstractPage {
     return null;
   }
 
+  public WebElement FindElementByLinkText(String text){
+   return getWebDriver().findElement(By.linkText(text));
+  }
+
   public boolean ApplicationContainsBreathlessness(String answer) {
     return FilterBreathlessAnswer(answer) != null;
   }
@@ -143,14 +147,4 @@ public class SitePage extends AbstractPage {
   }
 
 
-  private List<WebElement> GetAllGroupedCheckBoxElements(By identifier) {
-    return getWebDriver().findElements(identifier);
-  }
-
-  private String GetCheckBoxElement(By identifier, String checkbox) {
-    List<WebElement> groupedCheckbox = GetAllGroupedCheckBoxElements(identifier);
-   return null;
-    //  for(WebElement oneCheckbox:groupedCheckbox)
-
-  }
 }
