@@ -15,47 +15,62 @@
             <span class="dft-badge dft-badge--heading" th:text="${applicationCount}"/>
         </h1>
 
-        <div role="toolbar" class="dft-actions-panel govuk-clearfix">
+        <div role="toolbar" class="dft-actions-panel">
             <div class="dft-actions-panel__content">
-                <form action="/applications" method="GET" class="dft-search">
 
-                    <div class="dft-search__container govuk-h-clearfix">
+                <form action="/applications" th:object="${formRequest}" method="GET" class="dft-filter-bar">
+                    <div class="dft-filter-bar__container">
 
-                        <label class="govuk-label" for="search.dropdown"
-                               th:text="#{search.filterResults.label}"></label>
-                        <select id="search.dropdown" name="searchBy" data-uipath="searchFilter.dropdown"
-                                class="govuk-select dft-search__select">
-                            <option th:each="option: ${searchByOptions}"
-                                    th:selected="${searchBy == option.getShortCode()}"
-                                    th:value="${option.getShortCode()}"
-                                    th:text="${option.getDescription()}"></option>
-                        </select>
+                        <div class="dft-filter-bar__field">
+                            <label class="dft-filter-bar__label" for="search.dropdown" th:text="#{search.searchBy.label}"></label>
+                            <select id="search.dropdown" th:field="*{searchBy}" data-uipath="searchFilter.dropdown"
+                                    class="dft-filter-bar__select">
+                                <option th:each="option: ${searchByOptions}"
+                                        th:value="${option.getShortCode()}"
+                                        th:text="${option.getDescription()}"></option>
+                            </select>
+                        </div>
 
-                        <div class="dft-search__field">
-                            <label for="searchTerm" class="dft-search__label" th:text="#{search.label}"></label>
-                            <input data-uipath="search.field" id="searchTerm" name="searchTerm" type="text"
-                                   th:placeholder="#{search.label}"
-                                   class="dft-search__input" th:value="${searchTerm}">
-                            <button type="submit" data-uipath="search.button" class="dft-search__button">
-                                <span class="govuk-visually-hidden" th:text="#{search.label}"/>
+                        <div class="dft-filter-bar__field">
+                            <label class="dft-filter-bar__label" for="searchTerm" th:text="#{search.keyWords.label}"></label>
+                            <input id="searchTerm" th:field="*{searchTerm}" data-uipath="search.field" type="text"
+                                   class="dft-filter-bar__input">
+                        </div>
+
+                        <div class="dft-filter-bar__field">
+                            <label class="dft-filter-bar__label" for="applicationType.dropdown" th:text="#{search.type.label}"></label>
+                            <select id="applicationType.dropdown" th:field="*{applicationTypeCode}" data-uipath="searchFilter.applicationType.dropdown"
+                                    class="dft-filter-bar__select">
+                                <option th:each="option: ${applicationTypeOptions}"
+                                        th:value="${option.getShortCode()}"
+                                        th:text="${option.getDescription()}"></option>
+                            </select>
+                        </div>
+
+                        <div class="dft-filter-bar__field">
+                            <button type="submit" data-uipath="search.button" class="dft-filter-bar__button">
+                                <span th:text="#{search.filterResults.label}" />
                             </button>
                         </div>
 
-                        <span class="dft-search__result"
-                              th:if="${searchTerm != null && filteredApplicationCount != null}">
-                            <span data-uipath="search.count"
-                                  th:text="${filteredApplicationCount == 1} ? ${filteredApplicationCount} + ' ' + #{search.result.label} : ${filteredApplicationCount} + ' ' + #{search.results.label}"></span>
 
-                            <a th:href="@{/applications}"
-                               role="button"
-                               class="dft-search__clear-link"
-                               aria-label="clear search input field"
-                               type="reset" th:text="#{search.btn.clear}"></a>
+                        <div class="dft-filter-bar__results">
+                            <span class="dft-filter-bar__result"
+                                      th:if="${!formRequest.isSearchTermEmpty() || !formRequest.isApplicationTypeCodeNull()}">
+                                <span data-uipath="search.count"
+                                      th:text="${pagingInfo.total == 1} ? ${pagingInfo.total} + ' ' + #{search.result.label} : ${pagingInfo.total} + ' ' + #{search.results.label}"></span>
 
-                        </span>
+                                <a th:href="@{/applications}"
+                                   role="button"
+                                   class="dft-filter-bar__clear-link"
+                                   aria-label="clear search input field"
+                                   type="reset" th:text="#{search.btn.clear}"></a>
 
+                            </span>
+                        </div>
                     </div>
                 </form>
+
             </div>
         </div>
 
@@ -87,18 +102,16 @@
             </tbody>
         </table>
 
-        <th:block
-                th:if="${searchTerm != null && filteredApplicationCount > 0} OR ${searchTerm == null && applicationCount > 0}">
-            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/applications') }"></div>
+        <th:block th:if="${pagingInfo.count > 0}">
+            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/applications', ${searchParams}) }"></div>
         </th:block>
 
-        <p th:if="${applications == null || applications.size() == 0}" data-uipath="search.term">
-
-            <span th:if="${searchTerm}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
-            <strong th:text="${searchTerm}"></strong>
+        <p th:if="${pagingInfo.count == 0}" data-uipath="search.term">
+            <span th:if="${!formRequest.isSearchTermEmpty()}" th:text="#{message.noResultsFound.forTerm}" th:remove="tag"></span>
+            <strong th:text="${formRequest.getSearchTerm()}"></strong>
             </span>
 
-            <span th:unless="${searchTerm}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
+            <span th:if="${formRequest.isSearchTermEmpty()}" th:text="#{message.noResultsFound}" th:remove="tag"></span>
 
         </p>
 

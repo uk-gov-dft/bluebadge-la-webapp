@@ -48,7 +48,7 @@
         </table>
 
         <th:block th:if="${results.size() > 0}">
-            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/manage-badges/search-results') }"></div>
+            <div th:replace="~{ fragments/pagination :: pagination(${pagingInfo}, '/manage-badges/search-results', null) }"></div>
         </th:block>
 
     </section>
