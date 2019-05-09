@@ -16,9 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.google.common.collect.Lists;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.SneakyThrows;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -31,17 +34,36 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.Application;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationStatusField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToLookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.LookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationDetailsTestData;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 
 public class ApplicationDetailsControllerTest extends BaseControllerTest {
+  private static final String BADGE_NUMBER = "123";
+  private static final LocalDate BADGE_EXPIRY_DATE = LocalDate.of(2050, 2, 24);
+  private static final String BADGE_EXPIRY_DATE_VIEW_MODEL = "2050-02-24";
+  private static final String BADGE_STATUS = "ISSUED";
+  private static final Badge BADGE =
+      new Badge().badgeNumber(BADGE_NUMBER).expiryDate(BADGE_EXPIRY_DATE).statusCode(BADGE_STATUS);
+  private static final LookupBadgeViewModel LOOKUP_BADGE_VIEW_MODEL =
+      LookupBadgeViewModel.builder()
+          .badgeNumber(BADGE_NUMBER)
+          .status(BADGE_STATUS)
+          .expiryDate(BADGE_EXPIRY_DATE_VIEW_MODEL)
+          .build();
+
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private BadgeService badgeServiceMock;
+  @Mock private BadgeToLookupBadgeViewModel badgeToLookupViewModelMock;
   @Mock private SecurityUtils securityUtilsMock;
 
   MockMvc mockMvc;
@@ -55,7 +77,11 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     MockitoAnnotations.initMocks(this);
     controller =
         new ApplicationDetailsController(
-            applicationServiceMock, referenceDataServiceMock, securityUtilsMock);
+            applicationServiceMock,
+            referenceDataServiceMock,
+            badgeServiceMock,
+            badgeToLookupViewModelMock,
+            securityUtilsMock);
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
@@ -67,6 +93,7 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
             ReferenceData.builder().description("Completed").shortCode("COMPLETED").build());
     when(referenceDataServiceMock.retrieveApplicationReferenceDataList(RefDataGroupEnum.APPSTATUS))
         .thenReturn(applicationStatusOptions);
+    when(badgeServiceMock.retrieve(any())).thenReturn(Optional.empty());
   }
 
   @Test
@@ -86,7 +113,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", false));
   }
 
   @Test
@@ -106,7 +136,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -126,7 +159,36 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
+  }
+
+  @Test
+  @SneakyThrows
+  public void show_person_dla_with_existing_badge() {
+    Application application = ApplicationDetailsTestData.getPersonDlaApp();
+    application.setExistingBadgeNumber(BADGE_NUMBER);
+    when(applicationServiceMock.retrieve(ApplicationDetailsTestData.ModelValues.ID))
+        .thenReturn(application);
+    UpdateApplicationFormRequest expectedUpdateFormRequest =
+        UpdateApplicationFormRequest.builder()
+            .applicationStatus(application.getApplicationStatus())
+            .build();
+    when(badgeServiceMock.retrieve(BADGE_NUMBER)).thenReturn(Optional.of(BADGE));
+    when(badgeToLookupViewModelMock.convert(BADGE)).thenReturn(LOOKUP_BADGE_VIEW_MODEL);
+
+    mockMvc
+        .perform(get("/applications/" + ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(status().isOk())
+        .andExpect(view().name("applications/application-details"))
+        .andExpect(model().attribute("app", application))
+        .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", LOOKUP_BADGE_VIEW_MODEL))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -146,7 +208,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -166,7 +231,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -186,7 +254,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -206,7 +277,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -226,7 +300,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -246,7 +323,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -266,7 +346,10 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
         .andExpect(view().name("applications/application-details"))
         .andExpect(model().attribute("app", application))
         .andExpect(model().attribute("applicationStatusOptions", applicationStatusOptions))
-        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest));
+        .andExpect(model().attribute("updateApplicationFormRequest", expectedUpdateFormRequest))
+        .andExpect(model().attribute("uuid", ApplicationDetailsTestData.ModelValues.UUID))
+        .andExpect(model().attribute("existingBadge", Matchers.nullValue()))
+        .andExpect(model().attribute("renderOrderBadgeButton", true));
   }
 
   @Test
@@ -347,7 +430,6 @@ public class ApplicationDetailsControllerTest extends BaseControllerTest {
     Application application = ApplicationDetailsTestData.getPersonChildvehicleApp();
     String applicationId = UUID.randomUUID().toString();
     application.setApplicationId(applicationId);
-    String TRANSFER_TO_LA_SHORTCODE = "KENTCC";
     when(applicationServiceMock.retrieve(applicationId)).thenReturn(application);
 
     mockMvc

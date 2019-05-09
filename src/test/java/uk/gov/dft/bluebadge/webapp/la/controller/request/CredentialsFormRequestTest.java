@@ -1,13 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
-import com.google.common.collect.Lists;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest.FieldToUpdate.APPLICATION_SUBMITTED_TEMPLATE_ID;
 import static uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest.FieldToUpdate.NOTIFY_API_KEY;
 import static uk.gov.dft.bluebadge.webapp.la.controller.request.CredentialsFormRequest.FieldToUpdate.PAY_API_KEY;
+
+import com.google.common.collect.Lists;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CredentialsFormRequestTest {
   private static final String TEMPLATE_ID_VALUE = "templateId1";

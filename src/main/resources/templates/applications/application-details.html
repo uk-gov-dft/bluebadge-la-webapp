@@ -60,6 +60,45 @@
             </div>
         </div>
 
+        <!-- Existing badge details -->
+        <div th:if="${null != app.existingBadgeNumber || app.applicationTypeCode.name() == 'RENEW'}" class="dft-check-answers">
+            <div class="dft-check-answers__heading">
+                <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="previous-badge.title"
+                    th:text="#{application.details.previousBadge.title}"></h2>
+            </div>
+
+            <dl class="dft-data-list" data-uipath="previous-badge.list">
+                <div class="dft-data-list__item">
+                    <dt class="dft-data-list__dt"
+                        th:text="#{application.details.previousBadge.label.number}"/>
+                    <dd th:if="${null != app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="previous-badge.number"
+                        th:text="${app.existingBadgeNumber}"/>
+                    <dd th:unless="${null != app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="previous-badge.number"
+                        th:text="#{common.label.notProvided}"/>
+                </div>
+
+
+                <th:block th:if="${null != app.existingBadgeNumber}">
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.previousBadge.label.date}"/>
+                        <dd th:if="${null != existingBadge}" class="dft-data-list__dd" data-uipath="previous-badge.date"
+                            th:text="${existingBadge.expiryDate}"/>
+                        <dd th:unless="${null != existingBadge && null != existingBadge.expiryDate}" class="dft-data-list__dd" data-uipath="previous-badge.date"
+                            th:text="#{application.details.previousBadge.notFound}"/>
+                    </div>
+                    <div class="dft-data-list__item">
+                        <dt class="dft-data-list__dt"
+                            th:text="#{application.details.previousBadge.label.status}"/>
+                        <dd th:if="${null != existingBadge && null != existingBadge.status}" class="dft-data-list__dd" data-uipath="previous-badge.status"
+                            th:text="${existingBadge.status}"/>
+                        <dd th:unless="${null != existingBadge && null != existingBadge.status}" class="dft-data-list__dd" data-uipath="previous-badge.status"
+                            th:text="#{application.details.previousBadge.notFound}"/>
+                    </div>
+                </th:block>
+            </dl>
+        </div>
+
         <div class="dft-check-answers">
             <div class="dft-check-answers__heading">
                 <h2 class="govuk-heading-m dft-check-answers__title" data-uipath="party.title"
@@ -67,7 +106,6 @@
             </div>
 
             <dl class="dft-data-list" data-uipath="party.answers">
-
                 <!-- organisation section -------------------------------------------------------------------------------->
                 <div th:if="${app.party.organisation}" th:remove="tag"
                      th:with="organisation=${app.party.organisation}">
@@ -518,14 +556,6 @@
                     <dd class="dft-data-list__dd" th:if="${!app.paymentUnknown && !app.paymentTaken}"
                         data-uipath="application.paymentisnottaken"
                         th:text="#{application.details.isNotPaymentTaken}"/>
-                </div>
-                <div class="dft-data-list__item">
-                    <dt class="dft-data-list__dt"
-                        th:text="#{application.details.existingBadgeNumber}"/>
-                    <dd th:if="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
-                        th:text="${app.existingBadgeNumber}"/>
-                    <dd th:unless="${app.existingBadgeNumber}" class="dft-data-list__dd" data-uipath="application.existingbadgenumber"
-                        th:text="#{common.label.notProvided}"/>
                 </div>
             </dl>
         </div>

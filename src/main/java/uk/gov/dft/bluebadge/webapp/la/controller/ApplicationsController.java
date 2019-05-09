@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSummaryResponse;
+import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.ApplicationSummaryToApplicationViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindApplicationFormRequest;
@@ -38,23 +39,28 @@ public class ApplicationsController {
 
   @GetMapping(URL)
   public String show(@ModelAttribute @Valid FindApplicationFormRequest formRequest, Model model) {
-
+    ApplicationTypeCodeField applicationTypeCode = formRequest.getApplicationTypeCode();
     ApplicationSummaryResponse result = null;
-    if (formRequest.getSearchTerm().isPresent()) {
-      String searchTerm = formRequest.getSearchTerm().map(t -> t).orElse("");
-      String searchBy = formRequest.getSearchBy().map(w -> w).orElse("");
+    if (!formRequest.isSearchTermEmpty()) {
+      String searchTerm = formRequest.getSearchTerm();
+      String searchBy = formRequest.getSearchBy();
+
       switch (searchBy) {
         case "name":
-          result = applicationService.findByName(searchTerm, formRequest.getPagingInfo());
+          result =
+              applicationService.findByName(
+                  searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         case "postcode":
-          result = applicationService.findByPostCode(searchTerm, formRequest.getPagingInfo());
+          result =
+              applicationService.findByPostCode(
+                  searchTerm, applicationTypeCode, formRequest.getPagingInfo());
           break;
         default:
           throw new IllegalArgumentException("Unsupported search by value:" + searchBy);
       }
     } else {
-      result = applicationService.findAll(formRequest.getPagingInfo());
+      result = applicationService.findAll(applicationTypeCode, formRequest.getPagingInfo());
     }
 
     List<ApplicationSummary> applications = result.getData();
@@ -74,7 +80,7 @@ public class ApplicationsController {
     pagingInfo.setPageSize(1);
     pagingInfo.setPageNum(1);
 
-    ApplicationSummaryResponse allNew = applicationService.findAll(pagingInfo);
+    ApplicationSummaryResponse allNew = applicationService.findAll(null, pagingInfo);
 
     return allNew.getPagingInfo().getTotal();
   }
@@ -84,18 +90,23 @@ public class ApplicationsController {
       FindApplicationFormRequest formRequest,
       PagingInfo info,
       List<ApplicationSummaryViewModel> applicationsView) {
-    formRequest.getSearchBy().ifPresent(s -> model.addAttribute("searchBy", s));
-    formRequest.getSearchTerm().ifPresent(s -> model.addAttribute("searchTerm", s));
 
+    model.addAttribute("formRequest", formRequest);
     model.addAttribute("searchByOptions", getSearchByOptions());
+    model.addAttribute("applicationTypeOptions", getApplicationTypeOptions());
     model.addAttribute("pagingInfo", info);
-
+    model.addAttribute("applications", applicationsView);
     model.addAttribute("applicationCount", getAllApplicationSize());
 
-    model.addAttribute("applications", applicationsView);
+    // Pass in the search params for the pagination fragment
+    String searchParams = "&searchBy=" + formRequest.getSearchBy();
     if (!formRequest.isSearchTermEmpty()) {
-      model.addAttribute("filteredApplicationCount", applicationsView.size());
+      searchParams += "&searchTerm=" + formRequest.getSearchTerm();
     }
+    if (null != formRequest.getApplicationTypeCode()) {
+      searchParams += "&applicationTypeCode=" + formRequest.getApplicationTypeCode();
+    }
+    model.addAttribute("searchParams", searchParams);
   }
 
   private List<ReferenceData> getSearchByOptions() {
@@ -108,5 +119,21 @@ public class ApplicationsController {
     postcode.setDescription("Postcode");
 
     return Lists.newArrayList(name, postcode);
+  }
+
+  private List<ReferenceData> getApplicationTypeOptions() {
+    ReferenceData allAppTypes = new ReferenceData();
+    allAppTypes.setShortCode(null);
+    allAppTypes.setDescription("All applications");
+
+    ReferenceData newAppType = new ReferenceData();
+    newAppType.setShortCode("NEW");
+    newAppType.setDescription("New");
+
+    ReferenceData renewAppType = new ReferenceData();
+    renewAppType.setShortCode("RENEW");
+    renewAppType.setDescription("Reapplication");
+
+    return Lists.newArrayList(allAppTypes, newAppType, renewAppType);
   }
 }
