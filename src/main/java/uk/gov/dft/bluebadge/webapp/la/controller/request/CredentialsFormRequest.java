@@ -1,13 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.controller.request;
 
+import java.io.Serializable;
+import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Builder
