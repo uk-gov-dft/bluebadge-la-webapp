@@ -62,8 +62,6 @@ public class FindBadgeController {
       RedirectAttributes redirectAttributes) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
-    // TODO: Conditional validation
-
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }

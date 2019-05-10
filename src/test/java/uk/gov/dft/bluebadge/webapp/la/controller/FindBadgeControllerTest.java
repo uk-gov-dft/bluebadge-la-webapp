@@ -71,25 +71,14 @@ public class FindBadgeControllerTest {
 
   @Test
   @SneakyThrows
-  public void show_shouldDisplayFindBadgeTemplateWithEmptyValues() {
-    FindBadgeFormRequest formRequest = FindBadgeFormRequest.builder().build();
+  public void show_shouldDisplayFindBadgeTemplateWithFindBadgeByNumberTicked() {
+    FindBadgeFormRequest formRequest =
+        FindBadgeFormRequest.builder().findBadgeBy("badgeNumber").build();
     mockMvc
         .perform(get("/manage-badges"))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-badges/index"))
         .andExpect(model().attribute("formRequest", formRequest));
-  }
-
-  @Test
-  @SneakyThrows
-  public void
-      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithEmptyValues() {
-    mockMvc
-        .perform(post("/manage-badges"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("manage-badges/index"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "findBadgeBy", "NotBlank"))
-        .andExpect(model().errorCount(1));
   }
 
   @Test
@@ -103,7 +92,8 @@ public class FindBadgeControllerTest {
                 .param("searchTerm", INVALID_BADGE_NUMBER))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-badges/index"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "searchTerm", "Pattern"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", "searchTermBadgeNumber", "Pattern"))
         .andExpect(model().errorCount(1));
   }
 
