@@ -30,6 +30,10 @@ public class FindBadgeSearchResultsController {
   private static final String TEMPLATE = "manage-badges/search-results";
 
   private static final String MODEL_SEARCH_TERM = "searchTerm";
+  private static final String MODEL_SEARCH_TERM_BADGE_NUMBER = "searchTermBadgeNumber";
+  private static final String MODEL_SEARCH_TERM_NAME = "searchTermName";
+  private static final String MODEL_SEARCH_TERM_POSTCODE = "searchTermPostcode";
+
   private static final String MODEL_FIND_BADGE_BY = "findBadgeBy";
   private static final String MODEL_RESULTS = "results";
   private static final String MODEL_PAGING_INFO = "pagingInfo";
@@ -54,7 +58,7 @@ public class FindBadgeSearchResultsController {
       HttpSession session,
       @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
       @RequestParam(value = "pageSize", required = false, defaultValue = "50") Integer pageSize) {
-    String searchTerm = (String) session.getAttribute(MODEL_SEARCH_TERM);
+
     String findBadgeBy = (String) session.getAttribute(MODEL_FIND_BADGE_BY);
 
     PagingInfo pagingInfo = new PagingInfo();
@@ -65,20 +69,27 @@ public class FindBadgeSearchResultsController {
 
     switch (findBadgeBy) {
       case "badgeNumber":
-        FindBadgeSearchResultViewModel badge = findBadgeByNumber(searchTerm);
+        String searchTermBadgeNumber =
+            (String) session.getAttribute(MODEL_SEARCH_TERM_BADGE_NUMBER);
+        model.addAttribute(MODEL_SEARCH_TERM, searchTermBadgeNumber);
+        FindBadgeSearchResultViewModel badge = findBadgeByNumber(searchTermBadgeNumber);
         if (badge != null) results.add(badge);
         break;
       case "postcode":
-        if (!StringUtils.isBlank(searchTerm)) {
-          searchTerm = searchTerm.replaceAll("\\s+", "");
-          BadgesResponse result = badgeService.findBadgeByPostcode(searchTerm, pagingInfo);
+        String searchTermPostcode = (String) session.getAttribute(MODEL_SEARCH_TERM_POSTCODE);
+        model.addAttribute(MODEL_SEARCH_TERM, searchTermPostcode);
+        if (!StringUtils.isBlank(searchTermPostcode)) {
+          searchTermPostcode = searchTermPostcode.replaceAll("\\s+", "");
+          BadgesResponse result = badgeService.findBadgeByPostcode(searchTermPostcode, pagingInfo);
           pagingInfo = result.getPagingInfo();
           results.addAll(convertBadgeSummaryToViewModel(result.getData()));
         }
         break;
       case "name":
-        if (!StringUtils.isBlank(searchTerm)) {
-          BadgesResponse result = badgeService.findBadgeByName(searchTerm, pagingInfo);
+        String searchTermName = (String) session.getAttribute(MODEL_SEARCH_TERM_NAME);
+        model.addAttribute(MODEL_SEARCH_TERM, searchTermName);
+        if (!StringUtils.isBlank(searchTermName)) {
+          BadgesResponse result = badgeService.findBadgeByName(searchTermName, pagingInfo);
           pagingInfo = result.getPagingInfo();
           results.addAll(convertBadgeSummaryToViewModel(result.getData()));
         }
@@ -96,7 +107,6 @@ public class FindBadgeSearchResultsController {
     }
 
     model.addAttribute(MODEL_FIND_BADGE_BY, findBadgeBy == null ? "" : findBadgeBy);
-    model.addAttribute(MODEL_SEARCH_TERM, searchTerm == null ? "" : searchTerm);
     model.addAttribute(MODEL_RESULTS, results);
     model.addAttribute(MODEL_PAGING_INFO, pagingInfo);
 

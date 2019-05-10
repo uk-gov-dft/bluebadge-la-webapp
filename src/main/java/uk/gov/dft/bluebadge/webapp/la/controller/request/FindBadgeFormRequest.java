@@ -14,5 +14,11 @@ public class FindBadgeFormRequest implements Serializable {
   private String findBadgeBy = "badgeNumber";
 
   @Pattern(regexp = "^[^\\/]*$", message = "{Pattern.findBadge.searchTerm}")
-  private String searchTerm;
+  private String searchTermBadgeNumber;
+
+  @Pattern(regexp = "^[^\\/]*$", message = "{Pattern.findBadge.searchTerm}")
+  private String searchTermName;
+
+  @Pattern(regexp = "^[^\\/]*$", message = "{Pattern.findBadge.searchTerm}")
+  private String searchTermPostcode;
 }

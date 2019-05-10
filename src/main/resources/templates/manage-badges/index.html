@@ -34,7 +34,11 @@
                                            type="radio" value="badgeNumber" data-aria-controls="badgeNumber" data-uipath="badgeNumber.radio">
                                     <label class="govuk-label govuk-radios__label" for="badgeNumber" data-uipath="badgeNumber.label">Badge
                                         number</label>
+
                                 </div>
+
+                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermBadgeNumber}, 'searchTermBadgeNumber', #{findBadge.hint.searchTermBadgeNumber}, 'text') }"/>
+
 
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="name"
@@ -43,17 +47,22 @@
                                     <label class="govuk-label govuk-radios__label" for="name" data-uipath="name.label">Name</label>
                                 </div>
 
+                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermName}, 'searchTermName', null, 'text') }"/>
+
+
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="postcode"
                                            name="findBadgeBy"
                                            type="radio" value="postcode" data-aria-controls="postcode" data-uipath="postcode.radio">
                                     <label class="govuk-label govuk-radios__label" for="postcode" data-uipath="postcode.label">Postcode</label>
                                 </div>
+
+                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermPostcode}, 'searchTermPostcode', null, 'text') }"/>
+
                             </div>
                         </fieldset>
                     </div>
 
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Enter keywords', 'searchTerm', null, 'text') }"/>
 
                     <input data-uipath="button" value="Search" type="submit" class="govuk-button">
 

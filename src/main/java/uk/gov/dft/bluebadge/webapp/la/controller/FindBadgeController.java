@@ -45,6 +45,9 @@ public class FindBadgeController {
       @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
     // Reset previous search results
     session.removeAttribute("searchTerm");
+    session.removeAttribute("searchTermBadgeNumber");
+    session.removeAttribute("searchTermName");
+    session.removeAttribute("searchTermPostcode");
     session.removeAttribute("results");
 
     return TEMPLATE;
@@ -59,14 +62,20 @@ public class FindBadgeController {
       RedirectAttributes redirectAttributes) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    // TODO: Conditional validation
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
 
     String findBadgeBy = formRequest.getFindBadgeBy();
-    String searchTerm = formRequest.getSearchTerm();
+    String searchTermBadgeNumber = formRequest.getSearchTermBadgeNumber();
+    String searchTermName = formRequest.getSearchTermName();
+    String searchTermPostcode = formRequest.getSearchTermPostcode();
     session.setAttribute("findBadgeBy", findBadgeBy);
-    session.setAttribute("searchTerm", searchTerm);
+    session.setAttribute("searchTermBadgeNumber", searchTermBadgeNumber);
+    session.setAttribute("searchTermName", searchTermName);
+    session.setAttribute("searchTermPostcode", searchTermPostcode);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
   }
