@@ -45,9 +45,9 @@ public class FindBadgeController {
       @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
     // Reset previous search results
     session.removeAttribute("searchTerm");
-    session.removeAttribute("searchTermBadgeNumber");
-    session.removeAttribute("searchTermName");
-    session.removeAttribute("searchTermPostcode");
+    //    session.removeAttribute("searchTermBadgeNumber");
+    //    session.removeAttribute("searchTermName");
+    //    session.removeAttribute("searchTermPostcode");
     session.removeAttribute("results");
 
     return TEMPLATE;
@@ -62,20 +62,37 @@ public class FindBadgeController {
       RedirectAttributes redirectAttributes) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    String searchTerm = getSearchTerm(formRequest, bindingResult);
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
 
     String findBadgeBy = formRequest.getFindBadgeBy();
-    String searchTermBadgeNumber = formRequest.getSearchTermBadgeNumber();
-    String searchTermName = formRequest.getSearchTermName();
-    String searchTermPostcode = formRequest.getSearchTermPostcode();
     session.setAttribute("findBadgeBy", findBadgeBy);
-    session.setAttribute("searchTermBadgeNumber", searchTermBadgeNumber);
-    session.setAttribute("searchTermName", searchTermName);
-    session.setAttribute("searchTermPostcode", searchTermPostcode);
+    session.setAttribute("searchTerm", searchTerm);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
+  }
+
+  private String getSearchTerm(
+      @ModelAttribute("formRequest") @Valid FindBadgeFormRequest formRequest,
+      BindingResult bindingResult) {
+    String searchTerm = "";
+    switch (formRequest.getFindBadgeBy()) {
+      case "badgeNumber":
+        searchTerm = formRequest.getSearchTermBadgeNumber();
+        break;
+      case "name":
+        searchTerm = formRequest.getSearchTermName();
+        break;
+      case "postcode":
+        searchTerm = formRequest.getSearchTermPostcode();
+        break;
+      default:
+        bindingResult.rejectValue("findBadgeBy", "NotNull.findBadge.findBadgeBy");
+    }
+    return searchTerm;
   }
 
   @PreAuthorize("hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')")
