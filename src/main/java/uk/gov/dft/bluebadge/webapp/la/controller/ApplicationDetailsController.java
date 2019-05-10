@@ -47,8 +47,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "applications/application-details";
-  private static final String REDIRECT_URL_NEW_APPLICATION =
-      "redirect:" + ApplicationsController.URL;
+  private static final String REDIRECT = "redirect:";
+  private static final String REDIRECT_URL_NEW_APPLICATION = REDIRECT + ApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -122,7 +122,7 @@ public class ApplicationDetailsController extends BaseController {
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
-    return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
+    return REDIRECT + ORDER_A_BADGE_APPLICATION_URL;
   }
 
   @PostMapping(path = "/applications/{uuid}/transfers")
@@ -170,7 +170,7 @@ public class ApplicationDetailsController extends BaseController {
             .applicationStatus(updateApplicationFormRequest.getApplicationStatus())
             .build();
     applicationService.update(applicationUpdate);
-    return "redirect:" + URL_NEW_APPLICATIONS_UUID;
+    return REDIRECT + URL_NEW_APPLICATIONS_UUID;
   }
 
   @SuppressWarnings("squid:S2589")

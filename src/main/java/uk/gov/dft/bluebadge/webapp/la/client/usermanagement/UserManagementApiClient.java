@@ -46,8 +46,8 @@ public class UserManagementApiClient extends BaseApiClient {
 
   @Autowired
   public UserManagementApiClient(
-      @Qualifier("userManagementRestTemplate") RestTemplate userManagementRestTemplate) {
-    this.restTemplate = userManagementRestTemplate;
+      @Qualifier("userManagementRestTemplate") RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 
   /**
