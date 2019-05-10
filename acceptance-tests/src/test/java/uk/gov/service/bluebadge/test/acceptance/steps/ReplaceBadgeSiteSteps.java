@@ -17,7 +17,7 @@ public class ReplaceBadgeSiteSteps {
   @And("^I type the badge number \"([^\"]+)\"$")
   public void iTypeTheBadgeNumber(String badgeNumber) {
     scenarioContext.setContext("badgeNumber", badgeNumber);
-    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(badgeNumber);
+    sitePage.findElementWithUiPath("searchTermBadgeNumber.field").sendKeys(badgeNumber);
   }
 
   @Then("^I should see the page title for Replace badge for that particular badge number$")
