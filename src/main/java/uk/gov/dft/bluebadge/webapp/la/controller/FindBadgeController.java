@@ -45,9 +45,6 @@ public class FindBadgeController {
       @ModelAttribute("formRequest") FindBadgeFormRequest formRequest, HttpSession session) {
     // Reset previous search results
     session.removeAttribute("searchTerm");
-    //    session.removeAttribute("searchTermBadgeNumber");
-    //    session.removeAttribute("searchTermName");
-    //    session.removeAttribute("searchTermPostcode");
     session.removeAttribute("results");
 
     return TEMPLATE;
