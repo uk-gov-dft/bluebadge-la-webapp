@@ -28,7 +28,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     When I click the update button
     Then I should get a message that says "Select a service"
 
@@ -40,7 +40,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "servicePayApiKey" service
     When I click the update button
     Then I should get a message that says "Enter your GOV.UK Pay API key"
@@ -56,7 +56,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "serviceNotifyApiKey" service
     When I click the update button
     Then I should get a message that says "Enter your GOV.UK Notify API key"
@@ -72,7 +72,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "serviceApplicationSubmittedTemplateId" service
     When I click the update button
     Then I should get a message "Enter your 'Application submitted' template ID"
@@ -88,7 +88,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "servicePayApiKey" service
     When I enter a valid value in "payApiKey.field"
     And I click the update button
@@ -102,7 +102,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "serviceNotifyApiKey" service
     When I enter a valid value in "notifyApiKey.field"
     And I click the update button
@@ -116,7 +116,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click Sign in button
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I should see a link named "sidebar-nav.credentials"
-    And I click on "API Credentials" link
+    And I click on "API credentials" link
     And I select "serviceApplicationSubmittedTemplateId" service
     When I enter a valid value in "applicationSubmittedTemplateId.field"
     And I click the update button
