@@ -12,16 +12,14 @@
 <main layout:fragment="content">
     <section class="dft-content-container--full">
         <div th:with="severalBadges=${badgeNumbers.size() > 1}" th:remove="tag">
-
             <div class="govuk-panel govuk-panel--confirmation">
                 <h1 class="govuk-panel__title" data-uipath="badge.ordered.title" th:text="#{orderbadge.badgeordered.title.h1}"/>
                 <div th:unless="${severalBadges}" class="govuk-panel__body" data-uipath="badge.ordered.content">
                     <span th:text="#{orderbadge.badgeordered.text.badgeNumbersIntroductionSingular}" th:remove="tag"/>
                     <br><strong data-uipath="badge.ordered.num" th:text="${badgeNumbers.get(0)}"/>
                 </div>
-
-
             </div>
+
             <div th:if="${severalBadges}" class="govuk-panel__body" data-uipath="badge.ordered.content">
                 <p class="govuk-body" th:text="#{orderbadge.badgeordered.text.badgeNumbersIntroductionPlural}"></p>
                 <ul class="govuk-list govuk-list--bullet">

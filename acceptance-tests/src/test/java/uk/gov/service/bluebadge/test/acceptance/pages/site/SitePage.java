@@ -134,7 +134,15 @@ public class SitePage extends AbstractPage {
     return null;
   }
 
+  public WebElement FindElementByLinkText(String text) {
+    return getWebDriver().findElement(By.linkText(text));
+  }
+
   public boolean ApplicationContainsBreathlessness(String answer) {
     return FilterBreathlessAnswer(answer) != null;
+  }
+
+  public boolean ElementIsDisplayed(WebElement element) {
+    return element.isDisplayed();
   }
 }

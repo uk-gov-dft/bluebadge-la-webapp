@@ -10,6 +10,7 @@ import static uk.gov.dft.bluebadge.webapp.la.controller.orderbadge.OrderBadgeApp
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,14 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTrans
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.EligibilityCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.PartyTypeCodeField;
+import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
+import uk.gov.dft.bluebadge.webapp.la.controller.converter.servicetoviewmodel.BadgeToLookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.TransferApplicationFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.UpdateApplicationFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.LookupBadgeViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.ApplicationService;
+import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
@@ -42,8 +47,8 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 public class ApplicationDetailsController extends BaseController {
   private static final String PARAM_UUID = "uuid";
   private static final String TEMPLATE = "applications/application-details";
-  private static final String REDIRECT_URL_NEW_APPLICATION =
-      "redirect:" + ApplicationsController.URL;
+  private static final String REDIRECT = "redirect:";
+  private static final String REDIRECT_URL_NEW_APPLICATION = REDIRECT + ApplicationsController.URL;
 
   private static final EnumSet<EligibilityCodeField> BENEFIT_UPLOAD_ELIG_TYPES =
       EnumSet.of(PIP, DLA);
@@ -56,15 +61,21 @@ public class ApplicationDetailsController extends BaseController {
 
   private ApplicationService applicationService;
   private ReferenceDataService referenceDataService;
+  private BadgeService badgeService;
+  private BadgeToLookupBadgeViewModel converterToViewModel;
   private final SecurityUtils securityUtils;
 
   @Autowired
   ApplicationDetailsController(
       ApplicationService applicationService,
       ReferenceDataService referenceDataService,
+      BadgeService badgeService,
+      BadgeToLookupBadgeViewModel converterToViewModel,
       SecurityUtils securityUtils) {
     this.applicationService = applicationService;
     this.referenceDataService = referenceDataService;
+    this.badgeService = badgeService;
+    this.converterToViewModel = converterToViewModel;
     this.securityUtils = securityUtils;
   }
 
@@ -72,8 +83,14 @@ public class ApplicationDetailsController extends BaseController {
   public String show(@PathVariable(PARAM_UUID) UUID uuid, Model model) {
     Application application = applicationService.retrieve(uuid.toString());
 
+    LookupBadgeViewModel existingBadge =
+        null != application.getExistingBadgeNumber()
+            ? findBadgeByNumber(application.getExistingBadgeNumber())
+            : null;
+
     model.addAttribute("altHealthConditionLabel", useAlternativeConditionLabel(application));
     model.addAttribute("app", application);
+    model.addAttribute("existingBadge", existingBadge);
     model.addAttribute("uuid", uuid);
     model.addAttribute(
         "renderOrderBadgeButton", application.getParty().getTypeCode() != PartyTypeCodeField.ORG);
@@ -105,7 +122,7 @@ public class ApplicationDetailsController extends BaseController {
   public String orderABadgeForApplication(
       @PathVariable(PARAM_UUID) UUID uuid, RedirectAttributes ra) {
     ra.addAttribute("applicationId", uuid);
-    return "redirect:" + ORDER_A_BADGE_APPLICATION_URL;
+    return REDIRECT + ORDER_A_BADGE_APPLICATION_URL;
   }
 
   @PostMapping(path = "/applications/{uuid}/transfers")
@@ -153,7 +170,7 @@ public class ApplicationDetailsController extends BaseController {
             .applicationStatus(updateApplicationFormRequest.getApplicationStatus())
             .build();
     applicationService.update(applicationUpdate);
-    return "redirect:" + URL_NEW_APPLICATIONS_UUID;
+    return REDIRECT + URL_NEW_APPLICATIONS_UUID;
   }
 
   @SuppressWarnings("squid:S2589")
@@ -179,5 +196,15 @@ public class ApplicationDetailsController extends BaseController {
     List<ReferenceData> las = referenceDataService.retrieveBadgeLocalAuthorities();
     las.removeIf(la -> la.getShortCode().equals(securityUtils.getCurrentLocalAuthorityShortCode()));
     return las;
+  }
+
+  private LookupBadgeViewModel findBadgeByNumber(String searchTerm) {
+    Optional<Badge> result = badgeService.retrieve(searchTerm);
+
+    if (result.isPresent()) {
+      return converterToViewModel.convert(result.get());
+    }
+
+    return null;
   }
 }

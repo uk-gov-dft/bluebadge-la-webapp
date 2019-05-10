@@ -21,6 +21,8 @@
         <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main-ie8.css}">
     <![endif]-->
 
+    <link rel="stylesheet" type="text/css" media="print" th:href="@{/css/print.css}">
+
     <!--[if lt IE 9]>
         <script src="/js/html5-shiv.js"></script>
     <![endif]-->
@@ -63,6 +65,6 @@
 
     <footer th:replace="~{ fragments/govuk-footer :: govuk-footer }"></footer>
 
-    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/dft-admin-frontend.js}"></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 .govuk-fieldset {
 	&__legend {
-		margin-bottom: 5px;
+		&:not(.govuk-fieldset__legend--l) {
+			margin-bottom: 5px;
+		}
 
 		.govuk-heading-s,
 		.govuk-heading-m {

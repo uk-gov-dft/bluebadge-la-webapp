@@ -12,6 +12,7 @@
 // GOVUK Pattern Overrides
 
 @import "patterns/govuk-overrides/hint";
+@import "patterns/govuk-overrides/checkboxes";
 @import "patterns/govuk-overrides/body";
 @import "patterns/govuk-overrides/form";
 @import "patterns/govuk-overrides/list";
@@ -33,6 +34,7 @@
 @import "patterns/dft/hr";
 @import "patterns/dft/nav";
 @import "patterns/dft/login";
+@import "patterns/dft/button";
 @import "patterns/dft/badge";
 @import "patterns/dft/search";
 @import "patterns/dft/topbar";
@@ -42,6 +44,7 @@
 @import "patterns/dft/actions-panel";
 @import "patterns/dft/content-heading";
 @import "patterns/dft/pagination";
+@import "patterns/dft/filter-bar";
 @import "patterns/dft/conditionally-visible";
 @import "patterns/dft/float-box";
 @import "patterns/dft/mobile-badge-details-list";

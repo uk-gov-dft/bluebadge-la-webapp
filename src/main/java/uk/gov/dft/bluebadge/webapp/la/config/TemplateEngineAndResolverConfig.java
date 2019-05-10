@@ -1,6 +1,7 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
 import com.google.common.collect.Sets;
+import java.util.Set;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.dialect.SpringStandardDialect;
+import org.thymeleaf.spring5.processor.SpringInputCheckboxFieldTagProcessor;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import uk.gov.dft.bluebadge.webapp.la.controller.thdialect.LocalAuthorityDialect;
+import uk.gov.dft.bluebadge.webapp.la.thymeleaf.processor.CustomSpringInputCheckboxFieldTagProcessor;
 
 @Configuration
 public class TemplateEngineAndResolverConfig {
@@ -45,6 +50,7 @@ public class TemplateEngineAndResolverConfig {
     // SpringTemplateEngine automatically applies SpringStandardDialect and
     // enables Spring's own MessageSource message resolution mechanisms.
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+    templateEngine.setDialect(new CustomSpringStandardDialect());
     templateEngine.setTemplateResolver(templateResolver());
     // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
     // speed up execution in most scenarios, but might be incompatible
@@ -66,5 +72,15 @@ public class TemplateEngineAndResolverConfig {
     viewResolver.setOrder(1);
     viewResolver.setViewNames(new String[] {".html", ".xhtml"});
     return viewResolver;
+  }
+
+  class CustomSpringStandardDialect extends SpringStandardDialect {
+    @Override
+    public Set<IProcessor> getProcessors(String dialectPrefix) {
+      Set<IProcessor> processors = super.getProcessors(dialectPrefix);
+      processors.removeIf(p -> p instanceof SpringInputCheckboxFieldTagProcessor);
+      processors.add(new CustomSpringInputCheckboxFieldTagProcessor(dialectPrefix));
+      return processors;
+    }
   }
 }

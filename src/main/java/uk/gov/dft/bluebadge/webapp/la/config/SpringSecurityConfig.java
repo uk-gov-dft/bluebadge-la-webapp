@@ -103,6 +103,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .hasAuthority(Permissions.MANAGE_LOCAL_AUTHORITIES.getPermissionName())
         .antMatchers("/manage-local-councils", "/manage-local-councils/**")
         .hasAuthority(Permissions.MANAGE_LOCAL_AUTHORITIES.getPermissionName())
+        .antMatchers("/credentials", "/credentials/**")
+        .hasAuthority(Permissions.UPDATE_CREDENTIALS.getPermissionName())
         .anyRequest()
         .fullyAuthenticated()
         .and()
