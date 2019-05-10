@@ -14,14 +14,14 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
-    And I type "  " for "searchTerm.field" field by uipath
+    And I type "  " for "searchTermPostcode.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
-    And I type "1AB C23" for "searchTerm.field" field by uipath
+    And I type "1AB C23" for "searchTermPostcode.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
@@ -35,14 +35,14 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
-    And I type "  " for "searchTerm.field" field by uipath
+    And I type "  " for "searchTermName.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
     When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
-    And I type "json" for "searchTerm.field" field by uipath
+    And I type "json" for "searchTermName.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
@@ -56,13 +56,13 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
-    And I type "BADGENOTTOBEFOUND" for "searchTerm.field" field by uipath
+    And I type "BADGENOTTOBEFOUND" for "searchTermBadgeNumber.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
     And I should see "BADGENOTTOBEFOUND" text on the page
 
-  Scenario: Verify Find a badge by badge number with radio button not selected
+  Scenario: Verify Find a badge by badge number with radio button not selected - badge number is default
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
     When I type username "abc@dft.gov.uk" and  ***REMOVED***
@@ -70,8 +70,10 @@ Feature: Dft BlueBadge LA Find a Badge
     Then I should see the page titled "Manage users - GOV.UK Manage Blue Badges"
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
-    When I type "AAAAA1" for "searchTerm.field" field by uipath
+    When I type "AAAAA1" for "searchTermBadgeNumber.field" field by uipath
     And I can click "button" button
+    Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
+    When I can click "back-link" button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
 
   Scenario: Verify Find a badge by badge number and I can see badge details automatically when there is a single result
@@ -82,7 +84,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
-    And I type "DEL4" for "searchTerm.field" field by uipath
+    And I type "DEL4" for "searchTermBadgeNumber.field" field by uipath
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
@@ -98,7 +100,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
-    And I type "S637FU" for "searchTerm.field" field by uipath
+    And I type "S637FU" for "searchTermPostcode.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     When I can click on the "DEL3" link
@@ -114,7 +116,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "postcode.radio"
-    And I type "AB333CC" for "searchTerm.field" field by uipath
+    And I type "AB333CC" for "searchTermPostcode.field" field by uipath
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
@@ -130,7 +132,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
-    And I type "TEST DATA ROB" for "searchTerm.field" field by uipath
+    And I type "TEST DATA ROB" for "searchTermName.field" field by uipath
     And I can click "button" button
     And I should see the page titled "Badge details DEL4 - GOV.UK Manage Blue Badges"
     And It is a badge for "PERSON"
@@ -146,7 +148,7 @@ Feature: Dft BlueBadge LA Find a Badge
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
-    And I type "TEST DATA JOHN" for "searchTerm.field" field by uipath
+    And I type "TEST DATA JOHN" for "searchTermName.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     When I can click on the "DEL3" link
