@@ -285,7 +285,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I can click on element "updateDetails" button
     Then I should get a message that says "Credentials stored"
 
-@kc
+
   Scenario: DftAdminNotifyAppSubmittedTemplateLessThan200Characters
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
