@@ -251,7 +251,7 @@ Feature: Dft BlueBadge LA Manage Users
     And I type on field "differentServiceSignpostUrl" value "https://bluebadge.direct.gov.uk/bluebadge/why-are-you-here"
     And I type on field "govUkPayApiKey" value "LessThan200CharactersValidForApiKey"
     And I can click on element "updateDetails" button
-    Then I should get a message that says "Credentials stored"
+    Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
 
   Scenario: DftAdminNotifyApiKeyLessThan200Characters
     Given I navigate to the "home" page
@@ -283,9 +283,9 @@ Feature: Dft BlueBadge LA Manage Users
     And I type on field "differentServiceSignpostUrl" value "https://bluebadge.direct.gov.uk/bluebadge/why-are-you-here"
     And I type on field "govUkNotifyApiKey" value "LessThan200CharactersValidForApiKey"
     And I can click on element "updateDetails" button
-    Then I should get a message that says "Credentials stored"
+    Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
 
-
+@kc
   Scenario: DftAdminNotifyAppSubmittedTemplateLessThan200Characters
     Given I navigate to the "home" page
     When I can click on the "Sign in" link
@@ -316,6 +316,6 @@ Feature: Dft BlueBadge LA Manage Users
     And I type on field "differentServiceSignpostUrl" value "https://bluebadge.direct.gov.uk/bluebadge/why-are-you-here"
     And I type on field "govUkNotifyApplicationSubmittedTemplateId" value "LessThan200CharactersValidForApiKey"
     And I can click on element "updateDetails" button
-    Then I should get a message that says "Credentials stored"
+    Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
 
 
