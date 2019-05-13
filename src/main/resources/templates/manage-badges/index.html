@@ -46,7 +46,7 @@
                             </div>
                             <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
                                  th:id="searchTermBadgeNumber-conditional">
-                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermBadgeNumber}, 'searchTermBadgeNumber', #{findBadge.hint.searchTermBadgeNumber}, 'text') }"/>
+                                <div th:replace="~{ fragments/form-elements :: govuk-input-with-maxlength(#{findBadge.label.searchTermBadgeNumber}, 'searchTermBadgeNumber', #{findBadge.hint.searchTermBadgeNumber}, 'text', '6') }"/>
                             </div>
 
                             <div class="govuk-radios__item">
