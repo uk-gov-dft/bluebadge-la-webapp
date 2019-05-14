@@ -79,4 +79,13 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
 
   @URL(message = "{URL.localAuthority.differentServiceSignpostUrl}")
   private String differentServiceSignpostUrl;
+
+  @Size(max = 200, message = "{Size.localAuthorityDetailPage.payApiKey}")
+  private String govUkPayApiKey;
+
+  @Size(max = 200, message = "{Size.localAuthorityDetailPage.notifyApiKey}")
+  private String govUkNotifyApiKey;
+
+  @Size(max = 200, message = "{Size.localAuthorityDetailPage.applicationSubmittedTemplateId}")
+  private String govUkNotifyApplicationSubmittedTemplateId;
 }

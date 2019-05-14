@@ -20,7 +20,7 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequestTest {
   @Test
   public void convert_shouldWork_whenAllFieldsArePopulated() {
     LocalAuthorityDetailsFormRequest la =
-        LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields();
+        LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFieldsButApiKeys();
     la.setDescription(null);
     LocalAuthorityDetailsFormRequest formRequest =
         converter.convert(LocalAuthorityTestData.LOCAL_AUTHORITY_META_DATA_ALL_FIELDS);

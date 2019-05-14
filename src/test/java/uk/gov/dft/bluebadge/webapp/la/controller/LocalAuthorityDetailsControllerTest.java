@@ -1,8 +1,8 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,6 +49,15 @@ import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.DIF
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS_INVALID;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.EMAIL_ADDRESS_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_NOTIFY_API_KEY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_NOTIFY_API_KEY_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_NOTIFY_API_KEY_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_PAY_API_KEY;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_PAY_API_KEY_INVALID;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.GOV_UK_PAY_API_KEY_PARAM;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_ALL_FIELDS;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS;
@@ -75,6 +84,7 @@ import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WEB
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WELSH_DESCRIPTION;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.WELSH_DESCRIPTION_PARAM;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
@@ -91,12 +101,17 @@ import uk.gov.dft.bluebadge.common.api.model.ErrorErrors;
 import uk.gov.dft.bluebadge.common.security.Role;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
+import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.TemplateName;
+import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoservice.LocalAuthorityDetailsFormRequestToLocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.controller.converter.requesttoviewmodel.LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
+import uk.gov.dft.bluebadge.webapp.la.service.MessageService;
+import uk.gov.dft.bluebadge.webapp.la.service.PaymentService;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 import uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData;
@@ -104,6 +119,8 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData;
 public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
 
   @Mock private ReferenceDataService referenceDataServiceMock;
+  @Mock private PaymentService paymentServiceMock;
+  @Mock private MessageService messageServiceMock;
   @Mock private LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthorityMock;
   @Mock private LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequestMock;
 
@@ -117,7 +134,11 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
 
     LocalAuthorityDetailsController controller =
         new LocalAuthorityDetailsController(
-            referenceDataServiceMock, toLocalAuthorityMock, toFormRequestMock);
+            referenceDataServiceMock,
+            paymentServiceMock,
+            messageServiceMock,
+            toLocalAuthorityMock,
+            toFormRequestMock);
 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
@@ -163,7 +184,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
   }
 
   @Test
-  public void submit_shouldRedirectToManageLocalAuthorities_WhenAllMandatoryFieldsAreValid()
+  public void submit_shouldRedirectToManageLocalAuthorities_WhenMandatoryFieldsAreValid()
       throws Exception {
     when(toLocalAuthorityMock.convert(LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_MANDATORY_FIELDS))
         .thenReturn(LOCAL_AUTHORITY_MANDATORY_FIELDS);
@@ -186,6 +207,8 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
 
     verify(referenceDataServiceMock)
         .updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY_MANDATORY_FIELDS);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -217,7 +240,12 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
                 .param(NATION_PARAM, NATION.name())
-                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
+                .param(GOV_UK_PAY_API_KEY_PARAM, GOV_UK_PAY_API_KEY)
+                .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
+                .param(
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(
@@ -227,6 +255,16 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                     LocalAuthorityTestData.getLocalAuthorityDetailsFormRequestAllFields()));
 
     verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY_ALL_FIELDS);
+    GovPayProfile payProfile = GovPayProfile.builder().apiKey(GOV_UK_PAY_API_KEY).build();
+    verify(paymentServiceMock).updateLocalAuthoritySecret(SHORT_CODE, payProfile);
+    NotifyProfile notifyProfile =
+        NotifyProfile.builder()
+            .apiKey(GOV_UK_NOTIFY_API_KEY)
+            .templates(
+                ImmutableMap.of(
+                    TemplateName.APPLICATION_SUBMITTED, GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+            .build();
+    verify(messageServiceMock).updateLocalNotifySecret(SHORT_CODE, notifyProfile);
   }
 
   @Test
@@ -267,12 +305,27 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
                 .param(NATION_PARAM, NATION.name())
-                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
+                .param(GOV_UK_PAY_API_KEY_PARAM, GOV_UK_PAY_API_KEY)
+                .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
+                .param(
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));
 
     verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, expectedLocalAuthority);
+    GovPayProfile payProfile = GovPayProfile.builder().apiKey(GOV_UK_PAY_API_KEY).build();
+    verify(paymentServiceMock).updateLocalAuthoritySecret(SHORT_CODE, payProfile);
+    NotifyProfile notifyProfile =
+        NotifyProfile.builder()
+            .apiKey(GOV_UK_NOTIFY_API_KEY)
+            .templates(
+                ImmutableMap.of(
+                    TemplateName.APPLICATION_SUBMITTED, GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+            .build();
+    verify(messageServiceMock).updateLocalNotifySecret(SHORT_CODE, notifyProfile);
   }
 
   @Test
@@ -313,12 +366,27 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(POSTCODE_PARAM, POSTCODE)
                 .param(COUNTRY_PARAM, COUNTRY)
                 .param(NATION_PARAM, NATION.name())
-                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL))
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL)
+                .param(GOV_UK_PAY_API_KEY_PARAM, GOV_UK_PAY_API_KEY)
+                .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
+                .param(
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));
 
     verify(referenceDataServiceMock).updateLocalAuthority(SHORT_CODE, expectedLocalAuthority);
+    GovPayProfile payProfile = GovPayProfile.builder().apiKey(GOV_UK_PAY_API_KEY).build();
+    verify(paymentServiceMock).updateLocalAuthoritySecret(SHORT_CODE, payProfile);
+    NotifyProfile notifyProfile =
+        NotifyProfile.builder()
+            .apiKey(GOV_UK_NOTIFY_API_KEY)
+            .templates(
+                ImmutableMap.of(
+                    TemplateName.APPLICATION_SUBMITTED, GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+            .build();
+    verify(messageServiceMock).updateLocalNotifySecret(SHORT_CODE, notifyProfile);
   }
 
   @Test
@@ -343,6 +411,10 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             .emailAddress(EMAIL_ADDRESS_INVALID)
             .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
             .websiteUrl(WEB_SITE_URL_INVALID)
+            .govUkPayApiKey(GOV_UK_PAY_API_KEY_INVALID)
+            .govUkNotifyApiKey(GOV_UK_NOTIFY_API_KEY_INVALID)
+            .govUkNotifyApplicationSubmittedTemplateId(
+                GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID)
             .build();
 
     mockMvc
@@ -364,11 +436,16 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(EMAIL_ADDRESS_PARAM, EMAIL_ADDRESS_INVALID)
                 .param(NATION_PARAM, NATION.name())
                 .param(DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
-                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL_INVALID))
+                .param(WEB_SITE_URL_PARAM, WEB_SITE_URL_INVALID)
+                .param(GOV_UK_PAY_API_KEY_PARAM, GOV_UK_PAY_API_KEY_INVALID)
+                .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY_INVALID)
+                .param(
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID))
         .andExpect(status().isOk())
         .andExpect(view().name(TEMPLATE_LOCAL_AUTHORITY_DETAILS))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest))
-        .andExpect(model().errorCount(14))
+        .andExpect(model().errorCount(17))
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(MODEL_FORM_REQUEST, BADGE_PACK_TYPE_PARAM, "Pattern"))
@@ -395,8 +472,22 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .attributeHasFieldErrorCode(
                     MODEL_FORM_REQUEST, DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, "URL"))
         .andExpect(
-            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "URL"));
-    verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());
+            model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "URL"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(MODEL_FORM_REQUEST, GOV_UK_PAY_API_KEY_PARAM, "Size"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    MODEL_FORM_REQUEST, GOV_UK_NOTIFY_API_KEY_PARAM, "Size"))
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    MODEL_FORM_REQUEST, GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM, "Size"));
+
+    verifyZeroInteractions(referenceDataServiceMock);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -435,7 +526,9 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
             model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, WEB_SITE_URL_PARAM, "NotBlank"))
         .andExpect(model().attributeHasFieldErrorCode(MODEL_FORM_REQUEST, NATION_PARAM, "NotNull"));
 
-    verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());
+    verifyZeroInteractions(referenceDataServiceMock);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
@@ -487,11 +580,13 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                     MODEL_FORM_REQUEST, DIFFERENT_SERVICE_SIGNPOST_URL_PARAM, "Enter a valid URL"));
 
     verify(referenceDataServiceMock, times(1)).updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
   public void
-      submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValidAndPaymentIsEnabledWithBadgeCost()
+      submit_shouldRedirectToManageLocalAuthorities_WhenMandatoryFieldsAreValidAndPaymentIsEnabledWithBadgeCost()
           throws Exception {
     LocalAuthorityDetailsFormRequest expectedFormRequest =
         LocalAuthorityDetailsFormRequest.builder()
@@ -523,11 +618,13 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
 
     verify(referenceDataServiceMock)
         .updateLocalAuthority(SHORT_CODE, LOCAL_AUTHORITY_MANDATORY_FIELDS_WITH_PAYMENT);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
   public void
-      submit_shouldDisplayLocalAuthorityTemplateWithErrors_WhenAllFieldsAreValidAndPaymentIsEnabledWithoutBadgeCost()
+      submit_shouldDisplayLocalAuthorityTemplateWithErrors_WhenMandatoryFieldsAreValidAndPaymentIsEnabledWithoutBadgeCost()
           throws Exception {
     LocalAuthorityDetailsFormRequest expectedFormRequest =
         LocalAuthorityDetailsFormRequest.builder()
@@ -559,12 +656,14 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                     MODEL_FORM_REQUEST,
                     BADGE_COST_PARAM,
                     "NotNull.localAuthorityDetailPage.badgeCost"));
-    verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());
+    verifyZeroInteractions(referenceDataServiceMock);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 
   @Test
   public void
-      submit_shouldDisplayLocalAuthorityTemplateWithErrors_WhenAllFieldsAreValidAndPaymentIsEnabledWithOutOfRangeBadgeCost()
+      submit_shouldDisplayLocalAuthorityTemplateWithErrors_WhenMandatoryFieldsAreValidAndPaymentIsEnabledWithOutOfRangeBadgeCost()
           throws Exception {
     LocalAuthorityDetailsFormRequest expectedFormRequest =
         LocalAuthorityDetailsFormRequest.builder()
@@ -598,6 +697,8 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                     MODEL_FORM_REQUEST,
                     BADGE_COST_PARAM,
                     "Range.localAuthorityDetailPage.badgeCost"));
-    verify(referenceDataServiceMock, times(0)).updateLocalAuthority(any(), any());
+    verifyZeroInteractions(referenceDataServiceMock);
+    verifyZeroInteractions(paymentServiceMock);
+    verifyZeroInteractions(messageServiceMock);
   }
 }
