@@ -1,8 +1,10 @@
 package uk.gov.dft.bluebadge.webapp.la.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,9 @@ import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
 import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
+import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
+import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.TemplateName;
+import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -28,6 +33,8 @@ import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFo
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.ErrorHandlingUtils;
 import uk.gov.dft.bluebadge.webapp.la.controller.utils.Options;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
+import uk.gov.dft.bluebadge.webapp.la.service.MessageService;
+import uk.gov.dft.bluebadge.webapp.la.service.PaymentService;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.ClockType;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataGroupEnum;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
@@ -48,18 +55,24 @@ public class LocalAuthorityDetailsController {
 
   private static final BigDecimal MIN_COST = new BigDecimal("1.00");
   private static final BigDecimal MAX_COST = new BigDecimal("999.99");
-  public static final String BADGE_COST_PARAM = "badgeCost";
+  private static final String BADGE_COST_PARAM = "badgeCost";
 
-  private ReferenceDataService referenceDataService;
-  private LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthority;
-  private LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequest;
+  private final ReferenceDataService referenceDataService;
+  private final PaymentService paymentService;
+  private final MessageService messageService;
+  private final LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthority;
+  private final LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequest;
 
   @Autowired
   public LocalAuthorityDetailsController(
-      ReferenceDataService referenceDataService,
-      LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthority,
-      LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequest) {
+      final ReferenceDataService referenceDataService,
+      final PaymentService paymentService,
+      final MessageService messageService,
+      final LocalAuthorityDetailsFormRequestToLocalAuthority toLocalAuthority,
+      final LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest toFormRequest) {
     this.referenceDataService = referenceDataService;
+    this.paymentService = paymentService;
+    this.messageService = messageService;
     this.toLocalAuthority = toLocalAuthority;
     this.toFormRequest = toFormRequest;
   }
@@ -144,6 +157,30 @@ public class LocalAuthorityDetailsController {
       try {
         LocalAuthority localAuthority = toLocalAuthority.convert(formRequest);
         referenceDataService.updateLocalAuthority(shortCode, localAuthority);
+
+        if (!StringUtils.isBlank(formRequest.getGovUkPayApiKey())) {
+          GovPayProfile payProfile =
+              GovPayProfile.builder().apiKey(formRequest.getGovUkPayApiKey()).build();
+          paymentService.updateLocalAuthoritySecret(shortCode, payProfile);
+        }
+
+        if (!StringUtils.isBlank(formRequest.getGovUkNotifyApiKey())
+            || !StringUtils.isBlank(formRequest.getGovUkNotifyApplicationSubmittedTemplateId())) {
+          Map<TemplateName, String> templates =
+              StringUtils.isBlank(formRequest.getGovUkNotifyApplicationSubmittedTemplateId())
+                  ? null
+                  : ImmutableMap.of(
+                      TemplateName.APPLICATION_SUBMITTED,
+                      formRequest.getGovUkNotifyApplicationSubmittedTemplateId());
+
+          NotifyProfile notifyProfile =
+              NotifyProfile.builder()
+                  .apiKey(StringUtils.trimToNull(formRequest.getGovUkNotifyApiKey()))
+                  .templates(templates)
+                  .build();
+          messageService.updateLocalNotifySecret(shortCode, notifyProfile);
+        }
+
       } catch (BadRequestException e) {
         log.debug("Submit, have binding errors.");
         ErrorHandlingUtils.bindBadRequestException(e, bindingResult, model);
