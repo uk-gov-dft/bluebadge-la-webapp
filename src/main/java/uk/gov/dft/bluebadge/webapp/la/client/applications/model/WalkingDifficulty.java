@@ -13,29 +13,24 @@ import org.springframework.validation.annotation.Validated;
 @Data
 public class WalkingDifficulty {
   @JsonProperty("typeCodes")
-  @Valid
   private List<WalkingDifficultyTypeCodeField> typeCodes = null;
 
   @JsonProperty("painDescription")
-  @Size(max = 2000)
   private String painDescription = null;
 
   @JsonProperty("balanceDescription")
-  @Size(max = 2000)
   private String balanceDescription = null;
 
   @JsonProperty("healthProfessionsForFalls")
   private Boolean healthProfessionsForFalls = null;
 
   @JsonProperty("dangerousDescription")
-  @Size(max = 2000)
   private String dangerousDescription = null;
 
   @JsonProperty("chestLungHeartEpilepsy")
   private Boolean chestLungHeartEpilepsy = null;
 
   @JsonProperty("otherDescription")
-  @Size(max = 255)
   private String otherDescription = null;
 
   @JsonProperty("walkingAids")
