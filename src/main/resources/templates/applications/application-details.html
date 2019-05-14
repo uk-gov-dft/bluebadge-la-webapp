@@ -280,6 +280,18 @@
                         th:text="${@referenceDataService.retrieveAppEnumDisplayValue('ELIGIBILIT', eligibility.typeCode)}"/>
                 </div>
 
+                <!-- COMMON ELIGIBILITY FIELDS -->
+                <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
+                    <dt class="dft-data-list__dt"
+                        th:text="${altHealthConditionLabel} ? #{application.details.eligibility.label.altDescriptionOfConditions} : #{application.details.eligibility.label.descriptionOfConditions}"/>
+                    <dd class="dft-data-list__dd"
+                        th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
+                        <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">
+                            <li th:each="condition: ${conditions}" th:text="${condition}">
+                        </ul>
+                    </dd>
+                </div>
+
                 <!-- WALKING DIFFICULTY FIELDS -->
                 <div th:if="${eligibility.walkingDifficulty}" th:remove="tag"
                      th:with="walking=${eligibility.walkingDifficulty}">
@@ -288,19 +300,40 @@
                             th:text="#{application.details.eligibility.walkingDifficulty.label.walkingDifficulty}"/>
                         <dd class="dft-data-list__dd">
                             <ul class="govuk-list" data-uipath="eligibility.walking.types">
-                                <div th:each="type, iterStat: ${walking.typeCodes}" th:remove="tag">
-                                    <li th:unless="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)} + ','">
-                                    <li th:if="${iterStat.last}" th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}">
-                                </div>
+                                <th:block th:each="type, iterStat: ${walking.typeCodes}" th:switch="${type.name()}">
+                                    <th:block th:case="'PAIN'">
+                                        <li th:text="#{application.details.eligibility.walkingDifficulty.label.excessivePain}"/>
+                                        <li data-uipath="walking.painDescription" th:text="${walking.painDescription}"/>
+                                    </th:block>
+                                    <th:block th:case="'BALANCE'">
+                                        <li th:text="#{application.details.eligibility.walkingDifficulty.label.balance}"/>
+                                        <li data-uipath="walking.balanceDescription" th:text="${walking.balanceDescription}"/>
+                                        <li data-uipath="walking.balanceHCPFalls" th:if="${null != walking.healthProfessionsForFalls}">
+                                            <span th:text="#{application.details.eligibility.walkingDifficulty.label.balance.falls}"/>
+                                            <span th:text="${walking.healthProfessionsForFalls} ? #{common.true} : #{common.false}"/>
+                                        </li>
+                                    </th:block>
+                                    <th:block th:case="'DANGER'">
+                                        <li th:text="#{application.details.eligibility.walkingDifficulty.label.danger}"/>
+                                        <li data-uipath="walking.dangerDescription" th:text="${walking.dangerousDescription}"/>
+                                        <li data-uipath="walking.dangerLungHeart" th:if="${null != walking.chestLungHeartEpilepsy}">
+                                            <span th:text="#{application.details.eligibility.walkingDifficulty.label.danger.chestLungHeart}"/>
+                                            <span th:text="${walking.chestLungHeartEpilepsy} ? #{common.true} : #{common.false}"/>
+                                        </li>
+                                    </th:block>
+                                    <th:block th:case="'SOMELSE'">
+                                        <li th:text="#{application.details.eligibility.walkingDifficulty.label.otherDescription}"/>
+                                        <li data-uipath="walking.otherDescription" th:text="${walking.otherDescription}"/>
+                                    </th:block>
+                                    <th:block th:case="*">
+                                        <li th:text="${@referenceDataService.retrieveAppEnumDisplayValue('WALKDIFF', type)}"/>
+                                    </th:block>
+
+                                    <li th:unless="${iterStat.last}" th:text="'- - - - - - - - - - - - - - - - -'"/>
+
+                                </th:block>
                             </ul>
                         </dd>
-                    </div>
-
-                    <div class="dft-data-list__item" th:if="${walking.otherDescription}">
-                        <dt class="dft-data-list__dt"
-                            th:text="#{application.details.eligibility.walkingDifficulty.label.otherDescription}"/>
-                        <dd class="dft-data-list__dd" data-uipath="walking.otherDescription"
-                            th:text="${walking.otherDescription}"/>
                     </div>
 
                     <div class="dft-data-list__item" th:if="${walking.breathlessness.typeCodes}">
@@ -472,17 +505,6 @@
                     </dd>
                 </div>
 
-                <!-- COMMON ELIGIBILITY FIELDS -->
-                <div class="dft-data-list__item" th:if="${eligibility.descriptionOfConditions}">
-                    <dt class="dft-data-list__dt"
-                        th:text="${altHealthConditionLabel} ? #{application.details.eligibility.label.altDescriptionOfConditions} : #{application.details.eligibility.label.descriptionOfConditions}"/>
-                    <dd class="dft-data-list__dd"
-                        th:with="conditions=${@modelFormatUtils.parseNewLinesToArray(eligibility.descriptionOfConditions)}">
-                        <ul class="govuk-list" data-uipath="eligibility.descriptionofconditionslist">
-                            <li th:each="condition: ${conditions}" th:text="${condition}">
-                        </ul>
-                    </dd>
-                </div>
                 <div class="dft-data-list__item" th:if="${renderSupportingDocs}">
                     <dt class="dft-data-list__dt"
                         th:text="#{application.details.eligibility.walkingDifficulty.label.supportDocs}"/>
