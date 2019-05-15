@@ -56,11 +56,11 @@ Feature: Dft BlueBadge LA Find a Badge
     And I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "badgeNumber.radio"
-    And I type "BADGENOTTOBEFOUND" for "searchTermBadgeNumber.field" field by uipath
+    And I type "NFOUND" for "searchTermBadgeNumber.field" field by uipath
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should see "No results found for " text on the page
-    And I should see "BADGENOTTOBEFOUND" text on the page
+    And I should see "NFOUND" text on the page
 
   Scenario: Verify Find a badge by badge number with radio button not selected - badge number is default
     Given I navigate to the "home" page
