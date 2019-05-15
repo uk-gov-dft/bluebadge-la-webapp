@@ -1,39 +1,39 @@
 blue-badge:
   auth-server:
-    url: https://api.${bb_env}.${url}/bb_auth
+    url: https://api-internal.${bb_env}.${url}/bb_auth
   usermanagementservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
   badgemanagementservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
   referencedataservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
   applicationsservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
   paymentservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
   messageservice:
     servicehost:
-      host: api.${bb_env}.${url}
+      host: api-internal.${bb_env}.${url}
       port: 443
       scheme: https
       contextpath: /
