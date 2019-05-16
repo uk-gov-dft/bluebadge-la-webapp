@@ -276,7 +276,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
   @SneakyThrows
   public void
       submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValidAndContactNumberIs10Characters() {
-    LocalAuthority expectedLocalAuthority = new LocalAuthority();
+    LocalAuthority expectedLocalAuthority = LocalAuthority.builder().build();
     BeanUtils.copyProperties(expectedLocalAuthority, LOCAL_AUTHORITY_ALL_FIELDS);
     expectedLocalAuthority.setContactNumber(CONTACT_NUMBER_10_CHARACTERS);
 
@@ -340,7 +340,7 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
   @SneakyThrows
   public void
       submit_shouldRedirectToManageLocalAuthorities_WhenAllFieldsAreValidAndContactNumberHas44Prefix() {
-    LocalAuthority expectedLocalAuthority = new LocalAuthority();
+    LocalAuthority expectedLocalAuthority = LocalAuthority.builder().build();
     BeanUtils.copyProperties(expectedLocalAuthority, LOCAL_AUTHORITY_ALL_FIELDS);
     expectedLocalAuthority.setContactNumber(CONTACT_NUMBER_44_PREFIX);
 

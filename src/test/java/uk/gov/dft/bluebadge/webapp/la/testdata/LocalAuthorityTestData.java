@@ -94,32 +94,35 @@ public final class LocalAuthorityTestData {
 
   // LocalAuthority
   public static final LocalAuthority LOCAL_AUTHORITY =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
-  public static final LocalAuthority LOCAL_AUTHORITY_EMPTY = new LocalAuthority();
+          .contactUrl(WEB_SITE_URL)
+          .build();
+  public static final LocalAuthority LOCAL_AUTHORITY_EMPTY = LocalAuthority.builder().build();
   public static final LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
+          .contactUrl(WEB_SITE_URL)
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS_WITH_PAYMENT =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
           .contactUrl(WEB_SITE_URL)
           .paymentsEnabled(!PAYMENTS_ENABLED)
-          .badgeCost(new BigDecimal(BADGE_COST));
+          .badgeCost(new BigDecimal(BADGE_COST))
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_ALL_FIELDS =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .welshDescription(WELSH_DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
@@ -141,15 +144,17 @@ public final class LocalAuthorityTestData {
           .emailAddress(EMAIL_ADDRESS)
           .streamlinedCitizenReapplicationJourneyEnabled(
               STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
-          .town(TOWN);
+          .town(TOWN)
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_INVALID_VALUE =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
+          .contactUrl(WEB_SITE_URL)
+          .build();
 
   public static final LocalAuthorityDetailsFormRequest
       LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS =
