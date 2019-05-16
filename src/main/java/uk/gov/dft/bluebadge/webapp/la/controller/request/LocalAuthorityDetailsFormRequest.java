@@ -88,4 +88,6 @@ public class LocalAuthorityDetailsFormRequest implements Serializable {
 
   @Size(max = 200, message = "{Size.localAuthorityDetailPage.applicationSubmittedTemplateId}")
   private String govUkNotifyApplicationSubmittedTemplateId;
+
+  private Boolean streamlinedCitizenReapplicationJourneyEnabled;
 }

@@ -1,12 +1,13 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
-import java.math.BigDecimal;
-import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 public final class LocalAuthorityTestData {
 
@@ -88,6 +89,7 @@ public final class LocalAuthorityTestData {
       "govUkNotifyApplicationSubmittedTemplateIdValue1";
   public static final String GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID =
       StringUtils.leftPad("b", 201);
+  public static final Boolean STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED = Boolean.TRUE;
 
   // LocalAuthority
   public static final LocalAuthority LOCAL_AUTHORITY =
@@ -136,6 +138,8 @@ public final class LocalAuthorityTestData {
           .badgePackType(BADGE_PACK_TYPE)
           .contactNumber(CONTACT_NUMBER_TRIMMED)
           .emailAddress(EMAIL_ADDRESS)
+          .streamlinedCitizenReapplicationJourneyEnabled(
+              STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
           .town(TOWN);
   public static final LocalAuthority LOCAL_AUTHORITY_INVALID_VALUE =
       new LocalAuthority()
@@ -175,6 +179,8 @@ public final class LocalAuthorityTestData {
         .govUkPayApiKey(GOV_UK_PAY_API_KEY)
         .govUkNotifyApiKey(GOV_UK_NOTIFY_API_KEY)
         .govUkNotifyApplicationSubmittedTemplateId(GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID)
+        .streamlinedCitizenReapplicationJourneyEnabled(
+            STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
         .build();
   }
 
@@ -218,5 +224,6 @@ public final class LocalAuthorityTestData {
               .country(COUNTRY)
               .nation(NATION)
               .contactUrl(WEB_SITE_URL)
+            .streamlinedCitizenReapplicationJourneyEnabled(STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
               .build();
 }

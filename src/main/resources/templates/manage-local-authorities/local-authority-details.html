@@ -2,7 +2,6 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layouts/master.html}">
 <head>
     <title th:text="#{localAuthorityDetailPage.title} + ' ' +  #{common.title.suffix}"></title>
@@ -111,6 +110,51 @@
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.govUkNotifyApiKey.name}, 'govUkNotifyApiKey', null, 'text') }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.govUkNotifyApplicationSubmittedTemplateId.name}, 'govUkNotifyApplicationSubmittedTemplateId', null, 'text') }"></div>
+
+                <div th:class="${#fields.hasErrors('streamlinedCitizenReapplicationJourneyEnabled')} ? 'govuk-form-group govuk-form-group--inline-radios govuk-form-group--error' : 'govuk-form-group govuk-form-group--inline-radios'">
+                    <fieldset class="govuk-fieldset" id="streamlinedCitizenReapplicationJourneyEnabled">
+
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-label" data-uipath="streamlinedCitizenReapplicationJourneyEnabled.label" th:text="#{localAuthorityDetailPage.streamlinedCitizenReapplicationJourneyEnabled.name}"></h2>
+                        </legend>
+
+                        <span class="govuk-error-message"
+                              data-uipath="paymentsEnabled.error"
+                              th:errors="*{streamlinedCitizenReapplicationJourneyEnabled}"></span>
+
+                        <div class="govuk-radios govuk-radios--inline" data-module="radios">
+                            <div class="govuk-radios__item" data-uipath="streamlinedCitizenReapplicationJourneyEnabled.true">
+                                <input id="streamlinedCitizenReapplicationJourneyEnabled.true"
+                                       class="govuk-radios__input"
+                                       data-uipath="streamlinedCitizenReapplicationJourneyEnabled.option.true"
+                                       type="radio"
+                                       value="true"
+                                       th:field="*{streamlinedCitizenReapplicationJourneyEnabled}"
+                                       name="streamlinedCitizenReapplicationJourneyEnabled.true">
+                                <label class="govuk-label govuk-radios__label"
+                                       data-uipath="streamlinedCitizenReapplicationJourneyEnabled.label.true"
+                                       for="streamlinedCitizenReapplicationJourneyEnabled.true"
+                                       th:text="Yes"></label>
+                            </div>
+
+                            <div class="govuk-radios__item" data-uipath="streamlinedCitizenReapplicationJourneyEnabled.false">
+                                <input id="streamlinedCitizenReapplicationJourneyEnabled.false"
+                                       class="govuk-radios__input"
+                                       data-uipath="streamlinedCitizenReapplicationJourneyEnabled.option.false"
+                                       type="radio"
+                                       value="false"
+                                       th:field="*{streamlinedCitizenReapplicationJourneyEnabled}"
+                                       name="streamlinedCitizenReapplicationJourneyEnabled.false">
+                                <label class="govuk-label govuk-radios__label"
+                                       data-uipath="streamlinedCitizenReapplicationJourneyEnabled.label.false"
+                                       for="streamlinedCitizenReapplicationJourneyEnabled.false"
+                                       th:text="No"></label>
+                            </div>
+
+
+                        </div>
+                    </fieldset>
+                </div>
 
                 <input th:value="#{localAuthorityDetailPage.updateDetails.button}" type="submit" data-uipath="updateDetails" class="govuk-button">
             </form>

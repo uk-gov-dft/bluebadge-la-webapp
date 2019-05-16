@@ -2,15 +2,16 @@ package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.dft.bluebadge.common.service.enums.Nation;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /** LocalAuthority */
 @Validated
@@ -71,6 +72,9 @@ public class LocalAuthority implements Serializable {
 
   @JsonProperty("differentServiceSignpostUrl")
   private String differentServiceSignpostUrl = null;
+
+  @JsonProperty("streamlinedCitizenReapplicationJourneyEnabled")
+  private Boolean streamlinedCitizenReapplicationJourneyEnabled = null;
 
   public LocalAuthority nameLine2(String nameLine2) {
     this.nameLine2 = nameLine2;
@@ -441,6 +445,25 @@ public class LocalAuthority implements Serializable {
     return this;
   }
 
+  /**
+   * Streamlined citizen reapplication journey enabled
+   *
+   * @return streamlinedCitizenReapplicationJourneyEnabled
+   */
+  @ApiModelProperty(value = "Streamlined citizen reapplication journey enabled")
+  public Boolean getStreamlinedCitizenReapplicationJourneyEnabled() {
+    return streamlinedCitizenReapplicationJourneyEnabled;
+  }
+
+  public void setStreamlinedCitizenReapplicationJourneyEnabled(Boolean streamlinedReapplicationCitizenJourneyEnabled) {
+    this.streamlinedCitizenReapplicationJourneyEnabled = streamlinedReapplicationCitizenJourneyEnabled;
+  }
+
+  public LocalAuthority streamlinedCitizenReapplicationJourneyEnabled(Boolean streamlinedCitizenReapplicationJourneyEnabled) {
+    this.streamlinedCitizenReapplicationJourneyEnabled = streamlinedCitizenReapplicationJourneyEnabled;
+    return this;
+  }
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -469,7 +492,9 @@ public class LocalAuthority implements Serializable {
         && Objects.equals(this.paymentsEnabled, localAuthority.paymentsEnabled)
         && Objects.equals(this.badgeCost, localAuthority.badgeCost)
         && Objects.equals(
-            this.differentServiceSignpostUrl, localAuthority.differentServiceSignpostUrl);
+            this.differentServiceSignpostUrl, localAuthority.differentServiceSignpostUrl)
+        && Objects.equals(
+            this.streamlinedCitizenReapplicationJourneyEnabled, localAuthority.streamlinedCitizenReapplicationJourneyEnabled);
   }
 
   @Override
@@ -493,7 +518,8 @@ public class LocalAuthority implements Serializable {
         badgePackType,
         paymentsEnabled,
         badgeCost,
-        differentServiceSignpostUrl);
+        differentServiceSignpostUrl,
+      streamlinedCitizenReapplicationJourneyEnabled);
   }
 
   @Override
@@ -521,6 +547,10 @@ public class LocalAuthority implements Serializable {
     sb.append("    differentServiceSignpostUrl: ")
         .append(toIndentedString(differentServiceSignpostUrl))
         .append("\n");
+    sb.append("    streamlinedCitizenReapplicationJourneyEnabled: ")
+        .append(toIndentedString(streamlinedCitizenReapplicationJourneyEnabled))
+        .append("\n");
+    ;
     sb.append("}");
     return sb.toString();
   }
