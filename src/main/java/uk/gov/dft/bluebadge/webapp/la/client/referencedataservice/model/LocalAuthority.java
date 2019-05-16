@@ -2,16 +2,15 @@ package uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.URL;
-import org.springframework.validation.annotation.Validated;
-import uk.gov.dft.bluebadge.common.service.enums.Nation;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.validation.annotation.Validated;
+import uk.gov.dft.bluebadge.common.service.enums.Nation;
 
 /** LocalAuthority */
 @Validated
@@ -455,12 +454,16 @@ public class LocalAuthority implements Serializable {
     return streamlinedCitizenReapplicationJourneyEnabled;
   }
 
-  public void setStreamlinedCitizenReapplicationJourneyEnabled(Boolean streamlinedReapplicationCitizenJourneyEnabled) {
-    this.streamlinedCitizenReapplicationJourneyEnabled = streamlinedReapplicationCitizenJourneyEnabled;
+  public void setStreamlinedCitizenReapplicationJourneyEnabled(
+      Boolean streamlinedReapplicationCitizenJourneyEnabled) {
+    this.streamlinedCitizenReapplicationJourneyEnabled =
+        streamlinedReapplicationCitizenJourneyEnabled;
   }
 
-  public LocalAuthority streamlinedCitizenReapplicationJourneyEnabled(Boolean streamlinedCitizenReapplicationJourneyEnabled) {
-    this.streamlinedCitizenReapplicationJourneyEnabled = streamlinedCitizenReapplicationJourneyEnabled;
+  public LocalAuthority streamlinedCitizenReapplicationJourneyEnabled(
+      Boolean streamlinedCitizenReapplicationJourneyEnabled) {
+    this.streamlinedCitizenReapplicationJourneyEnabled =
+        streamlinedCitizenReapplicationJourneyEnabled;
     return this;
   }
 
@@ -494,7 +497,8 @@ public class LocalAuthority implements Serializable {
         && Objects.equals(
             this.differentServiceSignpostUrl, localAuthority.differentServiceSignpostUrl)
         && Objects.equals(
-            this.streamlinedCitizenReapplicationJourneyEnabled, localAuthority.streamlinedCitizenReapplicationJourneyEnabled);
+            this.streamlinedCitizenReapplicationJourneyEnabled,
+            localAuthority.streamlinedCitizenReapplicationJourneyEnabled);
   }
 
   @Override
@@ -519,7 +523,7 @@ public class LocalAuthority implements Serializable {
         paymentsEnabled,
         badgeCost,
         differentServiceSignpostUrl,
-      streamlinedCitizenReapplicationJourneyEnabled);
+        streamlinedCitizenReapplicationJourneyEnabled);
   }
 
   @Override

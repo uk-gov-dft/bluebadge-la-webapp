@@ -75,6 +75,8 @@ import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POS
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.POSTCODE_PARAM;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.SHORT_CODE;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.SHORT_CODE_PARAM;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED;
+import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN_INVALID;
 import static uk.gov.dft.bluebadge.webapp.la.testdata.LocalAuthorityTestData.TOWN_PARAM;
@@ -245,7 +247,10 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
                 .param(
                     GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
-                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID)
+                .param(
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM,
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED.toString()))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(
@@ -310,7 +315,10 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
                 .param(
                     GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
-                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID)
+                .param(
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM,
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED.toString()))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));
@@ -371,7 +379,10 @@ public class LocalAuthorityDetailsControllerTest extends BaseControllerTest {
                 .param(GOV_UK_NOTIFY_API_KEY_PARAM, GOV_UK_NOTIFY_API_KEY)
                 .param(
                     GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_PARAM,
-                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID))
+                    GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID)
+                .param(
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM,
+                    STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED.toString()))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(URL_MANAGE_LOCAL_AUTHORITIES))
         .andExpect(model().attribute(MODEL_FORM_REQUEST, expectedFormRequest));

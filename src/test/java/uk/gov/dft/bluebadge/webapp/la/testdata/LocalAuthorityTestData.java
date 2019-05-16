@@ -1,13 +1,12 @@
 package uk.gov.dft.bluebadge.webapp.la.testdata;
 
+import java.math.BigDecimal;
+import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import uk.gov.dft.bluebadge.common.service.enums.Nation;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthorityRefData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.LocalAuthorityDetailsFormRequest;
-
-import java.math.BigDecimal;
-import java.util.UUID;
 
 public final class LocalAuthorityTestData {
 
@@ -89,6 +88,8 @@ public final class LocalAuthorityTestData {
       "govUkNotifyApplicationSubmittedTemplateIdValue1";
   public static final String GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID =
       StringUtils.leftPad("b", 201);
+  public static final String STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM =
+      "streamlinedCitizenReapplicationJourneyEnabled";
   public static final Boolean STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED = Boolean.TRUE;
 
   // LocalAuthority
@@ -224,6 +225,7 @@ public final class LocalAuthorityTestData {
               .country(COUNTRY)
               .nation(NATION)
               .contactUrl(WEB_SITE_URL)
-            .streamlinedCitizenReapplicationJourneyEnabled(STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
+              .streamlinedCitizenReapplicationJourneyEnabled(
+                  STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
               .build();
 }

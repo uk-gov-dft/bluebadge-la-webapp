@@ -35,7 +35,8 @@ public class LocalAuthorityMetaDataToLocalAuthorityDetailsFormRequest
         .postcode(metadata.getPostcode())
         .town(metadata.getTown())
         .websiteUrl(metadata.getContactUrl())
-        .streamlinedCitizenReapplicationJourneyEnabled(metadata.getStreamlinedCitizenReapplicationJourneyEnabled())
+        .streamlinedCitizenReapplicationJourneyEnabled(
+            metadata.getStreamlinedCitizenReapplicationJourneyEnabled())
         .build();
   }
 }
