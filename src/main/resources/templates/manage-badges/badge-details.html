@@ -51,11 +51,11 @@
             </div>
 
             <div class="dft-conditionally-visible dft-conditionally-visible--on-desktop">
-                <div th:if="${partyTypeCode  == 'PERSON'}" th:remove="tag">
+                <div th:if="${badge.partyTypeCode  == 'PERSON'}" th:remove="tag">
                     <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
                 </div>
 
-                <div th:if="${partyTypeCode == 'ORG'}" th:remove="tag">
+                <div th:if="${badge.partyTypeCode == 'ORG'}" th:remove="tag">
                     <article th:replace="~{ fragments/badge-details/badge-organisation-details :: badgeOrganisationDetails(${badge}) }" />
                 </div>
 

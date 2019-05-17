@@ -100,6 +100,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
         .orderDate(StringUtils.trimToNull(orderDate))
         .issuedDate(StringUtils.trimToNull(issuedDate))
         .rejectedReason(StringUtils.trimToNull(source.getRejectedReason()))
+        .partyTypeCode(source.getParty().getTypeCode())
         .build();
   }
 }

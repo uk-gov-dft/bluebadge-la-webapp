@@ -8,6 +8,7 @@ import uk.gov.dft.bluebadge.common.security.model.LocalAuthorityControlled;
 @Data
 @Builder
 public class BadgeDetailsViewModel implements LocalAuthorityControlled, Serializable {
+  private String partyTypeCode;
   private String nino;
   private String fullName;
   private String dob;
