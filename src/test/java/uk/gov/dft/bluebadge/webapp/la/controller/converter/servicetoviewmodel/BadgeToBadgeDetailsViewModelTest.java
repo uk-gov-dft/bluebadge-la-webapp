@@ -19,6 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService
 
 public class BadgeToBadgeDetailsViewModelTest {
 
+  private static final String PARTY_TYPE_CODE_PERSON = "PERSON";
   private static final String APPLICATION_CHANNEL = "CHANNEL";
   private static final String APPLICANT_AGE = "89";
   private static final LocalDate APPLICATION_DATE = LocalDate.of(2017, 1, 1);
@@ -97,6 +98,7 @@ public class BadgeToBadgeDetailsViewModelTest {
 
   private static final BadgeDetailsViewModel BADGE_DETAILS_VIEW_MODEL =
       BadgeDetailsViewModel.builder()
+          .partyTypeCode(PARTY_TYPE_CODE_PERSON)
           .applicationChannel(APPLICATION_CHANNEL_VIEW_MODEL)
           .applicationDate(APPLICATION_DATE_VIEW_MODEL)
           .age(APPLICANT_AGE)
