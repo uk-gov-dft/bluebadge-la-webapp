@@ -75,8 +75,7 @@
             <div class="dft-float-box govuk-!-margin-5 govuk-!-margin-bottom-7">
                 <div th:if="${badge.photoUrl}"
                      class="dft-float-box__column dft-float-box__column--one-half govuk-!-padding-right-5">
-                    <img th:if="${badge.photoUrl}" th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
-                    <span th:unless="${badge.photoUrl}" th:text="${noValue}"></span>
+                    <img th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
                 </div>
                 <div class="dft-float-box__column dft-float-box__column--one-half">
                     <dl class="dft-mobile-badge-details-list" data-uipath="badgeDetails.mobileSummary.sup">
@@ -133,9 +132,9 @@
                      data-uipath="badgeDetails.mobileSummary.alternativeContactNumber">
                     <dt class="dft-mobile-badge-details-list__dt"
                         th:text="#{badgeDetails.mobile.label.alternativeContactNumber}"/>
-                    <dd class="dft-mobile-badge-details-list__dd">
-                        <a th:href="${'tel:' + badge.secondaryContactNumber}"
-                           th:with="ref=${badge.secondaryContactNumber}" th:text="${ref} ? ${ref} : ${noValue}"></a>
+                    <dd class="dft-mobile-badge-details-list__dd" th:with="ref=${badge.secondaryContactNumber}">
+                        <a th:if="${ref}" th:href="${'tel:' + badge.secondaryContactNumber}" th:text="${ref}"></a>
+                        <span th:unless="${ref}" th:href="${badge.secondaryContactNumber}" th:text="${noValue}"></span>
                     </dd>
                 </div>
                 <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.address">
