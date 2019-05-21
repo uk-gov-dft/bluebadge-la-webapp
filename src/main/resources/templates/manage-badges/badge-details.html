@@ -46,15 +46,21 @@
                 </div>
             </header>
 
-            <div th:if="${partyTypeCode  == 'PERSON'}" th:remove="tag">
-                <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
+            <div class="dft-conditionally-visible dft-conditionally-visible--on-mobile">
+                <article th:replace="~{ fragments/badge-details/badge-details :: badgeMobileDetailsSummary(${badge}) }" />
             </div>
 
-            <div th:if="${partyTypeCode == 'ORG'}" th:remove="tag">
-                <article th:replace="~{ fragments/badge-details/badge-organisation-details :: badgeOrganisationDetails(${badge}) }" />
-            </div>
+            <div class="dft-conditionally-visible dft-conditionally-visible--on-desktop">
+                <div th:if="${badge.partyTypeCode  == 'PERSON'}" th:remove="tag">
+                    <article th:replace="~{ fragments/badge-details/badge-person-details :: badgePersonDetails(${badge}) }" />
+                </div>
 
-            <article th:replace="~{ fragments/badge-details/badge-details :: badgeDetails(${badge}) }" />
+                <div th:if="${badge.partyTypeCode == 'ORG'}" th:remove="tag">
+                    <article th:replace="~{ fragments/badge-details/badge-organisation-details :: badgeOrganisationDetails(${badge}) }" />
+                </div>
+
+                <article th:replace="~{ fragments/badge-details/badge-details :: badgeDetails(${badge}) }" />
+            </div>
 
             <details class="govuk-details" sec:authorize="hasAuthority('PERM_DELETE_BADGE') and @securityUtils.isAuthorisedLA(#vars.badge)">
                 <summary class="govuk-details__summary">
@@ -80,6 +86,10 @@
                     </p>
                 </div>
             </details>
+
+            <div class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+                <a href="/manage-badges" class="govuk-!-font-size-19" th:text="#{badgeDetails.label.findAnotherBadge}" data-uipath="findAnotherBadgesCTA"></a>
+            </div>
 
         </section>
     </main>

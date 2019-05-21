@@ -12,12 +12,13 @@
 
         <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.status}"/>
-            <dd class="dft-data-list__dd" th:text="${badge.status} + (${badge.rejectedReason}  ?  '(' + ${badge.rejectedReason} + ')': '')" />
+            <dd class="dft-data-list__dd"
+                th:text="${badge.status} + (${badge.rejectedReason}  ?  '(' + ${badge.rejectedReason} + ')': '')"/>
         </div>
 
         <div class="dft-data-list__item">
             <dt class="dft-data-list__dt" th:text="#{badgeDetails.label.badgeNumber}"/>
-            <dd class="dft-data-list__dd" th:text="${badge.badgeNumber}" />
+            <dd class="dft-data-list__dd" th:text="${badge.badgeNumber}"/>
         </div>
 
         <div class="dft-data-list__item">
@@ -51,7 +52,8 @@
 
             <dd class="dft-data-list__dd">
                 <dl class="dft-data-list dft-data-list--nested">
-                    <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"></dt>
+                    <dt class="dft-data-list__dt"
+                        th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"></dt>
                     <dd class="dft-data-list__dd" th:text="${badge.applicationDate}"></dd>
 
                     <dt class="dft-data-list__dt" th:text="#{orderbadge.checkorder.label.orderDate}"></dt>
@@ -65,6 +67,154 @@
             </dd>
         </div>
     </dl>
+</article>
+
+<article th:fragment="badgeMobileDetailsSummary(badge)">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column govuk-grid-column--full">
+            <div class="dft-float-box govuk-!-margin-5 govuk-!-margin-bottom-7">
+                <div th:if="${badge.photoUrl}"
+                     class="dft-float-box__column dft-float-box__column--one-half govuk-!-padding-right-5">
+                    <img th:src="${badge.photoUrl}" th:alt="'Photo of ' + ${badge.fullName}" />
+                </div>
+                <div class="dft-float-box__column dft-float-box__column--one-half">
+                    <dl class="dft-mobile-badge-details-list" data-uipath="badgeDetails.mobileSummary.sup">
+                        <div th:if="${badge.partyTypeCode == 'PERSON'}" th:remove="tag">
+                            <div class="dft-mobile-badge-details-list__item"
+                                 data-uipath="badgeDetails.mobileSummary.age">
+                                <dt class="dft-mobile-badge-details-list__dt"
+                                    th:text="#{badgeDetails.mobile.label.age}"/>
+                                <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.age}"/>
+                            </div>
+                        </div>
+                        <div class="dft-mobile-badge-details-list__item"
+                             data-uipath="badgeDetails.mobileSummary.expiry">
+                            <dt class="dft-mobile-badge-details-list__dt"
+                                th:text="#{badgeDetails.mobile.label.expiry}"/>
+                            <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.badgeExpiryDate}"/>
+                        </div>
+                        <div class="dft-mobile-badge-details-list__item"
+                             data-uipath="badgeDetails.mobileSummary.status">
+                            <dt class="dft-mobile-badge-details-list__dt"
+                                th:text="#{badgeDetails.mobile.label.status}"/>
+                            <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.status}"/>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column govuk-grid-column-two-thirds">
+            <dl class="dft-mobile-badge-details-list" data-uipath="badgeDetails.mobileSummary.sub">
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.holderName">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.holderName}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.fullName}"/>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item"
+                     data-uipath="badgeDetails.mobileSummary.mainContactFullName">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{badgeDetails.mobile.label.mainContactFullName}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:with="ref=${badge.contactFullName}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item"
+                     data-uipath="badgeDetails.mobileSummary.mainContactNumber">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{badgeDetails.mobile.label.mainContactNumber}"/>
+                    <dd class="dft-mobile-badge-details-list__dd">
+                        <a th:href="${'tel:' + badge.contactNumber}" th:text="${badge.contactNumber}"></a>
+                    </dd>
+                </div>
+                <div class="dft-mobile-badge-details-list__item"
+                     data-uipath="badgeDetails.mobileSummary.alternativeContactNumber">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{badgeDetails.mobile.label.alternativeContactNumber}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:with="ref=${badge.secondaryContactNumber}">
+                        <a th:if="${ref}" th:href="${'tel:' + badge.secondaryContactNumber}" th:text="${ref}"></a>
+                        <span th:unless="${ref}" th:href="${badge.secondaryContactNumber}" th:text="${noValue}"></span>
+                    </dd>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.address">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.address}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.address}"/>
+                </div>
+                <div th:if="${badge.partyTypeCode == 'PERSON'}" th:remove="tag">
+                    <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.dob">
+                        <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.dob}"/>
+                        <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.dob}"/>
+                    </div>
+                    <div class="dft-mobile-badge-details-list__item">
+                        <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.nino}"/>
+                        <dd class="dft-mobile-badge-details-list__dd"
+                            th:with="ref=${badge.nino}" th:text="${ref} ? ${ref} : ${noValue}"/>
+                    </div>
+                </div>
+                <div class="dft-mobile-badge-details-list__item"
+                     data-uipath="badgeDetails.mobileSummary.fullBadgeNumber">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.badgeNumber}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.badgeNumber}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{orderbadge.checkorder.label.badgeStartDate}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.badgeStartDate}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.issuedBy">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.issuedBy}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.issuedBy}"/>
+                </div>
+                <div class="dft-mobile-badge-details-list__item">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{orderbadge.checkorder.label.localAuthorityReference}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:with="ref=${badge.localAuthorityReference}"
+                        th:text="${ref} ? ${ref} : ${noValue}"/>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{orderbadge.checkorder.label.applicationChannel}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.applicationChannel}"/>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{orderbadge.checkorder.label.applicationSubmittedDate}"></dt>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.applicationDate}"></dd>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item">
+                    <dt class="dft-mobile-badge-details-list__dt"
+                        th:text="#{orderbadge.checkorder.label.orderDate}"></dt>
+                    <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.orderDate}"></dd>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item">
+                    <div th:if="${badge.issuedDate}" th:remove="tag">
+                        <dt class="dft-mobile-badge-details-list__dt"
+                            th:text="#{orderbadge.checkorder.label.issuedDate}"></dt>
+                        <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.issuedDate}"></dd>
+                    </div>
+                </div>
+
+                <div class="dft-mobile-badge-details-list__item" data-uipath="badgeDetails.mobileSummary.emailAddress">
+                    <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.emailAddress}"/>
+                    <dd class="dft-mobile-badge-details-list__dd" th:with="ref=${badge.emailAddress}"
+                        th:text="${ref} ? ${ref} : ${noValue}"/>
+                </div>
+
+                <div th:if="${badge.partyTypeCode == 'PERSON'}" th:remove="tag">
+                    <div class="dft-mobile-badge-details-list__item">
+                        <dt class="dft-mobile-badge-details-list__dt" th:text="#{badgeDetails.mobile.label.gender}"/>
+                        <dd class="dft-mobile-badge-details-list__dd" th:text="${badge.gender}"/>
+                    </div>
+                </div>
+
+            </dl>
+        </div>
+    </div>
 </article>
 
 </body>

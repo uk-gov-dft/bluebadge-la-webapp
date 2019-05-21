@@ -41,7 +41,7 @@ public class BadgeDetailsSiteSteps {
   public void iTypeThePostCodeOfTheApplicantWhoPreviouslyOrderedABadge() {
     String postCode = (String) scenarioContext.getContext("postcode");
     log.debug("Post code to be typed: [()]", postCode);
-    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(postCode);
+    sitePage.findElementWithUiPath("searchTermPostcode.field").sendKeys(postCode);
   }
 
   @And("^I should see the page title for Badge Details for that particular badge number$")

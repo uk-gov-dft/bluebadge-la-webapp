@@ -23,26 +23,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.common.api.model.PagingInfo;
 import uk.gov.dft.bluebadge.common.security.SecurityUtils;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
-import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.Badge;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.FindBadgeFormRequest;
-import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.FindBadgeSearchResultViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
 
 public class FindBadgeControllerTest {
 
   private static final String NAME = "jason";
-  private static final String INVALID_SEARCH_BADGE_BY_OPTION = "badOptionValue";
-  private static final String INVALID_BADGE_NUMBER = "aaa/aaa";
+  private static final String INVALID_NAME = "jason/bourne";
+  private static final String INVALID_BADGE_NUMBER = "aa/aaa";
   private static final String BADGE_NUMBER = "AAAAA1";
-  private static final String FIND_BY_POSTCODE = "postcode";
   private static final String POSTCODE = "L129PZ";
-
-  private static final Badge BADGE =
-      new Badge().badgeNumber(BADGE_NUMBER).localAuthorityRef("LocalAuthorityRef");
-  private static final FindBadgeSearchResultViewModel VIEW_MODEL =
-      FindBadgeSearchResultViewModel.builder().badgeNumber(BADGE_NUMBER).build();
+  private static final String INVALID_POSTCODE = "L12/9PZ";
   private static final String LA_SHORT_CODE = "ABERD";
-
   private static final PagingInfo PAGING_INFO = new PagingInfo();
 
   static {
@@ -71,8 +63,9 @@ public class FindBadgeControllerTest {
 
   @Test
   @SneakyThrows
-  public void show_shouldDisplayFindBadgeTemplateWithEmptyValues() {
-    FindBadgeFormRequest formRequest = FindBadgeFormRequest.builder().build();
+  public void show_shouldDisplayFindBadgeTemplateWithFindBadgeByNumberTicked() {
+    FindBadgeFormRequest formRequest =
+        FindBadgeFormRequest.builder().findBadgeBy("badgeNumber").build();
     mockMvc
         .perform(get("/manage-badges"))
         .andExpect(status().isOk())
@@ -83,39 +76,59 @@ public class FindBadgeControllerTest {
   @Test
   @SneakyThrows
   public void
-      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithEmptyValues() {
+      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidBadgeNumber() {
     mockMvc
-        .perform(post("/manage-badges"))
+        .perform(
+            post("/manage-badges")
+                .param("findBadgeBy", "badgeNumber")
+                .param("searchTermBadgeNumber", INVALID_BADGE_NUMBER))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-badges/index"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "findBadgeBy", "NotBlank"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", "searchTermBadgeNumber", "Pattern"))
         .andExpect(model().errorCount(1));
   }
 
   @Test
   @SneakyThrows
   public void
-      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidBadgeNumber() {
+      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidName() {
     mockMvc
         .perform(
             post("/manage-badges")
-                .param("findBadgeBy", "badgeNumber")
-                .param("searchTerm", INVALID_BADGE_NUMBER))
+                .param("findBadgeBy", "name")
+                .param("searchTermName", INVALID_NAME))
         .andExpect(status().isOk())
         .andExpect(view().name("manage-badges/index"))
-        .andExpect(model().attributeHasFieldErrorCode("formRequest", "searchTerm", "Pattern"))
+        .andExpect(model().attributeHasFieldErrorCode("formRequest", "searchTermName", "Pattern"))
         .andExpect(model().errorCount(1));
   }
 
   @Test
   @SneakyThrows
-  public void submit_shouldRedirectToFindBadgeSearchResultsTemplate() {
+  public void
+      submit_shouldRedirectToFindBadgeTemplateWithValidationErrors_WhenFormIsSubmittedWithInvalidPostcode() {
+    mockMvc
+        .perform(
+            post("/manage-badges")
+                .param("findBadgeBy", "postcode")
+                .param("searchTermPostcode", INVALID_POSTCODE))
+        .andExpect(status().isOk())
+        .andExpect(view().name("manage-badges/index"))
+        .andExpect(
+            model().attributeHasFieldErrorCode("formRequest", "searchTermPostcode", "Pattern"))
+        .andExpect(model().errorCount(1));
+  }
+
+  @Test
+  @SneakyThrows
+  public void submit_shouldRedirectToFindBadgeSearchResultsTemplate_whenFindByBadgeNumber() {
     HttpSession session =
         mockMvc
             .perform(
                 post("/manage-badges")
                     .param("findBadgeBy", "badgeNumber")
-                    .param("searchTerm", BADGE_NUMBER))
+                    .param("searchTermBadgeNumber", BADGE_NUMBER))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/manage-badges/search-results"))
             .andReturn()
@@ -124,6 +137,42 @@ public class FindBadgeControllerTest {
 
     assertThat(session.getAttribute("findBadgeBy")).isEqualTo("badgeNumber");
     assertThat(session.getAttribute("searchTerm")).isEqualTo(BADGE_NUMBER);
+  }
+
+  @Test
+  @SneakyThrows
+  public void submit_shouldRedirectToFindBadgeSearchResultsTemplate_whenFindByName() {
+    HttpSession session =
+        mockMvc
+            .perform(
+                post("/manage-badges").param("findBadgeBy", "name").param("searchTermName", NAME))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
+            .andReturn()
+            .getRequest()
+            .getSession();
+
+    assertThat(session.getAttribute("findBadgeBy")).isEqualTo("name");
+    assertThat(session.getAttribute("searchTerm")).isEqualTo(NAME);
+  }
+
+  @Test
+  @SneakyThrows
+  public void submit_shouldRedirectToFindBadgeSearchResultsTemplate_whenFindByPostcode() {
+    HttpSession session =
+        mockMvc
+            .perform(
+                post("/manage-badges")
+                    .param("findBadgeBy", "postcode")
+                    .param("searchTermPostcode", POSTCODE))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/manage-badges/search-results"))
+            .andReturn()
+            .getRequest()
+            .getSession();
+
+    assertThat(session.getAttribute("findBadgeBy")).isEqualTo("postcode");
+    assertThat(session.getAttribute("searchTerm")).isEqualTo(POSTCODE);
   }
 
   @Test

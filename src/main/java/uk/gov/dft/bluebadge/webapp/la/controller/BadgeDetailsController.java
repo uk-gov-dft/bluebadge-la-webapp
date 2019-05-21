@@ -54,7 +54,6 @@ public class BadgeDetailsController {
     model.addAttribute("canBeReplaced", badgeDetails.canBeReplaced());
 
     BadgeDetailsViewModel viewModel = toViewModelConverter.convert(badgeDetails);
-    model.addAttribute("partyTypeCode", badgeDetails.getParty().getTypeCode());
     model.addAttribute("badge", viewModel);
 
     String backLink =
