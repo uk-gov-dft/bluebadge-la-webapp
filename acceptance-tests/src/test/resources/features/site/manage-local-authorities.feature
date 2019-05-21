@@ -33,6 +33,7 @@ Feature: Dft BlueBadge LA Manage local authorities
     And I select option "badgePackType.option.Standard"
     And I select option "paymentsEnabled.option.false"
     And I type on field "differentServiceSignpostUrl" value "https://bluebadge.direct.gov.uk/bluebadge/why-are-you-here"
+    And I select option "streamlinedCitizenReapplicationJourneyEnabled.option.true"
     And I can click on element "updateDetails" button
     Then I should see the page titled "Manage local authorities - GOV.UK Manage Blue Badges"
 

@@ -62,7 +62,7 @@ public class ReferenceDataServiceTest {
   private static final String WALKING_SPEED_2 = "About the same";
   private static final String DIFFERENT_SIGNPOST_SERVICE_URL = "http://localhost";
   private static final LocalAuthority LOCAL_AUTHORITY =
-      new LocalAuthority().differentServiceSignpostUrl(DIFFERENT_SIGNPOST_SERVICE_URL);
+      LocalAuthority.builder().differentServiceSignpostUrl(DIFFERENT_SIGNPOST_SERVICE_URL).build();
 
   @Mock private ReferenceDataApiClient referenceDataManagementApiClientMock;
   @Mock private SecurityUtils securityUtilsMock;
