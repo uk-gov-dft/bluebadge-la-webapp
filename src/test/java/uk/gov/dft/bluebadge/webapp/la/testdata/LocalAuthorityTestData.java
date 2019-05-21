@@ -88,35 +88,41 @@ public final class LocalAuthorityTestData {
       "govUkNotifyApplicationSubmittedTemplateIdValue1";
   public static final String GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID_INVALID =
       StringUtils.leftPad("b", 201);
+  public static final String STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED_PARAM =
+      "streamlinedCitizenReapplicationJourneyEnabled";
+  public static final Boolean STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED = Boolean.TRUE;
 
   // LocalAuthority
   public static final LocalAuthority LOCAL_AUTHORITY =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
-  public static final LocalAuthority LOCAL_AUTHORITY_EMPTY = new LocalAuthority();
+          .contactUrl(WEB_SITE_URL)
+          .build();
+  public static final LocalAuthority LOCAL_AUTHORITY_EMPTY = LocalAuthority.builder().build();
   public static final LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
+          .contactUrl(WEB_SITE_URL)
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_MANDATORY_FIELDS_WITH_PAYMENT =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
           .contactUrl(WEB_SITE_URL)
           .paymentsEnabled(!PAYMENTS_ENABLED)
-          .badgeCost(new BigDecimal(BADGE_COST));
+          .badgeCost(new BigDecimal(BADGE_COST))
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_ALL_FIELDS =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .welshDescription(WELSH_DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL)
@@ -136,15 +142,19 @@ public final class LocalAuthorityTestData {
           .badgePackType(BADGE_PACK_TYPE)
           .contactNumber(CONTACT_NUMBER_TRIMMED)
           .emailAddress(EMAIL_ADDRESS)
-          .town(TOWN);
+          .streamlinedCitizenReapplicationJourneyEnabled(
+              STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
+          .town(TOWN)
+          .build();
   public static final LocalAuthority LOCAL_AUTHORITY_INVALID_VALUE =
-      new LocalAuthority()
+      LocalAuthority.builder()
           .description(DESCRIPTION)
           .differentServiceSignpostUrl(DIFFERENT_SERVICE_SIGNPOST_URL_INVALID)
           .country(COUNTRY)
           .postcode(POSTCODE)
           .nation(NATION)
-          .contactUrl(WEB_SITE_URL);
+          .contactUrl(WEB_SITE_URL)
+          .build();
 
   public static final LocalAuthorityDetailsFormRequest
       LOCAL_AUTHORITY_DETAILS_FORM_REQUEST_EMPTY_FIELDS =
@@ -175,6 +185,8 @@ public final class LocalAuthorityTestData {
         .govUkPayApiKey(GOV_UK_PAY_API_KEY)
         .govUkNotifyApiKey(GOV_UK_NOTIFY_API_KEY)
         .govUkNotifyApplicationSubmittedTemplateId(GOV_UK_APPLICATION_SUBMITTED_TEMPLATE_ID)
+        .streamlinedCitizenReapplicationJourneyEnabled(
+            STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
         .build();
   }
 
@@ -218,5 +230,7 @@ public final class LocalAuthorityTestData {
               .country(COUNTRY)
               .nation(NATION)
               .contactUrl(WEB_SITE_URL)
+              .streamlinedCitizenReapplicationJourneyEnabled(
+                  STREAMLINED_CITIZEN_REAPPLICATION_JOURNEY_ENABLED)
               .build();
 }

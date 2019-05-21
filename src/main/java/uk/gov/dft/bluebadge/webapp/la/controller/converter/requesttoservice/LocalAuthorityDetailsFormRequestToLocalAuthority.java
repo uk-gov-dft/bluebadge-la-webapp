@@ -15,7 +15,7 @@ public class LocalAuthorityDetailsFormRequestToLocalAuthority
   @Override
   public LocalAuthority convert(LocalAuthorityDetailsFormRequest formRequest) {
     Assert.notNull(formRequest, "formRequest cannot be null");
-    return new LocalAuthority()
+    return LocalAuthority.builder()
         .description(formRequest.getDescription())
         .welshDescription(formRequest.getWelshDescription())
         .addressLine1(formRequest.getAddressLine1())
@@ -35,6 +35,9 @@ public class LocalAuthorityDetailsFormRequestToLocalAuthority
         .nation(formRequest.getNation())
         .postcode(formRequest.getPostcode())
         .town(formRequest.getTown())
-        .differentServiceSignpostUrl(formRequest.getDifferentServiceSignpostUrl());
+        .differentServiceSignpostUrl(formRequest.getDifferentServiceSignpostUrl())
+        .streamlinedCitizenReapplicationJourneyEnabled(
+            formRequest.getStreamlinedCitizenReapplicationJourneyEnabled())
+        .build();
   }
 }
