@@ -23,7 +23,7 @@ import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CancelBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 public class CancelBadgeControllerTest {
@@ -77,11 +77,11 @@ public class CancelBadgeControllerTest {
   public void submit_shouldRedirectToBadgeCancelled_whenCancellationReasonIsGiven()
       throws Exception {
     mockMvc
-        .perform(post(URL_CANCEL_BADGE).param("reason", RefDataCancellationEnum.REVOKE.getValue()))
+        .perform(post(URL_CANCEL_BADGE).param("reason", CancelReason.REVOKE.name()))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(URL_BADGE_CANCELLED));
 
-    verify(badgeServiceMock, times(1)).cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
+    verify(badgeServiceMock, times(1)).cancelBadge(BADGE_NUMBER, CancelReason.REVOKE);
   }
 
   @Test

@@ -14,7 +14,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.Referenc
 import uk.gov.dft.bluebadge.webapp.la.controller.request.CancelBadgeFormRequest;
 import uk.gov.dft.bluebadge.webapp.la.controller.viewmodel.ErrorViewModel;
 import uk.gov.dft.bluebadge.webapp.la.service.BadgeService;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 import uk.gov.dft.bluebadge.webapp.la.service.referencedata.ReferenceDataService;
 
 @Controller
@@ -34,7 +34,7 @@ public class CancelBadgeController {
   private ReferenceDataService referenceDataService;
   private BadgeService badgeService;
 
-  public CancelBadgeController(ReferenceDataService refDataService, BadgeService badgeService) {
+  CancelBadgeController(ReferenceDataService refDataService, BadgeService badgeService) {
     this.referenceDataService = refDataService;
     this.badgeService = badgeService;
   }
@@ -63,7 +63,7 @@ public class CancelBadgeController {
       return TEMPLATE_CANCEL_BADGE;
     }
 
-    RefDataCancellationEnum reason = RefDataCancellationEnum.valueOf(formRequest.getReason());
+    CancelReason reason = CancelReason.valueOf(formRequest.getReason());
     badgeService.cancelBadge(badgeNumber, reason);
 
     return REDIRECT_URL_BADGE_CANCELLED;
