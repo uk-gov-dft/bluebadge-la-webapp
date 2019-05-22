@@ -13,7 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
@@ -35,6 +37,7 @@ public class OrderBadgeIndexControllerTest extends OrderBadgeControllerTestData 
       OrderBadgeIndexFormRequest.builder().applicantType(APPLICANT_TYPE_ORGANISATION).build();
 
   private MockMvc mockMvc;
+  @Mock MessageSource messageSource;
 
   @Before
   public void setup() {
@@ -46,7 +49,7 @@ public class OrderBadgeIndexControllerTest extends OrderBadgeControllerTestData 
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
-            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper()))
+            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper(), messageSource))
             .build();
   }
 
