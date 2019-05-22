@@ -51,7 +51,7 @@ public class OrderBadgePersonFormsToBadgeOrderRequest
         .buildingStreet(details.getBuildingAndStreet())
         .line2(details.getOptionalAddressField())
         .townCity(details.getTownOrCity())
-        .postCode(details.getPostcode())
+        .postCode(StringUtils.trimAllWhitespace(details.getPostcode()))
         .fullName(details.getContactDetailsName())
         .primaryPhoneNumber(StringUtils.trimAllWhitespace(details.getContactDetailsContactNumber()))
         .secondaryPhoneNumber(
