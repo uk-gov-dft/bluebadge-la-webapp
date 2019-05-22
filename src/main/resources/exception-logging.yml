@@ -1,0 +1,10 @@
+# The message regex is a 'contains'
+blue-badge:
+  logging:
+    exceptions:
+      - type: java.io.IOException
+        messageRegex: ^Broken pipe$
+        level: WARN
+      - type: org.springframework.security.web.firewall.RequestRejectedException
+        messageRegex: The request was rejected because the URL was not normalized.
+        level: WARN
