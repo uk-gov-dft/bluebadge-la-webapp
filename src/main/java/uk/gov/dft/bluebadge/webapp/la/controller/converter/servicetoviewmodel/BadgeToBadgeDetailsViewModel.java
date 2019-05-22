@@ -61,16 +61,20 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
     BadgeDetailsViewModel.BadgeDetailsViewModelBuilder badgeView = BadgeDetailsViewModel.builder();
     String partyTypeCode = source.getParty().getTypeCode();
 
-    if (partyTypeCode.equals(BadgePartyTypeEnum.PERSON.getCode())) {
+    if (BadgePartyTypeEnum.PERSON.getCode().equals(partyTypeCode)) {
       Person person = source.getParty().getPerson();
-      LocalDate dob = person.getDob();
-      String dobDisplayString = dob.format(viewModelFieldDateFormatter);
+      String dobStr = "";
+      String age = "";
+      if(null != person.getDob()){
+        LocalDate dob = person.getDob();
+        dobStr = dob.format(viewModelFieldDateFormatter);
+        age = Integer.toString(Period.between(dob, LocalDate.now()).getYears());
+      }
       String genderDisplayText =
-          referenceDataService.retrieveBadgeGenderDisplayValue(
-              source.getParty().getPerson().getGenderCode());
+          referenceDataService.retrieveBadgeGenderDisplayValue(person.getGenderCode());
       badgeView
-          .dob(dobDisplayString)
-          .age(Integer.toString(Period.between(dob, LocalDate.now()).getYears()))
+          .dob(dobStr)
+          .age(age)
           .fullName(StringUtils.trimToNull(person.getBadgeHolderName()))
           .gender(StringUtils.trimToNull(genderDisplayText))
           .nino(StringUtils.trimToNull(person.getNino()))
@@ -78,7 +82,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
           .eligibility(StringUtils.trimToNull(eligibilityDisplayText));
     }
 
-    if (partyTypeCode.equals(BadgePartyTypeEnum.ORGANISATION.getCode())) {
+    if (BadgePartyTypeEnum.ORGANISATION.getCode().equals(partyTypeCode)) {
       badgeView.fullName(source.getParty().getOrganisation().getBadgeHolderName());
     }
 
