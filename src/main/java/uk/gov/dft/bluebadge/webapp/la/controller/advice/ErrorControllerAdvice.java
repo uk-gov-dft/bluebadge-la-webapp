@@ -22,9 +22,10 @@ public class ErrorControllerAdvice {
 
   private final ObjectMapper objectMapper;
   private final MessageSource messageSource;
-  private static final String REDIRECT_URL = "redirect:" + ErrorHandlerController.ERROR_500_URL;
-  private static final String NOT_FOUND_URL = "redirect:" + ErrorHandlerController.ERROR_404_URL;
-  private static final String BAD_REQUEST_URL = "redirect:" + ErrorHandlerController.ERROR_400_URL;
+  private static final String REDIRECT = "redirect:";
+  private static final String REDIRECT_URL = REDIRECT + ErrorHandlerController.ERROR_500_URL;
+  private static final String NOT_FOUND_URL = REDIRECT + ErrorHandlerController.ERROR_404_URL;
+  private static final String BAD_REQUEST_URL = REDIRECT + ErrorHandlerController.ERROR_400_URL;
 
   public ErrorControllerAdvice(ObjectMapper objectMapper, MessageSource messageSource) {
     this.objectMapper = objectMapper;
@@ -93,7 +94,7 @@ public class ErrorControllerAdvice {
   public String handleException(InvalidSessionException ex, HttpServletRequest req) {
     String redirectUrl = ex.getRedirectUrl().orElse(ErrorHandlerController.START_AGAIN_URL);
     log.info("Request: {}, had invalid session: {}.", req.getRequestURL(), ex.getMessage());
-    return "redirect:" + redirectUrl;
+    return REDIRECT + redirectUrl;
   }
 
   @ExceptionHandler(Exception.class)
