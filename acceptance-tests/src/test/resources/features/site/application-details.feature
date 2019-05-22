@@ -17,9 +17,7 @@ Feature: Dft BlueBadge LA applications - view application details
     When I click on application with name "John The First"
     Then I should see the page titled "View application - GOV.UK Manage Blue Badges"
     And I should not see element with ui path "previous-badge.title"
-    And I should not see element with ui path "previous-badge.number"
-    And I should not see element with ui path "previous-badge.date"
-    And I should not see element with ui path "previous-badge.status"
+    And I should not see element with ui path "previous-badge.nuAnd I should not see element with ui path "previous-badge.status"
 
     When  I can click "back-link" button
     Then I should see the page titled "Applications - GOV.UK Manage Blue Badges"

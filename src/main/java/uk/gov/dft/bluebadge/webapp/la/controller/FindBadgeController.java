@@ -59,16 +59,37 @@ public class FindBadgeController {
       RedirectAttributes redirectAttributes) {
     model.addAttribute("errorSummary", new ErrorViewModel());
 
+    String searchTerm = getSearchTerm(formRequest, bindingResult);
+
     if (bindingResult.hasErrors()) {
       return TEMPLATE;
     }
 
     String findBadgeBy = formRequest.getFindBadgeBy();
-    String searchTerm = formRequest.getSearchTerm();
     session.setAttribute("findBadgeBy", findBadgeBy);
     session.setAttribute("searchTerm", searchTerm);
 
     return REDIRECT_FIND_BADGE_SEARCH_RESULTS;
+  }
+
+  private String getSearchTerm(
+      @ModelAttribute("formRequest") @Valid FindBadgeFormRequest formRequest,
+      BindingResult bindingResult) {
+    String searchTerm = "";
+    switch (formRequest.getFindBadgeBy()) {
+      case "badgeNumber":
+        searchTerm = formRequest.getSearchTermBadgeNumber();
+        break;
+      case "name":
+        searchTerm = formRequest.getSearchTermName();
+        break;
+      case "postcode":
+        searchTerm = formRequest.getSearchTermPostcode();
+        break;
+      default:
+        bindingResult.rejectValue("findBadgeBy", "NotNull.findBadge.findBadgeBy");
+    }
+    return searchTerm;
   }
 
   @PreAuthorize("hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')")

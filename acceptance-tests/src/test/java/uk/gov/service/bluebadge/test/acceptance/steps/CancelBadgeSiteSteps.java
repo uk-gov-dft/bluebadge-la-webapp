@@ -23,7 +23,7 @@ public class CancelBadgeSiteSteps {
   public void iTypeTheBadgeNumberOfTheBadgeApplicantWhoPreviouslyAOrdered() {
     String badgeNumber = (String) scenarioContext.getContext("badgeNumber");
     log.debug("Badge number to be typed: [()]", badgeNumber);
-    sitePage.findElementWithUiPath("searchTerm.field").sendKeys(badgeNumber);
+    sitePage.findElementWithUiPath("searchTermBadgeNumber.field").sendKeys(badgeNumber);
   }
 
   @Then("^I should see the page title for Cancel badge for that particular badge number$")

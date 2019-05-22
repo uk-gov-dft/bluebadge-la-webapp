@@ -13,23 +13,24 @@
     @type - String: change the type of input field. Default is set to text
 
     -------------------------------------------------------------------------------- */
+    <!-- NOTE: This is not meant to be used directly, use govuk-input, govuk-input-with-maxlength, etc. -->
 
-    <div th:fragment="govuk-input(label, name, hint, type)"
+    <div th:fragment="govuk-input-base(label, name, hint, type, maxlength)"
          th:class="${#fields.hasErrors(name)} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'">
 
         <label
-            class="govuk-label"
-            th:attr="for=${name}"
-            th:text="${label}"
-            th:data-uipath="${name} + '.label'" />
+                th:class="govuk-label"
+                th:attr="for=${name}"
+                th:text="${label}"
+                th:data-uipath="${name} + '.label'" />
 
-        <span class="govuk-hint"
+        <span th:class="govuk-hint"
               th:if="${hint}"
               th:text="${hint}"
               th:id="${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint'"
               th:data-uipath="${name} + '.label_hint'" />
 
-        <span class="govuk-error-message"
+        <span th:class="govuk-error-message"
               th:data-uipath="${name} + '.error'"
               th:id="${name} + '-hint'"
               th:if="${#fields.hasErrors(name)}"
@@ -41,9 +42,25 @@
                th:name="${name}"
                th:type="${type}"
                th:field="*{__${name}__}"
+               th:maxlength="${maxlength} ?: ''"
                th:aria-describedby="${hint} ? (${#fields.hasErrors(name)} ? ${name} + '-hint___' + ${name} + '-error' : ${name} + '-hint') : null " />
 
     </div><!-- govuk-o-form-group -->
+
+    <!--
+    This is a govuk-input-base without maxlength, default behaviour
+    -->
+    <div th:fragment="govuk-input(label, name, hint, type)">
+        <div th:replace="~{ :: govuk-input-base(${label}, ${name}, ${hint}, ${type}, null) }"></div>
+    </div>
+
+    <!--
+    This is a govuk-input-base with maxlength
+    -->
+    <div th:fragment="govuk-input-with-maxlength(label, name, hint, type, maxlength)">
+        <div th:replace="~{ :: govuk-input-base(${label}, ${name}, ${hint}, ${type}, ${maxlength}) }"></div>
+    </div>
+
 
 
     /* ------------------------------------------------------------------------------

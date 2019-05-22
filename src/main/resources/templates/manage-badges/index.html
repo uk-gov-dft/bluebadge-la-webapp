@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/master.html}">
 
 <head>
@@ -11,75 +12,109 @@
 <main layout:fragment="content">
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--two-thirds">
-
             <h1 class="govuk-heading-l" data-uipath="title">Find a badge</h1>
-
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
+        </div>
+    </div>
+
+    <div class="dft-grid-row">
+        <div class="dft-width-three-quarters">
 
             <form th:action="@{/manage-badges}" th:object="${formRequest}" method="post" novalidate>
-                <div class="dft-width-three-quarters">
 
-                    <div th:class="${#fields.hasErrors('findBadgeBy')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"
-                         id="findBadgeBy">
-                        <fieldset class="govuk-fieldset">
+                <div th:class="${#fields.hasErrors('findBadgeBy')} ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'"
+                     id="findBadgeBy">
+                    <fieldset class="govuk-fieldset">
 
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                <h2 class="govuk-heading-s">Search for Blue Badges in the UK by:</h2>
-                            </legend>
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h2 class="govuk-heading-s">Search for Blue Badges in the UK by:</h2>
+                        </legend>
 
-                            <div class="govuk-radios">
-                                <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="badgeNumber"
-                                           name="findBadgeBy"
-                                           type="radio" value="badgeNumber" data-aria-controls="badgeNumber" data-uipath="badgeNumber.radio">
-                                    <label class="govuk-label govuk-radios__label" for="badgeNumber" data-uipath="badgeNumber.label">Badge
-                                        number</label>
-                                </div>
-
-                                <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="name"
-                                           name="findBadgeBy"
-                                           type="radio" value="name" data-aria-controls="name" data-uipath="name.radio">
-                                    <label class="govuk-label govuk-radios__label" for="name" data-uipath="name.label">Name</label>
-                                </div>
-
-                                <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" th:field="*{findBadgeBy}" id="postcode"
-                                           name="findBadgeBy"
-                                           type="radio" value="postcode" data-aria-controls="postcode" data-uipath="postcode.radio">
-                                    <label class="govuk-label govuk-radios__label" for="postcode" data-uipath="postcode.label">Postcode</label>
-                                </div>
+                        <div id="searchTypeList" class="govuk-radios" data-module="radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       type="radio"
+                                       th:field="*{findBadgeBy}"
+                                       id="badgeNumber"
+                                       data-uipath="badgeNumber.radio"
+                                       th:name="findBadgeBy"
+                                       th:value="badgeNumber"
+                                       th:attr="data-aria-controls='searchTermBadgeNumber-conditional'">
+                                <label class="govuk-label govuk-radios__label"
+                                       for="badgeNumber"
+                                       data-uipath="badgeNumber.label">Badge number</label>
                             </div>
-                        </fieldset>
-                    </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                                 th:id="searchTermBadgeNumber-conditional">
+                                <div th:replace="~{ fragments/form-elements :: govuk-input-with-maxlength(#{findBadge.label.searchTermBadgeNumber}, 'searchTermBadgeNumber', #{findBadge.hint.searchTermBadgeNumber}, 'text', '6') }"/>
+                            </div>
 
-                    <div th:replace="~{ fragments/form-elements :: govuk-input('Enter keywords', 'searchTerm', null, 'text') }"/>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       type="radio"
+                                       th:field="*{findBadgeBy}"
+                                       id="name"
+                                       data-uipath="name.radio"
+                                       th:name="findBadgeBy"
+                                       th:value="name"
+                                       th:attr="data-aria-controls='searchTermName-conditional'">
+                                <label class="govuk-label govuk-radios__label"
+                                       for="name"
+                                       data-uipath="name.label">Name</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                                 th:id="searchTermName-conditional">
+                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermName}, 'searchTermName', null, 'text') }"/>
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       type="radio"
+                                       th:field="*{findBadgeBy}"
+                                       id="postcode"
+                                       data-uipath="postcode.radio"
+                                       th:name="findBadgeBy"
+                                       th:value="postcode"
+                                       th:attr="data-aria-controls='searchTermPostcode-conditional'">
+                                <label class="govuk-label govuk-radios__label"
+                                       for="postcode"
+                                       data-uipath="postcode.label">Postcode</label>
+                            </div>
+
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                                 th:id="searchTermPostcode-conditional">
+                                <div th:replace="~{ fragments/form-elements :: govuk-input(#{findBadge.label.searchTermPostcode}, 'searchTermPostcode', null, 'text') }"/>
+                            </div>
+                        </div>
+                    </fieldset>
 
                     <input data-uipath="button" value="Search" type="submit" class="govuk-button">
-
                 </div>
             </form>
+        </div>
 
-
-            <div class="dft-width-three-quarters">
-                <details class="govuk-details"  sec:authorize-url="GET /manage-badges/export-all-la-badges" sec:authorize="hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')">
-                    <summary data-uipath="exportAllLABadgesDetails"  class="govuk-details__summary">
+        <div class="dft-width-three-quarters">
+            <details class="govuk-details" sec:authorize-url="GET /manage-badges/export-all-la-badges"
+                     sec:authorize="hasAuthority('PERM_VIEW_BADGE_DETAILS_ZIP')">
+                <summary data-uipath="exportAllLABadgesDetails" class="govuk-details__summary">
                         <span class="govuk-details__summary-text" data-uipath="updateStatusSummary"
                               th:text="#{findBadge.label.exportAllBadges.title}"></span>
-                    </summary>
+                </summary>
 
-                    <div class="govuk-details__text">
-                        <form th:action="@{/manage-badges/export-all-la-badges}" data-prevent-double-submission th:method="get">
-                            <p class="govuk-body" th:text="#{findBadge.label.exportAllBadges.body}"></p>
+                <div class="govuk-details__text">
+                    <form th:action="@{/manage-badges/export-all-la-badges}" data-prevent-double-submission
+                          th:method="get">
+                        <p class="govuk-body" th:text="#{findBadge.label.exportAllBadges.body}"></p>
 
-                            <input data-uipath="exportAllLABadgesButton"
-                                   th:value="#{findBadge.label.exportAllBadges.button}" type="submit" class="govuk-button govuk-!-margin-bottom-0">
-                        </form>
-                    </div>
-                </details>
-            </div>
-
+                        <input data-uipath="exportAllLABadgesButton"
+                               th:value="#{findBadge.label.exportAllBadges.button}" type="submit"
+                               class="govuk-button govuk-!-margin-bottom-0">
+                    </form>
+                </div>
+            </details>
         </div>
+
+    </div>
     </div>
 </main>
 

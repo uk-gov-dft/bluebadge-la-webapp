@@ -14,7 +14,7 @@ Feature: Dft BlueBadge LA applications paging
     When I can click on the "Find a badge" link on left navigation
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
     When I select option "name.radio"
-    And I type "E" for "searchTerm" field
+    And I type "E" for "searchTermName" field
     And I can click "button" button
     Then I should see the page titled "Badge search results - GOV.UK Manage Blue Badges"
     And I should not see "No results found for " text on the page

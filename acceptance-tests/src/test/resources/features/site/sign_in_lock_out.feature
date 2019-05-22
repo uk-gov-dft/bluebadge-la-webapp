@@ -82,5 +82,4 @@ Feature: LA Sign In Page - User locked out after too many failed attempts
     When I can click on the "Sign in" link
     Then I should see the page titled "Sign in - GOV.UK Manage Blue Badges"
     When I sign in as new user with  ***REMOVED***
-    And I can click Sign in button
     Then I should see the page titled "Find a badge - GOV.UK Manage Blue Badges"
