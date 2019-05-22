@@ -153,6 +153,7 @@ public class ApiConfig {
     HttpComponentsClientHttpRequestFactory requestFactory =
         new HttpComponentsClientHttpRequestFactory();
     result.setRequestFactory(requestFactory);
+    result.setErrorHandler(commonResponseErrorHandler());
     result.setUriTemplateHandler(
         new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
     result
