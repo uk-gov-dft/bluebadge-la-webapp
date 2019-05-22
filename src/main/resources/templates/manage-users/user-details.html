@@ -22,7 +22,7 @@
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--half">
 
-            <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" method="post" novalidate data-prevent-double-submission>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{userdetail.field.name}, 'name', null, 'text') }"></div>
 
@@ -44,7 +44,7 @@
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/request- ***REMOVED***>
+                    <form th:action="@{/manage-users/request- ***REMOVED*** data-prevent-double-submission>
                         <p>
                             <span th:text="#{userdetail.text.confirm ***REMOVED***/>
                             <strong data-uipath="reset.userName" th:text="*{name} + '?'"/>
@@ -66,7 +66,7 @@
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" th:method="delete">
+                    <form th:action="@{/manage-users/user-details/{uuid}(uuid=${uuid})}" th:object="${formRequest}" th:method="delete" data-prevent-double-submission>
                         <p>
                             <span th:text="#{userdetail.text.confirmdelete.line1}" th:remove="tag"/>
                             <strong data-uipath="reset.userName" th:text="*{name} + '?'"/>
