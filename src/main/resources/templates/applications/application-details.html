@@ -47,7 +47,7 @@
 
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}">
+                    <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="put" th:object="${updateApplicationFormRequest}" data-prevent-double-submission>
                         <div th:replace="~{ fragments/govuk-radios :: govuk-radio-group-internationalized('inline', #{application.details.applicationStatus.name}, 'applicationStatus', null, ${applicationStatusOptions}) }"></div>
 
                         <input data-uipath="updateApplicationStatusButton"
@@ -595,7 +595,7 @@
             </summary>
 
             <div class="govuk-details__text">
-                <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="delete">
+                <form th:action="@{/applications/{uuid}(uuid=${uuid})}" th:method="delete" data-prevent-double-submission>
                     <p class="govuk-body" th:text="#{application.details.text.confirmdelete.line1}"/>
                     <input data-uipath="removeApplicationButton"
                            th:value="#{application.details.removeApplicationButton}" type="submit" class="govuk-button">
@@ -616,7 +616,7 @@
 
             <div class="govuk-details__text">
                 <form th:action="@{/applications/{uuid}/transfers(uuid=${uuid})}"
-                      th:object="${transferApplicationFormRequest}" method="post" novalidate>
+                      th:object="${transferApplicationFormRequest}" method="post" novalidate data-prevent-double-submission>
                     <div th:replace="~{ fragments/govuk-select ::
                     govuk-select-flat(#{application.details.transfer.label}, 'transferToLaShortCode', null, ${allOtherLocalAuthorities}) }"/>
 

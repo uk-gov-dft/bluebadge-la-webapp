@@ -68,7 +68,7 @@
                 </summary>
 
                 <div class="govuk-details__text">
-                    <form th:action="@{/manage-badges/delete-badge/{badgeNumber}(badgeNumber=${badgeNumber})}" th:method="delete">
+                    <form th:action="@{/manage-badges/delete-badge/{badgeNumber}(badgeNumber=${badgeNumber})}" th:method="delete" data-prevent-double-submission>
                         <div class="govuk-warning-text">
                             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                             <strong class="govuk-warning-text__text">
