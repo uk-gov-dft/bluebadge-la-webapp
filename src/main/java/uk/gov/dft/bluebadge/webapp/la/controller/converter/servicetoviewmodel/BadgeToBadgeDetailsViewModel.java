@@ -65,7 +65,7 @@ public class BadgeToBadgeDetailsViewModel implements Converter<Badge, BadgeDetai
       Person person = source.getParty().getPerson();
       String dobStr = "";
       String age = "";
-      if(null != person.getDob()){
+      if (null != person.getDob()) {
         LocalDate dob = person.getDob();
         dobStr = dob.format(viewModelFieldDateFormatter);
         age = Integer.toString(Period.between(dob, LocalDate.now()).getYears());
