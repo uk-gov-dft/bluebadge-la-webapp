@@ -18,16 +18,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UsersResponse;
 
 @Service
-public class UserManagementApiClient extends BaseApiClient {
+public class UserManagementApiClient {
 
   static class Endpoints {
     private Endpoints() {}
@@ -64,29 +62,19 @@ public class UserManagementApiClient extends BaseApiClient {
   }
 
   public User currentUserDetails() {
-    try {
-      return Objects.requireNonNull(
-              restTemplate.getForEntity(GET_CURRENT_ENDPOINT, UserResponse.class).getBody())
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    return Objects.requireNonNull(
+            restTemplate.getForEntity(GET_CURRENT_ENDPOINT, UserResponse.class).getBody())
+        .getData();
   }
 
   public User getByUuid(UUID uuid) {
     Assert.notNull(uuid, "uuid must be provided for getByUuid");
 
-    try {
-      return Objects.requireNonNull(
-              restTemplate
-                  .getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, uuid.toString())
-                  .getBody())
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    return Objects.requireNonNull(
+            restTemplate
+                .getForEntity(GET_BY_ID_ENDPOINT, UserResponse.class, uuid.toString())
+                .getBody())
+        .getData();
   }
 
   public User createUser(User user) {
@@ -94,14 +82,9 @@ public class UserManagementApiClient extends BaseApiClient {
 
     HttpEntity<User> request = new HttpEntity<>(user);
 
-    try {
-      return Objects.requireNonNull(
-              restTemplate.postForObject(CREATE_ENDPOINT, request, UserResponse.class))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    return Objects.requireNonNull(
+            restTemplate.postForObject(CREATE_ENDPOINT, request, UserResponse.class))
+        .getData();
   }
 
   public User updateUser(User user) {
@@ -111,37 +94,23 @@ public class UserManagementApiClient extends BaseApiClient {
 
     String uri = UriComponentsBuilder.fromUriString(UPDATE_ENDPOINT).build().toUriString();
 
-    try {
-      return Objects.requireNonNull(
-              restTemplate
-                  .exchange(
-                      uri, HttpMethod.PUT, request, UserResponse.class, user.getUuid().toString())
-                  .getBody())
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    return Objects.requireNonNull(
+            restTemplate
+                .exchange(
+                    uri, HttpMethod.PUT, request, UserResponse.class, user.getUuid().toString())
+                .getBody())
+        .getData();
   }
 
   public void deleteUser(UUID uuid) {
     Assert.notNull(uuid, "deleteUser - uuid must be set");
 
     String uri = UriComponentsBuilder.fromUriString(DELETE_ENDPOINT).build().toUriString();
-    try {
-      restTemplate.delete(uri, uuid.toString());
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.delete(uri, uuid.toString());
   }
 
   public void requestPasswordReset(UUID uuid) {
     Assert.notNull(uuid, "requestPasswordReset - uuid must not be null");
-
-    try {
-      restTemplate.postForEntity(REQUEST_RESET_EMAIL_ENDPOINT, null, String.class, uuid);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.postForEntity(REQUEST_RESET_EMAIL_ENDPOINT, null, String.class, uuid);
   }
 }

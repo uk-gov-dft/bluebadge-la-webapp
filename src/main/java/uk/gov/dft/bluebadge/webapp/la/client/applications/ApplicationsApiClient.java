@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -19,11 +18,10 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationSumma
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTransfer;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 
 @Slf4j
 @Service
-public class ApplicationsApiClient extends BaseApiClient {
+public class ApplicationsApiClient {
 
   private static final String BASE_ENDPOINT = "applications";
   private static final String TRANSFER_ENDPOINT = "/applications/{uuid}/transfers";
@@ -60,16 +58,8 @@ public class ApplicationsApiClient extends BaseApiClient {
     builder.queryParam("pageSize", pageInfo.getPageSize());
     builder.queryParam("pageNum", pageInfo.getPageNum());
 
-    ApplicationSummaryResponse response = new ApplicationSummaryResponse();
-    try {
-      response =
-          restTemplate.getForObject(
-              builder.build().toUriString(), ApplicationSummaryResponse.class);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-
-    return response;
+    return restTemplate.getForObject(
+        builder.build().toUriString(), ApplicationSummaryResponse.class);
   }
 
   public Application retrieve(String applicationId) {
@@ -91,11 +81,7 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BASE_ENDPOINT, applicationId);
-    try {
-      restTemplate.delete(builder.toUriString());
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.delete(builder.toUriString());
   }
 
   public void update(ApplicationUpdate applicationUpdateRequest) {
@@ -114,11 +100,7 @@ public class ApplicationsApiClient extends BaseApiClient {
         UriComponentsBuilder.newInstance()
             .path("/")
             .pathSegment(BASE_ENDPOINT, applicationId.toString());
-    try {
-      restTemplate.put(builder.toUriString(), applicationUpdateRequest);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.put(builder.toUriString(), applicationUpdateRequest);
   }
 
   public void transfer(String applicationId, ApplicationTransfer applicationTransferRequest) {
@@ -130,11 +112,7 @@ public class ApplicationsApiClient extends BaseApiClient {
 
     log.debug("transfer application {} to LA {}", transferToLaShortCode);
 
-    try {
-      restTemplate.postForEntity(
-          uri, applicationTransferRequest, CommonResponse.class, applicationId);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.postForEntity(
+        uri, applicationTransferRequest, CommonResponse.class, applicationId);
   }
 }

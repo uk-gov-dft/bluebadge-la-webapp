@@ -8,6 +8,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -18,6 +19,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.TemplateName;
 
@@ -44,6 +46,7 @@ public class MessageApiClientTest {
   public void setUp() {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
+    restTemplate.setErrorHandler(new CommonResponseErrorHandler(new ObjectMapper()));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     client = new MessageApiClient(restTemplate);
   }

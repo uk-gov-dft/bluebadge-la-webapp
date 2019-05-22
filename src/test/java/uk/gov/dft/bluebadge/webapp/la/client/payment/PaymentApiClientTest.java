@@ -8,6 +8,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
 
 public class PaymentApiClientTest {
@@ -35,6 +37,7 @@ public class PaymentApiClientTest {
   public void setUp() {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
+    restTemplate.setErrorHandler(new CommonResponseErrorHandler(new ObjectMapper()));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     client = new PaymentApiClient(restTemplate);
   }

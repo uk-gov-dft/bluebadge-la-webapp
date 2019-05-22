@@ -47,6 +47,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 
 public class BadgeManagementApiClientTest {
   private static final String TEST_URI = "http://justtesting:8787/test";
@@ -83,6 +84,7 @@ public class BadgeManagementApiClientTest {
     initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
+    restTemplate.setErrorHandler(new CommonResponseErrorHandler(objectMapper));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     client = new BadgeManagementApiClient(restTemplate);
   }

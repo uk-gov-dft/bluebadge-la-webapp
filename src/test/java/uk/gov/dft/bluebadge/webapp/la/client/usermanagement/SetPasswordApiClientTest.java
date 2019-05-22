@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 
@@ -33,6 +34,7 @@ public class SetPasswordApiClientTest {
   public void setup() {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
+    restTemplate.setErrorHandler(new CommonResponseErrorHandler(om));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     setPasswordApiClient = new SetPasswordApiClient(restTemplate);
   }

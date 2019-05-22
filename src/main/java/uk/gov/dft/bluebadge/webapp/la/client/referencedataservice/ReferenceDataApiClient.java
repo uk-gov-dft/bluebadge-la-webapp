@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalAuthority;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.LocalCouncil;
 import uk.gov.dft.bluebadge.webapp.la.client.referencedataservice.model.ReferenceData;
@@ -18,7 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataDomainEnum;
 
 @Slf4j
 @Service
-public class ReferenceDataApiClient extends BaseApiClient {
+public class ReferenceDataApiClient {
 
   private final RestTemplate restTemplate;
 
@@ -62,12 +60,7 @@ public class ReferenceDataApiClient extends BaseApiClient {
             .toUriString();
 
     HttpEntity<LocalAuthority> httpRequest = new HttpEntity<>(localAuthority);
-
-    try {
-      restTemplate.put(uri, httpRequest, shortCode);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.put(uri, httpRequest, shortCode);
   }
 
   /**
@@ -83,11 +76,6 @@ public class ReferenceDataApiClient extends BaseApiClient {
             .toUriString();
 
     HttpEntity<LocalCouncil> httpRequest = new HttpEntity<>(localCouncil);
-
-    try {
-      restTemplate.put(uri, httpRequest, shortCode);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.put(uri, httpRequest, shortCode);
   }
 }

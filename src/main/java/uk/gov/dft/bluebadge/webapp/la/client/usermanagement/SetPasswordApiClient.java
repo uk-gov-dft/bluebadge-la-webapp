@@ -6,15 +6,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.Password;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.User;
 import uk.gov.dft.bluebadge.webapp.la.client.usermanagement.model.UserResponse;
 
 @Service
-public class SetPasswordApiClient extends BaseApiClient {
+public class SetPasswordApiClient {
 
   static class Endpoints {
     private Endpoints() {}
@@ -39,15 +37,9 @@ public class SetPasswordApiClient extends BaseApiClient {
     passwords.setPasswordConfirm(passwordConfirm);
 
     HttpEntity<Password> requestBody = new HttpEntity<>(passwords);
-
-    try {
-      return Objects.requireNonNull(
-              this.restTemplate.patchForObject(
-                  Endpoints.UPDATE_P_ENDPOINT, requestBody, UserResponse.class, uuid))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    return Objects.requireNonNull(
+            this.restTemplate.patchForObject(
+                Endpoints.UPDATE_P_ENDPOINT, requestBody, UserResponse.class, uuid))
+        .getData();
   }
 }
