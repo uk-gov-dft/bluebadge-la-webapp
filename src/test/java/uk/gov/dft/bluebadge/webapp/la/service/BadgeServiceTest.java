@@ -35,7 +35,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesRespons
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliverToCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.DeliveryOptionCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.ReplaceReason;
 
 public class BadgeServiceTest {
   private static final String BADGE_NUMBER = "123";
@@ -192,7 +193,7 @@ public class BadgeServiceTest {
   @Test
   public void exportAllBadgesByLa_shouldWork() {
     ResponseEntity<byte[]> expectedResponse =
-        new ResponseEntity<byte[]>("response".getBytes(), HttpStatus.OK);
+        new ResponseEntity<>("response".getBytes(), HttpStatus.OK);
     when(badgeManagementApiClientMock.exportBadgesByLa("ABERD")).thenReturn(expectedResponse);
     ResponseEntity<byte[]> response = badgeService.exportBadgesByLa("ABERD");
     assertThat(response).isEqualTo(expectedResponse);
@@ -200,10 +201,8 @@ public class BadgeServiceTest {
 
   @Test
   public void cancelABadge_shouldNotThrowException() {
-    doNothing()
-        .when(badgeManagementApiClientMock)
-        .cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE.getValue());
-    badgeService.cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
+    doNothing().when(badgeManagementApiClientMock).cancelBadge(BADGE_NUMBER, CancelReason.REVOKE);
+    badgeService.cancelBadge(BADGE_NUMBER, CancelReason.REVOKE);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -219,7 +218,7 @@ public class BadgeServiceTest {
     doThrow(HttpClientErrorException.class)
         .when(badgeManagementApiClientMock)
         .cancelBadge(any(), any());
-    badgeService.cancelBadge(BADGE_NUMBER, RefDataCancellationEnum.REVOKE);
+    badgeService.cancelBadge(BADGE_NUMBER, CancelReason.REVOKE);
   }
 
   @Test
@@ -239,7 +238,7 @@ public class BadgeServiceTest {
     BadgeReplaceRequest request =
         BadgeReplaceRequest.builder()
             .badgeNumber(BADGE_NUMBER)
-            .replaceReasonCode("LOST")
+            .replaceReasonCode(ReplaceReason.LOST)
             .deliveryOptionCode(DeliveryOptionCodeField.STAND)
             .deliverToCode(DeliverToCodeField.HOME)
             .build();
