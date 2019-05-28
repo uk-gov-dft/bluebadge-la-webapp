@@ -47,6 +47,8 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.ReplaceReason;
 import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 
 public class BadgeManagementApiClientTest {
@@ -61,7 +63,7 @@ public class BadgeManagementApiClientTest {
           .localAuthorityRef("localAuthorityRef");
   private static final String POST_CODE = "L329PA";
   private static final String NAME = "jason";
-  private static final String CANCEL_REASON_CODE = "REVOKE";
+  private static final CancelReason CANCEL_REASON_CODE = CancelReason.REVOKE;
   private static final Integer PAGE_NUM = 2;
   private static final Integer PAGE_SIZE = 14;
   private static final PagingInfo PAGING_INFO = new PagingInfo();
@@ -294,9 +296,12 @@ public class BadgeManagementApiClientTest {
     CommonResponse commonResponse = new CommonResponse();
     String response = objectMapper.writeValueAsString(commonResponse);
 
-    BadgeCancelRequest badgeCancelRequest = new BadgeCancelRequest();
-    badgeCancelRequest.setBadgeNumber(BADGE_NUMBER);
-    badgeCancelRequest.setCancelReasonCode(CANCEL_REASON_CODE);
+    BadgeCancelRequest badgeCancelRequest =
+        BadgeCancelRequest.builder()
+            .badgeNumber(BADGE_NUMBER)
+            .cancelReasonCode(CANCEL_REASON_CODE)
+            .build();
+
     String requestBody = objectMapper.writeValueAsString(badgeCancelRequest);
 
     String uri = BADGES_ENDPOINT + "/" + BADGE_NUMBER + "/cancellations";
@@ -371,7 +376,7 @@ public class BadgeManagementApiClientTest {
     BadgeReplaceRequest request =
         BadgeReplaceRequest.builder()
             .badgeNumber(BADGE_NUMBER)
-            .replaceReasonCode("LOST")
+            .replaceReasonCode(ReplaceReason.LOST)
             .deliverToCode(COUNCIL)
             .deliveryOptionCode(STAND)
             .build();
@@ -399,7 +404,7 @@ public class BadgeManagementApiClientTest {
     BadgeReplaceRequest request =
         BadgeReplaceRequest.builder()
             .badgeNumber(BADGE_NUMBER)
-            .replaceReasonCode("LOST")
+            .replaceReasonCode(ReplaceReason.LOST)
             .deliverToCode(COUNCIL)
             .deliveryOptionCode(STAND)
             .build();

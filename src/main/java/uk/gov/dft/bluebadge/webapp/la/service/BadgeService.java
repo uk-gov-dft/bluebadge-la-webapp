@@ -16,7 +16,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.NotFoundException;
-import uk.gov.dft.bluebadge.webapp.la.service.referencedata.RefDataCancellationEnum;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 
 @Service
 @Slf4j
@@ -77,10 +77,10 @@ public class BadgeService {
     return badgeManagementApiClient.exportBadgesByLa(localAuthorityShortCode);
   }
 
-  public void cancelBadge(String badgeNumber, RefDataCancellationEnum reason) {
+  public void cancelBadge(String badgeNumber, CancelReason reason) {
     Assert.notNull(badgeNumber, "Badge number should not be null");
     Assert.notNull(reason, "cancellation reason should not be null");
-    badgeManagementApiClient.cancelBadge(badgeNumber, reason.getValue());
+    badgeManagementApiClient.cancelBadge(badgeNumber, reason);
   }
 
   public void deleteBadge(String badgeNumber) {

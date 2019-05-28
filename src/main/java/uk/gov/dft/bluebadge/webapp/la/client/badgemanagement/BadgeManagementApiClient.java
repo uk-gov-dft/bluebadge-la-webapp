@@ -24,6 +24,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
+import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 
 @Slf4j
 @Service
@@ -127,15 +128,14 @@ public class BadgeManagementApiClient {
         builder.build().toUriString(), HttpMethod.GET, requestEntity, byte[].class);
   }
 
-  public void cancelBadge(String badgeNumber, String reason) {
+  public void cancelBadge(String badgeNumber, CancelReason reason) {
     Assert.notNull(badgeNumber, "cancel badge, badge number not provided");
     Assert.notNull(reason, "reason for cancellation is not provided");
 
     String uri = UriComponentsBuilder.fromUriString(CANCEL_ENDPOINT).build().toUriString();
 
-    BadgeCancelRequest badgeCancelRequest = new BadgeCancelRequest();
-    badgeCancelRequest.setBadgeNumber(badgeNumber);
-    badgeCancelRequest.setCancelReasonCode(reason);
+    BadgeCancelRequest badgeCancelRequest =
+        BadgeCancelRequest.builder().badgeNumber(badgeNumber).cancelReasonCode(reason).build();
 
     HttpEntity<BadgeCancelRequest> httpRequest = new HttpEntity<>(badgeCancelRequest);
     restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
