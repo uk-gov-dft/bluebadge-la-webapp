@@ -47,9 +47,9 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeSummary;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.ReplaceReason;
-import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 
 public class BadgeManagementApiClientTest {
   private static final String TEST_URI = "http://justtesting:8787/test";
