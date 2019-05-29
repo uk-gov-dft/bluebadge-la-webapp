@@ -20,7 +20,7 @@
     <div class="dft-grid-row">
         <div class="dft-grid-col dft-grid-col--half">
 
-            <form th:action="@{/manage-local-authorities/local-authority-details/{shortCode}(shortCode=${shortCode})}" th:object="${formRequest}" method="post" novalidate>
+            <form th:action="@{/manage-local-authorities/local-authority-details/{shortCode}(shortCode=${shortCode})}" th:object="${formRequest}" method="post" novalidate data-prevent-double-submission>
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.description.name}, 'description', null, 'text') }"></div>
 
                 <div th:replace="~{ fragments/form-elements :: govuk-input(#{localAuthorityDetailPage.welshDescription.name}, 'welshDescription', null, 'text') }"></div>

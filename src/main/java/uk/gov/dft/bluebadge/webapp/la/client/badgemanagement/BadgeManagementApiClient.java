@@ -1,11 +1,9 @@
 package uk.gov.dft.bluebadge.webapp.la.client.badgemanagement;
 
-import com.google.common.collect.Lists;
 import com.google.common.net.MediaType;
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -14,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
@@ -27,12 +24,11 @@ import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeOrderReq
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeReplaceRequest;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgeResponse;
 import uk.gov.dft.bluebadge.webapp.la.client.badgemanagement.model.BadgesResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.service.enums.CancelReason;
 
 @Slf4j
 @Service
-public class BadgeManagementApiClient extends BaseApiClient {
+public class BadgeManagementApiClient {
 
   private static final String BADGES_BASE_ENDPOINT = "badges";
   private static final String CANCEL_ENDPOINT = "/badges/{badgeNumber}/cancellations";
@@ -70,15 +66,9 @@ public class BadgeManagementApiClient extends BaseApiClient {
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
 
-    try {
-      return Objects.requireNonNull(
-              restTemplate.postForObject(
-                  builder.toUriString(), request, BadgeNumbersResponse.class))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return Lists.newArrayList();
+    return Objects.requireNonNull(
+            restTemplate.postForObject(builder.toUriString(), request, BadgeNumbersResponse.class))
+        .getData();
   }
 
   /**
@@ -88,18 +78,12 @@ public class BadgeManagementApiClient extends BaseApiClient {
    * @return
    */
   public Badge retrieveBadge(String badgeNumber) {
-
     Assert.notNull(badgeNumber, "badgeNumber supplied must be not null");
 
-    try {
-      log.info("retrieveBadge {}", badgeNumber);
-      BadgeResponse response =
-          restTemplate.getForObject(RETRIEVE_ENDPOINT, BadgeResponse.class, badgeNumber);
-      return response.getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-    return null;
+    log.info("retrieveBadge {}", badgeNumber);
+    BadgeResponse response =
+        restTemplate.getForObject(RETRIEVE_ENDPOINT, BadgeResponse.class, badgeNumber);
+    return response.getData();
   }
 
   public BadgesResponse findBadgeByPostCode(String postcode, PagingInfo pageInfo) {
@@ -126,15 +110,7 @@ public class BadgeManagementApiClient extends BaseApiClient {
     builder.queryParam("pageSize", pageInfo.getPageSize());
     builder.queryParam("pageNum", pageInfo.getPageNum());
 
-    BadgesResponse response = new BadgesResponse().data(Lists.newArrayList());
-
-    try {
-      response = restTemplate.getForObject(builder.build().toUriString(), BadgesResponse.class);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-
-    return response;
+    return restTemplate.getForObject(builder.build().toUriString(), BadgesResponse.class);
   }
 
   public ResponseEntity<byte[]> exportBadgesByLa(String localAuthorityShortCode) {
@@ -144,20 +120,12 @@ public class BadgeManagementApiClient extends BaseApiClient {
     UriComponentsBuilder builder =
         UriComponentsBuilder.newInstance().path("/").pathSegment(BADGES_BASE_ENDPOINT);
     builder.queryParam("laShortCode", localAuthorityShortCode);
-    ResponseEntity<byte[]> response = null;
 
-    try {
-      HttpHeaders headers = new HttpHeaders();
-      headers.set("Accept", MediaType.ZIP.toString());
-      HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-      response =
-          restTemplate.exchange(
-              builder.build().toUriString(), HttpMethod.GET, requestEntity, byte[].class);
-    } catch (HttpClientErrorException cex) {
-      handleHttpClientException(cex);
-    }
-
-    return response;
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Accept", MediaType.ZIP.toString());
+    HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+    return restTemplate.exchange(
+        builder.build().toUriString(), HttpMethod.GET, requestEntity, byte[].class);
   }
 
   public void cancelBadge(String badgeNumber, CancelReason reason) {
@@ -170,21 +138,12 @@ public class BadgeManagementApiClient extends BaseApiClient {
         BadgeCancelRequest.builder().badgeNumber(badgeNumber).cancelReasonCode(reason).build();
 
     HttpEntity<BadgeCancelRequest> httpRequest = new HttpEntity<>(badgeCancelRequest);
-
-    try {
-      restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.postForEntity(uri, httpRequest, CommonResponse.class, badgeNumber);
   }
 
   public void deleteBadge(String badgeNumber) {
     Assert.notNull(badgeNumber, "delete badge, badge number not provided");
-    try {
-      restTemplate.delete(DELETE_ENDPOINT, badgeNumber);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.delete(DELETE_ENDPOINT, badgeNumber);
   }
 
   public String replaceBadge(BadgeReplaceRequest request) {
@@ -194,15 +153,9 @@ public class BadgeManagementApiClient extends BaseApiClient {
     Assert.notNull(request.getReplaceReasonCode(), "replace badge,reason code not provided");
     String uri = UriComponentsBuilder.fromUriString(REPLACE_ENDPOINT).build().toUriString();
 
-    try {
-      return Objects.requireNonNull(
-              restTemplate.postForObject(
-                  uri, request, BadgeNumberResponse.class, request.getBadgeNumber()))
-          .getData();
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
-
-    return StringUtils.EMPTY;
+    return Objects.requireNonNull(
+            restTemplate.postForObject(
+                uri, request, BadgeNumberResponse.class, request.getBadgeNumber()))
+        .getData();
   }
 }

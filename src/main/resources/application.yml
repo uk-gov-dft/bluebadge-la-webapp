@@ -67,6 +67,7 @@ logging:
     sample.mybatis.mapper: WARN
     uk.gov.dft.bluebadge.webapp: ${APP_LOGGING_LEVEL:DEBUG}
     org.springframework: INFO
+    org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter: off
 
 management:
   server:

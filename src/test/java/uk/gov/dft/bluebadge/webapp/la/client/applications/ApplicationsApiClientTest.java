@@ -31,6 +31,7 @@ import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTrans
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationTypeCodeField;
 import uk.gov.dft.bluebadge.webapp.la.client.applications.model.ApplicationUpdate;
 import uk.gov.dft.bluebadge.webapp.la.client.common.BadRequestException;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationTestData;
 
 public class ApplicationsApiClientTest extends ApplicationTestData {
@@ -73,6 +74,7 @@ public class ApplicationsApiClientTest extends ApplicationTestData {
     initMocks(this);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(TEST_URI));
+    restTemplate.setErrorHandler(new CommonResponseErrorHandler(objectMapper));
     mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     client = new ApplicationsApiClient(restTemplate);
   }

@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
@@ -28,6 +29,7 @@ import uk.gov.dft.bluebadge.webapp.la.testdata.ApplicationToOrderBadgeTestData;
 public class OrderBadgeApplicationControllerTest extends OrderBadgeControllerTestData {
   @Mock private ApplicationService applicationServiceMock;
   @Mock private ApplicationToOrderBadgeIndexFormRequest applicationToOrderBadgeIndexFormRequestMock;
+  @Mock MessageSource messageSource;
 
   @Mock
   private ApplicationToOrderBadgePersonDetailsFormRequest
@@ -53,7 +55,7 @@ public class OrderBadgeApplicationControllerTest extends OrderBadgeControllerTes
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
-            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper()))
+            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper(), messageSource))
             .build();
   }
 

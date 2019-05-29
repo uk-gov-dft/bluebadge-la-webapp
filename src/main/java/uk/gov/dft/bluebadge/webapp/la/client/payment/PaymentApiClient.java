@@ -6,15 +6,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.payment.model.GovPayProfile;
 
 @Slf4j
 @Service
-public class PaymentApiClient extends BaseApiClient {
+public class PaymentApiClient {
 
   static class Endpoints {
     private Endpoints() {}
@@ -42,15 +40,10 @@ public class PaymentApiClient extends BaseApiClient {
     Assert.notNull(payProfile, "payProfile should not be null");
 
     HttpEntity<GovPayProfile> httpRequest = new HttpEntity<>(payProfile);
-
-    try {
-      restTemplate.postForEntity(
-          PaymentApiClient.Endpoints.UPDATE_LOCAL_AUTHORITY_SECRET_ENDPOINT,
-          httpRequest,
-          CommonResponse.class,
-          localAuthorityShortCode);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.postForEntity(
+        PaymentApiClient.Endpoints.UPDATE_LOCAL_AUTHORITY_SECRET_ENDPOINT,
+        httpRequest,
+        CommonResponse.class,
+        localAuthorityShortCode);
   }
 }

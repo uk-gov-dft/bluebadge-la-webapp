@@ -6,15 +6,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.dft.bluebadge.common.api.model.CommonResponse;
-import uk.gov.dft.bluebadge.webapp.la.client.common.BaseApiClient;
 import uk.gov.dft.bluebadge.webapp.la.client.messageservice.model.NotifyProfile;
 
 @Slf4j
 @Service
-public class MessageApiClient extends BaseApiClient {
+public class MessageApiClient {
 
   static class Endpoints {
     private Endpoints() {}
@@ -44,15 +42,10 @@ public class MessageApiClient extends BaseApiClient {
     Assert.notNull(notifyProfile, "notifyProfile should not be null");
 
     HttpEntity<NotifyProfile> httpRequest = new HttpEntity<>(notifyProfile);
-
-    try {
-      restTemplate.postForEntity(
-          Endpoints.UPDATE_LOCAL_NOTIFY_SECRET_ENDPOINT,
-          httpRequest,
-          CommonResponse.class,
-          localAuthorityShortCode);
-    } catch (HttpClientErrorException c) {
-      handleHttpClientException(c);
-    }
+    restTemplate.postForEntity(
+        Endpoints.UPDATE_LOCAL_NOTIFY_SECRET_ENDPOINT,
+        httpRequest,
+        CommonResponse.class,
+        localAuthorityShortCode);
   }
 }

@@ -9,7 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.dft.bluebadge.webapp.la.StandaloneMvcTestViewResolver;
 import uk.gov.dft.bluebadge.webapp.la.controller.advice.ErrorControllerAdvice;
@@ -17,6 +19,7 @@ import uk.gov.dft.bluebadge.webapp.la.controller.advice.ErrorControllerAdvice;
 public class OrderBadgeBadgeOrderedControllerTest extends OrderBadgeControllerTestData {
 
   private static final String BADGE_NUMBER = "KKKKH4";
+  @Mock MessageSource messageSource;
 
   @Before
   public void setup() {
@@ -27,7 +30,7 @@ public class OrderBadgeBadgeOrderedControllerTest extends OrderBadgeControllerTe
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setViewResolvers(new StandaloneMvcTestViewResolver())
-            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper()))
+            .setControllerAdvice(new ErrorControllerAdvice(new ObjectMapper(), messageSource))
             .build();
   }
 

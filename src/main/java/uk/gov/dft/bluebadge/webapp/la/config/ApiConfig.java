@@ -1,5 +1,6 @@
 package uk.gov.dft.bluebadge.webapp.la.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +15,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import uk.gov.dft.bluebadge.common.api.common.VersionHeaderRestTemplateInterceptor;
 import uk.gov.dft.bluebadge.common.logging.LoggingAspect;
+import uk.gov.dft.bluebadge.webapp.la.client.common.CommonResponseErrorHandler;
 import uk.gov.dft.bluebadge.webapp.la.client.common.ServiceConfiguration;
 
 @Configuration
 public class ApiConfig {
 
   private OAuth2ClientContext oauth2ClientContext;
+  @Autowired private ObjectMapper objectMapper;
 
   @Autowired
   public ApiConfig(OAuth2ClientContext oauth2ClientContext) {
@@ -120,6 +123,7 @@ public class ApiConfig {
         new OAuth2RestTemplate(resourceDetails, oauth2ClientContext);
     HttpComponentsClientHttpRequestFactory requestFactory =
         new HttpComponentsClientHttpRequestFactory();
+    oAuth2RestTemplate.setErrorHandler(commonResponseErrorHandler());
     oAuth2RestTemplate.setRequestFactory(requestFactory);
     oAuth2RestTemplate.setUriTemplateHandler(
         new DefaultUriBuilderFactory(apiConfig.getUrlPrefix()));
@@ -130,6 +134,11 @@ public class ApiConfig {
         .getInterceptors()
         .add(new VersionHeaderRestTemplateInterceptor(apiConfig.getVersionaccept()));
     return oAuth2RestTemplate;
+  }
+
+  @Bean
+  CommonResponseErrorHandler commonResponseErrorHandler() {
+    return new CommonResponseErrorHandler(objectMapper);
   }
 
   /**
@@ -144,6 +153,7 @@ public class ApiConfig {
     HttpComponentsClientHttpRequestFactory requestFactory =
         new HttpComponentsClientHttpRequestFactory();
     result.setRequestFactory(requestFactory);
+    result.setErrorHandler(commonResponseErrorHandler());
     result.setUriTemplateHandler(
         new DefaultUriBuilderFactory(userManagementApiConfig.getUrlPrefix()));
     result

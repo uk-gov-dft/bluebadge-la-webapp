@@ -60,6 +60,7 @@ public class OrderBadgeTestData {
   protected static final String OPTIONAL_ADDRESS_FIELD = "Optional address field";
   protected static final String TOWN_OR_CITY = "Town or city";
   protected static final String POSTCODE = "TF8 6GF";
+  protected static final String POSTCODE_NO_SPACE = "TF86GF";
   protected static final String CONTACT_DETAILS_NAME = "Contact details name";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER = "077 009 000 77";
   protected static final String CONTACT_DETAILS_CONTACT_NUMBER_TRIMMED = "07700900077";
@@ -300,7 +301,7 @@ public class OrderBadgeTestData {
           .emailAddress(CONTACT_DETAILS_EMAIL_ADDRESS)
           .fullName(CONTACT_DETAILS_NAME)
           .line2(OPTIONAL_ADDRESS_FIELD)
-          .postCode(POSTCODE)
+          .postCode(POSTCODE_NO_SPACE)
           .townCity(TOWN_OR_CITY)
           .primaryPhoneNumber(CONTACT_DETAILS_CONTACT_NUMBER_TRIMMED)
           .secondaryPhoneNumber(CONTACT_DETAILS_SECONDARY_CONTACT_NUMBER_TRIMMED);

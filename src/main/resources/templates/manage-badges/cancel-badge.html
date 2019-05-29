@@ -29,7 +29,7 @@
             <div th:replace="~{ fragments/errors :: govuk-error-summary(${errorSummary}) }"/>
         </div>
 
-        <form th:action="@{/manage-badges/cancel-badge/}+${badgeNumber}" th:object="${formRequest}" method="post" novalidate>
+        <form th:action="@{/manage-badges/cancel-badge/}+${badgeNumber}" th:object="${formRequest}" method="post" novalidate data-prevent-double-submission>
 
             <div th:replace="~{ fragments/govuk-radios :: govuk-radios-stacked('Reason', 'reason', null, ${reasonOptions}) }"/>
 
