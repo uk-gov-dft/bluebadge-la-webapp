@@ -53,14 +53,17 @@ public class ErrorControllerAdvice {
       RedirectAttributes redirectAttributes,
       HttpServletRequest req,
       String redirectUrl) {
-    log.error(
-        "Request: [{}] {} raised {}.", req.getMethod(), req.getRequestURL(), ex.toString(), ex);
-
     // If the error code is within the messages, then can show a 'nice' error
     if (null != ex.getCommonResponse() && null != ex.getCommonResponse().getError()) {
       String errorMessage = ex.getCommonResponse().getError().getMessage();
       if (null != errorMessage) {
         try {
+          log.info(
+              "Request: [{}] {} raised {}.",
+              req.getMethod(),
+              req.getRequestURL(),
+              ex.toString(),
+              ex);
           messageSource.getMessage(errorMessage, null, Locale.ENGLISH);
           redirectAttributes.addFlashAttribute("errorCode", errorMessage);
           return redirectUrl;
